@@ -7,24 +7,23 @@
 
 - link:
     ~/.dotfiles: ''
-    ~/.vim: vim
-    ~/.init.vim:
-      relink: true
-      path: vim/init.vim
+    ~/.vim:
+    ~/.zshenv:
+    ~/.zprofile:
     ~/.zshrc:
-      force: true
-      path: zshrc
-    ~/.profile: profile
-    ~/.bash_profile: bash_profile
-    ~/.bashrc: bashrc
-    ~/.gitconfig: gitconfig
+    ~/.profile:
+    ~/.bash_profile:
+    ~/.bashrc:
+    ~/.gitconfig:
     ~/.gnupg/gpg.conf:
+    ~/.gitmodules:
+    ~/.gtkrc-2.0:
     ~/.ssh/config:
         path: ssh/config
         create: true
     ~/.screenrc:
     ~/.shell:
-    ~/.xinitrc: xinitrc
+    ~/.xinitrc:
     ~/.config/alacritty:
       create: true
       path: config/alacritty

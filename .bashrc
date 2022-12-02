@@ -1,0 +1,1 @@
+/home/andro/.dotfiles/bashrc
