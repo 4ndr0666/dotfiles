@@ -1,13 +1,39 @@
 - defaults:
     link:
+        create: true
         relink: true
 
-- clean: ['~']
+- clean: ['~', '~/.config']
 
 - link:
+    ~/.dotfiles: ''
+    ~/.vim: vim
+    ~/.init.vim:
+      relink: true
+      path: vim/init.vim
+    ~/.zshrc:
+      force: true
+      path: zshrc
+    ~/.profile: profile
+    ~/.bash_profile: bash_profile
+    ~/.bashrc: bashrc
+    ~/.gitconfig: gitconfig
+    ~/.gnupg/gpg.conf:
+    ~/.ssh/config:
+        path: ssh/config
+        create: true
+    ~/.screenrc:
+    ~/.shell:
+    ~/.xinitrc: xinitrc
     ~/.config/alacritty:
       create: true
       path: config/alacritty
+    ~/.haskeline:
+    ~/.hgrc:
+    ~/.inputrc:
+    ~/.pythonrc:
+    ~/.tmux.conf:
+    ~/.vimrc:
     ~/.config/backupmenu
       create: true
       path: config/backupmenu
@@ -134,21 +160,6 @@
     ~/.config/zsh
       create: true
       path: config/zsh
-    ~/.vim: vim
-    ~/.init.vim:
-      relink: true
-      path: vim/init.vim
-    ~/.zshrc:
-      force: true
-      path: zshrc
-    ~/.profile: profile
-    ~/.bash_profile: bash_profile
-    ~/.bashrc: bashrc
-    ~/.gitconfig: gitconfig
-    ~/.ssh/config:
-        path: ssh/config
-        create: true
-    ~/.xinitrc: xinitrc
 
 - create:
     - ~/.ssh:
@@ -162,15 +173,12 @@
     - ~/.bashhub
 
 - shell:
-  - chsh -s $(which zsh)
-  - [chsh -s $(which zsh), Making zsh the default shell]
-  -
-    command: read var && echo Your variable is $var
-    stdin: true
-    stdout: true
-    description: Reading and printing variable
-    quiet: true
-  -
-    command: read fail
-    stderr: true
-    [git submodule update --init --recursive, Installing submodules]
+  - git submodule sync --recursive
+ # the following have to run after linking ~/.gitconfig
+  - git update-submodules
+  - >
+    git cleanall -f
+    irssi/scripts/vendor/
+    shell/plugins/
+    vim/pack/vendor/start/
+    zsh/plugins/
