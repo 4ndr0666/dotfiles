@@ -5,6 +5,142 @@
 - clean: ['~']
 
 - link:
+    ~/.config/alacritty:
+      create: true
+      path: config/alacritty
+    ~/.config/backupmenu
+      create: true
+      path: config/backupmenu
+    ~/.config/bat
+      create: true
+      path: config/bat
+    ~/.config/bleachbit
+      create: true
+      path: config/bleachbit
+    ~/.config/bpytop
+      create: true
+      path: config/bpytop
+    ~/.config/BraveSoftware
+      create: true
+      path: config/BraveSoftware
+    ~/.config/cylon
+      create: true
+      path: config/cylon
+    ~/.config/environment.d
+      create: true
+      path: config/environment.d
+    ~/.config/expressvpn
+      create: true
+      path: config/expressvpn
+    ~/.config/fastfetch
+      create: true
+      path: config/fastfetch
+    ~/.config/fish
+      create: true
+      path: config/fish
+    ~/.config/flameshot
+      create: true
+      path: config/flameshot
+    ~/.config/gh
+      create: true
+      path: config/gh
+    ~/.config/git
+      create: true
+      path: config/git
+    ~/.config/htop
+      create: true
+      path: config/htop
+    ~/.config/Jackett
+      create: true
+      path: config/Jackett
+    ~/.config/Kvantum
+      create: true
+      path: config/Kvantum
+    ~/.config/lf
+      create: true
+      path: config/lf
+    ~/.config/min
+      create: true
+      path: config/min
+    ~/.config/mpv
+      create: true
+      path: config/mpv
+    ~/.config/nemo
+      create: true
+      path: config/nemo
+    ~/.config/nvim
+      create: true
+      path: config/nvim
+    ~/.config/pacman
+      create: true
+      path: config/pacman
+    ~/.config/pacseek
+      create: true
+      path: config/pacseek
+    ~/.config/pamac
+      create: true
+      path: config/pamac
+    ~/.config/pcmanfm
+      create: true
+      path: config/pcmanfm
+    ~/.config/pylint
+      create: true
+      path: config/pylint
+    ~/.config/pypoetry
+      create: true
+      path: config/pypoetry
+    ~/.config/shell
+      create: true
+      path: config/shell
+    ~/.config/sublime-text
+      create: true
+      path: config/sublime-text
+    ~/.config/sxiv
+      create: true
+      path: config/sxiv
+    ~/.config/systemd
+      create: true
+      path: config/systemd
+    ~/.config/thefuck
+      create: true
+      path: config/thefuck
+    ~/.config/transmission
+      create: true
+      path: config/transmission
+    ~/.config/trizen
+      create: true
+      path: config/trizen
+    ~/.config/udiskie
+      create: true
+      path: config/udiskie
+    ~/.config/user-tmpfiles.d
+      create: true
+      path: config/user-tmpfiles.d
+    ~/.config/wget
+      create: true
+      path: config/wget
+    ~/.config/xkb
+      create: true
+      path: config/xkb
+    ~/.config/yay
+      create: true
+      path: config/yay
+    ~/.config/yup
+      create: true
+      path: config/yup
+    ~/.config/zathura
+      create: true
+      path: config/zathura
+    ~/.config/zsh
+      create: true
+      path: config/zsh
+    ~/.vim: vim
+    ~/.init.vim:
+      relink: true
+      path: vim/init.vim
+    ~/.zshrc:
+      force: true
+      path: zshrc
     ~/.profile: profile
     ~/.bash_profile: bash_profile
     ~/.bashrc: bashrc
@@ -12,12 +148,29 @@
     ~/.ssh/config:
         path: ssh/config
         create: true
-    ~/.zshrc: zshrc
     ~/.xinitrc: xinitrc
 
 - create:
+    - ~/.ssh:
+      mode: 0700
+    - ~/Projects:
     - ~/Downloads
-    - ~/.vim
+    - ~/.vim/autoload
+    - ~/.vim/colors
+    - ~/.vim/plugged
+    - ~/.cht.sh
+    - ~/.bashhub
 
 - shell:
-    - [git submodule update --init --recursive, Installing submodules]
+  - chsh -s $(which zsh)
+  - [chsh -s $(which zsh), Making zsh the default shell]
+  -
+    command: read var && echo Your variable is $var
+    stdin: true
+    stdout: true
+    description: Reading and printing variable
+    quiet: true
+  -
+    command: read fail
+    stderr: true
+    [git submodule update --init --recursive, Installing submodules]
