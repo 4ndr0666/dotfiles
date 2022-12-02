@@ -47,3 +47,6 @@ if [ -f ~/.bashhub/bashhub.sh ]; then
     source ~/.bashhub/bashhub.sh
 fi
 
+
+# Created by `pipx` on 2022-12-02 23:12:50
+export PATH="$PATH:/home/andro/.local/bin"
