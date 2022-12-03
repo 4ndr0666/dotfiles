@@ -28,3 +28,203 @@ there="$HOME/.shell.here"
 there() {
     cd "$(readlink "${there}")"
 }
+
+extract () {
+     ### Easily extract archives ###
+  if [ -f $1 ] ; then
+    case $1 in
+      *.tar.bz2)   tar xjvf $1    ;;
+      *.tar.gz)    tar xzvf $1    ;;
+      *.tar.xz)    tar xvf $1    ;;
+      *.bz2)       bzip2 -d $1    ;;
+      *.rar)       unrar2dir $1    ;;
+      *.gz)        gunzip $1    ;;
+      *.tar)       tar xf $1    ;;
+      *.tbz2)      tar xjf $1    ;;
+      *.tgz)       tar xzf $1    ;;
+      *.zip)       unzip2dir $1     ;;
+      *.Z)         uncompress $1    ;;
+      *.7z)        7z x $1    ;;
+      *.ace)       unace x $1    ;;
+      *)           echo "'$1' cannot be extracted via extract()"   ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
+}
+
+
+reload () {
+    ### Reload the shell ###
+    exec "${SHELL}" "$@"
+}
+
+
+gcl() {
+    ### GIT CLONE ALIAS ###
+    git clone --recursive "$@"
+    cd -- "${${${@: -1}##*/}%*.git}"
+}
+
+p() { ping "${1:-1.1.1.1}" }
+
+
+
+confirm() {
+    local answer
+    echo -ne "zsh: sure you want to run '${YELLOW}$*${NC}' [yN]? "
+    read -q answer
+        echo
+    if [[ "${answer}" =~ ^[Yy]$ ]]; then
+        command "${@}"
+    else
+        return 1
+    fi
+}
+
+
+startx() {
+    exec =startx
+}
+
+
+
+begin_with() {
+    local string="${1}"
+    shift
+    local element=''
+    for element in "$@"; do
+        if [[ "${string}" =~ "^${element}" ]]; then
+            return 0
+        fi
+    done
+    return 1
+
+}
+
+
+termtitle() {
+    case "$TERM" in
+        rxvt*|xterm*|nxterm|gnome|screen|screen-*)
+            local prompt_host="${(%):-%m}"
+            local prompt_user="${(%):-%n}"
+            local prompt_char="${(%):-%~}"
+            case "$1" in
+                precmd)
+                    printf '\e]0;%s@%s: %s\a' "${prompt_user}" "${prompt_host}" "${prompt_char}"
+                ;;
+                preexec)
+                    printf '\e]0;%s [%s@%s: %s]\a' "$2" "${prompt_user}" "${prompt_host}" "${prompt_char}"
+                ;;
+            esac
+        ;;
+    esac
+}
+
+
+bkr() {
+   ### Run cmd in background persistently. ###
+    (nohup "$@" &>/dev/null &)
+}
+
+
+dot_progress() {
+    # Fancy progress function from Landley's Aboriginal Linux.
+    # Useful for long rm, tar and such.
+    # Usage:
+    #     rm -rfv /foo | dot_progress
+    local i='0'
+    local line=''
+
+    while read line; do
+        i="$((i+1))"
+        if [ "${i}" = '25' ]; then
+            printf '.'
+            i='0'
+        fi
+    done
+    printf '\n'
+}
+
+
+
+md() {
+    ### Make a directory, then go there ###
+    test -n "$1" || return
+    mkdir -p "$1" && cd "$1"
+}
+
+
+
+### Git Aliases from "https://christitus.com/using-github-correctly" ###
+gcom() {
+    git add .
+    git commit -m "$1"
+    }
+lazyg() {
+    git add .
+    git commit -m "$1"
+    git push
+}
+
+
+
+# "path" shows current path, one element per line.
+# If an argument is supplied, grep for it.
+path() {
+    test -n "$1" && {
+        echo $PATH | perl -p -e "s/:/\n/g;" | grep -i "$1"
+    } || {
+        echo $PATH | perl -p -e "s/:/\n/g;"
+    }
+}
+
+
+
+#Change directory and ls automatically
+cl() {
+    local dir="$1"
+    local dir="${dir:=$HOME}"
+    if [[ -d "$dir" ]]; then
+        cd "$dir" >/dev/null; ls
+    else
+        echo "bash: cl: $dir: Directory not found"
+    fi
+}
+
+
+#Note taker
+note() {
+    # if file doesn't exist, create it
+    if [[ ! -f $HOME/.notes ]]; then
+        touch "$HOME/.notes"
+    fi
+
+    if ! (($#)); then
+        # no arguments, print file
+        cat "$HOME/.notes"
+    elif [[ "$1" == "-c" ]]; then
+        # clear file
+        printf "%s" > "$HOME/.notes"
+    else
+        # add all arguments to file
+        printf "%s\n" "$*" >> "$HOME/.notes"
+    fi
+}
+
+
+
+#Calculator
+calc() {
+    echo "scale=3;$@" | bc -l
+}
+
+#Pip completions
+_pip_completion()
+{
+    COMPREPLY=( $( COMP_WORDS="${COMP_WORDS[*]}" \
+                   COMP_CWORD=$COMP_CWORD \
+                   PIP_AUTO_COMPLETE=1 $1 2>/dev/null ) )
+}
+complete -o default -F _pip_completion pip
+# End of pip completion
