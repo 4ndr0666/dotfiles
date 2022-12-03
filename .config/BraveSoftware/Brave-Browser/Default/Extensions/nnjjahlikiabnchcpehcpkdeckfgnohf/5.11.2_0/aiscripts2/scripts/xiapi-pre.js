@@ -1,1 +1,0 @@
-top==window&&function(){let t;window.addEventListener("message",function(e){"get-data-from-xhr"==e.data.topic&&window.postMessage({topic:"data-from-xhr",data:t})});var e=fetch;window.fetch=function(a,n){var i=this;return a.includes("/api/v4/item/get?itemid")?e.apply(i,arguments).then(a=>a.json().then(a=>(t=a,e.apply(i,arguments)))):e.apply(i,arguments)}}();

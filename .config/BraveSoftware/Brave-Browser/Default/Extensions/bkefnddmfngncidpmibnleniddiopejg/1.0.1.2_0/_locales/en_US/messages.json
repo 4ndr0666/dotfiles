@@ -1,8 +1,0 @@
-{
-   "ext_description": {
-      "message": "This is a handy tool that scans selected directories and finds, clears any duplicate files inside Google Drive."
-   },
-   "ext_name": {
-      "message": "Duplicate File Finder, Cleaner for Drive"
-   }
-}

@@ -1,6 +1,0 @@
-2022/11/17-13:57:50.087 11eb0 Creating DB /home/andro/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/https_www.xnxx.com_0.indexeddb.leveldb since it was missing.
-2022/11/17-13:57:50.367 11eb0 Reusing MANIFEST /home/andro/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/https_www.xnxx.com_0.indexeddb.leveldb/MANIFEST-000001
-2022/11/17-14:01:58.565 12543 Level-0 table #5: started
-2022/11/17-14:01:58.638 12543 Level-0 table #5: 18928 bytes OK
-2022/11/17-14:01:58.760 12543 Delete type=0 #3
-2022/11/17-14:01:58.761 12543 Manual compaction at level-0 from (begin) .. (end); will stop at (end)

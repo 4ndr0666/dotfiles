@@ -1,1 +1,0 @@
-function aiparser(){var r=[];if(document.querySelectorAll(".product-intro__main-item img").forEach(e=>{r.push({src:(e.dataset.src||e.src).replace("_thumbnail_600x","").replace(/.*\/\//,"https://"),alt:e.alt})}),!(r.length>0))return-1;chrome.runtime.sendMessage({cmd:"ADD_IMG_LIST",list:r})}window.aiparser=aiparser;

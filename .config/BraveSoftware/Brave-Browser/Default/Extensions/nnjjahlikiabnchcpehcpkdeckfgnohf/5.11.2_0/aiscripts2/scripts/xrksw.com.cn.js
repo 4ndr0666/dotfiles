@@ -1,1 +1,0 @@
-window.aiparser=function(){let e=document.querySelectorAll(".cartoonview");if(!(e.length>0))return-1;e.forEach(e=>{let r;r=0==e.src.indexOf("data:image")?{src:e.src.replace(/^data:image.*?;/,"data:image/png;")}:{src:e.src},chrome.runtime.sendMessage({cmd:"ADD_IMG_LIST",list:[r]})})};

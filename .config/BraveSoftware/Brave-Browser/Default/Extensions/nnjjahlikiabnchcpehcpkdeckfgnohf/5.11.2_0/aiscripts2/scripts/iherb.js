@@ -1,1 +1,0 @@
-chrome.storage.local.get("app_config",o=>{var a=o.app_config.needBlobDomains||[],e=utils.getDomainFromUrl(location.href);-1==a.indexOf(e)&&(a.push(e),chrome.storage.local.set({app_config:o.app_config}))});

@@ -1,1 +1,0 @@
-window.aiparser=function(e){if(!location.href.match("/products/"))return-1;var t=document.querySelector('[data-testid="meta-schema__json-ld"'),r=[];if(t)try{r=JSON.parse(t.innerText).image}catch(e){}if(!(r.length>0))return-1;chrome.runtime.sendMessage({cmd:"ADD_IMG_LIST",list:r.map(e=>({src:e}))})};

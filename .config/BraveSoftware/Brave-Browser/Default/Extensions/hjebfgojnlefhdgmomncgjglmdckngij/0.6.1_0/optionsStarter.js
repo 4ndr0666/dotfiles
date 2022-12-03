@@ -1,1 +1,0 @@
-$((function(){Util.debug("Options starter...");if($("#options-body").length){Util.debug("Options body found");Options.buildAndConfigure();Util.debug("Set event handlers. Restoring options..."),PrefsHelper.restoreOptions()}}));

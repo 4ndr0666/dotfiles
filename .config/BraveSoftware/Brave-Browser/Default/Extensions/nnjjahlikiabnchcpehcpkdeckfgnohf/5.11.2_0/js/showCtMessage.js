@@ -1,1 +1,0 @@
-!function(){chrome.runtime.onMessage.addListener(function(n,e,c){n.cmd})}();

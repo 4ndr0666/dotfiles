@@ -1,7 +1,0 @@
-2022/11/23-07:29:05.705 5dc55 Reusing MANIFEST /home/andro/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/https_twitter.com_0.indexeddb.leveldb/MANIFEST-000001
-2022/11/23-07:29:05.705 5dc55 Recovering log #3
-2022/11/23-07:29:05.705 5dc55 Reusing old log /home/andro/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/https_twitter.com_0.indexeddb.leveldb/000003.log 
-2022/11/23-07:39:18.999 5e21b Level-0 table #5: started
-2022/11/23-07:39:19.077 5e21b Level-0 table #5: 4592 bytes OK
-2022/11/23-07:39:19.143 5e21b Delete type=0 #3
-2022/11/23-07:39:19.144 5e21b Manual compaction at level-0 from (begin) .. (end); will stop at (end)
