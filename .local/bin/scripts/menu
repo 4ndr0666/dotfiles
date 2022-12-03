@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+
+freq=$XDG_CACHE_HOME/menu-history
+aliases=$ZDOTDIR/plugins/utils/aliasrc
+
+# Additional configuration for dmenu is done in Xresources
+dmenucmd='dmenu -f -i -h 14 -c -l 14 -bw 5'
+
+source "$aliases"
+
+# pull our previously run commands in
+history=$(< "$freq" )
+# for ones that have arguments, condense them down to an asterisk
+history=$(sed "s/[[:space:]].*/*/" <<< "$history")
+
+# generate list of commands including functions and alias'
+# tail command gets rid of a few of the weird bash builtins
+# at the beginning of the list
+cache=$( compgen -a; compgen -c | grep -vxF "$(compgen -a)" | sort | tail -n +10 )
+
+# sort history by frequency of use
+sorted=$(sort <<< "$history" | uniq -c | sort -hr | colrm 1 8)
+filter=$(sed 's/[*;]*$//' <<< "$sorted")
+
+# grep removes the duplicates from the unsorted list
+cache_deduped=$(grep -vxF "$filter" <<< "$cache")
+
+# run the actual dmenu and let the user choose a command
+cmd="$(echo "$sorted"$'\n'"$cache_deduped" | $dmenucmd)"
+
+# To remove a file from history:
+# Trail the selected item with ;rm
+if [[ $cmd == *";rm" ]]; then
+		cmd=${cmd/;rm/}
+		grep -vx "$cmd" $freq > temp
+		mv temp $freq
+		exit 0
+fi
+
+# expand an asterisked command to include argument history
+regex='.+[*]$'
+if [[ "$cmd" =~ $regex ]]; then
+		history=$(grep "${cmd/[*]/}" $freq)
+		sorted=$(sort <<< "$history" | uniq -c | sort -hr | colrm 1 8)
+		# remove trailing whitespace and asterisks from arguments
+		cmd=$(sed 's/[[:space:]*]*$//' <<< "$@")
+		dmenucmd='dmenu -f -i -l 14'
+		(sleep .1; xdotool key Tab) &
+		cmd="$(echo "$sorted"$'\n'"$cache" | $dmenucmd)"
+		# To remove an entry from the expanded sublist
+		if [[ $cmd == *";rm" ]]; then
+				cmd=${cmd/;rm/}
+				grep -Evx "$cmd" $freq > temp
+				mv temp $freq
+				exit 0
+		fi
+fi
+
+if [ -n "$cmd" ]; then
+		# remember which commands have been run
+		echo "$cmd" >> $freq
+
+		cmdexec=$(alias | grep "${cmd/;/}=" | cut -f2 -d "'" | tr -d "'")
+		if [ -z "$cmdexec" ]; then
+				cmdexec=${cmd/;/}
+		fi
+
+		# open a command up in a terminal
+		# a second semicolon uses sudo -A
+		if [[ $cmd == *';;' ]]; then
+			cmdexec="xdotool mousemove - 1 mousemove restore; sudo -Ai '$cmdexec'"
+		elif [[ $cmd == *";" ]]; then
+			cmdexec="st -e $cmdexec"
+		fi
+
+		# Workaround to run aliases
+		echo "$cmdexec" | bash
+fi

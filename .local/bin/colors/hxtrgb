@@ -1,0 +1,33 @@
+#!/bin/sh
+
+usage() {
+	_name="$(basename "$0")"
+	cat << EOF
+Converts HEX to RGB
+Usage:
+
+	${_name} rrggbb
+	${_name} "#rrggbb"
+
+For example:
+
+	${_name} 282828
+	${_name} "#282828"
+
+EOF
+exit 1
+}
+
+main() {
+	i="$(echo "$1" | sed 's/#//g')"
+	a=$(echo $i | cut -c-2)
+	b=$(echo $i | cut -c3-4)
+	c=$(echo $i | cut -c5-6)
+	printf '%d %d %d\n' 0x$a 0x$b 0x$c
+}
+
+# Actual script
+if [ "$#" -ne 1 ]; then
+	usage
+fi
+main "$@"

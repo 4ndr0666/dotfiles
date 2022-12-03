@@ -1,0 +1,46 @@
+#!/bin/sh
+
+## WIP (should be much smoother)
+
+play() {
+	vol="$(mpc volume | cut -c 8-10)"
+	step=$((vol/10))
+	mpc volume 0
+	mpc play
+	for i in [1 2 3 4 5 6 7 8 9 10] ; do
+					mpc volume +$step >/dev/null;
+					sleep 0.04;
+	done
+}
+
+pause() {
+	vol="$(mpc volume | cut -c 8-10)"
+	step=$((vol/10))
+	for i in [1 2 3 4 5 6 7 8 9 10] ; do
+					mpc volume -$step >/dev/null;
+					sleep 0.04;
+	done
+	mpc pause >/dev/null
+	mpc volume $vol >/dev/null
+}
+
+stop() {
+	vol="$(mpc volume | cut -c 8-10)"
+	step=$((vol/10))
+	for i in [1 2 3 4 5 6 7 8 9 10] ; do
+					mpc volume -$step >/dev/null;
+					sleep 0.04;
+	done
+	mpc stop >/dev/null
+	mpc volume $vol >/dev/null
+}
+
+playing=$(mpc status | grep "playing")
+
+if [ ${#playing} -gt 0 ] ; then
+	pause
+else
+	play
+fi
+
+exit 0

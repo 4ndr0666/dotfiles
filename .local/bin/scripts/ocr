@@ -1,0 +1,16 @@
+#!/bin/sh
+
+##	Stolen from https://github.com/agnipau/bin/blob/master/ocr
+##
+##	Depends: maim, tesseract, xclip
+
+# Setup
+lang="${1:-eng}"
+ifinstalled tesseract || exit 1
+
+tmpfile_in="$(mktemp -u).png"
+tmpfile_out="$(mktemp -u)"
+maim -s "${tmpfile_in}"
+tesseract -l $lang "${tmpfile_in}" "${tmpfile_out}"
+xclip -i -sel c <"${tmpfile_out}.txt"
+rm "${tmpfile_in}" "${tmpfile_out}.txt"

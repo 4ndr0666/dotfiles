@@ -1,0 +1,81 @@
+#!/bin/sh
+
+# 2020 Francesco Minnocci <ascoli dot minnocci at gmail dot com>
+#
+# POSIX compliant script to set images or gif animations as a desktop background,
+# supports using pywal to extract a colorscheme for Xresources and (neo)vim.
+#
+# If given a directory as input, `sbg` will choose a random picture/gif for you.
+#
+# SLOC: 31
+#
+# Dependencies:
+#	- `hsetroot`
+# Optional:
+# - `fd` (since it can be easily replaced with `find`)
+#	- [`gifsicle` + `shantz-xwinwrap-bzr` + custom `gifbg` and `imgextcol`(optionally with `roficolsel`) scripts] for GIFs;
+# -	[`pywal` + custom `ww` script] for integration with `wal` and with `wal.vim`
+#	NOTE:
+# - I also use a custom `ifinstalled` script to notify missing programs for the optional functionalities
+#	-	`-w` and `-i` are supposed to be mutually exclusive
+
+bgloc="${XDG_DATA_HOME:-$HOME/.local/share/}"/bg
+
+# Cleanup the root window
+pgrep xwinwrap >/dev/null 2>&1 &&	killall -q xwinwrap
+pgrep xrootgif >/dev/null 2>&1 &&	killall -q xrootgif
+
+linknotif() {
+	[ -f "$1" ] && ln -sf "$(realpath "$1")" "$bgloc" >/dev/null 2>&1 && notify-send -i "$bgloc" "Wallpaper changed."
+	[ -d "$1" ] && ln -sf "$( fd --search-path "$(realpath "$1")" -e png -e jpg -e jpeg -e gifv -e gif -e tif -e tiff -t f | shuf -n 1)" "$bgloc" >/dev/null 2>&1 && notify-send -i "$bgloc" "choosing a nice wallpaper for ya..."
+}
+
+screendim() {
+	dim="$(xwininfo -root | awk -F':' '/Width|Height/ {printf $2}' | cut -d' ' -f2- | sed 's/ /x/g')"
+}
+
+while getopts ":hi:w:cmt" o; do
+	case "${o}" in
+		h) printf "Usage: $(basename "$0")\\n\\n\\t [ -h, -help: Show this message ]\\n\\t [ -i, -input \"path/to/img\" ]\\n\\t [ -w, -wal \"path/to/img\" \"backend\" : use pywal if installed ]\\n\\t [ -c, -center ]\\n\\t [ -m, -maximize: maximize wallpaper ( default format is \"--zoom\" ) ]\\n\\t [ -t, -tile ]\\n" && exit 0 ;;
+
+		i)
+			ww -x
+			linknotif "$2"
+			xrdb -load "$XDG_CONFIG_HOME/X11/Xresources" ;;
+
+		w)
+			linknotif "$2"
+			if [ -n "$2" ]; then backend="$2"; [ -f "$3" ] && linknotif "$3"; fi
+			if ifinstalled wal; then
+				wal --backend "${backend:-wal}" -i "$(realpath "$bgloc")" >/dev/null 2>&1 && ww -w
+			else exit 1; fi ;;
+		c) full=false; format="-center" ;;
+		m) full=false; format="-full" ;;
+
+		t) format="-tile" ;;
+
+		*) printf "Invalid option: -%s\\n" "$OPTARG" && exit 1 ;;
+	esac
+done
+
+# Use gifview for gifs, or else use hsetroot
+mime="$( file --dereference --brief --mime-type -- "$bgloc" )"
+if [ "$mime" = "image/gif" ]; then
+	if [ "$( identify -format "%n\n" "$(realpath "$bgloc")" )" = 1 ]; then
+		screendim
+		cp -L "$bgloc" /tmp/tiled
+		rm "$bgloc"
+		convert -size $dim tile:/tmp/tiled PNG:"$bgloc"
+		rm /tmp/tiled
+		hsetroot -cover "$bgloc" >/dev/null 2>&1
+	else
+		setsid -f gifbg "$bgloc"
+	fi
+else
+	if realpath "$bgloc" | grep "tiled" >/dev/null 2>&1; then
+		format="-tile"
+	else
+		$full || bgcol="$(imgextcol "$bgloc")"
+	fi
+	hsetroot -solid "${bgcol:-#252525}" "${format:--cover}" "$bgloc" >/dev/null 2>&1
+fi

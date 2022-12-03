@@ -1,0 +1,1653 @@
+#!/bin/sh
+# shellcheck disable=SC1036,SC1088,SC2211
+
+# dmoji - dmenu based emoji picker
+
+# GNU cut doesn't grok UTF-8.
+EMOJI=$(sed '1,/^exit/d' $0 | dmenu -i -r -l 20 | grep -Po '^[^ ]*')
+if [ -n "$EMOJI" ]; then
+	printf '%s' "$EMOJI" | xclip -sel c
+	exit $?
+fi
+# made with: curl -sL https://raw.githubusercontent.com/milesj/emojibase/master/packages/data/en/raw.json | jq -r '.[] | .emoji + "  " + .name + "  " + (.tags | map("#" + .) | join(" "))'
+exit 1
+😀  GRINNING FACE  #face #grin
+😁  GRINNING FACE WITH SMILING EYES  #eye #face #grin #smile
+😂  FACE WITH TEARS OF JOY  #face #joy #laugh #tear
+🤣  ROLLING ON THE FLOOR LAUGHING  #face #floor #laugh #rolling
+😃  SMILING FACE WITH OPEN MOUTH  #face #mouth #open #smile
+😄  SMILING FACE WITH OPEN MOUTH AND SMILING EYES  #eye #face #mouth #open #smile
+😅  SMILING FACE WITH OPEN MOUTH AND COLD SWEAT  #cold #face #open #smile #sweat
+😆  SMILING FACE WITH OPEN MOUTH AND TIGHTLY-CLOSED EYES  #face #laugh #mouth #satisfied #smile
+😉  WINKING FACE  #face #wink
+😊  SMILING FACE WITH SMILING EYES  #blush #eye #face #smile
+😋  FACE SAVOURING DELICIOUS FOOD  #delicious #face #savouring #smile #yum
+😎  SMILING FACE WITH SUNGLASSES  #bright #cool #face #sun #sunglasses
+😍  SMILING FACE WITH HEART-SHAPED EYES  #eye #face #love #smile
+😘  FACE THROWING A KISS  #face #kiss
+🥰  SMILING FACE WITH SMILING EYES AND THREE HEARTS  #adore #crush #in love
+😗  KISSING FACE  #face #kiss
+😙  KISSING FACE WITH SMILING EYES  #eye #face #kiss #smile
+😚  KISSING FACE WITH CLOSED EYES  #closed #eye #face #kiss
+☺️  WHITE SMILING FACE  #face #outlined #relaxed #smile
+🙂  SLIGHTLY SMILING FACE  #face #smile
+🤗  HUGGING FACE  #face #hug #hugging
+🤩  GRINNING FACE WITH STAR EYES  #eyes #face #grinning #star
+🤔  THINKING FACE  #face #thinking
+🤨  FACE WITH ONE EYEBROW RAISED  #distrust #skeptic
+😐️  NEUTRAL FACE  #deadpan #face #neutral
+😑  EXPRESSIONLESS FACE  #expressionless #face #inexpressive #unexpressive
+😶  FACE WITHOUT MOUTH  #face #mouth #quiet #silent
+🙄  FACE WITH ROLLING EYES  #eyes #face #rolling
+😏  SMIRKING FACE  #face #smirk
+😣  PERSEVERING FACE  #face #persevere
+😥  DISAPPOINTED BUT RELIEVED FACE  #disappointed #face #relieved #whew
+😮  FACE WITH OPEN MOUTH  #face #mouth #open #sympathy
+🤐  ZIPPER-MOUTH FACE  #face #mouth #zipper
+😯  HUSHED FACE  #face #hushed #stunned #surprised
+😪  SLEEPY FACE  #face #sleep
+😫  TIRED FACE  #face #tired
+😴  SLEEPING FACE  #face #sleep #zzz
+😌  RELIEVED FACE  #face #relieved
+😛  FACE WITH STUCK-OUT TONGUE  #face #tongue
+😜  FACE WITH STUCK-OUT TONGUE AND WINKING EYE  #eye #face #joke #tongue #wink
+😝  FACE WITH STUCK-OUT TONGUE AND TIGHTLY-CLOSED EYES  #eye #face #horrible #taste #tongue
+🤤  DROOLING FACE  #drooling #face
+😒  UNAMUSED FACE  #face #unamused #unhappy
+😓  FACE WITH COLD SWEAT  #cold #face #sweat
+😔  PENSIVE FACE  #dejected #face #pensive
+😕  CONFUSED FACE  #confused #face
+🙃  UPSIDE-DOWN FACE  #face #upside-down
+🤑  MONEY-MOUTH FACE  #face #money #mouth
+😲  ASTONISHED FACE  #astonished #face #shocked #totally
+☹️  WHITE FROWNING FACE  #face #frown
+🙁  SLIGHTLY FROWNING FACE  #face #frown
+😖  CONFOUNDED FACE  #confounded #face
+😞  DISAPPOINTED FACE  #disappointed #face
+😟  WORRIED FACE  #face #worried
+😤  FACE WITH LOOK OF TRIUMPH  #face #triumph #won
+😢  CRYING FACE  #cry #face #sad #tear
+😭  LOUDLY CRYING FACE  #cry #face #sad #sob #tear
+😦  FROWNING FACE WITH OPEN MOUTH  #face #frown #mouth #open
+😧  ANGUISHED FACE  #anguished #face
+😨  FEARFUL FACE  #face #fear #fearful #scared
+😩  WEARY FACE  #face #tired #weary
+🤯  SHOCKED FACE WITH EXPLODING HEAD  #shocked
+😬  GRIMACING FACE  #face #grimace
+😰  FACE WITH OPEN MOUTH AND COLD SWEAT  #blue #cold #face #rushed #sweat
+😱  FACE SCREAMING IN FEAR  #face #fear #munch #scared #scream
+🥵  OVERHEATED FACE  #feverish #heat stroke #hot #red-faced #sweating
+🥶  FREEZING FACE  #blue-faced #cold #freezing #frostbite #icicles
+😳  FLUSHED FACE  #dazed #face #flushed
+🤪  GRINNING FACE WITH ONE LARGE AND ONE SMALL EYE  #eye #goofy #large #small
+😵  DIZZY FACE  #dizzy #face
+😡  POUTING FACE  #angry #face #mad #pouting #rage #red
+😠  ANGRY FACE  #angry #face #mad
+🤬  SERIOUS FACE WITH SYMBOLS COVERING MOUTH  #swearing
+😷  FACE WITH MEDICAL MASK  #cold #doctor #face #mask #sick
+🤒  FACE WITH THERMOMETER  #face #ill #sick #thermometer
+🤕  FACE WITH HEAD-BANDAGE  #bandage #face #hurt #injury
+🤢  NAUSEATED FACE  #face #nauseated #vomit
+🤮  FACE WITH OPEN MOUTH VOMITING  #sick #vomit
+🤧  SNEEZING FACE  #face #gesundheit #sneeze
+😇  SMILING FACE WITH HALO  #angel #face #fantasy #halo #innocent
+🤠  FACE WITH COWBOY HAT  #cowboy #cowgirl #face #hat
+🥳  FACE WITH PARTY HORN AND PARTY HAT  #celebration #hat #horn #party
+🥴  FACE WITH UNEVEN EYES AND WAVY MOUTH  #dizzy #intoxicated #tipsy #uneven eyes #wavy mouth
+🥺  FACE WITH PLEADING EYES  #begging #mercy #puppy eyes
+🤥  LYING FACE  #face #lie #pinocchio
+🤫  FACE WITH FINGER COVERING CLOSED LIPS  #quiet #shush
+🤭  SMILING FACE WITH SMILING EYES AND HAND COVERING MOUTH  #whoops
+🧐  FACE WITH MONOCLE  #stuffy
+🤓  NERD FACE  #face #geek #nerd
+😈  SMILING FACE WITH HORNS  #face #fairy tale #fantasy #horns #smile
+👿  IMP  #demon #devil #face #fantasy #imp
+🤡  CLOWN FACE  #clown #face
+👹  JAPANESE OGRE  #creature #face #fairy tale #fantasy #monster
+👺  JAPANESE GOBLIN  #creature #face #fairy tale #fantasy #monster
+💀  SKULL  #death #face #fairy tale #monster
+☠️  SKULL AND CROSSBONES  #crossbones #death #face #monster #skull
+👻  GHOST  #creature #face #fairy tale #fantasy #monster
+👽️  EXTRATERRESTRIAL ALIEN  #creature #extraterrestrial #face #fantasy #ufo
+👾  ALIEN MONSTER  #alien #creature #extraterrestrial #face #monster #ufo
+🤖  ROBOT FACE  #face #monster #robot
+💩  PILE OF POO  #dung #face #monster #poo #poop
+😺  SMILING CAT FACE WITH OPEN MOUTH  #cat #face #mouth #open #smile
+😸  GRINNING CAT FACE WITH SMILING EYES  #cat #eye #face #grin #smile
+😹  CAT FACE WITH TEARS OF JOY  #cat #face #joy #tear
+😻  SMILING CAT FACE WITH HEART-SHAPED EYES  #cat #eye #face #love #smile
+😼  CAT FACE WITH WRY SMILE  #cat #face #ironic #smile #wry
+😽  KISSING CAT FACE WITH CLOSED EYES  #cat #eye #face #kiss
+🙀  WEARY CAT FACE  #cat #face #oh #surprised #weary
+😿  CRYING CAT FACE  #cat #cry #face #sad #tear
+😾  POUTING CAT FACE  #cat #face #pouting
+🙈  SEE-NO-EVIL MONKEY  #evil #face #forbidden #monkey #see
+🙉  HEAR-NO-EVIL MONKEY  #evil #face #forbidden #hear #monkey
+🙊  SPEAK-NO-EVIL MONKEY  #evil #face #forbidden #monkey #speak
+👶  BABY  #young
+🧒  CHILD  #gender-neutral #unspecified gender #young
+👦  BOY  #young
+👧  GIRL  #virgo #young #zodiac
+🧑  ADULT  #adult #gender-neutral #unspecified gender
+👨  MAN  #adult
+👩  WOMAN  #adult
+🧓  OLDER ADULT  #adult #gender-neutral #old #unspecified gender
+👴  OLDER MAN  #adult #man #old
+👵  OLDER WOMAN  #adult #old #woman
+👨‍⚕️  MAN, STAFF OF AESCULAPIUS  #doctor #healthcare #man #nurse #therapist
+👩‍⚕️  WOMAN, STAFF OF AESCULAPIUS  #doctor #healthcare #nurse #therapist #woman
+👨‍🎓  MAN, GRADUATION CAP  #graduate #man #student
+👩‍🎓  WOMAN, GRADUATION CAP  #graduate #student #woman
+👨‍🏫  MAN, SCHOOL  #instructor #man #professor #teacher
+👩‍🏫  WOMAN, SCHOOL  #instructor #professor #teacher #woman
+👨‍⚖️  MAN, SCALES  #justice #man #scales
+👩‍⚖️  WOMAN, SCALES  #judge #scales #woman
+👨‍🌾  MAN, EAR OF RICE  #farmer #gardener #man #rancher
+👩‍🌾  WOMAN, EAR OF RICE  #farmer #gardener #rancher #woman
+👨‍🍳  MAN, COOKING  #chef #cook #man
+👩‍🍳  WOMAN, COOKING  #chef #cook #woman
+👨‍🔧  MAN, WRENCH  #electrician #man #mechanic #plumber #tradesperson
+👩‍🔧  WOMAN, WRENCH  #electrician #mechanic #plumber #tradesperson #woman
+👨‍🏭  MAN, FACTORY  #assembly #factory #industrial #man #worker
+👩‍🏭  WOMAN, FACTORY  #assembly #factory #industrial #woman #worker
+👨‍💼  MAN, BRIEFCASE  #architect #business #man #manager #white-collar
+👩‍💼  WOMAN, BRIEFCASE  #architect #business #manager #white-collar #woman
+👨‍🔬  MAN, MICROSCOPE  #biologist #chemist #engineer #man #physicist #scientist
+👩‍🔬  WOMAN, MICROSCOPE  #biologist #chemist #engineer #physicist #scientist #woman
+👨‍💻  MAN, PERSONAL COMPUTER  #coder #developer #inventor #man #software #technologist
+👩‍💻  WOMAN, PERSONAL COMPUTER  #coder #developer #inventor #software #technologist #woman
+👨‍🎤  MAN, MICROPHONE  #actor #entertainer #man #rock #singer #star
+👩‍🎤  WOMAN, MICROPHONE  #actor #entertainer #rock #singer #star #woman
+👨‍🎨  MAN, ARTIST PALETTE  #artist #man #palette
+👩‍🎨  WOMAN, ARTIST PALETTE  #artist #palette #woman
+👨‍✈️  MAN, AIRPLANE  #man #pilot #plane
+👩‍✈️  WOMAN, AIRPLANE  #pilot #plane #woman
+👨‍🚀  MAN, ROCKET  #astronaut #man #rocket
+👩‍🚀  WOMAN, ROCKET  #astronaut #rocket #woman
+👨‍🚒  MAN, FIRE ENGINE  #firefighter #firetruck #man
+👩‍🚒  WOMAN, FIRE ENGINE  #firefighter #firetruck #woman
+👮  POLICE OFFICER  #cop #officer #police
+👮‍♂️  POLICE OFFICER, MALE SIGN  #cop #man #officer #police
+👮‍♀️  POLICE OFFICER, FEMALE SIGN  #cop #officer #police #woman
+🕵️  SLEUTH OR SPY  #sleuth #spy
+🕵️‍♂️  SLEUTH OR SPY, MALE SIGN  #detective #man #sleuth #spy
+🕵️‍♀️  SLEUTH OR SPY, FEMALE SIGN  #detective #sleuth #spy #woman
+💂  GUARDSMAN  #guard
+💂‍♂️  GUARDSMAN, MALE SIGN  #guard #man
+💂‍♀️  GUARDSMAN, FEMALE SIGN  #guard #woman
+👷  CONSTRUCTION WORKER  #construction #hat #worker
+👷‍♂️  CONSTRUCTION WORKER, MALE SIGN  #construction #man #worker
+👷‍♀️  CONSTRUCTION WORKER, FEMALE SIGN  #construction #woman #worker
+🤴  PRINCE  #prince
+👸  PRINCESS  #fairy tale #fantasy
+👳  MAN WITH TURBAN  #turban
+👳‍♂️  MAN WITH TURBAN, MALE SIGN  #man #turban
+👳‍♀️  MAN WITH TURBAN, FEMALE SIGN  #turban #woman
+👲  MAN WITH GUA PI MAO  #gua pi mao #hat #man #man with chinese cap
+🧕  PERSON WITH HEADSCARF  #headscarf #hijab #mantilla #tichel
+🧔  BEARDED PERSON  #beard #person
+👱  PERSON WITH BLOND HAIR  #blond #blond-haired person
+👱‍♂️  PERSON WITH BLOND HAIR, MALE SIGN  #blond #blond-haired man #man
+👱‍♀️  PERSON WITH BLOND HAIR, FEMALE SIGN  #blond-haired woman #blonde #woman
+👨‍🦰  MAN, EMOJI COMPONENT RED HAIR  #adult #man #red hair
+👩‍🦰  WOMAN, EMOJI COMPONENT RED HAIR  #adult #red hair #woman
+👨‍🦱  MAN, EMOJI COMPONENT CURLY HAIR  #adult #curly hair #man
+👩‍🦱  WOMAN, EMOJI COMPONENT CURLY HAIR  #adult #curly hair #woman
+👨‍🦲  MAN, EMOJI COMPONENT BALD  #adult #bald #man
+👩‍🦲  WOMAN, EMOJI COMPONENT BALD  #adult #bald #woman
+👨‍🦳  MAN, EMOJI COMPONENT WHITE HAIR  #adult #man #white hair
+👩‍🦳  WOMAN, EMOJI COMPONENT WHITE HAIR  #adult #white hair #woman
+🤵  MAN IN TUXEDO  #groom #man #tuxedo
+👰  BRIDE WITH VEIL  #bride #veil #wedding
+🤰  PREGNANT WOMAN  #pregnant #woman
+🤱  BREAST-FEEDING  #baby #breast #nursing
+👼  BABY ANGEL  #angel #baby #face #fairy tale #fantasy
+🎅  FATHER CHRISTMAS  #celebration #christmas #claus #father #santa #santa claus
+🤶  MOTHER CHRISTMAS  #celebration #christmas #claus #mother #mrs. #mrs. claus
+🦸  SUPERHERO  #good #hero #heroine #superpower
+🦸‍♀️  SUPERHERO, FEMALE SIGN  #good #hero #heroine #superpower #woman
+🦸‍♂️  SUPERHERO, MALE SIGN  #good #hero #man #superpower
+🦹  SUPERVILLAIN  #criminal #evil #superpower #villain
+🦹‍♀️  SUPERVILLAIN, FEMALE SIGN  #criminal #evil #superpower #villain #woman
+🦹‍♂️  SUPERVILLAIN, MALE SIGN  #criminal #evil #man #superpower #villain
+🧙  MAGE  #sorcerer #sorceress #witch #wizard
+🧙‍♀️  MAGE, FEMALE SIGN  #sorceress #witch
+🧙‍♂️  MAGE, MALE SIGN  #sorcerer #wizard
+🧚  FAIRY  #oberon #puck #titania
+🧚‍♀️  FAIRY, FEMALE SIGN  #titania
+🧚‍♂️  FAIRY, MALE SIGN  #oberon #puck
+🧛  VAMPIRE  #dracula #undead
+🧛‍♀️  VAMPIRE, FEMALE SIGN  #undead
+🧛‍♂️  VAMPIRE, MALE SIGN  #dracula #undead
+🧜  MERPERSON  #mermaid #merman #merwoman
+🧜‍♀️  MERPERSON, FEMALE SIGN  #merwoman
+🧜‍♂️  MERPERSON, MALE SIGN  #triton
+🧝  ELF  #magical
+🧝‍♀️  ELF, FEMALE SIGN  #magical
+🧝‍♂️  ELF, MALE SIGN  #magical
+🧞  GENIE  #djinn
+🧞‍♀️  GENIE, FEMALE SIGN  #djinn
+🧞‍♂️  GENIE, MALE SIGN  #djinn
+🧟  ZOMBIE  #undead #walking dead
+🧟‍♀️  ZOMBIE, FEMALE SIGN  #undead #walking dead
+🧟‍♂️  ZOMBIE, MALE SIGN  #undead #walking dead
+🙍  PERSON FROWNING  #frown #gesture
+🙍‍♂️  PERSON FROWNING, MALE SIGN  #frowning #gesture #man
+🙍‍♀️  PERSON FROWNING, FEMALE SIGN  #frowning #gesture #woman
+🙎  PERSON WITH POUTING FACE  #gesture #pouting
+🙎‍♂️  PERSON WITH POUTING FACE, MALE SIGN  #gesture #man #pouting
+🙎‍♀️  PERSON WITH POUTING FACE, FEMALE SIGN  #gesture #pouting #woman
+🙅  FACE WITH NO GOOD GESTURE  #forbidden #gesture #hand #person gesturing no #prohibited
+🙅‍♂️  FACE WITH NO GOOD GESTURE, MALE SIGN  #forbidden #gesture #hand #man #man gesturing no #prohibited
+🙅‍♀️  FACE WITH NO GOOD GESTURE, FEMALE SIGN  #forbidden #gesture #hand #prohibited #woman #woman gesturing no
+🙆  FACE WITH OK GESTURE  #gesture #hand #ok #person gesturing ok
+🙆‍♂️  FACE WITH OK GESTURE, MALE SIGN  #gesture #hand #man #man gesturing ok #ok
+🙆‍♀️  FACE WITH OK GESTURE, FEMALE SIGN  #gesture #hand #ok #woman #woman gesturing ok
+💁  INFORMATION DESK PERSON  #hand #help #information #sassy #tipping
+💁‍♂️  INFORMATION DESK PERSON, MALE SIGN  #man #sassy #tipping hand
+💁‍♀️  INFORMATION DESK PERSON, FEMALE SIGN  #sassy #tipping hand #woman
+🙋  HAPPY PERSON RAISING ONE HAND  #gesture #hand #happy #raised
+🙋‍♂️  HAPPY PERSON RAISING ONE HAND, MALE SIGN  #gesture #man #raising hand
+🙋‍♀️  HAPPY PERSON RAISING ONE HAND, FEMALE SIGN  #gesture #raising hand #woman
+🙇  PERSON BOWING DEEPLY  #apology #bow #gesture #sorry
+🙇‍♂️  PERSON BOWING DEEPLY, MALE SIGN  #apology #bowing #favor #gesture #man #sorry
+🙇‍♀️  PERSON BOWING DEEPLY, FEMALE SIGN  #apology #bowing #favor #gesture #sorry #woman
+🤦  FACE PALM  #disbelief #exasperation #face #palm
+🤦‍♂️  FACE PALM, MALE SIGN  #disbelief #exasperation #facepalm #man
+🤦‍♀️  FACE PALM, FEMALE SIGN  #disbelief #exasperation #facepalm #woman
+🤷  SHRUG  #doubt #ignorance #indifference #shrug
+🤷‍♂️  SHRUG, MALE SIGN  #doubt #ignorance #indifference #man #shrug
+🤷‍♀️  SHRUG, FEMALE SIGN  #doubt #ignorance #indifference #shrug #woman
+💆  FACE MASSAGE  #face #massage #salon
+💆‍♂️  FACE MASSAGE, MALE SIGN  #face #man #massage
+💆‍♀️  FACE MASSAGE, FEMALE SIGN  #face #massage #woman
+💇  HAIRCUT  #barber #beauty #haircut #parlor
+💇‍♂️  HAIRCUT, MALE SIGN  #haircut #man
+💇‍♀️  HAIRCUT, FEMALE SIGN  #haircut #woman
+🚶  PEDESTRIAN  #hike #walk #walking
+🚶‍♂️  PEDESTRIAN, MALE SIGN  #hike #man #walk
+🚶‍♀️  PEDESTRIAN, FEMALE SIGN  #hike #walk #woman
+🏃  RUNNER  #marathon #running
+🏃‍♂️  RUNNER, MALE SIGN  #man #marathon #racing #running
+🏃‍♀️  RUNNER, FEMALE SIGN  #marathon #racing #running #woman
+💃  DANCER  #dancing #woman
+🕺  MAN DANCING  #dance #man
+👯  WOMAN WITH BUNNY EARS  #bunny ear #dancer #partying
+👯‍♂️  WOMAN WITH BUNNY EARS, MALE SIGN  #bunny ear #dancer #men #partying
+👯‍♀️  WOMAN WITH BUNNY EARS, FEMALE SIGN  #bunny ear #dancer #partying #women
+🧖  PERSON IN STEAMY ROOM  #sauna #steam room
+🧖‍♀️  PERSON IN STEAMY ROOM, FEMALE SIGN  #sauna #steam room
+🧖‍♂️  PERSON IN STEAMY ROOM, MALE SIGN  #sauna #steam room
+🧗  PERSON CLIMBING  #climber
+🧗‍♀️  PERSON CLIMBING, FEMALE SIGN  #climber
+🧗‍♂️  PERSON CLIMBING, MALE SIGN  #climber
+🧘  PERSON IN LOTUS POSITION  #meditation #yoga
+🧘‍♀️  PERSON IN LOTUS POSITION, FEMALE SIGN  #meditation #yoga
+🧘‍♂️  PERSON IN LOTUS POSITION, MALE SIGN  #meditation #yoga
+🛀  BATH  #bath #bathtub
+🛌  SLEEPING ACCOMMODATION  #hotel #sleep
+🕴️  MAN IN BUSINESS SUIT LEVITATING  #business #man #suit
+🗣️  SPEAKING HEAD IN SILHOUETTE  #face #head #silhouette #speak #speaking
+👤  BUST IN SILHOUETTE  #bust #silhouette
+👥  BUSTS IN SILHOUETTE  #bust #silhouette
+🤺  FENCER  #fencer #fencing #sword
+🏇  HORSE RACING  #horse #jockey #racehorse #racing
+⛷️  SKIER  #ski #snow
+🏂️  SNOWBOARDER  #ski #snow #snowboard
+🏌️  GOLFER  #ball #golf
+🏌️‍♂️  GOLFER, MALE SIGN  #golf #man
+🏌️‍♀️  GOLFER, FEMALE SIGN  #golf #woman
+🏄️  SURFER  #surfing
+🏄‍♂️  SURFER, MALE SIGN  #man #surfing
+🏄‍♀️  SURFER, FEMALE SIGN  #surfing #woman
+🚣  ROWBOAT  #boat #rowboat
+🚣‍♂️  ROWBOAT, MALE SIGN  #boat #man #rowboat
+🚣‍♀️  ROWBOAT, FEMALE SIGN  #boat #rowboat #woman
+🏊️  SWIMMER  #swim
+🏊‍♂️  SWIMMER, MALE SIGN  #man #swim
+🏊‍♀️  SWIMMER, FEMALE SIGN  #swim #woman
+⛹️  PERSON WITH BALL  #ball
+⛹️‍♂️  PERSON WITH BALL, MALE SIGN  #ball #man
+⛹️‍♀️  PERSON WITH BALL, FEMALE SIGN  #ball #woman
+🏋️  WEIGHT LIFTER  #lifter #weight
+🏋️‍♂️  WEIGHT LIFTER, MALE SIGN  #man #weight lifter
+🏋️‍♀️  WEIGHT LIFTER, FEMALE SIGN  #weight lifter #woman
+🚴  BICYCLIST  #bicycle #biking #cyclist
+🚴‍♂️  BICYCLIST, MALE SIGN  #bicycle #biking #cyclist #man
+🚴‍♀️  BICYCLIST, FEMALE SIGN  #bicycle #biking #cyclist #woman
+🚵  MOUNTAIN BICYCLIST  #bicycle #bicyclist #bike #cyclist #mountain
+🚵‍♂️  MOUNTAIN BICYCLIST, MALE SIGN  #bicycle #bike #cyclist #man #mountain
+🚵‍♀️  MOUNTAIN BICYCLIST, FEMALE SIGN  #bicycle #bike #biking #cyclist #mountain #woman
+🏎️  RACING CAR  #car #racing
+🏍️  RACING MOTORCYCLE  #racing
+🤸  PERSON DOING CARTWHEEL  #cartwheel #gymnastics
+🤸‍♂️  PERSON DOING CARTWHEEL, MALE SIGN  #cartwheel #gymnastics #man
+🤸‍♀️  PERSON DOING CARTWHEEL, FEMALE SIGN  #cartwheel #gymnastics #woman
+🤼  WRESTLERS  #wrestle #wrestler
+🤼‍♂️  WRESTLERS, MALE SIGN  #men #wrestle
+🤼‍♀️  WRESTLERS, FEMALE SIGN  #women #wrestle
+🤽  WATER POLO  #polo #water
+🤽‍♂️  WATER POLO, MALE SIGN  #man #water polo
+🤽‍♀️  WATER POLO, FEMALE SIGN  #water polo #woman
+🤾  HANDBALL  #ball #handball
+🤾‍♂️  HANDBALL, MALE SIGN  #handball #man
+🤾‍♀️  HANDBALL, FEMALE SIGN  #handball #woman
+🤹  JUGGLING  #balance #juggle #multitask #skill
+🤹‍♂️  JUGGLING, MALE SIGN  #juggling #man #multitask
+🤹‍♀️  JUGGLING, FEMALE SIGN  #juggling #multitask #woman
+👫  MAN AND WOMAN HOLDING HANDS  #couple #hand #hold #man #woman
+👬  TWO MEN HOLDING HANDS  #couple #gemini #man #twins #zodiac
+👭  TWO WOMEN HOLDING HANDS  #couple #hand #woman
+💏  KISS  #couple
+👩‍❤️‍💋‍👨  WOMAN, HEAVY BLACK HEART, KISS MARK, MAN  #couple #kiss #man #woman
+👨‍❤️‍💋‍👨  MAN, HEAVY BLACK HEART, KISS MARK, MAN  #couple #kiss #man
+👩‍❤️‍💋‍👩  WOMAN, HEAVY BLACK HEART, KISS MARK, WOMAN  #couple #kiss #woman
+💑  COUPLE WITH HEART  #couple #love
+👩‍❤️‍👨  WOMAN, HEAVY BLACK HEART, MAN  #couple #couple with heart #love #man #woman
+👨‍❤️‍👨  MAN, HEAVY BLACK HEART, MAN  #couple #couple with heart #love #man
+👩‍❤️‍👩  WOMAN, HEAVY BLACK HEART, WOMAN  #couple #couple with heart #love #woman
+👪️  FAMILY  #family
+👨‍👩‍👦  MAN, WOMAN, BOY  #boy #family #man #woman
+👨‍👩‍👧  MAN, WOMAN, GIRL  #family #girl #man #woman
+👨‍👩‍👧‍👦  MAN, WOMAN, GIRL, BOY  #boy #family #girl #man #woman
+👨‍👩‍👦‍👦  MAN, WOMAN, BOY, BOY  #boy #family #man #woman
+👨‍👩‍👧‍👧  MAN, WOMAN, GIRL, GIRL  #family #girl #man #woman
+👨‍👨‍👦  MAN, MAN, BOY  #boy #family #man
+👨‍👨‍👧  MAN, MAN, GIRL  #family #girl #man
+👨‍👨‍👧‍👦  MAN, MAN, GIRL, BOY  #boy #family #girl #man
+👨‍👨‍👦‍👦  MAN, MAN, BOY, BOY  #boy #family #man
+👨‍👨‍👧‍👧  MAN, MAN, GIRL, GIRL  #family #girl #man
+👩‍👩‍👦  WOMAN, WOMAN, BOY  #boy #family #woman
+👩‍👩‍👧  WOMAN, WOMAN, GIRL  #family #girl #woman
+👩‍👩‍👧‍👦  WOMAN, WOMAN, GIRL, BOY  #boy #family #girl #woman
+👩‍👩‍👦‍👦  WOMAN, WOMAN, BOY, BOY  #boy #family #woman
+👩‍👩‍👧‍👧  WOMAN, WOMAN, GIRL, GIRL  #family #girl #woman
+👨‍👦  MAN, BOY  #boy #family #man
+👨‍👦‍👦  MAN, BOY, BOY  #boy #family #man
+👨‍👧  MAN, GIRL  #family #girl #man
+👨‍👧‍👦  MAN, GIRL, BOY  #boy #family #girl #man
+👨‍👧‍👧  MAN, GIRL, GIRL  #family #girl #man
+👩‍👦  WOMAN, BOY  #boy #family #woman
+👩‍👦‍👦  WOMAN, BOY, BOY  #boy #family #woman
+👩‍👧  WOMAN, GIRL  #family #girl #woman
+👩‍👧‍👦  WOMAN, GIRL, BOY  #boy #family #girl #woman
+👩‍👧‍👧  WOMAN, GIRL, GIRL  #family #girl #woman
+🤳  SELFIE  #camera #phone
+💪  FLEXED BICEPS  #biceps #comic #flex #muscle
+🦵  LEG  #kick #limb
+🦶  FOOT  #kick #stomp
+👈️  WHITE LEFT POINTING BACKHAND INDEX  #backhand #finger #hand #index #point
+👉️  WHITE RIGHT POINTING BACKHAND INDEX  #backhand #finger #hand #index #point
+☝️  WHITE UP POINTING INDEX  #finger #hand #index #point #up
+👆️  WHITE UP POINTING BACKHAND INDEX  #backhand #finger #hand #point #up
+🖕  REVERSED HAND WITH MIDDLE FINGER EXTENDED  #finger #hand
+👇️  WHITE DOWN POINTING BACKHAND INDEX  #backhand #down #finger #hand #point
+✌️  VICTORY HAND  #hand #v #victory
+🤞  HAND WITH INDEX AND MIDDLE FINGERS CROSSED  #cross #finger #hand #luck
+🖖  RAISED HAND WITH PART BETWEEN MIDDLE AND RING FINGERS  #finger #hand #spock #vulcan
+🤘  SIGN OF THE HORNS  #finger #hand #horns #rock-on
+🤙  CALL ME HAND  #call #hand
+🖐️  RAISED HAND WITH FINGERS SPLAYED  #finger #hand #splayed
+✋  RAISED HAND  #hand
+👌  OK HAND SIGN  #hand #ok
+👍️  THUMBS UP SIGN  #+1 #hand #thumb #up
+👎️  THUMBS DOWN SIGN  #-1 #down #hand #thumb
+✊  RAISED FIST  #clenched #fist #hand #punch
+👊  FISTED HAND SIGN  #clenched #fist #hand #punch
+🤛  LEFT-FACING FIST  #fist #leftwards
+🤜  RIGHT-FACING FIST  #fist #rightwards
+🤚  RAISED BACK OF HAND  #backhand #raised
+👋  WAVING HAND SIGN  #hand #wave #waving
+🤟  I LOVE YOU HAND SIGN  #hand #ily
+✍️  WRITING HAND  #hand #write
+👏  CLAPPING HANDS SIGN  #clap #hand
+👐  OPEN HANDS SIGN  #hand #open
+🙌  PERSON RAISING BOTH HANDS IN CELEBRATION  #celebration #gesture #hand #hooray #raised
+🤲  PALMS UP TOGETHER  #prayer
+🙏  PERSON WITH FOLDED HANDS  #ask #hand #please #pray #thanks
+🤝  HANDSHAKE  #agreement #hand #meeting #shake
+💅  NAIL POLISH  #care #cosmetics #manicure #nail #polish
+👂️  EAR  #body
+👃  NOSE  #body
+👣  FOOTPRINTS  #clothing #footprint #print
+👀  EYES  #eye #face
+👁️  EYE  #body
+👁️‍🗨️  EYE, LEFT SPEECH BUBBLE  #eye #speech bubble #witness
+🧠  BRAIN  #intelligent
+🦴  BONE  #skeleton
+🦷  TOOTH  #dentist
+👅  TONGUE  #body
+👄  MOUTH  #lips
+💋  KISS MARK  #kiss #lips
+💘  HEART WITH ARROW  #arrow #cupid
+❤️  HEAVY BLACK HEART  #heart
+💓  BEATING HEART  #beating #heartbeat #pulsating
+💔  BROKEN HEART  #break #broken
+💕  TWO HEARTS  #love
+💖  SPARKLING HEART  #excited #sparkle
+💗  GROWING HEART  #excited #growing #nervous #pulse
+💙  BLUE HEART  #blue
+💚  GREEN HEART  #green
+💛  YELLOW HEART  #yellow
+🧡  ORANGE HEART  #orange
+💜  PURPLE HEART  #purple
+🖤  BLACK HEART  #black #evil #wicked
+💝  HEART WITH RIBBON  #ribbon #valentine
+💞  REVOLVING HEARTS  #revolving
+💟  HEART DECORATION  #heart
+❣️  HEAVY HEART EXCLAMATION MARK ORNAMENT  #exclamation #mark #punctuation
+💌  LOVE LETTER  #heart #letter #love #mail
+💤  SLEEPING SYMBOL  #comic #sleep
+💢  ANGER SYMBOL  #angry #comic #mad
+💣️  BOMB  #comic
+💥  COLLISION SYMBOL  #boom #comic
+💦  SPLASHING SWEAT SYMBOL  #comic #splashing #sweat
+💨  DASH SYMBOL  #comic #dash #running
+💫  DIZZY SYMBOL  #comic #star
+💬  SPEECH BALLOON  #balloon #bubble #comic #dialog #speech
+🗨️  LEFT SPEECH BUBBLE  #dialog #speech
+🗯️  RIGHT ANGER BUBBLE  #angry #balloon #bubble #mad
+💭  THOUGHT BALLOON  #balloon #bubble #comic #thought
+🕳️  HOLE  #hole
+👓️  EYEGLASSES  #clothing #eye #eyeglasses #eyewear
+🕶️  DARK SUNGLASSES  #dark #eye #eyewear #glasses
+🥽  GOGGLES  #eye protection #swimming #welding
+🥼  LAB COAT  #doctor #experiment #scientist
+👔  NECKTIE  #clothing #tie
+👕  T-SHIRT  #clothing #shirt #tshirt
+👖  JEANS  #clothing #pants #trousers
+🧣  SCARF  #neck
+🧤  GLOVES  #hand
+🧥  COAT  #jacket
+🧦  SOCKS  #stocking
+👗  DRESS  #clothing
+👘  KIMONO  #clothing
+👙  BIKINI  #clothing #swim
+👚  WOMANS CLOTHES  #clothing #woman
+👛  PURSE  #clothing #coin
+👜  HANDBAG  #bag #clothing #purse
+👝  POUCH  #bag #clothing #pouch
+🛍️  SHOPPING BAGS  #bag #hotel #shopping
+🎒  SCHOOL SATCHEL  #bag #rucksack #satchel #school
+👞  MANS SHOE  #clothing #man #shoe
+👟  ATHLETIC SHOE  #athletic #clothing #shoe #sneaker
+🥾  HIKING BOOT  #backpacking #boot #camping #hiking
+🥿  FLAT SHOE  #ballet flat #slip-on #slipper
+👠  HIGH-HEELED SHOE  #clothing #heel #shoe #woman
+👡  WOMANS SANDAL  #clothing #sandal #shoe #woman
+👢  WOMANS BOOTS  #boot #clothing #shoe #woman
+👑  CROWN  #clothing #king #queen
+👒  WOMANS HAT  #clothing #hat #woman
+🎩  TOP HAT  #clothing #hat #top #tophat
+🎓️  GRADUATION CAP  #cap #celebration #clothing #graduation #hat
+🧢  BILLED CAP  #baseball cap
+⛑️  HELMET WITH WHITE CROSS  #aid #cross #face #hat #helmet
+📿  PRAYER BEADS  #beads #clothing #necklace #prayer #religion
+💄  LIPSTICK  #cosmetics #makeup
+💍  RING  #diamond
+💎  GEM STONE  #diamond #gem #jewel
+🐵  MONKEY FACE  #face #monkey
+🐒  MONKEY  #monkey
+🦍  GORILLA  #gorilla
+🐶  DOG FACE  #dog #face #pet
+🐕️  DOG  #pet
+🐩  POODLE  #dog
+🐺  WOLF FACE  #face #wolf
+🦊  FOX FACE  #face #fox
+🦝  RACCOON  #curious #sly
+🐱  CAT FACE  #cat #face #pet
+🐈️  CAT  #pet
+🦁  LION FACE  #face #leo #lion #zodiac
+🐯  TIGER FACE  #face #tiger
+🐅  TIGER  #tiger
+🐆  LEOPARD  #leopard
+🐴  HORSE FACE  #face #horse
+🐎  HORSE  #equestrian #racehorse #racing
+🦄  UNICORN FACE  #face #unicorn
+🦓  ZEBRA FACE  #stripe
+🦌  DEER  #deer
+🐮  COW FACE  #cow #face
+🐂  OX  #bull #taurus #zodiac
+🐃  WATER BUFFALO  #buffalo #water
+🐄  COW  #cow
+🐷  PIG FACE  #face #pig
+🐖  PIG  #sow
+🐗  BOAR  #pig
+🐽  PIG NOSE  #face #nose #pig
+🐏  RAM  #aries #male #sheep #zodiac
+🐑  SHEEP  #female #sheep
+🐐  GOAT  #capricorn #zodiac
+🐪  DROMEDARY CAMEL  #dromedary #hump
+🐫  BACTRIAN CAMEL  #bactrian #camel #hump
+🦙  LLAMA  #alpaca #guanaco #vicuña #wool
+🦒  GIRAFFE FACE  #spots
+🐘  ELEPHANT  #elephant
+🦏  RHINOCEROS  #rhinoceros
+🦛  HIPPOPOTAMUS  #hippo
+🐭  MOUSE FACE  #face #mouse
+🐁  MOUSE  #mouse
+🐀  RAT  #rat
+🐹  HAMSTER FACE  #face #hamster #pet
+🐰  RABBIT FACE  #bunny #face #pet #rabbit
+🐇  RABBIT  #bunny #pet
+🐿️  CHIPMUNK  #squirrel
+🦔  HEDGEHOG  #spiny
+🦇  BAT  #vampire
+🐻  BEAR FACE  #bear #face
+🐨  KOALA  #bear
+🐼  PANDA FACE  #face #panda
+🦘  KANGAROO  #australia #joey #jump #marsupial
+🦡  BADGER  #honey badger #pester
+🐾  PAW PRINTS  #feet #paw #print
+🦃  TURKEY  #bird
+🐔  CHICKEN  #bird
+🐓  ROOSTER  #bird
+🐣  HATCHING CHICK  #baby #bird #chick #hatching
+🐤  BABY CHICK  #baby #bird #chick
+🐥  FRONT-FACING BABY CHICK  #baby #bird #chick
+🐦️  BIRD  #bird
+🐧  PENGUIN  #bird
+🕊️  DOVE OF PEACE  #bird #fly #peace
+🦅  EAGLE  #bird
+🦆  DUCK  #bird
+🦢  SWAN  #bird #cygnet #ugly duckling
+🦉  OWL  #bird #wise
+🦚  PEACOCK  #bird #ostentatious #peahen #proud
+🦜  PARROT  #bird #pirate #talk
+🐸  FROG FACE  #face #frog
+🐊  CROCODILE  #crocodile
+🐢  TURTLE  #terrapin #tortoise
+🦎  LIZARD  #reptile
+🐍  SNAKE  #bearer #ophiuchus #serpent #zodiac
+🐲  DRAGON FACE  #dragon #face #fairy tale
+🐉  DRAGON  #fairy tale
+🦕  SAUROPOD  #brachiosaurus #brontosaurus #diplodocus
+🦖  T-REX  #t-rex #tyrannosaurus rex
+🐳  SPOUTING WHALE  #face #spouting #whale
+🐋  WHALE  #whale
+🐬  DOLPHIN  #flipper
+🐟️  FISH  #pisces #zodiac
+🐠  TROPICAL FISH  #fish #tropical
+🐡  BLOWFISH  #fish
+🦈  SHARK  #fish
+🐙  OCTOPUS  #octopus
+🐚  SPIRAL SHELL  #shell #spiral
+🦀  CRAB  #cancer #zodiac
+🦞  LOBSTER  #bisque #claws #seafood
+🦐  SHRIMP  #food #shellfish #small
+🦑  SQUID  #food #molusc
+🐌  SNAIL  #snail
+🦋  BUTTERFLY  #insect #pretty
+🐛  BUG  #insect
+🐜  ANT  #insect
+🐝  HONEYBEE  #bee #insect
+🐞  LADY BEETLE  #beetle #insect #ladybird #ladybug
+🦗  CRICKET  #grasshopper
+🕷️  SPIDER  #insect
+🕸️  SPIDER WEB  #spider #web
+🦂  SCORPION  #scorpio #zodiac
+🦟  MOSQUITO  #disease #fever #insect #malaria #virus
+🦠  MICROBE  #amoeba #bacteria #virus
+💐  BOUQUET  #flower
+🌸  CHERRY BLOSSOM  #blossom #cherry #flower
+💮  WHITE FLOWER  #flower
+🏵️  ROSETTE  #plant
+🌹  ROSE  #flower
+🥀  WILTED FLOWER  #flower #wilted
+🌺  HIBISCUS  #flower
+🌻  SUNFLOWER  #flower #sun
+🌼  BLOSSOM  #flower
+🌷  TULIP  #flower
+🌱  SEEDLING  #young
+🌲  EVERGREEN TREE  #tree
+🌳  DECIDUOUS TREE  #deciduous #shedding #tree
+🌴  PALM TREE  #palm #tree
+🌵  CACTUS  #plant
+🌾  EAR OF RICE  #ear #grain #rice
+🌿  HERB  #leaf
+☘️  SHAMROCK  #plant
+🍀  FOUR LEAF CLOVER  #4 #clover #four #four-leaf clover #leaf
+🍁  MAPLE LEAF  #falling #leaf #maple
+🍂  FALLEN LEAF  #falling #leaf
+🍃  LEAF FLUTTERING IN WIND  #blow #flutter #leaf #wind
+🍇  GRAPES  #fruit #grape
+🍈  MELON  #fruit
+🍉  WATERMELON  #fruit
+🍊  TANGERINE  #fruit #orange
+🍋  LEMON  #citrus #fruit
+🍌  BANANA  #fruit
+🍍  PINEAPPLE  #fruit
+🥭  MANGO  #fruit #tropical
+🍎  RED APPLE  #apple #fruit #red
+🍏  GREEN APPLE  #apple #fruit #green
+🍐  PEAR  #fruit
+🍑  PEACH  #fruit
+🍒  CHERRIES  #berries #cherry #fruit #red
+🍓  STRAWBERRY  #berry #fruit
+🥝  KIWIFRUIT  #food #fruit #kiwi
+🍅  TOMATO  #fruit #vegetable
+🥥  COCONUT  #palm #piña colada
+🥑  AVOCADO  #food #fruit
+🍆  AUBERGINE  #aubergine #vegetable
+🥔  POTATO  #food #vegetable
+🥕  CARROT  #food #vegetable
+🌽  EAR OF MAIZE  #corn #ear #maize #maze
+🌶️  HOT PEPPER  #hot #pepper
+🥒  CUCUMBER  #food #pickle #vegetable
+🥬  LEAFY GREEN  #bok choy #cabbage #kale #lettuce
+🥦  BROCCOLI  #wild cabbage
+🍄  MUSHROOM  #toadstool
+🥜  PEANUTS  #food #nut #peanut #vegetable
+🌰  CHESTNUT  #plant
+🍞  BREAD  #loaf
+🥐  CROISSANT  #bread #crescent roll #food #french
+🥖  BAGUETTE BREAD  #baguette #bread #food #french
+🥨  PRETZEL  #twisted
+🥯  BAGEL  #bakery #schmear
+🥞  PANCAKES  #crêpe #food #hotcake #pancake
+🧀  CHEESE WEDGE  #cheese
+🍖  MEAT ON BONE  #bone #meat
+🍗  POULTRY LEG  #bone #chicken #drumstick #leg #poultry
+🥩  CUT OF MEAT  #chop #lambchop #porkchop #steak
+🥓  BACON  #food #meat
+🍔  HAMBURGER  #burger
+🍟  FRENCH FRIES  #french #fries
+🍕  SLICE OF PIZZA  #cheese #slice
+🌭  HOT DOG  #frankfurter #hotdog #sausage
+🥪  SANDWICH  #bread
+🌮  TACO  #mexican
+🌯  BURRITO  #mexican #wrap
+🥙  STUFFED FLATBREAD  #falafel #flatbread #food #gyro #kebab #stuffed
+🥚  EGG  #food
+🍳  COOKING  #egg #frying #pan
+🥘  SHALLOW PAN OF FOOD  #casserole #food #paella #pan #shallow
+🍲  POT OF FOOD  #pot #stew
+🥣  BOWL WITH SPOON  #breakfast #cereal #congee
+🥗  GREEN SALAD  #food #green #salad
+🍿  POPCORN  #popcorn
+🧂  SALT SHAKER  #condiment #shaker
+🥫  CANNED FOOD  #can
+🍱  BENTO BOX  #bento #box
+🍘  RICE CRACKER  #cracker #rice
+🍙  RICE BALL  #ball #japanese #rice
+🍚  COOKED RICE  #cooked #rice
+🍛  CURRY AND RICE  #curry #rice
+🍜  STEAMING BOWL  #bowl #noodle #ramen #steaming
+🍝  SPAGHETTI  #pasta
+🍠  ROASTED SWEET POTATO  #potato #roasted #sweet
+🍢  ODEN  #kebab #seafood #skewer #stick
+🍣  SUSHI  #sushi
+🍤  FRIED SHRIMP  #fried #prawn #shrimp #tempura
+🍥  FISH CAKE WITH SWIRL DESIGN  #cake #fish #pastry #swirl
+🥮  MOON CAKE  #autumn #festival #yuèbǐng
+🍡  DANGO  #dessert #japanese #skewer #stick #sweet
+🥟  DUMPLING  #empanada #gyōza #jiaozi #pierogi #potsticker
+🥠  FORTUNE COOKIE  #prophecy
+🥡  TAKEOUT BOX  #oyster pail
+🍦  SOFT ICE CREAM  #cream #dessert #ice #icecream #soft #sweet
+🍧  SHAVED ICE  #dessert #ice #shaved #sweet
+🍨  ICE CREAM  #cream #dessert #ice #sweet
+🍩  DOUGHNUT  #dessert #donut #sweet
+🍪  COOKIE  #dessert #sweet
+🎂  BIRTHDAY CAKE  #birthday #cake #celebration #dessert #pastry #sweet
+🍰  SHORTCAKE  #cake #dessert #pastry #slice #sweet
+🧁  CUPCAKE  #bakery #sweet
+🥧  PIE  #filling #pastry
+🍫  CHOCOLATE BAR  #bar #chocolate #dessert #sweet
+🍬  CANDY  #dessert #sweet
+🍭  LOLLIPOP  #candy #dessert #sweet
+🍮  CUSTARD  #dessert #pudding #sweet
+🍯  HONEY POT  #honey #honeypot #pot #sweet
+🍼  BABY BOTTLE  #baby #bottle #drink #milk
+🥛  GLASS OF MILK  #drink #glass #milk
+☕️  HOT BEVERAGE  #beverage #coffee #drink #hot #steaming #tea
+🍵  TEACUP WITHOUT HANDLE  #beverage #cup #drink #tea #teacup
+🍶  SAKE BOTTLE AND CUP  #bar #beverage #bottle #cup #drink
+🍾  BOTTLE WITH POPPING CORK  #bar #bottle #cork #drink #popping
+🍷  WINE GLASS  #bar #beverage #drink #glass #wine
+🍸️  COCKTAIL GLASS  #bar #cocktail #drink #glass
+🍹  TROPICAL DRINK  #bar #drink #tropical
+🍺  BEER MUG  #bar #beer #drink #mug
+🍻  CLINKING BEER MUGS  #bar #beer #clink #drink #mug
+🥂  CLINKING GLASSES  #celebrate #clink #drink #glass
+🥃  TUMBLER GLASS  #glass #liquor #shot #tumbler #whisky
+🥤  CUP WITH STRAW  #juice #soda
+🥢  CHOPSTICKS  #hashi
+🍽️  FORK AND KNIFE WITH PLATE  #cooking #fork #knife #plate
+🍴  FORK AND KNIFE  #cooking #cutlery #fork #knife
+🥄  SPOON  #tableware
+🔪  HOCHO  #cooking #hocho #knife #tool #weapon
+🏺  AMPHORA  #aquarius #cooking #drink #jug #zodiac
+🌍️  EARTH GLOBE EUROPE-AFRICA  #africa #earth #europe #globe #globe showing europe-africa #world
+🌎️  EARTH GLOBE AMERICAS  #americas #earth #globe #globe showing americas #world
+🌏️  EARTH GLOBE ASIA-AUSTRALIA  #asia #australia #earth #globe #globe showing asia-australia #world
+🌐  GLOBE WITH MERIDIANS  #earth #globe #meridians #world
+🗺️  WORLD MAP  #map #world
+🗾  SILHOUETTE OF JAPAN  #japan #map #map of japan
+🧭  COMPASS  #magnetic #navigation #orienteering
+🏔️  SNOW CAPPED MOUNTAIN  #cold #mountain #snow
+⛰️  MOUNTAIN  #mountain
+🌋  VOLCANO  #eruption #mountain
+🗻  MOUNT FUJI  #fuji #mountain
+🏕️  CAMPING  #camping
+🏖️  BEACH WITH UMBRELLA  #beach #umbrella
+🏜️  DESERT  #desert
+🏝️  DESERT ISLAND  #desert #island
+🏞️  NATIONAL PARK  #park
+🏟️  STADIUM  #stadium
+🏛️  CLASSICAL BUILDING  #classical
+🏗️  BUILDING CONSTRUCTION  #construction
+🧱  BRICK  #bricks #clay #mortar #wall
+🏘️  HOUSE BUILDINGS  #houses
+🏚️  DERELICT HOUSE BUILDING  #derelict #house
+🏠️  HOUSE BUILDING  #home
+🏡  HOUSE WITH GARDEN  #garden #home #house
+🏢  OFFICE BUILDING  #building
+🏣  JAPANESE POST OFFICE  #japanese #japanese post office #post
+🏤  EUROPEAN POST OFFICE  #european #post
+🏥  HOSPITAL  #doctor #medicine
+🏦  BANK  #building
+🏨  HOTEL  #building
+🏩  LOVE HOTEL  #hotel #love
+🏪  CONVENIENCE STORE  #convenience #store
+🏫  SCHOOL  #building
+🏬  DEPARTMENT STORE  #department #store
+🏭️  FACTORY  #building
+🏯  JAPANESE CASTLE  #castle #japanese
+🏰  EUROPEAN CASTLE  #european
+💒  WEDDING  #chapel #romance
+🗼  TOKYO TOWER  #tokyo #tower
+🗽  STATUE OF LIBERTY  #liberty #statue #statue of liberty
+⛪️  CHURCH  #christian #cross #religion
+🕌  MOSQUE  #islam #muslim #religion
+🕍  SYNAGOGUE  #jew #jewish #religion #temple
+⛩️  SHINTO SHRINE  #religion #shinto #shrine
+🕋  KAABA  #islam #muslim #religion
+⛲️  FOUNTAIN  #fountain
+⛺️  TENT  #camping
+🌁  FOGGY  #fog
+🌃  NIGHT WITH STARS  #night #star
+🏙️  CITYSCAPE  #city
+🌄  SUNRISE OVER MOUNTAINS  #morning #mountain #sun #sunrise
+🌅  SUNRISE  #morning #sun
+🌆  CITYSCAPE AT DUSK  #city #dusk #evening #landscape #sunset
+🌇  SUNSET OVER BUILDINGS  #dusk #sun
+🌉  BRIDGE AT NIGHT  #bridge #night
+♨️  HOT SPRINGS  #hot #hotsprings #springs #steaming
+🌌  MILKY WAY  #space
+🎠  CAROUSEL HORSE  #carousel #horse
+🎡  FERRIS WHEEL  #amusement park #ferris #wheel
+🎢  ROLLER COASTER  #amusement park #coaster #roller
+💈  BARBER POLE  #barber #haircut #pole
+🎪  CIRCUS TENT  #circus #tent
+🚂  STEAM LOCOMOTIVE  #engine #railway #steam #train
+🚃  RAILWAY CAR  #car #electric #railway #train #tram #trolleybus
+🚄  HIGH-SPEED TRAIN  #railway #shinkansen #speed #train
+🚅  HIGH-SPEED TRAIN WITH BULLET NOSE  #bullet #railway #shinkansen #speed #train
+🚆  TRAIN  #railway
+🚇️  METRO  #subway
+🚈  LIGHT RAIL  #railway
+🚉  STATION  #railway #train
+🚊  TRAM  #trolleybus
+🚝  MONORAIL  #vehicle
+🚞  MOUNTAIN RAILWAY  #car #mountain #railway
+🚋  TRAM CAR  #car #tram #trolleybus
+🚌  BUS  #vehicle
+🚍️  ONCOMING BUS  #bus #oncoming
+🚎  TROLLEYBUS  #bus #tram #trolley
+🚐  MINIBUS  #bus
+🚑️  AMBULANCE  #vehicle
+🚒  FIRE ENGINE  #engine #fire #truck
+🚓  POLICE CAR  #car #patrol #police
+🚔️  ONCOMING POLICE CAR  #car #oncoming #police
+🚕  TAXI  #vehicle
+🚖  ONCOMING TAXI  #oncoming #taxi
+🚗  AUTOMOBILE  #car
+🚘️  ONCOMING AUTOMOBILE  #automobile #car #oncoming
+🚙  RECREATIONAL VEHICLE  #recreational #sport utility
+🚚  DELIVERY TRUCK  #delivery #truck
+🚛  ARTICULATED LORRY  #lorry #semi #truck
+🚜  TRACTOR  #vehicle
+🚲️  BICYCLE  #bike
+🛴  SCOOTER  #kick #scooter
+🛹  SKATEBOARD  #board
+🛵  MOTOR SCOOTER  #motor #scooter
+🚏  BUS STOP  #bus #busstop #stop
+🛣️  MOTORWAY  #highway #road
+🛤️  RAILWAY TRACK  #railway #train
+🛢️  OIL DRUM  #drum #oil
+⛽️  FUEL PUMP  #diesel #fuel #fuelpump #gas #pump #station
+🚨  POLICE CARS REVOLVING LIGHT  #beacon #car #light #police #revolving
+🚥  HORIZONTAL TRAFFIC LIGHT  #light #signal #traffic
+🚦  VERTICAL TRAFFIC LIGHT  #light #signal #traffic
+🛑  OCTAGONAL SIGN  #octagonal #sign #stop
+🚧  CONSTRUCTION SIGN  #barrier
+⚓️  ANCHOR  #ship #tool
+⛵️  SAILBOAT  #boat #resort #sea #yacht
+🛶  CANOE  #boat
+🚤  SPEEDBOAT  #boat
+🛳️  PASSENGER SHIP  #passenger #ship
+⛴️  FERRY  #boat #passenger
+🛥️  MOTOR BOAT  #boat #motorboat
+🚢  SHIP  #boat #passenger
+✈️  AIRPLANE  #aeroplane
+🛩️  SMALL AIRPLANE  #aeroplane #airplane
+🛫  AIRPLANE DEPARTURE  #aeroplane #airplane #check-in #departure #departures
+🛬  AIRPLANE ARRIVING  #aeroplane #airplane #arrivals #arriving #landing
+💺  SEAT  #chair
+🚁  HELICOPTER  #vehicle
+🚟  SUSPENSION RAILWAY  #railway #suspension
+🚠  MOUNTAIN CABLEWAY  #cable #gondola #mountain
+🚡  AERIAL TRAMWAY  #aerial #cable #car #gondola #tramway
+🛰️  SATELLITE  #space
+🚀  ROCKET  #space
+🛸  FLYING SAUCER  #ufo
+🛎️  BELLHOP BELL  #bell #bellhop #hotel
+🧳  LUGGAGE  #packing #travel
+⌛️  HOURGLASS  #sand #timer
+⏳️  HOURGLASS WITH FLOWING SAND  #hourglass #sand #timer
+⌚️  WATCH  #clock
+⏰  ALARM CLOCK  #alarm #clock
+⏱️  STOPWATCH  #clock
+⏲️  TIMER CLOCK  #clock #timer
+🕰️  MANTELPIECE CLOCK  #clock
+🕛️  CLOCK FACE TWELVE OCLOCK  #00 #12 #12:00 #clock #o’clock #twelve
+🕧️  CLOCK FACE TWELVE-THIRTY  #12 #12:30 #clock #thirty #twelve
+🕐️  CLOCK FACE ONE OCLOCK  #00 #1 #1:00 #clock #one #o’clock
+🕜️  CLOCK FACE ONE-THIRTY  #1 #1:30 #clock #one #thirty
+🕑️  CLOCK FACE TWO OCLOCK  #00 #2 #2:00 #clock #o’clock #two
+🕝️  CLOCK FACE TWO-THIRTY  #2 #2:30 #clock #thirty #two
+🕒️  CLOCK FACE THREE OCLOCK  #00 #3 #3:00 #clock #o’clock #three
+🕞️  CLOCK FACE THREE-THIRTY  #3 #3:30 #clock #thirty #three
+🕓️  CLOCK FACE FOUR OCLOCK  #00 #4 #4:00 #clock #four #o’clock
+🕟️  CLOCK FACE FOUR-THIRTY  #4 #4:30 #clock #four #thirty
+🕔️  CLOCK FACE FIVE OCLOCK  #00 #5 #5:00 #clock #five #o’clock
+🕠️  CLOCK FACE FIVE-THIRTY  #5 #5:30 #clock #five #thirty
+🕕️  CLOCK FACE SIX OCLOCK  #00 #6 #6:00 #clock #o’clock #six
+🕡️  CLOCK FACE SIX-THIRTY  #6 #6:30 #clock #six #thirty
+🕖️  CLOCK FACE SEVEN OCLOCK  #00 #7 #7:00 #clock #o’clock #seven
+🕢️  CLOCK FACE SEVEN-THIRTY  #7 #7:30 #clock #seven #thirty
+🕗️  CLOCK FACE EIGHT OCLOCK  #00 #8 #8:00 #clock #eight #o’clock
+🕣️  CLOCK FACE EIGHT-THIRTY  #8 #8:30 #clock #eight #thirty
+🕘️  CLOCK FACE NINE OCLOCK  #00 #9 #9:00 #clock #nine #o’clock
+🕤️  CLOCK FACE NINE-THIRTY  #9 #9:30 #clock #nine #thirty
+🕙️  CLOCK FACE TEN OCLOCK  #00 #10 #10:00 #clock #o’clock #ten
+🕥️  CLOCK FACE TEN-THIRTY  #10 #10:30 #clock #ten #thirty
+🕚️  CLOCK FACE ELEVEN OCLOCK  #00 #11 #11:00 #clock #eleven #o’clock
+🕦️  CLOCK FACE ELEVEN-THIRTY  #11 #11:30 #clock #eleven #thirty
+🌑  NEW MOON SYMBOL  #dark #moon
+🌒  WAXING CRESCENT MOON SYMBOL  #crescent #moon #waxing
+🌓  FIRST QUARTER MOON SYMBOL  #moon #quarter
+🌔  WAXING GIBBOUS MOON SYMBOL  #gibbous #moon #waxing
+🌕️  FULL MOON SYMBOL  #full #moon
+🌖  WANING GIBBOUS MOON SYMBOL  #gibbous #moon #waning
+🌗  LAST QUARTER MOON SYMBOL  #moon #quarter
+🌘  WANING CRESCENT MOON SYMBOL  #crescent #moon #waning
+🌙  CRESCENT MOON  #crescent #moon
+🌚  NEW MOON WITH FACE  #face #moon
+🌛  FIRST QUARTER MOON WITH FACE  #face #moon #quarter
+🌜️  LAST QUARTER MOON WITH FACE  #face #moon #quarter
+🌡️  THERMOMETER  #weather
+☀️  BLACK SUN WITH RAYS  #bright #rays #sunny
+🌝  FULL MOON WITH FACE  #bright #face #full #moon
+🌞  SUN WITH FACE  #bright #face #sun
+⭐️  WHITE MEDIUM STAR  #star
+🌟  GLOWING STAR  #glittery #glow #shining #sparkle #star
+🌠  SHOOTING STAR  #falling #shooting #star
+☁️  CLOUD  #weather
+⛅️  SUN BEHIND CLOUD  #cloud #sun
+⛈️  THUNDER CLOUD AND RAIN  #cloud #rain #thunder
+🌤️  WHITE SUN WITH SMALL CLOUD  #cloud #sun
+🌥️  WHITE SUN BEHIND CLOUD  #cloud #sun
+🌦️  WHITE SUN BEHIND CLOUD WITH RAIN  #cloud #rain #sun
+🌧️  CLOUD WITH RAIN  #cloud #rain
+🌨️  CLOUD WITH SNOW  #cloud #cold #snow
+🌩️  CLOUD WITH LIGHTNING  #cloud #lightning
+🌪️  CLOUD WITH TORNADO  #cloud #whirlwind
+🌫️  FOG  #cloud
+🌬️  WIND BLOWING FACE  #blow #cloud #face #wind
+🌀  CYCLONE  #dizzy #hurricane #twister #typhoon
+🌈  RAINBOW  #rain
+🌂  CLOSED UMBRELLA  #clothing #rain #umbrella
+☂️  UMBRELLA  #clothing #rain
+☔️  UMBRELLA WITH RAIN DROPS  #clothing #drop #rain #umbrella
+⛱️  UMBRELLA ON GROUND  #rain #sun #umbrella
+⚡️  HIGH VOLTAGE SIGN  #danger #electric #lightning #voltage #zap
+❄️  SNOWFLAKE  #cold #snow
+☃️  SNOWMAN  #cold #snow
+⛄️  SNOWMAN WITHOUT SNOW  #cold #snow #snowman
+☄️  COMET  #space
+🔥  FIRE  #flame #tool
+💧  DROPLET  #cold #comic #drop #sweat
+🌊  WATER WAVE  #ocean #water #wave
+🎃  JACK-O-LANTERN  #celebration #halloween #jack #lantern
+🎄  CHRISTMAS TREE  #celebration #christmas #tree
+🎆  FIREWORKS  #celebration
+🎇  FIREWORK SPARKLER  #celebration #fireworks #sparkle
+🧨  FIRECRACKER  #dynamite #explosive #fireworks
+✨  SPARKLES  #sparkle #star
+🎈  BALLOON  #celebration
+🎉  PARTY POPPER  #celebration #party #popper #tada
+🎊  CONFETTI BALL  #ball #celebration #confetti
+🎋  TANABATA TREE  #banner #celebration #japanese #tree
+🎍  PINE DECORATION  #bamboo #celebration #japanese #pine
+🎎  JAPANESE DOLLS  #celebration #doll #festival #japanese #japanese dolls
+🎏  CARP STREAMER  #carp #celebration #streamer
+🎐  WIND CHIME  #bell #celebration #chime #wind
+🎑  MOON VIEWING CEREMONY  #celebration #ceremony #moon
+🧧  RED GIFT ENVELOPE  #gift #good luck #hóngbāo #lai see #money
+🎀  RIBBON  #celebration
+🎁  WRAPPED PRESENT  #box #celebration #gift #present #wrapped
+🎗️  REMINDER RIBBON  #celebration #reminder #ribbon
+🎟️  ADMISSION TICKETS  #admission #ticket
+🎫  TICKET  #admission
+🎖️  MILITARY MEDAL  #celebration #medal #military
+🏆️  TROPHY  #prize
+🏅  SPORTS MEDAL  #medal
+🥇  FIRST PLACE MEDAL  #first #gold #medal
+🥈  SECOND PLACE MEDAL  #medal #second #silver
+🥉  THIRD PLACE MEDAL  #bronze #medal #third
+⚽️  SOCCER BALL  #ball #football #soccer
+⚾️  BASEBALL  #ball
+🥎  SOFTBALL  #ball #glove #underarm
+🏀  BASKETBALL AND HOOP  #ball #hoop
+🏐  VOLLEYBALL  #ball #game
+🏈  AMERICAN FOOTBALL  #american #ball #football
+🏉  RUGBY FOOTBALL  #ball #football #rugby
+🎾  TENNIS RACQUET AND BALL  #ball #racquet
+🥏  FLYING DISC  #ultimate
+🎳  BOWLING  #ball #game
+🏏  CRICKET BAT AND BALL  #ball #bat #game
+🏑  FIELD HOCKEY STICK AND BALL  #ball #field #game #hockey #stick
+🏒  ICE HOCKEY STICK AND PUCK  #game #hockey #ice #puck #stick
+🥍  LACROSSE STICK AND BALL  #ball #goal #stick
+🏓  TABLE TENNIS PADDLE AND BALL  #ball #bat #game #paddle #table tennis
+🏸  BADMINTON RACQUET AND SHUTTLECOCK  #birdie #game #racquet #shuttlecock
+🥊  BOXING GLOVE  #boxing #glove
+🥋  MARTIAL ARTS UNIFORM  #judo #karate #martial arts #taekwondo #uniform
+🥅  GOAL NET  #goal #net
+⛳️  FLAG IN HOLE  #golf #hole
+⛸️  ICE SKATE  #ice #skate
+🎣  FISHING POLE AND FISH  #fish #pole
+🎽  RUNNING SHIRT WITH SASH  #athletics #running #sash #shirt
+🎿  SKI AND SKI BOOT  #ski #snow
+🛷  SLED  #sledge #sleigh
+🥌  CURLING STONE  #game #rock
+🎯  DIRECT HIT  #bullseye #dart #game #hit #target
+🎱  BILLIARDS  #8 #ball #billiard #eight #game
+🔮  CRYSTAL BALL  #ball #crystal #fairy tale #fantasy #fortune #tool
+🧿  NAZAR AMULET  #bead #charm #evil-eye #nazar #talisman
+🎮️  VIDEO GAME  #controller #game
+🕹️  JOYSTICK  #game #video game
+🎰  SLOT MACHINE  #game #slot
+🎲  GAME DIE  #dice #die #game
+🧩  JIGSAW PUZZLE PIECE  #clue #interlocking #piece #puzzle
+🧸  TEDDY BEAR  #plaything #plush #stuffed #toy
+♠️  BLACK SPADE SUIT  #card #game
+♥️  BLACK HEART SUIT  #card #game
+♦️  BLACK DIAMOND SUIT  #card #game
+♣️  BLACK CLUB SUIT  #card #game
+♟️  BLACK CHESS PAWN  #chess #dupe #expendable
+🃏  PLAYING CARD BLACK JOKER  #card #game #wildcard
+🀄️  MAHJONG TILE RED DRAGON  #game #mahjong #red
+🎴  FLOWER PLAYING CARDS  #card #flower #game #japanese #playing
+🎭️  PERFORMING ARTS  #art #mask #performing #theater #theatre
+🖼️  FRAME WITH PICTURE  #art #frame #museum #painting #picture
+🎨  ARTIST PALETTE  #art #museum #painting #palette
+🧵  SPOOL OF THREAD  #needle #sewing #spool #string
+🧶  BALL OF YARN  #ball #crochet #knit
+🔇  SPEAKER WITH CANCELLATION STROKE  #mute #quiet #silent #speaker
+🔈️  SPEAKER  #soft
+🔉  SPEAKER WITH ONE SOUND WAVE  #medium
+🔊  SPEAKER WITH THREE SOUND WAVES  #loud
+📢  PUBLIC ADDRESS LOUDSPEAKER  #loud #public address
+📣  CHEERING MEGAPHONE  #cheering
+📯  POSTAL HORN  #horn #post #postal
+🔔  BELL  #bell
+🔕  BELL WITH CANCELLATION STROKE  #bell #forbidden #mute #quiet #silent
+🎼  MUSICAL SCORE  #music #score
+🎵  MUSICAL NOTE  #music #note
+🎶  MULTIPLE MUSICAL NOTES  #music #note #notes
+🎙️  STUDIO MICROPHONE  #mic #microphone #music #studio
+🎚️  LEVEL SLIDER  #level #music #slider
+🎛️  CONTROL KNOBS  #control #knobs #music
+🎤  MICROPHONE  #karaoke #mic
+🎧️  HEADPHONE  #earbud
+📻️  RADIO  #video
+🎷  SAXOPHONE  #instrument #music #sax
+🎸  GUITAR  #instrument #music
+🎹  MUSICAL KEYBOARD  #instrument #keyboard #music #piano
+🎺  TRUMPET  #instrument #music
+🎻  VIOLIN  #instrument #music
+🥁  DRUM WITH DRUMSTICKS  #drumsticks #music
+📱  MOBILE PHONE  #cell #mobile #phone #telephone
+📲  MOBILE PHONE WITH RIGHTWARDS ARROW AT LEFT  #arrow #cell #mobile #phone #receive
+☎️  BLACK TELEPHONE  #phone
+📞  TELEPHONE RECEIVER  #phone #receiver #telephone
+📟️  PAGER  #pager
+📠  FAX MACHINE  #fax
+🔋  BATTERY  #battery
+🔌  ELECTRIC PLUG  #electric #electricity #plug
+💻️  PERSONAL COMPUTER  #computer #pc #personal
+🖥️  DESKTOP COMPUTER  #computer #desktop
+🖨️  PRINTER  #computer
+⌨️  KEYBOARD  #computer
+🖱️  THREE BUTTON MOUSE  #computer
+🖲️  TRACKBALL  #computer
+💽  MINIDISC  #computer #disk #minidisk #optical
+💾  FLOPPY DISK  #computer #disk #floppy
+💿️  OPTICAL DISC  #cd #computer #disk #optical
+📀  DVD  #blu-ray #computer #disk #optical
+🧮  ABACUS  #calculation
+🎥  MOVIE CAMERA  #camera #cinema #movie
+🎞️  FILM FRAMES  #cinema #film #frames #movie
+📽️  FILM PROJECTOR  #cinema #film #movie #projector #video
+🎬️  CLAPPER BOARD  #clapper #movie
+📺️  TELEVISION  #tv #video
+📷️  CAMERA  #video
+📸  CAMERA WITH FLASH  #camera #flash #video
+📹️  VIDEO CAMERA  #camera #video
+📼  VIDEOCASSETTE  #tape #vhs #video
+🔍️  LEFT-POINTING MAGNIFYING GLASS  #glass #magnifying #search #tool
+🔎  RIGHT-POINTING MAGNIFYING GLASS  #glass #magnifying #search #tool
+🕯️  CANDLE  #light
+💡  ELECTRIC LIGHT BULB  #bulb #comic #electric #idea #light
+🔦  ELECTRIC TORCH  #electric #light #tool #torch
+🏮  IZAKAYA LANTERN  #bar #lantern #light #red
+📔  NOTEBOOK WITH DECORATIVE COVER  #book #cover #decorated #notebook
+📕  CLOSED BOOK  #book #closed
+📖  OPEN BOOK  #book #open
+📗  GREEN BOOK  #book #green
+📘  BLUE BOOK  #blue #book
+📙  ORANGE BOOK  #book #orange
+📚️  BOOKS  #book
+📓  NOTEBOOK  #notebook
+📒  LEDGER  #notebook
+📃  PAGE WITH CURL  #curl #document #page
+📜  SCROLL  #paper
+📄  PAGE FACING UP  #document #page
+📰  NEWSPAPER  #news #paper
+🗞️  ROLLED-UP NEWSPAPER  #news #newspaper #paper #rolled
+📑  BOOKMARK TABS  #bookmark #mark #marker #tabs
+🔖  BOOKMARK  #mark
+🏷️  LABEL  #label
+💰️  MONEY BAG  #bag #dollar #money #moneybag
+💴  BANKNOTE WITH YEN SIGN  #banknote #bill #currency #money #note #yen
+💵  BANKNOTE WITH DOLLAR SIGN  #banknote #bill #currency #dollar #money #note
+💶  BANKNOTE WITH EURO SIGN  #banknote #bill #currency #euro #money #note
+💷  BANKNOTE WITH POUND SIGN  #banknote #bill #currency #money #note #pound
+💸  MONEY WITH WINGS  #banknote #bill #fly #money #wings
+💳️  CREDIT CARD  #card #credit #money
+🧾  RECEIPT  #accounting #bookkeeping #evidence #proof
+💹  CHART WITH UPWARDS TREND AND YEN SIGN  #chart #graph #growth #money #yen
+💱  CURRENCY EXCHANGE  #bank #currency #exchange #money
+💲  HEAVY DOLLAR SIGN  #currency #dollar #money
+✉️  ENVELOPE  #email #letter
+📧  E-MAIL SYMBOL  #email #letter #mail
+📨  INCOMING ENVELOPE  #e-mail #email #envelope #incoming #letter #receive
+📩  ENVELOPE WITH DOWNWARDS ARROW ABOVE  #arrow #e-mail #email #envelope #outgoing
+📤️  OUTBOX TRAY  #box #letter #mail #outbox #sent #tray
+📥️  INBOX TRAY  #box #inbox #letter #mail #receive #tray
+📦️  PACKAGE  #box #parcel
+📫️  CLOSED MAILBOX WITH RAISED FLAG  #closed #mail #mailbox #postbox
+📪️  CLOSED MAILBOX WITH LOWERED FLAG  #closed #lowered #mail #mailbox #postbox
+📬️  OPEN MAILBOX WITH RAISED FLAG  #mail #mailbox #open #postbox
+📭️  OPEN MAILBOX WITH LOWERED FLAG  #lowered #mail #mailbox #open #postbox
+📮  POSTBOX  #mail #mailbox
+🗳️  BALLOT BOX WITH BALLOT  #ballot #box
+✏️  PENCIL  #pencil
+✒️  BLACK NIB  #nib #pen
+🖋️  LOWER LEFT FOUNTAIN PEN  #fountain #pen
+🖊️  LOWER LEFT BALLPOINT PEN  #ballpoint
+🖌️  LOWER LEFT PAINTBRUSH  #painting
+🖍️  LOWER LEFT CRAYON  #crayon
+📝  MEMO  #pencil
+💼  BRIEFCASE  #briefcase
+📁  FILE FOLDER  #file #folder
+📂  OPEN FILE FOLDER  #file #folder #open
+🗂️  CARD INDEX DIVIDERS  #card #dividers #index
+📅  CALENDAR  #date
+📆  TEAR-OFF CALENDAR  #calendar
+🗒️  SPIRAL NOTE PAD  #note #pad #spiral
+🗓️  SPIRAL CALENDAR PAD  #calendar #pad #spiral
+📇  CARD INDEX  #card #index #rolodex
+📈  CHART WITH UPWARDS TREND  #chart #graph #growth #trend #upward
+📉  CHART WITH DOWNWARDS TREND  #chart #down #graph #trend
+📊  BAR CHART  #bar #chart #graph
+📋️  CLIPBOARD  #clipboard
+📌  PUSHPIN  #pin
+📍  ROUND PUSHPIN  #pin #pushpin
+📎  PAPERCLIP  #paperclip
+🖇️  LINKED PAPERCLIPS  #link #paperclip
+📏  STRAIGHT RULER  #ruler #straight edge
+📐  TRIANGULAR RULER  #ruler #set #triangle
+✂️  BLACK SCISSORS  #cutting #tool
+🗃️  CARD FILE BOX  #box #card #file
+🗄️  FILE CABINET  #cabinet #file #filing
+🗑️  WASTEBASKET  #wastebasket
+🔒️  LOCK  #closed
+🔓️  OPEN LOCK  #lock #open #unlock
+🔏  LOCK WITH INK PEN  #ink #lock #nib #pen #privacy
+🔐  CLOSED LOCK WITH KEY  #closed #key #lock #secure
+🔑  KEY  #lock #password
+🗝️  OLD KEY  #clue #key #lock #old
+🔨  HAMMER  #tool
+⛏️  PICK  #mining #tool
+⚒️  HAMMER AND PICK  #hammer #pick #tool
+🛠️  HAMMER AND WRENCH  #hammer #spanner #tool #wrench
+🗡️  DAGGER KNIFE  #knife #weapon
+⚔️  CROSSED SWORDS  #crossed #swords #weapon
+🔫  PISTOL  #gun #handgun #revolver #tool #weapon
+🏹  BOW AND ARROW  #archer #arrow #bow #sagittarius #zodiac
+🛡️  SHIELD  #weapon
+🔧  WRENCH  #spanner #tool
+🔩  NUT AND BOLT  #bolt #nut #tool
+⚙️  GEAR  #cog #cogwheel #tool
+🗜️  COMPRESSION  #compress #tool #vice
+⚖️  SCALES  #balance #justice #libra #scale #zodiac
+🔗  LINK SYMBOL  #link
+⛓️  CHAINS  #chain
+🧰  TOOLBOX  #chest #mechanic #tool
+🧲  MAGNET  #attraction #horseshoe #magnetic
+⚗️  ALEMBIC  #chemistry #tool
+🧪  TEST TUBE  #chemist #chemistry #experiment #lab #science
+🧫  PETRI DISH  #bacteria #biologist #biology #culture #lab
+🧬  DNA DOUBLE HELIX  #biologist #evolution #gene #genetics #life
+🔬  MICROSCOPE  #science #tool
+🔭  TELESCOPE  #science #tool
+📡  SATELLITE ANTENNA  #antenna #dish #satellite
+💉  SYRINGE  #medicine #needle #shot #sick
+💊  PILL  #doctor #medicine #sick
+🚪  DOOR  #door
+🛏️  BED  #hotel #sleep
+🛋️  COUCH AND LAMP  #couch #hotel #lamp
+🚽  TOILET  #toilet
+🚿  SHOWER  #water
+🛁  BATHTUB  #bath
+🧴  LOTION BOTTLE  #lotion #moisturizer #shampoo #sunscreen
+🧷  SAFETY PIN  #diaper #punk rock
+🧹  BROOM  #cleaning #sweeping #witch
+🧺  BASKET  #farming #laundry #picnic
+🧻  ROLL OF PAPER  #paper towels #toilet paper
+🧼  BAR OF SOAP  #bar #bathing #cleaning #lather #soapdish
+🧽  SPONGE  #absorbing #cleaning #porous
+🧯  FIRE EXTINGUISHER  #extinguish #fire #quench
+🛒  SHOPPING TROLLEY  #cart #shopping #trolley
+🚬  SMOKING SYMBOL  #smoking
+⚰️  COFFIN  #death
+⚱️  FUNERAL URN  #ashes #death #funeral #urn
+🗿  MOYAI  #face #moyai #statue
+🏧  AUTOMATED TELLER MACHINE  #atm #atm sign #automated #bank #teller
+🚮  PUT LITTER IN ITS PLACE SYMBOL  #litter #litter bin
+🚰  POTABLE WATER SYMBOL  #drinking #potable #water
+♿️  WHEELCHAIR SYMBOL  #access
+🚹️  MENS SYMBOL  #lavatory #man #restroom #wc
+🚺️  WOMENS SYMBOL  #lavatory #restroom #wc #woman
+🚻  RESTROOM  #lavatory #wc
+🚼️  BABY SYMBOL  #baby #changing
+🚾  WATER CLOSET  #closet #lavatory #restroom #water #wc
+🛂  PASSPORT CONTROL  #control #passport
+🛃  CUSTOMS  #customs
+🛄  BAGGAGE CLAIM  #baggage #claim
+🛅  LEFT LUGGAGE  #baggage #locker #luggage
+⚠️  WARNING SIGN  #warning
+🚸  CHILDREN CROSSING  #child #crossing #pedestrian #traffic
+⛔️  NO ENTRY  #entry #forbidden #no #not #prohibited #traffic
+🚫  NO ENTRY SIGN  #entry #forbidden #no #not
+🚳  NO BICYCLES  #bicycle #bike #forbidden #no #prohibited
+🚭️  NO SMOKING SYMBOL  #forbidden #no #not #prohibited #smoking
+🚯  DO NOT LITTER SYMBOL  #forbidden #litter #no #not #prohibited
+🚱  NON-POTABLE WATER SYMBOL  #non-drinking #non-potable #water
+🚷  NO PEDESTRIANS  #forbidden #no #not #pedestrian #prohibited
+📵  NO MOBILE PHONES  #cell #forbidden #mobile #no #phone
+🔞  NO ONE UNDER EIGHTEEN SYMBOL  #18 #age restriction #eighteen #prohibited #underage
+☢️  RADIOACTIVE SIGN  #sign
+☣️  BIOHAZARD SIGN  #sign
+⬆️  UPWARDS BLACK ARROW  #arrow #cardinal #direction #north
+↗️  NORTH EAST ARROW  #arrow #direction #intercardinal #northeast
+➡️  BLACK RIGHTWARDS ARROW  #arrow #cardinal #direction #east
+↘️  SOUTH EAST ARROW  #arrow #direction #intercardinal #southeast
+⬇️  DOWNWARDS BLACK ARROW  #arrow #cardinal #direction #down #south
+↙️  SOUTH WEST ARROW  #arrow #direction #intercardinal #southwest
+⬅️  LEFTWARDS BLACK ARROW  #arrow #cardinal #direction #west
+↖️  NORTH WEST ARROW  #arrow #direction #intercardinal #northwest
+↕️  UP DOWN ARROW  #arrow
+↔️  LEFT RIGHT ARROW  #arrow
+↩️  LEFTWARDS ARROW WITH HOOK  #arrow
+↪️  RIGHTWARDS ARROW WITH HOOK  #arrow
+⤴️  ARROW POINTING RIGHTWARDS THEN CURVING UPWARDS  #arrow
+⤵️  ARROW POINTING RIGHTWARDS THEN CURVING DOWNWARDS  #arrow #down
+🔃  CLOCKWISE DOWNWARDS AND UPWARDS OPEN CIRCLE ARROWS  #arrow #clockwise #reload
+🔄  ANTICLOCKWISE DOWNWARDS AND UPWARDS OPEN CIRCLE ARROWS  #anticlockwise #arrow #counterclockwise #withershins
+🔙  BACK WITH LEFTWARDS ARROW ABOVE  #arrow #back #back arrow
+🔚  END WITH LEFTWARDS ARROW ABOVE  #arrow #end #end arrow
+🔛  ON WITH EXCLAMATION MARK WITH LEFT RIGHT ARROW ABOVE  #arrow #mark #on #on! arrow
+🔜  SOON WITH RIGHTWARDS ARROW ABOVE  #arrow #soon #soon arrow
+🔝  TOP WITH UPWARDS ARROW ABOVE  #arrow #top #top arrow #up
+🛐  PLACE OF WORSHIP  #religion #worship
+⚛️  ATOM SYMBOL  #atheist #atom
+🕉️  OM SYMBOL  #hindu #religion
+✡️  STAR OF DAVID  #david #jew #jewish #religion #star #star of david
+☸️  WHEEL OF DHARMA  #buddhist #dharma #religion #wheel
+☯️  YIN YANG  #religion #tao #taoist #yang #yin
+✝️  LATIN CROSS  #christian #cross #religion
+☦️  ORTHODOX CROSS  #christian #cross #religion
+☪️  STAR AND CRESCENT  #islam #muslim #religion
+☮️  PEACE SYMBOL  #peace
+🕎  MENORAH WITH NINE BRANCHES  #candelabrum #candlestick #religion
+🔯  SIX POINTED STAR WITH MIDDLE DOT  #fortune #star
+♈️  ARIES  #aries #ram #zodiac
+♉️  TAURUS  #bull #ox #taurus #zodiac
+♊️  GEMINI  #gemini #twins #zodiac
+♋️  CANCER  #cancer #crab #zodiac
+♌️  LEO  #leo #lion #zodiac
+♍️  VIRGO  #virgo #zodiac
+♎️  LIBRA  #balance #justice #libra #scales #zodiac
+♏️  SCORPIUS  #scorpio #scorpion #scorpius #zodiac
+♐️  SAGITTARIUS  #archer #sagittarius #zodiac
+♑️  CAPRICORN  #capricorn #goat #zodiac
+♒️  AQUARIUS  #aquarius #bearer #water #zodiac
+♓️  PISCES  #fish #pisces #zodiac
+⛎  OPHIUCHUS  #bearer #ophiuchus #serpent #snake #zodiac
+🔀  TWISTED RIGHTWARDS ARROWS  #arrow #crossed
+🔁  CLOCKWISE RIGHTWARDS AND LEFTWARDS OPEN CIRCLE ARROWS  #arrow #clockwise #repeat
+🔂  CLOCKWISE RIGHTWARDS AND LEFTWARDS OPEN CIRCLE ARROWS WITH CIRCLED ONE OVERLAY  #arrow #clockwise #once
+▶️  BLACK RIGHT-POINTING TRIANGLE  #arrow #play #right #triangle
+⏩️  BLACK RIGHT-POINTING DOUBLE TRIANGLE  #arrow #double #fast #forward
+⏭️  BLACK RIGHT-POINTING DOUBLE TRIANGLE WITH VERTICAL BAR  #arrow #next scene #next track #triangle
+⏯️  BLACK RIGHT-POINTING TRIANGLE WITH DOUBLE VERTICAL BAR  #arrow #pause #play #right #triangle
+◀️  BLACK LEFT-POINTING TRIANGLE  #arrow #left #reverse #triangle
+⏪️  BLACK LEFT-POINTING DOUBLE TRIANGLE  #arrow #double #rewind
+⏮️  BLACK LEFT-POINTING DOUBLE TRIANGLE WITH VERTICAL BAR  #arrow #previous scene #previous track #triangle
+🔼  UP-POINTING SMALL RED TRIANGLE  #arrow #button #red
+⏫  BLACK UP-POINTING DOUBLE TRIANGLE  #arrow #double
+🔽  DOWN-POINTING SMALL RED TRIANGLE  #arrow #button #down #red
+⏬  BLACK DOWN-POINTING DOUBLE TRIANGLE  #arrow #double #down
+⏸️  DOUBLE VERTICAL BAR  #bar #double #pause #vertical
+⏹️  BLACK SQUARE FOR STOP  #square #stop
+⏺️  BLACK CIRCLE FOR RECORD  #circle #record
+⏏️  EJECT SYMBOL  #eject
+🎦  CINEMA  #camera #film #movie
+🔅  LOW BRIGHTNESS SYMBOL  #brightness #dim #low
+🔆  HIGH BRIGHTNESS SYMBOL  #bright #brightness
+📶  ANTENNA WITH BARS  #antenna #bar #cell #mobile #phone
+📳  VIBRATION MODE  #cell #mobile #mode #phone #telephone #vibration
+📴  MOBILE PHONE OFF  #cell #mobile #off #phone #telephone
+♀️  FEMALE SIGN  #woman
+♂️  MALE SIGN  #man
+⚕️  STAFF OF AESCULAPIUS  #aesculapius #medicine #staff
+♾️  PERMANENT PAPER SIGN  #forever #unbounded #universal
+♻️  BLACK UNIVERSAL RECYCLING SYMBOL  #recycle
+⚜️  FLEUR-DE-LIS  #fleur-de-lis
+🔱  TRIDENT EMBLEM  #anchor #emblem #ship #tool #trident
+📛  NAME BADGE  #badge #name
+🔰  JAPANESE SYMBOL FOR BEGINNER  #beginner #chevron #japanese #japanese symbol for beginner #leaf
+⭕️  HEAVY LARGE CIRCLE  #circle #o
+✅  WHITE HEAVY CHECK MARK  #check #mark
+☑️  BALLOT BOX WITH CHECK  #ballot #box #check
+✔️  HEAVY CHECK MARK  #check #mark
+✖️  HEAVY MULTIPLICATION X  #cancel #multiplication #multiply #x
+❌  CROSS MARK  #cancel #mark #multiplication #multiply #x
+❎  NEGATIVE SQUARED CROSS MARK  #mark #square
+➕  HEAVY PLUS SIGN  #math #plus
+➖  HEAVY MINUS SIGN  #math #minus
+➗  HEAVY DIVISION SIGN  #division #math
+➰  CURLY LOOP  #curl #loop
+➿  DOUBLE CURLY LOOP  #curl #double #loop
+〽️  PART ALTERNATION MARK  #mark #part
+✳️  EIGHT SPOKED ASTERISK  #asterisk
+✴️  EIGHT POINTED BLACK STAR  #star
+❇️  SPARKLE  #sparkle
+‼️  DOUBLE EXCLAMATION MARK  #bangbang #exclamation #mark #punctuation
+⁉️  EXCLAMATION QUESTION MARK  #exclamation #interrobang #mark #punctuation #question
+❓️  BLACK QUESTION MARK ORNAMENT  #mark #punctuation #question
+❔  WHITE QUESTION MARK ORNAMENT  #mark #outlined #punctuation #question
+❕  WHITE EXCLAMATION MARK ORNAMENT  #exclamation #mark #outlined #punctuation
+❗️  HEAVY EXCLAMATION MARK SYMBOL  #exclamation #mark #punctuation
+〰️  WAVY DASH  #dash #punctuation #wavy
+©️  COPYRIGHT SIGN  #copyright
+®️  REGISTERED SIGN  #registered
+™️  TRADE MARK SIGN  #mark #tm #trademark
+#️⃣  NUMBER SIGN, COMBINING ENCLOSING KEYCAP  #keycap
+*️⃣  ASTERISK, COMBINING ENCLOSING KEYCAP  #keycap
+0️⃣  DIGIT ZERO, COMBINING ENCLOSING KEYCAP  #keycap
+1️⃣  DIGIT ONE, COMBINING ENCLOSING KEYCAP  #keycap
+2️⃣  DIGIT TWO, COMBINING ENCLOSING KEYCAP  #keycap
+3️⃣  DIGIT THREE, COMBINING ENCLOSING KEYCAP  #keycap
+4️⃣  DIGIT FOUR, COMBINING ENCLOSING KEYCAP  #keycap
+5️⃣  DIGIT FIVE, COMBINING ENCLOSING KEYCAP  #keycap
+6️⃣  DIGIT SIX, COMBINING ENCLOSING KEYCAP  #keycap
+7️⃣  DIGIT SEVEN, COMBINING ENCLOSING KEYCAP  #keycap
+8️⃣  DIGIT EIGHT, COMBINING ENCLOSING KEYCAP  #keycap
+9️⃣  DIGIT NINE, COMBINING ENCLOSING KEYCAP  #keycap
+🔟  KEYCAP TEN  #keycap
+💯  HUNDRED POINTS SYMBOL  #100 #full #hundred #score
+🔠  INPUT SYMBOL FOR LATIN CAPITAL LETTERS  #abcd #input #latin #letters #uppercase
+🔡  INPUT SYMBOL FOR LATIN SMALL LETTERS  #abcd #input #latin #letters #lowercase
+🔢  INPUT SYMBOL FOR NUMBERS  #1234 #input #numbers
+🔣  INPUT SYMBOL FOR SYMBOLS  #input #〒♪&%
+🔤  INPUT SYMBOL FOR LATIN LETTERS  #abc #alphabet #input #latin #letters
+🅰️  NEGATIVE SQUARED LATIN CAPITAL LETTER A  #a #a button (blood type) #blood type
+🆎  NEGATIVE SQUARED AB  #ab #ab button (blood type) #blood type
+🅱️  NEGATIVE SQUARED LATIN CAPITAL LETTER B  #b #b button (blood type) #blood type
+🆑  SQUARED CL  #cl #cl button
+🆒  SQUARED COOL  #cool #cool button
+🆓  SQUARED FREE  #free #free button
+ℹ️  INFORMATION SOURCE  #i
+🆔  SQUARED ID  #id #id button #identity
+Ⓜ️  CIRCLED LATIN CAPITAL LETTER M  #circle #circled m #m
+🆕  SQUARED NEW  #new #new button
+🆖  SQUARED NG  #ng #ng button
+🅾️  NEGATIVE SQUARED LATIN CAPITAL LETTER O  #blood type #o #o button (blood type)
+🆗  SQUARED OK  #ok #ok button
+🅿️  NEGATIVE SQUARED LATIN CAPITAL LETTER P  #p button #parking
+🆘  SQUARED SOS  #help #sos #sos button
+🆙  SQUARED UP WITH EXCLAMATION MARK  #mark #up #up! button
+🆚  SQUARED VS  #versus #vs #vs button
+🈁  SQUARED KATAKANA KOKO  #japanese #japanese “here” button #katakana #“here” #ココ
+🈂️  SQUARED KATAKANA SA  #japanese #japanese “service charge” button #katakana #“service charge” #サ
+🈷️  SQUARED CJK UNIFIED IDEOGRAPH-6708  #ideograph #japanese #japanese “monthly amount” button #“monthly amount” #月
+🈶  SQUARED CJK UNIFIED IDEOGRAPH-6709  #ideograph #japanese #japanese “not free of charge” button #“not free of charge” #有
+🈯️  SQUARED CJK UNIFIED IDEOGRAPH-6307  #ideograph #japanese #japanese “reserved” button #“reserved” #指
+🉐  CIRCLED IDEOGRAPH ADVANTAGE  #ideograph #japanese #japanese “bargain” button #“bargain” #得
+🈹  SQUARED CJK UNIFIED IDEOGRAPH-5272  #ideograph #japanese #japanese “discount” button #“discount” #割
+🈚️  SQUARED CJK UNIFIED IDEOGRAPH-7121  #ideograph #japanese #japanese “free of charge” button #“free of charge” #無
+🈲  SQUARED CJK UNIFIED IDEOGRAPH-7981  #ideograph #japanese #japanese “prohibited” button #“prohibited” #禁
+🉑  CIRCLED IDEOGRAPH ACCEPT  #ideograph #japanese #japanese “acceptable” button #“acceptable” #可
+🈸  SQUARED CJK UNIFIED IDEOGRAPH-7533  #ideograph #japanese #japanese “application” button #“application” #申
+🈴  SQUARED CJK UNIFIED IDEOGRAPH-5408  #ideograph #japanese #japanese “passing grade” button #“passing grade” #合
+🈳  SQUARED CJK UNIFIED IDEOGRAPH-7A7A  #ideograph #japanese #japanese “vacancy” button #“vacancy” #空
+㊗️  CIRCLED IDEOGRAPH CONGRATULATION  #ideograph #japanese #japanese “congratulations” button #“congratulations” #祝
+㊙️  CIRCLED IDEOGRAPH SECRET  #ideograph #japanese #japanese “secret” button #“secret” #秘
+🈺  SQUARED CJK UNIFIED IDEOGRAPH-55B6  #ideograph #japanese #japanese “open for business” button #“open for business” #営
+🈵  SQUARED CJK UNIFIED IDEOGRAPH-6E80  #ideograph #japanese #japanese “no vacancy” button #“no vacancy” #満
+▪️  BLACK SMALL SQUARE  #geometric #square
+▫️  WHITE SMALL SQUARE  #geometric #square
+◻️  WHITE MEDIUM SQUARE  #geometric #square
+◼️  BLACK MEDIUM SQUARE  #geometric #square
+◽️  WHITE MEDIUM SMALL SQUARE  #geometric #square
+◾️  BLACK MEDIUM SMALL SQUARE  #geometric #square
+⬛️  BLACK LARGE SQUARE  #geometric #square
+⬜️  WHITE LARGE SQUARE  #geometric #square
+🔶  LARGE ORANGE DIAMOND  #diamond #geometric #orange
+🔷  LARGE BLUE DIAMOND  #blue #diamond #geometric
+🔸  SMALL ORANGE DIAMOND  #diamond #geometric #orange
+🔹  SMALL BLUE DIAMOND  #blue #diamond #geometric
+🔺  UP-POINTING RED TRIANGLE  #geometric #red
+🔻  DOWN-POINTING RED TRIANGLE  #down #geometric #red
+💠  DIAMOND SHAPE WITH A DOT INSIDE  #comic #diamond #geometric #inside
+🔘  RADIO BUTTON  #button #geometric #radio
+🔲  BLACK SQUARE BUTTON  #button #geometric #square
+🔳  WHITE SQUARE BUTTON  #button #geometric #outlined #square
+⚪️  MEDIUM WHITE CIRCLE  #circle #geometric
+⚫️  MEDIUM BLACK CIRCLE  #circle #geometric
+🔴  LARGE RED CIRCLE  #circle #geometric #red
+🔵  LARGE BLUE CIRCLE  #blue #circle #geometric
+🏁  CHEQUERED FLAG  #checkered #chequered #racing
+🚩  TRIANGULAR FLAG ON POST  #post
+🎌  CROSSED FLAGS  #celebration #cross #crossed #japanese
+🏴  WAVING BLACK FLAG  #waving
+🏳️  WAVING WHITE FLAG  #waving
+🏳️‍🌈  WAVING WHITE FLAG, RAINBOW  #rainbow
+🏴‍☠️  WAVING BLACK FLAG, SKULL AND CROSSBONES  #jolly roger #pirate #plunder #treasure
+🇦🇨  ASCENSION ISLAND  #AC #flag
+🇦🇩  ANDORRA  #AD #flag
+🇦🇪  UNITED ARAB EMIRATES  #AE #flag
+🇦🇫  AFGHANISTAN  #AF #flag
+🇦🇬  ANTIGUA & BARBUDA  #AG #flag
+🇦🇮  ANGUILLA  #AI #flag
+🇦🇱  ALBANIA  #AL #flag
+🇦🇲  ARMENIA  #AM #flag
+🇦🇴  ANGOLA  #AO #flag
+🇦🇶  ANTARCTICA  #AQ #flag
+🇦🇷  ARGENTINA  #AR #flag
+🇦🇸  AMERICAN SAMOA  #AS #flag
+🇦🇹  AUSTRIA  #AT #flag
+🇦🇺  AUSTRALIA  #AU #flag
+🇦🇼  ARUBA  #AW #flag
+🇦🇽  ÅLAND ISLANDS  #AX #flag
+🇦🇿  AZERBAIJAN  #AZ #flag
+🇧🇦  BOSNIA & HERZEGOVINA  #BA #flag
+🇧🇧  BARBADOS  #BB #flag
+🇧🇩  BANGLADESH  #BD #flag
+🇧🇪  BELGIUM  #BE #flag
+🇧🇫  BURKINA FASO  #BF #flag
+🇧🇬  BULGARIA  #BG #flag
+🇧🇭  BAHRAIN  #BH #flag
+🇧🇮  BURUNDI  #BI #flag
+🇧🇯  BENIN  #BJ #flag
+🇧🇱  ST. BARTHÉLEMY  #BL #flag
+🇧🇲  BERMUDA  #BM #flag
+🇧🇳  BRUNEI  #BN #flag
+🇧🇴  BOLIVIA  #BO #flag
+🇧🇶  CARIBBEAN NETHERLANDS  #BQ #flag
+🇧🇷  BRAZIL  #BR #flag
+🇧🇸  BAHAMAS  #BS #flag
+🇧🇹  BHUTAN  #BT #flag
+🇧🇻  BOUVET ISLAND  #BV #flag
+🇧🇼  BOTSWANA  #BW #flag
+🇧🇾  BELARUS  #BY #flag
+🇧🇿  BELIZE  #BZ #flag
+🇨🇦  CANADA  #CA #flag
+🇨🇨  COCOS (KEELING) ISLANDS  #CC #flag
+🇨🇩  CONGO - KINSHASA  #CD #flag
+🇨🇫  CENTRAL AFRICAN REPUBLIC  #CF #flag
+🇨🇬  CONGO - BRAZZAVILLE  #CG #flag
+🇨🇭  SWITZERLAND  #CH #flag
+🇨🇮  CÔTE D’IVOIRE  #CI #flag
+🇨🇰  COOK ISLANDS  #CK #flag
+🇨🇱  CHILE  #CL #flag
+🇨🇲  CAMEROON  #CM #flag
+🇨🇳  CHINA  #CN #flag
+🇨🇴  COLOMBIA  #CO #flag
+🇨🇵  CLIPPERTON ISLAND  #CP #flag
+🇨🇷  COSTA RICA  #CR #flag
+🇨🇺  CUBA  #CU #flag
+🇨🇻  CAPE VERDE  #CV #flag
+🇨🇼  CURAÇAO  #CW #flag
+🇨🇽  CHRISTMAS ISLAND  #CX #flag
+🇨🇾  CYPRUS  #CY #flag
+🇨🇿  CZECHIA  #CZ #flag
+🇩🇪  GERMANY  #DE #flag
+🇩🇬  DIEGO GARCIA  #DG #flag
+🇩🇯  DJIBOUTI  #DJ #flag
+🇩🇰  DENMARK  #DK #flag
+🇩🇲  DOMINICA  #DM #flag
+🇩🇴  DOMINICAN REPUBLIC  #DO #flag
+🇩🇿  ALGERIA  #DZ #flag
+🇪🇦  CEUTA & MELILLA  #EA #flag
+🇪🇨  ECUADOR  #EC #flag
+🇪🇪  ESTONIA  #EE #flag
+🇪🇬  EGYPT  #EG #flag
+🇪🇭  WESTERN SAHARA  #EH #flag
+🇪🇷  ERITREA  #ER #flag
+🇪🇸  SPAIN  #ES #flag
+🇪🇹  ETHIOPIA  #ET #flag
+🇪🇺  EUROPEAN UNION  #EU #flag
+🇫🇮  FINLAND  #FI #flag
+🇫🇯  FIJI  #FJ #flag
+🇫🇰  FALKLAND ISLANDS  #FK #flag
+🇫🇲  MICRONESIA  #FM #flag
+🇫🇴  FAROE ISLANDS  #FO #flag
+🇫🇷  FRANCE  #FR #flag
+🇬🇦  GABON  #GA #flag
+🇬🇧  UNITED KINGDOM  #GB #flag
+🇬🇩  GRENADA  #GD #flag
+🇬🇪  GEORGIA  #GE #flag
+🇬🇫  FRENCH GUIANA  #GF #flag
+🇬🇬  GUERNSEY  #GG #flag
+🇬🇭  GHANA  #GH #flag
+🇬🇮  GIBRALTAR  #GI #flag
+🇬🇱  GREENLAND  #GL #flag
+🇬🇲  GAMBIA  #GM #flag
+🇬🇳  GUINEA  #GN #flag
+🇬🇵  GUADELOUPE  #GP #flag
+🇬🇶  EQUATORIAL GUINEA  #GQ #flag
+🇬🇷  GREECE  #GR #flag
+🇬🇸  SOUTH GEORGIA & SOUTH SANDWICH ISLANDS  #GS #flag
+🇬🇹  GUATEMALA  #GT #flag
+🇬🇺  GUAM  #GU #flag
+🇬🇼  GUINEA-BISSAU  #GW #flag
+🇬🇾  GUYANA  #GY #flag
+🇭🇰  HONG KONG SAR CHINA  #HK #flag
+🇭🇲  HEARD & MCDONALD ISLANDS  #HM #flag
+🇭🇳  HONDURAS  #HN #flag
+🇭🇷  CROATIA  #HR #flag
+🇭🇹  HAITI  #HT #flag
+🇭🇺  HUNGARY  #HU #flag
+🇮🇨  CANARY ISLANDS  #IC #flag
+🇮🇩  INDONESIA  #ID #flag
+🇮🇪  IRELAND  #IE #flag
+🇮🇱  ISRAEL  #IL #flag
+🇮🇲  ISLE OF MAN  #IM #flag
+🇮🇳  INDIA  #IN #flag
+🇮🇴  BRITISH INDIAN OCEAN TERRITORY  #IO #flag
+🇮🇶  IRAQ  #IQ #flag
+🇮🇷  IRAN  #IR #flag
+🇮🇸  ICELAND  #IS #flag
+🇮🇹  ITALY  #IT #flag
+🇯🇪  JERSEY  #JE #flag
+🇯🇲  JAMAICA  #JM #flag
+🇯🇴  JORDAN  #JO #flag
+🇯🇵  JAPAN  #JP #flag
+🇰🇪  KENYA  #KE #flag
+🇰🇬  KYRGYZSTAN  #KG #flag
+🇰🇭  CAMBODIA  #KH #flag
+🇰🇮  KIRIBATI  #KI #flag
+🇰🇲  COMOROS  #KM #flag
+🇰🇳  ST. KITTS & NEVIS  #KN #flag
+🇰🇵  NORTH KOREA  #KP #flag
+🇰🇷  SOUTH KOREA  #KR #flag
+🇰🇼  KUWAIT  #KW #flag
+🇰🇾  CAYMAN ISLANDS  #KY #flag
+🇰🇿  KAZAKHSTAN  #KZ #flag
+🇱🇦  LAOS  #LA #flag
+🇱🇧  LEBANON  #LB #flag
+🇱🇨  ST. LUCIA  #LC #flag
+🇱🇮  LIECHTENSTEIN  #LI #flag
+🇱🇰  SRI LANKA  #LK #flag
+🇱🇷  LIBERIA  #LR #flag
+🇱🇸  LESOTHO  #LS #flag
+🇱🇹  LITHUANIA  #LT #flag
+🇱🇺  LUXEMBOURG  #LU #flag
+🇱🇻  LATVIA  #LV #flag
+🇱🇾  LIBYA  #LY #flag
+🇲🇦  MOROCCO  #MA #flag
+🇲🇨  MONACO  #MC #flag
+🇲🇩  MOLDOVA  #MD #flag
+🇲🇪  MONTENEGRO  #ME #flag
+🇲🇫  ST. MARTIN  #MF #flag
+🇲🇬  MADAGASCAR  #MG #flag
+🇲🇭  MARSHALL ISLANDS  #MH #flag
+🇲🇰  MACEDONIA  #MK #flag
+🇲🇱  MALI  #ML #flag
+🇲🇲  MYANMAR (BURMA)  #MM #flag
+🇲🇳  MONGOLIA  #MN #flag
+🇲🇴  MACAU SAR CHINA  #MO #flag
+🇲🇵  NORTHERN MARIANA ISLANDS  #MP #flag
+🇲🇶  MARTINIQUE  #MQ #flag
+🇲🇷  MAURITANIA  #MR #flag
+🇲🇸  MONTSERRAT  #MS #flag
+🇲🇹  MALTA  #MT #flag
+🇲🇺  MAURITIUS  #MU #flag
+🇲🇻  MALDIVES  #MV #flag
+🇲🇼  MALAWI  #MW #flag
+🇲🇽  MEXICO  #MX #flag
+🇲🇾  MALAYSIA  #MY #flag
+🇲🇿  MOZAMBIQUE  #MZ #flag
+🇳🇦  NAMIBIA  #NA #flag
+🇳🇨  NEW CALEDONIA  #NC #flag
+🇳🇪  NIGER  #NE #flag
+🇳🇫  NORFOLK ISLAND  #NF #flag
+🇳🇬  NIGERIA  #NG #flag
+🇳🇮  NICARAGUA  #NI #flag
+🇳🇱  NETHERLANDS  #NL #flag
+🇳🇴  NORWAY  #NO #flag
+🇳🇵  NEPAL  #NP #flag
+🇳🇷  NAURU  #NR #flag
+🇳🇺  NIUE  #NU #flag
+🇳🇿  NEW ZEALAND  #NZ #flag
+🇴🇲  OMAN  #OM #flag
+🇵🇦  PANAMA  #PA #flag
+🇵🇪  PERU  #PE #flag
+🇵🇫  FRENCH POLYNESIA  #PF #flag
+🇵🇬  PAPUA NEW GUINEA  #PG #flag
+🇵🇭  PHILIPPINES  #PH #flag
+🇵🇰  PAKISTAN  #PK #flag
+🇵🇱  POLAND  #PL #flag
+🇵🇲  ST. PIERRE & MIQUELON  #PM #flag
+🇵🇳  PITCAIRN ISLANDS  #PN #flag
+🇵🇷  PUERTO RICO  #PR #flag
+🇵🇸  PALESTINIAN TERRITORIES  #PS #flag
+🇵🇹  PORTUGAL  #PT #flag
+🇵🇼  PALAU  #PW #flag
+🇵🇾  PARAGUAY  #PY #flag
+🇶🇦  QATAR  #QA #flag
+🇷🇪  RÉUNION  #RE #flag
+🇷🇴  ROMANIA  #RO #flag
+🇷🇸  SERBIA  #RS #flag
+🇷🇺  RUSSIA  #RU #flag
+🇷🇼  RWANDA  #RW #flag
+🇸🇦  SAUDI ARABIA  #SA #flag
+🇸🇧  SOLOMON ISLANDS  #SB #flag
+🇸🇨  SEYCHELLES  #SC #flag
+🇸🇩  SUDAN  #SD #flag
+🇸🇪  SWEDEN  #SE #flag
+🇸🇬  SINGAPORE  #SG #flag
+🇸🇭  ST. HELENA  #SH #flag
+🇸🇮  SLOVENIA  #SI #flag
+🇸🇯  SVALBARD & JAN MAYEN  #SJ #flag
+🇸🇰  SLOVAKIA  #SK #flag
+🇸🇱  SIERRA LEONE  #SL #flag
+🇸🇲  SAN MARINO  #SM #flag
+🇸🇳  SENEGAL  #SN #flag
+🇸🇴  SOMALIA  #SO #flag
+🇸🇷  SURINAME  #SR #flag
+🇸🇸  SOUTH SUDAN  #SS #flag
+🇸🇹  SÃO TOMÉ & PRÍNCIPE  #ST #flag
+🇸🇻  EL SALVADOR  #SV #flag
+🇸🇽  SINT MAARTEN  #SX #flag
+🇸🇾  SYRIA  #SY #flag
+🇸🇿  SWAZILAND  #SZ #flag
+🇹🇦  TRISTAN DA CUNHA  #TA #flag
+🇹🇨  TURKS & CAICOS ISLANDS  #TC #flag
+🇹🇩  CHAD  #TD #flag
+🇹🇫  FRENCH SOUTHERN TERRITORIES  #TF #flag
+🇹🇬  TOGO  #TG #flag
+🇹🇭  THAILAND  #TH #flag
+🇹🇯  TAJIKISTAN  #TJ #flag
+🇹🇰  TOKELAU  #TK #flag
+🇹🇱  TIMOR-LESTE  #TL #flag
+🇹🇲  TURKMENISTAN  #TM #flag
+🇹🇳  TUNISIA  #TN #flag
+🇹🇴  TONGA  #TO #flag
+🇹🇷  TURKEY  #TR #flag
+🇹🇹  TRINIDAD & TOBAGO  #TT #flag
+🇹🇻  TUVALU  #TV #flag
+🇹🇼  TAIWAN  #TW #flag
+🇹🇿  TANZANIA  #TZ #flag
+🇺🇦  UKRAINE  #UA #flag
+🇺🇬  UGANDA  #UG #flag
+🇺🇲  U.S. OUTLYING ISLANDS  #UM #flag
+🇺🇳  UNITED NATIONS  #UN #flag
+🇺🇸  UNITED STATES  #US #flag
+🇺🇾  URUGUAY  #UY #flag
+🇺🇿  UZBEKISTAN  #UZ #flag
+🇻🇦  VATICAN CITY  #VA #flag
+🇻🇨  ST. VINCENT & GRENADINES  #VC #flag
+🇻🇪  VENEZUELA  #VE #flag
+🇻🇬  BRITISH VIRGIN ISLANDS  #VG #flag
+🇻🇮  U.S. VIRGIN ISLANDS  #VI #flag
+🇻🇳  VIETNAM  #VN #flag
+🇻🇺  VANUATU  #VU #flag
+🇼🇫  WALLIS & FUTUNA  #WF #flag
+🇼🇸  SAMOA  #WS #flag
+🇽🇰  KOSOVO  #XK #flag
+🇾🇪  YEMEN  #YE #flag
+🇾🇹  MAYOTTE  #YT #flag
+🇿🇦  SOUTH AFRICA  #ZA #flag
+🇿🇲  ZAMBIA  #ZM #flag
+🇿🇼  ZIMBABWE  #ZW #flag
+🏴󠁧󠁢󠁥󠁮󠁧󠁿  ENGLAND  #flag #gbeng
+🏴󠁧󠁢󠁳󠁣󠁴󠁿  SCOTLAND  #flag #gbsct
+🏴󠁧󠁢󠁷󠁬󠁳󠁿  WALES  #flag #gbwls

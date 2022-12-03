@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+# Uses xwinwrap to display animated .gif on the root window
+# Dependencies:
+#	- gifsicle
+#	- xwinwrap
+
+if [ $# -ne 1 ] || [ ! -f "$1" ]; then
+		printf "\n\tUsage: \n\n\t%s image.gif\n\n" "$(basename "$0")" 1>&2
+    exit 1
+fi
+
+# get screen resolution
+if command -v xwininfo >/dev/null; then
+	read -r SCRW SCRH <<< "$(xwininfo -root | awk -F':' '/Width|Height/ {printf $2}')"
+elif command -v xrandr >/dev/null; then
+	SCRW=$(xrandr | awk '/current/ { print $8 }')
+	SCRH=$(xrandr | awk '/current/ { print $10 }')
+	SCRH=${SCRH%\,}
+fi
+
+# get gif resolution
+IMGWH=$(gifsicle --info "$1" | awk '/logical/ { print $3 }')
+IMGW=${IMGWH%x*}
+IMGH=${IMGWH#*x}
+
+# calculate position
+POSW=$(((SCRW/2)-(IMGW/2)))
+POSH=$(((SCRH/2)-(IMGH/2)))
+
+# Set background for small gifs with extcol script:
+if [ ! "$IMGWH" = "${SCRW}x${SCRH}" ]; then
+	( bg="$(gifextcol "$1" "$IMGW" "$SCRW")" && hsetroot -solid "$bg") &
+fi
+# Display gif
+xwinwrap -g ${IMGWH}+${POSW}+${POSH} -ov -ni -s -nf -- gifview --memory-limit 200 -w WID $1 -a --no-interactive
+
+exit 0

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# Used in my w3m config
+
+# copy to clipboard
+printf "%s" "$1" | xclip -sel c

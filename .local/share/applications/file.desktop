@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=lf
+MimeType=inode/directory;application/x-gnome-saved-search;
+Terminal=true
+NoDisplay=true
+Exec=lf %U

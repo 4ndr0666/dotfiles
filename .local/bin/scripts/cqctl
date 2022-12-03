@@ -1,0 +1,43 @@
+#!/bin/sh
+
+# Script which controls copyq and resets its geometry,
+# useful when switching between different monitor setups.
+
+quit() {
+	pgrep copyq >/dev/null && copyq exit
+}
+
+start() {
+	setsid -f copyq && clipctl disable
+}
+
+toggle() {
+	if quit; then
+		clipctl enable
+	else
+		reset
+		start
+	fi
+}
+
+reset() {
+	rm $HOME/.config/copyq/copyq_geometry.ini 2>/dev/null
+}
+
+fixgeom() {
+	quit
+	reset
+	start
+}
+
+if [ -z $1 ]; then
+	fixgeom
+elif [ "$1" = "magic" ]; then
+	quit && (reset; start)
+elif [ "$1" = "toggle" ]; then
+	reset; toggle
+else
+	printf "Unrecognised argument: %s\n" "$1"
+fi
+
+exit 0

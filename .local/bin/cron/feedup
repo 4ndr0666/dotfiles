@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Set as a cron job to check for new RSS entries for newsboat.
+
+ping -q -c 1 example.org >/dev/null || exit
+
+newsboat -x reload

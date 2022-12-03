@@ -1,0 +1,18 @@
+#!/bin/sh
+
+## Little script to open a directory of images in sxiv in random order
+## Usage: `wp [ wallpapers_subdir ] [ number of images ]`
+
+main() {
+	subdir=$1
+	if [ "$subdir" = "4k" ] || [ "$subdir" = "fav" ]; then
+		opts="-t l" # symlinks are needed for 4k and favorites folders
+	else
+		opts="-t f"
+	fi
+	topdir=~/pics/papes
+	[ -n "$2" ] && count="-n $2"
+	fd -e png -e jpg -e jpeg -e gifv -e gif -e tif -e tiff --search-path $topdir/$subdir $opts | shuf $count | sxiv -ba -
+}
+
+main "$@"

@@ -1,0 +1,55 @@
+#!/bin/sh
+
+# Francesco Minnocci 2020
+#
+# A smart script change your brightness
+# Dependencies: dmenu, dunst [optional]
+
+
+# NOTE:	use the commented lines to automatically set the
+#				parameters with fd [or find, but it'll be slower]
+#				However, it's much faster to use the specific
+#				brightness file and ratio, once you know them.
+
+# Set variables
+def=60
+defu=80
+defd=20
+msgId="981141"
+basepath=/sys/class/backlight
+# max_file="$(fd max_brightness $basepath/*)"
+# brdir=$(dirname $max_file)
+# ratio=$(($(cat $max_file)/100))
+brdir=$basepath/intel_backlight
+ratio=75
+current=$(($(cat $brdir/brightness)/$ratio))
+
+
+# Handle arguments
+case "$1" in
+	inc*) # increase
+		valnorm="$((current+$2))" ;;
+	dec*) # decrease
+		valnorm="$((current-$2))" ;;
+	u*) # up
+		valnorm="$(dmenu -p 'Input brightness [default: 80%]' )"
+		[ -n "$valnorm" ] || valnorm="$defu" ;;
+	d*) # down
+		valnorm="$(dmenu -p 'Input brightness [default: 20%]' )"
+		[ -n "$valnorm" ] || valnorm="$defd" ;;
+	set)
+		valnorm="$2 ";;
+	*)
+		valnorm="$def" ;;
+esac
+
+# Set brightness value
+val="$((valnorm*$ratio))"
+echo $val | sudo tee /sys/class/backlight/intel_backlight/brightness
+
+# Notify
+if command -v dunst >/dev/null; then
+	new=$(($(cat /sys/class/backlight/intel_backlight/brightness)/$ratio))
+	dunstify -a "changeBrightness" -u low -i display-brightness -r "$msgId" \
+	"Brightness: ${new}%"
+fi

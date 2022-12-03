@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# comp=xcompmgr
+comp=picom
+[ "$comp" = "xcompmgr" ] && opts="-cCf -D3 -t-5 -l-5 -r5 -o.50"
+
+[ "$1" = "-y" ] && setsid -f $comp $opts && exit 0
+
+if pgrep $comp >/dev/null 2>&1; then
+		echo "Turning $comp OFF"
+		pkill $comp
+else
+		echo "Turning $comp ON"
+		setsid -f $comp $opts
+fi
+
+exit 0

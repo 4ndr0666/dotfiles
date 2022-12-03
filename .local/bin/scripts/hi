@@ -1,0 +1,30 @@
+#!/bin/zsh
+
+# Browse chrome history with fzf
+# Credits:
+	# https://junegunn.kr/2015/04/browsing-chrome-history-with-fzf/
+	# https://github.com/junegunn/fzf/wiki/examples#browsing-history
+
+local cols sep temp_hist opts
+
+cols=$(( COLUMNS / 3 ))
+sep='{::}'
+temp_hist="$(mktemp -u /tmp/histbkp.XXXXXX)"
+[ "$1" = popup ] && opts="--height=100%"
+
+command cp -f "$HOME"/.config/chromium/Default/History "$temp_hist"
+
+# for plain text:
+#	sqlite3 -separator "$sep" "$temp_hist" "select url from urls order by last_visit_time desc"
+
+sqlite3 -separator "$sep" "$temp_hist"							\
+	"select substr(title, 1, $cols), url from urls order by last_visit_time desc"	|
+	awk -F "$sep" '{printf "%-'$cols's  \x1b[36m%s\x1b[m\n", $1, $2}'		|
+	fzf --bind "=:execute%echo {} | sed 's#.*\(https*://\)#\1#'			\
+	| xclip -r -sel c %" --ansi --multi						\
+	--preview " echo {-1} | xargs  readable -q | w3mwrap -T text/html"			\
+	--preview-window=right:35% $opts						|
+	sed 's#.*\(https*://\)#\1#'							|
+	setsid -f xargs -r $BROWSER >/dev/null
+
+rm -f "$temp_hist"

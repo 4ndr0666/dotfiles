@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if pidof qbittorrent >/dev/null ; then
+	[ "$(printf "No\\nYes" | dmenu -i -p "Turn off qBittorrent?")" = "Yes" ] && kill -TERM "$(pidof qbittorrent)" && notify-send "qBittorrent disabled."
+else
+	[ "$(printf "No\\nYes" | dmenu -i -p "Turn on qBittorent?")" = "Yes" ] && setsid -f qbittorrent && notify-send "Starting qBittorrent..."
+fi
+pkill -RTMIN+7 dwmblocks

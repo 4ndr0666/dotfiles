@@ -1,0 +1,17 @@
+#!/bin/sh
+#
+# http://github.com/mitchweaver/bin
+#
+# toggle a file's executable / non-executable flag
+
+for f; do
+    if [ -f "$f" ] ; then
+        if [ -x "$f" ] ; then
+            chmod -x "$f"
+        else
+            chmod +x "$f"
+        fi
+    else
+        >&2 printf 'Error: %s does not exist.\n' "$f"
+    fi
+done

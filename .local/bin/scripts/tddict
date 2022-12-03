@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# Simple wrapper around st2dict by Ali Gholami Rudi.
+
+if [ -z "$1" ]; then
+	printf "Usage: \n\tsd2td Dictionary(withouth extension)\n" >&2
+	return 1
+fi
+
+zcat -f $1.dict.dz |
+	sd2td $1.idx |
+	tds >$1.td
+	tdi <$1.td >$1.ti
+	printf "Remember to update tdq.c [!]\n"
