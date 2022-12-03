@@ -1,0 +1,4 @@
+# style name or JSON path (default "auto")
+style: "/home/fra/.config/glow/gruvbox-elkowar.json"
+# show local files only; no network (TUI-mode only)
+local: true

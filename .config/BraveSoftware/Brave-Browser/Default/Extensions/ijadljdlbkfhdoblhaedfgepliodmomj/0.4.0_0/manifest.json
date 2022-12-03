@@ -1,0 +1,30 @@
+{
+   "action": {
+      "default_popup": "data/popup/index.html"
+   },
+   "background": {
+      "service_worker": "worker.js"
+   },
+   "commands": {
+      "_execute_action": {
+      }
+   },
+   "default_locale": "en",
+   "description": "__MSG_appDesc__",
+   "homepage_url": "https://add0n.com/privacy-settings.html",
+   "icons": {
+      "128": "data/icons/128.png",
+      "16": "data/icons/16.png",
+      "256": "data/icons/256.png",
+      "32": "data/icons/32.png",
+      "48": "data/icons/48.png",
+      "512": "data/icons/512.png",
+      "64": "data/icons/64.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiYnUSYkiTgrxzjm1n6sGT4ogLx9VhWn+W1ytXPB/LQuWB3euUFlEGfSrthD8cmKMpq20gEE4DD2pbIKM0wA9rALHyKw6/aML/KJjIx7j7aAimuWPA53ThtTR7bVl5OwpVbHWMwTQcREgNPN+4r1jaVO5t4Uy9XcBRNN7jMuUKhwzhzoWck8scswdOmAy6YlUAm0RuU3UilexMftQvIauzDUaZ+qm5tGqp2t8hQCL8/EfYhoD+crklf+XWLJKK9DiGWXDaFBCxF+uzXM8sHJz3CO+kh+s/2en8jNEYwVd0Y/5QzFNX2ksKbmlzQ8EjFDLwIlgs7qkgAPXe4ZOXA+0xQIDAQAB",
+   "manifest_version": 3,
+   "name": "__MSG_appName__",
+   "permissions": [ "privacy", "storage", "contextMenus" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "0.4.0"
+}

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html;
+      charset=windows-1252">
+    <style>
+        button {
+          height: 20px;
+          width: 20px;
+          outline: none;
+          margin: 10px;
+        }
+        /* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(20px);
+  -ms-transform: translateX(20px);
+  transform: translateX(20px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 24px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+div {align: center
+}
+
+tr {height: 20px}
+
+td.control {width: 30px}
+ 
+td.desc {width: 200px}
+
+#box {
+   background-color:#f2f2f2;
+   width: 300px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+
+    box-shadow: 0px 1px 4px #898984;
+}  
+        </style>
+    <title></title>
+  </head>
+  <body>
+    <!-- Rounded switch -->
+    <div align="center">
+      <table>
+        <tbody>
+          <tr>
+            <td class="desc">
+              <div>
+                <p>Show keyboard shortcuts</p>
+              </div>
+            </td>
+            <td class="control"><label class="switch"> <input
+                  id="shortcuts" checked="checked" type="checkbox"> <span
+                  class="slider round"></span> </label></td>
+          </tr>
+          <tr>
+            <td class="desc">
+              <p>Expand 'Settings'</p>
+            </td>
+            <td class="control"><label class="switch"> <input
+                  id="settings" checked="checked" type="checkbox"> <span
+                  class="slider round"></span> </label></td>
+          </tr>
+          <tr>
+            <td class="desc">
+              <p>Expand 'Developer Tools'</p>
+            </td>
+            <td class="control"><label class="switch"> <input
+                  id="devtools" checked="checked" type="checkbox"> <span
+                  class="slider round"></span> </label></td>
+          </tr>
+          <tr>
+            <td class="desc">
+              <p>Expand 'About Chrome'</p>
+            </td>
+            <td class="control"><label class="switch"> <input
+                  id="about" checked="checked" type="checkbox"> <span
+                  class="slider round"></span> </label></td>
+          </tr>
+          <tr>
+            <td class="desc">
+              <p>Show review link</p>
+            </td>
+            <td class="control"><label class="switch"> <input
+                  id="review" checked="checked" type="checkbox"> <span
+                  class="slider round"></span> </label></td>
+          </tr>
+        </tbody>
+      </table>
+      <p>Icons made by <a class="two" href="http://www.freepik.com"
+          target="_blank">Freepik</a> from <a class="two"
+          href="http://www.flaticon.com" target="_blank">www.flaticon.com</a>
+        <br>
+        licensed by <img valign="bottom" src="cc.png" width="12"
+          height="12"> <a class="two"
+          href="http://creativecommons.org/licenses/by/3.0/"
+          title="Creative Commons BY 3.0" target="_blank">3.0 BY</a>.
+        Chrome is a trademark of Google Inc. All others © 2022 <a
+          href="https://sites.google.com/view/mydknyght/home"
+          class="two" target="_blank">Mydknyght</a>.</p>
+    </div>
+    <script src="options.js"></script>
+  </body>
+</html>

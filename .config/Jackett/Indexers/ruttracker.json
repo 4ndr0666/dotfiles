@@ -1,0 +1,68 @@
+[
+  {
+    "id": "sitelink",
+    "type": "inputstring",
+    "name": "Site Link",
+    "value": "https://rutracker.net/"
+  },
+  {
+    "id": "striprussianletters",
+    "type": "inputbool",
+    "name": "Strip Russian Letters",
+    "value": false
+  },
+  {
+    "id": "movefirsttagstoendofreleasetitle",
+    "type": "inputbool",
+    "name": "Move first tags to end of release title",
+    "value": false
+  },
+  {
+    "id": "movealltagstoendofreleasetitle",
+    "type": "inputbool",
+    "name": "Move all tags to end of release title",
+    "value": false
+  },
+  {
+    "id": "username",
+    "type": "inputstring",
+    "name": "Username",
+    "value": "BachoSeven"
+  },
+  {
+    "id": "password",
+    "type": "inputstring",
+    "name": "Password",
+    "value": "CfDJ8GYoP8DOc3VNodrcST7v83uEHkSUGQJiLcGEdDGpJf7ZM7GVZ10XJvgjJip8GGHC7cWlhcJm4c2weYrrgePYq_mRqQHnYs_NwpKXW9uc24qCarssPl2ZLbdbeasdLkOt4w"
+  },
+  {
+    "id": "captchatext",
+    "type": "inputstring",
+    "name": "Captcha Text",
+    "value": ""
+  },
+  {
+    "id": "captchacookie",
+    "type": "hiddendata",
+    "name": "Captcha Cookie",
+    "value": null
+  },
+  {
+    "id": "cookieheader",
+    "type": "hiddendata",
+    "name": "CookieHeader",
+    "value": "bb_ssl=1; bb_session=0-45101380-XBoKKZFtR7yhRZOttpXn"
+  },
+  {
+    "id": "lasterror",
+    "type": "hiddendata",
+    "name": "LastError",
+    "value": null
+  },
+  {
+    "id": "tags",
+    "type": "inputtags",
+    "name": "Tags",
+    "value": ""
+  }
+]

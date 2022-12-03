@@ -1,0 +1,1568 @@
+{
+   "account_verified_header": {
+      "message": "Konto bekræftet"
+   },
+   "account_verified_hint": {
+      "message": "Denne enhed er nu autoriseret til at bruge ExpressVPN Keys."
+   },
+   "account_verified_text_p1": {
+      "message": "Du kan nu lukke denne fane og åbne udvidelsen for at se dine logins, eller begynde at browse og autofylde dine logins."
+   },
+   "account_verified_text_p2": {
+      "message": "Hvis du har spørgsmål, bedes du [kontakte support]."
+   },
+   "add_logins_back": {
+      "message": "Tilføj login for %HOST%"
+   },
+   "add_logins_choose_website_header": {
+      "message": "Vælg et websted for at begynde"
+   },
+   "add_logins_choose_website_text": {
+      "message": "Kan du ikke finde et websted, du vil tilføje et login til? Klik på udvidelsesikonet og begynd at tilføje logins der."
+   },
+   "add_logins_header": {
+      "message": "Tilføj din første adgangskode"
+   },
+   "add_logins_open_website": {
+      "message": "Åben %HOST%"
+   },
+   "add_logins_step1": {
+      "message": "Åben %HOST%\n\n"
+   },
+   "add_logins_step2": {
+      "message": "Hvis du er logget ind på din konto, skal du logge ud."
+   },
+   "add_logins_step3": {
+      "message": "Log ind igen ved at indtaste dit brugernavn og adgangskode."
+   },
+   "add_logins_step4": {
+      "message": "Klik på '\u003Cb>Gem\u003C/b>', når ExpressVPN-prompten vises for at gemme dine loginoplysninger."
+   },
+   "add_logins_text_p1": {
+      "message": "Vælg en populær hjemmeside fra højre, så viser vi dig, hvordan du tilføjer din første adgangskode."
+   },
+   "add_logins_text_p2_1": {
+      "message": "Hvis du har gemt logins i en anden adgangskodemanager,"
+   },
+   "add_logins_text_p2_2": {
+      "message": "du kan nemt importere dem"
+   },
+   "add_logins_text_p2_3": {
+      "message": "til din ExpressVPN Keys-konto."
+   },
+   "app_default_title": {
+      "message": "ExpressVPN Keys"
+   },
+   "app_default_title_alpha": {
+      "message": "ExpressVPN Keys (Alpha)"
+   },
+   "app_default_title_beta": {
+      "message": "ExpressVPN Keys (Beta)"
+   },
+   "app_description_@firefox@_text": {
+      "description": "The description of the application",
+      "message": "Gem og generer dine adgangskoder sikkert, og log hurtigere ind på hjemmesider - uden ekstra omkostninger for ExpressVPNs abonnenter."
+   },
+   "app_description_text": {
+      "description": "The description of the application",
+      "message": "Gem og generer dine adgangskoder sikkert, og log hurtigere ind på hjemmesider - uden ekstra omkostninger for ExpressVPNs abonnenter."
+   },
+   "app_description_text_alpha": {
+      "message": "Gem og generer dine adgangskoder sikkert og log hurtigere ind på websteder - uden ekstra omkostninger for ExpressVPN-abonnenter."
+   },
+   "app_description_text_beta": {
+      "message": "Gem og generer dine adgangskoder sikkert, og log hurtigere ind på hjemmesider - uden ekstra omkostninger for ExpressVPNs abonnenter."
+   },
+   "app_name_title": {
+      "description": "The name of the application",
+      "message": "ExpressVPN Keys: Gratis adgangskodeadministrator"
+   },
+   "app_name_title_alpha": {
+      "description": "The Alpha name of the application",
+      "message": "ExpressVPN Keys: Alphaversion af adgangskodeadministrator"
+   },
+   "app_name_title_beta": {
+      "description": "The Beta name of the application",
+      "message": "ExpressVPN Keys: Betaversion af adgangskodeadministrator"
+   },
+   "app_not_installed_have_expressvpn_Linux_p1": {
+      "message": "Du skal have ExpressVPN-appen til Linux installeret og aktiveret for at bruge Chrome-udvidelsen."
+   },
+   "app_not_installed_have_expressvpn_Mac_p1": {
+      "message": "Du skal have ExpressVPN-appen til Mac installeret og aktiveret for at bruge Chrome-udvidelsen."
+   },
+   "app_not_installed_have_expressvpn_Windows_p1": {
+      "message": "Du skal have ExpressVPN-appen til Windows installeret og aktiveret for at bruge Chrome-udvidelsen."
+   },
+   "app_not_installed_have_expressvpn_button_label": {
+      "message": "Log ind"
+   },
+   "app_not_installed_have_expressvpn_header": {
+      "message": "Har du en ExpressVPN-konto?"
+   },
+   "app_not_installed_have_expressvpn_p2": {
+      "message": "Log ind på din ExpressVPN-konto for at downloade den seneste version af appen og få din aktiveringskode."
+   },
+   "app_not_installed_header": {
+      "message": "Gem logins sikkert med ExpressVPN Keys"
+   },
+   "app_not_installed_no_account_button_label": {
+      "message": "Få ExpressVPN"
+   },
+   "app_not_installed_no_account_header": {
+      "message": "Har du ikke en ExpressVPN-konto?"
+   },
+   "app_not_installed_no_account_p1": {
+      "message": "Prøv ExpressVPN risikofrit med en 30 dages fuld returret. Du får adgang til en betalt VPN og adgangskodeadministratoren, Keys."
+   },
+   "app_not_installed_subheader": {
+      "message": "Adgangskodeadministratoren er gratis for ExpressVPN-brugere."
+   },
+   "app_short_name_title": {
+      "description": "The short name of the application",
+      "message": "ExpressVPN Keys"
+   },
+   "autofill_add_new_entry": {
+      "message": "Tilføj login til ExpressVPN Keys"
+   },
+   "autofill_from_different_subdomain_warning_cancel": {
+      "message": "Annullér"
+   },
+   "autofill_from_different_subdomain_warning_proceed": {
+      "message": "Fortsæt"
+   },
+   "autofill_from_different_subdomain_warning_text": {
+      "message": "Er du sikker? Du forsøger at udfylde dine loginoplysninger for \u003Cb>%ENTRY_DOMAIN%\u003C/b> på \u003Cb>%CURRENT_DOMAIN%\u003C/b>."
+   },
+   "autosave_existing_login_tab": {
+      "message": "Eksisterende login"
+   },
+   "autosave_modal_choose_entry_title": {
+      "message": "Vælg et login for at opdatere"
+   },
+   "autosave_modal_save_prompt_title": {
+      "message": "gem login?"
+   },
+   "autosave_modal_saved_title": {
+      "message": "Login gemt for \u003Cb>%HOST%\u003C/b>"
+   },
+   "autosave_modal_update_prompt_title": {
+      "message": "Vil du opdatere login for \u003Cb>%HOST%\u003C/b>?"
+   },
+   "autosave_modal_update_propmpt_header": {
+      "message": "Opdater \u003Cb>%HOST%\u003C/b>"
+   },
+   "autosave_modal_updated_title": {
+      "message": "Login opdateret for \u003Cb>%HOST%\u003C/b>"
+   },
+   "autosave_new_login_tab": {
+      "message": "Ny Login"
+   },
+   "back": {
+      "message": "tilbage"
+   },
+   "beta_survey_notification_help_improve_header": {
+      "message": "Hjælp med at gøre ExpressVPN Keys bedre"
+   },
+   "beta_survey_notification_help_improve_text": {
+      "message": "Klik her for at dele dine tanker om den nyligt lancerede adgangskodeadministrator."
+   },
+   "centuries": {
+      "message": "århundreder"
+   },
+   "century": {
+      "message": "årti"
+   },
+   "change_password_set_new_header": {
+      "message": "Din nye primære adgangskode"
+   },
+   "change_password_strong_passwords_link_text": {
+      "message": "Lær, hvordan du opretter stærke adgangskoder"
+   },
+   "change_password_success_header": {
+      "message": "Succes!"
+   },
+   "change_password_success_hint": {
+      "message": "Den primære adgangskode blev ændret."
+   },
+   "change_password_success_text": {
+      "message": "Du kan nu lukke denne fane. Klik på ExpressVPN Keys-udvidelsen for at låse adgangskodeadministratoren op ved hjælp af din nye primære adgangskode."
+   },
+   "change_password_verify_button_label": {
+      "message": "Verificer"
+   },
+   "change_password_verify_header": {
+      "message": "Bekræft primær adgangskode"
+   },
+   "change_password_verify_text": {
+      "message": "Angiv din primære adgangskode til højre for at ændre din primære adgangskode til ExpressVPN Keys."
+   },
+   "character_limit_reached": {
+      "message": "Tegngrænsen er nået"
+   },
+   "contact_support_anchor": {
+      "message": "kontakt support"
+   },
+   "day": {
+      "message": "dag"
+   },
+   "days": {
+      "message": "dage"
+   },
+   "delete_account_confirm_modal_cancel_button": {
+      "message": "Annuller"
+   },
+   "delete_account_confirm_modal_confirm_button": {
+      "message": "Slet permanent"
+   },
+   "delete_account_confirm_modal_header": {
+      "message": "Er du sikker?"
+   },
+   "delete_account_confirm_modal_text": {
+      "message": "Hvis du har en adgangskodeadministrationskonto, vil den blive slettet permanent."
+   },
+   "delete_account_unlock_modal_confirm_button": {
+      "message": "Lås op"
+   },
+   "delete_account_unlock_modal_header": {
+      "message": "Lås op påkrævet"
+   },
+   "delete_account_unlock_modal_text": {
+      "message": "Lås din boks op for at slette din konto."
+   },
+   "enter_label": {
+      "message": "Enter"
+   },
+   "error_@firefox@_hide_text": {
+      "message": "Alternativt kan du skjule udvidelsen ved at højreklikke på ikonet og vælge \"Fjern fra værktøjslinje\" eller \"Flyt til menu\"."
+   },
+   "error_hide_text": {
+      "message": "Alternativt kan du skjule udvidelsen ved at højreklikke på ikonet og vælge Skjul i Chrome menu."
+   },
+   "generate_password_add_item": {
+      "message": "Har du brug for en ny adgangskode?"
+   },
+   "generate_password_edit_item": {
+      "message": "Generér stærk adgangskode"
+   },
+   "help_improve_header": {
+      "message": "Hjælp med at gøre ExpressVPN Keys bedre"
+   },
+   "help_improve_onboarding_expressvpn_keys": {
+      "message": "Hjælp med at gøre ExpressVPN Keys bedre"
+   },
+   "help_improve_onboarding_no_thanks": {
+      "message": "Nej tak"
+   },
+   "help_improve_onboarding_ok": {
+      "message": "OK"
+   },
+   "help_improve_onboarding_share_crash": {
+      "message": "Del nedbrudsrapporter og brugsdiagnostik. Disse rapporter indeholder aldrig personligt identificerbare oplysninger."
+   },
+   "help_improve_p": {
+      "message": "Del nedbrudsrapporter og brugsdiagnostik. Disse rapporter indeholder aldrig personligt identificerbare oplysninger."
+   },
+   "help_improve_primary_btn": {
+      "message": "OK"
+   },
+   "help_improve_secondary_btn": {
+      "message": "Nej tak"
+   },
+   "help_menu_item_acknowledgements_label": {
+      "message": "Anerkendelser"
+   },
+   "help_menu_item_app_version": {
+      "message": "%OS% app-version: %VERSION%"
+   },
+   "help_menu_item_chat_label": {
+      "message": "Snak med os"
+   },
+   "help_menu_item_extension_version": {
+      "message": "Udvidelsesversion: %VERSION%"
+   },
+   "help_menu_item_improvements_label": {
+      "message": "Foreslå en forbedring"
+   },
+   "help_menu_item_report_label": {
+      "message": "Rapporter et problem"
+   },
+   "help_menu_section_about_title": {
+      "message": "Om"
+   },
+   "help_menu_section_articles_cat1": {
+      "message": "Sådan bruger du ExpressVPN Keys"
+   },
+   "help_menu_section_articles_cat1_sub1": {
+      "message": "Hvorfor skal jeg have en adgangskodeadministrator?"
+   },
+   "help_menu_section_articles_cat1_sub10": {
+      "message": "Sådan bruger du automatisk udfyldning"
+   },
+   "help_menu_section_articles_cat1_sub11": {
+      "message": "Sådan ændrer du din primære adgangskode"
+   },
+   "help_menu_section_articles_cat1_sub12": {
+      "message": "Angiv en adgangskode og en e-mailadresse"
+   },
+   "help_menu_section_articles_cat1_sub2": {
+      "message": "Hvor meget koster det?"
+   },
+   "help_menu_section_articles_cat1_sub3": {
+      "message": "Kræver Keys et aktivt abonnement?"
+   },
+   "help_menu_section_articles_cat1_sub4": {
+      "message": "Er ExpressVPN Keys sikker?"
+   },
+   "help_menu_section_articles_cat1_sub5": {
+      "message": "Hvilke enheder understøttes?"
+   },
+   "help_menu_section_articles_cat1_sub6": {
+      "message": "Hvordan administreres mine data?"
+   },
+   "help_menu_section_articles_cat1_sub7": {
+      "message": "Hvilke funktioner er der?"
+   },
+   "help_menu_section_articles_cat1_sub8": {
+      "message": "Sådan importerer du eksisterende logins"
+   },
+   "help_menu_section_articles_cat1_sub9": {
+      "message": "Sådan gemmer du logins"
+   },
+   "help_menu_section_articles_cat2": {
+      "message": "Problemer med ExpressVPN Keys"
+   },
+   "help_menu_section_articles_cat2_sub1": {
+      "message": "Kunne ikke oprette en konto"
+   },
+   "help_menu_section_articles_cat2_sub2": {
+      "message": "Kunne ikke bekræfte konto"
+   },
+   "help_menu_section_articles_cat2_sub3": {
+      "message": "Kunne ikke låse op"
+   },
+   "help_menu_section_articles_cat2_sub4": {
+      "message": "Logins synkroniseres ikke korrekt"
+   },
+   "help_menu_section_articles_cat2_sub5": {
+      "message": "Kunne ikke gemme eller opdatere logins"
+   },
+   "help_menu_section_articles_cat2_sub6": {
+      "message": "Automatisk udfyldning fungerer ikke korrekt"
+   },
+   "help_menu_section_articles_cat2_sub7": {
+      "message": "Kunne ikke ændre den primære adgangskode"
+   },
+   "help_menu_section_articles_title": {
+      "message": "Supportartikler"
+   },
+   "help_menu_section_support_title": {
+      "message": "Kontakt os"
+   },
+   "hint_copy_text": {
+      "message": "Kopieret"
+   },
+   "hour": {
+      "message": "time"
+   },
+   "hours": {
+      "message": "timer"
+   },
+   "icloud_keychain": {
+      "message": "iCloud-nøglering"
+   },
+   "import_chrome_password_settings": {
+      "message": "Adgangskodeindstillinger i Chrome"
+   },
+   "import_edge_password_settings": {
+      "message": "Adgangskodeindstillinger i Edge"
+   },
+   "import_from_a_service": {
+      "message": "Importér fra en tjeneste nedenfor"
+   },
+   "import_from_existing_services": {
+      "message": "Importér fra eksisterende tjenester"
+   },
+   "import_logins_1password_1pw7_header": {
+      "message": "Vejledning til 1Password 7"
+   },
+   "import_logins_1password_1pw7_mac_step1": {
+      "message": "Åbn og lås op for 1Password."
+   },
+   "import_logins_1password_1pw7_mac_step2": {
+      "message": "Vælg den boks, du vil importere."
+   },
+   "import_logins_1password_1pw7_mac_step3": {
+      "message": "Vælg menuen \u003Cb>Fil\u003C/b> > \u003Cb>Eksportér\u003C/b> > \u003Cb>Alle elementer\u003C/b>."
+   },
+   "import_logins_1password_1pw7_mac_step4": {
+      "message": "Angiv din hovedadgangskode."
+   },
+   "import_logins_1password_1pw7_mac_step5": {
+      "message": "Vælg filformatet \u003Cb>iCloud Keychain (.csv)\u003C/b>. Hvis du ikke kan se denne mulighed, skal du sørge for, at du har \u003Ca target='_blank' href='https://app-updates.agilebits.com/download/OPM7'>den seneste version af 1Password 7\u003C/a>."
+   },
+   "import_logins_1password_1pw7_mac_step6": {
+      "message": "Gem filen på din enhed."
+   },
+   "import_logins_1password_1pw7_mac_step7": {
+      "message": "Klik på \u003Cb>Vælg fil\u003C/b> i ExpressVPN Keys-udvidelsen."
+   },
+   "import_logins_1password_1pw7_mac_step8": {
+      "message": "Vælg csv-filen."
+   },
+   "import_logins_1password_1pw7_win_step1": {
+      "message": "Åbn og lås op for 1Password."
+   },
+   "import_logins_1password_1pw7_win_step2": {
+      "message": "Vælg alle de elementer, du vil eksportere."
+   },
+   "import_logins_1password_1pw7_win_step3": {
+      "message": "Højreklik og vælg \u003Cb>Eksportér\u003C/b>."
+   },
+   "import_logins_1password_1pw7_win_step4": {
+      "message": "Vælg gem som type \u003Cb>kommaseparerede værdier (.csv)\u003C/b>."
+   },
+   "import_logins_1password_1pw7_win_step5": {
+      "message": "Gem filen på din enhed."
+   },
+   "import_logins_1password_1pw7_win_step6": {
+      "message": "Klik på \u003Cb>Vælg fil\u003C/b> i ExpressVPN Keys-udvidelsen."
+   },
+   "import_logins_1password_1pw7_win_step7": {
+      "message": "Vælg csv-filen."
+   },
+   "import_logins_1password_1pw8_header": {
+      "message": "Vejledning til 1Password 7"
+   },
+   "import_logins_1password_1pw8_mac_step1": {
+      "message": "Åbn og lås op for 1Password."
+   },
+   "import_logins_1password_1pw8_mac_step2": {
+      "message": "Vælg menuen \u003Cb>Fil\u003C/b> > \u003Cb>Eksportér\u003C/b>."
+   },
+   "import_logins_1password_1pw8_mac_step3": {
+      "message": "Angiv din adgangskode."
+   },
+   "import_logins_1password_1pw8_mac_step4": {
+      "message": "Vælg filformatet \u003Cb>csv (kun logins og adgangskoder)\u003C/b>."
+   },
+   "import_logins_1password_1pw8_mac_step5": {
+      "message": "Gem filen på din enhed."
+   },
+   "import_logins_1password_1pw8_mac_step6": {
+      "message": "Klik på \u003Cb>Vælg fil\u003C/b> i ExpressVPN Keys-udvidelsen."
+   },
+   "import_logins_1password_1pw8_mac_step7": {
+      "message": "Vælg csv-filen."
+   },
+   "import_logins_1password_1pw8_win_step1": {
+      "message": "Åbn og lås op for 1Password."
+   },
+   "import_logins_1password_1pw8_win_step2": {
+      "message": "Klik på ..., og vælg \u003Cb>Eksportér\u003C/b>."
+   },
+   "import_logins_1password_1pw8_win_step3": {
+      "message": "Angiv din adgangskode."
+   },
+   "import_logins_1password_1pw8_win_step4": {
+      "message": "Vælg filformatet \u003Cb>csv (kun logins og adgangskoder)\u003C/b>."
+   },
+   "import_logins_1password_1pw8_win_step5": {
+      "message": "Gem filen på din enhed."
+   },
+   "import_logins_1password_1pw8_win_step6": {
+      "message": "Klik på \u003Cb>Vælg fil\u003C/b> i ExpressVPN Keys-udvidelsen."
+   },
+   "import_logins_1password_1pw8_win_step7": {
+      "message": "Vælg csv-filen."
+   },
+   "import_logins_1password_import_limitation_header": {
+      "message": "\u003Cb>Vigtigt\u003C/b>: ExpressVPN Keys understøtter kun import af logins. Andre data såsom kreditkortoplysninger eller gemte noter vil ikke blive importeret."
+   },
+   "import_logins_add_your_password_link": {
+      "message": "tilføj din adgangskode manuelt"
+   },
+   "import_logins_back": {
+      "message": "Importér login fra %HOST%"
+   },
+   "import_logins_choose_a_password_manager_service": {
+      "message": "Vælg en adgangskodeadministratortjeneste fra højre, så viser vi dig, hvordan du importerer dine adgangskoder fra den."
+   },
+   "import_logins_choose_file": {
+      "message": "Vælg fil"
+   },
+   "import_logins_error_failed_table_header": {
+      "message": "Mislykkede importer  (%TOTAL_BAD_LOGINS%)"
+   },
+   "import_logins_error_import_again_btn": {
+      "message": "Importér igen"
+   },
+   "import_logins_error_incomplete_header": {
+      "message": "Ufærdig import"
+   },
+   "import_logins_error_incomplete_reimport_header": {
+      "message": "Sådan importerer du dine resterende logins:"
+   },
+   "import_logins_error_incomplete_reimport_step_1": {
+      "message": "Åbn csv-filen, der blev importeret i forrige trin i dit regnearksprogram."
+   },
+   "import_logins_error_incomplete_reimport_step_2": {
+      "message": "Slet alle rækker undtagen dem, der ikke kunne importeres."
+   },
+   "import_logins_error_incomplete_reimport_step_3": {
+      "message": "Opdatér de resterende rækker baseret på forslag i højre side."
+   },
+   "import_logins_error_incomplete_reimport_step_4": {
+      "message": "Gem filen og klik \"Importér igen\" for at importere den opdaterede fil."
+   },
+   "import_logins_error_number_of_failed_logins_hint": {
+      "message": "%TOTAL_BAD_LOGINS% ud af %TOTAL_LOGINS% loginskunne ikke importeres."
+   },
+   "import_logins_error_success_table_header": {
+      "message": "Vellykkede importer (%TOTAL_GOOD_LOGINS%)"
+   },
+   "import_logins_error_table_domain_too_long": {
+      "message": "Hjemmesideadressen er for lang"
+   },
+   "import_logins_error_table_failed_status": {
+      "message": "Mislykket"
+   },
+   "import_logins_error_table_login_column": {
+      "message": "Loginnavn"
+   },
+   "import_logins_error_table_name_too_long": {
+      "message": "Navnet er for langt"
+   },
+   "import_logins_error_table_note_too_long": {
+      "message": "Noten er for lang"
+   },
+   "import_logins_error_table_password_too_long": {
+      "message": "Adgangskoden er for lang"
+   },
+   "import_logins_error_table_see_success_logins_btn": {
+      "message": "Vellykkede importer (%TOTAL_GOOD_LOGINS%)"
+   },
+   "import_logins_error_table_status_column": {
+      "message": "Status"
+   },
+   "import_logins_error_table_success_status": {
+      "message": "Gennemført"
+   },
+   "import_logins_error_table_username_too_long": {
+      "message": "Brugernavnet er for langt"
+   },
+   "import_logins_error_total_failure_header": {
+      "message": "Vellykket import"
+   },
+   "import_logins_error_total_failure_reimport_header": {
+      "message": "For at importere dine logins igen:"
+   },
+   "import_logins_error_total_failure_reimport_step_1": {
+      "message": "Åbn csv-filen, der blev importeret i forrige trin i dit regnearksprogram."
+   },
+   "import_logins_error_total_failure_reimport_step_2": {
+      "message": "Opdatér rækkerne baseret på forslag i højre side."
+   },
+   "import_logins_error_total_failure_reimport_step_3": {
+      "message": "Gem filen og klik \"Importér igen\" for at importere den opdaterede fil."
+   },
+   "import_logins_error_untitled": {
+      "message": "Unavngivet"
+   },
+   "import_logins_header": {
+      "message": "Importer dine adgangskoder"
+   },
+   "import_logins_here": {
+      "message": "her"
+   },
+   "import_logins_icloud_for_windows": {
+      "message": "iCloud til Windows giver ikke mulighed for at eksportere dine logins og adgangskoder. Du kan gøre en af følgende:"
+   },
+   "import_logins_if_you_do_not_have_a_mac": {
+      "message": "Hvis du ikke har en Mac, kan du manuelt kopiere dine logins, der er gemt i iCloud, og indsætte dem i ExpressVPN Keys-adgangskodeadministratoren:"
+   },
+   "import_logins_if_you_have_a_mac": {
+      "message": "Hvis du også har en Mac, skal du installere Chrome-udvidelsen ExpressVPN Keys for at importere dine gemte logins og adgangskoder ved at [følge trinene i vores Mac-vejledning]."
+   },
+   "import_logins_instructions_header_dashlane": {
+      "message": "\u003Cb>Vigtigt\u003C/b>: ExpressVPN Keys understøtter kun import af logins. Andre data såsom kreditkortoplysninger eller gemte noter vil ikke blive importeret."
+   },
+   "import_logins_instructions_header_lastpass": {
+      "message": "\u003Cb>Vigtigt\u003C/b>: Du skal bruge \u003Ca target='_blank' href='https://chrome.google.com/webstore/detail/lastpass-free-password-ma/hdokiejnpimakedhajhdlcegeplioahd'>LastPass-udvidelsen\u003C/a> for at eksportere dine logins og adgangskoder."
+   },
+   "import_logins_manual_instructions_for_macos": {
+      "message": "Manuel vejledning til macOS-version \u003C10.15"
+   },
+   "import_logins_other": {
+      "message": "Andet"
+   },
+   "import_logins_other_apps": {
+      "message": "Importér fra andre adgangskodeadministratorer"
+   },
+   "import_logins_other_apps_instructions_advanced_users_p1": {
+      "message": "\u003Cb>Vigtigt:\u003C/b> ExpressVPN Keys understøtter kun import af logins. Du kan ikke importere kreditkortoplysninger, gemte noter osv."
+   },
+   "import_logins_other_apps_instructions_advanced_users_p2": {
+      "message": "Hvis du har det fint med at bruge et regnearksprogram (Google Sheets, Microsoft Excel osv.), kan du importere dine logins ved at følge disse instruktioner:"
+   },
+   "import_logins_other_apps_instructions_advanced_users_text": {
+      "message": "Avancerede brugere: Manuel import"
+   },
+   "import_logins_other_apps_instructions_hint": {
+      "message": "Vi beklager, at vi i øjeblikket ikke understøtter import af logins fra din adgangskodeadministrator."
+   },
+   "import_logins_other_apps_instructions_let_us_know_text": {
+      "message": "[Fortæl os, hvilken en du bruger], så vi kan se nærmere på det."
+   },
+   "import_logins_other_apps_instructions_step1": {
+      "message": "Åbn din nuværende adgangskodeadministrator."
+   },
+   "import_logins_other_apps_instructions_step2": {
+      "message": "Eksportér dine gemte logins som en csv-fil."
+   },
+   "import_logins_other_apps_instructions_step3": {
+      "message": "Åbn den eksporterede csv-fil i dit regnearksprogram."
+   },
+   "import_logins_other_apps_instructions_step4": {
+      "message": "Slet alle elementer, der \u003Cb>ikke er logins\u003C/b> (f.eks. kreditkortoplysninger, gemte noter)."
+   },
+   "import_logins_other_apps_instructions_step5": {
+      "message": "Slet kolonner, der \u003Cb>ikke er en af følgende\u003C/b>:"
+   },
+   "import_logins_other_apps_instructions_step5_sub1": {
+      "message": "Logintitel eller -navn"
+   },
+   "import_logins_other_apps_instructions_step5_sub2": {
+      "message": "URL"
+   },
+   "import_logins_other_apps_instructions_step5_sub3": {
+      "message": "Brugernavn eller e-mail"
+   },
+   "import_logins_other_apps_instructions_step5_sub4": {
+      "message": "Adgangskode"
+   },
+   "import_logins_other_apps_instructions_step6": {
+      "message": "Sørg for, at de resterende kolonner er navngivet på denne måde (små bogstaver):"
+   },
+   "import_logins_other_apps_instructions_step6_sub1": {
+      "message": "name"
+   },
+   "import_logins_other_apps_instructions_step6_sub2": {
+      "message": "url"
+   },
+   "import_logins_other_apps_instructions_step6_sub3": {
+      "message": "username"
+   },
+   "import_logins_other_apps_instructions_step6_sub4": {
+      "message": "password"
+   },
+   "import_logins_other_apps_instructions_step7": {
+      "message": "Gem din opdaterede fil som en csv-fil."
+   },
+   "import_logins_other_apps_instructions_step8": {
+      "message": "Klik \u003Cb>Vælg fil\u003C/b> nedenfor, og vælg den fil, du lige har gemt."
+   },
+   "import_logins_safari_mac_step1": {
+      "message": "Åbn \u003Cb>Safari\u003C/b>."
+   },
+   "import_logins_safari_mac_step2": {
+      "message": "Klik på menuen \u003Cb>Safari\u003C/b>  > \u003Cb>Indstillinger...\u003C/b>"
+   },
+   "import_logins_safari_mac_step3": {
+      "message": "Klik på fanen \u003Cb>Adgangskoder\u003C/b>, og bekræft."
+   },
+   "import_logins_safari_mac_step4": {
+      "message": "Klik på … > \u003Cb>Eksportér adgangskoder\u003C/b>  > \u003Cb>Eksportér alle adgangskoder\u003C/b> i nederste venstre hjørne af sidebjælken."
+   },
+   "import_logins_safari_mac_step4_extra": {
+      "message": "Hvis du ikke kan se knappen …, [skal du opdatere macOS og/eller Safari]. Hvis du stadig oplever problemer, skal du klikke på %action%."
+   },
+   "import_logins_safari_mac_step5": {
+      "message": "Gem filen på din enhed."
+   },
+   "import_logins_safari_mac_step6": {
+      "message": "Klik \u003Cb>Vælg fil\u003C/b> nedenfor, og vælg den fil, du lige har gemt."
+   },
+   "import_logins_safari_old_mac_step1": {
+      "message": "Åbn \u003Cb>Safari\u003C/b>."
+   },
+   "import_logins_safari_old_mac_step2": {
+      "message": "Klik på menuen \u003Cb>Safari\u003C/b>  > \u003Cb>Indstillinger...\u003C/b>"
+   },
+   "import_logins_safari_old_mac_step3": {
+      "message": "Klik på fanen \u003Cb>Adgangskoder\u003C/b> og bekræft."
+   },
+   "import_logins_safari_old_mac_step4": {
+      "message": "Vælg en gemt adgangskode, og vælg derefter \u003Cb>Redigér\u003C/b>."
+   },
+   "import_logins_safari_old_mac_step5": {
+      "message": "Kopiér brugernavn, adgangskode og webadresse."
+   },
+   "import_logins_safari_old_mac_step6": {
+      "message": "Klik på \u003Cb>+\u003C/b> i ExpressVPN Keys-udvidelsen."
+   },
+   "import_logins_safari_old_mac_step7": {
+      "message": "Navngiv login, og indsæt derefter brugernavn, adgangskode og webadresse."
+   },
+   "import_logins_safari_old_mac_step8": {
+      "message": "Klik \u003Cb>Gem\u003C/b>."
+   },
+   "import_logins_safari_windows_step1": {
+      "message": "Åbn appen \u003Cb>iCloud Passwords\u003C/b> på din Windows-enhed."
+   },
+   "import_logins_safari_windows_step2": {
+      "message": "Klik på et gemt login."
+   },
+   "import_logins_safari_windows_step3": {
+      "message": "Klik på \u003Cb>kopiér-ikonet\u003C/b> øverst til højre for at kopiere dit brugernavn, din adgangskode eller din webadresse."
+   },
+   "import_logins_safari_windows_step4": {
+      "message": "Klik på \u003Cb>+\u003C/b> i ExpressVPN Keys-udvidelsen."
+   },
+   "import_logins_safari_windows_step5": {
+      "message": "Navngiv loginnet, og indsæt derefter brugernavnet, adgangskoden og webadressen."
+   },
+   "import_logins_safari_windows_step6": {
+      "message": "Klik \u003Cb>Gem\u003C/b>."
+   },
+   "import_logins_safari_you_are_running_an_old_version": {
+      "message": "Du kører en gammel version af macOS, der ikke understøtter eksport af logins og adgangskoder fra Apple iCloud Keychain. Du kan dog manuelt kopiere dine logins gemt i Safari og indsætte dem i ExpressVPN Keys:"
+   },
+   "import_logins_step1": {
+      "message": "Åben %PASSWORD_SETTINGS%."
+   },
+   "import_logins_step1_bitwarden": {
+      "message": "Log ind på \u003Ca target='_blank' href='https://vault.bitwarden.com'>https://vault.bitwarden.com\u003C/a>"
+   },
+   "import_logins_step1_dashlane": {
+      "message": "\u003Ca target='_blank' href='https://app.dashlane.com/login'>Gå til Dashlane-loginsiden.\u003C/a>"
+   },
+   "import_logins_step1_lastpass": {
+      "message": "Klik på browserudvidelsen for LastPass."
+   },
+   "import_logins_step2": {
+      "message": "Klik på %ICON% over listen af gemte adgangskoder> \u003Cb>Eksportér adgangskoder…\u003C/b>"
+   },
+   "import_logins_step2_bitwarden": {
+      "message": "Klik på \u003Cb>Værktøjer\u003C/b> øverst."
+   },
+   "import_logins_step2_dashlane": {
+      "message": "Angiv din e-mailadresse. Klik på \u003Cb>Næste\u003C/b>."
+   },
+   "import_logins_step2_lastpass": {
+      "message": "Klik på \u003Cb>Kontoindstillinger\u003C/b> > \u003Cb>Avanceret\u003C/b> > \u003Cb>Eksportér\u003C/b>"
+   },
+   "import_logins_step3": {
+      "message": "Klik på \u003Cb>Eksportér adgangskoder…\u003C/b>"
+   },
+   "import_logins_step3_bitwarden": {
+      "message": "Klik på \u003Cb>Eksportér boks\u003C/b> i venstre sidebjælke."
+   },
+   "import_logins_step3_dashlane": {
+      "message": "Klik på \u003Cb>Min konto\u003C/b> øverst til højre."
+   },
+   "import_logins_step3_lastpass": {
+      "message": "Vælg \u003Cb>csv-fil fra LastPass\u003C/b>."
+   },
+   "import_logins_step4": {
+      "message": "Hvis du bliver bedt om det, skal du angive adgangskoden for din enhed. Klik på \u003Cb>OK.\u003C/b>"
+   },
+   "import_logins_step4_bitwarden": {
+      "message": "Vælg \u003Cb>.csv\u003C/b> under \u003Cb>Filformat\u003C/b>."
+   },
+   "import_logins_step4_dashlane": {
+      "message": "Klik på \u003Cb>Indstillinger > Eksportér data\u003C/b>."
+   },
+   "import_logins_step4_lastpass": {
+      "message": "Angiv din hovedadgangskode."
+   },
+   "import_logins_step5": {
+      "message": "Gem csv-filen på din enhed."
+   },
+   "import_logins_step5_bitwarden": {
+      "message": "Angiv din hovedadgangskode."
+   },
+   "import_logins_step5_dashlane": {
+      "message": "Angiv din hovedadgangskode."
+   },
+   "import_logins_step5_lastpass": {
+      "message": "En csv-fil gemmes automatisk på din enhed."
+   },
+   "import_logins_step6": {
+      "message": "Klik på \u003Cb>Vælg fil\u003C/b> i ExpressVPN Keys-udvidelsen."
+   },
+   "import_logins_step6_bitwarden": {
+      "message": "Klik på \u003Cb>Eksportér boks\u003C/b>, og følg vejledningen."
+   },
+   "import_logins_step6_dashlane": {
+      "message": "Klik på \u003Cb>Eksportér til csv\u003C/b>."
+   },
+   "import_logins_step6_lastpass": {
+      "message": "Klik på \u003Cb>Vælg fil\u003C/b> i ExpressVPN Keys-udvidelsen."
+   },
+   "import_logins_step7": {
+      "message": "Vælg csv-filen."
+   },
+   "import_logins_step7_bitwarden": {
+      "message": "En csv-fil gemmes automatisk på din enhed."
+   },
+   "import_logins_step7_dashlane": {
+      "message": "Dobbeltklik på zip-filen for at udpakke csv-filerne."
+   },
+   "import_logins_step7_lastpass": {
+      "message": "Vælg csv-filen for at importere dine adgangskoder."
+   },
+   "import_logins_step8_bitwarden": {
+      "message": "Klik på \u003Cb>Vælg fil\u003C/b> i ExpressVPN Keys-udvidelsen."
+   },
+   "import_logins_step8_dashlane": {
+      "message": "Klik på \u003Cb>Vælg fil\u003C/b> i ExpressVPN Keys-udvidelsen."
+   },
+   "import_logins_step9_bitwarden": {
+      "message": "Vælg csv-filen for at importere dine adgangskoder."
+   },
+   "import_logins_step9_dashlane": {
+      "message": "Vælg filen \u003Cb>credentials.csv\u003C/b> for at importere dine adgangskoder."
+   },
+   "import_logins_success_close": {
+      "message": "Luk fane"
+   },
+   "import_logins_success_header": {
+      "message": "Færdig!"
+   },
+   "import_logins_success_hint": {
+      "message": "Alle %TOTAL_LOGINS% logins blev importeret."
+   },
+   "import_logins_success_import_more": {
+      "message": "Importér flere logins"
+   },
+   "import_logins_success_text": {
+      "message": "Du kan nu lukke denne fane og åbne udvidelsen for at se dine logins, eller begynde at gennemse og udfylde dine logins automatisk."
+   },
+   "import_logins_verify_password_label": {
+      "message": "Angiv din primære adgangskode til højre for at importere fra eksisterende tjenester."
+   },
+   "import_password_error": {
+      "message": "Filupload mislykkedes. Prøv igen."
+   },
+   "import_password_file": {
+      "message": "Importér adgangskodefil (.csv)"
+   },
+   "imports_logins_you_can_also_choose_to": {
+      "message": "Du kan også vælge at %ROUTER_LINK% i stedet."
+   },
+   "info_banner_warning_api_unreachable_vpn_off": {
+      "message": "Kan ikke synkronisere. Prøv at oprette forbindelse til VPN eller kontakt support."
+   },
+   "info_banner_warning_api_unreachable_vpn_on": {
+      "message": "Kan ikke synkronisere. Prøv en anden VPN-placering, eller kontakt support."
+   },
+   "info_banner_warning_offline": {
+      "message": "Du er offline. Dine ændringer synkroniseres, når forbindelsen genoptages."
+   },
+   "ksp_item_text_1": {
+      "message": "Gem dine adgangskoder sikkert på tværs af dine enheder, og udfyld dem i apps og på hjemmesider med ét tryk. [Få mere at vide]."
+   },
+   "ksp_item_text_2": {
+      "message": "[Keys er gratis] for ExpressVPN-brugere. Ingen begrænsning på antallet af adgangskoder, du kan gemme, eller enheder, du kan bruge."
+   },
+   "ksp_item_text_3": {
+      "message": "Takket være [vidensfri kryptering] er det kun dig, der kan se dine adgangskoder."
+   },
+   "ksp_item_text_4": {
+      "message": "[Tag alle dine logins] fra Chrome, Safari, 1Password, LastPass og andre med dig"
+   },
+   "ksp_item_text_5": {
+      "message": "Tilgå dine adgangskoder, [uanset hvor du har brug for dem] – i din browser eller på din mobiltelefon."
+   },
+   "ksp_item_title_1": {
+      "message": "En sikker, brugervenlig adgangskodeadministrator"
+   },
+   "ksp_item_title_2": {
+      "message": "Ingen ekstra omkostninger, ingen grænser"
+   },
+   "ksp_item_title_3": {
+      "message": "Sikkert design, udviklet af ExpressVPN-teamet"
+   },
+   "ksp_item_title_4": {
+      "message": "Importér logins fra andre adgangskodeadministratorer"
+   },
+   "ksp_item_title_5": {
+      "message": "Synkronisér på tværs af alle dine enheder"
+   },
+   "ksp_next_button": {
+      "message": "Næste"
+   },
+   "ksp_set_up_button": {
+      "message": "Konfigurér ExpressVPN Keys"
+   },
+   "ksp_skip_button": {
+      "message": "Spring over"
+   },
+   "less_than_a_second": {
+      "message": "Mindre end et sekund"
+   },
+   "login_saved": {
+      "message": "Login gemt. Vi husker dette login for dig og holder det sikkert."
+   },
+   "minute": {
+      "message": "minut"
+   },
+   "minutes": {
+      "message": "minutter"
+   },
+   "modal_password_page_app_not_activated_Linux_text": {
+      "message": "Udvidelsen kræver, at  ExpressVPN-appen til Linux er aktiveret."
+   },
+   "modal_password_page_app_not_activated_Linux_text_p1": {
+      "message": "Log ind på din ExpressVPN-konto for at finde din aktiveringskode, og kør derefter denne kommando: \u003Cspan class='code-inline'>expressvpn activate\u003C/span> og angiv din kode."
+   },
+   "modal_password_page_app_not_activated_Mac_text": {
+      "message": "Udvidelsen kræver, at  ExpressVPN-appen til Mac er aktiveret."
+   },
+   "modal_password_page_app_not_activated_Mac_text_p1": {
+      "message": "Log ind på din ExpressVPN-konto for at finde din aktiveringskode."
+   },
+   "modal_password_page_app_not_activated_Windows_text": {
+      "message": "Udvidelsen kræver, at  ExpressVPN-appen til Windows er aktiveret."
+   },
+   "modal_password_page_app_not_activated_Windows_text_p1": {
+      "message": "Log ind på din ExpressVPN-konto for at finde din aktiveringskode."
+   },
+   "modal_password_page_app_not_activated_btn_primary": {
+      "message": "Find kode"
+   },
+   "modal_password_page_app_not_activated_btn_secondary": {
+      "message": "Angiv kode"
+   },
+   "modal_password_page_app_not_activated_text_p2": {
+      "message": "Brug for hjælp? [Kontakt support.]."
+   },
+   "modal_password_page_app_not_activated_title": {
+      "message": "Aktiver App"
+   },
+   "modal_password_page_update_app_Linux_text_p1": {
+      "message": "Denne udvidelse kræver den nyeste version af ExpressVPN-appen til Linux."
+   },
+   "modal_password_page_update_app_Mac_text_p1": {
+      "message": "Denne udvidelse kræver den nyeste version af ExpressVPN-appen til Mac."
+   },
+   "modal_password_page_update_app_Windows_text_p1": {
+      "message": "Denne udvidelse kræver den nyeste version af ExpressVPN-appen til Windows."
+   },
+   "modal_password_page_update_app_button": {
+      "message": "Opdater app"
+   },
+   "modal_password_page_update_app_text_p2": {
+      "message": "Har du brug for hjælp? [Kontakt support]."
+   },
+   "modal_password_page_update_app_title": {
+      "message": "Opdater app"
+   },
+   "month": {
+      "message": "måned"
+   },
+   "months": {
+      "message": "måneder"
+   },
+   "n_logins_saved_for_website": {
+      "message": "%N_ENTRIES% logins gemt for \u003Cb>%HOST% \u003C/b>"
+   },
+   "nav_item_help": {
+      "message": "Hjælp"
+   },
+   "nav_item_options": {
+      "message": "Indstillinger"
+   },
+   "nav_item_pwm": {
+      "message": "Keys"
+   },
+   "no_logins_saved_for_website": {
+      "message": "Ingen gemte logins for\u003Cbr/>\u003Cb>%HOST%\u003C/b>"
+   },
+   "notification_clipboard_cleared_message": {
+      "message": "Data ryddes for at beskytte dit privatliv"
+   },
+   "notification_clipboard_cleared_title": {
+      "message": "Udklipsholder blev ryddet"
+   },
+   "notification_extension_update_message": {
+      "message": "Klik for at se nyhederne."
+   },
+   "notification_extension_update_title": {
+      "message": "ExpressVPN Keys er blevet opdateret"
+   },
+   "options_menu_get_30_days_free_label": {
+      "message": "Få 30 dage gratis"
+   },
+   "options_menu_item_settings_label": {
+      "message": "Indstillinger"
+   },
+   "options_menu_rate_expressvpn_label": {
+      "message": "Bedøm ExpressVPN Keys"
+   },
+   "options_menu_section_options_title": {
+      "message": "Indstillinger"
+   },
+   "options_menu_setup_other_devices_label": {
+      "message": "Konfigurer andre enheder"
+   },
+   "other_logins": {
+      "message": "Andre logins"
+   },
+   "password_generator_capitals": {
+      "message": "Store bogstaver"
+   },
+   "password_generator_characters": {
+      "message": "%NUMBER% tegn"
+   },
+   "password_generator_choose_criteria": {
+      "message": "Vælg kriterier"
+   },
+   "password_generator_close": {
+      "message": "Luk"
+   },
+   "password_generator_length": {
+      "message": "Adgangskodelængde"
+   },
+   "password_generator_numbers": {
+      "message": "Tal"
+   },
+   "password_generator_password_label": {
+      "message": "Klik for at bruge"
+   },
+   "password_generator_symbols": {
+      "message": "Symboler"
+   },
+   "password_generator_title": {
+      "message": "Foreslået adgangskode"
+   },
+   "password_generator_use_password": {
+      "message": "Brug adgangskode"
+   },
+   "password_strength_0": {
+      "message": "\u003Cb>Usikker!\u003C/b> Kan blive hacket meget hurtigt."
+   },
+   "password_strength_1": {
+      "message": "\u003Cb>Svag.\u003C/b> Kan blive hacket meget hurtigt."
+   },
+   "password_strength_2": {
+      "message": "\u003Cb>Medium.\u003C/b> Det kan tage %TIME% at knække."
+   },
+   "password_strength_3": {
+      "message": "\u003Cb>Stærk.\u003C/b> Det kunne tage %TIME% at hacke."
+   },
+   "password_strength_4": {
+      "message": "\u003Cb>Meget sikker!\u003C/b> Det kan tage %TIME% at hacke."
+   },
+   "password_suggestion_add_another_word_or_two": {
+      "message": "Tilføj et ord eller to mere."
+   },
+   "password_suggestion_avoid_dates": {
+      "message": "Undgå datoer og år, der har en tilknytning til dig"
+   },
+   "password_suggestion_avoid_obvious_patterns": {
+      "message": "Undgå normale tastaturmønstre"
+   },
+   "password_suggestion_avoid_recent_years": {
+      "message": "Undgå nylige årstal"
+   },
+   "password_suggestion_avoid_repeats": {
+      "message": "Undgå gentagne ord og tegn."
+   },
+   "password_suggestion_avoid_sequences": {
+      "message": "Undgå sekvenser."
+   },
+   "password_suggestion_avoid_years": {
+      "message": "Undgå år, der har en tilknytning til dig"
+   },
+   "password_suggestion_capitalization_does_not_help": {
+      "message": "Store/små bogstaver hjælper ikke meget."
+   },
+   "password_suggestion_no_need_for_extra_chars": {
+      "message": "Der er ikke behov for symboler, cifre eller store/små bogstaver."
+   },
+   "password_suggestion_reversed_word_does_not_help": {
+      "message": "Bagvendte ord er nemme at gætte."
+   },
+   "password_suggestion_substitution_does_not_help": {
+      "message": "Erstatninger som \"@\" for \"a\" er nemme at gætte."
+   },
+   "password_suggestion_uppercase_does_not_help": {
+      "message": "At skrive alt med store bogstaver hjælper ikke meget."
+   },
+   "password_suggestion_use_uncommon_words": {
+      "message": "Prøv at bruge flere unormale ord."
+   },
+   "password_warning_common_names_are_easy_to_guess": {
+      "message": "Brug ikke normale navne og efternavne."
+   },
+   "password_warning_dates_are_easy_to_guess": {
+      "message": "Datoer er ofte nemme at gætte."
+   },
+   "password_warning_names_are_easy_to_guess": {
+      "message": "Navne i sig selv er nemme at gætte."
+   },
+   "password_warning_repeats_are_easy_to_guess": {
+      "message": "Gentagelser som \"aaa\" er nemme at gætte."
+   },
+   "password_warning_repeats_are_slightly_harder_to_guess": {
+      "message": "Gentagelser som \"abcabcabc\" er nemme at gætte."
+   },
+   "password_warning_sequences_are_easy_to_guess": {
+      "message": "Sekvenser som \"6543\" er nemme at gætte."
+   },
+   "password_warning_short_patterns_are_easy_to_guess": {
+      "message": "Tastaturmønstre er ikke sikre."
+   },
+   "password_warning_simmilar_to_common_password": {
+      "message": "Ligner for meget en normalt anvendt adgangskode."
+   },
+   "password_warning_straight_rows_are_easy_to_guess": {
+      "message": "Tastsekvenser, der er på linje, er nemme at gætte."
+   },
+   "password_warning_top_100_common_password": {
+      "message": "Dette er en liste over de 100 mest populære normale adgangskoder."
+   },
+   "password_warning_top_10_common_password": {
+      "message": "Dette er en af de ti mest normale adgangskoder."
+   },
+   "password_warning_very_common_password": {
+      "message": "Dette er en meget normalt adgangskode."
+   },
+   "password_warning_word_is_easy_to_guess": {
+      "message": "Et ord i sig selv er let at gætte."
+   },
+   "password_warning_years_are_easy_to_guess": {
+      "message": "Nylige årstal er nemme at gætte."
+   },
+   "primary_password_strength_0": {
+      "message": "\u003Cb>God start,\u003C/b> prøv at tilføje lidt flere ord."
+   },
+   "primary_password_strength_1": {
+      "message": "\u003Cb>Vi er der snart,\u003C/b> bliv ved med at skrive."
+   },
+   "primary_password_strength_2": {
+      "message": "\u003Cb>Bliv ved,\u003C/b> prøv at tilføje lidt flere ord."
+   },
+   "primary_password_strength_3": {
+      "message": "\u003Cb>Godt gået.\u003C/b> Det bliver bedre og bedre!"
+   },
+   "primary_password_strength_4": {
+      "message": "\u003Cb>Sådan!\u003C/b> Du er helt klar."
+   },
+   "primary_password_strength_empty": {
+      "message": "Skriv et par ord. F.eks. \u003Cb>ComputerVægSnotkludDåse\u003C/b>"
+   },
+   "pwm_contact_us_label": {
+      "message": "Kontakt os"
+   },
+   "pwm_create_account_error_modal_title": {
+      "message": "Kunne ikke oprette konto"
+   },
+   "pwm_entry_add_new_header": {
+      "message": "Tilføj nyt login"
+   },
+   "pwm_entry_list_add_first_login_header": {
+      "message": "Du er nu klar!"
+   },
+   "pwm_entry_list_add_first_login_text": {
+      "message": "Din ExpressVPN Keys-konto er klar til brug. Gem dit første login for at komme i gang."
+   },
+   "pwm_entry_list_add_first_login_tooltip": {
+      "message": "Klik her for at tilføje dit første login"
+   },
+   "pwm_entry_no_result_found": {
+      "message": "Ingen resultater"
+   },
+   "pwm_entry_preview_name_label": {
+      "message": "Navn"
+   },
+   "pwm_entry_search_for_a_login": {
+      "message": "Søg efter et login "
+   },
+   "pwm_entry_view_created_on_label": {
+      "message": "Oprettet den %DATE%"
+   },
+   "pwm_entry_view_delete_btn": {
+      "message": "Slet"
+   },
+   "pwm_entry_view_edit_btn": {
+      "message": "Rediger"
+   },
+   "pwm_entry_view_email_label": {
+      "message": "E-mail eller brugernavn"
+   },
+   "pwm_entry_view_login_btn": {
+      "message": "Log ind nu"
+   },
+   "pwm_entry_view_name_label": {
+      "message": "Navn (påkrævet)"
+   },
+   "pwm_entry_view_notes_label": {
+      "message": "Noter"
+   },
+   "pwm_entry_view_pw_label": {
+      "message": "Adgangskode"
+   },
+   "pwm_entry_view_save_btn": {
+      "message": "Gem"
+   },
+   "pwm_entry_view_updated_on_label": {
+      "message": "Sidst redigeret den %DATE%"
+   },
+   "pwm_entry_view_url_label": {
+      "message": "Hjemmeside-URL"
+   },
+   "pwm_error_api_unreachable_step_1": {
+      "message": "Tænd din VPN"
+   },
+   "pwm_error_api_unreachable_step_2": {
+      "message": "Vælg en anden VPN-placering"
+   },
+   "pwm_error_api_unreachable_step_3": {
+      "message": "Hvis alt andet fejler, skal du [contact support]"
+   },
+   "pwm_error_api_unreachable_text_1": {
+      "message": "Prøv disse trin for at løse problemet:"
+   },
+   "pwm_error_no_access_btn_primary": {
+      "message": "Prøv igen"
+   },
+   "pwm_error_no_access_btn_secondary": {
+      "message": "Kontakt support"
+   },
+   "pwm_error_no_access_header": {
+      "message": "Kan ikke tilgå ExpressVPN Keys"
+   },
+   "pwm_error_no_access_text_1": {
+      "message": "Prøv at tilgå adgangskodeadministratoren igen om et par minutter."
+   },
+   "pwm_error_offline_text_1": {
+      "message": "Tjek din internetforbindelse og prøv igen."
+   },
+   "pwm_generic_error_modal_text": {
+      "message": "Vent et par minutter, og prøv derefter igen."
+   },
+   "pwm_hint_entry_edit_saved": {
+      "message": "Gemt. Sørg for at opdatere dine loginoplysninger på %URL%."
+   },
+   "pwm_locked_vault_password_manager": {
+      "message": "ExpressVPN Keys"
+   },
+   "pwm_locked_vault_unlock": {
+      "message": "Klik på udvidelsesikonet eller tryk på [command] for at tilgå din adgangskodeadministrator."
+   },
+   "pwm_modal_cancel_entry_confirm_header": {
+      "message": "Er du sikker?"
+   },
+   "pwm_modal_cancel_entry_confirm_text": {
+      "message": "Dine ændringer vil ikke blive gemt."
+   },
+   "pwm_modal_delete_entry_cancel_button": {
+      "message": "Annuller"
+   },
+   "pwm_modal_delete_entry_confirm_button": {
+      "message": "Slet permanent"
+   },
+   "pwm_modal_delete_entry_confirm_header": {
+      "message": "Er du sikker?"
+   },
+   "pwm_modal_delete_entry_confirm_text": {
+      "message": "Dette element vil blive slettet permanent."
+   },
+   "pwm_modal_discard_changes_cancel_button": {
+      "message": "Fortsæt redigering"
+   },
+   "pwm_modal_discard_changes_confirm_button": {
+      "message": "Kassér redigeringer"
+   },
+   "pwm_modal_save_entry_error_cancel_button": {
+      "message": "Annuller"
+   },
+   "pwm_modal_save_entry_error_header": {
+      "message": "Kan ikke gemme"
+   },
+   "pwm_modal_save_entry_error_retry_button": {
+      "message": "Prøv igen"
+   },
+   "pwm_modal_save_entry_error_text": {
+      "message": "Prøv venligst igen om et par minutter."
+   },
+   "pwm_network_error_modal_text": {
+      "message": "Tjek venligst din internetforbindelse, og prøv derefter igen."
+   },
+   "pwm_primary_pw_modal_generic_error_btn_primary": {
+      "message": "Prøv igen"
+   },
+   "pwm_primary_pw_modal_generic_error_header": {
+      "message": "Kan ikke indstille adgangskode"
+   },
+   "pwm_primary_pw_modal_generic_error_text": {
+      "message": "Prøv venligst igen om et par minutter."
+   },
+   "pwm_primary_pw_modal_pw_exists_btn_primary": {
+      "message": "Lære mere"
+   },
+   "pwm_primary_pw_modal_pw_exists_header": {
+      "message": "Kan ikke indstille adgangskode"
+   },
+   "pwm_primary_pw_modal_pw_exists_text": {
+      "message": "Denne adgangskodeadministrator er allerede opsat for denne ExpressVPN-konto. Klik venligst på ExpressVPN Keys-udvidelsen tilgå den."
+   },
+   "pwm_primary_pw_set_form_pw": {
+      "message": "Din primære adgangskode"
+   },
+   "pwm_primary_pw_set_form_pw_error_match": {
+      "message": "Adgangskoden matcher ikke ovenstående"
+   },
+   "pwm_primary_pw_set_form_pw_error_strength": {
+      "message": "Dit adgangskode skal indeholde 10 tegn og 1 symbol"
+   },
+   "pwm_primary_pw_set_form_pw_info_strength": {
+      "message": "Kræver 10 tegn og 1 symbol"
+   },
+   "pwm_primary_pw_set_form_pw_label": {
+      "message": "Primær adgangskode"
+   },
+   "pwm_primary_pw_set_form_pw_reenter": {
+      "message": "Indtast den primære adgangskode igen"
+   },
+   "pwm_primary_pw_set_form_submit": {
+      "message": "Indstil den primære adgangskode"
+   },
+   "pwm_primary_pw_set_header": {
+      "message": "Din primære adgangskode"
+   },
+   "pwm_primary_pw_set_help_link": {
+      "message": "Har du brug for hjælp med din adgangskode?"
+   },
+   "pwm_primary_pw_set_learn": {
+      "message": "Lær, hvordan du opretter stærke adgangskoder"
+   },
+   "pwm_primary_pw_set_security_modal_edit_password": {
+      "message": "Redigér adgangskode"
+   },
+   "pwm_primary_pw_set_security_modal_p1": {
+      "message": "Tilføj flere ord for at gøre din primære adgangskode mere sikker."
+   },
+   "pwm_primary_pw_set_security_modal_p2": {
+      "message": "Brug for hjælp? Læs vores råd til at skabe stærke adgangskoder."
+   },
+   "pwm_primary_pw_set_security_modal_read_tips": {
+      "message": "Læs råd"
+   },
+   "pwm_primary_pw_set_security_modal_title": {
+      "message": "Adgangskodesikkerheden er ikke opfyldt"
+   },
+   "pwm_primary_pw_set_text": {
+      "message": "Opret en primær adgangskode, du kan huske, som bruges til at kryptere dine gemte logins. Dette bør ikke være den samme som din ExpressVPN-adgangskode."
+   },
+   "pwm_recovery_code_cancel": {
+      "message": "Annuller"
+   },
+   "pwm_recovery_code_continue": {
+      "message": "Fortsæt"
+   },
+   "pwm_recovery_code_copied_hint": {
+      "message": "Du har kopieret gendannelseskoden. Udskriv venligst koden og/eller gem den et sikkert sted."
+   },
+   "pwm_recovery_code_copy_code": {
+      "message": "Kopier kode"
+   },
+   "pwm_recovery_code_download_pdf": {
+      "message": "Download som PDF"
+   },
+   "pwm_recovery_code_header": {
+      "message": "Din gendannelseskode"
+   },
+   "pwm_recovery_code_text": {
+      "message": "\u003Cb>Kopiér eller gem din gendannelseskode, og opbevar den et sikkert sted. \u003C/b> Hvis du mister din primære adgangskode, er denne kode den eneste måde at få adgang til dine oplysninger."
+   },
+   "pwm_recovery_code_warning_modal_text_p1": {
+      "message": "Du har ikke kopieret eller gemt din gendannelseskode."
+   },
+   "pwm_recovery_code_warning_modal_text_p2": {
+      "message": "ExpressVPN kan ikke få adgang til din primære adgangskode, gendannelseskode eller gemte logins, så sørg for at kopiere koden eller gemme den et sikkert sted."
+   },
+   "pwm_recovery_code_warning_modal_title": {
+      "message": "Vil du fortsætte til næste trin?"
+   },
+   "pwm_report_another": {
+      "message": "Rapportér et andet problem"
+   },
+   "pwm_report_auto_fill": {
+      "message": "Rapportér problem med auto-udfyld"
+   },
+   "pwm_request_mfa_error_modal_title": {
+      "message": "Kunne ikke sende e-mail"
+   },
+   "pwm_setup_add_new_logins": {
+      "message": "Tilføj nyt login"
+   },
+   "pwm_setup_import_existing_logins": {
+      "message": "Importér eksisterende logins "
+   },
+   "pwm_setup_success_add_logins": {
+      "message": "Tilføj login"
+   },
+   "pwm_setup_success_header": {
+      "message": "Så er du klar!"
+   },
+   "pwm_setup_success_import_logins": {
+      "message": "Importer logins"
+   },
+   "pwm_setup_success_text_p1": {
+      "message": "Din ExpressVPN Keys-konto er klar til brug."
+   },
+   "pwm_setup_success_text_p2": {
+      "message": "Har du logins, der er gemt i en anden adgangskodeadministrator?"
+   },
+   "pwm_setup_success_text_p3": {
+      "message": "Du kan importere dine gemte logins til:"
+   },
+   "pwm_setup_success_text_p4": {
+      "message": "Eller tilføj et nyt login manuelt:"
+   },
+   "pwm_unlock_vault_incorrect_pw_error": {
+      "message": "Forkert primær adgangskode"
+   },
+   "pwm_unlock_vault_locked_header": {
+      "message": "ExpressVPN Keys er låst"
+   },
+   "pwm_unlock_vault_need_help_link": {
+      "message": "Brug for hjælp?"
+   },
+   "pwm_unlock_vault_need_help_modal_text": {
+      "message": "Hvis du ikke kan låse ExpressVPN Keys op med din primære adgangskode, kan du bruge din gendannelseskode eller kontakte os for at få hjælp."
+   },
+   "pwm_unlock_vault_unlock_btn": {
+      "message": "Lås op"
+   },
+   "pwm_unlock_vault_unlocking_header": {
+      "message": "Låser op"
+   },
+   "pwm_use_recovery_code_label": {
+      "message": "Brug gendannelseskode"
+   },
+   "pwm_validate_mfa_network_error_modal_title": {
+      "message": "Kunne ikke bekræfte konto"
+   },
+   "pwm_verify_account_code_help_link": {
+      "message": "Har du ikke modtaget din kode?"
+   },
+   "pwm_verify_account_code_input_label": {
+      "message": "Indtast sekscifret bekræftelseskode"
+   },
+   "pwm_verify_account_code_invalid_code": {
+      "message": "Ugyldig kode, prøv igen"
+   },
+   "pwm_verify_account_code_submit_button_label": {
+      "message": "Næste"
+   },
+   "pwm_verify_account_code_text_p1": {
+      "message": "Vi har sendt en kode til din e-mailadresse for at bekræfte, at du er kontohaveren."
+   },
+   "pwm_verify_account_code_text_p2": {
+      "message": "Tjek din indbakke, og angiv den sekscifrede bekræftelseskode for at afslutte konfigurationen af din ExpressVPN Keys-konto."
+   },
+   "pwm_verify_account_header": {
+      "message": "Bekræft din konto"
+   },
+   "pwm_verify_account_need_help": {
+      "message": "Har du brug for hjælp? [Kontakt support]."
+   },
+   "pwm_verify_account_send_email_button": {
+      "message": "Send e-mail "
+   },
+   "pwm_verify_account_text_p1": {
+      "message": "For at konfigurere ExpressVPN Keys på denne enhed skal vi bekræfte, at du er kontohaveren."
+   },
+   "pwm_verify_account_text_p2": {
+      "message": "Vælg \"Send e-mail\" nedenfor, og indtast derefter den sekscifrede bekræftelseskode, der er angivet i e-mailen."
+   },
+   "recovery_code_cancel_setup": {
+      "message": "Annullér opsætning"
+   },
+   "save_diagnostics": {
+      "message": "Gem diagnostik "
+   },
+   "second": {
+      "message": "sekund"
+   },
+   "seconds": {
+      "message": "sekunder"
+   },
+   "settings_help_improve_expressvpn_keys": {
+      "message": "Hjælp med at gøre ExpressVPN Keys bedre"
+   },
+   "settings_help_improve_share_crash": {
+      "message": "Del nedbrudsrapporter og brugsdiagnostik. Disse rapporter indeholder aldrig personligt identificerbare oplysninger."
+   },
+   "settings_menu_item_change_password_label": {
+      "message": "Skift primær adgangskode"
+   },
+   "settings_menu_item_open_shortcut_label": {
+      "message": "Åbn med tastaturgenvej"
+   },
+   "settings_menu_section_data_title": {
+      "message": "Data"
+   },
+   "settings_menu_section_general_title": {
+      "message": "Generel"
+   },
+   "settings_menu_section_other_title": {
+      "message": "Andet"
+   },
+   "settings_menu_section_security_title": {
+      "message": "Sikkerhed"
+   },
+   "some_logins_saved_for_website": {
+      "message": "Login gemt for \u003Cb>%HOST%\u003C/b>"
+   },
+   "step_X_of_Y": {
+      "message": "%STEP% af %TOTAL% trin"
+   },
+   "try_again_label": {
+      "message": "Prøv igen "
+   },
+   "update_btn_label": {
+      "message": "Opdater"
+   },
+   "use_recovery_code_header": {
+      "message": "Brug gendannelseskode"
+   },
+   "use_recovery_code_incorrect_code_error": {
+      "message": "Ugyldig gendannelseskode"
+   },
+   "use_recovery_code_input_label": {
+      "message": "Gendannelseskode"
+   },
+   "use_recovery_code_text": {
+      "message": "Angiv din gendannelseskode for at nulstille din primære adgangskode til ExpressVPN Keys."
+   },
+   "waitlist_header": {
+      "message": "Du er på ventelisten!"
+   },
+   "waitlist_hint": {
+      "message": "Hvis udvidelsen er installeret, får du besked, når ExpressVPN Keys er tilgængelig for din konto."
+   },
+   "waitlist_notification_header": {
+      "message": "ExpressVPN Keys er tilgængelig"
+   },
+   "waitlist_notification_text": {
+      "message": "Klik her for at prøve ExpressVPN's nye adgangskodeadministrator til %CURRENT_BROWSER%."
+   },
+   "waitlist_p1": {
+      "message": "ExpressVPN Keys rulles ud over flere uger."
+   },
+   "waitlist_p2": {
+      "message": "Hvis du har spørgsmål, bedes du [kontakte support]."
+   },
+   "year": {
+      "message": "år"
+   },
+   "years": {
+      "message": "år"
+   }
+}

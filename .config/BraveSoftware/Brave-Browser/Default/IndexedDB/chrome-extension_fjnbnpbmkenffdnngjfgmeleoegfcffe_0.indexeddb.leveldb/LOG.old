@@ -1,0 +1,13 @@
+2022/09/06-04:44:40.688 8411 Reusing MANIFEST /home/andro/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/chrome-extension_fjnbnpbmkenffdnngjfgmeleoegfcffe_0.indexeddb.leveldb/MANIFEST-000001
+2022/09/06-04:44:40.688 8411 Recovering log #263
+2022/09/06-04:44:40.688 8411 Reusing old log /home/andro/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/chrome-extension_fjnbnpbmkenffdnngjfgmeleoegfcffe_0.indexeddb.leveldb/000263.log 
+2022/09/06-04:44:41.323 8421 Level-0 table #267: started
+2022/09/06-04:44:41.390 8421 Level-0 table #267: 3687 bytes OK
+2022/09/06-04:44:41.523 8421 Delete type=0 #263
+2022/09/06-04:44:41.523 8421 Manual compaction at level-0 from '\x00R\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00S\x00\x00\x00' @ 0 : 0; will stop at '\x00R\x00\x00\x05' @ 4730 : 1
+2022/09/06-04:44:41.523 8421 Compacting 1@0 + 1@1 files
+2022/09/06-04:44:41.601 8421 Generated table #268@0: 28 keys, 2921 bytes
+2022/09/06-04:44:41.601 8421 Compacted 1@0 + 1@1 files => 2921 bytes
+2022/09/06-04:44:41.692 8421 compacted to: files[ 0 1 1 0 0 0 0 ]
+2022/09/06-04:44:41.692 8421 Delete type=2 #267
+2022/09/06-04:44:41.692 8421 Manual compaction at level-0 from '\x00R\x00\x00\x05' @ 4730 : 1 .. '\x00S\x00\x00\x00' @ 0 : 0; will stop at (end)

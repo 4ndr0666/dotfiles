@@ -1,0 +1,561 @@
+{
+   "Modify": {
+      "description": "Popup menu",
+      "message": "Modify"
+   },
+   "add_info": {
+      "description": "options",
+      "message": "スクリーンショットの上部に日付とURLを追加します"
+   },
+   "alert_auto_content": {
+      "description": "options",
+      "message": "時間指定録画をオフにしても、録画は自動で停止しません。"
+   },
+   "auto_stop_tip": {
+      "description": "Popup menu",
+      "message": "収録予定は、&nbsp;\u003Cspan>$time$\u003C/span>&nbsp;後に終了",
+      "placeholders": {
+         "time": {
+            "content": "$1",
+            "example": "00:00:10"
+         }
+      }
+   },
+   "auto_tab_tip": {
+      "description": "Popup menu",
+      "message": "ビデオ録画やセッションでのエコーを避けるため、自動的に録画タブに切り替わり、マイクがオフになっていますので、必要に応じてオンにしてください。"
+   },
+   "auto_timer_tip": {
+      "description": "Popup menu",
+      "message": "\u003Cspan>$time$\u003C/span>で自動停止",
+      "placeholders": {
+         "time": {
+            "content": "$1",
+            "example": "00:00:10"
+         }
+      }
+   },
+   "c_s_fullpage": {
+      "description": "options",
+      "message": "フルページ"
+   },
+   "c_s_selected": {
+      "description": "options",
+      "message": "選択範囲"
+   },
+   "c_s_title": {
+      "description": "options",
+      "message": "キャプチャに使用するショートカットキー"
+   },
+   "c_s_visible": {
+      "description": "options",
+      "message": "表示部分"
+   },
+   "c_section_title": {
+      "description": "options",
+      "message": "キャプチャ設定"
+   },
+   "capture_btn_cancel": {
+      "description": "content",
+      "message": "取消"
+   },
+   "capture_btn_capture": {
+      "description": "content",
+      "message": "保存"
+   },
+   "capture_btn_copy": {
+      "description": "content",
+      "message": "コピー"
+   },
+   "capture_btn_copy_tip": {
+      "description": "content",
+      "message": "クリップボードにコピーしました"
+   },
+   "capture_cloud_tip": {
+      "description": "Popup menu",
+      "message": "Switch to 'Cloud' to capture screenshot and URL"
+   },
+   "capture_location_title": {
+      "description": "Popup menu",
+      "message": "スクリーンショットの保存場所"
+   },
+   "ctl_bar_title": {
+      "description": "Popup menu",
+      "message": "コントロールバー"
+   },
+   "ctl_bar_title_more": {
+      "description": "Popup menu",
+      "message": "コントロールバー & 注釈ツール"
+   },
+   "custom_record": {
+      "description": "Popup menu",
+      "message": "地域別収録(このタブ)"
+   },
+   "d_a": {
+      "description": "options",
+      "message": "スクリーンショットのファイル形式"
+   },
+   "d_delay": {
+      "description": "options",
+      "message": "画面全体またはアプリウィンドウの遅延時間"
+   },
+   "d_delay_never": {
+      "description": "options",
+      "message": "決して"
+   },
+   "dark_mode": {
+      "description": "options",
+      "message": "拡張機能のポップアップメニューでダークモードをオンにする"
+   },
+   "default_tab_c": {
+      "description": "options",
+      "message": "キャプチャ"
+   },
+   "default_tab_d": {
+      "description": "options",
+      "message": "記憶する"
+   },
+   "default_tab_r": {
+      "description": "options",
+      "message": "レコード"
+   },
+   "default_tab_title": {
+      "description": "options",
+      "message": "ポップアップメニューのデフォルトタブを設定する"
+   },
+   "delay": {
+      "description": "Popup menu",
+      "message": "遅延後の表示部分"
+   },
+   "desktop": {
+      "description": "Popup menu",
+      "message": "画面全体またはアプリウィンドウ"
+   },
+   "discard_btn": {
+      "description": "Popup menu",
+      "message": "削除"
+   },
+   "discard_p": {
+      "description": "Popup menu",
+      "message": "この録画は完全に削除してもよろしいですか?"
+   },
+   "discard_p_no": {
+      "description": "Popup menu",
+      "message": "キャンセル"
+   },
+   "discard_p_yes": {
+      "description": "Popup menu",
+      "message": "削除する"
+   },
+   "drag_btn": {
+      "description": "Popup menu",
+      "message": "引っ張る"
+   },
+   "embed_cam_btn": {
+      "description": "Popup menu",
+      "message": "カメラ映像"
+   },
+   "entire": {
+      "description": "Popup menu",
+      "message": "フルページ"
+   },
+   "extDesc": {
+      "description": "Extension description.",
+      "message": "リモートワークに最適なスクリーンレコーダーとスクリーンキャプチャおよび注釈ツール。"
+   },
+   "extName": {
+      "description": "Extension name.",
+      "message": "素晴らしいスクリーンショットとスクリーンレコーダー"
+   },
+   "fullpage_capture_stop_tip": {
+      "description": "Popup menu",
+      "message": "非常に長いページまたは無限スクロールページの場合は、 \u003Ca id='stop-entire-capture'>「停止」\u003C/a>ボタンをクリックして手動でキャプチャを終了できます"
+   },
+   "fullpage_capture_tip": {
+      "description": "Popup menu",
+      "message": "画面キャプチャ処理中です: 最高のスクリーンショットを得るために，キャプチャ中にページをスクロールしたり、マウス ポインタを移動したりしないでください."
+   },
+   "fullpage_capture_title": {
+      "description": "Popup menu",
+      "message": "画面キャプチャ処理中です..."
+   },
+   "get_link_google": {
+      "description": "options",
+      "message": "Googleドライブにアップロードされた画像の共有可能なリンクを常に取得する"
+   },
+   "gmail_icon": {
+      "description": "options",
+      "message": "画像を追加するには、Gmailの作成ウィンドウに拡張機能アイコンを表示します"
+   },
+   "grant_access": {
+      "description": "Popup menu",
+      "message": "アクセスを許可"
+   },
+   "hide_ctl_bar": {
+      "description": "Popup menu",
+      "message": "コントロールバーを非表示"
+   },
+   "m_section_title": {
+      "description": "options",
+      "message": "その他の設定"
+   },
+   "minu_limit_tip": {
+      "description": "Popup menu",
+      "message": "(5分制限)"
+   },
+   "more": {
+      "description": "Popup menu",
+      "message": "もっと"
+   },
+   "off_cam_btn": {
+      "description": "Popup menu",
+      "message": "カメラの電源を切ります"
+   },
+   "off_mic_btn": {
+      "description": "Popup menu",
+      "message": "マイクをオフにします"
+   },
+   "ok": {
+      "description": "Popup menu",
+      "message": "オッケー"
+   },
+   "on_cam_btn": {
+      "description": "Popup menu",
+      "message": "カメラの電源を入れます"
+   },
+   "on_mic_btn": {
+      "description": "Popup menu",
+      "message": "マイクをオンにする"
+   },
+   "pause_btn": {
+      "description": "Popup menu",
+      "message": "一時停止"
+   },
+   "pause_title": {
+      "description": "Popup menu",
+      "message": "一時停止"
+   },
+   "play_video": {
+      "description": "options",
+      "message": "現在のページでビデオを再生する"
+   },
+   "play_video_desc": {
+      "description": "options",
+      "message": "このオプションをオンにすると、次のいずれかのプラットフォームで、新しいタブにジャンプすることなく、現在のページの共有可能なリンクを含む Awesome Screenshot ビデオを再生できます。 名前の横にあるチェックボックスを選択または選択解除することにより、これらのプラットフォームの設定を管理できます。"
+   },
+   "prepare_record_tip": {
+      "description": "Popup menu",
+      "message": "\u003Cp>サーバーに接続しています...\u003C/p>しばらくしても録画が開始されない場合は、画面の下部にある[共有の停止]ボタンをクリックし、ネットワークを確認してから再試行してください。"
+   },
+   "r_alert_auto_title": {
+      "description": "options",
+      "message": "時間指定録画をオフにする?"
+   },
+   "r_alert_turnoff": {
+      "description": "options",
+      "message": "消す"
+   },
+   "r_c": {
+      "description": "options",
+      "message": "カウントダウンタイマー"
+   },
+   "r_c_desc": {
+      "description": "options",
+      "message": "レコードはカウントダウン後に開始されます"
+   },
+   "r_r_mic": {
+      "description": "options",
+      "message": "マイクがオフのときにリマインダーを許可します。"
+   },
+   "r_s_a": {
+      "description": "options",
+      "message": "マネジメント"
+   },
+   "r_s_auto": {
+      "description": "options",
+      "message": "タイムドレコーディング"
+   },
+   "r_s_more_title": {
+      "description": "options",
+      "message": "その他の設定"
+   },
+   "r_s_title": {
+      "description": "options",
+      "message": "録画のショートカット"
+   },
+   "r_section_title": {
+      "description": "options",
+      "message": "レコード設定"
+   },
+   "record_cam": {
+      "description": "Popup menu",
+      "message": "カメラのみ"
+   },
+   "record_camera_only_title": {
+      "description": "Popup menu",
+      "message": "カメラ"
+   },
+   "record_camera_title": {
+      "description": "Popup menu",
+      "message": "カメラ映像"
+   },
+   "record_desktop": {
+      "description": "Popup menu",
+      "message": "画面全体"
+   },
+   "record_local_tip": {
+      "description": "Popup menu",
+      "message": " 長さは最長\u003Cb>5分\u003C/b>。 \u003Ca target='_blank' href='https://www.awesomescreenshot.com/pricing?from=extMenu5min' >無制限の長さで購入\u003C/a >。"
+   },
+   "record_location_cloud": {
+      "description": "Popup menu",
+      "message": "クラウド"
+   },
+   "record_location_local": {
+      "description": "Popup menu",
+      "message": "ローカル"
+   },
+   "record_location_title": {
+      "description": "Popup menu",
+      "message": "録画の保存場所"
+   },
+   "record_mic_title": {
+      "description": "Popup menu",
+      "message": "マイク音声"
+   },
+   "record_resolution_title": {
+      "description": "Popup menu",
+      "message": "最大解像度"
+   },
+   "record_start": {
+      "description": "Popup menu",
+      "message": "録画開始"
+   },
+   "record_tab": {
+      "description": "Popup menu",
+      "message": "このタブ"
+   },
+   "record_tab_sound_title": {
+      "description": "Popup menu",
+      "message": "タブの音声"
+   },
+   "record_toolbar_title": {
+      "description": "Popup menu",
+      "message": "注釈ツールを表示する"
+   },
+   "record_try_tip": {
+      "description": "Popup menu",
+      "message": "最初の20本のビデオで、すべてのプレミアム機能をお楽しみいただけます. \u003Ca target='_blank' href='https://www.awesomescreenshot.com/pricing?from=aws-upgrade' >アップグレード\u003C/a > 無制限のビデオのロックを解除するには"
+   },
+   "record_try_tip_image": {
+      "description": "Popup menu",
+      "message": "\u003Ca target='_blank' href='https://www.awesomescreenshot.com/pricing?from=aws-upgrade' >アップグレード\u003C/a > 無制限のスクリーンショットのロックを解除するには"
+   },
+   "recording_title": {
+      "description": "Popup menu",
+      "message": "録画中..."
+   },
+   "resize_retina": {
+      "description": "options",
+      "message": "スクリーンショットのサイズをRetinaスクリーンの元のサイズの50％に変更する"
+   },
+   "resume_btn": {
+      "description": "Popup menu",
+      "message": "録画を続ける"
+   },
+   "s_a": {
+      "description": "options",
+      "message": "スクリーンショットの注釈をスキップ"
+   },
+   "s_a_a": {
+      "description": "options",
+      "message": "常に"
+   },
+   "s_a_n": {
+      "description": "options",
+      "message": "決して"
+   },
+   "s_a_o": {
+      "description": "options",
+      "message": "フルページの場合のみ"
+   },
+   "s_section_title": {
+      "description": "options",
+      "message": "保存の設定"
+   },
+   "save_as": {
+      "description": "options",
+      "message": "ダウンロード前に各ファイルの保存場所を確認する"
+   },
+   "save_as_desc": {
+      "description": "options",
+      "message": "注：この機能を使用するには、許可リクエストウィンドウがポップアップしたときに、拡張機能がダウンロードを管理できるようにする必要があります。また、このオプションがオンの場合にのみ、デフォルトのサブフォルダーを指定してスクリーンショットをローカルディスクに保存できます。 サブフォルダーを指定しない場合、ファイルはデフォルトでDownloadsフォルダーに保存されます。"
+   },
+   "selected": {
+      "message": "選択範囲"
+   },
+   "shortcuts_pause_resume": {
+      "description": "Extension setting",
+      "message": "録音の一時停止/録音の再開"
+   },
+   "shortcuts_start_stop": {
+      "description": "Extension setting",
+      "message": "録音開始/録音終了"
+   },
+   "show_ctl_bar": {
+      "description": "Popup menu",
+      "message": "コントロールバーを表示"
+   },
+   "stop_btn": {
+      "description": "Popup menu",
+      "message": "録画停止"
+   },
+   "tab_title_capture": {
+      "description": "Popup menu",
+      "message": "キャプチャ"
+   },
+   "tab_title_record": {
+      "description": "Popup menu",
+      "message": "レコード"
+   },
+   "timer_des": {
+      "description": "Popup menu",
+      "message": "設定した時間後に次の録画が終了します"
+   },
+   "timer_set_title": {
+      "description": "Popup menu",
+      "message": "録画時間の設定"
+   },
+   "upload": {
+      "description": "Popup menu",
+      "message": "ローカル画像に注釈を加える"
+   },
+   "v_delay": {
+      "description": "options",
+      "message": "可視部分の遅延時間"
+   },
+   "video_cloud_tip": {
+      "description": "Popup menu",
+      "message": "インスタント共有のために「クラウド」に切り替えます"
+   },
+   "visible": {
+      "description": "Popup menu",
+      "message": "表示部分"
+   },
+   "vtoolbar_annotation_btn": {
+      "description": "content",
+      "message": "注釈ツール"
+   },
+   "vtoolbar_arrow_btn": {
+      "description": "content",
+      "message": "矢印"
+   },
+   "vtoolbar_blur_btn": {
+      "description": "content",
+      "message": "Blur"
+   },
+   "vtoolbar_callout_btn": {
+      "description": "content",
+      "message": "Callout"
+   },
+   "vtoolbar_clear_btn": {
+      "description": "content",
+      "message": "Clear"
+   },
+   "vtoolbar_collapse_btn": {
+      "description": "content",
+      "message": "崩壊"
+   },
+   "vtoolbar_discard_btn": {
+      "description": "content",
+      "message": "削除"
+   },
+   "vtoolbar_ellipse_btn": {
+      "description": "content",
+      "message": "Ellipse"
+   },
+   "vtoolbar_emoji_btn": {
+      "description": "content",
+      "message": "Emoji"
+   },
+   "vtoolbar_expand_btn": {
+      "description": "content",
+      "message": "展開"
+   },
+   "vtoolbar_freeline_btn": {
+      "description": "content",
+      "message": "イラスト線"
+   },
+   "vtoolbar_highlight_click_btn": {
+      "description": "content",
+      "message": "クリックをハイライト表示"
+   },
+   "vtoolbar_highlight_mouse_btn": {
+      "description": "content",
+      "message": "ポインタをハイライト表示"
+   },
+   "vtoolbar_image_btn": {
+      "description": "content",
+      "message": "Image"
+   },
+   "vtoolbar_mouse_default_btn": {
+      "description": "content",
+      "message": "デフォルト"
+   },
+   "vtoolbar_mouse_effect_btn": {
+      "description": "content",
+      "message": "マウスポインタの効果"
+   },
+   "vtoolbar_pause_btn": {
+      "description": "content",
+      "message": "一時停止"
+   },
+   "vtoolbar_pen_btn": {
+      "description": "content",
+      "message": "Pen"
+   },
+   "vtoolbar_rect_btn": {
+      "description": "content",
+      "message": "矩形"
+   },
+   "vtoolbar_remove_all_btn": {
+      "description": "content",
+      "message": "一度に注釈を削除する"
+   },
+   "vtoolbar_remove_btn": {
+      "description": "content",
+      "message": "注釈を削除する"
+   },
+   "vtoolbar_remove_single_btn": {
+      "description": "content",
+      "message": "1つずつ注釈を削除する"
+   },
+   "vtoolbar_resume_btn": {
+      "description": "content",
+      "message": "録画を続ける"
+   },
+   "vtoolbar_spotlight_btn": {
+      "description": "content",
+      "message": "スポットライト"
+   },
+   "vtoolbar_step_btn": {
+      "description": "content",
+      "message": "Step"
+   },
+   "vtoolbar_stop_btn": {
+      "description": "content",
+      "message": "録画停止"
+   },
+   "vtoolbar_text_btn": {
+      "description": "content",
+      "message": "Text"
+   },
+   "vtoolbar_undo_btn": {
+      "description": "content",
+      "message": "Undo"
+   },
+   "warning": {
+      "description": "Popup menu",
+      "message": "確認してください"
+   }
+}

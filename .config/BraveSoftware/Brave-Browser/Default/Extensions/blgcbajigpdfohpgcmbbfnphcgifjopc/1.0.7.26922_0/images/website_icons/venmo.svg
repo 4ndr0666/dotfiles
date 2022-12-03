@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="180px" height="180px" viewBox="0 0 180 180" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Logo</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Logo">
+            <rect id="Background" fill="#008CFF" x="0" y="0" width="180" height="180"></rect>
+            <path d="M133.656952,41 C137.339729,46.8832668 139,52.9430609 139,60.5978256 C139,85.0125238 117.452523,116.729062 99.9643209,139 L60.0199398,139 L44,46.3455142 L78.9756262,43.1336487 L87.445522,109.06326 C95.3597469,96.5923779 105.125862,76.9947756 105.125862,63.6331913 C105.125862,56.3195609 103.83068,51.3380312 101.806099,47.2362915 L133.656952,41 Z" id="path815" fill="#FFFFFF" fill-rule="nonzero"></path>
+        </g>
+    </g>
+</svg>

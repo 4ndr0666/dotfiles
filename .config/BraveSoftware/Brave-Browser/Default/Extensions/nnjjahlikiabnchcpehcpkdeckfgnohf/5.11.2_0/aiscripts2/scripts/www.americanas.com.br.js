@@ -1,0 +1,1 @@
+function aiparser(){if(top==window){var r=document.querySelector(".thumb-gallery__Container-sc-1iagdhm-0");chrome.runtime.sendMessage({cmd:"ADD_IMG_LIST",list:Array.prototype.map.call(r.children,r=>r.getAttribute("src")).map(r=>({src:r.replace("_small.","_large.")}))})}}window.aiparser=aiparser;

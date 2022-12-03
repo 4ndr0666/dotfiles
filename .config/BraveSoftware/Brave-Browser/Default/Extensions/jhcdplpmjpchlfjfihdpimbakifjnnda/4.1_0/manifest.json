@@ -1,0 +1,29 @@
+{
+   "background": {
+      "persistent": false,
+      "scripts": [ "background.js" ]
+   },
+   "browser_action": {
+      "default_icon": "logo_16.png",
+      "default_popup": "popup.html",
+      "default_title": ""
+   },
+   "description": "The easiest way to access all the productivity settings and developer tools hidden in the Google Chrome™ browser.",
+   "differential_fingerprint": "1.53728b84624c60eeb9ae2edb387d107220c32465f6332602894f2d49657afd1f",
+   "icons": {
+      "128": "logo_128.png",
+      "16": "logo_16.png",
+      "48": "logo_48.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvXvRkcVQV6yKxOmbFdzB4I8jmONnI53JukK2MTn2M4ffz2Nr0FbyATiZB1eKonXM+OG4xLrdpVHGBK0GvQ8F8nnX2qQxAFTqaTzTC420nR8A3dk7RPVajMGv2kCjPtbaM1v+q2yeVpFAa1HeHYShMd/S49yps1u/y9tW3m6SHqkaw0k8s/5emV146GV96TXDt7kmNR3mvfmJgXIa+SS5mEpCqnZrwH9GC2mQUYfstKh90fOziS9sYYNTl4yM6npNXiormGLXJ4m3bxZ3AT4CWTn3fzTSVp/bbM97JtJEsLD8041xtnAN0/K+IJl/kYD49qmkKwIRu0IuQaVslmBWKwIDAQAB",
+   "manifest_version": 2,
+   "name": "HiddenTools for Google Chrome™",
+   "options_ui": {
+      "open_in_tab": false,
+      "page": "options.html"
+   },
+   "permissions": [ "activeTab", "storage" ],
+   "short_name": "HiddenTools Pro",
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "4.1"
+}

@@ -1,0 +1,34 @@
+{
+   "background": {
+      "page": "background.html"
+   },
+   "browser_action": {
+      "default_icon": {
+         "32": "img/notsynced.png"
+      },
+      "default_popup": "app.html",
+      "default_title": "__MSG_title__"
+   },
+   "commands": {
+      "_execute_browser_action": {
+         "suggested_key": {
+            "default": "Ctrl+Space",
+            "mac": "MacCtrl+Space"
+         }
+      }
+   },
+   "content_security_policy": "connect-src *; default-src 'none'; font-src 'self' data:; img-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline';",
+   "default_locale": "en",
+   "description": "__MSG_description__",
+   "icons": {
+      "128": "img/icon128.png",
+      "48": "img/icon48.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkKyobUQOiS2q0XzBZxRfBzgQUI23bZs9kWrpJa473TGRTLnq1xqF6yMHtPcMDRemv4ZDdMgcaPE8ejscFcvphf6GdK/8AHwVPPrAMqBWjoUPLxznsu+SyM1vOpOt/S/Svx79Oym2JNt11OsA79A8sdmLY3MZaAPvhx+m8sebu/HKRebpwsrcHJWMKdBFQ8WUqq3cxR5NmIkff7SoCWOCV3eBAkqNLlOKVtpfRTn+UAh0Gi1Y8ubUKm2chv/5CaKreYa/mb4eWD8d8Baf9wtj++JItVojdzzziVNK3kaT1kxAkOVP3J59gB521lJfJGvPkFd/ZB5ETUFbYta67NLeswIDAQAB",
+   "manifest_version": 2,
+   "name": "__MSG_title__",
+   "optional_permissions": [ "http://*/", "https://*/" ],
+   "permissions": [ "activeTab", "alarms", "bookmarks", "notifications", "storage", "tabs", "unlimitedStorage" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "1.5.2"
+}

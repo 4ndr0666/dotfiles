@@ -1,0 +1,1568 @@
+{
+   "account_verified_header": {
+      "message": "ยืนยันบัญชีแล้ว"
+   },
+   "account_verified_hint": {
+      "message": "อุปกรณ์นี้ได้รับอนุญาตให้ใช้ ExpressVPN Keys แล้ว"
+   },
+   "account_verified_text_p1": {
+      "message": "ขณะนี้ คุณสามารถปิดแถบนี้และเปิดส่วนขยายเพื่อดูข้อมูลการเข้าสู่ระบบของคุณ หรือเริ่มการเรียกดูและป้อนข้อมูลการเข้าสู่ระบบของคุณโดยอัตโนมัติ"
+   },
+   "account_verified_text_p2": {
+      "message": "หากคุณมีคำถามใด ๆ โปรด[ติดต่อฝ่ายสนับสนุน]"
+   },
+   "add_logins_back": {
+      "message": "เพิ่มข้อมูลการเข้าสู่ระบบสำหรับ %HOST%"
+   },
+   "add_logins_choose_website_header": {
+      "message": "เลือกเว็บไซต์เพื่อเริ่มต้น"
+   },
+   "add_logins_choose_website_text": {
+      "message": "ไม่พบเว็บไซต์ที่คุณต้องการเพิ่มข้อมูลการเข้าสู่ระบบใช่หรือไม่ \nคลิกที่ไอคอนส่วนขยายและเริ่มเพิ่มข้อมูลการเข้าสู่ระบบ"
+   },
+   "add_logins_header": {
+      "message": "เพิ่มรหัสผ่านแรกของคุณ"
+   },
+   "add_logins_open_website": {
+      "message": "เปิด %HOST%"
+   },
+   "add_logins_step1": {
+      "message": "เปิด %HOST%"
+   },
+   "add_logins_step2": {
+      "message": "หากคุณลงชื่อเข้าใช้บัญชีของคุณ โปรดออกจากระบบ"
+   },
+   "add_logins_step3": {
+      "message": "เข้าสู่ระบบอีกครั้งโดยป้อนชื่อผู้ใช้และรหัสผ่านของคุณ"
+   },
+   "add_logins_step4": {
+      "message": "คลิก '\u003Cb>บันทึก\u003C/b>' เมื่อข้อความแจ้ง ExpressVPN ปรากฏขึ้นเพื่อบันทึกรายละเอียดการเข้าสู่ระบบของคุณ"
+   },
+   "add_logins_text_p1": {
+      "message": "เลือกเว็บไซต์ยอดนิยมจากด้านขวาและเราจะแสดงวิธีเพิ่มรหัสผ่านแรกของคุณ"
+   },
+   "add_logins_text_p2_1": {
+      "message": "หากคุณมีข้อมูลการเข้าสู่ระบบที่บันทึกไว้ในตัวจัดการรหัสผ่านอื่น"
+   },
+   "add_logins_text_p2_2": {
+      "message": "คุณสามารถนำเข้าพวกมันได้อย่างง่ายดาย"
+   },
+   "add_logins_text_p2_3": {
+      "message": "ไปที่บัญชี ExpressVPN Keys ของคุณ"
+   },
+   "app_default_title": {
+      "message": "ExpressVPN Keys"
+   },
+   "app_default_title_alpha": {
+      "message": "ExpressVPN Keys (Alpha)"
+   },
+   "app_default_title_beta": {
+      "message": "ExpressVPN Keys (Beta)"
+   },
+   "app_description_@firefox@_text": {
+      "description": "The description of the application",
+      "message": "จัดเก็บและสร้างรหัสผ่านของคุณอย่างปลอดภัย และลงชื่อเข้าใช้เว็บไซต์ได้เร็วยิ่งขึ้น—โดยไม่มีค่าใช้จ่ายเพิ่มเติมสำหรับสมาชิก ExpressVPN"
+   },
+   "app_description_text": {
+      "description": "The description of the application",
+      "message": "จัดเก็บและสร้างรหัสผ่านของคุณอย่างปลอดภัย และลงชื่อเข้าใช้เว็บไซต์ได้เร็วยิ่งขึ้น—โดยไม่มีค่าใช้จ่ายเพิ่มเติมสำหรับสมาชิก ExpressVPN"
+   },
+   "app_description_text_alpha": {
+      "message": "จัดเก็บและสร้างรหัสผ่านของคุณอย่างปลอดภัย และลงชื่อเข้าใช้เว็บไซต์ได้เร็วยิ่งขึ้น—โดยไม่มีค่าใช้จ่ายเพิ่มเติมสำหรับสมาชิก ExpressVPN"
+   },
+   "app_description_text_beta": {
+      "message": "จัดเก็บและสร้างรหัสผ่านของคุณอย่างปลอดภัย และลงชื่อเข้าใช้เว็บไซต์ได้เร็วยิ่งขึ้น—โดยไม่มีค่าใช้จ่ายเพิ่มเติมสำหรับสมาชิก ExpressVPN"
+   },
+   "app_name_title": {
+      "description": "The name of the application",
+      "message": "ExpressVPN Keys: ตัวจัดการรหัสผ่านฟรี"
+   },
+   "app_name_title_alpha": {
+      "description": "The Alpha name of the application",
+      "message": "ExpressVPN Keys: ตัวจัดการรหัสผ่าน Alpha"
+   },
+   "app_name_title_beta": {
+      "description": "The Beta name of the application",
+      "message": "ExpressVPN Keys: ตัวจัดการรหัสผ่าน Beta"
+   },
+   "app_not_installed_have_expressvpn_Linux_p1": {
+      "message": "คุณจะต้องติดตั้งแอป ExpressVPN สำหรับ Linux และเปิดใช้งานเพื่อใช้ส่วนขยาย Chrome"
+   },
+   "app_not_installed_have_expressvpn_Mac_p1": {
+      "message": "คุณจะต้องติดตั้งแอป ExpressVPN สำหรับ Mac และเปิดใช้งานเพื่อใช้ส่วนขยาย Chrome"
+   },
+   "app_not_installed_have_expressvpn_Windows_p1": {
+      "message": "คุณจะต้องติดตั้งแอป ExpressVPN สำหรับ Windows และเปิดใช้งานเพื่อใช้ส่วนขยาย Chrome"
+   },
+   "app_not_installed_have_expressvpn_button_label": {
+      "message": "ลงชื่อเข้าใช้"
+   },
+   "app_not_installed_have_expressvpn_header": {
+      "message": "มีบัญชี ExpressVPN หรือไม่?"
+   },
+   "app_not_installed_have_expressvpn_p2": {
+      "message": "ลงชื่อเข้าใช้บัญชี ExpressVPN ของคุณเพื่อดาวน์โหลดแอปเวอร์ชันล่าสุดและรับรหัสเปิดใช้งาน "
+   },
+   "app_not_installed_header": {
+      "message": "จัดเก็บข้อมูลการเข้าสู่ระบบอย่างปลอดภัยด้วย ExpressVPN Keys"
+   },
+   "app_not_installed_no_account_button_label": {
+      "message": "รับ ExpressVPN"
+   },
+   "app_not_installed_no_account_header": {
+      "message": "ยังไม่มีบัญชี ExpressVPN ใช่หรือไม่?"
+   },
+   "app_not_installed_no_account_p1": {
+      "message": "ทดลองใช้ ExpressVPN โดยปราศจากความเสี่ยงด้วยการรับประกันคืนเงินภายใน 30 วัน คุณจะได้รับการเข้าถึง VPN พรีเมียมและตัวจัดการรหัสผ่าน หรือ Keys"
+   },
+   "app_not_installed_subheader": {
+      "message": "ตัวจัดการรหัสผ่านเปิดให้ใช้ฟรีสำหรับผู้ใช้ ExpressVPN"
+   },
+   "app_short_name_title": {
+      "description": "The short name of the application",
+      "message": "ExpressVPN Keys"
+   },
+   "autofill_add_new_entry": {
+      "message": "เพิ่มข้อมูลการเข้าสู่ระบบบน Keys"
+   },
+   "autofill_from_different_subdomain_warning_cancel": {
+      "message": "ยกเลิก"
+   },
+   "autofill_from_different_subdomain_warning_proceed": {
+      "message": "ดำเนินการต่อ"
+   },
+   "autofill_from_different_subdomain_warning_text": {
+      "message": "คุณแน่ใจหรือไม่? คุณกำลังพยายาม\nกรอกรายละเอียดการเข้าสู่ระบบของคุณ\nสำหรับ \u003Cb>%ENTRY_DOMAIN%\u003C/b> บน \u003Cb>%CURRENT_DOMAIN%\u003C/b>"
+   },
+   "autosave_existing_login_tab": {
+      "message": "ข้อมูลการเข้าสู่ระบบที่มีอยู่"
+   },
+   "autosave_modal_choose_entry_title": {
+      "message": "เลือกข้อมูลการเข้าสู่ระบบเพื่ออัปเดต"
+   },
+   "autosave_modal_save_prompt_title": {
+      "message": "บันทึกข้อมูลการเข้าสู่ระบบ?"
+   },
+   "autosave_modal_saved_title": {
+      "message": "บันทึกข้อมูลการเข้าสู่ระบบสำหรับ \u003Cb>%HOST%\u003C/b>"
+   },
+   "autosave_modal_update_prompt_title": {
+      "message": "อัปเดตข้อมูลเข้าระบบ \u003Cb>%HOST%\u003C/b> หรือไม่?"
+   },
+   "autosave_modal_update_propmpt_header": {
+      "message": "อัปเดต \u003Cb>%HOST%\u003C/b>"
+   },
+   "autosave_modal_updated_title": {
+      "message": "อัปเดตข้อมูลการเข้าสู่ระบบสำหรับ \u003Cb>%HOST%\u003C/b> เรียบร้อยแล้ว"
+   },
+   "autosave_new_login_tab": {
+      "message": "ข้อมูลการเข้าสู่ระบบใหม่ "
+   },
+   "back": {
+      "message": "กลับ"
+   },
+   "beta_survey_notification_help_improve_header": {
+      "message": "ช่วยปรับปรุง ExpressVPN Keys"
+   },
+   "beta_survey_notification_help_improve_text": {
+      "message": "คลิกที่นี่เพื่อแบ่งปันความคิดของคุณเกี่ยวกับตัวจัดการรหัสผ่านที่เพิ่งเปิดตัวใหม่"
+   },
+   "centuries": {
+      "message": "หลายศตวรรษ"
+   },
+   "century": {
+      "message": "หนึ่งศตวรรษ"
+   },
+   "change_password_set_new_header": {
+      "message": "รหัสผ่านหลักใหม่ของคุณ"
+   },
+   "change_password_strong_passwords_link_text": {
+      "message": "เรียนรู้วิธีการสร้างรหัสผ่านที่แข็งแกร่ง"
+   },
+   "change_password_success_header": {
+      "message": "สำเร็จ!"
+   },
+   "change_password_success_hint": {
+      "message": "เปลี่ยนรหัสผ่านหลักเรียบร้อยแล้ว"
+   },
+   "change_password_success_text": {
+      "message": "ตอนนี้คุณสามารถปิดแถบนี้และเปิดส่วนขยาย ExpressVPN Keys เพื่อปลดล็อกตัวจัดการรหัสผ่านโดยใช้รหัสผ่านหลักใหม่ของคุณ"
+   },
+   "change_password_verify_button_label": {
+      "message": "ยืนยัน"
+   },
+   "change_password_verify_header": {
+      "message": "ยืนยันรหัสผ่านหลัก"
+   },
+   "change_password_verify_text": {
+      "message": "กรอกรหัสผ่านหลักของคุณทางด้านขวาเพื่อเปลี่ยนรหัสผ่านหลักสำหรับ ExpressVPN Keys"
+   },
+   "character_limit_reached": {
+      "message": "ตัวอักษรถึงขีดจำกัดแล้ว"
+   },
+   "contact_support_anchor": {
+      "message": "ติดต่อฝ่ายสนับสนุน"
+   },
+   "day": {
+      "message": "วัน"
+   },
+   "days": {
+      "message": "วัน"
+   },
+   "delete_account_confirm_modal_cancel_button": {
+      "message": "ยกเลิก"
+   },
+   "delete_account_confirm_modal_confirm_button": {
+      "message": "ลบอย่างถาวร"
+   },
+   "delete_account_confirm_modal_header": {
+      "message": "คุณแน่ใจหรือไม่?"
+   },
+   "delete_account_confirm_modal_text": {
+      "message": "หากคุณมีบัญชีการจัดการรหัสผ่าน บัญชีนั้นจะถูกลบออกอย่างถาวร"
+   },
+   "delete_account_unlock_modal_confirm_button": {
+      "message": "ปลดล็อก"
+   },
+   "delete_account_unlock_modal_header": {
+      "message": "จำเป็นต้องปลดล็อก"
+   },
+   "delete_account_unlock_modal_text": {
+      "message": "โปรดปลดล็อกห้องนิรภัยของคุณเพื่อลบบัญชีของคุณ"
+   },
+   "enter_label": {
+      "message": "กรอก"
+   },
+   "error_@firefox@_hide_text": {
+      "message": "หรือคุณสามารถซ่อนส่วนขยายโดยคลิกขวาที่ไอคอนและเลือก \"ลบออกจากแถบเครื่องมือ\" หรือ \"ย้ายไปที่เมนู\""
+   },
+   "error_hide_text": {
+      "message": "หรือคุณสามารถซ่อนส่วนขยายโดยการคลิกขวาที่ไอคอนและเลือก \"ซ่อนในเมนู Chrome\""
+   },
+   "generate_password_add_item": {
+      "message": "ต้องการรหัสผ่านใหม่?"
+   },
+   "generate_password_edit_item": {
+      "message": "สร้างรหัสผ่านที่รัดกุม"
+   },
+   "help_improve_header": {
+      "message": "ช่วยปรับปรุง ExpressVPN Keys"
+   },
+   "help_improve_onboarding_expressvpn_keys": {
+      "message": "ช่วยปรับปรุง ExpressVPN Keys"
+   },
+   "help_improve_onboarding_no_thanks": {
+      "message": "ไม่เป็นไร ขอบคุณ"
+   },
+   "help_improve_onboarding_ok": {
+      "message": "ตกลง"
+   },
+   "help_improve_onboarding_share_crash": {
+      "message": "แชร์รายงานข้อขัดข้องและการวินิจฉัยการใช้งาน รายงานเหล่านี้ไม่เคยมีข้อมูลส่วนบุคคลที่สามารถระบุตัวตนได้"
+   },
+   "help_improve_p": {
+      "message": "แชร์รายงานข้อขัดข้องและการวินิจฉัยการใช้งาน รายงานเหล่านี้จะไม่มีข้อมูลข้อมูลส่วนบุคคลที่สามารถระบุตัวตนได้"
+   },
+   "help_improve_primary_btn": {
+      "message": "ตกลง"
+   },
+   "help_improve_secondary_btn": {
+      "message": "ไม่เป็นไร ขอบคุณ"
+   },
+   "help_menu_item_acknowledgements_label": {
+      "message": "คำประกาศ"
+   },
+   "help_menu_item_app_version": {
+      "message": "เวอร์ชันแอป %OS%: %VERSION%"
+   },
+   "help_menu_item_chat_label": {
+      "message": "พูดคุยกับเรา"
+   },
+   "help_menu_item_extension_version": {
+      "message": "เวอร์ชันส่วนขยาย: %VERSION%"
+   },
+   "help_menu_item_improvements_label": {
+      "message": "แนะนำการปรับปรุง"
+   },
+   "help_menu_item_report_label": {
+      "message": "รายงานปัญหา"
+   },
+   "help_menu_section_about_title": {
+      "message": "เกี่ยวกับเรา"
+   },
+   "help_menu_section_articles_cat1": {
+      "message": "วิธีใช้ ExpressVPN Keys"
+   },
+   "help_menu_section_articles_cat1_sub1": {
+      "message": "ทำไมฉันต้องมีตัวจัดการรหัสผ่าน?"
+   },
+   "help_menu_section_articles_cat1_sub10": {
+      "message": "วิธีใช้การป้อนอัตโนมัติ"
+   },
+   "help_menu_section_articles_cat1_sub11": {
+      "message": "วิธีเปลี่ยนรหัสผ่านหลัก"
+   },
+   "help_menu_section_articles_cat1_sub12": {
+      "message": "ตั้งรหัสผ่านและที่อยู่อีเมล"
+   },
+   "help_menu_section_articles_cat1_sub2": {
+      "message": "มีค่าใช้จ่ายเท่าไร?"
+   },
+   "help_menu_section_articles_cat1_sub3": {
+      "message": "จำเป็นต้องมีการสมัครสมาชิกที่ใช้งานอยู่หรือไม่?"
+   },
+   "help_menu_section_articles_cat1_sub4": {
+      "message": "ExpressVPN Keys ปลอดภัยหรือไม่?"
+   },
+   "help_menu_section_articles_cat1_sub5": {
+      "message": "รองรับอุปกรณ์ใดบ้าง?"
+   },
+   "help_menu_section_articles_cat1_sub6": {
+      "message": "ข้อมูลของฉันได้รับการจัดการอย่างไร?"
+   },
+   "help_menu_section_articles_cat1_sub7": {
+      "message": "มีคุณสมบัติอะไรบ้าง?"
+   },
+   "help_menu_section_articles_cat1_sub8": {
+      "message": "วิธีการนำเข้าข้อมูลการเข้าสู่ระบบที่มีอยู่"
+   },
+   "help_menu_section_articles_cat1_sub9": {
+      "message": "วิธีบันทึกข้อมูลการเข้าสู่ระบบ"
+   },
+   "help_menu_section_articles_cat2": {
+      "message": "ปัญหาเกี่ยวกับ ExpressVPN Keys"
+   },
+   "help_menu_section_articles_cat2_sub1": {
+      "message": "ไม่สามารถสร้างบัญชีได้"
+   },
+   "help_menu_section_articles_cat2_sub2": {
+      "message": "ไม่สามารถยืนยันบัญชีได้"
+   },
+   "help_menu_section_articles_cat2_sub3": {
+      "message": "ไม่สามารถปลดล็อคได้"
+   },
+   "help_menu_section_articles_cat2_sub4": {
+      "message": "ข้อมูลการเข้าสู่ระบบไม่ซิงค์อย่างถูกต้อง"
+   },
+   "help_menu_section_articles_cat2_sub5": {
+      "message": "ไม่สามารถบันทึกหรืออัปเดตข้อมูลการเข้าสู่ระบบได้"
+   },
+   "help_menu_section_articles_cat2_sub6": {
+      "message": "การป้อนอัตโนมัติทำงานไม่ถูกต้อง"
+   },
+   "help_menu_section_articles_cat2_sub7": {
+      "message": "ไม่สามารถเปลี่ยนรหัสผ่านหลักได้"
+   },
+   "help_menu_section_articles_title": {
+      "message": "บทความสนับสนุน"
+   },
+   "help_menu_section_support_title": {
+      "message": "ติดต่อเรา"
+   },
+   "hint_copy_text": {
+      "message": "คัดลอกแล้ว"
+   },
+   "hour": {
+      "message": "ชั่วโมง"
+   },
+   "hours": {
+      "message": "ชั่วโมง"
+   },
+   "icloud_keychain": {
+      "message": "พวงกุญแจ iCloud"
+   },
+   "import_chrome_password_settings": {
+      "message": "การตั้งค่ารหัสผ่าน Chrome"
+   },
+   "import_edge_password_settings": {
+      "message": "การตั้งค่ารหัสผ่าน Edge"
+   },
+   "import_from_a_service": {
+      "message": "นำเข้าจากบริการด้านล่าง"
+   },
+   "import_from_existing_services": {
+      "message": "ส่งออกไปยังอุปกรณ์ที่มีอยู่"
+   },
+   "import_logins_1password_1pw7_header": {
+      "message": "ขั้นตอนสำหรับ 1Password 7"
+   },
+   "import_logins_1password_1pw7_mac_step1": {
+      "message": "เปิดและปลดล็อก 1Password"
+   },
+   "import_logins_1password_1pw7_mac_step2": {
+      "message": "เลือกห้องนิรภัยที่คุณต้องการส่งออก "
+   },
+   "import_logins_1password_1pw7_mac_step3": {
+      "message": "เลือกเมนู \u003Cb>File\u003C/b> > \u003Cb>ส่งออก\u003C/b> > \u003Cb>รายการทั้งหมด\u003C/b>"
+   },
+   "import_logins_1password_1pw7_mac_step4": {
+      "message": "กรอกรหัสผ่านต้นฉบับของคุณ"
+   },
+   "import_logins_1password_1pw7_mac_step5": {
+      "message": "เลือกรูปแบบไฟล์ \u003Cb>iCloud Keychain (.csv)\u003C/b> หากคุณไม่เห็นตัวเลือกนี้ ตรวจสอบให้แน่ใจว่าคุณกำลังเรียกใช้ \u003Ca target='_blank' href='https://app-updates.agilebits.com/download/OPM7'>1Password 7 เวอร์ชันล่าสุด\u003C/a>"
+   },
+   "import_logins_1password_1pw7_mac_step6": {
+      "message": "บันทึกไฟล์ไปยังอุปกรณ์ของคุณ"
+   },
+   "import_logins_1password_1pw7_mac_step7": {
+      "message": "ภายในส่วนขยาย ExpressVPN Keys คลิก \u003Cb>เลือกไฟล์\u003C/b>"
+   },
+   "import_logins_1password_1pw7_mac_step8": {
+      "message": "เลือกไฟล์ CSV"
+   },
+   "import_logins_1password_1pw7_win_step1": {
+      "message": "เปิดและปลดล็อก 1Password"
+   },
+   "import_logins_1password_1pw7_win_step2": {
+      "message": "เลือกรายการทั้งหมดที่คุณต้องการส่งออก "
+   },
+   "import_logins_1password_1pw7_win_step3": {
+      "message": "คลิกขวาและเลือก \u003Cb>ส่งออก\u003C/b>"
+   },
+   "import_logins_1password_1pw7_win_step4": {
+      "message": "เลือกบันทึกเป็น \u003Cb>Comma-separated values (.csv)\u003C/b>"
+   },
+   "import_logins_1password_1pw7_win_step5": {
+      "message": "บันทึกไฟล์ไปยังอุปกรณ์ของคุณ"
+   },
+   "import_logins_1password_1pw7_win_step6": {
+      "message": "ภายในส่วนขยาย ExpressVPN Keys คลิก \u003Cb>เลือกไฟล์\u003C/b>"
+   },
+   "import_logins_1password_1pw7_win_step7": {
+      "message": "เลือกไฟล์ CSV"
+   },
+   "import_logins_1password_1pw8_header": {
+      "message": "ขั้นตอนสำหรับ 1Password 8"
+   },
+   "import_logins_1password_1pw8_mac_step1": {
+      "message": "เปิดและปลดล็อก 1Password"
+   },
+   "import_logins_1password_1pw8_mac_step2": {
+      "message": "เลือกเมนู \u003Cb>File\u003C/b> > \u003Cb>ส่งออก\u003C/b> "
+   },
+   "import_logins_1password_1pw8_mac_step3": {
+      "message": "กรอกรหัสผ่านของคุณ"
+   },
+   "import_logins_1password_1pw8_mac_step4": {
+      "message": "เลือกรูปแบบไฟล์ \u003Cb>CSV (เฉพาะข้อมูลการเข้าสู่ระบบและรหัสผ่านเท่านั้น)\u003C/b>"
+   },
+   "import_logins_1password_1pw8_mac_step5": {
+      "message": "บันทึกไฟล์ไปยังอุปกรณ์ของคุณ"
+   },
+   "import_logins_1password_1pw8_mac_step6": {
+      "message": "ภายในส่วนขยาย ExpressVPN Keys คลิก \u003Cb>เลือกไฟล์\u003C/b>"
+   },
+   "import_logins_1password_1pw8_mac_step7": {
+      "message": "เลือกไฟล์ CSV"
+   },
+   "import_logins_1password_1pw8_win_step1": {
+      "message": "เปิดและปลดล็อก 1Password"
+   },
+   "import_logins_1password_1pw8_win_step2": {
+      "message": "คลิก...และเลือก \u003Cb>ส่งออก\u003C/b>"
+   },
+   "import_logins_1password_1pw8_win_step3": {
+      "message": "กรอกรหัสผ่านของคุณ"
+   },
+   "import_logins_1password_1pw8_win_step4": {
+      "message": "เลือกรูปแบบไฟล์ \u003Cb>CSV (เฉพาะข้อมูลการเข้าสู่ระบบและรหัสผ่านเท่านั้น)\u003C/b>"
+   },
+   "import_logins_1password_1pw8_win_step5": {
+      "message": "บันทึกไฟล์ไปยังอุปกรณ์ของคุณ"
+   },
+   "import_logins_1password_1pw8_win_step6": {
+      "message": "ภายในส่วนขยาย ExpressVPN Keys คลิก \u003Cb>เลือกไฟล์\u003C/b>"
+   },
+   "import_logins_1password_1pw8_win_step7": {
+      "message": "เลือกไฟล์ CSV"
+   },
+   "import_logins_1password_import_limitation_header": {
+      "message": "\u003Cb>สำคัญ\u003C/b>: ExpressVPN Keys รองรับเฉพาะการนำเข้าข้อมูลการเข้าสู่ระบบเท่านั้น ข้อมูลอื่น ๆ เช่น ข้อมูลบัตรเครดิตหรือบันทึกที่บันทึกไว้จะไม่ได้รับการนำเข้า "
+   },
+   "import_logins_add_your_password_link": {
+      "message": "เพิ่มรหัสผ่านของคุณด้วยตนเอง "
+   },
+   "import_logins_back": {
+      "message": "นำเข้ารหัสผ่านจาก %HOST%"
+   },
+   "import_logins_choose_a_password_manager_service": {
+      "message": "เลือกบริการตัวจัดการรหัสผ่านจากด้านขวาและเราจะแสดงวิธีนำเข้ารหัสผ่านของคุณ"
+   },
+   "import_logins_choose_file": {
+      "message": "เลือกไฟล์"
+   },
+   "import_logins_error_failed_table_header": {
+      "message": "นำเข้าไม่สำเร็จ (%TOTAL_BAD_LOGINS%)"
+   },
+   "import_logins_error_import_again_btn": {
+      "message": "นำเข้าอีกครั้ง"
+   },
+   "import_logins_error_incomplete_header": {
+      "message": "นำเข้าไม่สมบูรณ์"
+   },
+   "import_logins_error_incomplete_reimport_header": {
+      "message": "ในการนำเข้าข้อมูลการเข้าสู่ระบบที่เหลืออยู่:"
+   },
+   "import_logins_error_incomplete_reimport_step_1": {
+      "message": "เปิด CSV ที่นำเข้าในขั้นตอนก่อนหน้าในตัวแก้ไขสเปรดชีตของคุณ"
+   },
+   "import_logins_error_incomplete_reimport_step_2": {
+      "message": "ลบแถวทั้งหมดยกเว้นแถวที่นำเข้าไม่สำเร็จ"
+   },
+   "import_logins_error_incomplete_reimport_step_3": {
+      "message": "อัปเดตแถวที่เหลือตามคำแนะนำทางด้านขวา"
+   },
+   "import_logins_error_incomplete_reimport_step_4": {
+      "message": "บันทึกไฟล์ คลิก 'นำเข้าอีกครั้ง' เพื่อนำเข้าไฟล์ที่อัปเดต"
+   },
+   "import_logins_error_number_of_failed_logins_hint": {
+      "message": "ไม่สามารถนำเข้าข้อมูลการเข้าสู่ระบบจำนวน %TOTAL_BAD_LOGINS% จาก %TOTAL_LOGINS% ได้"
+   },
+   "import_logins_error_success_table_header": {
+      "message": "นำเข้าสำเร็จ (%TOTAL_GOOD_LOGINS%)"
+   },
+   "import_logins_error_table_domain_too_long": {
+      "message": "URL ของเว็บไซต์ยาวเกินไป "
+   },
+   "import_logins_error_table_failed_status": {
+      "message": "ล้มเหลว"
+   },
+   "import_logins_error_table_login_column": {
+      "message": "ชื่อข้อมูลการเข้าสู่ระบบ"
+   },
+   "import_logins_error_table_name_too_long": {
+      "message": "ตั้งชื่อยาวเกินไป"
+   },
+   "import_logins_error_table_note_too_long": {
+      "message": "หมายเหตุยาวเกินไป "
+   },
+   "import_logins_error_table_password_too_long": {
+      "message": "รหัสผ่านยาวเกินไป"
+   },
+   "import_logins_error_table_see_success_logins_btn": {
+      "message": "ดูการนำเข้าที่สำเร็จ (%TOTAL_GOOD_LOGINS%)"
+   },
+   "import_logins_error_table_status_column": {
+      "message": "สถานะ"
+   },
+   "import_logins_error_table_success_status": {
+      "message": "สำเร็จ"
+   },
+   "import_logins_error_table_username_too_long": {
+      "message": "ผู้ใช้งานยาวเกินไป"
+   },
+   "import_logins_error_total_failure_header": {
+      "message": "นำเข้าไม่สำเร็จ"
+   },
+   "import_logins_error_total_failure_reimport_header": {
+      "message": "ในการนำเข้าข้อมูลการเข้าสู่ระบบของคุณอีกครั้ง:"
+   },
+   "import_logins_error_total_failure_reimport_step_1": {
+      "message": "เปิด CSV ที่นำเข้าในขั้นตอนก่อนหน้าในตัวแก้ไขสเปรดชีตของคุณ"
+   },
+   "import_logins_error_total_failure_reimport_step_2": {
+      "message": "อัปเดตแถวตามคำแนะนำทางด้านขวามือ"
+   },
+   "import_logins_error_total_failure_reimport_step_3": {
+      "message": "บันทึกไฟล์ คลิก 'Import Again' เพื่อนำเข้าไฟล์ที่อัปเดต"
+   },
+   "import_logins_error_untitled": {
+      "message": "ไม่ระบุ"
+   },
+   "import_logins_header": {
+      "message": "นำเข้ารหัสผ่านของคุณ"
+   },
+   "import_logins_here": {
+      "message": "ที่นี่"
+   },
+   "import_logins_icloud_for_windows": {
+      "message": "iCloud สำหรับ Windows ไม่มีตัวเลือกในการส่งออกข้อมูลการเข้าสู่ระบบและรหัสผ่านของคุณ คุณสามารถทำอย่างใดอย่างหนึ่งต่อไปนี้:"
+   },
+   "import_logins_if_you_do_not_have_a_mac": {
+      "message": "หากคุณไม่มี Mac คุณสามารถคัดลอกข้อมูลการเข้าสู่ระบบของคุณที่บันทึกไว้ใน iCloud ด้วยตนเองและวางลงในตัวจัดการรหัสผ่าน ExpressVPN Keys:"
+   },
+   "import_logins_if_you_have_a_mac": {
+      "message": "หากคุณมี Mac ด้วย ให้ติดตั้ง ExpressVPN Keys สำหรับส่วนขยาย Chrome เพื่อนำเข้าข้อมูลการเข้าสู่ระบบและรหัสผ่านที่จัดเก็บไว้โดย [ทำตามขั้นตอนสำหรับคำแนะนำ Mac ของเรา]"
+   },
+   "import_logins_instructions_header_dashlane": {
+      "message": "\u003Cb>สำคัญ\u003C/b>: ExpressVPN Keys รองรับเฉพาะการนำเข้าข้อมูลการเข้าสู่ระบบเท่านั้น ข้อมูลอื่น ๆ เช่น ข้อมูลบัตรเครดิตหรือบันทึกที่บันทึกไว้จะไม่ได้รับการนำเข้า "
+   },
+   "import_logins_instructions_header_lastpass": {
+      "message": "\u003Cb>สำคัญ\u003C/b>: คุณจำเป็นต้องใช้ \u003Ca target='_blank' href='https://chrome.google.com/webstore/detail/lastpass-free-password-ma/hdokiejnpimakedhajhdlcegeplioahd'>ส่วนขยาย LastPass\u003C/a> เพื่อส่งออกข้อมูลการเข้าสู่ระบบและรหัสผ่านของคุณ"
+   },
+   "import_logins_manual_instructions_for_macos": {
+      "message": "คู่มือการดำเนินการด้วยตนเองสำหรับ macOS เวอร์ชัน \u003C10.15"
+   },
+   "import_logins_other": {
+      "message": "อื่น ๆ"
+   },
+   "import_logins_other_apps": {
+      "message": "นำเข้าจากตัวจัดการรหัสผ่านอื่น ๆ "
+   },
+   "import_logins_other_apps_instructions_advanced_users_p1": {
+      "message": "\u003Cb>สำคัญ:\u003C/b> ExpressVPN Keys สนับสนุนเฉพาะการนำเข้าข้อมูลการเข้าสู่ระบบเท่านั้น คุณไม่สามารถนำเข้ารายละเอียดบัตรเครดิต บันทึกที่จัดเก็บไว้ และอื่น ๆ"
+   },
+   "import_logins_other_apps_instructions_advanced_users_p2": {
+      "message": "หากคุณสะดวกในการใช้ตัวแก้ไขสเปรดชีต (Google Sheets, Microsoft Excel และอื่น ๆ) คุณสามารถนำเข้าข้อมูลการเข้าสู่ระบบของคุณโดยทำตามขั้นตอนต่อไปนี้ "
+   },
+   "import_logins_other_apps_instructions_advanced_users_text": {
+      "message": "ผู้ใช้งานระดับสูง: นำเข้าด้วยตนเอง"
+   },
+   "import_logins_other_apps_instructions_hint": {
+      "message": "ขออภัยที่ขณะนี้เราไม่สนับสนุนการนำเข้าข้อมูลการเข้าสู่ระบบจากตัวจัดการรหัสผ่านของคุณ "
+   },
+   "import_logins_other_apps_instructions_let_us_know_text": {
+      "message": "โปรด[let us know which one you're using] เพื่อให้เราตรวจสอบได้"
+   },
+   "import_logins_other_apps_instructions_step1": {
+      "message": "เปิดตัวจัดการรหัสผ่านปัจจุบันของคุณ"
+   },
+   "import_logins_other_apps_instructions_step2": {
+      "message": "ส่งออกข้อมูลการเข้าสู่ระบบที่บันทึกไว้ของคุณเป็นไฟล์ CSV"
+   },
+   "import_logins_other_apps_instructions_step3": {
+      "message": "เปิดไฟล์ CSV ที่ส่งออกมาในตัวแก้ไขสเปรดชีตของคุณ"
+   },
+   "import_logins_other_apps_instructions_step4": {
+      "message": "ลบรายการใด ๆ ที่\u003Cb>ไม่ใช่ข้อมูลการเข้าสู่ระบบ\u003C/b> (เช่น รายละเอียดบัตรเครดิต บันทึกที่จัดเก็บไว้)"
+   },
+   "import_logins_other_apps_instructions_step5": {
+      "message": "ลบคอลัมน์ใด ๆ ที่\u003Cb>ไม่ใช่สิ่งต่อไปนี้\u003C/b>:"
+   },
+   "import_logins_other_apps_instructions_step5_sub1": {
+      "message": "คำเรียกหรือชื่อข้อมูลการเข้าสู่ระบบ"
+   },
+   "import_logins_other_apps_instructions_step5_sub2": {
+      "message": "URL"
+   },
+   "import_logins_other_apps_instructions_step5_sub3": {
+      "message": "ชื่อผู้ใช้งานหรืออีเมล"
+   },
+   "import_logins_other_apps_instructions_step5_sub4": {
+      "message": "รหัสผ่าน"
+   },
+   "import_logins_other_apps_instructions_step6": {
+      "message": "โปรดตรวจสอบให้แน่ใจว่าคอลัมน์ที่เหลือได้รับการตั้งชื่อเช่นนี้ (ตัวพิมพ์เล็ก):"
+   },
+   "import_logins_other_apps_instructions_step6_sub1": {
+      "message": "name"
+   },
+   "import_logins_other_apps_instructions_step6_sub2": {
+      "message": "url"
+   },
+   "import_logins_other_apps_instructions_step6_sub3": {
+      "message": "username"
+   },
+   "import_logins_other_apps_instructions_step6_sub4": {
+      "message": "password"
+   },
+   "import_logins_other_apps_instructions_step7": {
+      "message": "บันทึกไฟล์ที่อัปเดตของคุณเป็น CSV"
+   },
+   "import_logins_other_apps_instructions_step8": {
+      "message": "คลิก \u003Cb>เลือกไฟล์\u003C/b> ด้านล่าง จากนั้นเลือกไฟล์ที่คุณเพิ่งบันทึกไป"
+   },
+   "import_logins_safari_mac_step1": {
+      "message": "เปิด \u003Cb>Safari\u003C/b>"
+   },
+   "import_logins_safari_mac_step2": {
+      "message": "คลิกเมนู \u003Cb>Safari\u003C/b> > \u003Cb>Preferences\u003C/b>..."
+   },
+   "import_logins_safari_mac_step3": {
+      "message": "คลิกแถบ \u003Cb>รหัสผ่าน\u003C/b> จากนั้นยืนยัน"
+   },
+   "import_logins_safari_mac_step4": {
+      "message": "ในส่วนมุมล่างซ้ายของแถบด้านข้าง เลือก … > \u003Cb>ส่งออกรหัสผ่าน\u003C/b> > \u003Cb>ส่งออกรหัสผ่านทั้งหมด\u003C/b>"
+   },
+   "import_logins_safari_mac_step4_extra": {
+      "message": "หากคุณไม่เห็นปุ่ม... [อัปเดต macOS และ/หรือ Safari] หากคุณยังคงประสบปัญหาอยู่ คลิก %ACTION%"
+   },
+   "import_logins_safari_mac_step5": {
+      "message": "บันทึกไฟล์ไปยังอุปกรณ์ของคุณ"
+   },
+   "import_logins_safari_mac_step6": {
+      "message": "คลิก \u003Cb>เลือกไฟล์\u003C/b> ด้านล่าง จากนั้นเลือกไฟล์ที่คุณเพิ่งบันทึกไป"
+   },
+   "import_logins_safari_old_mac_step1": {
+      "message": "เปิด \u003Cb>Safari\u003C/b>"
+   },
+   "import_logins_safari_old_mac_step2": {
+      "message": "คลิกเมนู \u003Cb>Safari\u003C/b> > \u003Cb>Preferences\u003C/b>..."
+   },
+   "import_logins_safari_old_mac_step3": {
+      "message": "คลิกแถบ \u003Cb>รหัสผ่าน\u003C/b> จากนั้นยืนยัน"
+   },
+   "import_logins_safari_old_mac_step4": {
+      "message": "เลือกรหัสผ่านที่บันทึกไว้ จากนั้นเลือก \u003Cb>แก้ไข\u003C/b>"
+   },
+   "import_logins_safari_old_mac_step5": {
+      "message": "คัดลอกชื่อผู้ใช้ รหัสผ่าน และ URL"
+   },
+   "import_logins_safari_old_mac_step6": {
+      "message": "ภายในส่วนขยาย ExpressVPN Keys คลิก \u003Cb>+\u003C/b>"
+   },
+   "import_logins_safari_old_mac_step7": {
+      "message": "ตั้งชื่อข้อมูลการเข้าสู่ระบบ จากนั้นวางชื่อผู้ใช้ รหัสผ่าน และ URL"
+   },
+   "import_logins_safari_old_mac_step8": {
+      "message": "คลิก \u003Cb>บันทึก\u003C/b>"
+   },
+   "import_logins_safari_windows_step1": {
+      "message": "เปิดแอป \u003Cb>iCloud Passwords\u003C/b> บนอุปกรณ์ Windows ของคุณ"
+   },
+   "import_logins_safari_windows_step2": {
+      "message": "คลิกข้อมูลการเข้าสู่ระบบที่บันทึกไว้ "
+   },
+   "import_logins_safari_windows_step3": {
+      "message": "คลิก \u003Cb>ไอคอนคัดลอก\u003C/b> จากทางด้านบนขวาเพื่อคัดลอกชื่อผู้ใช้ของคุณ รหัสผ่าน หรือ URL"
+   },
+   "import_logins_safari_windows_step4": {
+      "message": "ภายในส่วนขยาย ExpressVPN Keys คลิก \u003Cb>+\u003C/b>"
+   },
+   "import_logins_safari_windows_step5": {
+      "message": "ตั้งชื่อข้อมูลการเข้าสู่ระบบ จากนั้นวางชื่อผู้ใช้ รหัสผ่าน และ URL"
+   },
+   "import_logins_safari_windows_step6": {
+      "message": "คลิก \u003Cb>บันทึก\u003C/b>"
+   },
+   "import_logins_safari_you_are_running_an_old_version": {
+      "message": "คุณกำลังใช้งาน macOS เวอร์ชั่นเก่าที่ไม่รองรับการส่งออกข้อมูลการเข้าสู่ระบบและรหัสผ่านจาก Apple iCloud Keychain อย่างไรก็ตามคุณสามารถคัดลอกข้อมูลการเข้าสู่ระบบที่บันทึกเอาไว้ใน Safari และวางใน ExpressVPN Keys ได้ด้วยตนเอง"
+   },
+   "import_logins_step1": {
+      "message": "เปิด%PASSWORD_SETTINGS%"
+   },
+   "import_logins_step1_bitwarden": {
+      "message": "เข้าสู่ระบบบน \u003Ca target='_blank' href='https://vault.bitwarden.com'>https://vault.bitwarden.com\u003C/a>"
+   },
+   "import_logins_step1_dashlane": {
+      "message": "\u003Ca target='_blank' href='https://app.dashlane.com/login'>ไปที่หน้าการเข้าสู่ระบบ Dashlane\u003C/a>"
+   },
+   "import_logins_step1_lastpass": {
+      "message": "คลิกส่วนขยายเบราว์เซอร์ LastPass"
+   },
+   "import_logins_step2": {
+      "message": "คลิก%ICON% ด้านบนรายการรหัสผ่านที่บันทึกไว้  > \u003Cb>ส่งออกรหัสผ่าน…\u003C/b>"
+   },
+   "import_logins_step2_bitwarden": {
+      "message": "คลิก \u003Cb>เครื่องมือ\u003C/b> ที่ด้านบน"
+   },
+   "import_logins_step2_dashlane": {
+      "message": "กรอกอีเมลของคุณ เลือก \u003Cb>ต่อไป\u003C/b>"
+   },
+   "import_logins_step2_lastpass": {
+      "message": "คลิก \u003Cb>ตัวเลือกบัญชี\u003C/b> > \u003Cb>ขั้นสูง\u003C/b> > \u003Cb>ส่งออก\u003C/b>"
+   },
+   "import_logins_step3": {
+      "message": "คลิก \u003Cb>ส่งออกรหัสผ่าน…\u003C/b>"
+   },
+   "import_logins_step3_bitwarden": {
+      "message": "คลิก \u003Cb>ส่งออกห้องนิรภัย\u003C/b> จากในแถบด้านซ้าย"
+   },
+   "import_logins_step3_dashlane": {
+      "message": "คลิก \u003Cb>บัญชีของฉัน\u003C/b> จากทางด้านขวา"
+   },
+   "import_logins_step3_lastpass": {
+      "message": "เลือก \u003Cb>LastPass ไฟล์ CSV\u003C/b>"
+   },
+   "import_logins_step4": {
+      "message": "จากนั้นกรอกรหัสผ่านสำหรับอุปกรณ์ของคุณ คลิก\u003Cb>ตกลง\u003C/b>"
+   },
+   "import_logins_step4_bitwarden": {
+      "message": "สำหรับ \u003Cb>ชนิดไฟล์\u003C/b> ให้เลือก \u003Cb>.csv\u003C/b>"
+   },
+   "import_logins_step4_dashlane": {
+      "message": "เลือก \u003Cb>การตั้งค่า > ส่งออกข้อมูล\u003C/b>"
+   },
+   "import_logins_step4_lastpass": {
+      "message": "กรอกรหัสผ่านต้นฉบับของคุณ"
+   },
+   "import_logins_step5": {
+      "message": "บันทึกไฟล์ CSV ไปยังอุปกรณ์ของคุณ"
+   },
+   "import_logins_step5_bitwarden": {
+      "message": "กรอกรหัสผ่านต้นฉบับของคุณ"
+   },
+   "import_logins_step5_dashlane": {
+      "message": "กรอกรหัสผ่านต้นฉบับของคุณ"
+   },
+   "import_logins_step5_lastpass": {
+      "message": "ไฟล์ CSV จะถูกบันทึกไปยังอุปกรณ์ของคุณโดยอัตโนมัติ "
+   },
+   "import_logins_step6": {
+      "message": "ภายในส่วนขยาย ExpressVPN Keys คลิก \u003Cb>เลือกไฟล์\u003C/b>"
+   },
+   "import_logins_step6_bitwarden": {
+      "message": "คลิก \u003Cb>ส่งออกห้องนิรภัย\u003C/b> และทำตามขั้นตอน"
+   },
+   "import_logins_step6_dashlane": {
+      "message": "เลือก \u003Cb>ส่งออกเป็น CSV\u003C/b>"
+   },
+   "import_logins_step6_lastpass": {
+      "message": "ภายในส่วนขยาย ExpressVPN Keys คลิก \u003Cb>เลือกไฟล์\u003C/b>"
+   },
+   "import_logins_step7": {
+      "message": "เลือกไฟล์ CSV"
+   },
+   "import_logins_step7_bitwarden": {
+      "message": "ไฟล์ CSV จะถูกบันทึกไปยังอุปกรณ์ของคุณโดยอัตโนมัติ "
+   },
+   "import_logins_step7_dashlane": {
+      "message": "ดับเบิลคลิกที่ไฟล์ ZIP เพื่อแยกไฟล์ CSV"
+   },
+   "import_logins_step7_lastpass": {
+      "message": "เลือกไฟล์ CSV เพื่อนำเข้ารหัสผ่านของคุณ"
+   },
+   "import_logins_step8_bitwarden": {
+      "message": "ภายในส่วนขยาย ExpressVPN Keys คลิก \u003Cb>เลือกไฟล์\u003C/b>"
+   },
+   "import_logins_step8_dashlane": {
+      "message": "ภายในส่วนขยาย ExpressVPN Keys คลิก \u003Cb>เลือกไฟล์\u003C/b>"
+   },
+   "import_logins_step9_bitwarden": {
+      "message": "เลือกไฟล์ CSV เพื่อนำเข้ารหัสผ่านของคุณ"
+   },
+   "import_logins_step9_dashlane": {
+      "message": "เลือกไฟล์ \u003Cb>credentials.csv\u003C/b> เพื่อนำเข้ารหัสผ่านของคุณ "
+   },
+   "import_logins_success_close": {
+      "message": "ปิดแถบ"
+   },
+   "import_logins_success_header": {
+      "message": "สำเร็จ!"
+   },
+   "import_logins_success_hint": {
+      "message": "นำเข้าข้อมูลการเข้าสู่ระบบทั้งหมด %TOTAL_LOGINS% รายการเรียบร้อยแล้ว"
+   },
+   "import_logins_success_import_more": {
+      "message": "นำเข้าข้อมูลการเข้าสู่ระบบเพิ่มเติม"
+   },
+   "import_logins_success_text": {
+      "message": "คุณสามารถปิดแถบนี้และเปิดส่วนขยายเพื่อดูข้อมูลการเข้าสู่ระบบของคุณ หรือเริ่มการเรียกดูและป้อนข้อมูลการเข้าสู่ระบบของคุณโดยอัตโนมัติ"
+   },
+   "import_logins_verify_password_label": {
+      "message": "กรอกรหัสผ่านหลักของคุณทางด้านขวาเพื่อนำเข้าจากบริการที่มีอยู่"
+   },
+   "import_password_error": {
+      "message": "การอัปโหลดไฟล์ล้มเหลว โปรดลองใหม่อีกครั้ง "
+   },
+   "import_password_file": {
+      "message": "นำเข้าไฟล์รหัสผ่าน (.csv)"
+   },
+   "imports_logins_you_can_also_choose_to": {
+      "message": "นอกจากนี้คุณยังสามารถ%ROUTER_LINK%ได้อีกด้วย"
+   },
+   "info_banner_warning_api_unreachable_vpn_off": {
+      "message": "ไม่สามารถซิงค์ได้ ลองเชื่อมต่อ VPN หรือติดต่อฝ่ายสนับสนุน "
+   },
+   "info_banner_warning_api_unreachable_vpn_on": {
+      "message": "ไม่สามารถซิงค์ได้ ลองตำแหน่ง VPN อื่นหรือติดต่อฝ่ายสนับสนุน "
+   },
+   "info_banner_warning_offline": {
+      "message": "คุณออฟไลน์อยู่ การเปลี่ยนแปลงของคุณจะซิงค์เมื่อการเชื่อมต่อกลับคืนมา"
+   },
+   "ksp_item_text_1": {
+      "message": "จัดเก็บรหัสผ่านของคุณอย่างปลอดภัยและป้อนรหัสเหล่านี้ในแอปและเว็บไซต์ด้วยการแตะเพียงครั้งเดียว [เรียนรู้เพิ่มเติม]"
+   },
+   "ksp_item_text_2": {
+      "message": "[Keys นั้นฟรี]สำหรับผู้ใช้ ExpressVPN ไม่มีการจำกัดจำนวนรหัสผ่านหรืออุปกรณ์ที่คุณสามารถใช้ได้"
+   },
+   "ksp_item_text_3": {
+      "message": "ด้วย[การเข้ารหัสแบบ Zero-knowledge] จะมีเพียงคุณเท่านั้นที่สามารถเห็นรหัสผ่านของคุณ "
+   },
+   "ksp_item_text_4": {
+      "message": "[ดึงข้อมูลการเข้าสู่ระบบทั้งหมดของคุณ]จาก Chrome, Safari, 1Password, LastPass และอื่น ๆ"
+   },
+   "ksp_item_text_5": {
+      "message": "เข้าถึงรหัสผ่าน[ทุกที่ที่คุณต้องการ]—ในเบราว์เซอร์ของคุณหรือบนโทรศัพท์มือถือของคุณ"
+   },
+   "ksp_item_title_1": {
+      "message": "ตัวจัดการรหัสผ่านที่ปลอดภัยและใช้งานง่าย"
+   },
+   "ksp_item_title_2": {
+      "message": "ไม่มีค่าใช้จ่ายเพิ่มเติม ไม่มีขีดจำกัด"
+   },
+   "ksp_item_title_3": {
+      "message": "ปลอดภัยด้วยการออกแบบที่สร้างโดยทีม ExpressVPN"
+   },
+   "ksp_item_title_4": {
+      "message": "นำเข้าข้อมูลการเข้าสู่ระบบจากตัวจัดการรหัสผ่านอื่น ๆ"
+   },
+   "ksp_item_title_5": {
+      "message": "ซิงค์ระหว่างอุปกรณ์ทั้งหมดของคุณ"
+   },
+   "ksp_next_button": {
+      "message": "ต่อไป"
+   },
+   "ksp_set_up_button": {
+      "message": "ติดตั้ง ExpressVPN Keys"
+   },
+   "ksp_skip_button": {
+      "message": "ข้าม"
+   },
+   "less_than_a_second": {
+      "message": "น้อยกว่าหนึ่งวินาที"
+   },
+   "login_saved": {
+      "message": "บันทึกข้อมูลการเข้าสู่ระบบแล้ว เราจะจดจำข้อมูลการเข้าสู่ระบบนี้ไว้ให้คุณและทำให้ข้อมูลนี้ปลอดภัย"
+   },
+   "minute": {
+      "message": "นาที"
+   },
+   "minutes": {
+      "message": "นาที"
+   },
+   "modal_password_page_app_not_activated_Linux_text": {
+      "message": "ส่วนขยายต้องใช้แอป ExpressVPN สำหรับ Linux เพื่อเปิดใช้งาน"
+   },
+   "modal_password_page_app_not_activated_Linux_text_p1": {
+      "message": "ลงชื่อเข้าใช้บัญชี ExpressVPN ของคุณ เพื่อค้นหารหัสเปิดใช้งาน จากนั้นเรียกใช้คำสั่งนี้: \u003Cspan class='code-inline'>expressvpn activate\u003C/span> และกรอกรหัสของคุณ"
+   },
+   "modal_password_page_app_not_activated_Mac_text": {
+      "message": "ส่วนขยายต้องใช้แอป ExpressVPN สำหรับ Mac เพื่อเปิดใช้งาน"
+   },
+   "modal_password_page_app_not_activated_Mac_text_p1": {
+      "message": "ลงชื่อเข้าใช้บัญชี ExpressVPN ของคุณ เพื่อค้นหารหัสเปิดใช้งานของคุณ"
+   },
+   "modal_password_page_app_not_activated_Windows_text": {
+      "message": "ส่วนขยายต้องใช้แอป ExpressVPN สำหรับ Windows เพื่อเปิดใช้งาน"
+   },
+   "modal_password_page_app_not_activated_Windows_text_p1": {
+      "message": "ลงชื่อเข้าใช้บัญชี ExpressVPN ของคุณ เพื่อค้นหารหัสเปิดใช้งานของคุณ"
+   },
+   "modal_password_page_app_not_activated_btn_primary": {
+      "message": "รับรหัสเปิดใช้งาน"
+   },
+   "modal_password_page_app_not_activated_btn_secondary": {
+      "message": "กรอกรหัส"
+   },
+   "modal_password_page_app_not_activated_text_p2": {
+      "message": "ต้องการความช่วยเหลือ? โปรดติดต่อ[ฝ่ายสนับสนุน]"
+   },
+   "modal_password_page_app_not_activated_title": {
+      "message": "เปิดใช้งานแอป"
+   },
+   "modal_password_page_update_app_Linux_text_p1": {
+      "message": "ส่วนขยายนี้ต้องการแอป ExpressVPN เวอร์ชันล่าสุดสำหรับ Linux"
+   },
+   "modal_password_page_update_app_Mac_text_p1": {
+      "message": "ส่วนขยายนี้ต้องการแอป ExpressVPN เวอร์ชันล่าสุดสำหรับ Mac"
+   },
+   "modal_password_page_update_app_Windows_text_p1": {
+      "message": "ส่วนขยายนี้ต้องการแอป ExpressVPN เวอร์ชันล่าสุดสำหรับ Windows"
+   },
+   "modal_password_page_update_app_button": {
+      "message": "อัปเดตแอป "
+   },
+   "modal_password_page_update_app_text_p2": {
+      "message": "ต้องการความช่วยเหลือ? โปรดติดต่อ[ฝ่ายสนับสนุน]"
+   },
+   "modal_password_page_update_app_title": {
+      "message": "อัปเดตแอป "
+   },
+   "month": {
+      "message": "เดือน"
+   },
+   "months": {
+      "message": "เดือน"
+   },
+   "n_logins_saved_for_website": {
+      "message": "บันทึกข้อมูลการเข้าสู่ระบบ %N_ENTRIES% ครั้งสำหรับ \u003Cb>%HOST%\u003C/b>"
+   },
+   "nav_item_help": {
+      "message": "ช่วยเหลือ"
+   },
+   "nav_item_options": {
+      "message": "ตัวเลือก"
+   },
+   "nav_item_pwm": {
+      "message": "Keys"
+   },
+   "no_logins_saved_for_website": {
+      "message": "ไม่มีข้อมูลการเข้าสู่ระบบที่บันทึกไว้สำหรับ\u003Cbr/>\u003Cb>%HOST%\u003C/b>"
+   },
+   "notification_clipboard_cleared_message": {
+      "message": "ล้างข้อมูลเพื่อปกป้องความเป็นส่วนตัวของคุณ"
+   },
+   "notification_clipboard_cleared_title": {
+      "message": "ล้างคลิปบอร์ด"
+   },
+   "notification_extension_update_message": {
+      "message": "คลิกเพื่อดูว่ามีอะไรใหม่"
+   },
+   "notification_extension_update_title": {
+      "message": "ExpressVPN Keys ได้รับการอัปเกรด"
+   },
+   "options_menu_get_30_days_free_label": {
+      "message": "รับฟรี 30 วัน"
+   },
+   "options_menu_item_settings_label": {
+      "message": "การตั้งค่า"
+   },
+   "options_menu_rate_expressvpn_label": {
+      "message": "ให้คะแนน ExpressVPN Keys"
+   },
+   "options_menu_section_options_title": {
+      "message": "ตัวเลือก"
+   },
+   "options_menu_setup_other_devices_label": {
+      "message": "ติดตั้งบบอุปกรณ์อื่น ๆ"
+   },
+   "other_logins": {
+      "message": "ข้อมูลการเข้าสู่ระบบอื่น ๆ"
+   },
+   "password_generator_capitals": {
+      "message": "ตัวพิมพ์ใหญ่"
+   },
+   "password_generator_characters": {
+      "message": "%NUMBER% ตัวอักษร"
+   },
+   "password_generator_choose_criteria": {
+      "message": "เลือกเกณฑ์"
+   },
+   "password_generator_close": {
+      "message": "ปิด"
+   },
+   "password_generator_length": {
+      "message": "ความยาวของรหัสผ่าน"
+   },
+   "password_generator_numbers": {
+      "message": "ตัวเลข"
+   },
+   "password_generator_password_label": {
+      "message": "คลิกเพื่อใช้ "
+   },
+   "password_generator_symbols": {
+      "message": "สัญลักษณ์"
+   },
+   "password_generator_title": {
+      "message": "รหัสผ่านที่แนะนำ"
+   },
+   "password_generator_use_password": {
+      "message": "ใช้รหัสผ่าน"
+   },
+   "password_strength_0": {
+      "message": "\u003Cb>ไม่ปลอดภัย!\u003C/b> สามารถถอดรหัสได้เร็วมาก"
+   },
+   "password_strength_1": {
+      "message": "\u003Cb>อ่อนแอ\u003C/b> สามารถถอดรหัสได้เร็วมาก"
+   },
+   "password_strength_2": {
+      "message": "\u003Cb>ปานกลาง\u003C/b> อาจใช้เวลา %TIME% ในการถอดรหัส"
+   },
+   "password_strength_3": {
+      "message": "\u003Cb>แข็งแกร่ง\u003C/b> อาจใช้เวลา %TIME% ในการถอดรหัส"
+   },
+   "password_strength_4": {
+      "message": "\u003Cb>ปลอดภัยมาก!\u003C/b> อาจใช้เวลา %TIME% ในการถอดรหัส"
+   },
+   "password_suggestion_add_another_word_or_two": {
+      "message": "เพิ่มคำอื่นหรือสองคำ"
+   },
+   "password_suggestion_avoid_dates": {
+      "message": "หลีกเลี่ยงวันที่และปีที่เกี่ยวข้องกับคุณ"
+   },
+   "password_suggestion_avoid_obvious_patterns": {
+      "message": "หลีกเลี่ยงรูปแบบแป้นพิมพ์ที่ชัดเจน"
+   },
+   "password_suggestion_avoid_recent_years": {
+      "message": "หลีกเลี่ยงปีที่ผ่านมา"
+   },
+   "password_suggestion_avoid_repeats": {
+      "message": "หลีกเลี่ยงคำและตัวอักษรซ้ำ ๆ"
+   },
+   "password_suggestion_avoid_sequences": {
+      "message": "หลีกเลี่ยงลำดับ"
+   },
+   "password_suggestion_avoid_years": {
+      "message": "หลีกเลี่ยงปีที่เกี่ยวข้องกับคุณ"
+   },
+   "password_suggestion_capitalization_does_not_help": {
+      "message": "การใช้อักษรตัวพิมพ์ใหญ่ไม่ได้ช่วยอะไรมาก"
+   },
+   "password_suggestion_no_need_for_extra_chars": {
+      "message": "ไม่จำเป็นต้องใช้สัญลักษณ์ ตัวเลข หรือตัวพิมพ์ใหญ่"
+   },
+   "password_suggestion_reversed_word_does_not_help": {
+      "message": "คำที่ย้อนกลับง่ายต่อการเดา"
+   },
+   "password_suggestion_substitution_does_not_help": {
+      "message": "การแทนที่เช่น \"@\" สำหรับ \"a\" นั้นง่ายต่อการเดา"
+   },
+   "password_suggestion_uppercase_does_not_help": {
+      "message": "ตัวพิมพ์ใหญ่ทั้งหมดไม่ได้ช่วยอะไรมาก"
+   },
+   "password_suggestion_use_uncommon_words": {
+      "message": "ลองใช้คำแปลก ๆ หลาย ๆ คำ"
+   },
+   "password_warning_common_names_are_easy_to_guess": {
+      "message": "อย่าใช้ชื่อหรือนามสกุลทั่วไป"
+   },
+   "password_warning_dates_are_easy_to_guess": {
+      "message": "วันที่มักจะเดาได้ง่าย"
+   },
+   "password_warning_names_are_easy_to_guess": {
+      "message": "ชื่อตัวเองง่ายต่อการเดา"
+   },
+   "password_warning_repeats_are_easy_to_guess": {
+      "message": "คำซ้ำเช่น \"aaa\" นั้นง่ายต่อการเดา"
+   },
+   "password_warning_repeats_are_slightly_harder_to_guess": {
+      "message": "การทำซ้ำเช่น \"abcabcbc\" นั้นง่ายต่อการเดา"
+   },
+   "password_warning_sequences_are_easy_to_guess": {
+      "message": "ลำดับเช่น \"6543\" เดาได้ง่าย"
+   },
+   "password_warning_short_patterns_are_easy_to_guess": {
+      "message": "รูปแบบแป้นพิมพ์ไม่ปลอดภัย"
+   },
+   "password_warning_simmilar_to_common_password": {
+      "message": "คล้ายกับรหัสผ่านที่ใช้กันทั่วไปมากเกินไป"
+   },
+   "password_warning_straight_rows_are_easy_to_guess": {
+      "message": "คีย์แถวตรงนั้นเดาได้ง่าย"
+   },
+   "password_warning_top_100_common_password": {
+      "message": "นี่คือรหัสผ่านทั่วไป 100 อันดับแรก"
+   },
+   "password_warning_top_10_common_password": {
+      "message": "นี่คือรหัสผ่านทั่วไป 10 อันดับแรก"
+   },
+   "password_warning_very_common_password": {
+      "message": "นี่เป็นรหัสผ่านทั่วไป"
+   },
+   "password_warning_word_is_easy_to_guess": {
+      "message": "คำเดียวเดาได้ง่าย"
+   },
+   "password_warning_years_are_easy_to_guess": {
+      "message": "ปีที่ผ่านมาง่ายต่อการคาดเดา"
+   },
+   "primary_password_strength_0": {
+      "message": "\u003Cb>เริ่มต้นได้ดี\u003C/b> ลองเพิ่มอีกสองสามคำ"
+   },
+   "primary_password_strength_1": {
+      "message": "\u003Cb>ใกล้สำเร็จแล้ว\u003C/b> พิมพ์ต่อไป"
+   },
+   "primary_password_strength_2": {
+      "message": "\u003Cb>ไปต่อ\u003C/b> ลองเพิ่มคำอื่น ๆ"
+   },
+   "primary_password_strength_3": {
+      "message": "\u003Cb>ค่อนข้างดี\u003C/b> แข็งแกร่งขึ้นเรื่อย ๆ!"
+   },
+   "primary_password_strength_4": {
+      "message": "\u003Cb>แข็งแกร่งมาก!\u003C/b> คุณพร้อมแล้ว"
+   },
+   "primary_password_strength_empty": {
+      "message": "พิมพ์คำสองสามคำ เช่น \u003Cb>AquaLampJamCarpe\u003C/b>"
+   },
+   "pwm_contact_us_label": {
+      "message": "ติดต่อเรา"
+   },
+   "pwm_create_account_error_modal_title": {
+      "message": "ไม่สามารถสร้างบัญชีได้"
+   },
+   "pwm_entry_add_new_header": {
+      "message": "เพิ่มข้อมูลการเข้าสู่ระบบใหม่"
+   },
+   "pwm_entry_list_add_first_login_header": {
+      "message": "เรียบร้อยแล้ว!"
+   },
+   "pwm_entry_list_add_first_login_text": {
+      "message": "บัญชี ExpressVPN Keys ของคุณพร้อมใช้งานแล้ว บันทึกข้อมูลการเข้าสู่ระบบครั้งแรกของคุณเพื่อเริ่มต้น"
+   },
+   "pwm_entry_list_add_first_login_tooltip": {
+      "message": "คลิกที่นี่เพื่อเพิ่มข้อมูลการเข้าสู่ระบบครั้งแรกของคุณ"
+   },
+   "pwm_entry_no_result_found": {
+      "message": "ไม่พบผลลัพธ์"
+   },
+   "pwm_entry_preview_name_label": {
+      "message": "ชื่อ"
+   },
+   "pwm_entry_search_for_a_login": {
+      "message": "ค้นหาการเข้าสู่ระบบ "
+   },
+   "pwm_entry_view_created_on_label": {
+      "message": "สร้างเมื่อ %@"
+   },
+   "pwm_entry_view_delete_btn": {
+      "message": "ลบ"
+   },
+   "pwm_entry_view_edit_btn": {
+      "message": "แก้ไข"
+   },
+   "pwm_entry_view_email_label": {
+      "message": "อีเมลหรือชื่อผู้ใช้งาน"
+   },
+   "pwm_entry_view_login_btn": {
+      "message": "ลงชื่อเข้าใช้ตอนนี้"
+   },
+   "pwm_entry_view_name_label": {
+      "message": "ชื่อ (จำเป็น)"
+   },
+   "pwm_entry_view_notes_label": {
+      "message": "หมายเหตุ"
+   },
+   "pwm_entry_view_pw_label": {
+      "message": "รหัสผ่าน"
+   },
+   "pwm_entry_view_save_btn": {
+      "message": "บันทึก"
+   },
+   "pwm_entry_view_updated_on_label": {
+      "message": "แก้ไขล่าสุดเมื่อ %@"
+   },
+   "pwm_entry_view_url_label": {
+      "message": "URL เว็บไซต์"
+   },
+   "pwm_error_api_unreachable_step_1": {
+      "message": "เปิด VPN ของคุณ"
+   },
+   "pwm_error_api_unreachable_step_2": {
+      "message": "เลือกตำแหน่ง VPN อื่น"
+   },
+   "pwm_error_api_unreachable_step_3": {
+      "message": "หากไม่สำเร็จ โปรด[contact Support]"
+   },
+   "pwm_error_api_unreachable_text_1": {
+      "message": "ในการแก้ปัญหานี้ ให้ทำตามขั้นตอนเหล่านี้:"
+   },
+   "pwm_error_no_access_btn_primary": {
+      "message": "ลองอีกครั้ง"
+   },
+   "pwm_error_no_access_btn_secondary": {
+      "message": "ติดต่อฝ่ายสนับสนุน"
+   },
+   "pwm_error_no_access_header": {
+      "message": "ไม่สามารถเข้าถึง ExpressVPN Keys"
+   },
+   "pwm_error_no_access_text_1": {
+      "message": "โปรดลองเข้าใช้งานตัวจัดการรหัสผ่านอีกครั้งในไม่กี่นาที"
+   },
+   "pwm_error_offline_text_1": {
+      "message": "โปรดตรจสอบการเชื่อมต่ออินเทอร์เน็ตของคุณและลองอีกครั้ง"
+   },
+   "pwm_generic_error_modal_text": {
+      "message": "โปรดรอสักครู่แล้วลองอีกครั้ง"
+   },
+   "pwm_hint_entry_edit_saved": {
+      "message": "บันทึกแล้ว โปรดอย่าลืมอัปเดตรายละเอียดการเข้าสู่ระบบของคุณใน %URL%"
+   },
+   "pwm_locked_vault_password_manager": {
+      "message": "ExpressVPN Keys"
+   },
+   "pwm_locked_vault_unlock": {
+      "message": "คลิกไอคอนส่วนขยายหรือกด [command] \nเพื่อปลดล็อกตัวจัดการรหัสผ่านของคุณ"
+   },
+   "pwm_modal_cancel_entry_confirm_header": {
+      "message": "คุณแน่ใจหรือไม่?"
+   },
+   "pwm_modal_cancel_entry_confirm_text": {
+      "message": "การเปลี่ยนแปลงของคุณจะไม่ถูกบันทึก"
+   },
+   "pwm_modal_delete_entry_cancel_button": {
+      "message": "ยกเลิก"
+   },
+   "pwm_modal_delete_entry_confirm_button": {
+      "message": "ลบอย่างถาวร"
+   },
+   "pwm_modal_delete_entry_confirm_header": {
+      "message": "คุณแน่ใจหรือไม่?"
+   },
+   "pwm_modal_delete_entry_confirm_text": {
+      "message": "รายการนี้จะถูกลบออกอย่างถาวร"
+   },
+   "pwm_modal_discard_changes_cancel_button": {
+      "message": "แก้ไขต่อไป"
+   },
+   "pwm_modal_discard_changes_confirm_button": {
+      "message": "ยกเลิกการแก้ไข"
+   },
+   "pwm_modal_save_entry_error_cancel_button": {
+      "message": "ยกเลิก"
+   },
+   "pwm_modal_save_entry_error_header": {
+      "message": "บันทึกไม่ได้"
+   },
+   "pwm_modal_save_entry_error_retry_button": {
+      "message": "ลองอีกครั้ง"
+   },
+   "pwm_modal_save_entry_error_text": {
+      "message": "โปรดลองอีกครั้งในไม่กี่นาที"
+   },
+   "pwm_network_error_modal_text": {
+      "message": "โปรดตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของคุณ แล้วลองอีกครั้ง"
+   },
+   "pwm_primary_pw_modal_generic_error_btn_primary": {
+      "message": "ลองอีกครั้ง"
+   },
+   "pwm_primary_pw_modal_generic_error_header": {
+      "message": "ไม่สามารถตั้งรหัสผ่านได้"
+   },
+   "pwm_primary_pw_modal_generic_error_text": {
+      "message": "โปรดลองอีกครั้งในไม่กี่นาที"
+   },
+   "pwm_primary_pw_modal_pw_exists_btn_primary": {
+      "message": "เรียนรู้เพิ่มเติม"
+   },
+   "pwm_primary_pw_modal_pw_exists_header": {
+      "message": "ไม่สามารถตั้งรหัสผ่านได้"
+   },
+   "pwm_primary_pw_modal_pw_exists_text": {
+      "message": "บัญชี ExpressVPN นี้มีตัวจัดการรหัสผ่านอยู่แล้ว โปรดคลิกที่ส่วนขยาย ExpressVPN Keys เพื่อปลดล็อก"
+   },
+   "pwm_primary_pw_set_form_pw": {
+      "message": "รหัสผ่านหลักของคุณ"
+   },
+   "pwm_primary_pw_set_form_pw_error_match": {
+      "message": "รหัสผ่านไม่ตรงกับข้างต้น"
+   },
+   "pwm_primary_pw_set_form_pw_error_strength": {
+      "message": "รหัสผ่านหลักของคุณควรประกอบไปด้วย 10 ตัวอักษรและ 1 สัญลักษณ์"
+   },
+   "pwm_primary_pw_set_form_pw_info_strength": {
+      "message": "ต้องการ 10 ตัวอักษรและ 1 สัญลักษณ์"
+   },
+   "pwm_primary_pw_set_form_pw_label": {
+      "message": "รหัสผ่านหลัก"
+   },
+   "pwm_primary_pw_set_form_pw_reenter": {
+      "message": "กรอกรหัสผ่านหลักอีกครั้ง"
+   },
+   "pwm_primary_pw_set_form_submit": {
+      "message": "ตั้งรหัสผ่านหลัก"
+   },
+   "pwm_primary_pw_set_header": {
+      "message": "รหัสผ่านหลักของคุณ"
+   },
+   "pwm_primary_pw_set_help_link": {
+      "message": "ต้องการความช่วยเหลือเกี่ยวกับรหัสผ่านของคุณหรือไม่?"
+   },
+   "pwm_primary_pw_set_learn": {
+      "message": "เรียนรู้วิธีสร้างรหัสผ่านที่รัดกุม"
+   },
+   "pwm_primary_pw_set_security_modal_edit_password": {
+      "message": "แก้ไขรหัสผ่าน"
+   },
+   "pwm_primary_pw_set_security_modal_p1": {
+      "message": "เพิ่มคำเพื่อทำให้รหัสผ่านหลักของคุณปลอดภัยยิ่งขึ้น"
+   },
+   "pwm_primary_pw_set_security_modal_p2": {
+      "message": "ต้องการความช่วยเหลือ? อ่านเคล็ดลับของเราในการสร้างรหัสผ่านที่รัดกุม"
+   },
+   "pwm_primary_pw_set_security_modal_read_tips": {
+      "message": "อ่านเคล็ดลับ"
+   },
+   "pwm_primary_pw_set_security_modal_title": {
+      "message": "ความปลอดภัยรหัสผ่านไม่ถูกต้อง"
+   },
+   "pwm_primary_pw_set_text": {
+      "message": "สร้างรหัสผ่านหลักเพื่อเข้ารหัสข้อมูลการเข้าสู่ระบบที่บันทึกไว้ของคุณ \nรหัสผ่านนี้ต้องไม่เหมือนกับรหัสผ่าน ExpressVPN ของคุณ"
+   },
+   "pwm_recovery_code_cancel": {
+      "message": "ยกเลิก"
+   },
+   "pwm_recovery_code_continue": {
+      "message": "ดำเนินการต่อ"
+   },
+   "pwm_recovery_code_copied_hint": {
+      "message": "คุณได้คัดลอกรหัสกู้คืน กรุณาพิมพ์รหัสและ/หรือเก็บไว้ในที่ปลอดภัย"
+   },
+   "pwm_recovery_code_copy_code": {
+      "message": "คัดลอกทั้งหมด"
+   },
+   "pwm_recovery_code_download_pdf": {
+      "message": "ดาวน์โหลด PDF"
+   },
+   "pwm_recovery_code_header": {
+      "message": "รหัสกู้คืนของคุณ"
+   },
+   "pwm_recovery_code_text": {
+      "message": "\u003Cb>คัดลอกหรือบันทึกรหัสกู้คืนของคุณและเก็บไว้ในที่ปลอดภัย\u003C/b> หากคุณทำรหัสผ่านหลักหาย รหัสนี้เป็นวิธีเดียวในการเข้าถึงรายการของคุณ"
+   },
+   "pwm_recovery_code_warning_modal_text_p1": {
+      "message": "คุณยังไม่ได้คัดลอกหรือบันทึกรหัสกู้คืนของคุณ"
+   },
+   "pwm_recovery_code_warning_modal_text_p2": {
+      "message": "ExpressVPN ไม่สามารถเข้าถึงรหัสผ่านหลัก รหัสกู้คืน หรือข้อมูลการเข้าสู่ระบบที่บันทึกไว้ ดังนั้นโปรดคัดลอกรหัสหรือบันทึกลงในตำแหน่งที่ปลอดภัย"
+   },
+   "pwm_recovery_code_warning_modal_title": {
+      "message": "ไปขั้นตอนต่อไป?"
+   },
+   "pwm_report_another": {
+      "message": "รายงานปัญหาอื่น"
+   },
+   "pwm_report_auto_fill": {
+      "message": "รายงานปัญหาการป้อนอัตโนมัติ"
+   },
+   "pwm_request_mfa_error_modal_title": {
+      "message": "ไม่สามารถส่งอีเมลได้ "
+   },
+   "pwm_setup_add_new_logins": {
+      "message": "เพิ่มข้อมูลเข้าสู่ระบบใหม่"
+   },
+   "pwm_setup_import_existing_logins": {
+      "message": "นำเข้าข้อมูลเข้าสู่ระบบที่มีอยู่"
+   },
+   "pwm_setup_success_add_logins": {
+      "message": "เพิ่มข้อมูลการเข้าสู่ระบบ"
+   },
+   "pwm_setup_success_header": {
+      "message": "เรียบร้อยแล้ว!"
+   },
+   "pwm_setup_success_import_logins": {
+      "message": "นำเข้าข้อมูลการเข้าสู่ระบบ"
+   },
+   "pwm_setup_success_text_p1": {
+      "message": "บัญชี ExpressVPN Keys ของคุณพร้อมใช้งานแล้ว"
+   },
+   "pwm_setup_success_text_p2": {
+      "message": "มีข้อมูลการเข้าสู่ระบบที่บันทึกไว้ในตัวจัดการรหัสผ่านอื่น?"
+   },
+   "pwm_setup_success_text_p3": {
+      "message": "คุณสามารถนำเข้าข้อมูลการเข้าสู่ระบบที่บันทึกไว้สำหรับ: "
+   },
+   "pwm_setup_success_text_p4": {
+      "message": "เพิ่มข้อมูลการเข้าสู่ระบบใหม่ด้วยตนเอง:"
+   },
+   "pwm_unlock_vault_incorrect_pw_error": {
+      "message": "รหัสผ่านหลักไม่ถูกต้อง"
+   },
+   "pwm_unlock_vault_locked_header": {
+      "message": "ExpressVPN Keys ถูกล็อก"
+   },
+   "pwm_unlock_vault_need_help_link": {
+      "message": "ต้องการความช่วยเหลือ?"
+   },
+   "pwm_unlock_vault_need_help_modal_text": {
+      "message": "หากคุณไม่สามารถปลดล็อก\nExpressVPN Keys ด้วยรหัสผ่านหลัก \nคุณสามารถใช้รหัสกู้คืนหรือติดต่อเรา\nเพื่อขอความช่วยเหลือได้"
+   },
+   "pwm_unlock_vault_unlock_btn": {
+      "message": "ปลดล็อก"
+   },
+   "pwm_unlock_vault_unlocking_header": {
+      "message": "กำลังปลดล็อก"
+   },
+   "pwm_use_recovery_code_label": {
+      "message": "ใช้รหัสกู้คืน"
+   },
+   "pwm_validate_mfa_network_error_modal_title": {
+      "message": "ไม่สามารถยืนยันบัญชีได้"
+   },
+   "pwm_verify_account_code_help_link": {
+      "message": "ไม่ได้รับรหัสของคุณ?"
+   },
+   "pwm_verify_account_code_input_label": {
+      "message": "กรอกรหัสยืนยัน 6 หลัก"
+   },
+   "pwm_verify_account_code_invalid_code": {
+      "message": "รหัสไม่ถูกต้อง โปรดลองอีกครั้ง"
+   },
+   "pwm_verify_account_code_submit_button_label": {
+      "message": "ต่อไป"
+   },
+   "pwm_verify_account_code_text_p1": {
+      "message": "เราได้ส่งรหัสไปยังที่อยู่อีเมลของคุณเพื่อยืนยันว่าคุณเป็นเจ้าของบัญชี"
+   },
+   "pwm_verify_account_code_text_p2": {
+      "message": "โปรดตรวจสอบกล่องขาเข้าของคุณและกรอกรหัสยืนยัน 6 หลัก\nเพื่อตั้งค่าบัญชี ExpressVPN Keys ของคุณให้เสร็จสิ้น"
+   },
+   "pwm_verify_account_header": {
+      "message": "ยืนยันบัญชีของคุณ"
+   },
+   "pwm_verify_account_need_help": {
+      "message": "ต้องการความช่วยเหลือ? โปรด[ติดต่อฝ่ายสนับสนุน]"
+   },
+   "pwm_verify_account_send_email_button": {
+      "message": "ส่งอีเมล"
+   },
+   "pwm_verify_account_text_p1": {
+      "message": "ในการตั้งค่า ExpressVPN Keys ในอุปกรณ์นี้ เราต้องยืนยันว่าคุณเป็นเจ้าของบัญชี"
+   },
+   "pwm_verify_account_text_p2": {
+      "message": "เลือก \"ส่งอีเมล\" ด้านล่าง จากนั้นกรอกรหัสยืนยัน 6 หลักที่ให้ไว้ในอีเมล"
+   },
+   "recovery_code_cancel_setup": {
+      "message": "ยกเลิกการติดตั้ง"
+   },
+   "save_diagnostics": {
+      "message": "บันทึกผลการวินิจฉัย"
+   },
+   "second": {
+      "message": "วินาที"
+   },
+   "seconds": {
+      "message": "วินาที"
+   },
+   "settings_help_improve_expressvpn_keys": {
+      "message": "ช่วยปรับปรุง ExpressVPN Keys"
+   },
+   "settings_help_improve_share_crash": {
+      "message": "แบ่งปันรายงานข้อขัดข้อง การทดสอบความเร็ว และความพยายามในการเชื่อมต่อ VPN รายงานเหล่านี้จะไม่มีข้อมูลที่สามารถระบุตัวบุคคลได้"
+   },
+   "settings_menu_item_change_password_label": {
+      "message": "กรอกรหัสผ่านหลัก"
+   },
+   "settings_menu_item_open_shortcut_label": {
+      "message": "เปิดด้วยแป้นพิมพ์ลัด"
+   },
+   "settings_menu_section_data_title": {
+      "message": "ข้อมูล"
+   },
+   "settings_menu_section_general_title": {
+      "message": "ทั่วไป"
+   },
+   "settings_menu_section_other_title": {
+      "message": "อื่น ๆ"
+   },
+   "settings_menu_section_security_title": {
+      "message": "ความปลอดภัย"
+   },
+   "some_logins_saved_for_website": {
+      "message": "ข้อมูลการเข้าสู่ระบบ \u003Cb>%HOST%\u003C/b>"
+   },
+   "step_X_of_Y": {
+      "message": "%STEP% จาก %TOTAL% ขั้นตอน"
+   },
+   "try_again_label": {
+      "message": "ลองอีกครั้ง"
+   },
+   "update_btn_label": {
+      "message": "อัปเดต"
+   },
+   "use_recovery_code_header": {
+      "message": "ใช้รหัสกู้คืน"
+   },
+   "use_recovery_code_incorrect_code_error": {
+      "message": "รหัสกู้คืนไม่ถูกต้อง"
+   },
+   "use_recovery_code_input_label": {
+      "message": "ใช้รหัสกู้คืน"
+   },
+   "use_recovery_code_text": {
+      "message": "กรอกรหัสกู้คืนของคุณทางด้านขวาเพื่อรีเซ็ตรหัสผ่านหลัก\nสำหรับ ExpressVPN Keys"
+   },
+   "waitlist_header": {
+      "message": "คุณอยู่ในรายชื่อรอแล้ว!"
+   },
+   "waitlist_hint": {
+      "message": "โปรดติดตั้งส่วนขยายไว้และเราจะแจ้งให้คุณทราบเมื่อ ExpressVPN Keys พร้อมใช้งานสำหรับบัญชีของคุณ"
+   },
+   "waitlist_notification_header": {
+      "message": "ExpressVPN Keys พร้อมใช้งานแล้ว"
+   },
+   "waitlist_notification_text": {
+      "message": "คลิกที่นี่เพื่อลองใช้ตัวจัดการรหัสผ่านใหม่ของ ExpressVPN สำหรับ %CURRENT_BROWSER%"
+   },
+   "waitlist_p1": {
+      "message": "ExpressVPN Keys กำลังจะเปิดตัวในอีกไม่กี่สัปดาห์"
+   },
+   "waitlist_p2": {
+      "message": "หากคุณมีคำถามใด ๆ โปรด[ติดต่อฝ่ายสนับสนุน]"
+   },
+   "year": {
+      "message": "ปี"
+   },
+   "years": {
+      "message": "ปี"
+   }
+}

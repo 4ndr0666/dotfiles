@@ -1,0 +1,30 @@
+{
+	"color_scheme": "MarkdownEditor-Dark.sublime-color-scheme",
+	"ignored_packages":
+	[
+		"",
+		"Vintage",
+	],
+	"theme": "Brogrammer.sublime-theme",
+	"dark_theme": "Afterglow-magenta.sublime-theme",
+	"light_theme": "Afterglow-magenta.sublime-theme",
+	"dark_color_scheme": "Afterglow-markdown.sublime-color-scheme",
+	"light_color_scheme": "Afterglow.sublime-color-scheme",
+	"font_size": 10,
+	"word_wrap": "false",
+	"hightlight_line_number": true,
+	"caret_style": "blink",
+	"auto_hide_menu": true,
+	"auto_hide_status_bar": true,
+	"shift_tab_unindent": true,
+	"highlight_modified_tabs": true,
+	"hardware_acceleration": "opengl",
+	"sidebar_no_icon": false,
+    "folder_no_icon": false,
+
+
+	
+
+
+
+}

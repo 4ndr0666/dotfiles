@@ -1,0 +1,1 @@
+window.aiparser=function(){if(!location.href.match("www.behance.net/gallery/\\d+"))return-1;{let e=document.querySelectorAll('#project-modules img[class^="ImageElement"]');chrome.runtime.sendMessage({cmd:"ADD_IMG_LIST",list:Array.from(e).map(e=>({src:e.src}))})}};

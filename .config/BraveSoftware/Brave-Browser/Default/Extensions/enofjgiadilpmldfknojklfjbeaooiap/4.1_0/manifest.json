@@ -1,0 +1,21 @@
+{
+   "author": "Aakash Chakravarthy",
+   "browser_action": {
+      "default_icon": "icons/48.png",
+      "default_popup": "form.html",
+      "default_title": "All in one Web Searcher"
+   },
+   "description": "Search anything on the internet easily by typing into ONE unified search box",
+   "icons": {
+      "128": "icons/128.png",
+      "16": "icons/48.png",
+      "48": "icons/48.png"
+   },
+   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC8s4ukl5IKnc8e4UP99uQbV88mrjphxZaex2lxW07yvs6noF+besmUUZAFc8lmEq60zDV0SsUQMqfbBpjgtwUWc7syrctwdAX80CKRtK/JrlLX1GcgJeBk8OpXmt5RtejBrmCCIPJkcavD/aLqnwssdfrFm1Pa0Lv+NE6KYoVSZQIDAQAB",
+   "manifest_version": 2,
+   "name": "All in one web searcher",
+   "offline_enabled": true,
+   "options_page": "options.html",
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "4.1"
+}

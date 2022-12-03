@@ -1,0 +1,1498 @@
+{
+    "Terms of Use": "Any use of this registry is subject to the terms available at http://www.aboutads.info/legal/",
+    "name": "DAA Inclusive Registry",
+    "version": "1",
+    "registry": [
+        {
+            "path": "path",
+            "company": "company",
+            "host": "host",
+            "value": "value",
+            "name": "name"
+        },
+        {
+            "company": "33Across",
+            "host": ".33across.com",
+            "path": "/",
+            "name": "33x_nc",
+            "value": "33Across+Optout"
+        },
+        {
+            "company": "Adap.tv",
+            "host": ".adap.tv",
+            "path": "/",
+            "name": "optout",
+            "value": "true"
+        },
+        {
+            "company": "Adara (Opinmind)",
+            "host": ".yieldoptimizer.com",
+            "path": "/",
+            "name": "om_optout",
+            "value": "1"
+        },
+        {
+            "company": "Nextroll (AdRoll)",
+            "host": "d.adroll.com",
+            "path": "/",
+            "name": "__adroll",
+            "value": "OPT_OUT"
+        },
+        {
+            "company": "Nextroll (AdRoll)",
+            "host": ".adroll.com",
+            "path": "/",
+            "name": "__adroll_shared",
+            "value": "OPT_OUT"
+        },
+        {
+            "company": "Datonics",
+            "host": ".pro-market.net",
+            "path": "/",
+            "name": "optout",
+            "value": "\"0+0+0\""
+        },
+        {
+            "company": "AOL Advertising",
+            "host": ".advertising.com",
+            "path": "/",
+            "name": "ACID",
+            "value": "optout!"
+        },
+        {
+            "company": "AOL Advertising",
+            "host": ".atwola.com",
+            "path": "/",
+            "name": "atdses",
+            "value": "O"
+        },
+        {
+            "company": "AOL Advertising",
+            "host": ".adtech.de",
+            "path": "/",
+            "name": "JEB2",
+            "value": "NOID"
+        },
+        {
+            "company": "AOL Advertising",
+            "host": ".adtech.de",
+            "path": "/",
+            "name": "OptOut",
+            "value": "we will not set any more cookies"
+        },
+        {
+            "company": "AOL Advertising",
+            "host": ".adtechus.com",
+            "path": "/",
+            "name": "JEB2",
+            "value": "NOID"
+        },
+        {
+            "company": "AOL Advertising",
+            "host": ".adtechus.com",
+            "path": "/",
+            "name": "OptOut",
+            "value": "we will not set any more cookies"
+        },
+        {
+            "company": "AOL Advertising",
+            "host": ".nexage.com",
+            "path": "/",
+            "name": "ACID",
+            "value": "optout!"
+        },
+        {
+            "company": "AOL Advertising",
+            "host": ".adtechjp.com",
+            "path": "/",
+            "name": "JEB2",
+            "value": "NOID"
+        },
+        {
+            "company": "AOL Advertising",
+            "host": ".adtechjp.com",
+            "path": "/",
+            "name": "OptOut",
+            "value": "we will not set any more cookies"
+        },
+        {
+            "company": "Bazaarvoice, Inc.",
+            "host": "network.bazaarvoice.com",
+            "path": "/",
+            "name": "NoCookie",
+            "value": "true"
+        },
+        {
+            "company": "BlueKai Inc.",
+            "host": ".bluekai.com",
+            "path": "/",
+            "name": "BKIgnore",
+            "value": "1"
+        },
+        {
+            "company": "Casale Media",
+            "host": ".casalemedia.com",
+            "path": "/",
+            "name": "CMO",
+            "value": "2"
+        },
+        {
+            "company": "Oracle Data Cloud",
+            "host": ".addthis.com",
+            "path": "/",
+            "name": "uid",
+            "value": "0000000000000000"
+        },
+        {
+            "company": "CONTEXTWEB",
+            "host": ".contextweb.com",
+            "path": "/",
+            "name": "CWOptOutCookie",
+            "value": "1"
+        },
+        {
+            "company": "Criteo",
+            "host": ".criteo.com",
+            "path": "/",
+            "name": "optout",
+            "value": "1"
+        },
+        {
+            "company": "Cross Pixel Media",
+            "host": ".crsspxl.com",
+            "path": "/",
+            "name": "uid",
+            "value": "-1"
+        },
+        {
+            "company": "Cross Pixel Media",
+            "host": ".crsspxl.com",
+            "path": "/",
+            "name": "OPTOUT",
+            "value": "1"
+        },
+        {
+            "company": "Cross Pixel Media",
+            "host": ".crsspxl.com",
+            "path": "/",
+            "name": "uuid",
+            "value": "OPTOUT"
+        },
+        {
+            "company": "DataXu",
+            "host": ".w55c.net",
+            "path": "/",
+            "name": "optout",
+            "value": "1"
+        },
+        {
+            "company": "Dedicated (AppNexus)",
+            "host": ".adnxs.com",
+            "path": "/",
+            "name": "uuid2",
+            "value": "-1"
+        },
+        {
+            "company": "Dotomi",
+            "host": ".dotomi.com",
+            "path": "/",
+            "name": "DotomiStatus",
+            "value": "OPTOUT"
+        },
+        {
+            "company": "Doubleclick",
+            "host": ".doubleclick.net",
+            "path": "/",
+            "name": "id",
+            "value": "OPT_OUT"
+        },
+        {
+            "company": "eXelate",
+            "host": ".exelator.com",
+            "path": "/",
+            "name": "DNP",
+            "value": "\"1\""
+        },
+        {
+            "company": "FlashTalking",
+            "host": ".flashtalking.com",
+            "path": "/",
+            "name": "flashtalkingad1",
+            "value": "\"optout=1\""
+        },
+        {
+            "company": "KBM Group",
+            "host": "optout.ib-ibi.com",
+            "path": "/",
+            "name": "ib-ibi.com-OptOut",
+            "value": "IsOptOut=true"
+        },
+        {
+            "company": "Intent Media",
+            "host": "a.intentmedia.net",
+            "path": "/",
+            "name": "intentmedia_user_id",
+            "value": "OptOut"
+        },
+        {
+            "company": "Krux Digital",
+            "host": ".krxd.net",
+            "path": "/",
+            "name": "_kuid_",
+            "value": "OPTOUT"
+        },
+        {
+            "company": "Lotame",
+            "host": ".crwdcntrl.net",
+            "path": "/",
+            "name": "_cc_cc",
+            "value": "optout"
+        },
+        {
+            "company": "Markit on Demand",
+            "host": ".wsod.com",
+            "path": "/",
+            "name": "ub",
+            "value": "OPT_OUT"
+        },
+        {
+            "company": "MaxPoint Interactive",
+            "host": ".mxptint.net",
+            "path": "/",
+            "name": "mxpim",
+            "value": "optout"
+        },
+        {
+            "company": "Mediamath",
+            "host": ".mathtag.com",
+            "path": "/",
+            "name": "optout",
+            "value": "1"
+        },
+        {
+            "company": "MediaMind",
+            "host": ".serving-sys.com",
+            "path": "/",
+            "name": "ebOptOut",
+            "value": "TRUE"
+        },
+        {
+            "company": "Media Innovation Group",
+            "host": ".mookie1.com",
+            "path": "/",
+            "name": "RMOPTOUT",
+            "value": "3"
+        },
+        {
+            "company": "Media Innovation Group",
+            "host": ".mookie1.com",
+            "path": "/",
+            "name": "optouts",
+            "value": "cookies"
+        },
+        {
+            "company": "Media Innovation Group",
+            "host": ".mookie1.com",
+            "path": "/",
+            "name": "%2emookie1%2ecom/%2f/1/o",
+            "value": "0/cookie"
+        },
+        {
+            "company": "Media Innovation Group",
+            "host": ".mookie1.com",
+            "path": "/",
+            "name": "optout",
+            "value": "1"
+        },
+        {
+            "company": "Media.net",
+            "host": ".media.net",
+            "path": "/",
+            "name": "mnet_optout",
+            "value": "1"
+        },
+        {
+            "company": "Netmining",
+            "host": ".netmng.com",
+            "path": "/",
+            "name": "EVO5_OPT",
+            "value": "1"
+        },
+        {
+            "company": "OwnerIQ",
+            "host": ".owneriq.net",
+            "path": "/",
+            "name": "optout",
+            "value": "optout"
+        },
+        {
+            "company": "Pubmatic",
+            "host": ".pubmatic.com",
+            "path": "/",
+            "name": "optout",
+            "value": "true"
+        },
+        {
+            "company": "RhythmOne",
+            "host": ".gwallet.com",
+            "path": "/",
+            "name": "ra1_oo",
+            "value": "1"
+        },
+        {
+            "company": "RhythmOne",
+            "host": ".po.st",
+            "path": "/",
+            "name": "post_optout",
+            "value": "1"
+        },
+        {
+            "company": "the Rubicon Project",
+            "host": ".rubiconproject.com",
+            "path": "/",
+            "name": "trp_optout",
+            "value": "true"
+        },
+        {
+            "company": "ShareThis",
+            "host": ".sharethis.com",
+            "path": "/",
+            "name": "st_optout",
+            "value": "true"
+        },
+        {
+            "company": "Connexity",
+            "host": ".shopzilla.com",
+            "path": "/",
+            "name": "ad_retarget_opt_out",
+            "value": "true"
+        },
+
+        {
+            "company": "Viant",
+            "host": ".specificmedia.com",
+            "path": "/",
+            "name": "ADVIVA",
+            "value": "NOTRACK"
+        },
+        {
+            "company": "Viant",
+            "host": ".adviva.net",
+            "path": "/",
+            "name": "ADVIVA",
+            "value": "NOTRACK"
+        },
+        {
+            "company": "Specific Media",
+            "host": ".specificclick.net",
+            "path": "/",
+            "name": "ADVIVA",
+            "value": "NOTRACK"
+        },
+        {
+            "company": "Viant",
+            "host": ".vindicosuite.com",
+            "path": "/",
+            "name": "ADVIVA",
+            "value": "NOTRACK"
+        },
+        {
+            "company": "SteelHouse",
+            "host": ".steelhousemedia.com",
+            "path": "/",
+            "name": "opt_out",
+            "value": "1"
+        },
+        {
+            "company": "Tribal Fusion",
+            "host": ".tribalfusion.com",
+            "path": "/",
+            "name": "ANON_ID",
+            "value": "OptOut"
+        },
+        {
+            "company": "Turn",
+            "host": ".turn.com",
+            "path": "/",
+            "name": "optOut",
+            "value": "1"
+        },
+        {
+            "company": "Undertone",
+            "host": ".undertone.com",
+            "path": "/",
+            "name": "UTOPTOUT",
+            "value": "OPTOUT"
+        },
+        {
+            "company": "Vibrant",
+            "host": ".intellitxt.com",
+            "path": "/",
+            "name": "VM_OO",
+            "value": "1"
+        },
+        {
+            "company": "Vibrant",
+            "host": "optout.intellitxt.com",
+            "path": "/",
+            "name": "VM_OO",
+            "value": "1"
+        },
+        {
+            "company": "Wall Street On Demand",
+            "host": "ad.wsod.com",
+            "path": "/",
+            "name": "u",
+            "value": "OPT_OUT"
+        },
+        {
+            "company": "Adobe Media Optimizer",
+            "host": ".demdex.net",
+            "path": "/",
+            "name": "demdex",
+            "value": "NOTARGET"
+        },
+        {
+            "company": "Adobe Media Optimizer",
+            "host": ".tt.omtrdc.net",
+            "path": "/",
+            "name": "disableClient",
+            "value": "true"
+        },
+        {
+            "company": "Adobe Media Optimizer (AdNexus)",
+            "host": ".adnxs.com",
+            "path": "/",
+            "name": "uuid2",
+            "value": "-1"
+        },
+        {
+            "company": "Amazon Ad Systems",
+            "host": ".amazon-adsystem.com",
+            "path": "/",
+            "name": "ad-privacy",
+            "value": "1"
+        },
+        {
+            "company": "Adstra",
+            "host": ".bluecava.com",
+            "path": "/",
+            "name": "daa-opt-out",
+            "value": "1"
+        },
+        {
+            "company": "Rakuten",
+            "host": ".mediaforge.com",
+            "path": "/",
+            "name": "opt-out",
+            "value": "opt-out"
+        },
+        {
+            "company": "Quantserve",
+            "host": ".quantserve.com",
+            "path": "/",
+            "name": "qoo",
+            "value": "OPT_OUT"
+        },
+        {
+            "company": "LiveRamp",
+            "host": ".rlcdn.com",
+            "path": "/",
+            "name": "optout",
+            "value": "*"
+        },
+        {
+            "company": "LiveRamp",
+            "host": "pippio.com",
+            "path": "/",
+            "name": "optout",
+            "value": "*"
+        },
+        {
+            "company": "The Trade Desk",
+            "host": ".adsrvr.org",
+            "path": "/",
+            "name": "TDID",
+            "value": "00000000-0000-0000-0000-000000000000"
+        },
+        {
+            "company": "Tremor Video",
+            "host": ".scanscout.com",
+            "path": "/",
+            "name": "ENFORCE_PRIVACY",
+            "value": "-"
+        },
+        {
+            "company": "Innovid",
+            "host": ".innovid.com",
+            "path": "/",
+            "name": "uuid",
+            "value": "-2"
+        },
+        {
+            "company": "Tremor",
+            "host": ".videohub.tv",
+            "path": "/",
+            "name": "ENFORCE_PRIVACY",
+            "value": "-"
+        },
+        {
+            "company": "Madison Logic",
+            "host": ".ml314.com",
+            "path": "/",
+            "name": "optout",
+            "value": "1"
+        },
+        {
+            "company": "Ziff Davis",
+            "host": ".logicbuy.com",
+            "path": "/",
+            "name": "opt_out",
+            "value": "1"
+        },
+        {
+            "company": "Ziff Davis",
+            "host": ".pcmag.com",
+            "path": "/",
+            "name": "opt_out",
+            "value": "1"
+        },
+        {
+            "company": "Ziff Davis",
+            "host": ".askmen.com",
+            "path": "/",
+            "name": "opt_out",
+            "value": "1"
+        },
+        {
+            "company": "Ziff Davis",
+            "host": ".ign.com",
+            "path": "/",
+            "name": "opt_out",
+            "value": "1"
+        },
+        {
+            "company": "Ziff Davis",
+            "host": ".extremetech.com",
+            "path": "/",
+            "name": "opt_out",
+            "value": "1"
+        },
+        {
+            "company": "ZD",
+            "host": ".ziffdavis.com",
+            "path": "/",
+            "name": "opt_out",
+            "value": "1"
+        },
+        {
+            "company": "ZD",
+            "host": ".webhostingunleashed.com",
+            "path": "/",
+            "name": "opt_out",
+            "value": "1"
+        },
+        {
+            "company": "ZD",
+            "host": ".techbargains.com",
+            "path": "/",
+            "name": "opt_out",
+            "value": "1"
+        },
+        {
+            "company": "ZD",
+            "host": ".zdbb.net",
+            "path": "/",
+            "name": "opt_out",
+            "value": "1"
+        },
+        {
+            "company": "ZD",
+            "host": ".voip-news.com",
+            "path": "/",
+            "name": "opt_out",
+            "value": "1"
+        },
+        {
+            "company": "ZD",
+            "host": ".ugo.com",
+            "path": "/",
+            "name": "opt_out",
+            "value": "1"
+        },
+        {
+            "company": "ZD",
+            "host": ".itsecurity.com",
+            "path": "/",
+            "name": "opt_out",
+            "value": "1"
+        },
+        {
+            "company": "ZD",
+            "host": ".insidecrm.com",
+            "path": "/",
+            "name": "opt_out",
+            "value": "1"
+        },
+        {
+            "company": "ZD",
+            "host": ".hrworld.com",
+            "path": "/",
+            "name": "opt_out",
+            "value": "1"
+        },
+        {
+            "company": "ZD",
+            "host": ".itmanagement.com",
+            "path": "/",
+            "name": "opt_out",
+            "value": "1"
+        },
+        {
+            "company": "ZD",
+            "host": ".toolbox.com",
+            "path": "/",
+            "name": "opt_out",
+            "value": "1"
+        },
+        {
+            "company": "ZD",
+            "host": ".1up.com",
+            "path": "/",
+            "name": "opt_out",
+            "value": "1"
+        },
+        {
+            "company": "Tapad",
+            "host": ".tapad.com",
+            "path": "/",
+            "name": "ID",
+            "value": "OPT_OUT"
+        },
+        {
+            "company": "Tapad",
+            "host": ".tapad.com",
+            "path": "/",
+            "name": "TapAd_DID",
+            "value": "OptedOut"
+        },
+        {
+            "company": "Tapad",
+            "host": ".tapad.com",
+            "path": "/",
+            "name": "TapAd_TS",
+            "value": "0"
+        },
+        {
+            "company": "Facebook",
+            "host": ".facebook.com",
+            "path": "/",
+            "name": "oo",
+            "value": "1"
+        },
+        {
+            "company": "Adelphic",
+            "host": ".ipredictive.com",
+            "path": "/",
+            "name": "cu",
+            "value": "optout"
+        },
+        {
+            "company": "Drawbridge, Inc.",
+            "host": ".adsymptotic.com",
+            "path": "/",
+            "name": "OT",
+            "value": "1"
+        },
+        {
+            "company": "FreeWheel",
+            "host": ".fwmrm.net",
+            "path": "/",
+            "name": "opt_out",
+            "value": "\"true\""
+        },
+        {
+            "company": "FreeWheel",
+            "host": ".fwmrm.net",
+            "path": "/",
+            "name": "daa_opt_out",
+            "value": "\"true\""
+        },
+        {
+            "company": "FreeWheel",
+            "host": "ads.stickyadstv.com",
+            "path": "/",
+            "name": "daa_opt_out",
+            "value": "1"
+        },
+        {
+            "company": "GumGum, Inc",
+            "host": ".gumgum.com",
+            "path": "/",
+            "name": "optout",
+            "value": "1"
+        },
+        {
+            "company": "iPromote",
+            "host": ".ipromote.com",
+            "path": "/ad",
+            "name": "optout",
+            "value": "1"
+        },
+        {
+            "company": "OpenX",
+            "host": ".openx.net",
+            "path": "/",
+            "name": "OX_dnt",
+            "value": "1"
+        },
+        {
+            "company": "RUN, Inc.",
+            "host": "match.rundsp.com",
+            "path": "/coop",
+            "name": "RUN_OPTOUT",
+            "value": "1"
+        },
+        {
+            "company": "Simpli.fi Holdings",
+            "host": ".simpli.fi",
+            "path": "/",
+            "name": "opted_out",
+            "value": "true"
+        },
+        {
+            "company": "Sojern, Inc.",
+            "host": ".sojern.com",
+            "path": "/",
+            "name": "optout",
+            "value": "\"opt out\""
+        },
+        {
+            "company": "Varick Media Management",
+            "host": ".vmmpxl.com",
+            "path": "/",
+            "name": "VMM_OPTOUT",
+            "value": "optout"
+        },
+        {
+            "company": "Healthy Offers, Inc.",
+            "host": "www.healthyoffers.com",
+            "path": "/opt-out",
+            "name": "User_interest",
+            "value": "optout"
+        },
+        {
+            "company": "Healthy Offers, Inc.",
+            "host": "www.healthyoffers.com",
+            "path": "/opt-out",
+            "name": "UUID",
+            "value": "0000"
+        },
+        {
+            "company": "Healthy Offers, Inc.",
+            "host": "www.healthyoffers.com",
+            "path": "/opt-out",
+            "name": "IP",
+            "value": "000"
+        },
+        {
+            "company": "Acuity",
+            "host": ".acuityplatform.com",
+            "path": "/",
+            "name": "OptOutCookie",
+            "value": "true"
+        },
+        {
+            "company": "UnrulyMedia",
+            "host": ".unrulymedia.com",
+            "path": "/",
+            "name": "optout",
+            "value": "optout"
+        },
+        {
+            "company": "liadm",
+            "host": ".d.liadm.com",
+            "path": "/",
+            "name": "tuuid",
+            "value": "opt-out"
+        },
+        {
+            "company": "Adgear",
+            "host": ".adgrx.com",
+            "path": "/",
+            "name": "ADGRX_OPTOUT",
+            "value": "true"
+        },
+        {
+            "company": "Parrable",
+            "host": ".parrable.com",
+            "path": "/",
+            "name": "opt-out",
+            "value": "true"
+        },
+        {
+            "company": "Amobee",
+            "host": ".amgdgt.com",
+            "path": "/",
+            "name": "oo",
+            "value": "OptOut"
+        },
+        {
+            "company": "Amobee",
+            "host": ".amgdgt.com",
+            "path": "/",
+            "name": "OO",
+            "value": "OptOut"
+        },
+        {
+            "company": "LinkedIn",
+            "host": ".linkedin.com",
+            "path": "/",
+            "name": "BizographicsOptOut",
+            "value": "true"
+        },
+        {
+            "company": "Yieldmo",
+            "host": ".yieldmo.com",
+            "path": "/",
+            "name": "OPTOUT",
+            "value": "1"
+        },
+        {
+          "company": "Eyeview, Inc.",
+          "host": ".eyeviewads.com",
+          "path": "/",
+          "name": "__ev_uid",
+          "value": "00000000000000000000000000000000"
+        },
+        {
+          "company": "12DigitMedia",
+          "host": ".tdxio.com",
+          "path": "/",
+          "name": "tdx_optout",
+          "value": "1"
+        },
+        {
+          "company": "Audience Trust",
+          "host": "s.thebrighttag.com",
+          "path": "/",
+          "name": "NAI_OptOut",
+          "value": "true"
+        },
+        {
+          "company": "Signal",
+          "host": "s.thebrighttag.com",
+          "path": "/",
+          "name": "NAI_OptOut",
+          "value": "true"
+        },
+        {
+          "company": "Eyeota",
+          "host": ".eyeota.net",
+          "path": "/",
+          "name": "mako_uid",
+          "value": "opt-out"
+        },
+        {
+          "company": "Pulpo",
+          "host": ".tentaculos.net",
+          "path": "/",
+          "name": "_PM_OPTOUT",
+          "value": "1"
+        },
+        {
+          "company": "33Across",
+          "host": ".tynt.com",
+          "path": "/",
+          "name": "tyntOptOut",
+          "value": "true"
+        },
+        {
+          "company": "Beeswax",
+          "host": ".bidr.io",
+          "path": "/",
+          "name": "bito",
+          "value": "optout"
+        },
+        {
+          "company": "Microsoft",
+          "host": ".microsoft.com",
+          "path": "/",
+          "name": "TOptOut",
+          "value": "1"
+        },
+        {
+          "company": "Microsoft",
+          "host": ".bing.com",
+          "path": "/",
+          "name": "TOptOut",
+          "value": "1"
+        },
+        {
+          "company": "Microsoft",
+          "host": ".live.com",
+          "path": "/",
+          "name": "TOptOut",
+          "value": "1"
+        },
+        {
+          "company": "Microsoft",
+          "host": ".clarity.ms",
+          "path": "/",
+          "name": "TOptOut",
+          "value": "1"
+        },
+        {
+          "company": "Retargetly",
+          "host": ".retargetly.com",
+          "path": "/",
+          "name": "out",
+          "value": "1"
+        },
+        {
+          "company": "Marchex",
+          "host": ".marchex.io",
+          "path": "/",
+          "name": "uid",
+          "value": "-1"
+        },
+        {
+          "company": "Anomaly",
+          "host": ".apolloprogram.io",
+          "path": "/",
+          "name": "auid",
+          "value": "optout"
+        },
+        {
+          "company": "Engine Media (formerly Clearstream)",
+          "host": ".tag.clrstm.com",
+          "path": "/",
+          "name": "tuuid_new",
+          "value": "opt-out"
+        },
+        {
+          "company": "Knorex",
+          "host": ".brand-display.com",
+          "path": "/",
+          "name": "allowCookies",
+          "value": "false"
+        },
+        {
+          "company": "Knorex",
+          "host": ".knorex.com",
+          "path": "/",
+          "name": "knx-opted-out",
+          "value": "true"
+        },
+        {
+          "company": "LKQD",
+          "host": ".lkqd.com",
+          "path": "/",
+          "name": "optout",
+          "value": "1"
+        },
+        {
+          "company": "LKQD",
+          "host": ".lkqd.net",
+          "path": "/",
+          "name": "optout",
+          "value": "1"
+        },
+        {
+          "company": "xAd",
+          "host": ".xad.com",
+          "path": "/",
+          "name": "xad-optout",
+          "value": "true"
+        },
+        {
+          "company": "Numberly",
+          "host": ".mmtro.com",
+          "path": "/",
+          "name": "RUID",
+          "value": "00000000-0000-0000-0000-000000000000"
+        },
+        {
+          "company": "Taboola",
+          "host": ".taboola.com",
+          "path": "/",
+          "name": "DNT",
+          "value": "1"
+        },
+        {
+          "company": "Alphonso",
+          "host": ".alphonso.tv",
+          "path": "/",
+          "name": "OPTOUT",
+          "value": "Y"
+        },
+        {
+          "company": "BaMx",
+          "host": ".bam-x.com",
+          "path": "/",
+          "name": "BAMX_Opt_Out",
+          "value": "OPT_OUT"
+        },
+        {
+          "company": "Clickagy",
+          "host": ".clickagy.com",
+          "path": "/",
+          "name": "coo",
+          "value": "1"
+        },
+        {
+          "company": "Digitrust",
+          "host": ".digitru.st",
+          "path": "/",
+          "name": "optout",
+          "value": "true"
+        },
+        {
+          "company": "Samba.tv",
+          "host": ".samba.tv",
+          "path": "/",
+          "name": "samba_dnt",
+          "value": "1"
+        },
+        {
+          "company": "ScorecardResearch",
+          "host": ".scorecardresearch.com",
+          "path": "/",
+          "name": "NO_COOKIE",
+          "value": "1"
+        },
+        {
+          "company": "Outbrain",
+          "host": ".outbrain.com",
+          "path": "/",
+          "name": "opout",
+          "value": "true"
+        },
+        {
+          "company": "Twitter",
+          "host": ".twitter.com",
+          "path": "/",
+          "name": "daa",
+          "value": "1"
+        },
+        {
+          "company": "Criteo",
+          "host": ".hlserve.com",
+          "path": "/",
+          "name": "oo",
+          "value": "1"
+        },
+        {
+          "company": "MediaIQ",
+          "host": ".mediaiqdigital.com",
+          "path": "/",
+          "name": "opt-out",
+          "value": "1"
+        },
+        {
+          "company": "NC Audience Exchange",
+          "host": ".ncaudienceexchange.com",
+          "path": "/",
+          "name": "opt-out",
+          "value": "1"
+        },
+        {
+          "company": "BounceX",
+          "host": ".cdnwidget.com",
+          "path": "/",
+          "name": "bxgraphOptOut",
+          "value": "1"
+        },
+        {
+          "company": "Demandbase",
+          "host": ".company-target.com",
+          "path": "/",
+          "name": "tuuid",
+          "value": "opt-out"
+        },
+        {
+          "company": "The Walt Disney Company",
+          "host": ".go.com",
+          "path": "/",
+          "name": "optout_daa",
+          "value": "1"
+        },
+        {
+          "company": "RhythmOne",
+          "host": ".1rx.io",
+          "path": "/",
+          "name": "optout",
+          "value": "y"
+        },
+        {
+          "company": "Sovrn",
+          "host": ".lijit.com",
+          "path": "/",
+          "name": "tracking_optout",
+          "value": "1"
+        },
+        {
+          "company": "Cognitiv",
+          "host": "beacon.lynx.cognitivlabs.com",
+          "path": "/",
+          "name": "UID",
+          "value": "00000000-0000-0000-0000-000000000000"
+        },
+        {
+          "company": "Kargo",
+          "host": ".kargo.com",
+          "path": "/",
+          "name": "ktcid",
+          "value": "optout"
+        },
+        {
+          "company": "Kargo",
+          "host": ".kargo.com",
+          "path": "/",
+          "name": "ktctid",
+          "value": "optout"
+        },
+        {
+          "company": "Merkle",
+          "host": ".rkdms.com",
+          "path": "/",
+          "name": "opt-out",
+          "value": "OPT_OUT"
+        },
+        {
+          "company": "Weborama",
+          "host": ".weborama.com",
+          "path": "/",
+          "name": "optout",
+          "value": "1"
+        },
+        {
+          "company": "EMX",
+          "host": ".emxdgt.com",
+          "path": "/",
+          "name": "opt-out",
+          "value": "emxoptout"
+        },
+        {
+          "company": "Vertical Mass",
+          "host": "vmweb.net",
+          "path": "/",
+          "name": "optout",
+          "value": "\"opted out\""
+        },
+        {
+          "company": "Nativo",
+          "host": ".postrelease.com",
+          "path": "/",
+          "name": "opt_out",
+          "value": "1"
+        },
+        {
+          "company": "Rakuten",
+          "host": ".nxtck.com",
+          "path": "/",
+          "name": "rt_status",
+          "value": "opt_out"
+        },
+        {
+          "company": "Rakuten",
+          "host": ".linksynergy.com",
+          "path": "/",
+          "name": "opt-out",
+          "value": "opt-out"
+        },
+        {
+          "company": "Clicksco",
+          "host": ".ccgateway.net",
+          "path": "/",
+          "name": "ccoptout",
+          "value": "1"
+        },
+        {
+          "company": "Throtle",
+          "host": ".thrtle.com",
+          "path": "/",
+          "name": "optout",
+          "value": "1"
+        },
+        {
+          "company": "Demandbase",
+          "host": ".company-target.com",
+          "path": "/",
+          "name": "tuuid",
+          "value": "opt-out"
+        },
+
+        {
+          "company": "Addthis/Oracle",
+          "host": ".addthis.com",
+          "path": "/",
+          "name": "BKIgnore",
+          "value": "1"
+        },
+        {
+          "company": "Addthis/Oracle",
+          "host": ".addthis.com",
+          "path": "/",
+          "name": "na_id",
+          "value": "ignore"
+        },
+        {
+          "company": "Addthis/Oracle",
+          "host": ".addthis.com",
+          "path": "/",
+          "name": "optout",
+          "value": "1"
+        },
+
+        {
+          "company": "Outbrain",
+          "host": ".zemanta.com",
+          "path": "/",
+          "name": "zoptout",
+          "value": "true"
+        },
+        {
+          "company": "Triplelift",
+          "host": ".3lift.com",
+          "path": "/",
+          "name": "optout",
+          "value": "1"
+        },
+        {
+          "company": "4info",
+          "host": "choices.adhaven.com",
+          "path": "/",
+          "name": "optout",
+          "value": "1"
+        },
+        {
+          "company": "IQM.com",
+          "host": ".pxl.iqm.com",
+          "path": "/",
+          "name": "iqm.iba.optout",
+          "value": "1"
+        },
+        {
+          "company": "Pinterest",
+          "host": ".pinterest.com",
+          "path": "/",
+          "name": "daa",
+          "value": "1"
+        },
+        {
+          "company": "Semasio",
+          "host": ".semasio.net",
+          "path": "/",
+          "name": "SEUNCY",
+          "value": "OPTOUT"
+        },
+        {
+          "company": "Branch",
+          "host": ".app.link",
+          "path": "/",
+          "name": "opt-out",
+          "value": "true"
+        },
+        {
+          "company": "Zeta Global",
+          "host": ".disqus.com",
+          "path": "/",
+          "name": "disqus_tracking_optout",
+          "value": "1"
+        },
+        {
+          "company": "Audiencerate",
+          "host": ".audrte.com",
+          "path": "/",
+          "name": "OPT-OUT",
+          "value": "OPT-OUT!OPT-OUT!"
+        },
+        {
+          "company": "Eyereturn",
+          "host": ".eyereturn.com",
+          "path": "/",
+          "name": "EROO",
+          "value": "1"
+        },
+        {
+          "company": "connexity.net",
+          "host": ".connexity.net",
+          "path": "/",
+          "name": "oo",
+          "value": "optout"
+        },
+        {
+          "company": "freeskreen.com",
+          "host": ".freeskreen.com",
+          "path": "/",
+          "name": "optout",
+          "value": "optout"
+        },
+        {
+          "company": "ad.gt",
+          "host": ".ad.gt",
+          "path": "/",
+          "name": "au_adgt_optout",
+          "value": "audigent-nai-optout"
+        },
+        {
+          "company": "tidaltv.com",
+          "host": ".tidaltv.com",
+          "path": "/",
+          "name": "opt-out",
+          "value": "TRUE"
+        },
+        {
+          "company": "msn.com",
+          "host": ".msn.com",
+          "path": "/",
+          "name": "toptout",
+          "value": "1"
+        },
+        {
+          "company": "Resonate",
+          "host": ".reson8.com",
+          "path": "/",
+          "name": "ROOC",
+          "value": "1"
+        },
+        {
+          "company": "adsrvr.org",
+          "host": ".adsrvr.org",
+          "path": "/",
+          "name": "ttdoptout",
+          "value": "1"
+        },
+        {
+          "company": "digitru.st",
+          "host": ".digitru.st",
+          "path": "/",
+          "name": "digitrust.v1.identity",
+          "value": "eyjpzci6iiisinzlcnnpb24iojisinbyb2r1y2vyijoimunyc2rvtkfvniisimtlexyiojasinbyaxzhy3kionsib3b0b3v0ijp0cnvlfx0%3d"
+        },
+        {
+          "company": "retargetly.com",
+          "host": ".retargetly.com",
+          "path": "/",
+          "name": "_rlopt",
+          "value": "out"
+        },
+        {
+          "company": "media6degrees.com",
+          "host": ".media6degrees.com",
+          "path": "/",
+          "name": "orboptout",
+          "value": "2-4"
+        },
+        {
+          "company": "agkn.com",
+          "host": ".agkn.com",
+          "path": "/",
+          "name": "aa",
+          "value": "opt-out"
+        },
+        {
+          "company": "bluekai.com",
+          "host": ".bluekai.com",
+          "path": "/",
+          "name": "optout",
+          "value": "1"
+        },
+        {
+          "company": "everesttech.net",
+          "host": ".everesttech.net",
+          "path": "/",
+          "name": "optout",
+          "value": "1"
+        },
+        {
+          "company": "yahoo.com",
+          "host": ".yahoo.com",
+          "path": "/",
+          "name": "optout",
+          "value": "true"
+        },
+        {
+          "company": "rfihub.com",
+          "host": ".rfihub.com",
+          "path": "/",
+          "name": "oo",
+          "value": "opt_out"
+        },
+        {
+          "company": "rfihub.com",
+          "host": ".rfihub.com",
+          "path": "/",
+          "name": "rud",
+          "value": "h4siaaaaaaaaaopispypcin3dw0bagzwkcekaaaa"
+        },
+        {
+          "company": "Artsai",
+          "host": ".artsai.com",
+          "path": "/",
+          "name": "ga-disable-ua-artsai",
+          "value": "true"
+        },
+        {
+          "company": "Britepool",
+          "host": ".britepool.com",
+          "path": "/",
+          "name": "optout",
+          "value": "1"
+        },
+        {
+          "company": "Chicory",
+          "host": "chicoryapp.com",
+          "path": "/",
+          "name": "chicory-opt-out",
+          "value": "1"
+        },
+        {
+          "company": "eBay",
+          "host": ".ebay.com",
+          "path": "/",
+          "name": "opt-out",
+          "value": "true"
+        },
+        {
+          "company": "Havas Edge",
+          "host": ".havasedge.com",
+          "path": "/",
+          "name": "daa_optout",
+          "value": "1"
+        },
+        {
+          "company": "PebblePost",
+          "host": ".pbbl.co",
+          "path": "/",
+          "name": "ppid",
+          "value": "OPT-OUT"
+        },
+        {
+          "company": "Skimlinks",
+          "host": ".skimresources.com",
+          "path": "/",
+          "name": "OPTOUT",
+          "value": "1"
+        },
+        {
+          "company": "Swoop",
+          "host": "www.swpsvc.com",
+          "path": "/",
+          "name": "swoop-nai-optout",
+          "value": "1"
+        },
+        {
+          "company": "Sonobi",
+          "host": ".go.sonobi.com",
+          "path": "/",
+          "name": "__uis",
+          "value": "opt-out"
+        }
+    ],
+    "message": {
+        "version": "3.1",
+        "uri": "http://www.aboutads.info/legal/"
+    }
+}

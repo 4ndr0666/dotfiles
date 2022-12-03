@@ -1,0 +1,27 @@
+2022/12/01-22:31:50.291 21fee Reusing MANIFEST /home/andro/.config/BraveSoftware/Brave-Browser/Default/Local Extension Settings/fgddmllnllkalaagkghckoinaemmogpe/MANIFEST-000001
+2022/12/01-22:31:50.291 21fee Recovering log #727
+2022/12/01-22:31:51.340 21fee Reusing old log /home/andro/.config/BraveSoftware/Brave-Browser/Default/Local Extension Settings/fgddmllnllkalaagkghckoinaemmogpe/000727.log 
+2022/12/01-23:28:03.434 229f7 Level-0 table #731: started
+2022/12/01-23:28:03.548 229f7 Level-0 table #731: 968798 bytes OK
+2022/12/01-23:28:03.638 229f7 Delete type=0 #727
+2022/12/02-00:38:03.275 23872 Level-0 table #733: started
+2022/12/02-00:38:03.387 23872 Level-0 table #733: 964684 bytes OK
+2022/12/02-00:38:03.510 23872 Delete type=0 #730
+2022/12/02-00:38:03.511 23872 Compacting 4@0 + 1@1 files
+2022/12/02-00:38:03.620 23872 Generated table #734@0: 7 keys, 1785850 bytes
+2022/12/02-00:38:03.620 23872 Compacted 4@0 + 1@1 files => 1785850 bytes
+2022/12/02-00:38:03.709 23872 compacted to: files[ 0 1 0 0 0 0 0 ]
+2022/12/02-00:38:03.709 23872 Delete type=2 #723
+2022/12/02-00:38:03.709 23872 Delete type=2 #725
+2022/12/02-00:38:03.709 23872 Delete type=2 #728
+2022/12/02-00:38:03.709 23872 Delete type=2 #731
+2022/12/02-00:38:03.709 23872 Delete type=2 #733
+2022/12/02-01:58:03.476 26732 Level-0 table #736: started
+2022/12/02-01:58:03.586 26732 Level-0 table #736: 964874 bytes OK
+2022/12/02-01:58:03.703 26732 Delete type=0 #732
+2022/12/02-03:08:34.298 288df Level-0 table #738: started
+2022/12/02-03:08:34.396 288df Level-0 table #738: 964868 bytes OK
+2022/12/02-03:08:34.497 288df Delete type=0 #735
+2022/12/02-07:43:44.490 29d5e Level-0 table #740: started
+2022/12/02-07:43:44.652 29d5e Level-0 table #740: 970097 bytes OK
+2022/12/02-07:43:44.803 29d5e Delete type=0 #737

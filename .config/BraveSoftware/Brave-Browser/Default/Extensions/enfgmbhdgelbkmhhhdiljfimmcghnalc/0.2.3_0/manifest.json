@@ -1,0 +1,32 @@
+{
+   "action": {
+      "default_popup": "data/popup/index.html"
+   },
+   "background": {
+      "service_worker": "worker.js"
+   },
+   "commands": {
+      "_execute_action": {
+         "description": "Press the action button"
+      }
+   },
+   "description": "Search for torrents using the official \"The Pirate Bay\" engine on a live ProxyBay mirror without visiting its page.",
+   "differential_fingerprint": "1.8df62a65861b0bfb3909c03989be42a30d455c09493ce34379834969194dab60",
+   "homepage_url": "https://add0n.com/torrent-search.html",
+   "host_permissions": [ "*://*/*" ],
+   "icons": {
+      "128": "data/icons/128.png",
+      "16": "data/icons/16.png",
+      "256": "data/icons/256.png",
+      "32": "data/icons/32.png",
+      "48": "data/icons/48.png",
+      "512": "data/icons/512.png",
+      "64": "data/icons/64.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjx/3n1fOhtNwG0WHlzf+2mCO7CJCPUVrySgSv6lhZHmF23ndoUmkoaF3fJIYqk0Hx8lOw4Fktzm/Y4hYJ451ZeydNqnIvqxDoxc8dWeOQakS1mes39nj8pWr2uuydR/mddFfLSeN52b7r2OHDmwmtJ7GwQ1hKCcScRu1qR8xAZNe73snjfxnqx0f11EJW2+gJbgqoHMpPmnhUY1fet6i/22RVEnVyjFJU71RLh6kDKOpXfvBdjSBi+dLHzLDILISKJBY31yukpHf1H8USQI8p9bhHoCmvJOqYZjthTnDzDq7sBR2w10dmEMq9kRap3ac6cwlivHRlh2estrZZbVn6wIDAQAB",
+   "manifest_version": 3,
+   "name": "The Pirate Bay Torrent Search",
+   "permissions": [ "storage" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "0.2.3"
+}

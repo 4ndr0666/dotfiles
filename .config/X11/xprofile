@@ -1,0 +1,34 @@
+#!/bin/sh
+
+# Dim->LockScreen->Suspend
+	xset s 180 60
+	xss-lock -n "/home/fra/.local/bin/scripts/dim" -- /usr/local/bin/slock &
+	xidlehook --not-when-fullscreen --not-when-audio --timer 600 "systemctl suspend" - &
+
+	_() { # Used to start daemons which have not been started yet
+	    pgrep -x "$1" >/dev/null ||
+		{ "$@" & }
+	}
+	xsetroot -cursor_name left_ptr # Needed because of hsetroot
+	mon -e					# Monitor selection
+	[ -f "$XDG_CONFIG_HOME/X11/Xresources" ] && xrdb -load ~/.config/X11/Xresources
+	if [ -f "$XDG_DATA_HOME/bg" ]; then # Check if there is an active wallpaper
+		[ -f "$XDG_CACHE_HOME/wal/active" ] && wal -R || sbg # Dirty trick to check if pywal was on at shutdown
+	else
+		hsetroot -solid "$(cat $XDG_CACHE_HOME/bgcol)"
+	fi
+	_ mpd						# Music server
+	remaps					# Switch caps/super and one-tap_caps/esc
+	_ dunst					# Notification daemon
+	togcomp -y			# Compositor
+	gebaard -b			# Gesture daemon
+	xdotool mousemove 1000 700 # Position cursor at approx. the center of the screen
+	xbanish -i shift -i mod4 -i control & # Remove mouse when typing
+	xdgxm -e &			# Update menu entries
+	_ subs -d				# Start custom yt daemon
+	if [ -f "$XDG_CACHE_HOME/redshift" ] && [ $((($(date +%s)-$(date -r $XDG_CACHE_HOME/redshift "+%s"))/86400)) -lt 7 ]; then
+		_ redshift -l "$(cat $XDG_CACHE_HOME/redshift)" # Color temperature
+	else
+		curl -s "https://location.services.mozilla.com/v1/geolocate?key=geoclue" | jq '.location.lat, .location.lng' | tr '\n' ':' | sed 's/:$//' > $XDG_CACHE_HOME/redshift
+		_ redshift -l "$(cat $XDG_CACHE_HOME/redshift)"
+	fi

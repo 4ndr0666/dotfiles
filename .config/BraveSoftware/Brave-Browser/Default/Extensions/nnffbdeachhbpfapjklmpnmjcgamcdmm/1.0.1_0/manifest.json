@@ -1,0 +1,39 @@
+{
+   "action": {
+   },
+   "background": {
+      "service_worker": "worker.js"
+   },
+   "commands": {
+      "_execute_action": {
+         "description": "Press the action button"
+      }
+   },
+   "default_locale": "en",
+   "description": "__MSG_app_description__",
+   "homepage_url": "https://add0n.com/save-images.html",
+   "host_permissions": [ "\u003Call_urls>" ],
+   "icons": {
+      "128": "data/icons/128.png",
+      "16": "data/icons/16.png",
+      "256": "data/icons/256.png",
+      "32": "data/icons/32.png",
+      "48": "data/icons/48.png",
+      "512": "data/icons/512.png",
+      "64": "data/icons/64.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1IgzSfNz8tmGPMSuoAf7z8En0AZwR89mn7RFIQSmuj4BKN3rC9Yw8BHHxfukpGtMmN85DTuRtETQ9EofeSkRHp38vHWXjyawS6LJwNXcq3jQVLt2HqYF0hrN2SYsv2O2JOkLYnHgq+LJc7tJ+dYqoXgPDs1GioVAL1Xynp3GikPJtJbzP8NwHLroIWWGvVXR9pIn9dvtr7xymCnGPK2HwDIECie4UcqT2XWCG2pH9C8mDvGzpOkvTDy2fxlzMGuJa1uQa7jCcztWcn1j7dv6H5oeApiuCWmjx7f3ZMSBHojjzztIrLv+fyvze7go2IADyXN5qtAF/h9q7PHN/+siCwIDAQAB",
+   "manifest_version": 3,
+   "name": "Download All Images",
+   "options_ui": {
+      "open_in_tab": true,
+      "page": "data/options/index.html"
+   },
+   "permissions": [ "storage", "activeTab", "scripting", "notifications", "downloads", "unlimitedStorage", "declarativeNetRequest" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "1.0.1",
+   "web_accessible_resources": [ {
+      "matches": [ "\u003Call_urls>" ],
+      "resources": [ "data/inject/core/index.html", "data/ui/index.html", "data/gallery/index.html" ]
+   } ]
+}

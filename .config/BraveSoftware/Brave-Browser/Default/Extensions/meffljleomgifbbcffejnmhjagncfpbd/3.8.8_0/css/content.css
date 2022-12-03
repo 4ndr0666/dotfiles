@@ -1,0 +1,70 @@
+#new-tab-sidebar {
+  position: fixed;
+  z-index: 1000000;
+  left: 0px;
+  top: 15%;
+  background: white;
+}
+#new-tab-sidebar.hidden {
+  display: none;
+}
+#new-tab-sidebar .wrap {
+  line-height: 0;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px;
+  padding: 12px 6px;
+  position: relative;
+}
+#new-tab-sidebar .wrap img {
+  width: 17px;
+}
+#new-tab-sidebar ul {
+  max-height: 370px;
+  overflow: auto;
+  list-style: none;
+  display: none;
+  padding: 6px 0;
+  padding-left: 10px;
+  padding-right: 8px;
+  margin: 0;
+}
+#new-tab-sidebar ul::-webkit-scrollbar {
+  width: 0px;
+}
+#new-tab-sidebar ul li {
+  margin-bottom: 5px;
+}
+#new-tab-sidebar ul li:last-child {
+  margin-bottom: 0px;
+}
+#new-tab-sidebar ul li a {
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+  text-decoration: none;
+  color: black;
+  font-size: 12px;
+  font-family: sans-serif;
+}
+#new-tab-sidebar ul li a img {
+  width: 20px;
+}
+#new-tab-sidebar ul li a span {
+  line-height: normal;
+  display: inline-block;
+  padding-left: 8px;
+  white-space: nowrap;
+  font-weight: 100;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#new-tab-sidebar:hover {
+  width: 200px;
+}
+#new-tab-sidebar:hover .wrap img.new-tab-logo {
+  display: none;
+}
+#new-tab-sidebar:hover ul {
+  display: block;
+}
+
+/*# sourceMappingURL=content.css.map */

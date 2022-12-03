@@ -1,0 +1,1 @@
+function aiparser(){var e=0;var n=document.querySelectorAll("a.ymzimgbox");n.length>0&&n.forEach(function(n){!function(n){new ParsedPItem(n,e++,_tabInfo,function(e){chrome.runtime.sendMessage({cmd:"ADD_IMG",tabId:_tabInfo.id,item:e})})}({src:n.href})})}window.aiparser=aiparser;

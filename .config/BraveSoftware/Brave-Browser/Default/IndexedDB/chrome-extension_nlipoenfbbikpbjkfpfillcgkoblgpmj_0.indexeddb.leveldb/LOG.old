@@ -1,0 +1,19 @@
+2022/09/08-18:09:11.175 39f4a Reusing MANIFEST /home/andro/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/chrome-extension_nlipoenfbbikpbjkfpfillcgkoblgpmj_0.indexeddb.leveldb/MANIFEST-000001
+2022/09/08-18:09:11.176 39f4a Recovering log #7
+2022/09/08-18:09:11.176 39f4a Recovering log #11
+2022/09/08-18:09:11.176 39f4a Recovering log #15
+2022/09/08-18:09:11.176 39f4a Reusing old log /home/andro/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/chrome-extension_nlipoenfbbikpbjkfpfillcgkoblgpmj_0.indexeddb.leveldb/000015.log 
+2022/09/09-02:05:08.455 7d9a3 Level-0 table #17: started
+2022/09/09-02:05:08.601 7d9a3 Level-0 table #17: 209 bytes OK
+2022/09/09-02:05:09.819 7d9a3 Delete type=0 #15
+2022/09/09-02:05:09.819 7d9a3 Delete type=0 #11
+2022/09/09-02:05:09.819 7d9a3 Delete type=0 #7
+2022/09/09-02:05:10.128 7d9a3 Manual compaction at level-0 from (begin) .. (end); will stop at (end)
+2022/09/09-02:05:10.128 7d9a3 Manual compaction at level-1 from (begin) .. (end); will stop at '\x00\x00\x00\x00\x06' @ 68 : 1
+2022/09/09-02:05:10.128 7d9a3 Compacting 1@1 + 1@2 files
+2022/09/09-02:05:10.336 7d9a3 Generated table #18@1: 23 keys, 643 bytes
+2022/09/09-02:05:10.336 7d9a3 Compacted 1@1 + 1@2 files => 643 bytes
+2022/09/09-02:05:10.744 7d9a3 compacted to: files[ 0 0 1 0 0 0 0 ]
+2022/09/09-02:05:10.744 7d9a3 Delete type=2 #9
+2022/09/09-02:05:10.744 7d9a3 Delete type=2 #17
+2022/09/09-02:05:10.744 7d9a3 Manual compaction at level-1 from '\x00\x00\x00\x00\x06' @ 68 : 1 .. (end); will stop at (end)

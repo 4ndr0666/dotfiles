@@ -1,0 +1,44 @@
+{
+   "action": {
+   },
+   "background": {
+      "service_worker": "worker.js"
+   },
+   "commands": {
+      "_execute_action": {
+      },
+      "toggle-reader-view": {
+         "description": "Toggle the Reader View"
+      }
+   },
+   "default_locale": "en",
+   "description": "__MSG_description__",
+   "differential_fingerprint": "1.d6f0b4eee8777c6851c73fdb24d73fd067b9b7246b0ed21b909a8cd6fe300ea4",
+   "homepage_url": "https://add0n.com/chrome-reader-view.html",
+   "icons": {
+      "128": "data/icons/128.png",
+      "16": "data/icons/16.png",
+      "256": "data/icons/256.png",
+      "32": "data/icons/32.png",
+      "48": "data/icons/48.png",
+      "512": "data/icons/512.png",
+      "64": "data/icons/64.png"
+   },
+   "incognito": "split",
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgyxbqnPMkc9u12sjXDGnpt8b+9/qBk/xc7CvFy/egNfOqZhekjTTyE29p29zwOn8Np82LDFm4d3O4zoKbcHvHtC5MNpl7BEaWRkSvLzPWRx/6dxpJRFmQFFixhiI3WZlagI/ikOjsogYVK4+r3T5cFHWN3TUF5lR9ENhKacu2f1yzau75v6iAdLbH5UcGcfJ9xwCUS6ZVWlSfLBqTCa7rbUj+hNALW+3/5ZSNbba+05MnEGLx77+otY3ALMF7LOukU+EhCW1dBPLGy7YTal+9QsWDuh4hIG4E7BH2qXqE1e5QBI+tuElAzRioRsGmQKskuvzhrbtdERkOc0gmluyXQIDAQAB",
+   "manifest_version": 3,
+   "name": "Reader View",
+   "optional_host_permissions": [ "*://*/*" ],
+   "optional_permissions": [ "favicon" ],
+   "options_ui": {
+      "open_in_tab": true,
+      "page": "data/options/index.html"
+   },
+   "permissions": [ "storage", "activeTab", "scripting", "contextMenus", "notifications" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "0.6.7",
+   "web_accessible_resources": [ {
+      "matches": [ "*://*/*" ],
+      "resources": [ "/data/reader/template.html" ]
+   } ]
+}

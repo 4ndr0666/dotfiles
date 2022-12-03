@@ -1,0 +1,1568 @@
+{
+   "account_verified_header": {
+      "message": "계정이 인증되었습니다."
+   },
+   "account_verified_hint": {
+      "message": "이제 이 기기는 ExpressVPN Keys를 사용하도록 승인되었습니다."
+   },
+   "account_verified_text_p1": {
+      "message": "이제 이 탭을 닫고 확장 프로그램을 열어 로그인 정보를 확인하거나, 브라우징을 시작하여 로그인 정보를 자동 완성할 수 있습니다."
+   },
+   "account_verified_text_p2": {
+      "message": "문의 사항이 있으시면 [지원팀에 문의]하세요."
+   },
+   "add_logins_back": {
+      "message": "%HOST% 로그인 정보 추가"
+   },
+   "add_logins_choose_website_header": {
+      "message": "시작할 웹사이트를 선택하세요"
+   },
+   "add_logins_choose_website_text": {
+      "message": "로그인 정보를 추가하고 싶은 웹사이트를 찾을 수 없으세요? 확장 프로그램 아이콘을 클릭하여 그곳에 로그인 정보를 추가하세요."
+   },
+   "add_logins_header": {
+      "message": "첫 번째 비밀번호 추가"
+   },
+   "add_logins_open_website": {
+      "message": "%HOST% 열기"
+   },
+   "add_logins_step1": {
+      "message": "%HOST% 페이지를 여세요."
+   },
+   "add_logins_step2": {
+      "message": "계정에 로그인되어 있다면 로그아웃해주세요."
+   },
+   "add_logins_step3": {
+      "message": "사용자명과 비밀번호를 입력하여 다시 로그인하세요."
+   },
+   "add_logins_step4": {
+      "message": "로그인 정보를 저장할지를 묻는 ExpressVPN 대화상자가 나타나면 '\u003Cb>저장\u003C/b>'을 클릭하세요."
+   },
+   "add_logins_text_p1": {
+      "message": "오른쪽에서 인기 웹사이트를 선택하면 첫 번째 비밀번호를 추가하는 방법을 확인하실 수 있습니다."
+   },
+   "add_logins_text_p2_1": {
+      "message": "다른 비밀번호 관리자에 로그인 정보를 저장한 경우,"
+   },
+   "add_logins_text_p2_2": {
+      "message": "해당 로그인 정보를"
+   },
+   "add_logins_text_p2_3": {
+      "message": "ExpressVPN Keys 계정으로 쉽게 가져올 수 있습니다."
+   },
+   "app_default_title": {
+      "message": "ExpressVPN Keys"
+   },
+   "app_default_title_alpha": {
+      "message": "ExpressVPN Keys (Alpha)"
+   },
+   "app_default_title_beta": {
+      "message": "ExpressVPN Keys (Beta)"
+   },
+   "app_description_@firefox@_text": {
+      "description": "The description of the application",
+      "message": "비밀번호를 안전하게 보관 및 생성하여 사이트에 빠르게 로그인하세요. ExpressVPN 가입자는 추가 비용 없이 이용할 수 있습니다."
+   },
+   "app_description_text": {
+      "description": "The description of the application",
+      "message": "비밀번호를 안전하게 보관 및 생성하여 사이트에 빠르게 로그인하세요. ExpressVPN 가입자는 추가 비용 없이 이용할 수 있습니다."
+   },
+   "app_description_text_alpha": {
+      "message": "비밀번호를 안전하게 보관 및 생성하여 사이트에 빠르게 로그인하세요. ExpressVPN 가입자는 추가 비용 없이 이용할 수 있습니다."
+   },
+   "app_description_text_beta": {
+      "message": "비밀번호를 안전하게 보관 및 생성하여 사이트에 빠르게 로그인하세요. ExpressVPN 가입자는 추가 비용 없이 이용할 수 있습니다."
+   },
+   "app_name_title": {
+      "description": "The name of the application",
+      "message": "ExpressVPN Keys: 무료 비밀번호 관리자"
+   },
+   "app_name_title_alpha": {
+      "description": "The Alpha name of the application",
+      "message": "ExpressVPN Keys: 비밀번호 관리자 알파"
+   },
+   "app_name_title_beta": {
+      "description": "The Beta name of the application",
+      "message": "ExpressVPN Keys: 비밀번호 관리자 베타"
+   },
+   "app_not_installed_have_expressvpn_Linux_p1": {
+      "message": "Chrome 확장 프로그램을 사용하려면 Linux용 ExpressVPN 앱을 \n설치하고 활성화해야 합니다."
+   },
+   "app_not_installed_have_expressvpn_Mac_p1": {
+      "message": "Chrome 확장 프로그램을 사용하려면 Mac용 ExpressVPN 앱을 \n설치하고 활성화해야 합니다."
+   },
+   "app_not_installed_have_expressvpn_Windows_p1": {
+      "message": "Chrome 확장 프로그램을 사용하려면 Windows용 ExpressVPN 앱을 \n설치하고 활성화해야 합니다."
+   },
+   "app_not_installed_have_expressvpn_button_label": {
+      "message": "로그인"
+   },
+   "app_not_installed_have_expressvpn_header": {
+      "message": "ExpressVPN 계정이 있으세요?"
+   },
+   "app_not_installed_have_expressvpn_p2": {
+      "message": "ExpressVPN 계정에 로그인하여 앱의 최신 버전을 다운로드하고 \n활성화 코드를 얻으세요."
+   },
+   "app_not_installed_header": {
+      "message": "ExpressVPN Keys로 로그인 정보를 안전하게 보호하세요"
+   },
+   "app_not_installed_no_account_button_label": {
+      "message": "ExpressVPN 가입"
+   },
+   "app_not_installed_no_account_header": {
+      "message": "ExpressVPN 계정이 없으세요?"
+   },
+   "app_not_installed_no_account_p1": {
+      "message": "30일 환불 보장과 함께 위험 부담 없이 ExpressVPN을 이용해 보세요. \n프리미엄 VPN과 비밀번호 관리자인 Keys가 제공됩니다."
+   },
+   "app_not_installed_subheader": {
+      "message": "ExpressVPN 사용자는 비밀번호 관리자를 무료로 이용할 수 있습니다."
+   },
+   "app_short_name_title": {
+      "description": "The short name of the application",
+      "message": "ExpressVPN Keys"
+   },
+   "autofill_add_new_entry": {
+      "message": "Keys에 로그인 정보를 추가하세요"
+   },
+   "autofill_from_different_subdomain_warning_cancel": {
+      "message": "취소"
+   },
+   "autofill_from_different_subdomain_warning_proceed": {
+      "message": "계속 진행"
+   },
+   "autofill_from_different_subdomain_warning_text": {
+      "message": "정말로 진행하시겠어요? \u003Cb>%CURRENT_DOMAIN%에서 \u003Cb>%ENTRY_DOMAIN%\u003C/b>\u003C/b> 로그인 정보를 입력하려고 합니다."
+   },
+   "autosave_existing_login_tab": {
+      "message": "기존 로그인 정보"
+   },
+   "autosave_modal_choose_entry_title": {
+      "message": "업데이트할 로그인 정보 선택"
+   },
+   "autosave_modal_save_prompt_title": {
+      "message": "로그인 정보를 저장하시겠어요?"
+   },
+   "autosave_modal_saved_title": {
+      "message": "\u003Cb>%HOST%\u003C/b> 로그인 정보 저장됨"
+   },
+   "autosave_modal_update_prompt_title": {
+      "message": "\u003Cb>%HOST%\u003C/b> 로그인을 업데이트하시겠어요?"
+   },
+   "autosave_modal_update_propmpt_header": {
+      "message": "\u003Cb>%HOST%\u003C/b> 업데이트"
+   },
+   "autosave_modal_updated_title": {
+      "message": "\u003Cb>%HOST%\u003C/b> 로그인 정보가 업데이트되었습니다"
+   },
+   "autosave_new_login_tab": {
+      "message": "새 로그인 정보"
+   },
+   "back": {
+      "message": "돌아가기"
+   },
+   "beta_survey_notification_help_improve_header": {
+      "message": "ExpressVPN Keys 개선에 도움을 주세요"
+   },
+   "beta_survey_notification_help_improve_text": {
+      "message": "새로 출시된 비밀번호 관리자에 대한 의견을 공유하려면 여기를 클릭하세요."
+   },
+   "centuries": {
+      "message": "몇백 년"
+   },
+   "century": {
+      "message": "백 년"
+   },
+   "change_password_set_new_header": {
+      "message": "새 기본 비밀번호"
+   },
+   "change_password_strong_passwords_link_text": {
+      "message": "강력한 비밀번호 생성하는 방법 알아보기"
+   },
+   "change_password_success_header": {
+      "message": "성공했습니다!"
+   },
+   "change_password_success_hint": {
+      "message": "기본 비밀번호가 성공적으로 변경되었습니다."
+   },
+   "change_password_success_text": {
+      "message": "이제 이 탭을 닫으세요. ExpressVPN Keys 확장 프로그램을 클릭한 뒤 새 기본 비밀번호를 사용해 비밀번호 관리자를 잠금 해제하세요."
+   },
+   "change_password_verify_button_label": {
+      "message": "인증"
+   },
+   "change_password_verify_header": {
+      "message": "기본 비밀번호 변경"
+   },
+   "change_password_verify_text": {
+      "message": "ExpressVPN Keys의 기본 비밀번호를 변경하려면 오른쪽에 기본 비밀번호를 입력하세요."
+   },
+   "character_limit_reached": {
+      "message": "문자 수 제한에 도달했습니다"
+   },
+   "contact_support_anchor": {
+      "message": "지원 문의"
+   },
+   "day": {
+      "message": "일"
+   },
+   "days": {
+      "message": "일"
+   },
+   "delete_account_confirm_modal_cancel_button": {
+      "message": "취소"
+   },
+   "delete_account_confirm_modal_confirm_button": {
+      "message": "영구 삭제"
+   },
+   "delete_account_confirm_modal_header": {
+      "message": "정말로 삭제하시겠어요?"
+   },
+   "delete_account_confirm_modal_text": {
+      "message": "비밀번호 관리 계정이 있는 경우 해당 계정이 영구적으로 삭제됩니다."
+   },
+   "delete_account_unlock_modal_confirm_button": {
+      "message": "잠금 해제"
+   },
+   "delete_account_unlock_modal_header": {
+      "message": "잠금 해제 필요"
+   },
+   "delete_account_unlock_modal_text": {
+      "message": "계정을 삭제하려면 볼트를 잠금 해제하세요."
+   },
+   "enter_label": {
+      "message": "입력"
+   },
+   "error_@firefox@_hide_text": {
+      "message": "또는 아이콘을 마우스 오른쪽 클릭한 뒤 \"툴바에서 제거\" 또는 \"메뉴로 이동\"을 선택하여 확장 프로그램을 숨길 수 있습니다."
+   },
+   "error_hide_text": {
+      "message": "또는 아이콘을 마우스 오른쪽 클릭한 뒤 \"Chrome 메뉴에서 숨기기\"를 선택하여 확장 프로그램을 숨길 수 있습니다."
+   },
+   "generate_password_add_item": {
+      "message": "새 비밀번호가 필요하세요?"
+   },
+   "generate_password_edit_item": {
+      "message": "강력한 비밀번호 생성"
+   },
+   "help_improve_header": {
+      "message": "ExpressVPN Keys 개선에 도움을 주세요"
+   },
+   "help_improve_onboarding_expressvpn_keys": {
+      "message": "ExpressVPN Keys 개선에 도움을 주세요"
+   },
+   "help_improve_onboarding_no_thanks": {
+      "message": "아니요"
+   },
+   "help_improve_onboarding_ok": {
+      "message": "확인"
+   },
+   "help_improve_onboarding_share_crash": {
+      "message": "충돌 보고서와 유용성 진단 결과를 공유하세요. 개인 식별 정보는 절대로 공개되지 않습니다."
+   },
+   "help_improve_p": {
+      "message": "충돌 보고서와 유용성 진단 결과를 공유하세요. 개인 식별 정보는 절대로 공개되지 않습니다."
+   },
+   "help_improve_primary_btn": {
+      "message": "확인"
+   },
+   "help_improve_secondary_btn": {
+      "message": "아니요"
+   },
+   "help_menu_item_acknowledgements_label": {
+      "message": "승인"
+   },
+   "help_menu_item_app_version": {
+      "message": "%OS% 앱 버전: %VERSION%"
+   },
+   "help_menu_item_chat_label": {
+      "message": "문의"
+   },
+   "help_menu_item_extension_version": {
+      "message": "확장 프로그램 버전: %VERSION%"
+   },
+   "help_menu_item_improvements_label": {
+      "message": "개선 사항 제안"
+   },
+   "help_menu_item_report_label": {
+      "message": "오류 보고"
+   },
+   "help_menu_section_about_title": {
+      "message": "정보"
+   },
+   "help_menu_section_articles_cat1": {
+      "message": "ExpressVPN Keys 사용법"
+   },
+   "help_menu_section_articles_cat1_sub1": {
+      "message": "비밀번호 관리자는 왜 필요한가요?"
+   },
+   "help_menu_section_articles_cat1_sub10": {
+      "message": "자동 완성 이용 방법"
+   },
+   "help_menu_section_articles_cat1_sub11": {
+      "message": "기본 비밀번호 변경 방법"
+   },
+   "help_menu_section_articles_cat1_sub12": {
+      "message": "비밀번호 및 이메일 주소 설정하기"
+   },
+   "help_menu_section_articles_cat1_sub2": {
+      "message": "비용은 얼마인가요?"
+   },
+   "help_menu_section_articles_cat1_sub3": {
+      "message": "활성화된 정액제가 필요한가요?"
+   },
+   "help_menu_section_articles_cat1_sub4": {
+      "message": "ExpressVPN Keys는 안전한가요?"
+   },
+   "help_menu_section_articles_cat1_sub5": {
+      "message": "어떤 기기가 지원되나요?"
+   },
+   "help_menu_section_articles_cat1_sub6": {
+      "message": "내 데이터는 어떻게 관리되나요?"
+   },
+   "help_menu_section_articles_cat1_sub7": {
+      "message": "어떤 기능을 이용할 수 있나요?"
+   },
+   "help_menu_section_articles_cat1_sub8": {
+      "message": "기존 로그인 정보 가져오는 방법"
+   },
+   "help_menu_section_articles_cat1_sub9": {
+      "message": "로그인 정보 저장 방법"
+   },
+   "help_menu_section_articles_cat2": {
+      "message": "ExpressVPN Keys 관련 문제"
+   },
+   "help_menu_section_articles_cat2_sub1": {
+      "message": "계정을 생성할 수 없는 경우"
+   },
+   "help_menu_section_articles_cat2_sub2": {
+      "message": "계정을 인증할 수 없는 경우"
+   },
+   "help_menu_section_articles_cat2_sub3": {
+      "message": "잠금 해제할 수 없는 경우"
+   },
+   "help_menu_section_articles_cat2_sub4": {
+      "message": "로그인 정보가 제대로 동기화되지 않는 경우"
+   },
+   "help_menu_section_articles_cat2_sub5": {
+      "message": "로그인 정보를 저장/업데이트할 수 없는 경우"
+   },
+   "help_menu_section_articles_cat2_sub6": {
+      "message": "자동 완성이 제대로 작동하지 않는 경우"
+   },
+   "help_menu_section_articles_cat2_sub7": {
+      "message": "기본 비밀번호를 변경할 수 없는 경우"
+   },
+   "help_menu_section_articles_title": {
+      "message": "지원 글"
+   },
+   "help_menu_section_support_title": {
+      "message": "문의하기"
+   },
+   "hint_copy_text": {
+      "message": "복사 완료"
+   },
+   "hour": {
+      "message": "시간"
+   },
+   "hours": {
+      "message": "시간"
+   },
+   "icloud_keychain": {
+      "message": "iCloud 키체인"
+   },
+   "import_chrome_password_settings": {
+      "message": "Chrome 비밀번호 설정"
+   },
+   "import_edge_password_settings": {
+      "message": "Edge 비밀번호 설정"
+   },
+   "import_from_a_service": {
+      "message": "아래 서비스에서 가져오기"
+   },
+   "import_from_existing_services": {
+      "message": "기존 서비스에서 가져오기"
+   },
+   "import_logins_1password_1pw7_header": {
+      "message": "1Password 7 사용자를 위한 안내"
+   },
+   "import_logins_1password_1pw7_mac_step1": {
+      "message": " 1Password를 열고 잠금 해제하세요."
+   },
+   "import_logins_1password_1pw7_mac_step2": {
+      "message": "내보내고자 하는 볼트를 선택하세요."
+   },
+   "import_logins_1password_1pw7_mac_step3": {
+      "message": "\u003Cb>파일\u003C/b> 메뉴 > \u003Cb>내보내기\u003C/b>  > \u003Cb>모든 항목\u003C/b>을 선택하세요."
+   },
+   "import_logins_1password_1pw7_mac_step4": {
+      "message": "마스터 비밀번호를 입력하세요."
+   },
+   "import_logins_1password_1pw7_mac_step5": {
+      "message": "파일 형식 \u003Cb>iCloud Keychain (.csv)\u003C/b>을 선택하세요. 이 옵션이 표시되지 않으면 \u003Ca target='_blank' href='https://app-updates.agilebits.com/download/OPM7'>1Password 7 최신 버전\u003C/a>을 실행 중인지 확인하하세요."
+   },
+   "import_logins_1password_1pw7_mac_step6": {
+      "message": "기기에 파일을 저장하세요."
+   },
+   "import_logins_1password_1pw7_mac_step7": {
+      "message": "ExpressVPN Keys 확장 프로그램에서 \u003Cb>파일 선택\u003C/b>을 클릭하세요."
+   },
+   "import_logins_1password_1pw7_mac_step8": {
+      "message": "CSV 파일을 선택하세요."
+   },
+   "import_logins_1password_1pw7_win_step1": {
+      "message": " 1Password를 열고 잠금 해제하세요."
+   },
+   "import_logins_1password_1pw7_win_step2": {
+      "message": "내보내고자 하는 항목을 모두 선택하세요."
+   },
+   "import_logins_1password_1pw7_win_step3": {
+      "message": "마우스 오른쪽 버튼을 클릭한 뒤 \u003Cb>내보내기\u003C/b>를 선택하세요."
+   },
+   "import_logins_1password_1pw7_win_step4": {
+      "message": "\u003Cb>Comma-separated values (.csv)\u003C/b> 형식으로 저장을 선택하세요."
+   },
+   "import_logins_1password_1pw7_win_step5": {
+      "message": "기기에 파일을 저장하세요."
+   },
+   "import_logins_1password_1pw7_win_step6": {
+      "message": "ExpressVPN Keys 확장 프로그램에서 \u003Cb>파일 선택\u003C/b>을 클릭하세요."
+   },
+   "import_logins_1password_1pw7_win_step7": {
+      "message": "CSV 파일을 선택하세요."
+   },
+   "import_logins_1password_1pw8_header": {
+      "message": "1Password 8 사용자를 위한 안내"
+   },
+   "import_logins_1password_1pw8_mac_step1": {
+      "message": " 1Password를 열고 잠금 해제하세요."
+   },
+   "import_logins_1password_1pw8_mac_step2": {
+      "message": "\u003Cb>파일\u003C/b> 메뉴 > \u003Cb>내보내기\u003C/b>를 선택하세요."
+   },
+   "import_logins_1password_1pw8_mac_step3": {
+      "message": "비밀번호를 입력하세요."
+   },
+   "import_logins_1password_1pw8_mac_step4": {
+      "message": "파일 형식 \u003Cb>CSV(로그인 정보 및 비밀번호만)\u003C/b>를 선택하세요."
+   },
+   "import_logins_1password_1pw8_mac_step5": {
+      "message": "기기에 파일을 저장하세요."
+   },
+   "import_logins_1password_1pw8_mac_step6": {
+      "message": "ExpressVPN Keys 확장 프로그램에서 \u003Cb>파일 선택\u003C/b>을 클릭하세요."
+   },
+   "import_logins_1password_1pw8_mac_step7": {
+      "message": "CSV 파일을 선택하세요."
+   },
+   "import_logins_1password_1pw8_win_step1": {
+      "message": " 1Password를 열고 잠금 해제하세요."
+   },
+   "import_logins_1password_1pw8_win_step2": {
+      "message": "...를 클릭한 뒤 \u003Cb>내보내기\u003C/b>를 선택하세요."
+   },
+   "import_logins_1password_1pw8_win_step3": {
+      "message": "비밀번호를 입력하세요."
+   },
+   "import_logins_1password_1pw8_win_step4": {
+      "message": "파일 형식 \u003Cb>CSV(로그인 정보 및 비밀번호만)\u003C/b>를 선택하세요."
+   },
+   "import_logins_1password_1pw8_win_step5": {
+      "message": "기기에 파일을 저장히세요."
+   },
+   "import_logins_1password_1pw8_win_step6": {
+      "message": "ExpressVPN Keys 확장 프로그램에서 \u003Cb>파일 선택\u003C/b>을 클릭하세요."
+   },
+   "import_logins_1password_1pw8_win_step7": {
+      "message": "CSV 파일을 선택하세요."
+   },
+   "import_logins_1password_import_limitation_header": {
+      "message": "\u003Cb>중요\u003C/b>: ExpressVPN Keys는 로그인 정보 가져오기만 지원합니다. 신용 카드 정보 또는 저장된 메모와 같은 기타 데이터는 가져올 수 없습니다."
+   },
+   "import_logins_add_your_password_link": {
+      "message": "수동으로 비밀번호 추가"
+   },
+   "import_logins_back": {
+      "message": "%HOST%에서 로그인 정보 가져오기"
+   },
+   "import_logins_choose_a_password_manager_service": {
+      "message": "오른쪽에서 비밀번호 관리자 서비스를 선택하면 해당 서비스에서 비밀번호를 가져오는 방법이 표시됩니다."
+   },
+   "import_logins_choose_file": {
+      "message": "파일 선택"
+   },
+   "import_logins_error_failed_table_header": {
+      "message": "가져오기 실패(%TOTAL_BAD_LOGINS%)"
+   },
+   "import_logins_error_import_again_btn": {
+      "message": "다시 가져오기"
+   },
+   "import_logins_error_incomplete_header": {
+      "message": "가져오기 미완료"
+   },
+   "import_logins_error_incomplete_reimport_header": {
+      "message": "나머지 로그인 정보 가져오기:"
+   },
+   "import_logins_error_incomplete_reimport_step_1": {
+      "message": "이전 단계에서 가져온 CSV를 스프레드시트 에디터로 여세요."
+   },
+   "import_logins_error_incomplete_reimport_step_2": {
+      "message": "가져오기에 실패한 로그인 정보를 제외한 모든 열을 삭제하세요."
+   },
+   "import_logins_error_incomplete_reimport_step_3": {
+      "message": "오른쪽에 표시된 제안 사항에 따라 나머지 열을 업데이트하세요."
+   },
+   "import_logins_error_incomplete_reimport_step_4": {
+      "message": "파일을 저장한 후 '다시 가져오기'를 클릭하여 업데이트된 파일을 가져오세요."
+   },
+   "import_logins_error_number_of_failed_logins_hint": {
+      "message": "%TOTAL_LOGINS%개 로그인 정보 중 %TOTAL_BAD_LOGINS%개를 가져오지 못했습니다."
+   },
+   "import_logins_error_success_table_header": {
+      "message": "가져오기 성공(%TOTAL_GOOD_LOGINS%)"
+   },
+   "import_logins_error_table_domain_too_long": {
+      "message": "웹사이트 URL이 너무 깁니다"
+   },
+   "import_logins_error_table_failed_status": {
+      "message": "실패"
+   },
+   "import_logins_error_table_login_column": {
+      "message": "로그인 이름"
+   },
+   "import_logins_error_table_name_too_long": {
+      "message": "이름이 너무 깁니다"
+   },
+   "import_logins_error_table_note_too_long": {
+      "message": "메모가 너무 깁니다"
+   },
+   "import_logins_error_table_password_too_long": {
+      "message": "비밀번호가 너무 깁니다"
+   },
+   "import_logins_error_table_see_success_logins_btn": {
+      "message": "가져오기 성공 내역(%TOTAL_GOOD_LOGINS%) 보기"
+   },
+   "import_logins_error_table_status_column": {
+      "message": "상태"
+   },
+   "import_logins_error_table_success_status": {
+      "message": "성공"
+   },
+   "import_logins_error_table_username_too_long": {
+      "message": "사용자명이 너무 깁니다"
+   },
+   "import_logins_error_total_failure_header": {
+      "message": "가져오기 실패"
+   },
+   "import_logins_error_total_failure_reimport_header": {
+      "message": "로그인 정보 다시 가져오기:"
+   },
+   "import_logins_error_total_failure_reimport_step_1": {
+      "message": "이전 단계에서 가져온 CSV를 스프레드시트 에디터로 여세요."
+   },
+   "import_logins_error_total_failure_reimport_step_2": {
+      "message": "오른쪽에 표시된 제안 사항에 따라 열을 업데이트하세요."
+   },
+   "import_logins_error_total_failure_reimport_step_3": {
+      "message": "파일을 저장한 후 '다시 가져오기'를 클릭하여 업데이트된 파일을 가져오세요."
+   },
+   "import_logins_error_untitled": {
+      "message": "제목 없음"
+   },
+   "import_logins_header": {
+      "message": "비밀번호 가져오기"
+   },
+   "import_logins_here": {
+      "message": "여기"
+   },
+   "import_logins_icloud_for_windows": {
+      "message": "Windows용 iCloud는 로그인 정보 및 비밀번호를 내보낼 수 있는 옵션을 제공하지 않습니다. 다음 중 하나를 수행하세요."
+   },
+   "import_logins_if_you_do_not_have_a_mac": {
+      "message": "Mac을 사용하지 않는 경우 iCloud에 저장된 로그인 정보를 직접 복사하여 ExpressVPN Keys 비밀번호 관리자에 붙여넣을 수 있습니다."
+   },
+   "import_logins_if_you_have_a_mac": {
+      "message": "Mac 또한 사용하는 경우, ExpressVPN Keys Chrome 확장 프로그램을 설치하고 [Mac 가이드에 안내된 단계를 따라] 저장된 로그인 정보를 가져올 수 있습니다."
+   },
+   "import_logins_instructions_header_dashlane": {
+      "message": "\u003Cb>중요\u003C/b>: ExpressVPN Keys는 로그인 정보 가져오기만 지원합니다. 신용 카드 정보 또는 저장 메모와 같은 기타 데이터는 가져올 수 없습니다."
+   },
+   "import_logins_instructions_header_lastpass": {
+      "message": "\u003Cb>중요\u003C/b>: 로그인 정보와 비밀번호를 내보내려면 \u003Ca target='_blank' href='https://chrome.google.com/webstore/detail/lastpass-free-password-ma/hdokiejnpimakedhajhdlcegeplioahd'>LastPass 확장 프로그램\u003C/a>이 필요합니다."
+   },
+   "import_logins_manual_instructions_for_macos": {
+      "message": "macOS 10.15 이하 버전용 설명"
+   },
+   "import_logins_other": {
+      "message": "기타"
+   },
+   "import_logins_other_apps": {
+      "message": "다른 비밀번호 관리자에서 가져오기"
+   },
+   "import_logins_other_apps_instructions_advanced_users_p1": {
+      "message": "\u003Cb>중요:\u003C/b> ExpressVPN Keys는 로그인 정보 가져오기만 지원합니다. 신용 카드 정보, 저장된 메모 등은 가져올 수 없습니다."
+   },
+   "import_logins_other_apps_instructions_advanced_users_p2": {
+      "message": "스프레드시트 편집기(Google Sheets, Microsoft Excel 등)를 사용하는 것이 편하면 다음 설명을 따라 로그인 정보를 가져올 수 있습니다."
+   },
+   "import_logins_other_apps_instructions_advanced_users_text": {
+      "message": "고급 사용자: 직접 가져오기"
+   },
+   "import_logins_other_apps_instructions_hint": {
+      "message": "죄송하지만 현재 고객님의 비밀번호 관리자에서 로그인 정보 가져오기가 지원되지 않습니다."
+   },
+   "import_logins_other_apps_instructions_let_us_know_text": {
+      "message": "저희가 살펴볼 수 있도록 [어떤 비밀번호 관리자를 사용하고 있는지 알려주세요]."
+   },
+   "import_logins_other_apps_instructions_step1": {
+      "message": "현재 사용 중인 비밀번호 관리자를 여세요."
+   },
+   "import_logins_other_apps_instructions_step2": {
+      "message": "저장된 로그인 정보를 CSV 파일로 내보내세요."
+   },
+   "import_logins_other_apps_instructions_step3": {
+      "message": "내보낸 CSV 파일을 스프레드시트 편집기에서 여세요."
+   },
+   "import_logins_other_apps_instructions_step4": {
+      "message": "\u003Cb>로그인 정보 외\u003C/b> 모든 항목(예: 신용 카드 정보, 저장된 메모)을 삭제하세요."
+   },
+   "import_logins_other_apps_instructions_step5": {
+      "message": "\u003Cb>다음 외\u003C/b> 모든 열을 삭제하세요."
+   },
+   "import_logins_other_apps_instructions_step5_sub1": {
+      "message": "로그인 제목 또는 이름"
+   },
+   "import_logins_other_apps_instructions_step5_sub2": {
+      "message": "URL"
+   },
+   "import_logins_other_apps_instructions_step5_sub3": {
+      "message": "사용자명 또는 이메일"
+   },
+   "import_logins_other_apps_instructions_step5_sub4": {
+      "message": "비밀번호"
+   },
+   "import_logins_other_apps_instructions_step6": {
+      "message": "남아있는 열의 이름은 다음과 같아야 합니다(소문자)."
+   },
+   "import_logins_other_apps_instructions_step6_sub1": {
+      "message": "이름"
+   },
+   "import_logins_other_apps_instructions_step6_sub2": {
+      "message": "url"
+   },
+   "import_logins_other_apps_instructions_step6_sub3": {
+      "message": "username"
+   },
+   "import_logins_other_apps_instructions_step6_sub4": {
+      "message": "password"
+   },
+   "import_logins_other_apps_instructions_step7": {
+      "message": "업데이트된 파일을 CSV로 저장하세요."
+   },
+   "import_logins_other_apps_instructions_step8": {
+      "message": "아래에서 \u003Cb>파일 선택\u003C/b>을 클릭한 뒤 방금 저장한 파일을 선택하세요."
+   },
+   "import_logins_safari_mac_step1": {
+      "message": "\u003Cb>Safari\u003C/b>를 여세요."
+   },
+   "import_logins_safari_mac_step2": {
+      "message": "\u003Cb>Safari\u003C/b> 메뉴 > \u003Cb>환경 설정\u003C/b>을 클릭하세요."
+   },
+   "import_logins_safari_mac_step3": {
+      "message": "\u003Cb>비밀번호\u003C/b> 탭을 클릭한 뒤 인증하세요."
+   },
+   "import_logins_safari_mac_step4": {
+      "message": "사이드바의 왼쪽 하단에서 … > \u003Cb>비밀번호 내보내기 > 모든 비밀번호 내보내기\u003C/b>를 클릭하세요."
+   },
+   "import_logins_safari_mac_step4_extra": {
+      "message": "… 버튼이 안 보이면 [macOS 및/또는 Safari를 업데이트하세요]. 문제가 지속되면 %ACTION%를 클릭하세요."
+   },
+   "import_logins_safari_mac_step5": {
+      "message": "기기에 파일을 저장히세요."
+   },
+   "import_logins_safari_mac_step6": {
+      "message": "아래에서 \u003Cb>파일 선택\u003C/b>을 클릭한 뒤 방금 저장한 파일을 선택하세요."
+   },
+   "import_logins_safari_old_mac_step1": {
+      "message": "\u003Cb>Safari\u003C/b>를 여세요."
+   },
+   "import_logins_safari_old_mac_step2": {
+      "message": "\u003Cb>Safari\u003C/b> 메뉴 > \u003Cb>환경 설정\u003C/b>을 클릭하세요."
+   },
+   "import_logins_safari_old_mac_step3": {
+      "message": "\u003Cb>비밀번호\u003C/b> 탭을 클릭한 뒤 인증하세요."
+   },
+   "import_logins_safari_old_mac_step4": {
+      "message": "저장된 비밀번호를 선택한 뒤 \u003Cb>편집\u003C/b>을 선택하세요."
+   },
+   "import_logins_safari_old_mac_step5": {
+      "message": "사용자명, 비밀번호, URL을 복사하세요."
+   },
+   "import_logins_safari_old_mac_step6": {
+      "message": "ExpressVPN Keys 확장 프로그램에서 \u003Cb>+\u003C/b>를 클릭하세요."
+   },
+   "import_logins_safari_old_mac_step7": {
+      "message": "로그인 이름을 지정한 뒤 사용자명, 비밀번호, URL을 붙여넣으세요."
+   },
+   "import_logins_safari_old_mac_step8": {
+      "message": "\u003Cb>저장\u003C/b>을 클릭하세요."
+   },
+   "import_logins_safari_windows_step1": {
+      "message": "Windows 기기에서 \u003Cb>iCloud 비밀번호\u003C/b> 앱을 여세요."
+   },
+   "import_logins_safari_windows_step2": {
+      "message": "저장된 로그인 정보를 클릭하세요."
+   },
+   "import_logins_safari_windows_step3": {
+      "message": "오른쪽 상단의 \u003Cb>복사 아이콘\u003C/b>을 클릭하여 사용자명, 비밀번호 또는 URL을 복사하세요."
+   },
+   "import_logins_safari_windows_step4": {
+      "message": "ExpressVPN Keys 확장 프로그램에서 \u003Cb>+\u003C/b>를 클릭하세요."
+   },
+   "import_logins_safari_windows_step5": {
+      "message": "로그인 이름을 지정한 뒤 사용자명, 비밀번호, URL을 붙여넣으세요."
+   },
+   "import_logins_safari_windows_step6": {
+      "message": "\u003Cb>저장\u003C/b>을 클릭하세요."
+   },
+   "import_logins_safari_you_are_running_an_old_version": {
+      "message": "Apple iCloud Keychain에서 로그인 정보 내보내기를 지원하지 않는 구형 macOS 버전을 실행하고 있습니다. 그러나 Safari에 저장된 로그인 정보를 직접 복사하여 ExpressVPN Keys에 붙여넣을 수 있습니다."
+   },
+   "import_logins_step1": {
+      "message": "%PASSWORD_SETTINGS%을 여세요."
+   },
+   "import_logins_step1_bitwarden": {
+      "message": "\u003Ca target='_blank' href='https://vault.bitwarden.com'>https://vault.bitwarden.com\u003C/a>에 로그인하세요."
+   },
+   "import_logins_step1_dashlane": {
+      "message": "\u003Ca target='_blank' href='https://app.dashlane.com/login'>Dashlane 로그인 페이지로 이동하세요.\u003C/a>"
+   },
+   "import_logins_step1_lastpass": {
+      "message": "LastPass 브라우저 확장 프로그램을 클릭하세요."
+   },
+   "import_logins_step2": {
+      "message": "저장된 비밀번호 목록 위의 %ICON% > \u003Cb>비밀번호 내보내기\u003C/b>를 클릭하세요."
+   },
+   "import_logins_step2_bitwarden": {
+      "message": "상단에서 \u003Cb>도구\u003C/b>를 클릭하세요."
+   },
+   "import_logins_step2_dashlane": {
+      "message": "이메일 주소를 입력하세요.\u003Cb>다음\u003C/b>을 클릭하세요."
+   },
+   "import_logins_step2_lastpass": {
+      "message": "\u003Cb>계정 옵션\u003C/b> > \u003Cb>고급\u003C/b> > \u003Cb>내보내기\u003C/b>를 클릭하세요."
+   },
+   "import_logins_step3": {
+      "message": "\u003Cb>비밀번호 내보내기\u003C/b>를 클릭하세요."
+   },
+   "import_logins_step3_bitwarden": {
+      "message": "왼쪽 사이드바에서 \u003Cb>볼트 내보내기\u003C/b>를 클릭하세요."
+   },
+   "import_logins_step3_dashlane": {
+      "message": "오른쪽 상단의 \u003Cb>내 계정\u003C/b>을 클릭하세요."
+   },
+   "import_logins_step3_lastpass": {
+      "message": "\u003Cb>LastPass CSV 파일\u003C/b>을 선택하세요."
+   },
+   "import_logins_step4": {
+      "message": "메시지가 표시되면 기기의 비밀번호를 입력하세요. \u003Cb>확인\u003C/b>을 클릭하세요."
+   },
+   "import_logins_step4_bitwarden": {
+      "message": "\u003Cb>파일 형식\u003C/b>에서 \u003Cb>.csv\u003C/b>를 선택하세요."
+   },
+   "import_logins_step4_dashlane": {
+      "message": "\u003Cb>설정 > 데이터 내보내기\u003C/b>를 클릭하세요."
+   },
+   "import_logins_step4_lastpass": {
+      "message": "마스터 비밀번호를 입력하세요."
+   },
+   "import_logins_step5": {
+      "message": "CSV 파일을 기기에 저장하세요."
+   },
+   "import_logins_step5_bitwarden": {
+      "message": "마스터 비밀번호를 입력하세요."
+   },
+   "import_logins_step5_dashlane": {
+      "message": "마스터 비밀번호를 입력하세요."
+   },
+   "import_logins_step5_lastpass": {
+      "message": "CSV 파일이 기기에 자동으로 저장됩니다."
+   },
+   "import_logins_step6": {
+      "message": "ExpressVPN Keys 확장 프로그램에서 \u003Cb>파일 선택\u003C/b>을 클릭하세요."
+   },
+   "import_logins_step6_bitwarden": {
+      "message": "\u003Cb>볼트 내보내기\u003C/b>를 클릭한 뒤 설명을 따르세요."
+   },
+   "import_logins_step6_dashlane": {
+      "message": "\u003Cb>CSV로 내보내기\u003C/b>를 클릭하세요."
+   },
+   "import_logins_step6_lastpass": {
+      "message": "ExpressVPN Keys 확장 프로그램에서 \u003Cb>파일 선택\u003C/b>을 클릭하세요."
+   },
+   "import_logins_step7": {
+      "message": "CSV 파일을 선택하세요."
+   },
+   "import_logins_step7_bitwarden": {
+      "message": "CSV 파일이 기기에 자동으로 저장됩니다."
+   },
+   "import_logins_step7_dashlane": {
+      "message": "ZIP 파일을 더블클릭하여 CSV 파일을 추출하세요."
+   },
+   "import_logins_step7_lastpass": {
+      "message": "비밀번호를 가져올 CSV 파일을 선택하세요."
+   },
+   "import_logins_step8_bitwarden": {
+      "message": "ExpressVPN Keys 확장 프로그램에서 \u003Cb>파일 선택\u003C/b>을 클릭하세요."
+   },
+   "import_logins_step8_dashlane": {
+      "message": "ExpressVPN Keys 확장 프로그램에서 \u003Cb>파일 선택\u003C/b>을 클릭하세요."
+   },
+   "import_logins_step9_bitwarden": {
+      "message": "비밀번호를 가져올 CSV 파일을 선택하세요."
+   },
+   "import_logins_step9_dashlane": {
+      "message": "비밀번호를 가져올 \u003Cb>credentials.csv\u003C/b> 파일을 선택하세요."
+   },
+   "import_logins_success_close": {
+      "message": "탭 닫기"
+   },
+   "import_logins_success_header": {
+      "message": "성공했습니다!"
+   },
+   "import_logins_success_hint": {
+      "message": "%TOTAL_LOGINS%개 로그인 정보를 모두 가져왔습니다."
+   },
+   "import_logins_success_import_more": {
+      "message": "로그인 정보 더 가져오기"
+   },
+   "import_logins_success_text": {
+      "message": "이제 이 탭을 닫고 확장 프로그램을 열어 로그인 정보를 확인하거나, 브라우징을 시작하여 로그인 정보를 자동 완성할 수 있습니다."
+   },
+   "import_logins_verify_password_label": {
+      "message": "기존 서비스에서 가져오려면 오른쪽에 기본 비밀번호를 입력하세요."
+   },
+   "import_password_error": {
+      "message": "파일을 업로드하는 데 실패했습니다. 다시 시도해주세요."
+   },
+   "import_password_file": {
+      "message": "비밀번호 파일(.csv) 가져오기"
+   },
+   "imports_logins_you_can_also_choose_to": {
+      "message": "대신 %ROUTER_LINK%를 선택할 수도 있습니다."
+   },
+   "info_banner_warning_api_unreachable_vpn_off": {
+      "message": "동기화할 수 없습니다. VPN에 연결하거나 지원팀에 문의하세요."
+   },
+   "info_banner_warning_api_unreachable_vpn_on": {
+      "message": "동기화할 수 없습니다. 다른 VPN 위치를 이용하거나 지원팀에 문의하세요."
+   },
+   "info_banner_warning_offline": {
+      "message": "오프라인 상태입니다. 연결이 재개되면 변경 사항이 동기화됩니다."
+   },
+   "ksp_item_text_1": {
+      "message": "비밀번호를 모든 기기에서 안전하게 저장하고 탭 한 번으로 앱과 사이트에 자동 입력하세요. [더 보기]"
+   },
+   "ksp_item_text_2": {
+      "message": "ExpressVPN 사용자에게 [Keys는 무료입니다]. 비밀번호 개수와 사용 기능 기기 개수에 제한이 없습니다."
+   },
+   "ksp_item_text_3": {
+      "message": "[영지식 암호화] 덕분에 고객님의 비밀번호는 고객님만 볼 수 있습니다."
+   },
+   "ksp_item_text_4": {
+      "message": "Chrome, Safari, 1Password, LastPass 등에 저장된 [모든 로그인 정보를 가져오세요]."
+   },
+   "ksp_item_text_5": {
+      "message": "브라우저 또는 모바일에서 [필요할 때마다] 비밀번호에 접근하세요."
+   },
+   "ksp_item_title_1": {
+      "message": "안전하고 사용하기 쉬운 비밀번호 관리자"
+   },
+   "ksp_item_title_2": {
+      "message": "추가 비용 및 제한이 없습니다"
+   },
+   "ksp_item_title_3": {
+      "message": "ExpressVPN 팀이 설계하여 안전합니다"
+   },
+   "ksp_item_title_4": {
+      "message": "다른 비밀번호 관리자에서 로그인 정보를 가져오세요"
+   },
+   "ksp_item_title_5": {
+      "message": "모든 기기에서 동기화됩니다"
+   },
+   "ksp_next_button": {
+      "message": "다음"
+   },
+   "ksp_set_up_button": {
+      "message": "ExpressVPN Keys 설정"
+   },
+   "ksp_skip_button": {
+      "message": "건너뛰기"
+   },
+   "less_than_a_second": {
+      "message": "1초 이하"
+   },
+   "login_saved": {
+      "message": "로그인 정보가 저장되었습니다. 이 로그인 정보는 안전하게 기억됩니다."
+   },
+   "minute": {
+      "message": "분"
+   },
+   "minutes": {
+      "message": "분"
+   },
+   "modal_password_page_app_not_activated_Linux_text": {
+      "message": "확장 프로그램을 사용하려면 Linux용 ExpressVPN 앱이 활성화되어 있어야 합니다."
+   },
+   "modal_password_page_app_not_activated_Linux_text_p1": {
+      "message": "ExpressVPN 계정에 로그인하여 활성화 코드를 찾은 뒤 다음 명령을 실행하세요: \u003Cspan class='code-inline'>expressvpn activate\u003C/span> 그리고 코드를 입력하세요. "
+   },
+   "modal_password_page_app_not_activated_Mac_text": {
+      "message": "확장 프로그램을 사용하려면 Mac용 ExpressVPN 앱이 활성화되어 있어야 합니다."
+   },
+   "modal_password_page_app_not_activated_Mac_text_p1": {
+      "message": "ExpressVPN 계정에 로그인해서 활성화 코드를 찾으세요."
+   },
+   "modal_password_page_app_not_activated_Windows_text": {
+      "message": "확장 프로그램을 사용하려면 Windows용 ExpressVPN 앱이 활성화되어 있어야 합니다."
+   },
+   "modal_password_page_app_not_activated_Windows_text_p1": {
+      "message": "ExpressVPN 계정에 로그인해서 활성화 코드를 찾으세요."
+   },
+   "modal_password_page_app_not_activated_btn_primary": {
+      "message": "활성화 코드 얻기"
+   },
+   "modal_password_page_app_not_activated_btn_secondary": {
+      "message": "코드 입력하기"
+   },
+   "modal_password_page_app_not_activated_text_p2": {
+      "message": "도움이 필요하세요? [고객 지원 센터]에 연락하세요."
+   },
+   "modal_password_page_app_not_activated_title": {
+      "message": "앱을 활성화하세요"
+   },
+   "modal_password_page_update_app_Linux_text_p1": {
+      "message": "이 확장 프로그램을 사용하려면 \n최신 버전 Linux용 ExpressVPN 앱이 필요합니다."
+   },
+   "modal_password_page_update_app_Mac_text_p1": {
+      "message": "이 확장 프로그램을 사용하려면 최신 버전 Mac용 ExpressVPN 앱이 필요합니다."
+   },
+   "modal_password_page_update_app_Windows_text_p1": {
+      "message": "이 확장 프로그램을 사용하려면 최신 버전 Windows용 ExpressVPN 앱이 필요합니다."
+   },
+   "modal_password_page_update_app_button": {
+      "message": "앱 업데이트"
+   },
+   "modal_password_page_update_app_text_p2": {
+      "message": "도움이 필요하세요? [고객 지원 센터]에 연락하세요."
+   },
+   "modal_password_page_update_app_title": {
+      "message": "앱을 업데이트해 주세요"
+   },
+   "month": {
+      "message": "개월"
+   },
+   "months": {
+      "message": "개월"
+   },
+   "n_logins_saved_for_website": {
+      "message": "%N_ENTRIES%개의 \u003Cb>%HOST%\u003C/b> 로그인 정보 저장됨"
+   },
+   "nav_item_help": {
+      "message": "도움말"
+   },
+   "nav_item_options": {
+      "message": "옵션"
+   },
+   "nav_item_pwm": {
+      "message": "Keys"
+   },
+   "no_logins_saved_for_website": {
+      "message": "저장된 \u003Cb>%HOST%\u003C/b>\u003Cbr/>로그인 정보가 없습니다"
+   },
+   "notification_clipboard_cleared_message": {
+      "message": "개인 정보 보호를 위해 데이터가 삭제되었습니다"
+   },
+   "notification_clipboard_cleared_title": {
+      "message": "클립보드 내용이 삭제되었습니다."
+   },
+   "notification_extension_update_message": {
+      "message": "클릭하여 새로운 기능을 확인하세요."
+   },
+   "notification_extension_update_title": {
+      "message": "ExpressVPN Keys가 업데이트되었습니다"
+   },
+   "options_menu_get_30_days_free_label": {
+      "message": "30일 무료 이용"
+   },
+   "options_menu_item_settings_label": {
+      "message": "설정"
+   },
+   "options_menu_rate_expressvpn_label": {
+      "message": "ExpressVPN Keys 평가하기"
+   },
+   "options_menu_section_options_title": {
+      "message": "옵션"
+   },
+   "options_menu_setup_other_devices_label": {
+      "message": "다른 기기에 설치"
+   },
+   "other_logins": {
+      "message": "다른 로그인 정보"
+   },
+   "password_generator_capitals": {
+      "message": "대문자"
+   },
+   "password_generator_characters": {
+      "message": "%NUMBER%자"
+   },
+   "password_generator_choose_criteria": {
+      "message": "기준 선택"
+   },
+   "password_generator_close": {
+      "message": "닫기"
+   },
+   "password_generator_length": {
+      "message": "비밀번호 길이"
+   },
+   "password_generator_numbers": {
+      "message": "숫자"
+   },
+   "password_generator_password_label": {
+      "message": "사용하려면 클릭하세요."
+   },
+   "password_generator_symbols": {
+      "message": "기호"
+   },
+   "password_generator_title": {
+      "message": "제안 비밀번호"
+   },
+   "password_generator_use_password": {
+      "message": "비밀번호 사용"
+   },
+   "password_strength_0": {
+      "message": "\u003Cb>안전하지 않습니다!\u003C/b> 매우 쉽게 크래킹할 수 있습니다."
+   },
+   "password_strength_1": {
+      "message": "\u003Cb>매우 안전하지 않습니다.\u003C/b> 매우 쉽게 크래킹할 수 있습니다."
+   },
+   "password_strength_2": {
+      "message": "\u003Cb>보통입니다.\u003C/b> 크래킹하는 데 %TIME%이 걸릴 수 있습니다."
+   },
+   "password_strength_3": {
+      "message": "\u003Cb>안전합니다.\u003C/b> 크래킹하는 데 %TIME%이 걸릴 수 있습니다."
+   },
+   "password_strength_4": {
+      "message": "\u003Cb>매우 안전합니다!\u003C/b> 크래킹하는 데 %TIME%이 걸릴 수 있습니다."
+   },
+   "password_suggestion_add_another_word_or_two": {
+      "message": "단어 한 두 개를 더 추가하세요."
+   },
+   "password_suggestion_avoid_dates": {
+      "message": "고객님과 관련된 연도와 날짜는 피하세요."
+   },
+   "password_suggestion_avoid_obvious_patterns": {
+      "message": "일반적인 키보드 패턴은 피하세요."
+   },
+   "password_suggestion_avoid_recent_years": {
+      "message": "최근 연도는 피하세요."
+   },
+   "password_suggestion_avoid_repeats": {
+      "message": "단어나 문자를 반복하는 것을 피하세요 ."
+   },
+   "password_suggestion_avoid_sequences": {
+      "message": "연속된 문자는 피하세요."
+   },
+   "password_suggestion_avoid_years": {
+      "message": "고객님과 관련된 연도는 피하세요."
+   },
+   "password_suggestion_capitalization_does_not_help": {
+      "message": "대문자 사용은 큰 도움이 되지 않습니다."
+   },
+   "password_suggestion_no_need_for_extra_chars": {
+      "message": "기호, 숫자 또는 대문자 사용이 필요하지 않습니다."
+   },
+   "password_suggestion_reversed_word_does_not_help": {
+      "message": "거꾸로 된 단어는 추측하기 쉽습니다."
+   },
+   "password_suggestion_substitution_does_not_help": {
+      "message": "'a'를 '@' 등으로 대체하는 것은 추측하기 쉽습니다."
+   },
+   "password_suggestion_uppercase_does_not_help": {
+      "message": "대문자만 사용하는 것은 큰 도움이 되지 않습니다."
+   },
+   "password_suggestion_use_uncommon_words": {
+      "message": "흔치 않은 단어 여러 개를 사용해보세요."
+   },
+   "password_warning_common_names_are_easy_to_guess": {
+      "message": "일반적인 이름이나 성은 사용하지 마세요."
+   },
+   "password_warning_dates_are_easy_to_guess": {
+      "message": "날짜는 추측하기 쉬운 경우가 많습니다."
+   },
+   "password_warning_names_are_easy_to_guess": {
+      "message": "완전한 이름은 추측하기 쉽습니다."
+   },
+   "password_warning_repeats_are_easy_to_guess": {
+      "message": "'aaa' 같이 반복된 문자는 추측하기 쉽습니다."
+   },
+   "password_warning_repeats_are_slightly_harder_to_guess": {
+      "message": "'abcabcabc' 같은 반복된 문자는 추측하기 쉽습니다."
+   },
+   "password_warning_sequences_are_easy_to_guess": {
+      "message": "'6543' 같이 연속된 문자는 추측하기 쉽습니다."
+   },
+   "password_warning_short_patterns_are_easy_to_guess": {
+      "message": "키보드 패턴은 안전하지 않습니다."
+   },
+   "password_warning_simmilar_to_common_password": {
+      "message": "일반적으로 사용되는 비밀번호와 너무 비슷합니다."
+   },
+   "password_warning_straight_rows_are_easy_to_guess": {
+      "message": "키보드 한 줄을 그대로 사용하면 추측하기 쉽습니다."
+   },
+   "password_warning_top_100_common_password": {
+      "message": "가장 일반적인 비밀번호 100개입니다."
+   },
+   "password_warning_top_10_common_password": {
+      "message": "가장 일반적인 비밀번호 10개입니다."
+   },
+   "password_warning_very_common_password": {
+      "message": "매우 흔한 비밀번호입니다."
+   },
+   "password_warning_word_is_easy_to_guess": {
+      "message": "완전한 단어는 추측하기 쉽습니다."
+   },
+   "password_warning_years_are_easy_to_guess": {
+      "message": "최근 연도는 추측하기 쉽습니다."
+   },
+   "primary_password_strength_0": {
+      "message": "\u003Cb>시작이 좋아요.\u003C/b> 단어 몇 개를 더 추가해보세요."
+   },
+   "primary_password_strength_1": {
+      "message": "\u003Cb>거의 다 됐어요.\u003C/b> 계속 입력해보세요."
+   },
+   "primary_password_strength_2": {
+      "message": "\u003Cb>계속 시도하세요.\u003C/b> 단어를 더 추가해보세요."
+   },
+   "primary_password_strength_3": {
+      "message": "\u003Cb>꽤 좋습니다.\u003C/b> 점점 더 강력해지고 있습니다!"
+   },
+   "primary_password_strength_4": {
+      "message": "\u003Cb>정말 강력합니다!\u003C/b> 사용해도 좋아요."
+   },
+   "primary_password_strength_empty": {
+      "message": "단어 몇 개를 입력해보세요. 예: \u003Cb>AquaLampJamCarpe\u003C/b>"
+   },
+   "pwm_contact_us_label": {
+      "message": "문의"
+   },
+   "pwm_create_account_error_modal_title": {
+      "message": "계정을 생성할 수 없습니다"
+   },
+   "pwm_entry_add_new_header": {
+      "message": "새 로그인 정보 추가"
+   },
+   "pwm_entry_list_add_first_login_header": {
+      "message": "모든 설정을 완료했습니다!"
+   },
+   "pwm_entry_list_add_first_login_text": {
+      "message": "ExpressVPN Keys 계정을 사용할 준비가 되었습니다. 첫 번째 로그인 정보를 저장하세요."
+   },
+   "pwm_entry_list_add_first_login_tooltip": {
+      "message": "여기를 클릭하여 첫 번째 로그인 정보를 추가하세요"
+   },
+   "pwm_entry_no_result_found": {
+      "message": "결과 없음"
+   },
+   "pwm_entry_preview_name_label": {
+      "message": "이름"
+   },
+   "pwm_entry_search_for_a_login": {
+      "message": "로그인 정보 검색"
+   },
+   "pwm_entry_view_created_on_label": {
+      "message": "%DATE%에 생성됨"
+   },
+   "pwm_entry_view_delete_btn": {
+      "message": "삭제"
+   },
+   "pwm_entry_view_edit_btn": {
+      "message": "편집"
+   },
+   "pwm_entry_view_email_label": {
+      "message": "이메일 또는 사용자명"
+   },
+   "pwm_entry_view_login_btn": {
+      "message": "지금 로그인"
+   },
+   "pwm_entry_view_name_label": {
+      "message": "이름(필수)"
+   },
+   "pwm_entry_view_notes_label": {
+      "message": "메모"
+   },
+   "pwm_entry_view_pw_label": {
+      "message": "비밀번호"
+   },
+   "pwm_entry_view_save_btn": {
+      "message": "저장"
+   },
+   "pwm_entry_view_updated_on_label": {
+      "message": "%DATE%에 마지막으로 편집됨"
+   },
+   "pwm_entry_view_url_label": {
+      "message": "웹사이트 URL"
+   },
+   "pwm_error_api_unreachable_step_1": {
+      "message": "VPN을 켜세요"
+   },
+   "pwm_error_api_unreachable_step_2": {
+      "message": "다른 VPN 위치를 선택하세요"
+   },
+   "pwm_error_api_unreachable_step_3": {
+      "message": "다른 모든 방법으로도 해결되지 않으면 [지원팀에 문의]하세요"
+   },
+   "pwm_error_api_unreachable_text_1": {
+      "message": "이 문제를 해결하려면 다음 단계를 따르세요."
+   },
+   "pwm_error_no_access_btn_primary": {
+      "message": "다시 시도"
+   },
+   "pwm_error_no_access_btn_secondary": {
+      "message": "지원팀에 문의"
+   },
+   "pwm_error_no_access_header": {
+      "message": "Keys에 액세스할 수 없습니다"
+   },
+   "pwm_error_no_access_text_1": {
+      "message": "몇 분 뒤에 다시 비밀번호 관리자에 액세스해주세요."
+   },
+   "pwm_error_offline_text_1": {
+      "message": "인터넷 연결을 확인한 뒤 다시 시도해주세요."
+   },
+   "pwm_generic_error_modal_text": {
+      "message": "몇 분 뒤에 다시 시도해주세요."
+   },
+   "pwm_hint_entry_edit_saved": {
+      "message": "저장되었습니다. %URL%에서 로그인 정보를 업데이트하세요."
+   },
+   "pwm_locked_vault_password_manager": {
+      "message": "ExpressVPN Keys"
+   },
+   "pwm_locked_vault_unlock": {
+      "message": "확장 프로그램 아이콘을 클릭하거나 [command]를 눌러 비밀번호 관리자를 잠금 해제하세요."
+   },
+   "pwm_modal_cancel_entry_confirm_header": {
+      "message": "정말로 취소하시겠어요?"
+   },
+   "pwm_modal_cancel_entry_confirm_text": {
+      "message": "변경 내용이 저장되지 않습니다."
+   },
+   "pwm_modal_delete_entry_cancel_button": {
+      "message": "취소"
+   },
+   "pwm_modal_delete_entry_confirm_button": {
+      "message": "영구 삭제"
+   },
+   "pwm_modal_delete_entry_confirm_header": {
+      "message": "정말로 삭제하시겠어요?"
+   },
+   "pwm_modal_delete_entry_confirm_text": {
+      "message": "이 항목이 영구적으로 삭제됩니다."
+   },
+   "pwm_modal_discard_changes_cancel_button": {
+      "message": "계속 편집"
+   },
+   "pwm_modal_discard_changes_confirm_button": {
+      "message": "편집 취소"
+   },
+   "pwm_modal_save_entry_error_cancel_button": {
+      "message": "취소"
+   },
+   "pwm_modal_save_entry_error_header": {
+      "message": "저장할 수 없습니다"
+   },
+   "pwm_modal_save_entry_error_retry_button": {
+      "message": "다시 시도"
+   },
+   "pwm_modal_save_entry_error_text": {
+      "message": "몇 분 뒤에 다시 시도해주세요."
+   },
+   "pwm_network_error_modal_text": {
+      "message": "인터넷 연결을 확인한 뒤 다시 시도해주세요."
+   },
+   "pwm_primary_pw_modal_generic_error_btn_primary": {
+      "message": "다시 시도"
+   },
+   "pwm_primary_pw_modal_generic_error_header": {
+      "message": "비밀번호를 설정할 수 없습니다."
+   },
+   "pwm_primary_pw_modal_generic_error_text": {
+      "message": "몇 분 뒤에 다시 시도해주세요."
+   },
+   "pwm_primary_pw_modal_pw_exists_btn_primary": {
+      "message": "더 보기"
+   },
+   "pwm_primary_pw_modal_pw_exists_header": {
+      "message": "비밀번호를 설정할 수 없습니다"
+   },
+   "pwm_primary_pw_modal_pw_exists_text": {
+      "message": "이 ExpressVPN 계정에 대한 비밀번호 관리자 계정이 이미 있습니다. ExpressVPN Keys 확장 프로그램을 클릭하여 잠금 해제하세요."
+   },
+   "pwm_primary_pw_set_form_pw": {
+      "message": "기본 비밀번호"
+   },
+   "pwm_primary_pw_set_form_pw_error_match": {
+      "message": "비밀번호가 일치하지 않습니다"
+   },
+   "pwm_primary_pw_set_form_pw_error_strength": {
+      "message": "비밀번호는 문자 10개와 기호 1개를 포함해야 합니다"
+   },
+   "pwm_primary_pw_set_form_pw_info_strength": {
+      "message": "문자 10개와 기호 1개를 포함해야 합니다"
+   },
+   "pwm_primary_pw_set_form_pw_label": {
+      "message": "기본 비밀번호"
+   },
+   "pwm_primary_pw_set_form_pw_reenter": {
+      "message": "기본 비밀번호 다시 입력"
+   },
+   "pwm_primary_pw_set_form_submit": {
+      "message": "기본 비밀번호 설정"
+   },
+   "pwm_primary_pw_set_header": {
+      "message": "기본 비밀번호"
+   },
+   "pwm_primary_pw_set_help_link": {
+      "message": "비밀번호와 관련하여 도움이 필요하신가요?"
+   },
+   "pwm_primary_pw_set_learn": {
+      "message": "강력한 비밀번호 생성하는 방법 알아보기"
+   },
+   "pwm_primary_pw_set_security_modal_edit_password": {
+      "message": "비밀번호 수정"
+   },
+   "pwm_primary_pw_set_security_modal_p1": {
+      "message": "단어를 더 추가하여 기본 비밀번호의 보안을 강화하세요."
+   },
+   "pwm_primary_pw_set_security_modal_p2": {
+      "message": "도움이 필요하신가요? 강력한 비밀번호를 만들기 위한 팁을 확인하세요."
+   },
+   "pwm_primary_pw_set_security_modal_read_tips": {
+      "message": "팁 확인"
+   },
+   "pwm_primary_pw_set_security_modal_title": {
+      "message": "비밀번호 보안이 충족되지 않습니다"
+   },
+   "pwm_primary_pw_set_text": {
+      "message": "저장된 로그인 정보를 암호화하는 데 사용할 기억하기 쉬운 기본 비밀번호를 생성하세요. 기본 비밀번호는 ExpressVPN 비밀번호와 같을 수 없습니다."
+   },
+   "pwm_recovery_code_cancel": {
+      "message": "취소"
+   },
+   "pwm_recovery_code_continue": {
+      "message": "계속"
+   },
+   "pwm_recovery_code_copied_hint": {
+      "message": "복구 코드를 복사했습니다. 코드를 출력하여 안전한 곳에 보관하세요."
+   },
+   "pwm_recovery_code_copy_code": {
+      "message": "코드 복사"
+   },
+   "pwm_recovery_code_download_pdf": {
+      "message": "PDF로 다운로드"
+   },
+   "pwm_recovery_code_header": {
+      "message": "복구 코드"
+   },
+   "pwm_recovery_code_text": {
+      "message": "\u003Cb>복구 코드를 복사하거나 저장하여 안전한 곳에 보관하세요.\u003C/b> 기본 비밀번호를 잃어버린 경우, 이 코드가 고객님의 항목에 액세스할 수 있는 유일한 수단입니다."
+   },
+   "pwm_recovery_code_warning_modal_text_p1": {
+      "message": "복구 코드를 복사하거나 저장하지 않으셨습니다."
+   },
+   "pwm_recovery_code_warning_modal_text_p2": {
+      "message": "ExpressVPN은 고객님의 기본 비밀번호, 복구 코드, 저장된 로그인 정보에 액세스할 수 없으므로 반드시 코드를 안전한 위치에 복사하거나 저장해주세요."
+   },
+   "pwm_recovery_code_warning_modal_title": {
+      "message": "다음 단계로 계속 진행하시겠어요?"
+   },
+   "pwm_report_another": {
+      "message": "기타 문제 보고"
+   },
+   "pwm_report_auto_fill": {
+      "message": "자동 완성 문제 보고"
+   },
+   "pwm_request_mfa_error_modal_title": {
+      "message": "이메일을 전송할 수 없습니다"
+   },
+   "pwm_setup_add_new_logins": {
+      "message": "새 로그인 정보 추가"
+   },
+   "pwm_setup_import_existing_logins": {
+      "message": "기존 로그인 정보 가져오기"
+   },
+   "pwm_setup_success_add_logins": {
+      "message": "로그인 정보 추가"
+   },
+   "pwm_setup_success_header": {
+      "message": "모든 설정을 완료했습니다!"
+   },
+   "pwm_setup_success_import_logins": {
+      "message": "로그인 정보 가져오기"
+   },
+   "pwm_setup_success_text_p1": {
+      "message": "ExpressVPN Keys 계정을 사용할 준비가 되었습니다."
+   },
+   "pwm_setup_success_text_p2": {
+      "message": "다른 비밀번호 관리자에 로그인 정보가 저장되어 있나요?"
+   },
+   "pwm_setup_success_text_p3": {
+      "message": "다음 서비스에 저장된 로그인 정보를 가져올 수 있습니다:"
+   },
+   "pwm_setup_success_text_p4": {
+      "message": "아니면 새 로그인 정보를 직접 추가하세요."
+   },
+   "pwm_unlock_vault_incorrect_pw_error": {
+      "message": "잘못된 기본 비밀번호입니다."
+   },
+   "pwm_unlock_vault_locked_header": {
+      "message": "ExpressVPN Keys가 \n잠겨 있습니다"
+   },
+   "pwm_unlock_vault_need_help_link": {
+      "message": "도움이 필요하세요?"
+   },
+   "pwm_unlock_vault_need_help_modal_text": {
+      "message": "기본 비밀번호로 ExpressVPN Keys를 잠금 해제할 수 없는 경우, 복구 코드를 사용하거나 지원팀에 문의하여 도움을 받으실 수 있습니다."
+   },
+   "pwm_unlock_vault_unlock_btn": {
+      "message": "잠금 해제"
+   },
+   "pwm_unlock_vault_unlocking_header": {
+      "message": "잠금 해제 중"
+   },
+   "pwm_use_recovery_code_label": {
+      "message": "복구 코드 사용"
+   },
+   "pwm_validate_mfa_network_error_modal_title": {
+      "message": "계정을 인증할 수 없습니다"
+   },
+   "pwm_verify_account_code_help_link": {
+      "message": "코드를 받지 못하셨나요?"
+   },
+   "pwm_verify_account_code_input_label": {
+      "message": "6자리 인증 코드 입력"
+   },
+   "pwm_verify_account_code_invalid_code": {
+      "message": "유효하지 않은 코드입니다. 다시 시도해주세요"
+   },
+   "pwm_verify_account_code_submit_button_label": {
+      "message": "다음"
+   },
+   "pwm_verify_account_code_text_p1": {
+      "message": "고객님께서 계정 소유자임을 인증하기 위한 코드가 전송되었습니다."
+   },
+   "pwm_verify_account_code_text_p2": {
+      "message": "받은 편지함을 확인하여 6자리 인증 코드를 입력하고 ExpressVPN Keys 계정 설정을 완료하세요."
+   },
+   "pwm_verify_account_header": {
+      "message": "계정 인증"
+   },
+   "pwm_verify_account_need_help": {
+      "message": "도움이 필요하세요? [지원팀에 문의하세요.]"
+   },
+   "pwm_verify_account_send_email_button": {
+      "message": "이메일 전송"
+   },
+   "pwm_verify_account_text_p1": {
+      "message": "이 기기에 ExpressVPN Keys를 설정하려면 고객님께서 계정 소유자임을 인증해야 합니다."
+   },
+   "pwm_verify_account_text_p2": {
+      "message": "아래의 \"이메일 전송\"을 선택한 뒤 이메일로 전송된 6자리 인증 코드를 입력하세요."
+   },
+   "recovery_code_cancel_setup": {
+      "message": "설정 취소"
+   },
+   "save_diagnostics": {
+      "message": "진단 정보 저장"
+   },
+   "second": {
+      "message": "초"
+   },
+   "seconds": {
+      "message": "초"
+   },
+   "settings_help_improve_expressvpn_keys": {
+      "message": "ExpressVPN Keys 개선에 도움을 주세요"
+   },
+   "settings_help_improve_share_crash": {
+      "message": "충돌 보고서와 유용성 진단 결과를 공유하세요. 개인 식별 정보는 절대로 공개되지 않습니다."
+   },
+   "settings_menu_item_change_password_label": {
+      "message": "기본 비밀번호 변경"
+   },
+   "settings_menu_item_open_shortcut_label": {
+      "message": "키보드 단축키로 열기"
+   },
+   "settings_menu_section_data_title": {
+      "message": "데이터"
+   },
+   "settings_menu_section_general_title": {
+      "message": "일반"
+   },
+   "settings_menu_section_other_title": {
+      "message": "기타"
+   },
+   "settings_menu_section_security_title": {
+      "message": "보안"
+   },
+   "some_logins_saved_for_website": {
+      "message": "\u003Cb>%HOST%\u003C/b> 로그인 정보 저장됨"
+   },
+   "step_X_of_Y": {
+      "message": "%STEP%/%TOTAL%단계"
+   },
+   "try_again_label": {
+      "message": "다시 시도"
+   },
+   "update_btn_label": {
+      "message": "업데이트"
+   },
+   "use_recovery_code_header": {
+      "message": "복구 코드 사용"
+   },
+   "use_recovery_code_incorrect_code_error": {
+      "message": "유효하지 않은 복구 코드입니다"
+   },
+   "use_recovery_code_input_label": {
+      "message": "복구 코드"
+   },
+   "use_recovery_code_text": {
+      "message": "ExpressVPN Keys의 기본 비밀번호를 재설정하려면 복구 코드를 입력하세요."
+   },
+   "waitlist_header": {
+      "message": "대기자이십니다!"
+   },
+   "waitlist_hint": {
+      "message": "확장 프로그램을 설치한 채로 유지해 주세요. 계정에서 ExpressVPN Keys를 이용할 수 있을 때 알려드리겠습니다."
+   },
+   "waitlist_notification_header": {
+      "message": "ExpressVPN Keys를 이용할 수 있습니다"
+   },
+   "waitlist_notification_text": {
+      "message": "ExpressVPN의 새로운 %CURRENT_BROWSER%용 비밀번호 관리자를 사용하려면 여기를 클릭하세요."
+   },
+   "waitlist_p1": {
+      "message": "ExpressVPN Keys는 몇 주에 걸쳐 출시됩니다."
+   },
+   "waitlist_p2": {
+      "message": "문의 사항이 있으시면 [지원팀에 문의]하세요."
+   },
+   "year": {
+      "message": "년"
+   },
+   "years": {
+      "message": "년"
+   }
+}

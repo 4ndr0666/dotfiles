@@ -1,0 +1,118 @@
+{
+   "addToWhitelist": {
+      "description": "Add to Whitelist to NOT suspend this site in future.",
+      "message": "Add to Whitelist to NOT suspend this site in future."
+   },
+   "allSettings": {
+      "description": "Open full settings page.",
+      "message": "Open full settings page."
+   },
+   "autoCloseTabsSwitch": {
+      "description": "Close Tabs Automatically",
+      "message": ""
+   },
+   "autoSuspendInterval": {
+      "description": "Auto-Suspend Interval",
+      "message": ""
+   },
+   "autoSuspendSliderValue": {
+      "description": "Will suspend tab after $1 of inactivity",
+      "message": "Will suspend tab after $1 of inactivity"
+   },
+   "changeHotkeys": {
+      "description": "Setup/Change hotkeys for fast access to Tab Suspender functions.",
+      "message": "Setup/Change hotkeys for fast access to Tab Suspender functions."
+   },
+   "extDescription": {
+      "description": "MAX 128: Automatically suspend, park, hibernate inactive tabs and save up to 80% of memory, reduce load on your device, battery and heat.",
+      "message": "Automatically suspend, park, hibernate inactive tabs and save up to 80% of memory, reduce load on your device, battery and heat."
+   },
+   "extName": {
+      "description": "Clear Tab Suspender",
+      "message": "Tab Suspender"
+   },
+   "extTitle": {
+      "description": "Tab Suspender",
+      "message": "Tab Suspender"
+   },
+   "ignoreCurrentTab": {
+      "description": "The marked tab will be ignored by Tab Suspender (Will be reset after browser restart, if you need permanent ignore please use Whitelist).",
+      "message": "The marked tab will be ignored by Tab Suspender (Will be reset after browser restart, if you need permanent ignore please use Whitelist)."
+   },
+   "pageIsInWhitelist": {
+      "description": "Page is in Whilelist",
+      "message": ""
+   },
+   "pauseSuspender": {
+      "description": "Stop Tab Suspender for a while...",
+      "message": "Stop Tab Suspender for a while..."
+   },
+   "pauseSuspenderFor10M": {
+      "description": "Stop Tab Suspender for 10 minutes.",
+      "message": "Stop Tab Suspender for 10 minutes."
+   },
+   "pauseSuspenderFor1H": {
+      "description": "Stop Tab Suspender for 1 hour.",
+      "message": "Stop Tab Suspender for 1 hour."
+   },
+   "pauseSuspenderFor5H": {
+      "description": "Stop Tab Suspender for 5 hours.",
+      "message": "Stop Tab Suspender for 5 hours."
+   },
+   "rateIt": {
+      "description": "Rate it, please.",
+      "message": "Rate it, please."
+   },
+   "recycleAfterSliderValue": {
+      "description": "Сan close tabs after $1 of tab inactivity",
+      "message": ""
+   },
+   "recycleKeepSliderValue": {
+      "description": "Will close tabs if there are more than $1 tabs",
+      "message": ""
+   },
+   "removeFromWhilelist": {
+      "description": "Remove from Whitelist",
+      "message": ""
+   },
+   "resumeSuspender": {
+      "description": "Cancel timer and activate Tab Suspender.",
+      "message": "Cancel timer and activate Tab Suspender."
+   },
+   "suspendAll": {
+      "description": "Immediately suspend all tabs except current tab.",
+      "message": "Immediately suspend all tabs except current tab."
+   },
+   "suspendCurrentTab": {
+      "description": "Immediately suspend current tab.",
+      "message": "Immediately suspend current tab."
+   },
+   "suspendCurrentWindow": {
+      "description": "Immediately suspend all tabs at current window.",
+      "message": "Immediately suspend all tabs at current window."
+   },
+   "suspendHistory": {
+      "description": "Open suspended tabs history.",
+      "message": "Open suspended tabs history."
+   },
+   "unsuspend": {
+      "description": "Unsuspend tab.",
+      "message": "Unsuspend tab."
+   },
+   "unsuspendAll": {
+      "description": "Immediately unsuspend all tabs.",
+      "message": "Immediately unsuspend all tabs."
+   },
+   "unsuspendAllWindow": {
+      "description": "Immediately unsuspend all tabs at current window.",
+      "message": "Immediately unsuspend all tabs at current window."
+   },
+   "wizard_recycleAfterSliderValue": {
+      "description": "Suspender will close tabs after \u003Cb>$1\u003C/b> of tab inactivity",
+      "message": "Suspender can close tabs after \u003Cb>$1\u003C/b> of tab inactivity"
+   },
+   "wizard_recycleKeepSliderValue": {
+      "description": "...and only when there are more than \u003Cb>$1\u003C/b> opened tabs",
+      "message": "...and only when window have more than \u003Cb>$1\u003C/b> opened tabs"
+   }
+}

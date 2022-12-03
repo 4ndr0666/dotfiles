@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="180px" height="180px" viewBox="0 0 180 180" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Logo/LastPass@1x</title>
+    <g id="Logo/LastPass" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Logo">
+            <rect id="Background" fill="#E30A21" fill-rule="nonzero" x="0" y="0" width="180" height="180"></rect>
+            <circle id="Oval" stroke="#FFFFFF" fill="#FFFFFF" cx="41" cy="90" r="14.5"></circle>
+            <circle id="Oval" stroke="#FFFFFF" fill="#FFFFFF" cx="82" cy="90" r="14.5"></circle>
+            <circle id="Oval" stroke="#FFFFFF" fill="#FFFFFF" cx="123" cy="90" r="14.5"></circle>
+            <line x1="152.5" y1="60.5" x2="152.5" y2="119.5" id="Line" stroke="#FFFFFF" stroke-width="6" fill="#FFFFFF" stroke-linecap="round"></line>
+        </g>
+    </g>
+</svg>

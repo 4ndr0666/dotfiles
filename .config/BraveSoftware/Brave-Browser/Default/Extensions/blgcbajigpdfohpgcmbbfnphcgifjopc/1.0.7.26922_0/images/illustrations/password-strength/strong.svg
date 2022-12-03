@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="350px" height="132px" viewBox="0 0 350 132" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>password-strength-strong</title>
+    <defs>
+        <linearGradient x1="100%" y1="100%" x2="59.0113072%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FDEDCB" offset="0%"></stop>
+            <stop stop-color="#EFF5F5" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="100%" y1="100%" x2="59.0113072%" y2="100%" id="linearGradient-2">
+            <stop stop-color="#FDEDCB" offset="0%"></stop>
+            <stop stop-color="#EFF5F5" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="100%" y1="100%" x2="59.0113072%" y2="100%" id="linearGradient-3">
+            <stop stop-color="#FDEDCB" offset="0%"></stop>
+            <stop stop-color="#EFF5F5" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="100%" y1="100%" x2="59.0113072%" y2="100%" id="linearGradient-4">
+            <stop stop-color="#FDEDCB" offset="0%"></stop>
+            <stop stop-color="#EFF5F5" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="100%" y1="100%" x2="59.0113072%" y2="100%" id="linearGradient-5">
+            <stop stop-color="#FDEDCB" offset="0%"></stop>
+            <stop stop-color="#EFF5F5" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="password-strength-strong" fill-rule="nonzero">
+            <rect id="Strength-Pattern" fill="#D4E300" x="0" y="0" width="350" height="132"></rect>
+            <rect id="Strength-Pattern" fill="url(#linearGradient-1)" x="0" y="0" width="43" height="132"></rect>
+            <rect id="Strength-Pattern" fill="url(#linearGradient-2)" x="44" y="0" width="22" height="132"></rect>
+            <rect id="Strength-Pattern" fill="url(#linearGradient-3)" x="65" y="0" width="65" height="132"></rect>
+            <rect id="Strength-Pattern" fill="url(#linearGradient-4)" x="129" y="0" width="113" height="132"></rect>
+            <rect id="Strength-Pattern" fill="url(#linearGradient-5)" x="241" y="0" width="66" height="132"></rect>
+        </g>
+    </g>
+</svg>

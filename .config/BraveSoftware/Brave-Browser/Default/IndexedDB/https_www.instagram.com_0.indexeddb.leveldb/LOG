@@ -1,0 +1,20 @@
+2022/11/23-09:33:26.926 61781 Reusing MANIFEST /home/andro/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/MANIFEST-000001
+2022/11/23-09:33:26.926 61781 Recovering log #32
+2022/11/23-09:33:26.927 61781 Reusing old log /home/andro/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/000032.log 
+2022/11/23-09:33:33.031 61902 Compacting 3@0 + 1@1 files
+2022/11/23-09:33:33.174 61902 Generated table #35@0: 6271 keys, 94233 bytes
+2022/11/23-09:33:33.174 61902 Compacted 3@0 + 1@1 files => 94233 bytes
+2022/11/23-09:33:33.241 61902 compacted to: files[ 0 1 1 0 0 0 0 ]
+2022/11/23-09:33:33.241 61902 Delete type=2 #27
+2022/11/23-09:33:33.241 61902 Delete type=2 #29
+2022/11/23-09:33:33.241 61902 Delete type=2 #31
+2022/11/23-09:33:33.241 61902 Delete type=2 #33
+2022/11/23-09:33:57.488 61781 Level-0 table #37: started
+2022/11/23-09:33:57.598 61781 Level-0 table #37: 1021095 bytes OK
+2022/11/23-09:33:57.754 61781 Delete type=0 #32
+2022/11/23-09:34:27.466 61781 Level-0 table #39: started
+2022/11/23-09:34:27.633 61781 Level-0 table #39: 1036807 bytes OK
+2022/11/23-09:34:27.823 61781 Delete type=0 #36
+2022/11/23-09:35:40.642 61a19 Level-0 table #41: started
+2022/11/23-09:35:40.772 61a19 Level-0 table #41: 1027785 bytes OK
+2022/11/23-09:35:40.917 61a19 Delete type=0 #38

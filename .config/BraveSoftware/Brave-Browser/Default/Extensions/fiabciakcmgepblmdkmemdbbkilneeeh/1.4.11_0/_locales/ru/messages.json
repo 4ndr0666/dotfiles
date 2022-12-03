@@ -1,0 +1,118 @@
+{
+   "addToWhitelist": {
+      "description": "Add to Whitelist to NOT suspend this site in future.",
+      "message": "Добавить сайт в Белый список, чтобы не усыплять этот сайт в будущем."
+   },
+   "allSettings": {
+      "description": "Open full settings page.",
+      "message": "Открыть полные настойки..."
+   },
+   "autoCloseTabsSwitch": {
+      "description": "Close Tabs Automatically",
+      "message": "Закрывать вкладки автоматически"
+   },
+   "autoSuspendInterval": {
+      "description": "Auto-Suspend Interval",
+      "message": "Интервал усыпления владок"
+   },
+   "autoSuspendSliderValue": {
+      "description": "Will suspend tab after $1 of inactivity",
+      "message": "Будет усыплять вкладки после $1 неактивности"
+   },
+   "changeHotkeys": {
+      "description": "Setup/Change hotkeys for fast access to Tab Suspender functions.",
+      "message": "Настойка/Установка горячих клавиш для быстрого доступа к функциям."
+   },
+   "extDescription": {
+      "description": "MAX 128: Automatically suspend, park, hibernate inactive tabs and save up to 80% of memory, reduce load on your device, battery and heat.",
+      "message": "Автоматически приостанавливает неактивные вкладки и экономит до 80% памяти, снижать нагрузку на ваше устройство и батарею."
+   },
+   "extName": {
+      "description": "Tab Suspender: Many Tabs Manager",
+      "message": "Tab Suspender"
+   },
+   "extTitle": {
+      "description": "Tab Suspender: Many Tabs Manager",
+      "message": "Tab Suspender"
+   },
+   "ignoreCurrentTab": {
+      "description": "The marked tab will be ignored by Tab Suspender (Will be reset after browser restart, if you need permanent ignore please use Whitelist).",
+      "message": "Игнорировать текущую вкладку от заморозки (Настройка будет сброшена после перезагрузки браузера, если требуется постоянное исключение сайта используйте Белый список)."
+   },
+   "pageIsInWhitelist": {
+      "description": "Page is in Whilelist",
+      "message": "Эта страница находится в Белом списке"
+   },
+   "pauseSuspender": {
+      "description": "Stop Tab Suspender for a while...",
+      "message": "Приостановить расширение на некоторое время..."
+   },
+   "pauseSuspenderFor10M": {
+      "description": "Stop Tab Suspender for 10 minutes.",
+      "message": "Приостановить расширение на 10 минут."
+   },
+   "pauseSuspenderFor1H": {
+      "description": "Stop Tab Suspender for 1 hour.",
+      "message": "Приостановить расширение на 1 час."
+   },
+   "pauseSuspenderFor5H": {
+      "description": "Stop Tab Suspender for 5 hours.",
+      "message": "Приостановить расширение на 5 часов."
+   },
+   "rateIt": {
+      "description": "Rate it, please.",
+      "message": "Приостановщик вкладок(Tab Suspender)"
+   },
+   "recycleAfterSliderValue": {
+      "description": "Will close tabs after $1 of inactivity",
+      "message": "Будет закрывать вкладки после $1их неактивности"
+   },
+   "recycleKeepSliderValue": {
+      "description": "Will close tabs if there are more than $1 tabs",
+      "message": "...и если открытых вкладок больше $1"
+   },
+   "removeFromWhilelist": {
+      "description": "Remove from Whitelist",
+      "message": "Удалить из Белого списка"
+   },
+   "resumeSuspender": {
+      "description": "Cancel timer and activate Tab Suspender.",
+      "message": "Отменить паузу и включить расширение"
+   },
+   "suspendAll": {
+      "description": "Immediately suspend all tabs except current tab.",
+      "message": "Немедленно усыпить все остальные вкладки за исключением текущей."
+   },
+   "suspendCurrentTab": {
+      "description": "Immediately suspend current tab.",
+      "message": "Немедленно усыпить текущую вкладку."
+   },
+   "suspendCurrentWindow": {
+      "description": "Immediately suspend all tabs at current window.",
+      "message": "Немедленно усыпить все вкладки в текущем окне."
+   },
+   "suspendHistory": {
+      "description": "Open suspended tabs history.",
+      "message": "Открыть историю замороженных вкладок."
+   },
+   "unsuspend": {
+      "description": "Unsuspend tab.",
+      "message": "Разморозить вкладку."
+   },
+   "unsuspendAll": {
+      "description": "Immediately unsuspend all tabs.",
+      "message": "Мгновенно размораживает все вкладки."
+   },
+   "unsuspendAllWindow": {
+      "description": "Immediately unsuspend all tabs at current window.",
+      "message": "Мгновенно размораживает все вкладки в текущем окне."
+   },
+   "wizard_recycleAfterSliderValue": {
+      "description": "Suspender can close tabs after \u003Cb>$1\u003C/b> of tab inactivity",
+      "message": "Suspender может закрывать вкладки после \u003Cb>$1\u003C/b> неактивности вкладки"
+   },
+   "wizard_recycleKeepSliderValue": {
+      "description": "...and only when window have more than \u003Cb>$1\u003C/b> opened tabs",
+      "message": "...и только когда открытых вкладок больше \u003Cb>$1\u003C/b>"
+   }
+}

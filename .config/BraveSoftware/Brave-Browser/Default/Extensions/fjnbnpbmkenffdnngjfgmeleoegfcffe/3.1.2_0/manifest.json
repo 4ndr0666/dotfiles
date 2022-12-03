@@ -1,0 +1,40 @@
+{
+   "action": {
+      "default_popup": "",
+      "default_title": "Stylish"
+   },
+   "background": {
+      "service_worker": "./static/js/service-worker.js",
+      "type": "module"
+   },
+   "content_scripts": [ {
+      "css": [  ],
+      "js": [ "./static/js/content.js" ],
+      "matches": [ "http://*/*", "https://*/*" ],
+      "run_at": "document_start"
+   } ],
+   "default_locale": "en",
+   "description": "With hundreds of thousands of themes, skins & free backgrounds, you can customize any website with your own color scheme in a click.",
+   "differential_fingerprint": "1.ebd44f19ea09d2dd0fe143a3ca33d976df6c448733911005569f31aac6846aa0",
+   "externally_connectable": {
+      "matches": [ "https://*.userstyles.org/*", "*://localhost/*" ]
+   },
+   "homepage_url": "https://userstyles.org",
+   "host_permissions": [ "*://*/*" ],
+   "icons": {
+      "128": "/icons/logo/black-icon-128.png",
+      "16": "/icons/logo/black-icon-128.png",
+      "48": "/icons/logo/black-icon-128.png"
+   },
+   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCr3yiiN7TIDoaEvh7W34g5YsxfUIGkvVUylq9bm29v8EzULCNIpi74KOBrvprYB6/YAdLjvYmGya1CJfgkuQy3/rZ7gGLSrDk9B1qgsHurhNaCJ0ogfSR50bfYUp0qJlIAgBgZWrVWLogfXbU8x+LFgV8pdMjFuWJgzketxjP6nwIDAQAB",
+   "manifest_version": 3,
+   "name": "Stylish - Custom themes for any website",
+   "options_page": "pages/options/options.html",
+   "permissions": [ "storage", "tabs", "alarms", "scripting", "webNavigation", "webRequest", "contextMenus" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "3.1.2",
+   "web_accessible_resources": [ {
+      "matches": [ "\u003Call_urls>" ],
+      "resources": [ "index.html" ]
+   } ]
+}

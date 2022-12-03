@@ -1,0 +1,1 @@
+function aiparser(e){var r=0;document.querySelectorAll("img").forEach(function(a){var i,c;i=a.src.replace(/-(small|medium)\./,"-big.").replace("-tiny?","-big?"),new ParsedPItem({src:i,alt:c},r++,e,function(r){chrome.runtime.sendMessage({cmd:"ADD_IMG",tabId:e.id,item:r})})})}window.aiparser=aiparser;

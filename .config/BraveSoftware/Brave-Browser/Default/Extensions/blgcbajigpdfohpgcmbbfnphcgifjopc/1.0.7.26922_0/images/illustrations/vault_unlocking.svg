@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="271px" height="132px" viewBox="0 0 271 132" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Group 9</title>
+    <defs>
+        <linearGradient x1="50%" y1="9.91821289%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#D4E300" offset="0%"></stop>
+            <stop stop-color="#E69871" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="9.91821289%" x2="50%" y2="100%" id="linearGradient-2">
+            <stop stop-color="#D4E300" offset="0%"></stop>
+            <stop stop-color="#E2946D" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="9.91821289%" x2="50%" y2="100%" id="linearGradient-3">
+            <stop stop-color="#D4E300" offset="0%"></stop>
+            <stop stop-color="#E59770" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Password-Manager-(Design)" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Vault---Unlock---Confirmation" transform="translate(-36.000000, -81.000000)">
+            <g id="Group-9" transform="translate(36.000000, 81.000000)">
+                <g id="Group-8" transform="translate(66.000000, 66.000000) rotate(-330.000000) translate(-66.000000, -66.000000) translate(18.000000, 18.000000)" fill="url(#linearGradient-1)">
+                    <g id="Group-7" transform="translate(0.000000, 0.000000)">
+                        <path d="M48,96 C48,96 48,0 48,0 C21.490332,0 0,21.490332 0,48 C0,74.509668 21.490332,96 48,96 Z" id="Oval"></path>
+                    </g>
+                    <path d="M96,96 C96,96 96,0 96,0 C69.490332,0 48,21.490332 48,48 C48,74.509668 69.490332,96 96,96 Z" id="Oval" transform="translate(72.000000, 48.000000) rotate(-180.000000) translate(-72.000000, -48.000000) "></path>
+                </g>
+                <g id="Group-8" transform="translate(139.000000, 66.000000) rotate(-30.000000) translate(-139.000000, -66.000000) translate(91.000000, 18.000000)">
+                    <g id="Group-7" transform="translate(0.000000, 0.000000)" fill="url(#linearGradient-1)">
+                        <path d="M48,96 C48,96 48,0 48,0 C21.490332,0 0,21.490332 0,48 C0,74.509668 21.490332,96 48,96 Z" id="Oval"></path>
+                    </g>
+                    <path d="M96,96 C96,96 96,0 96,0 C69.490332,0 48,21.490332 48,48 C48,74.509668 69.490332,96 96,96 Z" id="Oval" fill="url(#linearGradient-2)" transform="translate(72.000000, 48.000000) rotate(-180.000000) translate(-72.000000, -48.000000) "></path>
+                </g>
+                <g id="Group-8" transform="translate(212.000000, 66.000000) rotate(-285.000000) translate(-212.000000, -66.000000) translate(164.000000, 18.000000)">
+                    <g id="Group-7" transform="translate(0.000000, 0.000000)" fill="url(#linearGradient-3)">
+                        <path d="M48,96 C48,96 48,0 48,0 C21.490332,0 0,21.490332 0,48 C0,74.509668 21.490332,96 48,96 Z" id="Oval"></path>
+                    </g>
+                    <path d="M96,96 C96,96 96,0 96,0 C69.490332,0 48,21.490332 48,48 C48,74.509668 69.490332,96 96,96 Z" id="Oval" fill="url(#linearGradient-1)" transform="translate(72.000000, 48.000000) rotate(-180.000000) translate(-72.000000, -48.000000) "></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

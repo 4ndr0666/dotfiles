@@ -1,0 +1,28 @@
+{
+   "background": {
+      "scripts": [ "background.js" ]
+   },
+   "browser_action": {
+      "default_icon": {
+         "19": "icon19.png",
+         "38": "icon38.png"
+      },
+      "default_popup": "popup.html",
+      "default_title": "Use Ctrl+Up/Down arrows to make pages scroll continously."
+   },
+   "content_scripts": [ {
+      "js": [ "scroller.js" ],
+      "matches": [ "\u003Call_urls>" ]
+   } ],
+   "description": "Use Ctrl+Up/Down arrows to make pages scroll continously.",
+   "icons": {
+      "128": "icon128.png",
+      "48": "icon48.png"
+   },
+   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCwB1T+r9K9qIwLf6i2f/WvAZw0ndOYe6HsP0XuCzDRSTcjpZrzDSx8KmD3gJziJoUWuYWGJDoL344VRP8qsesvAdXawcax+VQR6xkukIVAjWOSFEnVuFQ2uQPdotZQNuUnAlkvIYYVfb5ssvpY8a6cxrEdYLzX5hfCH6R44qVftwIDAQAB",
+   "manifest_version": 2,
+   "name": "Autoscroll",
+   "permissions": [ "storage", "tabs" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "1.2"
+}

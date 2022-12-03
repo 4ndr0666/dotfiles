@@ -1,0 +1,164 @@
+[
+    {
+        "id": 1,
+        "name": "京东智能脚本",
+        "version": "1.8.16",
+        "description": "智能提取京东详情页面商品相关大图",
+        "reg": "jd.com",
+        "url": "http://static.f7tk.com/aiscripts/jd.js",
+        "ico": "http://static.f7tk.com/aiscripts/jd.ico"
+    },
+    {
+        "id": 2,
+        "name": "唯品会智能脚本",
+        "version": "1.3",
+        "description": "智能提取唯品会商品相关大图",
+        "reg": "vip.com",
+        "url": "http://static.f7tk.com/aiscripts/vip.js",
+        "ico": "http://static.f7tk.com/aiscripts/vip.ico"
+    },
+    {
+        "id": 3,
+        "name": "1688智能脚本",
+        "version": "1.3",
+        "description": "智能提取1688详情页面商品相关大图",
+        "reg": "1688.com",
+        "url": "http://static.f7tk.com/aiscripts/1688.js",
+        "ico": "http://static.f7tk.com/aiscripts/1688.ico"
+    },
+    {
+        "id": 4,
+        "name": "mp.weixin.qq.com智能脚本",
+        "version": "1.2",
+        "description": "下载 mp.weixin.qq.com 下的文章内容中的图片，启用改脚本后“显示编号”功能将失效",
+        "reg": "mp.weixin.qq.com/s",
+        "url": "http://static.f7tk.com/aiscripts/mpweixin.js",
+        "ico": "http://static.f7tk.com/aiscripts/wx.ico"
+    },
+    {
+        "id": 5,
+        "name": "toomics智能脚本",
+        "version": "1.6",
+        "description": "下载漫画正文内容的图片",
+        "reg": "toomics.com",
+        "url": "http://static.f7tk.com/aiscripts/toomics.js",
+        "ico": "http://static.f7tk.com/aiscripts/toomics.ico"
+    },
+    {
+        "id": 6,
+        "name": "腾讯动漫智能脚本",
+        "version": "1.4",
+        "description": "下载漫画正文内容的图片",
+        "reg": "ac.qq.com",
+        "url": "http://static.f7tk.com/aiscripts/acqq.js",
+        "ico": "http://static.f7tk.com/aiscripts/acqq.ico"
+    },
+    {
+        "id": 7,
+        "name": "Amazon Script",
+        "version": "1.4",
+        "description": "Download Images of the currrent product",
+        "reg": "www.amazon.com",
+        "url": "http://static.f7tk.com/aiscripts/amazon.js",
+        "ico": "http://static.f7tk.com/aiscripts/amazon.ico"
+    },
+    {
+        "id": 8,
+        "name": "花瓣网智能脚本",
+        "version": "1.0",
+        "description": "花瓣网智能脚本",
+        "reg": "meiwu.co|huaban.com|huabanpro.com",
+        "url": "http://static.f7tk.com/aiscripts/huaban.js",
+        "ico": "http://static.f7tk.com/aiscripts/huaban.ico"
+    },
+    {
+        "id": 9,
+        "name": "yupoo网智能脚本",
+        "version": "1.2",
+        "description": "yupoo网智能脚本",
+        "reg": "yupoo.com",
+        "url": "http://static.f7tk.com/aiscripts/yupoo.js",
+        "ico": "http://static.f7tk.com/aiscripts/yupoo.ico"
+    },
+    {
+        "id": 10,
+        "name": "Script for www.wish.com",
+        "version": "1.2",
+        "description": "Script for www.wish.com",
+        "reg": "www.wish.com",
+        "url": "http://static.f7tk.com/aiscripts/wish.js",
+        "ico": "http://static.f7tk.com/aiscripts/wish.png"
+    },
+    {
+        "id": 11,
+        "name": "Script for Aliexpress",
+        "version": "1.3",
+        "description": "Script for Aliexpress",
+        "reg": "www.aliexpress.com",
+        "url": "http://static.f7tk.com/aiscripts/aliexpress.js",
+        "ico": "http://static.f7tk.com/aiscripts/aliexpress.ico"
+    },
+    {
+        "id": 12,
+        "name": "Script for trgomania.com",
+        "version": "1.1",
+        "description": "Script for trgomania.com",
+        "reg": "trgomania.com",
+        "url": "http://static.f7tk.com/aiscripts/trgomania.js",
+        "ico": "http://static.f7tk.com/aiscripts/trgomania.ico"
+    },
+    {
+        "id": 13,
+        "name": "Script for toptoon.net",
+        "version": "1.8.1",
+        "description": "Script for toptoon.net",
+        "reg": "toptoon.net",
+        "url": "http://static.f7tk.com/aiscripts/toptoon.js",
+        "ico": "http://static.f7tk.com/aiscripts/toptoon.png"
+    },
+    {
+        "id": 14,
+        "name": "Script for Airbnb",
+        "version": "1.0",
+        "description": "Script for Airbnb",
+        "reg": "\\.airbnb\\.",
+        "url": "http://static.f7tk.com/aiscripts/airbnb.js",
+        "ico": "http://static.f7tk.com/aiscripts/airbnb.ico"
+    },
+    {
+        "id": 15,
+        "name": "Script for booking.com",
+        "version": "1.1",
+        "description": "Script for booking.com",
+        "reg": "\\.booking\\.",
+        "url": "http://static.f7tk.com/aiscripts/booking.js",
+        "ico": "http://static.f7tk.com/aiscripts/booking.ico"
+    },
+    {
+        "id": 16,
+        "name": "Script for ctrip.com",
+        "version": "1.3",
+        "description": "Script for ctrip.com",
+        "reg": "hotels.ctrip.com",
+        "url": "http://static.f7tk.com/aiscripts/ctrip.js",
+        "ico": "http://static.f7tk.com/aiscripts/ctrip.ico"
+    },
+    {
+        "id": 17,
+        "name": "Script for agoda.com",
+        "version": "1.5",
+        "description": "Script for agoda.com, 点击\"查看所有图片\"后可以抓取酒店相关图片",
+        "reg": "www.agoda.com",
+        "url": "http://static.f7tk.com/aiscripts/agoda.js",
+        "ico": "http://static.f7tk.com/aiscripts/agoda.ico"
+    },
+    {
+        "id": 18,
+        "name": "Script for uootu.com",
+        "version": "1.0",
+        "description": "Script for uootu.com",
+        "reg": "www.uootu.com",
+        "url": "http://static.f7tk.com/aiscripts/uootu.js",
+        "ico": "http://static.f7tk.com/aiscripts/uootu.ico"
+    }
+]

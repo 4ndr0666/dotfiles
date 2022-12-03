@@ -1,0 +1,1 @@
+_config.dragDownload&&window.jQuery("body").on("dragstart","a.js-media-image-link",function(a){var r=(a.target.style.backgroundImage||"").match('"(.*)"');r=r?r[1]:"",dragstartListener(a,r)});

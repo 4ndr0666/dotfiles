@@ -1,0 +1,44 @@
+.el-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background-color: #f8f9fa;
+}
+
+.el-main{
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.el-table .cell {
+	padding: 0;
+	text-align: center;
+}
+.ret-wrapper{
+	position: relative;
+}
+.ret{
+	position: absolute;
+}
+#source-img{
+	cursor: zoom-in;
+	max-height: 50vh;
+	cursor: zoom-in;
+}
+#source-img.zoom-out{
+	max-height: none;
+	cursor: zoom-out;
+}
+.content{
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+}
+.img-src-input{
+	margin-top: 50px;
+	display: flex;
+	width: 50%;
+}
+.img-src-input .el-input{
+	margin-right: 20px;
+}

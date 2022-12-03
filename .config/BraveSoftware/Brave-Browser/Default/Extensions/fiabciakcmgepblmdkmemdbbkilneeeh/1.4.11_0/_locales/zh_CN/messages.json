@@ -1,0 +1,118 @@
+{
+   "addToWhitelist": {
+      "description": "添加到白名单,以便将来不会暂停此网站.",
+      "message": "向白名单添加一个站点,以免将来该站点进入睡眠状态."
+   },
+   "allSettings": {
+      "description": "打开完整设置页面",
+      "message": "打开完整的酊剂..."
+   },
+   "autoCloseTabsSwitch": {
+      "description": "自动关闭标签",
+      "message": "自动关闭标签"
+   },
+   "autoSuspendInterval": {
+      "description": "自动暂停间隔",
+      "message": "智慧间隔睡眠"
+   },
+   "autoSuspendSliderValue": {
+      "description": "将在 $1 不活动后挂起标签",
+      "message": "将 $1 不活动后的标签安乐死"
+   },
+   "changeHotkeys": {
+      "description": "设置/更改热键以快速访问 Tab Suspender 功能.",
+      "message": "设置/设置快速访问功能的热键"
+   },
+   "extDescription": {
+      "description": "MAX 128: Automatically suspend, park, hibernate inactive tabs and save up to 80% of memory, reduce load on your device, battery and heat.",
+      "message": "自動暫停，停放，休眠非活動標籤並節省高達80％的內存，減少設備負載，電池和熱量。"
+   },
+   "extName": {
+      "description": "暂停标签 (Tab Suspender)",
+      "message": "暂停标签 (Tab Suspender)"
+   },
+   "extTitle": {
+      "description": "暂停标签 (Tab Suspender)",
+      "message": "暂停标签 (Tab Suspender)"
+   },
+   "ignoreCurrentTab": {
+      "description": "标记的选项卡将被 Tab Suspender 忽略（浏览器重启后将重置,如果您需要永久忽略,请使用白名单）.",
+      "message": "忽略当前标签冻结（在浏览器重新启动后,如果要永久排除站点,请使用白名单,设置将重置）."
+   },
+   "pageIsInWhitelist": {
+      "description": "页面在Whilelist中",
+      "message": "此页面在白名单中"
+   },
+   "pauseSuspender": {
+      "description": "暂停选项卡暂停...",
+      "message": "暂停扩展一段时间..."
+   },
+   "pauseSuspenderFor10M": {
+      "description": "停止标签暂停10分钟.",
+      "message": "暂停分机10分钟."
+   },
+   "pauseSuspenderFor1H": {
+      "description": "停止选项卡暂停1小时.",
+      "message": "暂停扩展1小时."
+   },
+   "pauseSuspenderFor5H": {
+      "description": "停止标签暂停5小时.",
+      "message": "暂停5小时的分机"
+   },
+   "rateIt": {
+      "description": "请评价它.",
+      "message": "暂停标签 (Tab Suspender)"
+   },
+   "recycleAfterSliderValue": {
+      "description": "将在 $1 不活动后关闭标签",
+      "message": "将关闭 $1 不活动后的标签"
+   },
+   "recycleKeepSliderValue": {
+      "description": "如果有超过 $1 美元的标签,将关闭标签",
+      "message": ",..如果有超过 $1 美元的打开标签"
+   },
+   "removeFromWhilelist": {
+      "description": "从白名单中删除",
+      "message": "从白名单中删除"
+   },
+   "resumeSuspender": {
+      "description": "取消计时器并激活 Tab Suspender.",
+      "message": "取消暂停并启用分机"
+   },
+   "suspendAll": {
+      "description": "立即挂起除当前标签以外的所有标签.",
+      "message": "立即安乐死除当前标签之外的所有其他标签."
+   },
+   "suspendCurrentTab": {
+      "description": "立即暂停当前标签.",
+      "message": "立即将当前标签放下."
+   },
+   "suspendCurrentWindow": {
+      "description": "立即挂起当前窗口中的所有标签.",
+      "message": "立即清理当前窗口中的所有标签."
+   },
+   "suspendHistory": {
+      "description": "打开暂停的标签历史记录",
+      "message": "打开冻结标签的历史记录"
+   },
+   "unsuspend": {
+      "description": "取消暂停标签.",
+      "message": "解冻标签."
+   },
+   "unsuspendAll": {
+      "description": "立即取消暂停所有标签.",
+      "message": "立即解冻所有标签."
+   },
+   "unsuspendAllWindow": {
+      "description": "立即取消暂停当前窗口中的所有标签.",
+      "message": "立即解冻当前窗口中的所有标签."
+   },
+   "wizard_recycleAfterSliderValue": {
+      "description": "暂停者会在\u003Cb>$1\u003C/b>处于非活动状态后关闭标签",
+      "message": "暂停者将关闭\u003Cb>$1\u003C/b>他们的不活动状态的标签"
+   },
+   "wizard_recycleKeepSliderValue": {
+      "description": ",..如果有超过\u003Cb>$1\u003C/b>打开的标签",
+      "message": ",..如果打开的标签大于\u003Cb>$1\u003C/b>"
+   }
+}

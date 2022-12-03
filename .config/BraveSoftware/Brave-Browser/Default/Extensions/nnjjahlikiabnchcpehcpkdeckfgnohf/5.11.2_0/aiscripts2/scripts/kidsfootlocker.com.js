@@ -1,0 +1,1 @@
+function aiparser(e){var r=0;var t=document.querySelectorAll(".ProductStyles-fieldset img");0==t.length&&(t=document.querySelectorAll("img")),t.forEach(function(t){var a,c;a=t.dataset.src||t.src,new ParsedPItem({src:a,alt:c},r++,e,function(r){chrome.runtime.sendMessage({cmd:"ADD_IMG",tabId:e.id,item:r})})})}window.aiparser=aiparser;

@@ -1,0 +1,34 @@
+[flags]
+autohide_time = true
+rate = 777
+# Whether to put the CPU legend to the left.
+left_legend = true
+group_processes = true
+regex = true
+default_time_value = 77777
+time_delta = 17777
+hide_table_gap = true
+
+# Layout
+[[row]]
+  ratio=35
+  [[row.child]]
+    type="cpu"
+[[row]]
+  ratio=35
+  [[row.child]]
+    type="net"
+  [[row.child]]
+    type="mem"
+[[row]]
+  ratio=30
+  [[row.child]]
+    ratio=40
+  [[row.child.child]]
+    type="temp"
+  [[row.child.child]]
+    type="disk"
+  [[row.child]]
+    ratio=60
+    type="proc"
+    default=true

@@ -1,0 +1,1 @@
+/home/andro/.fzf/shell/key-bindings.fish

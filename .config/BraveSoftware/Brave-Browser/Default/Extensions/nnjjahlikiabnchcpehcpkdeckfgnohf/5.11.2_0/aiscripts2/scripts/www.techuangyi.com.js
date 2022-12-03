@@ -1,0 +1,1 @@
+function aiparser(r){var e=0;var a,i=[];document.querySelectorAll("img").forEach(function(r){i.push({src:r.dataset.original||r.src})});for(var n=0;n<i.length;n++)a=i[n],new ParsedPItem({src:a.src},e++,r,function(e){chrome.runtime.sendMessage({cmd:"ADD_IMG",tabId:r.id,item:e})})}window.aiparser=aiparser;

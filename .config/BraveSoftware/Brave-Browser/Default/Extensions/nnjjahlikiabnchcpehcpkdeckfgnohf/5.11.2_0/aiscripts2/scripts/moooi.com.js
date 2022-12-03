@@ -1,0 +1,1 @@
+function aiparser(){if(top!=window)return 0;var r=document.querySelectorAll("img._1ge03b");if(0==r.length)return-1;try{chrome.runtime.sendMessage({cmd:"ADD_IMG_LIST",list:Array.from(r).map(r=>({src:r.src,alt:r.closest("._1IW6fp").querySelector("._3DEmkj").textContent}))})}catch(r){return-1}}window.aiparser=aiparser;

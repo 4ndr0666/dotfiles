@@ -1,0 +1,1 @@
+!function(){if(!window.mtopjsonp1){var n,t=[];Object.defineProperty(window,"mtopjsonp1",{set:function(t){n=t},get:function(){return o}}),window.addEventListener("message",function(n){"get_jsonp_data"==n.data.topic&&window.postMessage({topic:"set_jsonp_data",data:t.find(t=>t.api==n.data.api)})})}function o(){arguments[0]&&t.push(arguments[0]),n.apply(window,arguments)}}();

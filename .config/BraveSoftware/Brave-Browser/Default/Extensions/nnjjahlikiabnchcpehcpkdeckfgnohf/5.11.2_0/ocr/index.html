@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="content-language" content="zh-CN">
+	<title></title>
+	<link rel="stylesheet" href="../vue-com/coms.css">
+	<link rel="stylesheet" href="../theme/index.css">
+	<link rel="stylesheet" href="index.css">
+	<link id="favico" rel="shortcut icon" href="../icon-small.png" type="image/x-icon">
+	<script src="../lib/vue.min.js"></script>
+	<script src="../lib/vue-element/index.js"></script>
+	<script src="../lib/md5.min.js"></script>
+	<script src="../components/Header.js"></script>
+</head>
+
+<body>
+	<div id="app" v-cloak>
+		<f-header :brand="brand" :title="this.type == 2? getI18n('ocrTable') : getI18n('ocrGeneral')" :help="getI18n('help')" :gConfig="gConfig">
+		</f-header>
+		<div class="content">
+			<div class="img-src-input">
+				<el-input v-model="imageUrl" :placeholder="getI18n('ocrSrcPlaceholder')"></el-input>
+				<el-button type="primary" @click="ocrGeneralH">{{getI18n('ocrGeneral')}}</el-button>
+				<el-button type="primary" @click="tableParseH">{{getI18n('ocrTable')}}</el-button>
+			</div>
+			<div>
+				<img :style="`display: ${imageUrl? 'block' : 'none'} ;`" id="source-img" :class="{'zoom-out': imgZoomOuted}" :src="imageUrl" alt="">
+			</div>
+			<div>
+				<div v-for="table in tables">
+					<el-table :data="table" :span-method="arraySpanMethod" fit="false">
+						<el-table-column v-for="(col, index) in getBaseRow(table)" label="" :width="col.width">
+							<template slot-scope="scope">
+								<div>{{ (scope.row[index] && scope.row[index].text)? scope.row[index].text.join(' ') :
+									''}}</div>
+							</template>
+						</el-table-column>
+					</el-table>
+				</div>
+			</div>
+			<div class="ret-wrapper" :style="{width: `${imgWidth}px`, height: `${imgHeight}px`}">
+				<div v-for="ret in rets" class="ret" :style="getStyleFromRet(ret)">{{ret.word}}</div>
+			</div>
+		</div>
+	</div>
+	<script src="../js/config.js"></script>
+	<script src="../js/constants.js"></script>
+	<script src="../js/utils.js"></script>
+	<script src="index.js"></script>
+</body>
+
+</html>

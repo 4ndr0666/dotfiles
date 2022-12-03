@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../css/vue2-animate.min.css">
+    <link rel="stylesheet" href="../vue-com/coms.css">
+    <link rel="stylesheet" href="../theme/index.css">
+    <link rel="stylesheet" href="popup.css">
+</head>
+<!--body给定宽高可以防止在main-12 main-2切换是出现闪烁-->
+
+<body>
+    <div id="app" v-cloak>
+        <div id="main-1" v-show="currentPage == 'main-1'">
+            <div class="msg" v-if="showSwitchOldMsg">
+                <a class="btn btn-close" href="" @click.prevent="showSwitchOldMsg = false">╳</a>
+                <span>{{getI18n('restartBrowser')}}</span>
+            </div>
+            <div id="header">
+                <img class="logo" src="../icon.png" width="34px" height="34px" alt="">
+                <div id="title">
+                    <span id="title-1" v-if="brand">{{brand}}</span><br v-if="brand" />
+                    <span id="title-2">{{getI18n('title')}}</span>
+                </div>
+                <div id="user">
+                    <a :href="lbWebUrl" target="_blank">
+                        <el-avatar v-if="userInfo"> {{userInfo.username || userInfo.email}} </el-avatar>
+                        <el-avatar v-else icon="el-icon-user-solid"></el-avatar>
+                    </a>
+                </div>
+            </div>
+            <div class="module" v-if="IEMode">
+                <el-alert title="请确保当前页面是极速模式" type="warning" @close="IEMode=false">
+                </el-alert>
+                <img src="/img/IEMode.png" style="width: 100%" alt="">
+            </div>
+            <div class="module">
+                <div id="current-btn" class="dl-btn undownloadable-hide" @click="downloadCurrentTab">
+                    {{getI18n('download')}}<span class="text-important">「{{getI18n('currentTab')}}」</span>
+                    <span class="short-key">Alt + {{config.shortKeyCurrent}}</span>
+                </div>
+                <div id="all-btn" class="dl-btn" @click="downloadAllTabs">
+                    {{getI18n('download')}}<span class="text-important">「{{getI18n('allTabs')}}」</span>
+                    <span class="short-key">Alt + {{config.shortKeyAll}}</span>
+                </div>
+            </div>
+            <div class="module">
+                <el-button class="btn-long" :icon="'el-icon-caret-'+(multiUrlsInputShow?'top' :'bottom')"
+                    @click="multiUrlsInputShow = !multiUrlsInputShow">{{getI18n('open_multiple_page')}}</el-button>
+                <div v-show="multiUrlsInputShow">
+                    <el-input id="multi-url-input" type="textarea" :placeholder="getI18n('open_multiple_page_tips')"
+                        v-model="multiUrls"></el-input>
+                    <el-button class="btn-long" @click="openMultiPages">{{getI18n('open_multiple_page_action')}}
+                    </el-button>
+                </div>
+            </div>
+            <div id="ai-scripts" class="module undownloadable-hide" v-if="aiscript.current">
+                <div class="ai-scripts-opts">
+                    <el-checkbox v-model="aiscriptEnabled">{{aiscript.current.name}}</el-checkbox>
+                    <div>v{{aiscript.current.version}}</div>
+                </div>
+                <div>
+                    <p>{{aiscript.current.description}}</p>
+                </div>
+                <div class="ai-extras" v-if="aiscriptEnabled && aiscript.current.extras">
+                    <el-button v-for="extra in aiscript.current.extras" @click="execExtra(extra)">{{getExtraTitle(extra)}}
+                    </el-button>
+                </div>
+                <div class="update-wrapper">
+                    <div class="wrapper" v-if="aiscript.current.text">
+                        <el-button type="text" v-if="aiscript.status == 'normal'" @click="checkAiscriptUpdate">
+                            {{getI18n('checkUpdate')}}</el-button>
+                        <el-button type="text" v-if="aiscript.status == 'latest'" disabled>{{getI18n('latest')}}
+                        </el-button>
+                        <el-button type="text" v-if="aiscript.status == 'needUpdate'" @click="updateScript">
+                            {{getI18n('update')}}</el-button>
+                        <el-button type="text" v-if="aiscript.status == 'updated'" disabled>{{getI18n('updated')}}
+                        </el-button>
+                    </div>
+                    <div class="update-desc" v-if="aiscript.status=='needUpdate'">{{aiscript.updateDesc || '有新版本脚本可用'}}
+                    </div>
+                </div>
+            </div>
+            <div class="module">
+                <div id="email" class="sub-m">
+                    <el-row>
+                        <el-col :span="6">Email:</el-col>
+                        <el-col :span="18">
+                            <a id="email" :href="`mailto:${mail}`">{{mail}}</a>
+                        </el-col>
+                    </el-row>
+                </div>
+                <div id="qq" class="sub-m">
+                    <el-row v-if="qqg">
+                        <el-col :span="6">QQ群:</el-col>
+                        <el-col :span="18">{{qqg}}</el-col>
+                    </el-row>
+                    <el-row v-else>
+                        <el-col :span="6">QQ:</el-col>
+                        <el-col :span="18">{{qq}}</el-col>
+                    </el-row>
+                </div>
+                <div id="version" class="sub-m">
+                    <el-row>
+                        <el-col :span="6">Version:</el-col>
+                        <el-col :span="18">
+                            <span>{{version}}</span>
+                        </el-col>
+                    </el-row>
+                </div>
+            </div>
+            <div class="module">
+                <div>
+                    <el-switch v-model="clickDownload" @change="switchClickDownload" :active-text="getI18n('clickDownload')"></el-switch>
+                    <p v-if="clickDownload" style="color: #F56C6C;">{{getI18n('clickDownloadTip')}}</p>
+                </div>
+            </div>
+            <div class="module mod-footer">
+                <div style="display: flex; justify-content: space-between">
+                <div id="settings">
+                    <el-link icon="el-icon-setting" :underline="false" href="/settings/settings.html" target="_blank">
+                        {{getI18n('settings')}}</el-link>
+                </div>
+                <div id="more">
+                    <el-link :underline="false" href="/more/more.html" target="_blank">
+                        {{getI18n('more')}}</el-link>
+                </div>
+                </div>
+            </div>
+            <div class="ad module" v-if="!adClosed">
+                <div class="ad-main">
+                    <div>
+                        <a :href="adLink" target="_blank" class="ad-title">
+                            <span class="adl">{{getI18n('adl')}} : </span>
+                            <span class="ad-title">{{getI18n('adTitle')}}</span>
+                        </a>
+                    </div>
+                    <el-button size="mini" type="text" @click="showAdDesc" icon="el-icon-caret-bottom"
+                        v-if="!adDescShowed"></el-button>
+                    <el-button size="mini" type="text" @click="closeAd" icon="el-icon-close" v-if="adDescShowed">
+                    </el-button>
+                </div>
+                <p class="ad-desc" v-if="adDescShowed">
+                    <a target="_blank" :href="adLink">
+                        {{getI18n('adDescription')}}
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div id="main-2" v-cloak v-show="currentPage=='main-2'">
+            <div id="m2-header">
+                <h2>{{getI18n('settings')}}</h2>
+                <a class="btn btn-close" href="" @click.stop="hideSettings">╳</a>
+            </div>
+            <!--<div class="m2-module" id="pic-size">-->
+            <!--<h4>图片最小尺寸（单位：px）</h4>-->
+            <!--<div class="m2-input-union">-->
+            <!--<span class="u-label">高度</span><input type="">-->
+            <!--</div>-->
+            <!--<div class="m2-input-union">-->
+            <!--<span class="u-label">宽度</span><input type="">-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<div class="m2-module">-->
+            <!--<h4>{{getI18n('imageFormat')}}</h4>-->
+            <!--</div>-->
+            <!--<div class="m2-module">-->
+            <!--<h4>{{getI18n('multiPages')}}</h4>-->
+            <!--</div>-->
+            <div class="m2-module">
+                <h4>{{getI18n('generalSettings')}}</h4>
+                <el-checkbox v-model="autoConvertWebp">{{getI18n('webpToJpgOrPng')}}</el-checkbox>
+                <el-checkbox v-model="config.singleOutput">{{getI18n('collectedToSinglePage')}}</el-checkbox>
+                <el-checkbox v-model="config.dragDownload">{{getI18n('dragDownload')}}</el-checkbox>
+                <div v-if="config.dragDownload" id="drag-download-mode">
+                    <el-radio v-model="config.dragDownloadMode" label="download-instantly">
+                        {{getI18n('downloadInstantly')}}
+                    </el-radio>
+                    <el-radio v-model="config.dragDownloadMode" label="drag-to-filter-page">
+                        {{getI18n('dragToFilterPage')}}
+                    </el-radio>
+                </div>
+                <el-checkbox v-model="config.dragSelect">{{getI18n('dragSelect')}}</el-checkbox>
+                <el-checkbox v-model="config.showUrl">{{getI18n('showUrl')}}</el-checkbox>
+                <el-checkbox v-model="config.enableContextmenu" @change="switchContextmenu">
+                    {{getI18n('enableContextmenu')}}
+                </el-checkbox>
+                <div id="concurrent-wrapper">
+                    <label for="">
+                        <span>{{getI18n('concurrent')}}</span>
+                        <el-input-number size="small" v-model="concurrent" :step="1" :max="10" :min="1">
+                        </el-input-number>
+                    </label>
+                </div>
+            </div>
+            <div class="m2-module">
+                <h4>{{getI18n('saveDir')}}</h4>
+                <el-radio v-model="config.dirType" label="TITLE">{{getI18n('useDocTitle')}}</el-radio>
+                <div class="radio-union">
+                    <el-radio id="fixed-dir-radio" v-model="config.dirType" label="FIXED">{{getI18n('useFixedName')}}
+                    </el-radio>
+                    <input type="" id="fixed-dir-input" v-model="config.fixedDir">
+                </div>
+            </div>
+            <div class="m2-module" id="shortkey">
+                <h4>{{getI18n('shortkeySettings')}}</h4>
+                <div class="m2-input-union">
+                    <span class="u-label">{{getI18n('currentTab')}}</span>
+                    <div class="input-1">
+                        <span class="fl">Alt&nbsp;+&nbsp</span>
+                        <input class="fl" type="" v-model="shortKeyCurrent" :placeholder="getI18n('canceled')"
+                            ref="shortKeyCurrentEle" id="short-key-current">
+                    </div>
+                </div>
+                <div class="m2-input-union">
+                    <span class="u-label">{{getI18n('allTabs')}}</span>
+                    <div class="input-1">
+                        <span class="fl">Alt&nbsp;+&nbsp</span>
+                        <input class="fl" type="" v-model="shortKeyAll" :placeholder="getI18n('canceled')"
+                            ref="shortKeyAllEle" id="short-key-all">
+                    </div>
+                </div>
+            </div>
+            <div class="m2-module" id="more-module">
+                <h4>{{getI18n('more')}}</h4>
+                <div class="item">
+                    <a href="../bigimagerules/index.html" target="_blank">{{getI18n('editBigParserRule')}}</a>
+                </div>
+                <div class="item">
+                    <a href="../aiscripts2/index.html" target="_blank">{{getI18n('viewAllAIScripts')}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../lib/lodash.min.js"></script>
+    <script type="text/javascript" src="../lib/vue.min.js"></script>
+    <script src="../lib/vue-element/index.js"></script>
+    <script type="text/javascript" src="../vue-com/switcher.js"></script>
+    <script type="text/javascript" src="../vue-com/checkout.js"></script>
+    <script type="text/javascript" src="../vue-com/radio.js"></script>
+    <script type="text/javascript" src="../js/utils.js"></script>
+    <script type="text/javascript" src="../js/tj.js"></script>
+    <script type="text/javascript" src="../js/config.js"></script>
+    <script type="text/javascript" src="../js/appConfig.js"></script>
+    <script type="text/javascript" src="../js/aiscripts.js"></script>
+    <script type="text/javascript" src="popup.js"></script>
+</body>
+
+</html>

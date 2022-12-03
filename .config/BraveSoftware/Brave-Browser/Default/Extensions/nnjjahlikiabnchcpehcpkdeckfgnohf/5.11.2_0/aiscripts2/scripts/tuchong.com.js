@@ -1,0 +1,1 @@
+function aiparser(e){var r=0;var a=document.querySelectorAll(".scene-item img");0==a.length&&(a=document.querySelectorAll("img")),a.forEach(function(a){var n,t;n=a.src,new ParsedPItem({src:n,alt:t},r++,e,function(r){chrome.runtime.sendMessage({cmd:"ADD_IMG",tabId:e.id,item:r})})})}window.aiparser=aiparser;

@@ -1,0 +1,36 @@
+# can also be set with --corpus commandlineoption
+# or environment variable TYPISKT_WORDLIST
+# list wordlists with --list commandlineoption
+default-wordlist = english-advanced
+
+# color of active word depending on status
+# value should be an integer 0-15
+# in the background tput setaf $status-color-error
+# is used to generate the escape code
+status-color-error = 1
+status-color-correct = 2
+status-color-active = 3
+
+# can also be set with --width commandlineoption
+# or environment variable TYPISKT_WIDTH
+# maximum width (in columns) of lines
+# if max-width > COLUMNS-2, max-width=COLUMNS-2
+maxwidth = 60
+
+# can also be set with environment variable TYPISKT_CACHE
+# path where to store chache files like highscores
+cache-dir = ~/.cache/typiskt
+
+# can also be set with environment variable TYPISKT_TIME_FORMAT
+# Time format to use in highscore list, see date(1)
+# for more format options
+highscore-time-format = %d/%m/%y
+
+# in excercise mode minimum must be reached to
+# proceed to the next exercise. (0=no minimum)
+# can also be set with environment variable TYPISKT_MIN_ACC
+exercise-minimum-accuracy = 85
+# can also be set with environment variable TYPISKT_MIN_WPM
+exercise-minimum-wpm = 10
+
+# syntax:ssHash

@@ -1,0 +1,55 @@
+{
+   "author": "Armin Sebastian",
+   "background": {
+      "page": "src/background/index.html"
+   },
+   "browser_action": {
+      "default_icon": {
+         "128": "src/assets/icons/app/icon-128.png",
+         "16": "src/assets/icons/app/icon-16.png",
+         "19": "src/assets/icons/app/icon-19.png",
+         "24": "src/assets/icons/app/icon-24.png",
+         "32": "src/assets/icons/app/icon-32.png",
+         "38": "src/assets/icons/app/icon-38.png",
+         "48": "src/assets/icons/app/icon-48.png",
+         "64": "src/assets/icons/app/icon-64.png",
+         "96": "src/assets/icons/app/icon-96.png"
+      }
+   },
+   "content_scripts": [ {
+      "all_frames": true,
+      "js": [ "src/insert/script.js" ],
+      "matches": [ "http://*/*", "https://*/*", "file:///*" ],
+      "run_at": "document_start"
+   } ],
+   "content_security_policy": "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src * data: blob:; connect-src * blob:; object-src 'none';",
+   "default_locale": "en",
+   "description": "__MSG_extensionDescription__",
+   "differential_fingerprint": "1.fe0eb9532c2209814ece95b4e032bc2ea2bd65cf9519f7dbda2017a992695e51",
+   "homepage_url": "https://github.com/dessant/search-by-image",
+   "icons": {
+      "128": "src/assets/icons/app/icon-128.png",
+      "16": "src/assets/icons/app/icon-16.png",
+      "19": "src/assets/icons/app/icon-19.png",
+      "24": "src/assets/icons/app/icon-24.png",
+      "32": "src/assets/icons/app/icon-32.png",
+      "38": "src/assets/icons/app/icon-38.png",
+      "48": "src/assets/icons/app/icon-48.png",
+      "64": "src/assets/icons/app/icon-64.png",
+      "96": "src/assets/icons/app/icon-96.png"
+   },
+   "incognito": "split",
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA+OrSWiq0bGKClCg8B+md8hydVpcfKJ+Ew+pmiRG2oZXggIqcnrpSwGca2isTm07/m4oJtBqTHbArR+9wtQldXEJ2bGljqHo3Vl80HsM4qBGRQcqEZ1e1a0CopJg/I/Fkyq6QplAfBVYkLcJjykkRuu+a0BK7f7kLvfdH1BnkBrpWoFgmHBkeG9MDLC7cpTvjdjCHNUtB/xH3mfp6r4Zl6HJjojl1oY1cGIL7I2J2r8mhZZBzai5OMUIQO14wWs7NlWDHCSauGstCfy8xx09wPwIYSu0IYnXdg/ksz0CzFSFV4eQINGERZ8Zcvnzz4RdcsEUyIAJjp+7cwcdFW6TCawIDAQAB",
+   "manifest_version": 2,
+   "minimum_chrome_version": "92.0",
+   "name": "__MSG_extensionName__",
+   "options_ui": {
+      "chrome_style": false,
+      "open_in_tab": true,
+      "page": "src/options/index.html"
+   },
+   "permissions": [ "alarms", "clipboardRead", "contextMenus", "storage", "unlimitedStorage", "tabs", "activeTab", "notifications", "webRequest", "webRequestBlocking", "\u003Call_urls>" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "5.4.2",
+   "web_accessible_resources": [ "src/content/style.css", "src/select/pointer.css", "src/select/index.html", "src/capture/index.html", "src/confirm/index.html" ]
+}

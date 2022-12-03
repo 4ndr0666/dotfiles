@@ -1,0 +1,1104 @@
+{
+	"file_history":
+	[
+		"/home/andro/.config/shell/bash_functions",
+		"/home/andro/.dotfiles/shell/aliases.sh",
+		"/home/andro/.dotfiles/profile",
+		"/home/andro/.config/zsh/.zshrc",
+		"/home/andro/.zshrc",
+		"/home/andro/.bash_profile",
+		"/home/andro/.gitconfig",
+		"/home/andro/.dotfiles/.gitmodules",
+		"/home/andro/.gitmodules",
+		"/home/andro/.dotfiles/install",
+		"/home/andro/.config/zsh/.zprofile",
+		"/home/andro/Projects/dotfiles/.config/zsh/.zlogin",
+		"/home/andro/Projects/dotfiles/.config/zsh/.zprofile",
+		"/home/andro/Projects/dotfiles/.zshenv",
+		"/home/andro/Projects/dotfiles/.gitmodules",
+		"/home/andro/Projects/dotfiles/.config/bash/bashrc",
+		"/home/andro/Projects/dotfiles/.config/zsh/.zshrc",
+		"/home/andro/.config/lf/icons",
+		"/home/andro/.config/shell/plugins.zsh",
+		"/home/andro/.config/qt5ct/qt5ct.conf",
+		"/home/andro/Projects/dotfiles/.config/qt5ct/qt5ct.conf",
+		"/home/andro/.config/paru/paru.conf",
+		"/home/andro/.config/mpv/scripts/input.conf",
+		"/home/andro/Projects/dotfiles/.config/mpv/input.conf",
+		"/home/andro/Documents/Backups/Paru/paru.conf",
+		"/home/andro/Projects/5cripts_in_progress/googledrivedl",
+		"/home/andro/Projects/dotfiles/gitconfig",
+		"/home/andro/.dotfiles/gitconfig",
+		"/home/andro/.dotfiles/zsh/settings.zsh",
+		"/home/andro/.dotfiles/zsh/prompt.zsh",
+		"/home/andro/.config/shell/aliasrc",
+		"/home/andro/.screenrc",
+		"/home/andro/.config/shell/gtkrc-2.0",
+		"/home/andro/.config/shell/profile",
+		"/home/andro/.config/shell/bashrc",
+		"/home/andro/.config/mpv/mpv.conf",
+		"/home/andro/.config/mpv/input.conf",
+		"/home/andro/.local/bin/trans-status",
+		"/home/andro/.config/lf/lfrc",
+		"/home/andro/.local/bin/trans-notify",
+		"/home/andro/.config/transmission/settings.json",
+		"/home/andro/.local/bin/trans-blocklist",
+		"/home/andro/Desktop/trxnas/VPN_setup.md",
+		"/home/andro/.config/shell/history.zsh",
+		"/home/andro/.config/sublime-text/Packages/SyncedSideBar/SyncedSideBar.sublime-settings",
+		"/home/andro/.config/sublime-text/Packages/User/SyncedSideBar.sublime-settings",
+		"/home/andro/Projects/garuda-zsh-config/zshrc",
+		"/usr/share/fzf/key-bindings.bash",
+		"/usr/share/fzf/key-bindings.zsh",
+		"/home/andro/.config/nvim/initvim",
+		"/home/andro/.config/nvim/init.vim",
+		"/home/andro/.config/sublime-text/Packages/Default/Preferences.sublime-settings",
+		"/home/andro/.config/sublime-text/Packages/User/Preferences.sublime-settings",
+		"/home/andro/.config/backupmenu/backupmenu.cfg",
+		"/home/andro/.config/yup/config.json",
+		"/home/andro/.config/environment.d/20-xdg.conf",
+		"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Shell/gtkrc-2.0",
+		"/home/andro/.gtkrc-2.0",
+		"/root/.gtkrc-2.0",
+		"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Shell/.gtkrc-2.0",
+		"/home/andro/.config/pamac/pamac.conf",
+		"/home/andro/.config/pamac/config",
+		"/home/andro/.config/shell/bindkeys",
+		"/home/andro/.config/shell/zshrc",
+		"/home/andro/.config/shell/completion.zsh",
+		"/home/andro/.local/share/Conky/conky-startup.sh",
+		"/home/andro/.config/shell/setopt.zsh",
+		"/etc/profile",
+		"/home/andro/.config/bat/config",
+		"/home/andro/.config/notmuch/config",
+		"/etc/openswap.conf",
+		"/etc/sysctl.conf",
+		"/etc/timeshift-autosnap.conf",
+		"/home/andro/Desktop/svp_transcoding",
+		"/home/andro/Desktop/svp",
+		"/usr/bin/mpv.conf",
+		"/home/andro/.local/share/SVP4/logs/opencl.log",
+		"/home/andro/.local/share/SVP4/logs/coder.log",
+		"/home/andro/.config/animwall/animwall.conf",
+		"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Python/python_commands.md",
+		"/etc/mpv/mpv.conf",
+		"/usr/local/etc/mpv/encoding-profiles.conf",
+		"/usr/share/mpv/mpv.conf",
+		"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Fish/Convert zhistory to Fish",
+		"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Fish/fish aliases.txt",
+		"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Shell/bindkeys",
+		"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Shell/bash_prompt",
+		"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Shell/bash_functions",
+		"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Shell/aliasrc",
+		"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/GPU/Intell Install",
+		"/home/andro/.config/mpv/scripts/mpv.conf",
+		"/home/andro/Desktop/toinstall.txt",
+		"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/trxnas/wkinprogress.txt",
+		"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Python/latest_requirements.txt",
+		"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/trxnas/python_commands.md",
+		"/home/andro/.config/sublime-text/Packages/Default/Default (Linux).sublime-keymap",
+		"/home/andro/.config/sublime-text/Packages/User/Default (Linux).sublime-keymap",
+		"/home/andro/Desktop/trxnas/find_all_filesndirs_just_updated.bash",
+		"/home/andro/.config/sublime-text/Packages/User/SideBarEnhancements/Open With/Side Bar.sublime-menu",
+		"/home/andro/Desktop/trxnas/cmdinprogress.md",
+		"/home/andro/Desktop/trxnas/Git_commands.md",
+		"/home/andro/Desktop/trxnas/HomePage.md",
+		"/home/andro/Desktop/prolist.csv",
+		"/home/andro/.config/sublime-text/Packages/Theme - Brogrammer/brogrammer.tmTheme",
+		"/home/andro/.config/sublime-text/Packages/User/brogrammer.sublime-color-scheme",
+		"/home/andro/.config/sublime-text/Packages/Terminus/Terminus.sublime-settings",
+		"/home/andro/.config/sublime-text/Packages/User/Terminus.sublime-settings",
+		"/home/andro/.config/sublime-text/Packages/MarkdownEditing/Preferences.sublime-settings",
+		"/home/andro/.config/sublime-text/Packages/A File Icon/.sublime/A File Icon.sublime-settings",
+		"/home/andro/.config/sublime-text/Packages/User/A File Icon.sublime-settings",
+		"/home/andro/.config/sublime-text/Packages/Theme - Afterglow/Afterglow-markdown.tmTheme",
+		"/home/andro/.config/sublime-text/Packages/User/Afterglow-markdown.sublime-color-scheme",
+		"/home/andro/.config/sublime-text/Packages/Theme - Default/Default Dark.sublime-theme",
+		"/home/andro/.config/sublime-text/Packages/User/Default Dark.sublime-theme",
+		"/home/andro/.config/sublime-text/Packages/User/Package Control.sublime-settings",
+		"/home/andro/.config/sublime-text/Packages/Package Control/Package Control.sublime-settings",
+		"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Video Scripts/ffmpeg-cheatsheet.md",
+		"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Video Scripts/ffmpeg_build_flags.md",
+		"/home/andro/.config/sublime-text/Packages/User/Neon.sublime-color-scheme",
+		"/home/andro/.config/sublime-text/Packages/User/Side Bar.sublime-settings",
+		"/home/andro/.config/sublime-text/Packages/User/Package Control.user-ca-bundle",
+		"/home/andro/.config/sublime-text/Packages/User/Markdown.sublime-settings",
+		"/home/andro/.config/sublime-text/Packages/User/Terminus/Terminus.hidden-color-scheme",
+		"/home/andro/.config/sublime-text/Packages/SublimeCodeIntel/SublimeCodeIntel.sublime-settings",
+		"/home/andro/.config/sublime-text/Packages/Terminus/Default.sublime-commands",
+		"/home/andro/.config/sublime-text/Packages/User/Default.sublime-commands",
+		"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/wkinprogress/cmdinprogress.md",
+		"/home/andro/Desktop/trxnas/Mpv_keys.md"
+	],
+	"folder_history":
+	[
+		"/home/andro/Desktop/trxnas",
+		"/home/andro/Projects"
+	],
+	"last_version": 4143,
+	"last_window_id": 49,
+	"log_indexing": false,
+	"next_update_check": 1670057532,
+	"settings":
+	{
+		"new_window_full_screen": false,
+		"new_window_height": 1021.0,
+		"new_window_maximized": true,
+		"new_window_position":
+		[
+			0.0,
+			86.0
+		],
+		"new_window_settings":
+		{
+			"auto_complete":
+			{
+				"selected_items":
+				[
+				]
+			},
+			"build_system_choices":
+			[
+			],
+			"build_varint": "",
+			"command_palette":
+			{
+				"height": 0.0,
+				"last_filter": "",
+				"selected_items":
+				[
+					[
+						"packa",
+						"Package Control: List Packages"
+					],
+					[
+						"",
+						"Selection: Expand to Line"
+					],
+					[
+						"up",
+						"Package Control: Upgrade Package"
+					],
+					[
+						"package con",
+						"Package Control: Satisfy Dependencies"
+					],
+					[
+						"in",
+						"Package Control: Install Package"
+					],
+					[
+						"ins",
+						"Package Control: Install Package"
+					],
+					[
+						"install",
+						"Package Control: Install Package"
+					],
+					[
+						"i",
+						"Package Control: Install Package"
+					],
+					[
+						"insta",
+						"Package Control: Install Package"
+					],
+					[
+						"instal",
+						"Package Control: Install Package"
+					],
+					[
+						"brow",
+						"Preferences: Browse Packages"
+					],
+					[
+						"package contr",
+						"Package Control: List Packages"
+					],
+					[
+						"Package Control: b",
+						"Package Control: Enable Package"
+					],
+					[
+						"Package Control: li",
+						"Package Control: List Unmanaged Packages"
+					],
+					[
+						"package",
+						"Preferences: Package Control Settings"
+					],
+					[
+						"Package Control: install",
+						"Package Control: Install Package"
+					],
+					[
+						"packag",
+						"Package Control: Upgrade Package"
+					],
+					[
+						"pc",
+						"Package Control: List Packages"
+					],
+					[
+						"package co",
+						"Package Control: Satisfy Dependencies"
+					],
+					[
+						"pa",
+						"Package Control: Install Package"
+					],
+					[
+						"Package Control: I",
+						"Package Control: Install Package"
+					],
+					[
+						"pack",
+						"Package Control: List Packages"
+					],
+					[
+						"Package Control: ",
+						"Package Control: List Packages"
+					],
+					[
+						"Snippet: ",
+						"Snippet: for … in … done"
+					],
+					[
+						"package control in",
+						"Package Control: Install Package"
+					],
+					[
+						"package control list",
+						"Package Control: List Packages"
+					],
+					[
+						"code",
+						"Package Control: Discover Packages"
+					],
+					[
+						"package control install package",
+						"Package Control: Install Package"
+					],
+					[
+						"install package control",
+						"Package Control: Install Package"
+					]
+				],
+				"width": 0.0
+			},
+			"console":
+			{
+				"height": 148.0,
+				"history":
+				[
+				]
+			},
+			"distraction_free":
+			{
+				"menu_visible": true,
+				"show_minimap": false,
+				"show_open_files": true,
+				"show_tabs": true,
+				"side_bar_visible": false,
+				"status_bar_visible": true
+			},
+			"file_history":
+			[
+				"/home/andro/.config/shell/bash_functions",
+				"/home/andro/.dotfiles/shell/aliases.sh",
+				"/home/andro/.dotfiles/profile",
+				"/home/andro/.config/zsh/.zshrc",
+				"/home/andro/.zshrc",
+				"/home/andro/.bash_profile",
+				"/home/andro/.gitconfig",
+				"/home/andro/.dotfiles/.gitmodules",
+				"/home/andro/.gitmodules",
+				"/home/andro/.dotfiles/install",
+				"/home/andro/.config/zsh/.zprofile",
+				"/home/andro/Projects/dotfiles/.config/zsh/.zlogin",
+				"/home/andro/Projects/dotfiles/.config/zsh/.zprofile",
+				"/home/andro/Projects/dotfiles/.zshenv",
+				"/home/andro/Projects/dotfiles/.gitmodules",
+				"/home/andro/Projects/dotfiles/.config/bash/bashrc",
+				"/home/andro/Projects/dotfiles/.config/zsh/.zshrc",
+				"/home/andro/.config/lf/icons",
+				"/home/andro/.config/shell/plugins.zsh",
+				"/home/andro/.config/qt5ct/qt5ct.conf",
+				"/home/andro/Projects/dotfiles/.config/qt5ct/qt5ct.conf",
+				"/home/andro/.config/paru/paru.conf",
+				"/home/andro/.config/mpv/scripts/input.conf",
+				"/home/andro/Projects/dotfiles/.config/mpv/input.conf",
+				"/home/andro/Documents/Backups/Paru/paru.conf",
+				"/home/andro/Projects/5cripts_in_progress/googledrivedl",
+				"/home/andro/Projects/dotfiles/gitconfig",
+				"/home/andro/.dotfiles/gitconfig",
+				"/home/andro/.dotfiles/zsh/settings.zsh",
+				"/home/andro/.dotfiles/zsh/prompt.zsh",
+				"/home/andro/.config/shell/aliasrc",
+				"/home/andro/.screenrc",
+				"/home/andro/.config/shell/gtkrc-2.0",
+				"/home/andro/.config/shell/profile",
+				"/home/andro/.config/shell/bashrc",
+				"/home/andro/.config/mpv/mpv.conf",
+				"/home/andro/.config/mpv/input.conf",
+				"/home/andro/.local/bin/trans-status",
+				"/home/andro/.config/lf/lfrc",
+				"/home/andro/.local/bin/trans-notify",
+				"/home/andro/.config/transmission/settings.json",
+				"/home/andro/.local/bin/trans-blocklist",
+				"/home/andro/Desktop/trxnas/VPN_setup.md",
+				"/home/andro/.config/shell/history.zsh",
+				"/home/andro/Projects/garuda-zsh-config/zshrc",
+				"/usr/share/fzf/key-bindings.bash",
+				"/usr/share/fzf/key-bindings.zsh",
+				"/home/andro/.config/nvim/initvim",
+				"/home/andro/.config/nvim/init.vim",
+				"/home/andro/.config/backupmenu/backupmenu.cfg",
+				"/home/andro/.config/yup/config.json",
+				"/home/andro/.config/environment.d/20-xdg.conf",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Shell/gtkrc-2.0",
+				"/home/andro/.gtkrc-2.0",
+				"/root/.gtkrc-2.0",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Shell/.gtkrc-2.0",
+				"/home/andro/.config/pamac/pamac.conf",
+				"/home/andro/.config/pamac/config",
+				"/home/andro/.config/shell/bindkeys",
+				"/home/andro/.config/shell/zshrc",
+				"/home/andro/.config/shell/completion.zsh",
+				"/home/andro/.local/share/Conky/conky-startup.sh",
+				"/home/andro/.config/shell/setopt.zsh",
+				"/etc/profile",
+				"/home/andro/.config/bat/config",
+				"/home/andro/.config/notmuch/config",
+				"/etc/openswap.conf",
+				"/etc/sysctl.conf",
+				"/etc/timeshift-autosnap.conf",
+				"/home/andro/Desktop/svp_transcoding",
+				"/home/andro/Desktop/svp",
+				"/usr/bin/mpv.conf",
+				"/home/andro/.local/share/SVP4/logs/opencl.log",
+				"/home/andro/.local/share/SVP4/logs/coder.log",
+				"/home/andro/.config/animwall/animwall.conf",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Python/python_commands.md",
+				"/etc/mpv/mpv.conf",
+				"/usr/local/etc/mpv/encoding-profiles.conf",
+				"/usr/share/mpv/mpv.conf",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Fish/Convert zhistory to Fish",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Fish/fish aliases.txt",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Shell/bindkeys",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Shell/bash_prompt",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Shell/bash_functions",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Shell/aliasrc",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/GPU/Intell Install",
+				"/home/andro/.config/mpv/scripts/mpv.conf",
+				"/home/andro/Desktop/toinstall.txt",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/trxnas/wkinprogress.txt",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Python/latest_requirements.txt",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/trxnas/python_commands.md",
+				"/home/andro/Desktop/trxnas/find_all_filesndirs_just_updated.bash",
+				"/home/andro/.config/sublime-text/Packages/User/SideBarEnhancements/Open With/Side Bar.sublime-menu",
+				"/home/andro/Desktop/trxnas/cmdinprogress.md",
+				"/home/andro/Desktop/trxnas/Git_commands.md",
+				"/home/andro/Desktop/trxnas/HomePage.md",
+				"/home/andro/Desktop/prolist.csv",
+				"/home/andro/.config/sublime-text/Packages/User/Package Control.sublime-settings",
+				"/home/andro/.config/sublime-text/Packages/Package Control/Package Control.sublime-settings",
+				"/home/andro/.config/sublime-text/Packages/User/Neon.sublime-color-scheme",
+				"/home/andro/.config/sublime-text/Packages/User/Terminus.sublime-settings",
+				"/home/andro/.config/sublime-text/Packages/User/Side Bar.sublime-settings",
+				"/home/andro/.config/sublime-text/Packages/User/Preferences.sublime-settings",
+				"/home/andro/.config/sublime-text/Packages/User/Package Control.user-ca-bundle",
+				"/home/andro/.config/sublime-text/Packages/User/Markdown.sublime-settings",
+				"/home/andro/.config/sublime-text/Packages/User/Terminus/Terminus.hidden-color-scheme",
+				"/home/andro/.config/sublime-text/Packages/SublimeCodeIntel/SublimeCodeIntel.sublime-settings",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/wkinprogress/cmdinprogress.md",
+				"/home/andro/Desktop/trxnas/Mpv_keys.md",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Compare/redownload.txt",
+				"/home/andro/.config/fastfetch/config.conf",
+				"/home/andro/.config/chromium-flags.conf",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Backups/profiles.ini",
+				"/home/andro/Desktop/ff.md",
+				"/home/andro/Desktop/trxnas/mpv_build_flags.md",
+				"/home/andro/Desktop/trxnas/ffmpeg_build_flags.md",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Video Scripts/e351f3c917ab1991b7c9339e10578049-3f8654bffedca0231c71639978bfcb7261ab7f59/ffmpeg-cheatsheet.md",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Video Scripts/43219d6dcb9006042849-bcd2eb78f7f9580c18e0e120a55b12f82dbca28c/readme.md",
+				"/home/andro/Desktop/trxnas/ffmpeg-cheatsheet.md",
+				"/home/andro/Desktop/trxnas/vid_stabalization.md",
+				"/home/andro/.profile",
+				"/home/andro/Desktop/D/A",
+				"/home/andro/.bashrc",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Shell/.zshrc",
+				"/root/.config/shell/aliasrc",
+				"/home/andro/.zsh_history",
+				"/root/.zshrc",
+				"/root/.bashrc"
+			],
+			"find":
+			{
+				"height": 28.0
+			},
+			"find_in_files":
+			{
+				"height": 0.0,
+				"where_history":
+				[
+				]
+			},
+			"find_state":
+			{
+				"case_sensitive": false,
+				"find_history":
+				[
+					","
+				],
+				"highlight": true,
+				"in_selection": false,
+				"preserve_case": false,
+				"regex": false,
+				"replace_history":
+				[
+					" ",
+					"main_frame,sub_frame,stylesheet,script,image,font,object,xmlhttprequest,ping,csp_report,media,websocket,other"
+				],
+				"reverse": false,
+				"scrollbar_highlights": true,
+				"show_context": true,
+				"use_buffer2": true,
+				"use_gitignore": true,
+				"whole_word": false,
+				"wrap": true
+			},
+			"incremental_find":
+			{
+				"height": 28.0
+			},
+			"input":
+			{
+				"height": 0.0
+			},
+			"menu_visible": true,
+			"output.find_results":
+			{
+				"height": 0.0
+			},
+			"pinned_build_system": "",
+			"replace":
+			{
+				"height": 52.0
+			},
+			"save_all_on_build": true,
+			"select_file":
+			{
+				"height": 0.0,
+				"last_filter": "",
+				"selected_items":
+				[
+				],
+				"width": 0.0
+			},
+			"select_project":
+			{
+				"height": 0.0,
+				"last_filter": "",
+				"selected_items":
+				[
+				],
+				"width": 0.0
+			},
+			"select_symbol":
+			{
+				"height": 0.0,
+				"last_filter": "",
+				"selected_items":
+				[
+				],
+				"width": 0.0
+			},
+			"show_minimap": true,
+			"show_open_files": true,
+			"show_tabs": true,
+			"side_bar_visible": false,
+			"side_bar_width": 224.0,
+			"status_bar_visible": true,
+			"template_settings":
+			{
+				"max_columns": 1
+			}
+		},
+		"new_window_width": 960.0
+	},
+	"windows":
+	[
+		{
+			"auto_complete":
+			{
+				"selected_items":
+				[
+				]
+			},
+			"buffers":
+			[
+				{
+					"file": "/home/andro/.dotfiles/shell/functions.sh",
+					"settings":
+					{
+						"buffer_size": 4439,
+						"encoding": "UTF-8",
+						"line_ending": "Unix"
+					},
+					"undo_stack":
+					[
+						[
+							7,
+							1,
+							"insert",
+							{
+								"characters": "\n"
+							},
+							"AQAAABQCAAAAAAAAFQIAAAAAAAAAAAAA",
+							"AQAAAAAAAAABAAAAFAIAAAAAAAAUAgAAAAAAAAAAAAAAAPC/"
+						],
+						[
+							8,
+							1,
+							"paste",
+							null,
+							"AQAAABUCAAAAAAAAVxEAAAAAAAAAAAAA",
+							"AQAAAAAAAAABAAAAFQIAAAAAAAAVAgAAAAAAAAAAAAAAAPC/"
+						]
+					]
+				}
+			],
+			"build_system": "",
+			"build_system_choices":
+			[
+			],
+			"build_varint": "",
+			"command_palette":
+			{
+				"height": 0.0,
+				"last_filter": "",
+				"selected_items":
+				[
+					[
+						"packa",
+						"Package Control: List Packages"
+					],
+					[
+						"",
+						"Selection: Expand to Line"
+					],
+					[
+						"up",
+						"Package Control: Upgrade Package"
+					],
+					[
+						"package con",
+						"Package Control: Satisfy Dependencies"
+					],
+					[
+						"in",
+						"Package Control: Install Package"
+					],
+					[
+						"ins",
+						"Package Control: Install Package"
+					],
+					[
+						"install",
+						"Package Control: Install Package"
+					],
+					[
+						"i",
+						"Package Control: Install Package"
+					],
+					[
+						"insta",
+						"Package Control: Install Package"
+					],
+					[
+						"instal",
+						"Package Control: Install Package"
+					],
+					[
+						"brow",
+						"Preferences: Browse Packages"
+					],
+					[
+						"package contr",
+						"Package Control: List Packages"
+					],
+					[
+						"Package Control: b",
+						"Package Control: Enable Package"
+					],
+					[
+						"Package Control: li",
+						"Package Control: List Unmanaged Packages"
+					],
+					[
+						"package",
+						"Preferences: Package Control Settings"
+					],
+					[
+						"Package Control: install",
+						"Package Control: Install Package"
+					],
+					[
+						"packag",
+						"Package Control: Upgrade Package"
+					],
+					[
+						"pc",
+						"Package Control: List Packages"
+					],
+					[
+						"package co",
+						"Package Control: Satisfy Dependencies"
+					],
+					[
+						"pa",
+						"Package Control: Install Package"
+					],
+					[
+						"Package Control: I",
+						"Package Control: Install Package"
+					],
+					[
+						"pack",
+						"Package Control: List Packages"
+					],
+					[
+						"Package Control: ",
+						"Package Control: List Packages"
+					],
+					[
+						"Snippet: ",
+						"Snippet: for … in … done"
+					],
+					[
+						"package control in",
+						"Package Control: Install Package"
+					],
+					[
+						"package control list",
+						"Package Control: List Packages"
+					],
+					[
+						"code",
+						"Package Control: Discover Packages"
+					],
+					[
+						"package control install package",
+						"Package Control: Install Package"
+					],
+					[
+						"install package control",
+						"Package Control: Install Package"
+					]
+				],
+				"width": 0.0
+			},
+			"console":
+			{
+				"height": 148.0,
+				"history":
+				[
+				]
+			},
+			"distraction_free":
+			{
+				"menu_visible": true,
+				"show_minimap": false,
+				"show_open_files": true,
+				"show_tabs": true,
+				"side_bar_visible": false,
+				"status_bar_visible": true
+			},
+			"file_history":
+			[
+				"/home/andro/.config/shell/bash_functions",
+				"/home/andro/.dotfiles/shell/aliases.sh",
+				"/home/andro/.dotfiles/profile",
+				"/home/andro/.config/zsh/.zshrc",
+				"/home/andro/.zshrc",
+				"/home/andro/.bash_profile",
+				"/home/andro/.gitconfig",
+				"/home/andro/.dotfiles/.gitmodules",
+				"/home/andro/.gitmodules",
+				"/home/andro/.dotfiles/install",
+				"/home/andro/.config/zsh/.zprofile",
+				"/home/andro/Projects/dotfiles/.config/zsh/.zlogin",
+				"/home/andro/Projects/dotfiles/.config/zsh/.zprofile",
+				"/home/andro/Projects/dotfiles/.zshenv",
+				"/home/andro/Projects/dotfiles/.gitmodules",
+				"/home/andro/Projects/dotfiles/.config/bash/bashrc",
+				"/home/andro/Projects/dotfiles/.config/zsh/.zshrc",
+				"/home/andro/.config/lf/icons",
+				"/home/andro/.config/shell/plugins.zsh",
+				"/home/andro/.config/qt5ct/qt5ct.conf",
+				"/home/andro/Projects/dotfiles/.config/qt5ct/qt5ct.conf",
+				"/home/andro/.config/paru/paru.conf",
+				"/home/andro/.config/mpv/scripts/input.conf",
+				"/home/andro/Projects/dotfiles/.config/mpv/input.conf",
+				"/home/andro/Documents/Backups/Paru/paru.conf",
+				"/home/andro/Projects/5cripts_in_progress/googledrivedl",
+				"/home/andro/Projects/dotfiles/gitconfig",
+				"/home/andro/.dotfiles/gitconfig",
+				"/home/andro/.dotfiles/zsh/settings.zsh",
+				"/home/andro/.dotfiles/zsh/prompt.zsh",
+				"/home/andro/.config/shell/aliasrc",
+				"/home/andro/.screenrc",
+				"/home/andro/.config/shell/gtkrc-2.0",
+				"/home/andro/.config/shell/profile",
+				"/home/andro/.config/shell/bashrc",
+				"/home/andro/.config/mpv/mpv.conf",
+				"/home/andro/.config/mpv/input.conf",
+				"/home/andro/.local/bin/trans-status",
+				"/home/andro/.config/lf/lfrc",
+				"/home/andro/.local/bin/trans-notify",
+				"/home/andro/.config/transmission/settings.json",
+				"/home/andro/.local/bin/trans-blocklist",
+				"/home/andro/Desktop/trxnas/VPN_setup.md",
+				"/home/andro/.config/shell/history.zsh",
+				"/home/andro/Projects/garuda-zsh-config/zshrc",
+				"/usr/share/fzf/key-bindings.bash",
+				"/usr/share/fzf/key-bindings.zsh",
+				"/home/andro/.config/nvim/initvim",
+				"/home/andro/.config/nvim/init.vim",
+				"/home/andro/.config/backupmenu/backupmenu.cfg",
+				"/home/andro/.config/yup/config.json",
+				"/home/andro/.config/environment.d/20-xdg.conf",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Shell/gtkrc-2.0",
+				"/home/andro/.gtkrc-2.0",
+				"/root/.gtkrc-2.0",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Shell/.gtkrc-2.0",
+				"/home/andro/.config/pamac/pamac.conf",
+				"/home/andro/.config/pamac/config",
+				"/home/andro/.config/shell/bindkeys",
+				"/home/andro/.config/shell/zshrc",
+				"/home/andro/.config/shell/completion.zsh",
+				"/home/andro/.local/share/Conky/conky-startup.sh",
+				"/home/andro/.config/shell/setopt.zsh",
+				"/etc/profile",
+				"/home/andro/.config/bat/config",
+				"/home/andro/.config/notmuch/config",
+				"/etc/openswap.conf",
+				"/etc/sysctl.conf",
+				"/etc/timeshift-autosnap.conf",
+				"/home/andro/Desktop/svp_transcoding",
+				"/home/andro/Desktop/svp",
+				"/usr/bin/mpv.conf",
+				"/home/andro/.local/share/SVP4/logs/opencl.log",
+				"/home/andro/.local/share/SVP4/logs/coder.log",
+				"/home/andro/.config/animwall/animwall.conf",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Python/python_commands.md",
+				"/etc/mpv/mpv.conf",
+				"/usr/local/etc/mpv/encoding-profiles.conf",
+				"/usr/share/mpv/mpv.conf",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Fish/Convert zhistory to Fish",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Fish/fish aliases.txt",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Shell/bindkeys",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Shell/bash_prompt",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Shell/bash_functions",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Shell/aliasrc",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/GPU/Intell Install",
+				"/home/andro/.config/mpv/scripts/mpv.conf",
+				"/home/andro/Desktop/toinstall.txt",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/trxnas/wkinprogress.txt",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Python/latest_requirements.txt",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/trxnas/python_commands.md",
+				"/home/andro/Desktop/trxnas/find_all_filesndirs_just_updated.bash",
+				"/home/andro/.config/sublime-text/Packages/User/SideBarEnhancements/Open With/Side Bar.sublime-menu",
+				"/home/andro/Desktop/trxnas/cmdinprogress.md",
+				"/home/andro/Desktop/trxnas/Git_commands.md",
+				"/home/andro/Desktop/trxnas/HomePage.md",
+				"/home/andro/Desktop/prolist.csv",
+				"/home/andro/.config/sublime-text/Packages/User/Package Control.sublime-settings",
+				"/home/andro/.config/sublime-text/Packages/Package Control/Package Control.sublime-settings",
+				"/home/andro/.config/sublime-text/Packages/User/Neon.sublime-color-scheme",
+				"/home/andro/.config/sublime-text/Packages/User/Terminus.sublime-settings",
+				"/home/andro/.config/sublime-text/Packages/User/Side Bar.sublime-settings",
+				"/home/andro/.config/sublime-text/Packages/User/Preferences.sublime-settings",
+				"/home/andro/.config/sublime-text/Packages/User/Package Control.user-ca-bundle",
+				"/home/andro/.config/sublime-text/Packages/User/Markdown.sublime-settings",
+				"/home/andro/.config/sublime-text/Packages/User/Terminus/Terminus.hidden-color-scheme",
+				"/home/andro/.config/sublime-text/Packages/SublimeCodeIntel/SublimeCodeIntel.sublime-settings",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/wkinprogress/cmdinprogress.md",
+				"/home/andro/Desktop/trxnas/Mpv_keys.md",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Compare/redownload.txt",
+				"/home/andro/.config/fastfetch/config.conf",
+				"/home/andro/.config/chromium-flags.conf",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Backups/profiles.ini",
+				"/home/andro/Desktop/ff.md",
+				"/home/andro/Desktop/trxnas/mpv_build_flags.md",
+				"/home/andro/Desktop/trxnas/ffmpeg_build_flags.md",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Video Scripts/e351f3c917ab1991b7c9339e10578049-3f8654bffedca0231c71639978bfcb7261ab7f59/ffmpeg-cheatsheet.md",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Video Scripts/43219d6dcb9006042849-bcd2eb78f7f9580c18e0e120a55b12f82dbca28c/readme.md",
+				"/home/andro/Desktop/trxnas/ffmpeg-cheatsheet.md",
+				"/home/andro/Desktop/trxnas/vid_stabalization.md",
+				"/home/andro/.profile",
+				"/home/andro/Desktop/D/A",
+				"/home/andro/.bashrc",
+				"/run/user/1000/gvfs/smb-share:domain=ARCH,server=192.168.1.18,share=nas,user=andro/Shell/.zshrc",
+				"/root/.config/shell/aliasrc",
+				"/home/andro/.zsh_history",
+				"/root/.zshrc",
+				"/root/.bashrc"
+			],
+			"find":
+			{
+				"height": 28.0
+			},
+			"find_in_files":
+			{
+				"height": 0.0,
+				"where_history":
+				[
+				]
+			},
+			"find_state":
+			{
+				"case_sensitive": false,
+				"find_history":
+				[
+					","
+				],
+				"highlight": true,
+				"in_selection": false,
+				"preserve_case": false,
+				"regex": false,
+				"replace_history":
+				[
+					" ",
+					"main_frame,sub_frame,stylesheet,script,image,font,object,xmlhttprequest,ping,csp_report,media,websocket,other"
+				],
+				"reverse": false,
+				"scrollbar_highlights": true,
+				"show_context": true,
+				"use_buffer2": true,
+				"use_gitignore": true,
+				"whole_word": false,
+				"wrap": true
+			},
+			"groups":
+			[
+				{
+					"sheets":
+					[
+						{
+							"buffer": 0,
+							"file": "/home/andro/.dotfiles/shell/functions.sh",
+							"selected": true,
+							"semi_transient": false,
+							"settings":
+							{
+								"buffer_size": 4439,
+								"regions":
+								{
+								},
+								"selection":
+								[
+									[
+										4439,
+										4439
+									]
+								],
+								"settings":
+								{
+									"bracket_highlighter.busy": false,
+									"bracket_highlighter.locations":
+									{
+										"close":
+										{
+										},
+										"icon":
+										{
+										},
+										"open":
+										{
+										},
+										"unmatched":
+										{
+										}
+									},
+									"bracket_highlighter.regions":
+									[
+										"bh_c_define",
+										"bh_c_define_center",
+										"bh_c_define_open",
+										"bh_c_define_close",
+										"bh_c_define_content",
+										"bh_round",
+										"bh_round_center",
+										"bh_round_open",
+										"bh_round_close",
+										"bh_round_content",
+										"bh_default",
+										"bh_default_center",
+										"bh_default_open",
+										"bh_default_close",
+										"bh_default_content",
+										"bh_double_quote",
+										"bh_double_quote_center",
+										"bh_double_quote_open",
+										"bh_double_quote_close",
+										"bh_double_quote_content",
+										"bh_single_quote",
+										"bh_single_quote_center",
+										"bh_single_quote_open",
+										"bh_single_quote_close",
+										"bh_single_quote_content",
+										"bh_angle",
+										"bh_angle_center",
+										"bh_angle_open",
+										"bh_angle_close",
+										"bh_angle_content",
+										"bh_square",
+										"bh_square_center",
+										"bh_square_open",
+										"bh_square_close",
+										"bh_square_content",
+										"bh_unmatched",
+										"bh_unmatched_center",
+										"bh_unmatched_open",
+										"bh_unmatched_close",
+										"bh_unmatched_content",
+										"bh_regex",
+										"bh_regex_center",
+										"bh_regex_open",
+										"bh_regex_close",
+										"bh_regex_content",
+										"bh_tag",
+										"bh_tag_center",
+										"bh_tag_open",
+										"bh_tag_close",
+										"bh_tag_content",
+										"bh_curly",
+										"bh_curly_center",
+										"bh_curly_open",
+										"bh_curly_close",
+										"bh_curly_content"
+									],
+									"syntax": "Packages/ShellScript/Bash.sublime-syntax",
+									"tab_size": 4,
+									"translate_tabs_to_spaces": true
+								},
+								"translation.x": 0.0,
+								"translation.y": 3445.0,
+								"zoom_level": 1.0
+							},
+							"stack_index": 0,
+							"stack_multiselect": false,
+							"type": "text"
+						}
+					]
+				},
+				{
+					"sheets":
+					[
+					]
+				}
+			],
+			"incremental_find":
+			{
+				"height": 28.0
+			},
+			"input":
+			{
+				"height": 0.0
+			},
+			"layout":
+			{
+				"cells":
+				[
+					[
+						0,
+						0,
+						1,
+						1
+					],
+					[
+						1,
+						0,
+						2,
+						1
+					]
+				],
+				"cols":
+				[
+					0.0,
+					0.5,
+					1.0
+				],
+				"rows":
+				[
+					0.0,
+					1.0
+				]
+			},
+			"menu_visible": true,
+			"output.find_results":
+			{
+				"height": 0.0
+			},
+			"pinned_build_system": "",
+			"position": "0,1,0,0,0,0,35,1920,1056,1920,1080,0",
+			"project": "",
+			"replace":
+			{
+				"height": 52.0
+			},
+			"save_all_on_build": true,
+			"select_file":
+			{
+				"height": 0.0,
+				"last_filter": "",
+				"selected_items":
+				[
+				],
+				"width": 0.0
+			},
+			"select_project":
+			{
+				"height": 0.0,
+				"last_filter": "",
+				"selected_items":
+				[
+				],
+				"width": 0.0
+			},
+			"select_symbol":
+			{
+				"height": 0.0,
+				"last_filter": "",
+				"selected_items":
+				[
+				],
+				"width": 0.0
+			},
+			"selected_group": 0,
+			"settings":
+			{
+			},
+			"show_minimap": true,
+			"show_open_files": true,
+			"show_tabs": true,
+			"side_bar_visible": false,
+			"side_bar_width": 224.0,
+			"status_bar_visible": true,
+			"template_settings":
+			{
+				"max_columns": 1
+			},
+			"window_id": 37,
+			"workspace_name": ""
+		}
+	],
+	"workspaces":
+	{
+		"recent_workspaces":
+		[
+		]
+	}
+}

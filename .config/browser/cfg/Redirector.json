@@ -1,0 +1,77 @@
+{
+    "createdBy": "Redirector v3.5.3",
+    "createdAt": "2021-10-09T22:23:24.591Z",
+    "redirects": [
+        {
+            "description": "ytbleh",
+            "exampleUrl": "https://www.youtube.com/watch?v=owYT1aTWScI&t=198",
+            "exampleResult": "https://yewtu.be/watch?v=owYT1aTWScI&t=198",
+            "error": null,
+            "includePattern": "^(?:https?://)(?:www.)youtube\\.(?:com|au|de|co\\.uk)/watch\\?v=(...........)(&t=.*)?",
+            "excludePattern": "",
+            "patternDesc": "this redirects youtube to invidious",
+            "redirectUrl": "https://yewtu.be/watch?v=$1$2",
+            "patternType": "R",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame",
+                "other"
+            ]
+        },
+        {
+            "description": "spot",
+            "exampleUrl": "https://open.spotify.com/album/5Efak5dDtW5RgVylqBBiPy",
+            "exampleResult": "https://open.spotify.com/album/5Efak5dDtW5RgVylqBBiPy?go=1",
+            "error": null,
+            "includePattern": "^(?:https?://)open.spotify.com/(.*)/(\\w{22})(?!\\?go=1)",
+            "excludePattern": "",
+            "patternDesc": "this redirects the https spotify website to the desktop spotify protocol",
+            "redirectUrl": "https://open.spotify.com/$1/$2?go=1",
+            "patternType": "R",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame",
+                "xmlhttprequest",
+                "other"
+            ]
+        },
+        {
+            "description": "De-Mobilizer",
+            "exampleUrl": "https://en.m.wikipedia.org/",
+            "exampleResult": "^(https?://)([a-z0-9-]*\\.)m(?:obile)?\\.(.*)",
+            "error": null,
+            "includePattern": "^(https?://)([a-z0-9-]*\\.)m(?:obile)?\\.(.*)",
+            "excludePattern": "",
+            "patternDesc": "always show desktop site version",
+            "redirectUrl": "^(https?://)([a-z0-9-]*\\.)m(?:obile)?\\.(.*)",
+            "patternType": "R",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame"
+            ]
+        },
+        {
+            "description": "Old Reddit",
+            "exampleUrl": "https://www.reddit.com/u/test",
+            "exampleResult": "https://teddit.pussthecat.org/u/test",
+            "error": null,
+            "includePattern": "^(?:https?://)(?:www)?\\.reddit\\.com(?!/gallery/)(/.*)",
+            "excludePattern": "",
+            "patternDesc": "Redirect to teddit",
+            "redirectUrl": "https://teddit.pussthecat.org$1",
+            "patternType": "R",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,30 @@
+# Tor state file last generated on 2022-11-23 11:05:06 local time
+# Other times below are in UTC
+# You *do not* need to edit this file.
+
+Dormant 0
+Guard in=bridges rsa_id=6D4CB46BFA25D5534382B0018860D2EB89813DEE bridge_addr=185.177.207.49:31446 sampled_on=2022-11-17T02:31:58 sampled_idx=0 sampled_by=0.4.7.10 listed=1
+Guard in=bridges rsa_id=D18BC7E082D7EBF8E851029AC89A12A3F44A50BF bridge_addr=172.105.176.101:80 sampled_on=2022-11-23T02:24:19 sampled_idx=1 sampled_by=0.4.7.10 listed=1
+Guard in=bridges rsa_id=E81B1237F6D13497B166060F55861565593CFF8E bridge_addr=71.73.124.31:8887 sampled_on=2022-11-19T09:31:06 sampled_idx=2 sampled_by=0.4.7.10 listed=1 confirmed_on=2022-11-13T06:50:54 confirmed_idx=0
+Guard in=default rsa_id=99E246DB480B313A3012BC3363093CC26CD209C7 nickname=ViDiSrv sampled_on=2022-11-16T01:23:21 sampled_idx=0 sampled_by=0.4.7.10 listed=1
+Guard in=default rsa_id=B17C4798806609EB5EFF0CEC9C587690D9E945EA nickname=Unnamed sampled_on=2022-11-13T03:21:55 sampled_idx=1 sampled_by=0.4.7.10 listed=1
+Guard in=default rsa_id=38A42B8D7C0E6346F4A4821617740AEE86EA885B nickname=apx3 sampled_on=2022-11-23T00:06:06 sampled_idx=2 sampled_by=0.4.7.10 listed=1
+Guard in=default rsa_id=74C0C2705DB1192C03F19F7CD1BB234843B1A81F nickname=sabotage sampled_on=2022-11-21T17:12:41 sampled_idx=3 sampled_by=0.4.7.10 listed=1
+Guard in=default rsa_id=E1D7ADBF52626819D499EB4A9E3EF1808E9242E7 nickname=Liechtenstein sampled_on=2022-11-18T08:53:34 sampled_idx=4 sampled_by=0.4.7.10 listed=1
+Guard in=default rsa_id=5DFDE8A0AE1376CEADA8882A33D3C2B27B88201F nickname=DashRelay sampled_on=2022-11-16T11:00:14 sampled_idx=5 sampled_by=0.4.7.10 listed=1
+Guard in=default rsa_id=FCC70D3F500C2EA62004137B0137201A93A2B57E nickname=ChelseaManning sampled_on=2022-11-14T00:49:03 sampled_idx=6 sampled_by=0.4.7.10 listed=1
+Guard in=default rsa_id=7392E33331355BDC6F5AF25FC268CE6A916BE463 nickname=snowball sampled_on=2022-11-19T17:04:44 sampled_idx=7 sampled_by=0.4.7.10 listed=1
+Guard in=default rsa_id=1D702DA43D588FE9D308D3879A6F5E61BB2ECCFA nickname=schumacher sampled_on=2022-11-17T06:40:06 sampled_idx=8 sampled_by=0.4.7.10 listed=1
+Guard in=default rsa_id=E7EDD6789ADFD0EA22595F37BBC2AEF019E8F2E1 nickname=prsv sampled_on=2022-11-21T06:04:33 sampled_idx=9 sampled_by=0.4.7.10 listed=1
+Guard in=default rsa_id=8D8DAD240CECFE9B48DC5F2C6EA20D042D5B8733 nickname=ac1dburn sampled_on=2022-11-16T17:24:28 sampled_idx=10 sampled_by=0.4.7.10 listed=1
+Guard in=default rsa_id=719FD0FA327F3CCBCDA0D4EA74C15EA110338942 nickname=F3Netze sampled_on=2022-11-22T08:06:50 sampled_idx=11 sampled_by=0.4.7.10 listed=1
+Guard in=default rsa_id=52BFADA8BEAA01BA46C8F767F83C18E2FE50C1B9 nickname=BeastieJoy63 sampled_on=2022-11-14T19:07:05 sampled_idx=12 sampled_by=0.4.7.10 listed=1
+Guard in=default rsa_id=CE58CF666F209857502FCEAF1CB52F638AFFBD63 nickname=guidelli sampled_on=2022-11-18T08:26:46 sampled_idx=13 sampled_by=0.4.7.10 listed=1
+Guard in=default rsa_id=0FDC9A7D60608123CF5432F6E25C6E4BC23E7938 nickname=SchweinfurtsTor2 sampled_on=2022-11-19T03:48:30 sampled_idx=14 sampled_by=0.4.7.10 listed=1
+Guard in=default rsa_id=5B1E5FD62727F021B5AEE6554E57EE5842909D6E nickname=CanisFamiliaris sampled_on=2022-11-20T00:07:00 sampled_idx=15 sampled_by=0.4.7.10 listed=1
+Guard in=default rsa_id=049700B89D90486682F4F96B98C589F18731267D nickname=HackerBobRelay sampled_on=2022-11-16T23:23:46 sampled_idx=16 sampled_by=0.4.7.10 listed=1
+Guard in=default rsa_id=1A72316CA0D69AA1B7374578986D508CE82D9958 nickname=pad2 sampled_on=2022-11-22T03:55:07 sampled_idx=17 sampled_by=0.4.7.10 listed=1
+Guard in=default rsa_id=D27D4841C13B87A140F09246D5321E99C6824BB2 nickname=zlasvegas sampled_on=2022-11-19T02:30:10 sampled_idx=18 sampled_by=0.4.7.10 listed=1
+Guard in=default rsa_id=94F6A4893A80149AEEEB7509BEFCDBA1AE4D5898 nickname=torRelayTaledoCorp sampled_on=2022-11-17T03:49:36 sampled_idx=19 sampled_by=0.4.7.10 listed=1
+LastWritten 2022-11-23 17:05:06
+TorVersion Tor 0.4.7.10

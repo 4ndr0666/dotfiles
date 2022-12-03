@@ -1,0 +1,12 @@
+2022/12/02-11:16:06.687 3a871 Reusing MANIFEST /home/andro/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/chrome-extension_fiabciakcmgepblmdkmemdbbkilneeeh_0.indexeddb.leveldb/MANIFEST-000001
+2022/12/02-11:16:06.688 3a871 Recovering log #115
+2022/12/02-11:16:10.615 3a871 Reusing old log /home/andro/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/chrome-extension_fiabciakcmgepblmdkmemdbbkilneeeh_0.indexeddb.leveldb/000115.log 
+2022/12/02-21:37:46.539 ed724 Level-0 table #121: started
+2022/12/02-21:37:46.995 ed724 Level-0 table #121: 1078949 bytes OK
+2022/12/02-21:37:47.151 ed724 Delete type=0 #115
+2022/12/02-21:48:15.684 efe2d Compacting 1@1 + 1@2 files
+2022/12/02-21:48:16.051 efe2d Generated table #122@1: 5781 keys, 161066 bytes
+2022/12/02-21:48:16.051 efe2d Compacted 1@1 + 1@2 files => 161066 bytes
+2022/12/02-21:48:16.140 efe2d compacted to: files[ 0 0 1 0 0 0 0 ]
+2022/12/02-21:48:16.140 efe2d Delete type=2 #118
+2022/12/02-21:48:16.140 efe2d Delete type=2 #121

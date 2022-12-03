@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="180px" height="180px" viewBox="0 0 180 180" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Logo</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Logo">
+            <rect id="Background" fill="#5F00D2" x="0" y="0" width="180" height="180"></rect>
+            <ellipse id="Oval" fill="#FFFFFF" cx="103.936729" cy="102.899782" rx="10.781109" ry="10.7560576"></ellipse>
+            <polygon id="Path-3" fill="#FFFFFF" points="99.1536423 87.8817637 118.454641 87.8817637 136 46 116.396348 46"></polygon>
+            <polygon id="Path-2" fill="#FFFFFF" points="57.558217 130 74.9923732 130 101.600822 66.6877217 84.2632424 66.6877217 73.4800963 93.4882318 62.9567843 66.6877217 45 66.6877217 64.8771803 113.448853"></polygon>
+        </g>
+    </g>
+</svg>

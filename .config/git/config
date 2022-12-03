@@ -1,0 +1,31 @@
+[core]
+	editor = nvim
+	pager = less -FR
+[user]
+	name = 4ndr0666
+	email = 97570105+4ndr0666@users.noreply.github.com
+[credential]
+	helper = cache --timeout=7200
+[color]
+	ui = true
+[merge]
+	conflictstyle = diff3
+	tool = vimdiff
+[mergetool]
+	prompt = false
+[mergetool "vimdiff"]
+	# automatically launch merge tool without displaying a prompt
+	cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+[clean]
+	requireForce = false
+[pull]
+	rebase = false
+[commit]
+	gpgsign = true
+[alias]
+	fuzzy = !dotbare -g
+	fedit = fuzzy fedit
+	fgrep = fuzzy fgrep
+	flog = fuzzy flog
+	fstat = fuzzy fstat
+	funtrack = fuzzy fstat

@@ -1,0 +1,22 @@
+{
+   "content_scripts": [ {
+      "exclude_globs": [  ],
+      "include_globs": [ "*" ],
+      "js": [ "synccit.user.js" ],
+      "matches": [ "http://*.reddit.com/*", "http://reddit.com/*", "https://*.reddit.com/*", "https://reddit.com/*" ],
+      "run_at": "document_end"
+   } ],
+   "description": "synccit syncs reddit.com visited links and viewed comments syncing across browsers and devices",
+   "icons": {
+      "128": "icon128.png",
+      "16": "icon16.png",
+      "48": "icon48.png"
+   },
+   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC22Cn1MUeyJGHg2S65w0zuV2QoNSXGsgsDLofI1OLY5eoXj6kBZNVbiRwrki6JBiGItQKW5QEgKIh5p3FQ+2g1cGMU60ky0Yhc6Zm+Nl3SKupzsNT17LVA0+52XqJ9ZEFwWpwZFt7MV3nSnoeuZXAoZkkYDIqGpUgK/WZEaGhRewIDAQAB",
+   "manifest_version": 2,
+   "name": "synccit for reddit",
+   "permissions": [ "*://reddit.com/*", "*://*.reddit.com/*", "*://*.synccit.com/*", "storage" ],
+   "short_name": "synccit",
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "16"
+}

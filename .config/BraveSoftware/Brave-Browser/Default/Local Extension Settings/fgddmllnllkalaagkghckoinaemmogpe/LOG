@@ -1,0 +1,57 @@
+2022/12/02-11:16:17.937 3a87a Reusing MANIFEST /home/andro/.config/BraveSoftware/Brave-Browser/Default/Local Extension Settings/fgddmllnllkalaagkghckoinaemmogpe/MANIFEST-000001
+2022/12/02-11:16:17.938 3a87a Recovering log #739
+2022/12/02-11:16:18.313 3a87a Reusing old log /home/andro/.config/BraveSoftware/Brave-Browser/Default/Local Extension Settings/fgddmllnllkalaagkghckoinaemmogpe/000739.log 
+2022/12/02-12:03:29.943 49f3c Level-0 table #743: started
+2022/12/02-12:03:30.048 49f3c Level-0 table #743: 968604 bytes OK
+2022/12/02-12:03:30.193 49f3c Delete type=0 #739
+2022/12/02-12:03:30.229 49f3c Compacting 4@0 + 1@1 files
+2022/12/02-12:03:30.558 49f3c Generated table #744@0: 7 keys, 1785843 bytes
+2022/12/02-12:03:30.558 49f3c Compacted 4@0 + 1@1 files => 1785843 bytes
+2022/12/02-12:03:30.803 49f3c compacted to: files[ 0 1 0 0 0 0 0 ]
+2022/12/02-12:03:30.808 49f3c Delete type=2 #734
+2022/12/02-12:03:30.808 49f3c Delete type=2 #736
+2022/12/02-12:03:30.808 49f3c Delete type=2 #738
+2022/12/02-12:03:30.808 49f3c Delete type=2 #740
+2022/12/02-12:03:30.808 49f3c Delete type=2 #743
+2022/12/02-13:13:29.899 70659 Level-0 table #746: started
+2022/12/02-13:13:30.051 70659 Level-0 table #746: 964577 bytes OK
+2022/12/02-13:13:30.207 70659 Delete type=0 #742
+2022/12/02-17:11:07.228 79778 Level-0 table #748: started
+2022/12/02-17:11:07.395 79778 Level-0 table #748: 966152 bytes OK
+2022/12/02-17:11:07.563 79778 Delete type=0 #745
+2022/12/02-18:31:08.335 a464e Level-0 table #750: started
+2022/12/02-18:31:08.509 a464e Level-0 table #750: 967154 bytes OK
+2022/12/02-18:31:08.754 a464e Delete type=0 #747
+2022/12/02-19:31:08.114 ca992 Level-0 table #752: started
+2022/12/02-19:31:08.268 ca992 Level-0 table #752: 966837 bytes OK
+2022/12/02-19:31:08.370 ca992 Delete type=0 #749
+2022/12/02-19:31:08.371 be3ec Compacting 4@0 + 1@1 files
+2022/12/02-19:31:08.757 be3ec Generated table #753@0: 7 keys, 1785903 bytes
+2022/12/02-19:31:08.757 be3ec Compacted 4@0 + 1@1 files => 1785903 bytes
+2022/12/02-19:31:08.857 be3ec compacted to: files[ 0 1 0 0 0 0 0 ]
+2022/12/02-19:31:08.857 be3ec Delete type=2 #744
+2022/12/02-19:31:08.857 be3ec Delete type=2 #746
+2022/12/02-19:31:08.857 be3ec Delete type=2 #748
+2022/12/02-19:31:08.857 be3ec Delete type=2 #750
+2022/12/02-19:31:08.857 be3ec Delete type=2 #752
+2022/12/02-20:51:07.554 dde80 Level-0 table #755: started
+2022/12/02-20:51:07.707 dde80 Level-0 table #755: 966732 bytes OK
+2022/12/02-20:51:07.829 dde80 Delete type=0 #751
+2022/12/02-22:01:07.768 f0ca8 Level-0 table #757: started
+2022/12/02-22:01:07.874 f0ca8 Level-0 table #757: 966935 bytes OK
+2022/12/02-22:01:08.011 f0ca8 Delete type=0 #754
+2022/12/02-23:21:07.648 fb64a Level-0 table #759: started
+2022/12/02-23:21:07.761 fb64a Level-0 table #759: 966932 bytes OK
+2022/12/02-23:21:07.872 fb64a Delete type=0 #756
+2022/12/03-00:31:07.903 fed66 Level-0 table #761: started
+2022/12/03-00:31:08.032 fed66 Level-0 table #761: 966935 bytes OK
+2022/12/03-00:31:08.132 fed66 Delete type=0 #758
+2022/12/03-00:31:08.134 fed6c Compacting 4@0 + 1@1 files
+2022/12/03-00:31:08.354 fed6c Generated table #762@0: 7 keys, 1785905 bytes
+2022/12/03-00:31:08.354 fed6c Compacted 4@0 + 1@1 files => 1785905 bytes
+2022/12/03-00:31:08.509 fed6c compacted to: files[ 0 1 0 0 0 0 0 ]
+2022/12/03-00:31:08.510 fed6c Delete type=2 #753
+2022/12/03-00:31:08.510 fed6c Delete type=2 #755
+2022/12/03-00:31:08.510 fed6c Delete type=2 #757
+2022/12/03-00:31:08.510 fed6c Delete type=2 #759
+2022/12/03-00:31:08.510 fed6c Delete type=2 #761

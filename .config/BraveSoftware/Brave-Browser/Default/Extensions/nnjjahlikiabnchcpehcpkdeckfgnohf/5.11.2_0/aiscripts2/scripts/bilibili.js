@@ -1,0 +1,1 @@
+function aiparser(e){var a=0;document.body.querySelectorAll(".image-list canvas").forEach(function(i){new ParsedPItem({src:i.toDataURL("image/jpeg",1),width:i.width,height:i.height},a++,e,function(a){chrome.runtime.sendMessage({cmd:"ADD_IMG",tabId:e.id,item:a})})})}window.aiparser=aiparser;

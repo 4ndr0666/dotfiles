@@ -1,0 +1,62 @@
+2022/11/23-07:40:25.036 5ddc1 Reusing MANIFEST /home/andro/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/MANIFEST-000001
+2022/11/23-07:40:25.037 5ddc1 Recovering log #4
+2022/11/23-07:40:25.039 5ddc1 Reusing old log /home/andro/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/000004.log 
+2022/11/23-07:40:54.862 5ddc1 Level-0 table #8: started
+2022/11/23-07:40:55.135 5ddc1 Level-0 table #8: 982724 bytes OK
+2022/11/23-07:40:55.339 5ddc1 Delete type=0 #4
+2022/11/23-07:41:26.222 5e387 Level-0 table #10: started
+2022/11/23-07:41:26.451 5e387 Level-0 table #10: 994865 bytes OK
+2022/11/23-07:41:26.552 5e387 Delete type=0 #7
+2022/11/23-07:42:01.166 5e4a6 Level-0 table #12: started
+2022/11/23-07:42:01.354 5e4a6 Level-0 table #12: 1053761 bytes OK
+2022/11/23-07:42:01.521 5e4a6 Delete type=0 #9
+2022/11/23-07:42:53.576 5e5c7 Level-0 table #14: started
+2022/11/23-07:42:53.823 5e5c7 Level-0 table #14: 1024145 bytes OK
+2022/11/23-07:42:54.035 5e5c7 Delete type=0 #11
+2022/11/23-07:43:24.108 5e387 Level-0 table #16: started
+2022/11/23-07:43:24.236 5e387 Level-0 table #16: 1076346 bytes OK
+2022/11/23-07:43:24.359 5e387 Delete type=0 #13
+2022/11/23-07:43:24.360 5e387 Compacting 4@0 + 1@1 files
+2022/11/23-07:43:24.481 5e387 Generated table #17@0: 2860 keys, 67717 bytes
+2022/11/23-07:43:24.481 5e387 Compacted 4@0 + 1@1 files => 67717 bytes
+2022/11/23-07:43:24.603 5e387 compacted to: files[ 0 1 1 0 0 0 0 ]
+2022/11/23-07:43:24.603 5e387 Delete type=2 #8
+2022/11/23-07:43:24.603 5e387 Delete type=2 #10
+2022/11/23-07:43:24.603 5e387 Delete type=2 #12
+2022/11/23-07:43:24.603 5e387 Delete type=2 #14
+2022/11/23-07:43:24.603 5e387 Delete type=2 #16
+2022/11/23-07:44:16.251 5e6cb Level-0 table #19: started
+2022/11/23-07:44:16.339 5e6cb Level-0 table #19: 1058997 bytes OK
+2022/11/23-07:44:16.406 5e6cb Delete type=0 #15
+2022/11/23-07:44:41.253 5e72f Level-0 table #21: started
+2022/11/23-07:44:41.363 5e72f Level-0 table #21: 1060727 bytes OK
+2022/11/23-07:44:41.575 5e72f Delete type=0 #18
+2022/11/23-07:44:56.179 5e72f Compacting 2@0 + 1@1 files
+2022/11/23-07:44:56.286 5e72f Generated table #22@0: 3807 keys, 70857 bytes
+2022/11/23-07:44:56.286 5e72f Compacted 2@0 + 1@1 files => 70857 bytes
+2022/11/23-07:44:56.365 5e72f compacted to: files[ 0 1 1 0 0 0 0 ]
+2022/11/23-07:44:56.365 5e72f Delete type=2 #17
+2022/11/23-07:44:56.365 5e72f Delete type=2 #19
+2022/11/23-07:44:56.365 5e72f Delete type=2 #21
+2022/11/23-07:45:00.444 5e6cb Level-0 table #24: started
+2022/11/23-07:45:00.520 5e6cb Level-0 table #24: 1093115 bytes OK
+2022/11/23-07:45:00.676 5e6cb Delete type=0 #20
+2022/11/23-07:45:51.969 5e7be Level-0 table #26: started
+2022/11/23-07:45:52.134 5e7be Level-0 table #26: 1071126 bytes OK
+2022/11/23-07:45:52.312 5e7be Delete type=0 #23
+2022/11/23-07:47:03.030 5e7b7 Compacting 2@0 + 1@1 files
+2022/11/23-07:47:03.127 5e7b7 Generated table #27@0: 4783 keys, 108221 bytes
+2022/11/23-07:47:03.127 5e7b7 Compacted 2@0 + 1@1 files => 108221 bytes
+2022/11/23-07:47:03.305 5e7b7 compacted to: files[ 0 1 1 0 0 0 0 ]
+2022/11/23-07:47:03.305 5e7b7 Delete type=2 #22
+2022/11/23-07:47:03.305 5e7b7 Delete type=2 #24
+2022/11/23-07:47:03.305 5e7b7 Delete type=2 #26
+2022/11/23-07:49:33.084 5e7b7 Level-0 table #29: started
+2022/11/23-07:49:33.303 5e7b7 Level-0 table #29: 1038701 bytes OK
+2022/11/23-07:49:33.492 5e7b7 Delete type=0 #25
+2022/11/23-08:20:39.854 5f5b9 Level-0 table #31: started
+2022/11/23-08:20:40.031 5f5b9 Level-0 table #31: 1030522 bytes OK
+2022/11/23-08:20:40.253 5f5b9 Delete type=0 #28
+2022/11/23-09:32:21.968 61403 Level-0 table #33: started
+2022/11/23-09:32:22.081 61403 Level-0 table #33: 1024186 bytes OK
+2022/11/23-09:32:22.237 61403 Delete type=0 #30

@@ -1,0 +1,1568 @@
+{
+   "account_verified_header": {
+      "message": "Konto verifierat"
+   },
+   "account_verified_hint": {
+      "message": "Den här enheten är nu auktoriserad att använda ExpressVPN Keys."
+   },
+   "account_verified_text_p1": {
+      "message": "Du kan nu stänga den här fliken och öppna tillägget för att se dina inloggningar eller börja surfa och fylla i dina inloggningar automatiskt."
+   },
+   "account_verified_text_p2": {
+      "message": "[Kontakta support] om du har några frågor."
+   },
+   "add_logins_back": {
+      "message": "Lägg till inloggning för %HOST%"
+   },
+   "add_logins_choose_website_header": {
+      "message": "Välj en hemsida för att sätta igång"
+   },
+   "add_logins_choose_website_text": {
+      "message": "Hittar du inte en hemsida du vill lägga till en inloggning för? Klicka på tilläggsikonen och börja lägga till inloggningar där."
+   },
+   "add_logins_header": {
+      "message": "Lägg till ditt första lösenord"
+   },
+   "add_logins_open_website": {
+      "message": "Öppna %HOST%"
+   },
+   "add_logins_step1": {
+      "message": "Öppna %HOST%"
+   },
+   "add_logins_step2": {
+      "message": "Logga ut från ditt konto ifall du är inloggad."
+   },
+   "add_logins_step3": {
+      "message": "Logga in igen efter du har angivit ditt användarnamn och lösenord."
+   },
+   "add_logins_step4": {
+      "message": "Klicka på \"\u003Cb>Spara\u003C/b>\" i ExpressVPN-fönstret som dyker upp för att spara dina inloggningsuppgifter."
+   },
+   "add_logins_text_p1": {
+      "message": "Välj en populär hemsida till höger så visar vi dig hur du lägger till ditt första lösenord."
+   },
+   "add_logins_text_p2_1": {
+      "message": "Om du har sparade inloggningar i en annan lösenordshanterare"
+   },
+   "add_logins_text_p2_2": {
+      "message": "kan du importera dem"
+   },
+   "add_logins_text_p2_3": {
+      "message": "till ditt ExpressVPN Keys-konto."
+   },
+   "app_default_title": {
+      "message": "ExpressVPN Keys"
+   },
+   "app_default_title_alpha": {
+      "message": "ExpressVPN Keys (Alpha)"
+   },
+   "app_default_title_beta": {
+      "message": "ExpressVPN Keys (Beta)"
+   },
+   "app_description_@firefox@_text": {
+      "description": "The description of the application",
+      "message": "Lagra och generera lösenord på ett säkert sätt och logga in på hemsidor snabbare utan extra kostnad för ExpressVPN-prenumeranter."
+   },
+   "app_description_text": {
+      "description": "The description of the application",
+      "message": "Lagra och generera dina lösenord på ett säkert sätt och logga in på hemsidor snabbare utan extra kostnad för ExpressVPN-prenumeranter."
+   },
+   "app_description_text_alpha": {
+      "message": "Lagra och generera lösenord på ett säkert sätt och logga in på hemsidor snabbare – utan extra kostnad för ExpressVPN-prenumeranter."
+   },
+   "app_description_text_beta": {
+      "message": "Lagra och generera lösenord på ett säkert sätt och logga in på hemsidor snabbare utan extra kostnad för ExpressVPN-prenumeranter."
+   },
+   "app_name_title": {
+      "description": "The name of the application",
+      "message": "ExpressVPN Keys: Gratis lösenordshanterare"
+   },
+   "app_name_title_alpha": {
+      "description": "The Alpha name of the application",
+      "message": "ExpressVPN Keys: Alpha-lösenordshanterare"
+   },
+   "app_name_title_beta": {
+      "description": "The Beta name of the application",
+      "message": "ExpressVPN Keys: Beta-lösenordshanterare"
+   },
+   "app_not_installed_have_expressvpn_Linux_p1": {
+      "message": "Du behöver ha ExpressVPN:s app för Linux installerad och aktiverad för att använda Chrome-tillägget."
+   },
+   "app_not_installed_have_expressvpn_Mac_p1": {
+      "message": "Du behöver ha ExpressVPN:s app för Mac installerad och aktiverad för att använda Chrome-tillägget."
+   },
+   "app_not_installed_have_expressvpn_Windows_p1": {
+      "message": "Du behöver ha ExpressVPN:s app för Windows installerad och aktiverad för att använda Chrome-tillägget."
+   },
+   "app_not_installed_have_expressvpn_button_label": {
+      "message": "Logga in"
+   },
+   "app_not_installed_have_expressvpn_header": {
+      "message": "Har du ett ExpressVPN-konto?"
+   },
+   "app_not_installed_have_expressvpn_p2": {
+      "message": "Logga in på ditt ExpressVPN-konto för att ladda ner den senaste versionen av appen och hämta din aktiveringskod."
+   },
+   "app_not_installed_header": {
+      "message": "Lagra dina inloggningar tryggt med ExpressVPN Keys"
+   },
+   "app_not_installed_no_account_button_label": {
+      "message": "Skaffa ExpressVPN"
+   },
+   "app_not_installed_no_account_header": {
+      "message": "Har du inget ExpressVPN-konto?"
+   },
+   "app_not_installed_no_account_p1": {
+      "message": "Prova ExpressVPN riskfritt med 30 dagars pengarna-tillbaka-garanti. Du får tillgång till ett premium-VPN och lösenordshanteraren Keys."
+   },
+   "app_not_installed_subheader": {
+      "message": "Lösenordshanteraren är gratis för ExpressVPN-användare."
+   },
+   "app_short_name_title": {
+      "description": "The short name of the application",
+      "message": "ExpressVPN Keys"
+   },
+   "autofill_add_new_entry": {
+      "message": "Lägg till inloggning för Keys"
+   },
+   "autofill_from_different_subdomain_warning_cancel": {
+      "message": "Avbryt"
+   },
+   "autofill_from_different_subdomain_warning_proceed": {
+      "message": "Fortsätt"
+   },
+   "autofill_from_different_subdomain_warning_text": {
+      "message": "Är du säker? Du försöker fylla i dina inloggningsuppgifter för \u003Cb>%ENTRY_DOMAIN%\u003C/b> på \u003Cb>%CURRENT_DOMAIN%\u003C/b>."
+   },
+   "autosave_existing_login_tab": {
+      "message": "Befintlig"
+   },
+   "autosave_modal_choose_entry_title": {
+      "message": "Välj en inloggning att uppdatera"
+   },
+   "autosave_modal_save_prompt_title": {
+      "message": "Spara inloggning?"
+   },
+   "autosave_modal_saved_title": {
+      "message": "Inloggning sparad för \u003Cb>%HOST%\u003C/b>"
+   },
+   "autosave_modal_update_prompt_title": {
+      "message": "Uppdatera inloggning för \u003Cb>%HOST%\u003C/b>?"
+   },
+   "autosave_modal_update_propmpt_header": {
+      "message": "Uppdatera \u003Cb>%HOST%\u003C/b>"
+   },
+   "autosave_modal_updated_title": {
+      "message": "Inloggning uppdaterad för \u003Cb>%HOST%\u003C/b>"
+   },
+   "autosave_new_login_tab": {
+      "message": "Ny inloggning"
+   },
+   "back": {
+      "message": "Tillbaka"
+   },
+   "beta_survey_notification_help_improve_header": {
+      "message": "Hjälp till att förbättra ExpressVPN Keys"
+   },
+   "beta_survey_notification_help_improve_text": {
+      "message": "Klicka här för att berätta vad du tycker om vår nya lösenordshanterare."
+   },
+   "centuries": {
+      "message": "århundraden"
+   },
+   "century": {
+      "message": "århundrade"
+   },
+   "change_password_set_new_header": {
+      "message": "Ditt nya primära lösenord."
+   },
+   "change_password_strong_passwords_link_text": {
+      "message": "Lär dig hur du skapar starka lösenord"
+   },
+   "change_password_success_header": {
+      "message": "Det lyckades!"
+   },
+   "change_password_success_hint": {
+      "message": "Primärt lösenord har ändrats."
+   },
+   "change_password_success_text": {
+      "message": "Nu kan du stänga den här fliken. Klicka på tillägget för ExpressVPN Keys för att låsa upp lösenordshanteraren med ditt nya primära lösenord."
+   },
+   "change_password_verify_button_label": {
+      "message": "Bekräfta"
+   },
+   "change_password_verify_header": {
+      "message": "Bekräfta primärt lösenord"
+   },
+   "change_password_verify_text": {
+      "message": "Ange ditt primära lösenord till höger för att ändra det primära lösenordet för ExpressVPN Keys."
+   },
+   "character_limit_reached": {
+      "message": "Teckengräns nådd"
+   },
+   "contact_support_anchor": {
+      "message": "kontakta support"
+   },
+   "day": {
+      "message": "dag"
+   },
+   "days": {
+      "message": "dagar"
+   },
+   "delete_account_confirm_modal_cancel_button": {
+      "message": "Avbryt"
+   },
+   "delete_account_confirm_modal_confirm_button": {
+      "message": "Radera permanent"
+   },
+   "delete_account_confirm_modal_header": {
+      "message": "Är du säker?"
+   },
+   "delete_account_confirm_modal_text": {
+      "message": "Om du har ett konto för lösenordshantering kommer det att tas bort permanent."
+   },
+   "delete_account_unlock_modal_confirm_button": {
+      "message": "Lås upp"
+   },
+   "delete_account_unlock_modal_header": {
+      "message": "Upplåsning krävs"
+   },
+   "delete_account_unlock_modal_text": {
+      "message": "Lås upp ditt valv för att radera kontot."
+   },
+   "enter_label": {
+      "message": "Bekräfta"
+   },
+   "error_@firefox@_hide_text": {
+      "message": "Alternativt kan du dölja tillägget genom att högerklicka på ikonen och välja \"Ta bort från verktygsfältet\" eller \"Flytta till menyn\"."
+   },
+   "error_hide_text": {
+      "message": "Alternativt kan du dölja tillägget genom att högerklicka på ikonen och välja \"Dölj i Chrome-menyn\"."
+   },
+   "generate_password_add_item": {
+      "message": "Behöver du ett lösenord?"
+   },
+   "generate_password_edit_item": {
+      "message": "Generera starkt lösenord"
+   },
+   "help_improve_header": {
+      "message": "Hjälp till att förbättra ExpressVPN Keys"
+   },
+   "help_improve_onboarding_expressvpn_keys": {
+      "message": "Hjälp till att förbättra ExpressVPN Keys"
+   },
+   "help_improve_onboarding_no_thanks": {
+      "message": "Nej tack"
+   },
+   "help_improve_onboarding_ok": {
+      "message": "OK"
+   },
+   "help_improve_onboarding_share_crash": {
+      "message": "Dela kraschrapporter och användbarhetsdiagnostik. Rapporterna kan inte användas för att identifiera dig."
+   },
+   "help_improve_p": {
+      "message": "Dela kraschrapporter och användbarhetsdiagnostik. Rapporterna innehåller aldrig information som kan användas för att identifiera dig."
+   },
+   "help_improve_primary_btn": {
+      "message": "OK"
+   },
+   "help_improve_secondary_btn": {
+      "message": "Nej tack"
+   },
+   "help_menu_item_acknowledgements_label": {
+      "message": "Licenser"
+   },
+   "help_menu_item_app_version": {
+      "message": "%OS%-appversion: %VERSION%"
+   },
+   "help_menu_item_chat_label": {
+      "message": "Prata med oss"
+   },
+   "help_menu_item_extension_version": {
+      "message": "Tilläggsversion: %VERSION%"
+   },
+   "help_menu_item_improvements_label": {
+      "message": "Föreslå en förbättring"
+   },
+   "help_menu_item_report_label": {
+      "message": "Rapportera ett problem"
+   },
+   "help_menu_section_about_title": {
+      "message": "Om"
+   },
+   "help_menu_section_articles_cat1": {
+      "message": "Så använder du ExpressVPN Keys"
+   },
+   "help_menu_section_articles_cat1_sub1": {
+      "message": "Varför behöver jag en lösenordshanterare?"
+   },
+   "help_menu_section_articles_cat1_sub10": {
+      "message": "Så använder du autofyll"
+   },
+   "help_menu_section_articles_cat1_sub11": {
+      "message": "Så ändrar du primärt lösenord"
+   },
+   "help_menu_section_articles_cat1_sub12": {
+      "message": "Ställ in ett lösenord och en \ne-postadress"
+   },
+   "help_menu_section_articles_cat1_sub2": {
+      "message": "Hur mycket kostar det?"
+   },
+   "help_menu_section_articles_cat1_sub3": {
+      "message": "Kräver det ett aktivt abonnemang?"
+   },
+   "help_menu_section_articles_cat1_sub4": {
+      "message": "Är ExpressVPN Keys säkert?"
+   },
+   "help_menu_section_articles_cat1_sub5": {
+      "message": "Vilka enheter stöds?"
+   },
+   "help_menu_section_articles_cat1_sub6": {
+      "message": "Hur hanteras mina data?"
+   },
+   "help_menu_section_articles_cat1_sub7": {
+      "message": "Vilka funktioner finns det?"
+   },
+   "help_menu_section_articles_cat1_sub8": {
+      "message": "Så importerar du befintliga inloggningar"
+   },
+   "help_menu_section_articles_cat1_sub9": {
+      "message": "Så sparar du inloggningar"
+   },
+   "help_menu_section_articles_cat2": {
+      "message": "Problem med ExpressVPN Keys"
+   },
+   "help_menu_section_articles_cat2_sub1": {
+      "message": "Kan inte att skapa ett konto"
+   },
+   "help_menu_section_articles_cat2_sub2": {
+      "message": "Kan inte verifiera kontot"
+   },
+   "help_menu_section_articles_cat2_sub3": {
+      "message": "Kan inte att låsa upp"
+   },
+   "help_menu_section_articles_cat2_sub4": {
+      "message": "Inloggningarna synkas inte korrekt"
+   },
+   "help_menu_section_articles_cat2_sub5": {
+      "message": "Kan  inte att spara eller uppdatera inloggningar"
+   },
+   "help_menu_section_articles_cat2_sub6": {
+      "message": "Autofyll funkar inte som det ska"
+   },
+   "help_menu_section_articles_cat2_sub7": {
+      "message": "Kan inte ändra primärt lösenord"
+   },
+   "help_menu_section_articles_title": {
+      "message": "Hjälpartiklar"
+   },
+   "help_menu_section_support_title": {
+      "message": "Hör av dig"
+   },
+   "hint_copy_text": {
+      "message": "Kopierat"
+   },
+   "hour": {
+      "message": "timme"
+   },
+   "hours": {
+      "message": "timmar"
+   },
+   "icloud_keychain": {
+      "message": "iCloud-nyckelring"
+   },
+   "import_chrome_password_settings": {
+      "message": "Lösenordsinställningar för Chrome"
+   },
+   "import_edge_password_settings": {
+      "message": "Lösenordsinställningar för Edge"
+   },
+   "import_from_a_service": {
+      "message": "Importera från en tjänst nedan"
+   },
+   "import_from_existing_services": {
+      "message": "Importera från befintliga tjänster"
+   },
+   "import_logins_1password_1pw7_header": {
+      "message": "Instruktioner för 1Password 7"
+   },
+   "import_logins_1password_1pw7_mac_step1": {
+      "message": "Öppna och lås upp 1Password."
+   },
+   "import_logins_1password_1pw7_mac_step2": {
+      "message": "Välj det valv du vill exportera."
+   },
+   "import_logins_1password_1pw7_mac_step3": {
+      "message": "Välj menyn \u003Cb>Filer\u003C/b> > \u003Cb>Exportera\u003C/b> > \u003Cb>Alla objekt\u003C/b>."
+   },
+   "import_logins_1password_1pw7_mac_step4": {
+      "message": "Fyll i ditt primära lösenord."
+   },
+   "import_logins_1password_1pw7_mac_step5": {
+      "message": "Välj filformatet \u003Cb>iCloud Keychain (.csv)\u003C/b>. Om du inte ser det alternativet, se till att du använder den \u003Ca target='_blank' href='https://app-updates.agilebits.com/download/OPM7'>senaste versionen av 1Password 7\u003C/a>."
+   },
+   "import_logins_1password_1pw7_mac_step6": {
+      "message": "Spara filen på din enhet."
+   },
+   "import_logins_1password_1pw7_mac_step7": {
+      "message": "Klicka på \u003Cb>Välj fil\u003C/b> i tillägget för ExpressVPN Keys."
+   },
+   "import_logins_1password_1pw7_mac_step8": {
+      "message": "Välj CSV-filen."
+   },
+   "import_logins_1password_1pw7_win_step1": {
+      "message": "Öppna och lås upp 1Password."
+   },
+   "import_logins_1password_1pw7_win_step2": {
+      "message": "Välj alla objekt du vill exportera."
+   },
+   "import_logins_1password_1pw7_win_step3": {
+      "message": "Högerklicka och välj \u003Cb>Exportera\u003C/b>."
+   },
+   "import_logins_1password_1pw7_win_step4": {
+      "message": "Välj att spara som \u003Cb>Kommaseparerade värden (.csv)\u003C/b>."
+   },
+   "import_logins_1password_1pw7_win_step5": {
+      "message": "Spara filen på din enhet."
+   },
+   "import_logins_1password_1pw7_win_step6": {
+      "message": "Klicka på \u003Cb>Välj fil\u003C/b> i tillägget för ExpressVPN Keys."
+   },
+   "import_logins_1password_1pw7_win_step7": {
+      "message": "Välj CSV-filen."
+   },
+   "import_logins_1password_1pw8_header": {
+      "message": "Instruktioner för 1Password 8"
+   },
+   "import_logins_1password_1pw8_mac_step1": {
+      "message": "Öppna och lås upp 1Password."
+   },
+   "import_logins_1password_1pw8_mac_step2": {
+      "message": "Välj menyn \u003Cb>Filer\u003C/b> > \u003Cb>Exportera\u003C/b>."
+   },
+   "import_logins_1password_1pw8_mac_step3": {
+      "message": "Fyll i ditt lösenord."
+   },
+   "import_logins_1password_1pw8_mac_step4": {
+      "message": "Välj filformatet \u003Cb>CSV (endast inloggningar och lösenord)\u003C/b>."
+   },
+   "import_logins_1password_1pw8_mac_step5": {
+      "message": "Spara filen till din enhet."
+   },
+   "import_logins_1password_1pw8_mac_step6": {
+      "message": "Klicka på \u003Cb>Välj fil\u003C/b> i tillägget för ExpressVPN Keys."
+   },
+   "import_logins_1password_1pw8_mac_step7": {
+      "message": "Välj CSV-filen."
+   },
+   "import_logins_1password_1pw8_win_step1": {
+      "message": "Öppna och lås upp 1Password."
+   },
+   "import_logins_1password_1pw8_win_step2": {
+      "message": "Klicka på ... pch välj \u003Cb>Exportera\u003C/b>."
+   },
+   "import_logins_1password_1pw8_win_step3": {
+      "message": "Fyll i ditt lösenord."
+   },
+   "import_logins_1password_1pw8_win_step4": {
+      "message": "Välj filformatet \u003Cb>CSV (endast inloggningar och lösenord)\u003C/b>."
+   },
+   "import_logins_1password_1pw8_win_step5": {
+      "message": "Spara filen på din enhet."
+   },
+   "import_logins_1password_1pw8_win_step6": {
+      "message": "Klicka på \u003Cb>Välj fil\u003C/b> i tillägget för ExpressVPN Keys."
+   },
+   "import_logins_1password_1pw8_win_step7": {
+      "message": "Välj CSV-filen."
+   },
+   "import_logins_1password_import_limitation_header": {
+      "message": "\u003Cb>Viktigt\u003C/b>: ExpressVPN stöder bara import av inloggningar. Andra data som kortuppgifter eller sparade anteckningar kommer inte att importeras."
+   },
+   "import_logins_add_your_password_link": {
+      "message": "lägga till lösenord manuellt"
+   },
+   "import_logins_back": {
+      "message": "Importera inloggning från %HOST%"
+   },
+   "import_logins_choose_a_password_manager_service": {
+      "message": "Välj en tjänst för lösenordshantering till höger så visar vi hur du importerar dina lösenord därifrån."
+   },
+   "import_logins_choose_file": {
+      "message": "Välj fil"
+   },
+   "import_logins_error_failed_table_header": {
+      "message": "Misslyckade importer (%TOTAL_BAD_LOGINS%)"
+   },
+   "import_logins_error_import_again_btn": {
+      "message": "Importera igen"
+   },
+   "import_logins_error_incomplete_header": {
+      "message": "Importen är ofullständig"
+   },
+   "import_logins_error_incomplete_reimport_header": {
+      "message": "Så här importerar du resten av dina inloggningar:"
+   },
+   "import_logins_error_incomplete_reimport_step_1": {
+      "message": "Öppna den importerade CSV-filen från det föregående steget i ditt kalkylarksprogram."
+   },
+   "import_logins_error_incomplete_reimport_step_2": {
+      "message": "Radera alla rader förutom dem som inte kunde importeras."
+   },
+   "import_logins_error_incomplete_reimport_step_3": {
+      "message": "Uppdatera de återstående raderna baserat på förslagen till höger."
+   },
+   "import_logins_error_incomplete_reimport_step_4": {
+      "message": "Spara filen och klicka därefter på \"Importera igen\" för att importera den uppdaterade filen."
+   },
+   "import_logins_error_number_of_failed_logins_hint": {
+      "message": "%TOTAL_BAD_LOGINS% av %TOTAL_LOGINS% kunde inte importeras."
+   },
+   "import_logins_error_success_table_header": {
+      "message": "Färdiga importer (%TOTAL_GOOD_LOGINS%)"
+   },
+   "import_logins_error_table_domain_too_long": {
+      "message": "Hemsidans URL är för lång"
+   },
+   "import_logins_error_table_failed_status": {
+      "message": "Misslyckades"
+   },
+   "import_logins_error_table_login_column": {
+      "message": "Inloggningsnamn"
+   },
+   "import_logins_error_table_name_too_long": {
+      "message": "Namnet är för långt"
+   },
+   "import_logins_error_table_note_too_long": {
+      "message": "Anteckningen är för lång"
+   },
+   "import_logins_error_table_password_too_long": {
+      "message": "Lösenordet är för långt"
+   },
+   "import_logins_error_table_see_success_logins_btn": {
+      "message": "Se färdiga importer (%TOTAL_GOOD_LOGINS%)"
+   },
+   "import_logins_error_table_status_column": {
+      "message": "Status"
+   },
+   "import_logins_error_table_success_status": {
+      "message": "Klart"
+   },
+   "import_logins_error_table_username_too_long": {
+      "message": "Användarnamnet är för långt"
+   },
+   "import_logins_error_total_failure_header": {
+      "message": "Importen misslyckades"
+   },
+   "import_logins_error_total_failure_reimport_header": {
+      "message": "Så här importerar du dina inloggningar igen:"
+   },
+   "import_logins_error_total_failure_reimport_step_1": {
+      "message": "Öppna den importerade CSV-filen från det föregående steget i ditt kalkylarksprogram."
+   },
+   "import_logins_error_total_failure_reimport_step_2": {
+      "message": "Uppdatera raderna baserat på förslagen till höger."
+   },
+   "import_logins_error_total_failure_reimport_step_3": {
+      "message": "Spara filen och klicka därefter på \"Importera igen\" för att importera den uppdaterade filen."
+   },
+   "import_logins_error_untitled": {
+      "message": "Ingen titel"
+   },
+   "import_logins_header": {
+      "message": "Importera dina lösenord"
+   },
+   "import_logins_here": {
+      "message": "här"
+   },
+   "import_logins_icloud_for_windows": {
+      "message": "iCloud för Windows erbjuder ingen möjlighet att exportera inloggningar och lösenord. Du kan göra något av följande:"
+   },
+   "import_logins_if_you_do_not_have_a_mac": {
+      "message": "Om du inte har en Mac kan du manuellt kopiera dina inloggningar som du sparat i iCloud och klistra in dem i ExpressVPN Keys lösenordshanterare:"
+   },
+   "import_logins_if_you_have_a_mac": {
+      "message": "Om du även har en Mac kan du installera ExpressVPN Keys webbläsartillägg för Chrome för att importera dina sparade inloggningar och lösenord genom att [följa stegen för våra MAC-instruktioner]."
+   },
+   "import_logins_instructions_header_dashlane": {
+      "message": "\u003Cb>Viktigt\u003C/b>: ExpressVPN stöder bara import av inloggningar. Andra data som kortuppgifter eller sparade anteckningar kommer inte att importeras."
+   },
+   "import_logins_instructions_header_lastpass": {
+      "message": "\u003Cb>Viktigt\u003C/b>: Du kommer behöva \u003Ca target='_blank' href='https://chrome.google.com/webstore/detail/lastpass-free-password-ma/hdokiejnpimakedhajhdlcegeplioahd'>LastPass-tillägget\u003C/a> för att exportera dina inloggningar och lösenord."
+   },
+   "import_logins_manual_instructions_for_macos": {
+      "message": "Manuella instruktioner för macOS version \u003C10.15"
+   },
+   "import_logins_other": {
+      "message": "Annan"
+   },
+   "import_logins_other_apps": {
+      "message": "Importera från andra lösenordshanterare"
+   },
+   "import_logins_other_apps_instructions_advanced_users_p1": {
+      "message": "\u003Cb>Viktigt:\u003C/b> ExpressVPN Keys stöder bara befintliga inloggningar. Du kan inte importera kortuppgifter, sparade anteckningar etc."
+   },
+   "import_logins_other_apps_instructions_advanced_users_p2": {
+      "message": "Om du är bekväm med att använda ett kalkylprogram (Google Kalkylark, Microsoft Excel etc.) kan du importera dina inloggningar genom att följa instruktionerna nedan:"
+   },
+   "import_logins_other_apps_instructions_advanced_users_text": {
+      "message": "Avancerade användare: importera manuellt"
+   },
+   "import_logins_other_apps_instructions_hint": {
+      "message": "Tyvärr stöder vi inte import av inloggningar från din lösenordshanterare för närvarande."
+   },
+   "import_logins_other_apps_instructions_let_us_know_text": {
+      "message": "[Informera oss om vilken du använder] så att vi kan titta närmare på det."
+   },
+   "import_logins_other_apps_instructions_step1": {
+      "message": "Öppna din nuvarande lösenordshanterare."
+   },
+   "import_logins_other_apps_instructions_step2": {
+      "message": "Exportera dina sparade inloggningar som en CSV-fil."
+   },
+   "import_logins_other_apps_instructions_step3": {
+      "message": "Öppna den exporterade CSV-filen i ditt kalkylarksprogram."
+   },
+   "import_logins_other_apps_instructions_step4": {
+      "message": "Radera eventuella objekt som \u003Cb>inte är inloggningar\u003C/b> (t.ex. betalkortsuppgifter, sparade anteckningar)."
+   },
+   "import_logins_other_apps_instructions_step5": {
+      "message": "Radera eventuella kolumner som \u003Cb>inte är en av följande\u003C/b>:"
+   },
+   "import_logins_other_apps_instructions_step5_sub1": {
+      "message": "Inloggningstitel eller namn"
+   },
+   "import_logins_other_apps_instructions_step5_sub2": {
+      "message": "URL"
+   },
+   "import_logins_other_apps_instructions_step5_sub3": {
+      "message": "Användarnamn eller e-post"
+   },
+   "import_logins_other_apps_instructions_step5_sub4": {
+      "message": "Lösenord"
+   },
+   "import_logins_other_apps_instructions_step6": {
+      "message": "Se till att återstående kolumner heter följande (med små bokstäver):"
+   },
+   "import_logins_other_apps_instructions_step6_sub1": {
+      "message": "name"
+   },
+   "import_logins_other_apps_instructions_step6_sub2": {
+      "message": "url"
+   },
+   "import_logins_other_apps_instructions_step6_sub3": {
+      "message": "username"
+   },
+   "import_logins_other_apps_instructions_step6_sub4": {
+      "message": "password"
+   },
+   "import_logins_other_apps_instructions_step7": {
+      "message": "Spara din uppdaterade fil som CSV."
+   },
+   "import_logins_other_apps_instructions_step8": {
+      "message": "Klicka på \u003Cb>Välj fil\u003C/b> nedan och välj den fil du precis sparat."
+   },
+   "import_logins_safari_mac_step1": {
+      "message": "Öppna \u003Cb>Safari\u003C/b>."
+   },
+   "import_logins_safari_mac_step2": {
+      "message": "Klicka på  \u003Cb>Safari\u003C/b>-menyn > \u003Cb>Inställningar...\u003C/b>"
+   },
+   "import_logins_safari_mac_step3": {
+      "message": "Klicka på fliken \u003Cb>Lösenord\u003C/b> och autentisera."
+   },
+   "import_logins_safari_mac_step4": {
+      "message": "Längst ner till vänster i sidomenyn klickar du på … > \u003Cb>Exportera lösenord\u003C/b> > \u003Cb>Exportera alla lösenord\u003C/b>."
+   },
+   "import_logins_safari_mac_step4_extra": {
+      "message": "Om du inte ser …-knappen, [uppdatera macOS och/eller Safari]. Klicka på %ACTION% ifall problemet kvarstår."
+   },
+   "import_logins_safari_mac_step5": {
+      "message": "Spara filen till din enhet."
+   },
+   "import_logins_safari_mac_step6": {
+      "message": "Klicka på \u003Cb>Välj fil\u003C/b> nedan och välj den fil du precis sparade."
+   },
+   "import_logins_safari_old_mac_step1": {
+      "message": "Öppna \u003Cb>Safari\u003C/b>."
+   },
+   "import_logins_safari_old_mac_step2": {
+      "message": "Klicka på  \u003Cb>Safari\u003C/b>-menyn > \u003Cb>Inställningar...\u003C/b>"
+   },
+   "import_logins_safari_old_mac_step3": {
+      "message": "Klicka på fliken \u003Cb>Lösenord\u003C/b> och autentisera."
+   },
+   "import_logins_safari_old_mac_step4": {
+      "message": "Välj ett sparat lösenord och sedan \u003Cb>Ändra\u003C/b>."
+   },
+   "import_logins_safari_old_mac_step5": {
+      "message": "Kopiera användarnamn, lösenord och URL."
+   },
+   "import_logins_safari_old_mac_step6": {
+      "message": "Klicka på \u003Cb>+\u003C/b> i tillägget för ExpressVPN Keys."
+   },
+   "import_logins_safari_old_mac_step7": {
+      "message": "Ge inloggningen ett namn och klistra sedan in användarnamn, lösenord och URL."
+   },
+   "import_logins_safari_old_mac_step8": {
+      "message": "Klicka på \u003Cb>Spara\u003C/b>."
+   },
+   "import_logins_safari_windows_step1": {
+      "message": "Öppna appen \u003Cb>iCloud-lösenord\u003C/b> på din Windows-enhet."
+   },
+   "import_logins_safari_windows_step2": {
+      "message": "Klicka på en sparad inloggning."
+   },
+   "import_logins_safari_windows_step3": {
+      "message": "Klicka på \u003Cb>kopieringsikonen\u003C/b> högst upp till höger för att kopiera användarnamn, lösenord eller URL."
+   },
+   "import_logins_safari_windows_step4": {
+      "message": "Klicka på \u003Cb>+\u003C/b> i tillägget för ExpressVPN Keys."
+   },
+   "import_logins_safari_windows_step5": {
+      "message": "Ge inloggningen ett namn och klistra sedan in användarnamn, lösenord och URL."
+   },
+   "import_logins_safari_windows_step6": {
+      "message": "Klicka på \u003Cb>Spara\u003C/b>."
+   },
+   "import_logins_safari_you_are_running_an_old_version": {
+      "message": "Du använder en gammal version av macOS som inte stöder export av inloggningar och lösenord från Apple iCloud Keychain. Du kan emellertid kopiera de inloggningar du sparat i Safari och klistra in dem i ExpressVPN keys:"
+   },
+   "import_logins_step1": {
+      "message": "Öppna %PASSWORD_SETTINGS%."
+   },
+   "import_logins_step1_bitwarden": {
+      "message": "Logga in på \u003Ca target='_blank' href='https://vault.bitwarden.com'>https://vault.bitwarden.com\u003C/a>"
+   },
+   "import_logins_step1_dashlane": {
+      "message": "\u003Ca target='_blank' href='https://app.dashlane.com/login'>Gå till Dashlanes inloggningssida.\u003C/a>"
+   },
+   "import_logins_step1_lastpass": {
+      "message": "Klicka på webbläsartillägget för LastPass."
+   },
+   "import_logins_step2": {
+      "message": "Klicka på %ICON% ovanför listan över sparade lösenord > \u003Cb>Exportera lösenord…\u003C/b>"
+   },
+   "import_logins_step2_bitwarden": {
+      "message": "Klicka på \u003Cb>Verktyg\u003C/b> högst upp."
+   },
+   "import_logins_step2_dashlane": {
+      "message": "Fyll i din e-postadress. Klicka på \u003Cb>Nästa\u003C/b>."
+   },
+   "import_logins_step2_lastpass": {
+      "message": "Klicka på \u003Cb>Kontoalternativ\u003C/b> > \u003Cb>Avancerat\u003C/b> > \u003Cb>Exportera\u003C/b>"
+   },
+   "import_logins_step3": {
+      "message": "Klicka på \u003Cb>Exportera lösenord…\u003C/b>"
+   },
+   "import_logins_step3_bitwarden": {
+      "message": "Klicka på \u003Cb>Exportera valv\u003C/b> i menyn till vänster."
+   },
+   "import_logins_step3_dashlane": {
+      "message": "Klicka på \u003Cb>Mitt konto\u003C/b> uppe till höger."
+   },
+   "import_logins_step3_lastpass": {
+      "message": "Välj \u003Cb>LastPass CSV-fil\u003C/b>."
+   },
+   "import_logins_step4": {
+      "message": "Om du uppmanas till det, ange lösenordet för din enhet. Klicka på \u003Cb>OK.\u003C/b>"
+   },
+   "import_logins_step4_bitwarden": {
+      "message": "För \u003Cb>Filformat\u003C/b> väljer du \u003Cb>.csv\u003C/b>."
+   },
+   "import_logins_step4_dashlane": {
+      "message": "Klicka på \u003Cb>Inställningar > Exportera data\u003C/b>."
+   },
+   "import_logins_step4_lastpass": {
+      "message": "Fyll i ditt primära lösenord."
+   },
+   "import_logins_step5": {
+      "message": "Spara CSV-filen till din enhet."
+   },
+   "import_logins_step5_bitwarden": {
+      "message": "Fyll i ditt primära lösenord."
+   },
+   "import_logins_step5_dashlane": {
+      "message": "Fyll i ditt primära lösenord."
+   },
+   "import_logins_step5_lastpass": {
+      "message": "En CSV-fil kommer sparas på din enhet automatiskt."
+   },
+   "import_logins_step6": {
+      "message": "Klicka på \u003Cb>Choose File\u003C/b> i tillägget för ExpressVPN Keys."
+   },
+   "import_logins_step6_bitwarden": {
+      "message": "Klicka på \u003Cb>Exportera valv\u003C/b> och följ instruktionerna."
+   },
+   "import_logins_step6_dashlane": {
+      "message": "Klicka på \u003Cb>Exportera till CSV\u003C/b>."
+   },
+   "import_logins_step6_lastpass": {
+      "message": "Klicka på \u003Cb>Välj fil\u003C/b> i tillägget för ExpressVPN Keys."
+   },
+   "import_logins_step7": {
+      "message": "Välj CSV-filen."
+   },
+   "import_logins_step7_bitwarden": {
+      "message": "En CSV-fil kommer sparas på din enhet automatiskt."
+   },
+   "import_logins_step7_dashlane": {
+      "message": "Dubbelklicka på ZIP-filen för att extrahera CSV-filerna."
+   },
+   "import_logins_step7_lastpass": {
+      "message": "Välj CSV-filen för att importera dina lösenord."
+   },
+   "import_logins_step8_bitwarden": {
+      "message": "Klicka på \u003Cb>Välj fil\u003C/b> i tillägget för ExpressVPN Keys."
+   },
+   "import_logins_step8_dashlane": {
+      "message": "Klicka på \u003Cb>Välj fil\u003C/b> i tillägget för ExpressVPN Keys."
+   },
+   "import_logins_step9_bitwarden": {
+      "message": "Välj CSV-filen för att importera dina lösenord."
+   },
+   "import_logins_step9_dashlane": {
+      "message": "Välj filen \u003Cb>credentials.csv\u003C/b> för att importera dina lösenord. "
+   },
+   "import_logins_success_close": {
+      "message": "Stäng flik"
+   },
+   "import_logins_success_header": {
+      "message": "Det lyckades!"
+   },
+   "import_logins_success_hint": {
+      "message": "Alla %TOTAL_LOGINS% inloggningar har importerats."
+   },
+   "import_logins_success_import_more": {
+      "message": "Importera fler inloggningar"
+   },
+   "import_logins_success_text": {
+      "message": "Nu kan du stänga den här fliken och öppna tillägget för att se dina inloggningar eller börja surfa och fylla i dina inloggningar automatiskt."
+   },
+   "import_logins_verify_password_label": {
+      "message": "Fyll i ditt lösenord till höger för att importera från befintliga tjänster."
+   },
+   "import_password_error": {
+      "message": "Filuppladdningen misslyckades. Försök igen."
+   },
+   "import_password_file": {
+      "message": "Importera lösenordsfil (.csv)"
+   },
+   "imports_logins_you_can_also_choose_to": {
+      "message": "Du kan också välja att %ROUTER_LINK% istället."
+   },
+   "info_banner_warning_api_unreachable_vpn_off": {
+      "message": "Det går inte att synka. Prova att ansluta till VPN eller kontakta support."
+   },
+   "info_banner_warning_api_unreachable_vpn_on": {
+      "message": "Det går inte att synka. Prova en annan VPN-position eller kontakta support."
+   },
+   "info_banner_warning_offline": {
+      "message": "Du är offline. Dina ändringar kommer synka när anslutningen återupptas."
+   },
+   "ksp_item_text_1": {
+      "message": "Lagra dina lösenord säkert på alla dina enheter och fyll i dem på appar och hemsidor med bara ett tryck. [Läs mer]."
+   },
+   "ksp_item_text_2": {
+      "message": "[Keys är gratis] för ExpressVPN:s användare. Det finns ingen gräns för hur många lösenord eller enheter du kan använda."
+   },
+   "ksp_item_text_3": {
+      "message": "Tack vare [nollkunskapskryptering] är det bara du som kan se dina lösenord."
+   },
+   "ksp_item_text_4": {
+      "message": "[Hämta alla dina inloggningar] från Chrome, Safari, 1Password, LastPass med flera."
+   },
+   "ksp_item_text_5": {
+      "message": "Kom åt dina lösenord [var du än behöver dem] i webbläsaren eller på mobilen."
+   },
+   "ksp_item_title_1": {
+      "message": "En säker och användarvänlig lösenordshanterare"
+   },
+   "ksp_item_title_2": {
+      "message": "Ingen extra kostnad, inga gränser"
+   },
+   "ksp_item_title_3": {
+      "message": "Säker design, byggd av ExpressVPN:s team"
+   },
+   "ksp_item_title_4": {
+      "message": "Importera inloggningar från andra lösenordshanterare"
+   },
+   "ksp_item_title_5": {
+      "message": "Synka över alla dina enheter"
+   },
+   "ksp_next_button": {
+      "message": "Nästa"
+   },
+   "ksp_set_up_button": {
+      "message": "Installera ExpressVPN Keys"
+   },
+   "ksp_skip_button": {
+      "message": "Hoppa över"
+   },
+   "less_than_a_second": {
+      "message": "Mindre än en sekund"
+   },
+   "login_saved": {
+      "message": "Inloggning sparad. Vi kommer att komma ihåg inloggningen åt dig och skydda den."
+   },
+   "minute": {
+      "message": "minut"
+   },
+   "minutes": {
+      "message": "minuter"
+   },
+   "modal_password_page_app_not_activated_Linux_text": {
+      "message": "Tillägget kräver att ExpressVPN:s app för Linux är aktiverad."
+   },
+   "modal_password_page_app_not_activated_Linux_text_p1": {
+      "message": "Logga in på ditt ExpressVPN-konto för att hämta din aktiveringskod och kör sedan följande kommandeo: \u003Cspan class='code-inline'>expressvpn activate\u003C/span> och fyll i koden."
+   },
+   "modal_password_page_app_not_activated_Mac_text": {
+      "message": "Tillägget kräver att ExpressVPN:s app för Mac är aktiverad."
+   },
+   "modal_password_page_app_not_activated_Mac_text_p1": {
+      "message": "Logga in på ditt ExpressVPN-konto för att hitta din aktiveringskod."
+   },
+   "modal_password_page_app_not_activated_Windows_text": {
+      "message": "Tillägget kräver att ExpressVPN:s app för Windows är aktiverad."
+   },
+   "modal_password_page_app_not_activated_Windows_text_p1": {
+      "message": "Logga in på ditt ExpressVPN-konto för att hitta din aktiveringskod."
+   },
+   "modal_password_page_app_not_activated_btn_primary": {
+      "message": "Hämta aktiveringskod"
+   },
+   "modal_password_page_app_not_activated_btn_secondary": {
+      "message": "Fyll i kod"
+   },
+   "modal_password_page_app_not_activated_text_p2": {
+      "message": "Behöver du hjälp? Var god [kontakta support]."
+   },
+   "modal_password_page_app_not_activated_title": {
+      "message": "Aktivera appen"
+   },
+   "modal_password_page_update_app_Linux_text_p1": {
+      "message": "Det här tillägget kräver den senaste versionen av ExpressVPN:s app för Linux."
+   },
+   "modal_password_page_update_app_Mac_text_p1": {
+      "message": "Det här tillägget kräver den senaste versionen av ExpressVPN:s app för Mac."
+   },
+   "modal_password_page_update_app_Windows_text_p1": {
+      "message": "Det här tillägget kräver den senaste versionen av ExpressVPN:s app för Windows."
+   },
+   "modal_password_page_update_app_button": {
+      "message": "Uppdatera appen"
+   },
+   "modal_password_page_update_app_text_p2": {
+      "message": "Behöver du hjälp? Var god [kontakta support]."
+   },
+   "modal_password_page_update_app_title": {
+      "message": "Uppdatera appen"
+   },
+   "month": {
+      "message": "månad"
+   },
+   "months": {
+      "message": "månader"
+   },
+   "n_logins_saved_for_website": {
+      "message": "%N_ENTRIES% inloggningar sparade för \u003Cb>%HOST%\u003C/b>"
+   },
+   "nav_item_help": {
+      "message": "Hjälp"
+   },
+   "nav_item_options": {
+      "message": "Inställningar"
+   },
+   "nav_item_pwm": {
+      "message": "Keys"
+   },
+   "no_logins_saved_for_website": {
+      "message": "Inga inloggningar har sparats för\u003Cbr/>\u003Cb>%HOST%\u003C/b>"
+   },
+   "notification_clipboard_cleared_message": {
+      "message": "Data har renseats för att skydda din integritet"
+   },
+   "notification_clipboard_cleared_title": {
+      "message": "Urklipp rensat"
+   },
+   "notification_extension_update_message": {
+      "message": "Klicka för att se vad som är nytt."
+   },
+   "notification_extension_update_title": {
+      "message": "ExpressVPN Keys har uppdaterats"
+   },
+   "options_menu_get_30_days_free_label": {
+      "message": "Få 30 dagar gratis"
+   },
+   "options_menu_item_settings_label": {
+      "message": "Inställningar"
+   },
+   "options_menu_rate_expressvpn_label": {
+      "message": "Betygsätt ExpressVPN Keys"
+   },
+   "options_menu_section_options_title": {
+      "message": "Inställningar"
+   },
+   "options_menu_setup_other_devices_label": {
+      "message": "Installera på andra enheter"
+   },
+   "other_logins": {
+      "message": "Andra inloggningar"
+   },
+   "password_generator_capitals": {
+      "message": "Versaler"
+   },
+   "password_generator_characters": {
+      "message": "%NUMBER% tecken"
+   },
+   "password_generator_choose_criteria": {
+      "message": "Välj kriterier"
+   },
+   "password_generator_close": {
+      "message": "Stäng"
+   },
+   "password_generator_length": {
+      "message": "Lösenordslängd"
+   },
+   "password_generator_numbers": {
+      "message": "Siffror"
+   },
+   "password_generator_password_label": {
+      "message": "Klicka för att använda"
+   },
+   "password_generator_symbols": {
+      "message": "Symboler"
+   },
+   "password_generator_title": {
+      "message": "Föreslaget lösenord"
+   },
+   "password_generator_use_password": {
+      "message": "Använd lösenord"
+   },
+   "password_strength_0": {
+      "message": "\u003Cb>Osäkert!\u003C/b> Går snabbt att knäcka."
+   },
+   "password_strength_1": {
+      "message": "\u003Cb>Svagt.\u003C/b> Kan knäckas väldigt snabbt."
+   },
+   "password_strength_2": {
+      "message": "\u003Cb>Medelstarkt.\u003C/b> Kan ta %TIME% att knäcka."
+   },
+   "password_strength_3": {
+      "message": "\u003Cb>Starkt.\u003C/b> Kan ta %TIME% att knäcka."
+   },
+   "password_strength_4": {
+      "message": "\u003Cb>Väldigt säkert!\u003C/b> Kan ta %TIME% att knäcka."
+   },
+   "password_suggestion_add_another_word_or_two": {
+      "message": "Lägg till ett eller två ord."
+   },
+   "password_suggestion_avoid_dates": {
+      "message": "Undvik datum och år som är kopplade till dig."
+   },
+   "password_suggestion_avoid_obvious_patterns": {
+      "message": "Undvik uppenbara tangentbordsmönster."
+   },
+   "password_suggestion_avoid_recent_years": {
+      "message": "Undvik nyligen inträffade årtal."
+   },
+   "password_suggestion_avoid_repeats": {
+      "message": "Undvik upprepade ord och tecken."
+   },
+   "password_suggestion_avoid_sequences": {
+      "message": "Undvik sekvenser."
+   },
+   "password_suggestion_avoid_years": {
+      "message": "Undvik ord som är kopplade till dig."
+   },
+   "password_suggestion_capitalization_does_not_help": {
+      "message": "En inledningsversal hjälper inte särskilt mycket."
+   },
+   "password_suggestion_no_need_for_extra_chars": {
+      "message": "Symboler, siffror eller versaler behövs inte."
+   },
+   "password_suggestion_reversed_word_does_not_help": {
+      "message": "Ord skrivna baklänges är enkla att gissa."
+   },
+   "password_suggestion_substitution_does_not_help": {
+      "message": "Byte av t.ex. \"a\" mot \"@\" är enkla att gissa."
+   },
+   "password_suggestion_uppercase_does_not_help": {
+      "message": "Enbart versaler hjälper inte särskilt mycket."
+   },
+   "password_suggestion_use_uncommon_words": {
+      "message": "Testa att använda flera ovanliga ord."
+   },
+   "password_warning_common_names_are_easy_to_guess": {
+      "message": "Använd inte vanliga namn eller efternamn."
+   },
+   "password_warning_dates_are_easy_to_guess": {
+      "message": "Datum är ofta att enkla att gissa."
+   },
+   "password_warning_names_are_easy_to_guess": {
+      "message": "Namn som står för sig är enkla att gissa."
+   },
+   "password_warning_repeats_are_easy_to_guess": {
+      "message": "Upprepningar som \"aaa\" är enkla att gissa sig till."
+   },
+   "password_warning_repeats_are_slightly_harder_to_guess": {
+      "message": "Upprepningar som \"abcabcabc\" är enkla att gissa sig till."
+   },
+   "password_warning_sequences_are_easy_to_guess": {
+      "message": "Sekvenser som \"6543\" är enkla att gissa sig till."
+   },
+   "password_warning_short_patterns_are_easy_to_guess": {
+      "message": "Tangentbordsmönster är inte säkra."
+   },
+   "password_warning_simmilar_to_common_password": {
+      "message": "Liknar ett vanligt lösenord för mycket."
+   },
+   "password_warning_straight_rows_are_easy_to_guess": {
+      "message": "Tangenter efter rad på varandra är enkla att gissa."
+   },
+   "password_warning_top_100_common_password": {
+      "message": "Det här hör till de 100 vanligaste lösenorden."
+   },
+   "password_warning_top_10_common_password": {
+      "message": "Det här hör till de 10 vanligaste lösenorden."
+   },
+   "password_warning_very_common_password": {
+      "message": "Det här är ett mycket vanligt lösenord."
+   },
+   "password_warning_word_is_easy_to_guess": {
+      "message": "Ett ord i sig är enkelt att gissa sig till."
+   },
+   "password_warning_years_are_easy_to_guess": {
+      "message": "Årtal i närtid är enkla att gissa."
+   },
+   "primary_password_strength_0": {
+      "message": "\u003Cb>Bra början,\u003C/b> lägg gärna till några fler ord."
+   },
+   "primary_password_strength_1": {
+      "message": "\u003Cb>Du är på god väg,\u003C/b> fortsätt försöka."
+   },
+   "primary_password_strength_2": {
+      "message": "\u003Cb>Fortsätt så,\u003C/b> lägg gärna till några fler ord."
+   },
+   "primary_password_strength_3": {
+      "message": "\u003Cb>Helt okej\u003C/b>. Det blir starkare och starkare!"
+   },
+   "primary_password_strength_4": {
+      "message": "\u003Cb>Riktigt starkt!\u003C/b> Nu kan du gå vidare."
+   },
+   "primary_password_strength_empty": {
+      "message": "Skriv några ord, t.ex. \u003Cb>AquaLampJamCarpe\u003C/b>"
+   },
+   "pwm_contact_us_label": {
+      "message": "Kontakta oss"
+   },
+   "pwm_create_account_error_modal_title": {
+      "message": "Kunde inte skapa konto"
+   },
+   "pwm_entry_add_new_header": {
+      "message": "Lägg till ny inloggning"
+   },
+   "pwm_entry_list_add_first_login_header": {
+      "message": "Då var det klart!"
+   },
+   "pwm_entry_list_add_first_login_text": {
+      "message": "Ditt konto för ExpressVPN Keys är klart att användas. Spara din första inloggning för att komma igång."
+   },
+   "pwm_entry_list_add_first_login_tooltip": {
+      "message": "Klicka här för att lägga till din första inloggning"
+   },
+   "pwm_entry_no_result_found": {
+      "message": "Inga resultat"
+   },
+   "pwm_entry_preview_name_label": {
+      "message": "Namn"
+   },
+   "pwm_entry_search_for_a_login": {
+      "message": "Sök efter en inloggning"
+   },
+   "pwm_entry_view_created_on_label": {
+      "message": "Skapad den %DATE%"
+   },
+   "pwm_entry_view_delete_btn": {
+      "message": "Radera"
+   },
+   "pwm_entry_view_edit_btn": {
+      "message": "Ändra"
+   },
+   "pwm_entry_view_email_label": {
+      "message": "E-post eller användarnamn"
+   },
+   "pwm_entry_view_login_btn": {
+      "message": "Logga in nu"
+   },
+   "pwm_entry_view_name_label": {
+      "message": "Namn (obligatoriskt)"
+   },
+   "pwm_entry_view_notes_label": {
+      "message": "Anteckningar"
+   },
+   "pwm_entry_view_pw_label": {
+      "message": "Lösenord"
+   },
+   "pwm_entry_view_save_btn": {
+      "message": "Spara"
+   },
+   "pwm_entry_view_updated_on_label": {
+      "message": "Senast redigerad den %DATE%"
+   },
+   "pwm_entry_view_url_label": {
+      "message": "Hemsidans URL"
+   },
+   "pwm_error_api_unreachable_step_1": {
+      "message": "Slå på ditt VPN."
+   },
+   "pwm_error_api_unreachable_step_2": {
+      "message": "Välj en annan VPN-position"
+   },
+   "pwm_error_api_unreachable_step_3": {
+      "message": "[Kontakta support] ifall problemet kvarstår"
+   },
+   "pwm_error_api_unreachable_text_1": {
+      "message": "Prova de här stegen för att lösa problemet:"
+   },
+   "pwm_error_no_access_btn_primary": {
+      "message": "Försök igen"
+   },
+   "pwm_error_no_access_btn_secondary": {
+      "message": "Kontakta support"
+   },
+   "pwm_error_no_access_header": {
+      "message": "Det går inte att komma åt ExpressVPN Keys"
+   },
+   "pwm_error_no_access_text_1": {
+      "message": "Prova att komma åt lösenordshanteraren igen om några minuter."
+   },
+   "pwm_error_offline_text_1": {
+      "message": "Kontrollera din internetanslutning och försök igen."
+   },
+   "pwm_generic_error_modal_text": {
+      "message": "Vänta några minuter och försök igen."
+   },
+   "pwm_hint_entry_edit_saved": {
+      "message": "Sparad. Glöm inte uppdatera dina inloggningsuppgifter på %URL%."
+   },
+   "pwm_locked_vault_password_manager": {
+      "message": "ExpressVPN Keys"
+   },
+   "pwm_locked_vault_unlock": {
+      "message": "Klicka på tilläggsikonen eller tryck på [command] för att låsa upp lösenordshanteraren."
+   },
+   "pwm_modal_cancel_entry_confirm_header": {
+      "message": "Är du säker?"
+   },
+   "pwm_modal_cancel_entry_confirm_text": {
+      "message": "Dina ändringar kommer inte att sparas."
+   },
+   "pwm_modal_delete_entry_cancel_button": {
+      "message": "Avbryt"
+   },
+   "pwm_modal_delete_entry_confirm_button": {
+      "message": "Radera permanent"
+   },
+   "pwm_modal_delete_entry_confirm_header": {
+      "message": "Är du säker?"
+   },
+   "pwm_modal_delete_entry_confirm_text": {
+      "message": "Det här objektet kommer att tas bort permanent."
+   },
+   "pwm_modal_discard_changes_cancel_button": {
+      "message": "Fortsätt redigera"
+   },
+   "pwm_modal_discard_changes_confirm_button": {
+      "message": "Ignorera ändringar"
+   },
+   "pwm_modal_save_entry_error_cancel_button": {
+      "message": "Avbryt"
+   },
+   "pwm_modal_save_entry_error_header": {
+      "message": "Det gick inte att spara"
+   },
+   "pwm_modal_save_entry_error_retry_button": {
+      "message": "Försök igen"
+   },
+   "pwm_modal_save_entry_error_text": {
+      "message": "Försök igen om några minuter."
+   },
+   "pwm_network_error_modal_text": {
+      "message": "Var god kontrollera din uppkoppling och försök igen."
+   },
+   "pwm_primary_pw_modal_generic_error_btn_primary": {
+      "message": "Prova igen"
+   },
+   "pwm_primary_pw_modal_generic_error_header": {
+      "message": "Det gick inte att ställa in lösenord"
+   },
+   "pwm_primary_pw_modal_generic_error_text": {
+      "message": "Försök igen om några minuter."
+   },
+   "pwm_primary_pw_modal_pw_exists_btn_primary": {
+      "message": "Läs mer"
+   },
+   "pwm_primary_pw_modal_pw_exists_header": {
+      "message": "Det gick inte att ställa in lösenord"
+   },
+   "pwm_primary_pw_modal_pw_exists_text": {
+      "message": "Lösenordshanteraren är redan installerad på den här ExpressVPN-kontot. Klicka på tillägget för ExpressVPN Keys för att låsa upp."
+   },
+   "pwm_primary_pw_set_form_pw": {
+      "message": "Ditt primära lösenord"
+   },
+   "pwm_primary_pw_set_form_pw_error_match": {
+      "message": "Lösenorden överensstämmer inte"
+   },
+   "pwm_primary_pw_set_form_pw_error_strength": {
+      "message": "Ditt lösenord bör innehålla 10 tecken och 1 symbol"
+   },
+   "pwm_primary_pw_set_form_pw_info_strength": {
+      "message": "Behöver 10 alfanumeriska tecken och 1 symbol"
+   },
+   "pwm_primary_pw_set_form_pw_label": {
+      "message": "Primärt lösenord"
+   },
+   "pwm_primary_pw_set_form_pw_reenter": {
+      "message": "Ange primärt lösenord igen"
+   },
+   "pwm_primary_pw_set_form_submit": {
+      "message": "Ställ in primärt lösenord"
+   },
+   "pwm_primary_pw_set_header": {
+      "message": "Ditt primära lösenord"
+   },
+   "pwm_primary_pw_set_help_link": {
+      "message": "Behöver du hjälp med ditt lösenord?"
+   },
+   "pwm_primary_pw_set_learn": {
+      "message": "Lär dig hur du skapar starka lösenord"
+   },
+   "pwm_primary_pw_set_security_modal_edit_password": {
+      "message": "Ändra lösenord"
+   },
+   "pwm_primary_pw_set_security_modal_p1": {
+      "message": "Lägg till fler ord för att göra ditt primära lösenord säkrare."
+   },
+   "pwm_primary_pw_set_security_modal_p2": {
+      "message": "Behöver du hjälp? Läs våra tips på hur du skapar starka lösenord."
+   },
+   "pwm_primary_pw_set_security_modal_read_tips": {
+      "message": "Läs tipsen"
+   },
+   "pwm_primary_pw_set_security_modal_title": {
+      "message": "Lösenordets säkerhet är för låg"
+   },
+   "pwm_primary_pw_set_text": {
+      "message": "Skapa ett primärt lösenord för att kryptera sparade inloggningar. Det bör vara lätt att komma ihåg och får inte vara samma som ditt ExpressVPN-lösenord."
+   },
+   "pwm_recovery_code_cancel": {
+      "message": "Avbryt"
+   },
+   "pwm_recovery_code_continue": {
+      "message": "Fortsätt"
+   },
+   "pwm_recovery_code_copied_hint": {
+      "message": "Du har kopierat återställningskoden. Skriv ut koden och/eller förvara den på ett säkert ställe."
+   },
+   "pwm_recovery_code_copy_code": {
+      "message": "Kopiera kod"
+   },
+   "pwm_recovery_code_download_pdf": {
+      "message": "Ladda ned som PDF"
+   },
+   "pwm_recovery_code_header": {
+      "message": "Din återställningskod"
+   },
+   "pwm_recovery_code_text": {
+      "message": "\u003Cb>Kopiera eller spara din återställningskod på ett säkert ställe.\u003C/b> Om du förlorar ditt primära lösenord är den här koden det enda sättet att få tillgång till dina objekt."
+   },
+   "pwm_recovery_code_warning_modal_text_p1": {
+      "message": "Du har inte kopierat eller sparat din återställningskod."
+   },
+   "pwm_recovery_code_warning_modal_text_p2": {
+      "message": "ExpressVPN har inte tillgång till ditt primära lösenord, din återställningskod eller dina sparade inloggningar, så se till att kopiera koden eller spara den på en säker plats."
+   },
+   "pwm_recovery_code_warning_modal_title": {
+      "message": "Fortsätt till nästa steg?"
+   },
+   "pwm_report_another": {
+      "message": "Anmäl annat problem"
+   },
+   "pwm_report_auto_fill": {
+      "message": "Anmäl autofyll-problem"
+   },
+   "pwm_request_mfa_error_modal_title": {
+      "message": "Det gick inte att skicka mejlet"
+   },
+   "pwm_setup_add_new_logins": {
+      "message": "Lägg till ny inloggning"
+   },
+   "pwm_setup_import_existing_logins": {
+      "message": "Importera befintliga"
+   },
+   "pwm_setup_success_add_logins": {
+      "message": "Lägg till inloggning"
+   },
+   "pwm_setup_success_header": {
+      "message": "Då var det klart!"
+   },
+   "pwm_setup_success_import_logins": {
+      "message": "Importera inloggningar"
+   },
+   "pwm_setup_success_text_p1": {
+      "message": "Ditt ExpressVPN Keys-konto är klart att användas."
+   },
+   "pwm_setup_success_text_p2": {
+      "message": "Har du sparade inloggningar i en annan lösenordshanterare?"
+   },
+   "pwm_setup_success_text_p3": {
+      "message": "Du kan importera dina sparade inloggningar för:"
+   },
+   "pwm_setup_success_text_p4": {
+      "message": "Eller lägga till en ny inloggning automatiskt:"
+   },
+   "pwm_unlock_vault_incorrect_pw_error": {
+      "message": "Fel primärt lösenord"
+   },
+   "pwm_unlock_vault_locked_header": {
+      "message": "ExpressVPN Keys är låst"
+   },
+   "pwm_unlock_vault_need_help_link": {
+      "message": "Behöver du hjälp?"
+   },
+   "pwm_unlock_vault_need_help_modal_text": {
+      "message": "Om du inte kan låsa upp ExpressVPN Keys med ditt primära lösenord kan du använda återställningskoden eller kontakta oss för att få hjälp."
+   },
+   "pwm_unlock_vault_unlock_btn": {
+      "message": "Lås upp"
+   },
+   "pwm_unlock_vault_unlocking_header": {
+      "message": "Låser upp"
+   },
+   "pwm_use_recovery_code_label": {
+      "message": "Använd återställningskod"
+   },
+   "pwm_validate_mfa_network_error_modal_title": {
+      "message": "Kunde inte verifiera kontot"
+   },
+   "pwm_verify_account_code_help_link": {
+      "message": "Fick du inte din kod?"
+   },
+   "pwm_verify_account_code_input_label": {
+      "message": "Ange sexsiffrig verifieringskod"
+   },
+   "pwm_verify_account_code_invalid_code": {
+      "message": "Ogiltig kod, försök igen"
+   },
+   "pwm_verify_account_code_submit_button_label": {
+      "message": "Nästa"
+   },
+   "pwm_verify_account_code_text_p1": {
+      "message": "Vi har skickat en kod till din e-postadress för att bekräfta att det är du som är kontoinnehavaren."
+   },
+   "pwm_verify_account_code_text_p2": {
+      "message": "Kolla i din inkorg och ange den sexsiffriga verifieringskoden för att slutföra konfigureringen av ditt ExpressVPN Keys-konto."
+   },
+   "pwm_verify_account_header": {
+      "message": "Verifiera ditt konto"
+   },
+   "pwm_verify_account_need_help": {
+      "message": "Behöver du hjälp? [Kontakta support]."
+   },
+   "pwm_verify_account_send_email_button": {
+      "message": "Skicka mejl"
+   },
+   "pwm_verify_account_text_p1": {
+      "message": "För att installera ExpressVPN Keys på den här enheten behöver vi bekräfta att det är du som är kontoinnehavare."
+   },
+   "pwm_verify_account_text_p2": {
+      "message": "Välj \"Skicka mejl\" nedan och ange sedan den sexsiffriga verifieringskod du får i mejlet."
+   },
+   "recovery_code_cancel_setup": {
+      "message": "Avbryt installation"
+   },
+   "save_diagnostics": {
+      "message": "Spara diagnostik"
+   },
+   "second": {
+      "message": "sekund"
+   },
+   "seconds": {
+      "message": "sekunder"
+   },
+   "settings_help_improve_expressvpn_keys": {
+      "message": "Hjälp till att förbättra ExpressVPN Keys"
+   },
+   "settings_help_improve_share_crash": {
+      "message": "Dela kraschrapporter och användbarhetsdiagnostik. Rapporterna innehåller ingen information som kan användas för att identifiera dig."
+   },
+   "settings_menu_item_change_password_label": {
+      "message": "Ändra primärt lösenord"
+   },
+   "settings_menu_item_open_shortcut_label": {
+      "message": "Öppna med kortkommando"
+   },
+   "settings_menu_section_data_title": {
+      "message": "Data"
+   },
+   "settings_menu_section_general_title": {
+      "message": "Allmänt"
+   },
+   "settings_menu_section_other_title": {
+      "message": "Annat"
+   },
+   "settings_menu_section_security_title": {
+      "message": "Säkerhet"
+   },
+   "some_logins_saved_for_website": {
+      "message": "Inloggningar sparade för \u003Cb>%HOST%\u003C/b>"
+   },
+   "step_X_of_Y": {
+      "message": "%STEP% av %TOTAL% steg"
+   },
+   "try_again_label": {
+      "message": "Försök igen"
+   },
+   "update_btn_label": {
+      "message": "Uppdatera"
+   },
+   "use_recovery_code_header": {
+      "message": "Använd återställningskod"
+   },
+   "use_recovery_code_incorrect_code_error": {
+      "message": "Ogiltig återställningskod"
+   },
+   "use_recovery_code_input_label": {
+      "message": "Återställningskod"
+   },
+   "use_recovery_code_text": {
+      "message": "Ange din återställningskod för att återställa det primära lösenordet för ExpressVPN Keys."
+   },
+   "waitlist_header": {
+      "message": "Du står på väntlistan!"
+   },
+   "waitlist_hint": {
+      "message": "Låt tillägget vara installerat så meddelar vi dig när ExpressVPN Keys blir tillgängligt för ditt konto."
+   },
+   "waitlist_notification_header": {
+      "message": "ExpressVPN Keys är tillgängligt"
+   },
+   "waitlist_notification_text": {
+      "message": "Klicka här om du vill prova ExpressVPN:s lösenordshanterare för %CURRENT_BROWSER%."
+   },
+   "waitlist_p1": {
+      "message": "ExpressVPN Keys lanseras gradvis under flera veckor."
+   },
+   "waitlist_p2": {
+      "message": "Om du har några frågor, var god [kontakta support]."
+   },
+   "year": {
+      "message": "år"
+   },
+   "years": {
+      "message": "år"
+   }
+}

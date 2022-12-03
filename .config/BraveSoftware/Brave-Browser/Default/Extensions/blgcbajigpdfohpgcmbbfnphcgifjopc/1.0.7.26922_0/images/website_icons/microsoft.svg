@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="180px" height="180px" viewBox="0 0 180 180" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Logo</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Logo">
+            <rect id="Background" fill="#FFFFFF" x="0" y="0" width="180" height="180"></rect>
+            <g id="Microsoft_logo" transform="translate(40.000000, 40.000000)" fill-rule="nonzero">
+                <polygon id="Path" fill="#F35325" points="0 0 47.6190476 0 47.6190476 47.6190476 0 47.6190476"></polygon>
+                <polygon id="Path" fill="#81BC06" points="52.3809524 0 100 0 100 47.6190476 52.3809524 47.6190476"></polygon>
+                <polygon id="Path" fill="#05A6F0" points="0 52.3809524 47.6190476 52.3809524 47.6190476 100 0 100"></polygon>
+                <polygon id="Path" fill="#FFBA08" points="52.3809524 52.3809524 100 52.3809524 100 100 52.3809524 100"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

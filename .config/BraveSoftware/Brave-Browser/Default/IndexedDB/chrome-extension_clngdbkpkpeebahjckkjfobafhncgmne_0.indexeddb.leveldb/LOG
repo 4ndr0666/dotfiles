@@ -1,0 +1,15 @@
+2022/06/06-22:44:00.654 4d3c0 Reusing MANIFEST /home/andro/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/chrome-extension_clngdbkpkpeebahjckkjfobafhncgmne_0.indexeddb.leveldb/MANIFEST-000001
+2022/06/06-22:44:00.655 4d3c0 Recovering log #4
+2022/06/06-22:44:00.725 4d3c0 Reusing old log /home/andro/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/chrome-extension_clngdbkpkpeebahjckkjfobafhncgmne_0.indexeddb.leveldb/000004.log 
+2022/06/06-22:44:11.519 6030c Level-0 table #8: started
+2022/06/06-22:44:11.686 6030c Level-0 table #8: 33614 bytes OK
+2022/06/06-22:44:11.919 6030c Delete type=0 #4
+2022/06/06-22:44:11.919 6030c Manual compaction at level-0 from (begin) .. (end); will stop at (end)
+2022/06/06-22:44:11.920 6030c Manual compaction at level-1 from (begin) .. (end); will stop at '\x00\x03\x00\x00\xc8\x04\x00d\x00a\x00t\x00a' @ 351 : 1
+2022/06/06-22:44:11.920 6030c Compacting 1@1 + 1@2 files
+2022/06/06-22:44:12.263 6030c Generated table #9@1: 52 keys, 18450 bytes
+2022/06/06-22:44:12.263 6030c Compacted 1@1 + 1@2 files => 18450 bytes
+2022/06/06-22:44:12.563 6030c compacted to: files[ 0 0 1 0 0 0 0 ]
+2022/06/06-22:44:12.564 6030c Delete type=2 #5
+2022/06/06-22:44:12.564 6030c Delete type=2 #8
+2022/06/06-22:44:12.564 6030c Manual compaction at level-1 from '\x00\x03\x00\x00\xc8\x04\x00d\x00a\x00t\x00a' @ 351 : 1 .. (end); will stop at (end)

@@ -1,0 +1,6 @@
+2022/11/23-07:03:08.431 5c834 Creating DB /home/andro/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/https_www.twitch.tv_0.indexeddb.leveldb since it was missing.
+2022/11/23-07:03:08.965 5c834 Reusing MANIFEST /home/andro/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/https_www.twitch.tv_0.indexeddb.leveldb/MANIFEST-000001
+2022/11/23-07:03:43.460 5c679 Level-0 table #5: started
+2022/11/23-07:03:43.728 5c679 Level-0 table #5: 823 bytes OK
+2022/11/23-07:03:46.347 5c679 Delete type=0 #3
+2022/11/23-07:03:46.347 5c679 Manual compaction at level-0 from (begin) .. (end); will stop at (end)

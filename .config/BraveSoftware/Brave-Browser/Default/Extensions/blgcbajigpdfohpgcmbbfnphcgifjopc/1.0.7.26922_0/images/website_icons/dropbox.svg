@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="180px" height="180px" viewBox="0 0 180 180" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Logo</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Logo">
+            <rect id="Background" fill="#0061FF" x="0" y="0" width="180" height="180"></rect>
+            <polygon id="Path" fill="#FFFFFF" fill-rule="nonzero" points="62.9988533 46 36 63.25 62.9988533 80.5 90.0022935 63.25"></polygon>
+            <polygon id="Path" fill="#FFFFFF" fill-rule="nonzero" points="117.001147 46 90.0022935 63.25 117.001147 80.5 144 63.25"></polygon>
+            <polygon id="Path" fill="#FFFFFF" fill-rule="nonzero" points="36 97.75 62.9988533 115 90.0022935 97.75 62.9988533 80.5"></polygon>
+            <polygon id="Path" fill="#FFFFFF" fill-rule="nonzero" points="117.001147 80.5 90.0022935 97.75 117.001147 115 144 97.75"></polygon>
+            <polygon id="Path" fill="#FFFFFF" fill-rule="nonzero" points="62.9988533 120.75 90.0022935 138 117.001147 120.75 90.0022935 103.5"></polygon>
+        </g>
+    </g>
+</svg>

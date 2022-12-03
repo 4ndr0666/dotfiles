@@ -1,0 +1,30 @@
+2022/12/01-22:31:28.245 21ff0 Reusing MANIFEST /home/andro/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/https_www.youtube.com_0.indexeddb.leveldb/MANIFEST-000001
+2022/12/01-22:31:28.245 21ff0 Recovering log #145
+2022/12/01-22:31:32.724 21ff0 Reusing old log /home/andro/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/https_www.youtube.com_0.indexeddb.leveldb/000145.log 
+2022/12/01-23:30:50.726 229f7 Level-0 table #150: started
+2022/12/01-23:30:50.863 229f7 Level-0 table #150: 1408804 bytes OK
+2022/12/01-23:30:50.964 229f7 Delete type=0 #145
+2022/12/01-23:32:27.440 229f7 Compacting 1@1 + 1@2 files
+2022/12/01-23:32:27.532 229f7 Generated table #151@1: 745 keys, 59610 bytes
+2022/12/01-23:32:27.532 229f7 Compacted 1@1 + 1@2 files => 59610 bytes
+2022/12/01-23:32:27.742 229f7 compacted to: files[ 0 0 1 0 0 0 0 ]
+2022/12/01-23:32:27.743 229f7 Delete type=2 #147
+2022/12/01-23:32:27.743 229f7 Delete type=2 #150
+2022/12/02-00:54:10.162 2526f Level-0 table #153: started
+2022/12/02-00:54:10.328 2526f Level-0 table #153: 1437262 bytes OK
+2022/12/02-00:54:10.484 2526f Delete type=0 #149
+2022/12/02-00:56:01.202 2526f Compacting 1@1 + 1@2 files
+2022/12/02-00:56:01.298 2526f Generated table #154@1: 952 keys, 64506 bytes
+2022/12/02-00:56:01.298 2526f Compacted 1@1 + 1@2 files => 64506 bytes
+2022/12/02-00:56:01.408 2526f compacted to: files[ 0 0 1 0 0 0 0 ]
+2022/12/02-00:56:01.408 2526f Delete type=2 #151
+2022/12/02-00:56:01.408 2526f Delete type=2 #153
+2022/12/02-02:23:45.471 270a0 Level-0 table #156: started
+2022/12/02-02:23:45.633 270a0 Level-0 table #156: 1320259 bytes OK
+2022/12/02-02:23:45.800 270a0 Delete type=0 #152
+2022/12/02-02:24:59.892 239f3 Compacting 1@1 + 1@2 files
+2022/12/02-02:25:00.012 239f3 Generated table #157@1: 1119 keys, 78214 bytes
+2022/12/02-02:25:00.012 239f3 Compacted 1@1 + 1@2 files => 78214 bytes
+2022/12/02-02:25:00.123 239f3 compacted to: files[ 0 0 1 0 0 0 0 ]
+2022/12/02-02:25:00.123 239f3 Delete type=2 #154
+2022/12/02-02:25:00.123 239f3 Delete type=2 #156

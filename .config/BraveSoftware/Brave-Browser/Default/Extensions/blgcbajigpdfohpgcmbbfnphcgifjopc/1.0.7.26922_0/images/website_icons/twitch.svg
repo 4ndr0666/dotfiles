@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="180px" height="180px" viewBox="0 0 180 180" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Logo</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Logo">
+            <rect id="Background" fill="#9146FF" x="0" y="0" width="180" height="180"></rect>
+            <polygon id="Path" fill="#FFFFFF" fill-rule="nonzero" points="130.833333 90.9285714 114.5 107.214286 98.1666667 107.214286 83.875 121.464286 83.875 107.214286 65.5 107.214286 65.5 46.1428571 130.833333 46.1428571"></polygon>
+            <path d="M61.4166667,38 L41,58.3571429 L41,131.642857 L65.5,131.642857 L65.5,152 L85.9166667,131.642857 L102.25,131.642857 L139,95 L139,38 L61.4166667,38 Z M130.833333,90.9285714 L114.5,107.214286 L98.1666667,107.214286 L83.875,121.464286 L83.875,107.214286 L65.5,107.214286 L65.5,46.1428571 L130.833333,46.1428571 L130.833333,90.9285714 Z" id="Shape" fill="#000000" fill-rule="nonzero"></path>
+            <rect id="Rectangle" fill="#000000" fill-rule="nonzero" x="110.416667" y="60.3928571" width="8.16666667" height="24.4285714"></rect>
+            <rect id="Rectangle" fill="#000000" fill-rule="nonzero" x="87.9583333" y="60.3928571" width="8.16666667" height="24.4285714"></rect>
+        </g>
+    </g>
+</svg>

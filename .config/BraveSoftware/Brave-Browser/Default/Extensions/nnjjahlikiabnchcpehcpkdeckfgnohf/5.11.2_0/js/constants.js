@@ -1,0 +1,1 @@
+const OCR_TYPE_ALI_GENERAL=1,OCR_TYPE_ALI_TABLE=2,US_WEB_SERVER="https://ushangtech.com",US_YT_PATH="/ec/transimage",US_KT_PATH="/ec/cutoutimage";

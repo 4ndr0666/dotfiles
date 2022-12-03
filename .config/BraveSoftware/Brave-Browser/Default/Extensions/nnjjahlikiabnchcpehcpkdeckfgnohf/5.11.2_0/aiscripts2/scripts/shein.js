@@ -1,0 +1,1 @@
+function aiparser(){if(top!=window)return 0;var r=document.querySelectorAll(".product-intro__thumbs-item img");if(!(r.length>0))return-1;var e=[];r.forEach(r=>{e.push({src:(r.dataset.lazeSrc||r.src).replace(/_thumbnail_\d+x\d+/,"").replace(".webp",".jpg")})}),chrome.runtime.sendMessage({cmd:"ADD_IMG_LIST",list:e})}window.aiparser=aiparser;

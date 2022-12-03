@@ -1,0 +1,5 @@
+2022/09/06-04:45:15.010 8411 Reusing MANIFEST /home/andro/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/chrome-extension_fjnbnpbmkenffdnngjfgmeleoegfcffe_0.indexeddb.leveldb/MANIFEST-000001
+2022/09/06-04:45:15.011 8411 Recovering log #266
+2022/09/06-04:45:15.011 8411 Reusing old log /home/andro/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/chrome-extension_fjnbnpbmkenffdnngjfgmeleoegfcffe_0.indexeddb.leveldb/000266.log 
+2022/09/06-04:45:15.011 8411 Delete type=2 #264
+2022/09/06-04:45:15.350 8421 Manual compaction at level-0 from '\x00S\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00T\x00\x00\x00' @ 0 : 0; will stop at (end)

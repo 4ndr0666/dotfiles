@@ -1,0 +1,15 @@
+2022/11/22-01:00:27.879 3d6a4 Reusing MANIFEST /home/andro/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/https_apps.microsoft.com_0.indexeddb.leveldb/MANIFEST-000001
+2022/11/22-01:00:27.880 3d6a4 Recovering log #4
+2022/11/22-01:00:27.984 3d6a4 Reusing old log /home/andro/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/https_apps.microsoft.com_0.indexeddb.leveldb/000004.log 
+2022/11/22-01:01:13.190 3d690 Level-0 table #8: started
+2022/11/22-01:01:13.343 3d690 Level-0 table #8: 381816 bytes OK
+2022/11/22-01:01:13.499 3d690 Delete type=0 #4
+2022/11/22-01:01:13.518 3d690 Manual compaction at level-0 from (begin) .. (end); will stop at (end)
+2022/11/22-01:01:13.518 3d690 Manual compaction at level-1 from (begin) .. (end); will stop at '\x00\x01\x01 \x03\x00p]8\xe2IxB\x00\x01k\x00i\x00m\x00a\x00g\x00e\x00s\x00|\x00h\x00t\x00t\x00p\x00s\x00:\x00/\x00/\x00a\x00p\x00p\x00s\x00.\x00m\x00i\x00c\x00r\x00o\x00s\x00o\x00f\x00t\x00.\x00c\x00o\x00m\x00/\x00s\x00t\x00o\x00r\x00e\x00/\x00i\x00m\x00a\x00g\x00e\x00s\x00/\x00l\x00o\x00g\x00o\x00-\x003\x002\x00x\x003\x002\x00.\x00p\x00n\x00g\x00?\x00v\x00=\x00g\x00B\x00Z\x00z\x00y\x00J\x00Y\x00t\x003\x00-\x00J\x00P\x00d\x00g\x00f\x00Y\x00P\x00G\x00G\x00o\x00J\x000\x00b\x00E\x00E\x00L\x002\x00o\x00z\x00U\x005\x00k\x004\x00X\x00V\x00S\x00p\x00X\x00S\x00C\x003\x00T\x00s' @ 6857 : 1
+2022/11/22-01:01:13.518 3d690 Compacting 1@1 + 1@2 files
+2022/11/22-01:01:13.598 3d690 Generated table #9@1: 219 keys, 36310 bytes
+2022/11/22-01:01:13.598 3d690 Compacted 1@1 + 1@2 files => 36310 bytes
+2022/11/22-01:01:13.687 3d690 compacted to: files[ 0 0 1 0 0 0 0 ]
+2022/11/22-01:01:13.687 3d690 Delete type=2 #5
+2022/11/22-01:01:13.687 3d690 Delete type=2 #8
+2022/11/22-01:01:13.700 3d690 Manual compaction at level-1 from '\x00\x01\x01 \x03\x00p]8\xe2IxB\x00\x01k\x00i\x00m\x00a\x00g\x00e\x00s\x00|\x00h\x00t\x00t\x00p\x00s\x00:\x00/\x00/\x00a\x00p\x00p\x00s\x00.\x00m\x00i\x00c\x00r\x00o\x00s\x00o\x00f\x00t\x00.\x00c\x00o\x00m\x00/\x00s\x00t\x00o\x00r\x00e\x00/\x00i\x00m\x00a\x00g\x00e\x00s\x00/\x00l\x00o\x00g\x00o\x00-\x003\x002\x00x\x003\x002\x00.\x00p\x00n\x00g\x00?\x00v\x00=\x00g\x00B\x00Z\x00z\x00y\x00J\x00Y\x00t\x003\x00-\x00J\x00P\x00d\x00g\x00f\x00Y\x00P\x00G\x00G\x00o\x00J\x000\x00b\x00E\x00E\x00L\x002\x00o\x00z\x00U\x005\x00k\x004\x00X\x00V\x00S\x00p\x00X\x00S\x00C\x003\x00T\x00s' @ 6857 : 1 .. (end); will stop at (end)

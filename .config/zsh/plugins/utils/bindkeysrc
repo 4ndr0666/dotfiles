@@ -1,0 +1,225 @@
+# vim: ft=zsh
+## Bind keys
+	alias -- -='cd -'		# Cd into last dir with "-"
+# copy current command line to clipboard
+	function clip-line() {
+	    echo -nE "$BUFFER" | xclip -sel c -r
+	}
+	zle -N clip-line
+	bindkey "^x^x" clip-line
+# Make ^D always exit shell
+	function zexit() { exit }
+	zle -N zexit
+	bindkey '^d' zexit
+# Make alt+. go through previous lines' $! arguments
+	bindkey '\e.' insert-last-word
+# + to select but stay in completion menu
+	bindkey -M menuselect "+" accept-and-menu-complete
+# Return selects and confirms the selection
+	bindkey -M menuselect "^m" .accept-line
+# application widgets
+	btm-widget() {
+		btm -b <$TTY
+		zle redisplay
+	}
+	neomutt-widget() {
+		neomutt <$TTY
+		zle redisplay
+	}
+	zle -N btm-widget
+	zle -N neomutt-widget
+	bindkey '^g' btm-widget
+	bindkey '^[n' neomutt-widget
+# Do not save these in history:
+	bindkey -s '^v' ' v\r'
+	bindkey -s '^s' ' up2date\r'
+	bindkey -s '^q' ' pacbrowse\r'
+	bindkey -s '\ef' ' fedit\r'
+	bindkey '\eq' push-input # Push current input on a stack and pop it on next newline
+	(( $+commands[xplr] )) && bindkey -s '\ew' '\eq xcd\r'
+	(( $+commands[lf] )) && bindkey -s '^o' '\eq lfcd\r' && alias \
+		inc='lfcd ~/slsk/incoming' \
+		people='lfcd /mnt/01D5707D40B081F0/Users/ascol/People' \
+		doc='lfcd /mnt/01D5707D40B081F0/Users/ascol/Documents' \
+		dow='lfcd /mnt/01D5707D40B081F0/Users/ascol/Downloads' \
+		mus='lfcd /mnt/01D5707D40B081F0/Users/ascol/Music' \
+		pics='lfcd /mnt/01D5707D40B081F0/Users/ascol/Pictures' \
+		uni='lfcd /mnt/01D5707D40B081F0/Users/ascol/Documents/UNI/Corsi' \
+		ib='lfcd /mnt/01D5707D40B081F0/Users/ascol/Documents/IB' \
+		wsp='lfcd /mnt/01D5707D40B081F0/Users/ascol/Documents/pc_acer/roba!/wsp' \
+		mthstf='lfcd /mnt/01D5707D40B081F0/Users/ascol/Documents/mathstuff' \
+		movies='lfcd /dati/movies'
+
+# CTRL-Z as shortcut for `$ fg` (end result: toggles fg/bg).
+	bindkey -s '^z' 'fg\r'
+
+# vim user :)
+	for i in x q qa wq qw X Q QA WQ QW quit; eval alias :${i}=\' exit\'
+	alias v="nvim"
+	alias vi="v"
+	alias vim="v"
+	alias vimdiff="v -d"
+
+# Abbreviations
+	alias -g \
+		M='| more'		\
+		L='| ${PAGER:-less}'	\
+		H='| head'		\
+		T='| tail'		\
+		G='|&rg'		\
+		C='| wc -l'		\
+		N='>&/dev/null' 	\
+		X='|xclip'		\
+		O='|owo'		\
+		A='|xargs '	\
+		V='|& nvim -'
+		# NOTE: A suffixed space is needed to use aliases
+	# Some of the above are duplicated below for readability in longer commands
+	typeset -gA ZSH_ABBREVIATIONS
+	ZSH_ABBREVIATIONS+=(
+		":e"	"${EDITOR}"
+		":h"	"man"
+		":w"	"wiki"
+		"M"	"| more"
+		"L"	"| ${PAGER:-less}"
+		"H"	"| head"
+		"T"	"| tail"
+		"G"	"|&rg"
+		"C"	"| wc -l"
+		"N"	"&>/dev/null"
+		"X"	"| xclip"
+		"A"	"| xargs "
+		"V"	"|& nvim -"
+	)
+
+	magic-abbrev-expand() {
+		local MATCH
+		LBUFFER=${LBUFFER%%(#m)[|:_a-zA-Z0-9]#}
+		LBUFFER+=${ZSH_ABBREVIATIONS[$MATCH]:-$MATCH}
+		zle self-insert
+	}
+
+	no-magic-abbrev-expand() {
+		LBUFFER+=' '
+	}
+
+	magic-abbrev-expand-and-accept() {
+		local trailing_space
+		trailing_space=${LBUFFER##*[^[:IFSSPACE:]]}
+
+		if [[ -z $trailing_space ]]; then
+			LBUFFER=${LBUFFER%%(#m)[|:_a-zA-Z0-9]#}
+			LBUFFER+=${ZSH_ABBREVIATIONS[$MATCH]:-$MATCH}
+		fi
+
+		zle accept-line
+	}
+
+	zle -N magic-abbrev-expand
+	zle -N no-magic-abbrev-expand
+	zle -N magic-abbrev-expand-and-accept
+
+	bindkey " " magic-abbrev-expand
+	bindkey "^x " no-magic-abbrev-expand
+	bindkey "^m" magic-abbrev-expand-and-accept
+
+## These aliases are here because they're either too short for, or useless to, the `menu` script.
+# Enable aliases to be sudo’ed
+	alias sudo='sudo '
+# cf... shortcuts
+	alias cfx='nvim $XDG_CONFIG_HOME/sxiv/exec/key-handler'
+	alias cfs='nvim $XDG_CONFIG_HOME/ncspot/config.toml'
+	alias cfa='nvim $ZDOTDIR/plugins/utils/aliasrc'
+	alias cfb='nvim $ZDOTDIR/plugins/utils/bindkeysrc'
+	alias cff='nvim $ZDOTDIR/plugins/utils/functionsrc'
+	alias cfp='nvim $ZDOTDIR/.zprofile'
+	alias cfd='nvim $XDG_CONFIG_HOME/directories'
+	alias cfl='nvim $XDG_CONFIG_HOME/lf/lfrc'
+	alias cfi='nvim $XDG_CONFIG_HOME/ignorelist'
+	alias cfz='nvim $ZDOTDIR/.zshrc'
+	alias cfzp='nvim $ZDOTDIR/plugins'
+	alias cfzv='nvim $ZDOTDIR/plugins/vi_mode/vi_mode.zsh'
+	alias cfv='nvim $XDG_CONFIG_HOME/nvim/init.vim'
+	alias cfvp='nvim $XDG_CONFIG_HOME/nvim/plug'
+	alias cfm='nvim $XDG_CONFIG_HOME/mutt/muttrc'
+	alias cfr='nvim $XDG_CONFIG_HOME/X11/Xresources'
+	alias xg='nvim $XDG_CONFIG_HOME/X11/Xresources.d/gruvbox'
+	alias cfmb='nvim $XDG_CONFIG_HOME/ncmpcpp/bindings'
+	alias cfmc='nvim $XDG_CONFIG_HOME/ncmpcpp/config'
+	alias cfc='nvim $XDG_CONFIG_HOME/cava/config'
+	alias cfy='nvim $XDG_CONFIG_HOME/yt/subs'
+	alias cfu='nvim ${XDG_CONFIG_HOME:-$HOME/.config}/newsboat/urls'
+	alias cfn='nvim ${XDG_CONFIG_HOME:-$HOME/.config}/newsboat/config'
+	alias cfg='nvim ${XDG_CONFIG_HOME:-$HOME/.config}/browser/cfg'
+	alias cvb='nvim ${XDG_CONFIG_HOME:-$HOME/.config}/Vieb/viebrc'
+	alias src='nvim $HOME/.local/src'
+	alias df='df --print-type'
+	alias ls='ls --classify --group-directories-first --hyperlink=auto'
+	alias rd='rmdir'
+	alias mkdir='mkdir -p --verbose'
+	alias dmesg='journalctl -ko short-monotonic --no-hostname' # See https://bbs.archlinux.org/viewtopic.php?pid=1947018#p1947018
+	alias diff="diff --color=always --unified"
+	alias ip='ip -color=always'
+	alias path='echo $PATH | tr : "\n"'
+	alias mpv='mpv $MPV_OPTS'
+	alias ytmp3='youtube-dl --extract-audio --audio-quality 0 --audio-format mp3 ' # works for playlists too
+# Shorter commands
+	alias \
+		g='git' \
+		h="history -i -29" \
+		gd='g diff' \
+		gg='g pull' \
+		gp='g push' \
+		gca='g commit -a && g push' \
+		ka='killall' \
+		l='ls --color -lA' \
+		p='pacman' \
+		x='xplr' \
+		y='paru' \
+		glol="GIT_PAGER='fzf --ansi'; git -p log --graph --pretty='\''%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\'' --stat'" # GIT_PAGER='fzf --ansi --bind \'F1:cosa complicata per vedere la roba di quella commit con sed + less (?)\' '
+
+# Dotbare
+	alias d=' dotbare'
+	alias dfc='d commit -a'
+	alias dfp='d push'
+	alias dlol=" GIT_PAGER='fzf --ansi' d -p log --graph --pretty='\''%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\'' --stat'"
+	alias dupdsub="d submodule foreach git pull origin master"
+	local dot_cmds=(
+		fadd
+		fbackup
+		fcheckout
+		fedit
+		fgrep
+		finit
+		flog
+		freset
+		fstash
+		fstat
+		funtrack
+	)
+	for i in ${dot_cmds[@]}; alias "${i}= dotbare ${i}";
+## _exists stuff
+	_exists html2text && alias html2text='html2text -nobs -style pretty'
+	_exists pacgraph && alias pacgraph='pacgraph -b "#1e2021" -l "#848388" -t "#d93420" -d "#c78930" -p 8 98'
+	_exists nyancat || alias nyancat="telnet nyancat.acc.umu.se"
+	_exists duf && alias duf='duf --output filesystem,mountpoint,usage,avail --sort usage -hide special'
+	_exists vizex && alias vizex='vizex -d green -t blue -g cyan -s underlined'
+	_exists tty-clock && alias  		\
+		tty-clock="tty-clock -C 4"   \
+		cl="tty-clock -cs"		\
+		rcl="tty-clock -BDr"
+	_exists mconnect && alias \
+			mc='mconnect'g \
+			mctl='mconnectctl'g \
+			g4status='mctl show-device /org/mconnect/device/1'g \
+			g4url='mctl share-url /org/mconnect/device/1'g \
+			g4txt='mctl share-text /org/mconnect/device/1'g \
+			g4file='mctl share-file /org/mconnect/device/1'g \
+			g4sms='mctl send-sms /org/mconnect/device/1'
+	_exists bookmenu && alias bookmenu='OUT=$HOME bookmenu'
+	# Soulseek
+	_exists soulseekqt && alias slsk='soulseekqt'
+	_exists ares && alias \
+		jellyinstall='ares-install --device lgcasa ./org.jellyfin.webos_1.0.0_all.ipk' \
+		jellystart='ares-launch --device lgcasa org.jellyfin.webos' \
+		jellystop='ares-launch --device lgcasa --close org.jellyfin.webos'

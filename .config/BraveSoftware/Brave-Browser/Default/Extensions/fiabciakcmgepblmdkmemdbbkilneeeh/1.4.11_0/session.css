@@ -1,0 +1,51 @@
+a.link {
+    white-space: nowrap;
+}
+
+div.line {
+    overflow: hidden;
+}
+
+.ts_title {
+    font-family: Helvetica;
+    font-size: 22px;
+    font-weight: bold;
+    color: #79bcff /*#1dcfeb*/;
+    text-shadow: #2376c4 0px 1px 0px;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+}
+
+.ts_title:hover {
+    color: #6ea9ec;
+}
+
+.card-window {
+    margin-top: 70px;
+    min-width: -webkit-fill-available !important;
+}
+
+.first-window {
+    margin-top: 25px !important;
+}
+
+.container {
+    padding-top: 10px !important;
+}
+
+.delete-btn {
+    position: absolute;
+    right: 4px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    transform: scale(1.2) !important;
+}
+
+.tabs-n {
+    color: #aaa;
+    font-size: 16px;
+    font-weight: 100;
+}

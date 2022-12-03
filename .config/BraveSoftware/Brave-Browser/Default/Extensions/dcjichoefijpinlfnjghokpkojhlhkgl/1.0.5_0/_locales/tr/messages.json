@@ -1,0 +1,758 @@
+{
+   "and": {
+      "description": "",
+      "message": "ve"
+   },
+   "description": {
+      "description": "",
+      "message": "Multiple label and account notifier for Google Mail (Gmail)"
+   },
+   "gmail": {
+      "description": "",
+      "message": "Notifier for Gmail™"
+   },
+   "label_1": {
+      "description": "",
+      "message": "Yenile"
+   },
+   "label_10": {
+      "description": "",
+      "message": "Bildirimleri etkinleştir"
+   },
+   "label_11": {
+      "description": "",
+      "message": "Bir e-posta oluştur"
+   },
+   "label_12": {
+      "description": "",
+      "message": "SSS'i aç"
+   },
+   "label_13": {
+      "description": "",
+      "message": "Özel bir süre için"
+   },
+   "label_14": {
+      "description": "",
+      "message": "Giriş yapılan hesaplar"
+   },
+   "label_2": {
+      "description": "",
+      "message": "Ayarlar"
+   },
+   "label_3": {
+      "description": "",
+      "message": "Tüm bildirimleri devre dışı bırak"
+   },
+   "label_4": {
+      "description": "",
+      "message": "5 dakika"
+   },
+   "label_5": {
+      "description": "",
+      "message": "15 dakika"
+   },
+   "label_6": {
+      "description": "",
+      "message": "30 dakika"
+   },
+   "label_7": {
+      "description": "",
+      "message": "1 saat"
+   },
+   "label_8": {
+      "description": "",
+      "message": "2 saat"
+   },
+   "label_9": {
+      "description": "",
+      "message": "5 saat"
+   },
+   "log_in_to_your_account": {
+      "description": "",
+      "message": "Lütfen Gmail hesabınıza giriş yapın"
+   },
+   "log_into_your_account": {
+      "description": "",
+      "message": "Please log into your account"
+   },
+   "msg_1": {
+      "description": "",
+      "message": "Sekme zaten açık. Gmail'i yeni bir sekmede açmak veya mevcut bir Gmail sekmesine geçmek için araç çubuğu düğmesine tıklayın."
+   },
+   "msg_2": {
+      "description": "",
+      "message": "Bağlantı panoya kopyalandı."
+   },
+   "msg_3": {
+      "description": "",
+      "message": "Seçilen metin panoya kopyalandı."
+   },
+   "msg_4": {
+      "description": "",
+      "message": "Note: For the notifier to work properly, you need to be logged-in into your Google account."
+   },
+   "msg_5": {
+      "description": "",
+      "message": "Bir ses dosyası seçin"
+   },
+   "notification": {
+      "description": "",
+      "message": "From: [author_email][break]Title: [title][break]Summary: [summary]"
+   },
+   "options_button_reset": {
+      "description": "",
+      "message": "Tercihleri Sıfırla"
+   },
+   "options_button_test": {
+      "description": "",
+      "message": "Oynat"
+   },
+   "options_donation": {
+      "description": "",
+      "message": "Geliştirmeye Destek ol"
+   },
+   "options_empty": {
+      "description": "",
+      "message": "not defined"
+   },
+   "options_gmail": {
+      "description": "",
+      "message": "Gmail:"
+   },
+   "options_gmail_1": {
+      "description": "",
+      "message": "Birinci (asıl) hesap (/mail/u/0/)"
+   },
+   "options_gmail_10": {
+      "description": "",
+      "message": "Aşağıdaki etiketler ve hesaplar için bildirim alın:"
+   },
+   "options_gmail_11": {
+      "description": "",
+      "message": "Custom feeds:"
+   },
+   "options_gmail_12": {
+      "description": "",
+      "message": "Separate feeds by \",\" (Comma). Sample feed: https://mail.google.com/mail/u/0/feed/atom/inbox"
+   },
+   "options_gmail_13": {
+      "description": "",
+      "message": "Note: maximum number for all labels except \"inbox\" is 20 (Google feeds only supply the 20 newest entries)"
+   },
+   "options_gmail_14": {
+      "description": "",
+      "message": "Note: for the Notifier to listen for more than 5 accounts, add feeds URLs to the \"Custom feeds\" field. For instance to listen to the 6 and 7th accounts add:  https://mail.google.com/mail/u/6/feed/atom/inbox,  https://mail.google.com/mail/u/7/feed/atom/inbox"
+   },
+   "options_gmail_15": {
+      "description": "",
+      "message": "Some popular labels:"
+   },
+   "options_gmail_2": {
+      "description": "",
+      "message": "Etiketleri \",\" (virgül) ile ayırın."
+   },
+   "options_gmail_3": {
+      "description": "",
+      "message": "İkinci hesap (/mail/u/1/)"
+   },
+   "options_gmail_4": {
+      "description": "",
+      "message": "Üçüncü hesap (/mail/u/2/)"
+   },
+   "options_gmail_5": {
+      "description": "",
+      "message": "Dördüncü hesap (/mail/u/3/)"
+   },
+   "options_gmail_6": {
+      "description": "",
+      "message": "Beşinci hesap (/mail/u/4/)"
+   },
+   "options_gmail_7": {
+      "description": "",
+      "message": "Altıncı hesap (/mail/u/5/)"
+   },
+   "options_gmail_8": {
+      "description": "",
+      "message": "İletiyi arşivlerken okunmuş olarak işaretle"
+   },
+   "options_inshort": {
+      "description": "",
+      "message": "Multiple label and account notifier for Google Mail (Gmail)."
+   },
+   "options_misc": {
+      "description": "",
+      "message": "Diğer Ayarlar:"
+   },
+   "options_misc_1": {
+      "description": "",
+      "message": "Sort accounts alphabetically"
+   },
+   "options_misc_10": {
+      "description": "",
+      "message": "Only fire desktop and sound notifications when email has arrived in less than (in minutes): "
+   },
+   "options_misc_11": {
+      "description": "",
+      "message": "By setting this preference to zero, you will receive neither desktop nor sound notifications; however, you will still get badge notification."
+   },
+   "options_misc_12": {
+      "description": "",
+      "message": "Do not include login details in the tooltip text"
+   },
+   "options_misc_13": {
+      "description": "",
+      "message": "By default, the notifier updates tooltip text of the toolbar button with login info. By unchecking this option, the tooltip text remains the default value."
+   },
+   "options_misc_14": {
+      "description": "",
+      "message": "Do not show the exact badge number when the number of unread emails is greater than 999"
+   },
+   "options_misc_15": {
+      "description": "",
+      "message": "Her güncellemeden sonra SSS sayfasını aç"
+   },
+   "options_misc_2": {
+      "description": "",
+      "message": "The default order type is logged-in order."
+   },
+   "options_misc_3": {
+      "description": "",
+      "message": "Toolbar color pattern is"
+   },
+   "options_misc_4": {
+      "description": "",
+      "message": "Gray color for \"No Unread\" and blue color for \"Disconnected\""
+   },
+   "options_misc_5": {
+      "description": "",
+      "message": "Blue color for \"No Unread\" and gray color for \"Disconnected\""
+   },
+   "options_misc_6": {
+      "description": "",
+      "message": "Show desktop notification to warn that Gmail is already opened in the active tab"
+   },
+   "options_misc_7": {
+      "description": "",
+      "message": "Show welcome page on upgrade"
+   },
+   "options_misc_8": {
+      "description": "",
+      "message": "Reset all settings back to factory"
+   },
+   "options_misc_9": {
+      "description": "",
+      "message": "Red color for \"No Unread\" and gray color for \"Disconnected\""
+   },
+   "options_notifications": {
+      "description": "",
+      "message": "Bildirimler:"
+   },
+   "options_notifications_1": {
+      "description": "",
+      "message": "Yeni e-postalar için masaüstü bildirimlerini aç"
+   },
+   "options_notifications_10": {
+      "description": "",
+      "message": "Mac kullanıcıları için not: Firefox 28.0 sürümünde, tüm masaüstü bildirimleri, ekstra bir uyarıya neden olan Mac Bildirim Merkezi tarafından kontrol edilmektedir. Bu sesli bildirimin veya Bildirim Merkezi tarafından oluşturulan bildirimin tikini kaldırmanız gerekir."
+   },
+   "options_notifications_11": {
+      "description": "",
+      "message": "\"Windows görev çubuğu bildirimi\" veya \"Mac OS Dock bildirimi\" ni görüntüle"
+   },
+   "options_notifications_12": {
+      "description": "",
+      "message": "Görev çubuğu bildirimleri şu anda Linux işletim sistemlerinde desteklenmemektedir."
+   },
+   "options_notifications_13": {
+      "description": "",
+      "message": "Görev çubuğu bildirim simgesini tıklattığınızda araç çubuğu panelini açın (Yalnızca Windows, Beta)"
+   },
+   "options_notifications_14": {
+      "description": "",
+      "message": "Bu özellik oldukça deneyseldir ve Firefox tarayıcınızı kararsız hale getirebilir. [Yeniden başlatma gerektirir]."
+   },
+   "options_notifications_15": {
+      "description": "",
+      "message": "Varsayılan sesli bildirim"
+   },
+   "options_notifications_16": {
+      "description": "",
+      "message": "Gmail Bildirici varsayılan sesi"
+   },
+   "options_notifications_17": {
+      "description": "",
+      "message": "Checker Plus bildirim sesi"
+   },
+   "options_notifications_18": {
+      "description": "",
+      "message": "Checker Plus tınlama sesi"
+   },
+   "options_notifications_19": {
+      "description": "",
+      "message": "Windows e-posta sesi"
+   },
+   "options_notifications_2": {
+      "description": "",
+      "message": "Masaüstü bildirimlerini şu kadar saniye göster:"
+   },
+   "options_notifications_20": {
+      "description": "",
+      "message": "Özel bildirim sesi seçin"
+   },
+   "options_notifications_21": {
+      "description": "",
+      "message": "Özel bildirim sesiniz:"
+   },
+   "options_notifications_22": {
+      "description": "",
+      "message": "Tarayıcınız özel bildirim sesini çalmıyorsa, çevrimiçi bir dönüştürme aracı kullanarak WAV formatına dönüştürmeyi deneyin."
+   },
+   "options_notifications_23": {
+      "description": "",
+      "message": "Bildirim sesinin değeri"
+   },
+   "options_notifications_24": {
+      "description": "",
+      "message": "Ses, 0 ile 100 arasında bir sayıdır; burada 100, en yüksek ses düzeyidir (varsayılan)."
+   },
+   "options_notifications_25": {
+      "description": "",
+      "message": "Safari'de varsayılan sesli bildirimler düzgün şekilde oynatılmıyorsa, özel bir ses dosyası kullanın."
+   },
+   "options_notifications_26": {
+      "description": "",
+      "message": "Always show tray notification (Windows only)"
+   },
+   "options_notifications_27": {
+      "description": "",
+      "message": "Tray notification will be shown even if there is no unread message."
+   },
+   "options_notifications_28": {
+      "description": "",
+      "message": "Disable all notifications for a custom time period (in minutes):"
+   },
+   "options_notifications_29": {
+      "description": "",
+      "message": "This option is related to the right click menu on the toolbar button -> disable all notifications -> custom time period."
+   },
+   "options_notifications_3": {
+      "description": "",
+      "message": "Bu seçenek işletim sisteminize bağlı olarak çalışmayabilir."
+   },
+   "options_notifications_30": {
+      "description": "",
+      "message": "Combine all concurrent desktop notifications into a single notification"
+   },
+   "options_notifications_31": {
+      "description": "",
+      "message": "Özel bildirim sesi"
+   },
+   "options_notifications_32": {
+      "description": "",
+      "message": "name or email contains"
+   },
+   "options_notifications_33": {
+      "description": "",
+      "message": "email title contains"
+   },
+   "options_notifications_34": {
+      "description": "",
+      "message": "email summary contains"
+   },
+   "options_notifications_35": {
+      "description": "",
+      "message": "To select a new custom sound, select a built-in sound first and then change the option to custom sound"
+   },
+   "options_notifications_36": {
+      "description": "",
+      "message": "Ask Gmail to prevent 'inbox.google.com' redirection"
+   },
+   "options_notifications_37": {
+      "description": "",
+      "message": "Display Badge number"
+   },
+   "options_notifications_38": {
+      "description": "",
+      "message": "Faster actions (mark as read, delete, ...) (Consider actions to be resolved when headers are received)"
+   },
+   "options_notifications_4": {
+      "description": "",
+      "message": "Bildirim şekli"
+   },
+   "options_notifications_40": {
+      "description": "",
+      "message": "Allow quick actions from notification box (maximum two actions) (Chrome only)"
+   },
+   "options_notifications_41": {
+      "description": "",
+      "message": "Mark as Read"
+   },
+   "options_notifications_42": {
+      "description": "",
+      "message": "Archive"
+   },
+   "options_notifications_43": {
+      "description": "",
+      "message": "Trash"
+   },
+   "options_notifications_5": {
+      "description": "",
+      "message": "Mevcut değişkenler:"
+   },
+   "options_notifications_6": {
+      "description": "",
+      "message": "Gelen e-posta yandaki sayı kadar karakterden fazla ise bildirim gösterme:"
+   },
+   "options_notifications_7": {
+      "description": "",
+      "message": " "
+   },
+   "options_notifications_8": {
+      "description": "",
+      "message": "Elips şeklinde olmaması için burada büyük bir sayı kullanın veya varsayılan olarak bırakın."
+   },
+   "options_notifications_9": {
+      "description": "",
+      "message": "Yeni e-postalar için uyarı sesi çal"
+   },
+   "options_plugins": {
+      "description": "",
+      "message": "Plug-ins:"
+   },
+   "options_plugins_1": {
+      "description": "",
+      "message": "Gmail labels and star button (experimental)"
+   },
+   "options_plugins_2": {
+      "description": "",
+      "message": "This plugin displays the star button as well as thread's labels in the popup (expanded mode only)."
+   },
+   "options_px": {
+      "description": "",
+      "message": "px"
+   },
+   "options_tab": {
+      "description": "",
+      "message": "Sekme Açılışı:"
+   },
+   "options_tab_1": {
+      "description": "",
+      "message": "Sadece aktif pencerede açık bir Gmail hesabı arayın"
+   },
+   "options_tab_10": {
+      "description": "",
+      "message": "Open emails in basic HTML mode"
+   },
+   "options_tab_2": {
+      "description": "",
+      "message": "Do not search other browser windows for open Gmail accounts. If Gmail is not open in the active window, open a new tab."
+   },
+   "options_tab_3": {
+      "description": "",
+      "message": "Open new Gmail account next to the active tab"
+   },
+   "options_tab_4": {
+      "description": "",
+      "message": "Open Gmail account in the active tab"
+   },
+   "options_tab_5": {
+      "description": "",
+      "message": "Open Gmail account in a background tab"
+   },
+   "options_tab_6": {
+      "description": "",
+      "message": "Open Gmail account in a new window"
+   },
+   "options_tab_7": {
+      "description": "",
+      "message": "Always use blank tabs instead of opening a new tab when open in tab is activated"
+   },
+   "options_tab_8": {
+      "description": "",
+      "message": "Ignore opened Gmail tabs"
+   },
+   "options_tab_9": {
+      "description": "",
+      "message": "When unchecked, Gmail Notifier checks either active window or all open windows for open instance of Gmail and switch to the tab when tab opening is requested."
+   },
+   "options_timings": {
+      "description": "",
+      "message": "Zamanlama:"
+   },
+   "options_timings_l1": {
+      "description": "",
+      "message": "Şu kadar saniyede bir yeni e-postaları kontrol et:"
+   },
+   "options_timings_l2": {
+      "description": "",
+      "message": "En az süre 10 saniyedir."
+   },
+   "options_timings_l3": {
+      "description": "",
+      "message": "Şu kadar dakikada bir okunmamış e-postaları hatırlat:"
+   },
+   "options_timings_l4": {
+      "description": "",
+      "message": "Hiçbir zaman hatırlatılmaması için değeri 0 (sıfır) olarak ayarlayın."
+   },
+   "options_timings_l5": {
+      "description": "",
+      "message": "En az süre 5 dakikadır."
+   },
+   "options_timings_l6": {
+      "description": "",
+      "message": "Değerler 0 (sıfır) değilse okunmamış e-postalar hem masaüstü bildirimi hem de uyarı sesiyle size bildirilir."
+   },
+   "options_timings_l7": {
+      "description": "",
+      "message": "Şu saniyeliğine başlangıçta yeni e-postaları kontrol etme:"
+   },
+   "options_timings_l8": {
+      "description": "",
+      "message": "İlk elle yenilemeye kadar e-posta kontrolünü kapamak için değeri 0 (sıfır) olarak ayarlayın [Safari için geçerli değildir]."
+   },
+   "options_title": {
+      "description": "",
+      "message": "Seçenekler - Gmail™ Notifier"
+   },
+   "options_toolbar": {
+      "description": "",
+      "message": "Araç Çubuğu:"
+   },
+   "options_toolbar_1": {
+      "description": "",
+      "message": "Toolbar button behaviour"
+   },
+   "options_toolbar_10": {
+      "description": "",
+      "message": "Minimum height is 500px."
+   },
+   "options_toolbar_11": {
+      "description": "",
+      "message": "Support keyboard shortcuts on the toolbar panel"
+   },
+   "options_toolbar_12": {
+      "description": "",
+      "message": "!: Report as spam, #: Trash, e: Archive, Shift + i: Mark as read."
+   },
+   "options_toolbar_13": {
+      "description": "",
+      "message": "Render emails as HTML in full-content mode"
+   },
+   "options_toolbar_14": {
+      "description": "",
+      "message": "If you prefer text-only rendering in the full-content mode, uncheck the box."
+   },
+   "options_toolbar_15": {
+      "description": "",
+      "message": "Middle-click on the toolbar button to"
+   },
+   "options_toolbar_16": {
+      "description": "",
+      "message": "Tüm hesapları yenile"
+   },
+   "options_toolbar_17": {
+      "description": "",
+      "message": "Open primary Gmail account"
+   },
+   "options_toolbar_18": {
+      "description": "",
+      "message": "Open Gmail account (forced)"
+   },
+   "options_toolbar_2": {
+      "description": "",
+      "message": "Always open email preview panel"
+   },
+   "options_toolbar_3": {
+      "description": "",
+      "message": "Yalnızca bir hesap giriş yaptıysa, Gmail hesabını aç"
+   },
+   "options_toolbar_4": {
+      "description": "",
+      "message": "Toolbar panel mode"
+   },
+   "options_toolbar_5": {
+      "description": "",
+      "message": "Sadece özetini göster"
+   },
+   "options_toolbar_6": {
+      "description": "",
+      "message": "Tam içeriği göster"
+   },
+   "options_toolbar_7": {
+      "description": "",
+      "message": "Toolbar panel width in the full-content view mode is (in pixels):"
+   },
+   "options_toolbar_8": {
+      "description": "",
+      "message": "Minimum width is 500px."
+   },
+   "options_toolbar_9": {
+      "description": "",
+      "message": "Toolbar panel height in the full-content view mode is (in pixels):"
+   },
+   "popup_archive": {
+      "description": "",
+      "message": "Arşivle"
+   },
+   "popup_date_format": {
+      "description": "",
+      "message": "%mm %dd, %yy"
+   },
+   "popup_msg_1": {
+      "description": "",
+      "message": "az önce"
+   },
+   "popup_msg_10": {
+      "description": "",
+      "message": "Ocak"
+   },
+   "popup_msg_11": {
+      "description": "",
+      "message": "Şubat"
+   },
+   "popup_msg_12": {
+      "description": "",
+      "message": "Mart"
+   },
+   "popup_msg_13": {
+      "description": "",
+      "message": "Nisan"
+   },
+   "popup_msg_14": {
+      "description": "",
+      "message": "Mayıs"
+   },
+   "popup_msg_15": {
+      "description": "",
+      "message": "Haziran"
+   },
+   "popup_msg_16": {
+      "description": "",
+      "message": "Temmuz"
+   },
+   "popup_msg_17": {
+      "description": "",
+      "message": "Ağustos"
+   },
+   "popup_msg_18": {
+      "description": "",
+      "message": "Eylül"
+   },
+   "popup_msg_19": {
+      "description": "",
+      "message": "Ekim"
+   },
+   "popup_msg_2": {
+      "description": "",
+      "message": "1 dakika önce"
+   },
+   "popup_msg_20": {
+      "description": "",
+      "message": "Kasım"
+   },
+   "popup_msg_21": {
+      "description": "",
+      "message": "Aralık"
+   },
+   "popup_msg_3_format": {
+      "description": "",
+      "message": "%d dakika önce"
+   },
+   "popup_msg_4": {
+      "description": "",
+      "message": "1 saat önce"
+   },
+   "popup_msg_5": {
+      "description": "",
+      "message": "saat önce"
+   },
+   "popup_msg_6": {
+      "description": "",
+      "message": "Dün"
+   },
+   "popup_msg_7_format": {
+      "description": "",
+      "message": "%d gün önce"
+   },
+   "popup_msg_8_format": {
+      "description": "",
+      "message": "%d hafta önce"
+   },
+   "popup_msg_9_format": {
+      "description": "",
+      "message": "%d ay önce"
+   },
+   "popup_no_subject": {
+      "description": "",
+      "message": "(konu yok)"
+   },
+   "popup_of": {
+      "description": "",
+      "message": "of"
+   },
+   "popup_open_inbox": {
+      "description": "",
+      "message": "Gmail'i aç"
+   },
+   "popup_open_settings": {
+      "description": "",
+      "message": "Ayarları aç"
+   },
+   "popup_read": {
+      "description": "",
+      "message": "Okundu İşaretle"
+   },
+   "popup_read_all": {
+      "description": "",
+      "message": "Tümünü okundu işaretle"
+   },
+   "popup_refresh": {
+      "description": "",
+      "message": "Yenile"
+   },
+   "popup_settings": {
+      "description": "",
+      "message": "ayarlar"
+   },
+   "popup_spam": {
+      "description": "",
+      "message": "Spamla"
+   },
+   "popup_trash": {
+      "description": "",
+      "message": "Sil"
+   },
+   "popup_wait": {
+      "description": "",
+      "message": "Bekleyiniz..."
+   },
+   "settings_open_label": {
+      "description": "",
+      "message": "Seçenekler"
+   },
+   "settings_open_title": {
+      "description": "",
+      "message": "Open options (settings) page"
+   },
+   "toolbar_label": {
+      "description": "",
+      "message": "Notifier for Gmail™"
+   },
+   "tooltip_1": {
+      "description": "",
+      "message": "Left click: Open Gmail or mail preview panel"
+   },
+   "tooltip_2": {
+      "description": "",
+      "message": "Middle (or Ctrl+Left) click: Refresh all accounts"
+   },
+   "tooltip_3": {
+      "description": "",
+      "message": "Right click: Account selections"
+   },
+   "unknown": {
+      "description": "",
+      "message": "bilinmeyen"
+   }
+}

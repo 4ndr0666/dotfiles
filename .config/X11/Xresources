@@ -1,0 +1,52 @@
+!!                _    _
+!!               \ \  / /
+!!                \ \/ /  ____ ____  ___  ___  _   _  ____ ____ ____  ___
+!!                 )  (  / ___) _  )/___)/ _ \| | | |/ ___) ___) _  )/___)
+!!              _ / /\ \| |  ( (/ /|___ | |_| | |_| | |  ( (__( (/ /|___ |
+!!             (_)_/  \_\_|   \____|___/ \___/ \____|_|   \____)____|___/
+!!
+!!
+
+#include "Xresources.d/gruvbox"
+#include "Xresources.d/xscreensaver"
+
+!! Sxiv
+Sxiv.font: Hack Nerd Font:size=14:style=bold
+Sxiv.background: C0
+Sxiv.foreground: C4
+
+!! St
+st.alpha: 0.8
+st.alphaOffset: 0.1
+st.bellvolume: 0
+st.blinktimeout: 666
+
+!! Xcursor (some X11 programs may read it from here, i.e. wezterm)
+Xcursor.theme: ArchCursorTheme
+Xcursor.size: 27
+
+!! gnuplot
+! enable support for various linestyles
+gnuplot*dashed: on
+gnuplot*borderDashes:   0
+gnuplot*axisDashes:    16
+gnuplot*line1Dashes:    0
+gnuplot*line2Dashes:   42
+gnuplot*line3Dashes:   13
+gnuplot*line4Dashes:   44
+gnuplot*line5Dashes:   15
+gnuplot*line6Dashes: 4441
+gnuplot*line7Dashes:   42
+gnuplot*line8Dashes:   13
+! UTF-8 text support for labels/titles
+gnuplot*font: mbfont:-misc-fixed-medium-r-normal-*-*-*-100-100-*-*-iso10646-*
+gnuplot*encoding: utf-8
+
+!! Appearance
+Xft.antialias: 1
+Xft.hinting: 1
+Xft.rgba: rgb
+Xft.autohint: 0
+Xft.hintstyle: hintslight
+Xft.lcdfilter: lcddefault
+*.scrollBar: 0

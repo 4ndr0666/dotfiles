@@ -1,0 +1,1 @@
+function aiparser(e){if(top==window){var r=0,i=document.querySelectorAll("#viewer-img img");i.length>0?i.forEach(function(e){n(e.dataset.original||e.src)}):document.querySelectorAll("img").forEach(function(e){n(e.src)})}function n(i,n){new ParsedPItem({src:i,alt:n},r++,e,function(r){chrome.runtime.sendMessage({cmd:"ADD_IMG",tabId:e.id,item:r})})}}window.aiparser=aiparser;

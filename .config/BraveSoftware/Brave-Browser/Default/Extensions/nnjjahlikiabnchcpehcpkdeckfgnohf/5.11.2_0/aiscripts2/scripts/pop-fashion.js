@@ -1,0 +1,1 @@
+function aiparser(r){var e=[];document.querySelectorAll(".report-box").forEach(r=>{e.push({src:r.dataset.src,alt:r.dataset.id})}),chrome.runtime.sendMessage({cmd:"ADD_IMG_LIST",list:e})}window.aiparser=aiparser;

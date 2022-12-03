@@ -1,0 +1,7 @@
+2022/11/23-06:42:56.781 5bf2c Reusing MANIFEST /home/andro/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/https_cyberspaceandtime.com_0.indexeddb.leveldb/MANIFEST-000001
+2022/11/23-06:42:56.781 5bf2c Recovering log #3
+2022/11/23-06:42:56.781 5bf2c Reusing old log /home/andro/.config/BraveSoftware/Brave-Browser/Default/IndexedDB/https_cyberspaceandtime.com_0.indexeddb.leveldb/000003.log 
+2022/11/23-06:44:33.698 5bcd4 Level-0 table #5: started
+2022/11/23-06:44:33.762 5bcd4 Level-0 table #5: 9324 bytes OK
+2022/11/23-06:44:33.840 5bcd4 Delete type=0 #3
+2022/11/23-06:44:33.840 5bcd4 Manual compaction at level-0 from (begin) .. (end); will stop at (end)

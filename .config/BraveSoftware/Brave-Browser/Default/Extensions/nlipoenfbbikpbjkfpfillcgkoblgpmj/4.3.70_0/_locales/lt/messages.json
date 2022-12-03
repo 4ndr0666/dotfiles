@@ -1,0 +1,561 @@
+{
+   "Modify": {
+      "description": "Popup menu",
+      "message": "Modify"
+   },
+   "add_info": {
+      "description": "options",
+      "message": "Add Date and URL at the top of a screenshot"
+   },
+   "alert_auto_content": {
+      "description": "options",
+      "message": "Your recording will not auto-stop after you turn off the timed recording."
+   },
+   "auto_stop_tip": {
+      "description": "Popup menu",
+      "message": "Auto-stop recording in&nbsp;\u003Cspan>$time$\u003C/span>",
+      "placeholders": {
+         "time": {
+            "content": "$1",
+            "example": "00:00:10"
+         }
+      }
+   },
+   "auto_tab_tip": {
+      "description": "Popup menu",
+      "message": "The Mic is off & tab sound is on to avoid echoes while recording. Turn on Mic if needed."
+   },
+   "auto_timer_tip": {
+      "description": "Popup menu",
+      "message": "Auto-stop in\u003Cspan>$time$\u003C/span>",
+      "placeholders": {
+         "time": {
+            "content": "$1",
+            "example": "00:00:10"
+         }
+      }
+   },
+   "c_s_fullpage": {
+      "description": "options",
+      "message": "Full Page"
+   },
+   "c_s_selected": {
+      "description": "options",
+      "message": "Selected Area"
+   },
+   "c_s_title": {
+      "description": "options",
+      "message": "Capture Shortcuts"
+   },
+   "c_s_visible": {
+      "description": "options",
+      "message": "Visible Part"
+   },
+   "c_section_title": {
+      "description": "options",
+      "message": "Capture Preferences"
+   },
+   "capture_btn_cancel": {
+      "description": "content",
+      "message": "Cancel"
+   },
+   "capture_btn_capture": {
+      "description": "content",
+      "message": "Capture"
+   },
+   "capture_btn_copy": {
+      "description": "content",
+      "message": "Copy"
+   },
+   "capture_btn_copy_tip": {
+      "description": "content",
+      "message": "Copied to clipboard!"
+   },
+   "capture_cloud_tip": {
+      "description": "Popup menu",
+      "message": "Switch to 'Cloud' to capture screenshot and URL"
+   },
+   "capture_location_title": {
+      "description": "Popup menu",
+      "message": "Save image to"
+   },
+   "ctl_bar_title": {
+      "description": "Popup menu",
+      "message": "Control Bar"
+   },
+   "ctl_bar_title_more": {
+      "description": "Popup menu",
+      "message": "Control bar & Annotation tools"
+   },
+   "custom_record": {
+      "description": "Popup menu",
+      "message": "Custom(This Tab)"
+   },
+   "d_a": {
+      "description": "options",
+      "message": "Download Screenshot As"
+   },
+   "d_delay": {
+      "description": "options",
+      "message": "Entire Screen & App Window after Delay"
+   },
+   "d_delay_never": {
+      "description": "options",
+      "message": "Never"
+   },
+   "dark_mode": {
+      "description": "options",
+      "message": "Turn on dark mode for the extension's popup menu"
+   },
+   "default_tab_c": {
+      "description": "options",
+      "message": "Capture"
+   },
+   "default_tab_d": {
+      "description": "options",
+      "message": "Last used"
+   },
+   "default_tab_r": {
+      "description": "options",
+      "message": "Record"
+   },
+   "default_tab_title": {
+      "description": "options",
+      "message": "Set popup menu's default tab to"
+   },
+   "delay": {
+      "description": "Popup menu",
+      "message": "Visible Part after Delay"
+   },
+   "desktop": {
+      "description": "Popup menu",
+      "message": "Entire Screen & App Window"
+   },
+   "discard_btn": {
+      "description": "Popup menu",
+      "message": "Discard"
+   },
+   "discard_p": {
+      "description": "Popup menu",
+      "message": "Discarded recording will be permanently deleted. Are you sure you want to discard this recording"
+   },
+   "discard_p_no": {
+      "description": "Popup menu",
+      "message": "No"
+   },
+   "discard_p_yes": {
+      "description": "Popup menu",
+      "message": "Yes, discard"
+   },
+   "drag_btn": {
+      "description": "Popup menu",
+      "message": "Drag"
+   },
+   "embed_cam_btn": {
+      "description": "Popup menu",
+      "message": "Embed Camera"
+   },
+   "entire": {
+      "description": "Popup menu",
+      "message": "Full Page"
+   },
+   "extDesc": {
+      "description": "Extension description.",
+      "message": "Geriausias ekrano įrašymo įrenginys ir ekrano fiksavimo bei anotacijų įrankis nuotoliniam darbui."
+   },
+   "extName": {
+      "description": "Extension name.",
+      "message": "Nuostabi ekrano kopija ir ekrano įrašymo priemonė"
+   },
+   "fullpage_capture_stop_tip": {
+      "description": "Popup menu",
+      "message": "For very long pages or infinite scroll pages, you can end the capturing manually by clicking \u003Ca id='stop-entire-capture'>Stop\u003C/a>."
+   },
+   "fullpage_capture_tip": {
+      "description": "Popup menu",
+      "message": "Please \u003Cspan>do not scroll\u003C/span> or move your mouse pointer while capturing in order to get the best result."
+   },
+   "fullpage_capture_title": {
+      "description": "Popup menu",
+      "message": "Full Page Capturing..."
+   },
+   "get_link_google": {
+      "description": "options",
+      "message": "Always get shareable links for screenshots uploaded to Google Drive"
+   },
+   "gmail_icon": {
+      "description": "options",
+      "message": "Show the extension icon in the compose window of Gmail in order to add a screenshot"
+   },
+   "grant_access": {
+      "description": "Popup menu",
+      "message": "Grant Access"
+   },
+   "hide_ctl_bar": {
+      "description": "Popup menu",
+      "message": "Hide Control Bar"
+   },
+   "m_section_title": {
+      "description": "options",
+      "message": "More Settings"
+   },
+   "minu_limit_tip": {
+      "description": "Popup menu",
+      "message": "(5 minutes limit)"
+   },
+   "more": {
+      "description": "Popup menu",
+      "message": "More"
+   },
+   "off_cam_btn": {
+      "description": "Popup menu",
+      "message": "Turn Off Camera"
+   },
+   "off_mic_btn": {
+      "description": "Popup menu",
+      "message": "Turn Off Microphone"
+   },
+   "ok": {
+      "description": "Popup menu",
+      "message": "Ok"
+   },
+   "on_cam_btn": {
+      "description": "Popup menu",
+      "message": "Turn On Camera"
+   },
+   "on_mic_btn": {
+      "description": "Popup menu",
+      "message": "Turn On Microphone"
+   },
+   "pause_btn": {
+      "description": "Popup menu",
+      "message": "Pause"
+   },
+   "pause_title": {
+      "description": "Popup menu",
+      "message": "Paused"
+   },
+   "play_video": {
+      "description": "options",
+      "message": "Play video on the page"
+   },
+   "play_video_desc": {
+      "description": "options",
+      "message": "Turning on this option allows you to watch any Awesome Screenshot video with a shareable link right on the page you are on, in any of the following platforms, without jumping to a new tab. You can manage your preferences for these platforms by selecting or deselecting the checkbox besides their names."
+   },
+   "prepare_record_tip": {
+      "description": "Popup menu",
+      "message": "\u003Cp>Connecting to the server...\u003C/p>If the recording doesn't start after some time, click the Stop Sharing button at the bottom of your screen, check your network then retry."
+   },
+   "r_alert_auto_title": {
+      "description": "options",
+      "message": "Turn off auto-stop?"
+   },
+   "r_alert_turnoff": {
+      "description": "options",
+      "message": "Turn off"
+   },
+   "r_c": {
+      "description": "options",
+      "message": "Countdown Timer"
+   },
+   "r_c_desc": {
+      "description": "options",
+      "message": "Recording will start after the countdown"
+   },
+   "r_r_mic": {
+      "description": "options",
+      "message": "Allow reminder when Microphone is turned off. "
+   },
+   "r_s_a": {
+      "description": "options",
+      "message": "Manage"
+   },
+   "r_s_auto": {
+      "description": "options",
+      "message": "Auto-stop"
+   },
+   "r_s_more_title": {
+      "description": "options",
+      "message": "More settings"
+   },
+   "r_s_title": {
+      "description": "options",
+      "message": "Recording shortcuts"
+   },
+   "r_section_title": {
+      "description": "options",
+      "message": "Record Preferences"
+   },
+   "record_cam": {
+      "description": "Popup menu",
+      "message": "Camera Only"
+   },
+   "record_camera_only_title": {
+      "description": "Popup menu",
+      "message": "Camera"
+   },
+   "record_camera_title": {
+      "description": "Popup menu",
+      "message": "Embed Camera"
+   },
+   "record_desktop": {
+      "description": "Popup menu",
+      "message": "Desktop"
+   },
+   "record_local_tip": {
+      "description": "Popup menu",
+      "message": "Up to \u003Cb>5 minutes\u003C/b> per video. \u003Ca target='_blank' href='https://www.awesomescreenshot.com/pricing?from=extMenu5min' >Upgrade\u003C/a > to unlock the limit."
+   },
+   "record_location_cloud": {
+      "description": "Popup menu",
+      "message": "Cloud"
+   },
+   "record_location_local": {
+      "description": "Popup menu",
+      "message": "Local"
+   },
+   "record_location_title": {
+      "description": "Popup menu",
+      "message": "Save video to"
+   },
+   "record_mic_title": {
+      "description": "Popup menu",
+      "message": "Microphone"
+   },
+   "record_resolution_title": {
+      "description": "Popup menu",
+      "message": "Max Resolution"
+   },
+   "record_start": {
+      "description": "Popup menu",
+      "message": "Start Recording"
+   },
+   "record_tab": {
+      "description": "Popup menu",
+      "message": "This Tab"
+   },
+   "record_tab_sound_title": {
+      "description": "Popup menu",
+      "message": "Tab Sound"
+   },
+   "record_toolbar_title": {
+      "description": "Popup menu",
+      "message": "Show Annotation Tools"
+   },
+   "record_try_tip": {
+      "description": "Popup menu",
+      "message": "Enjoy all premium features for first 20 videos. \u003Ca target='_blank' href='https://www.awesomescreenshot.com/pricing?from=aws-upgrade' >Upgrade\u003C/a > to unlock unlimited videos"
+   },
+   "record_try_tip_image": {
+      "description": "Popup menu",
+      "message": "\u003Ca target='_blank' href='https://www.awesomescreenshot.com/pricing?from=aws-upgrade' >Upgrade\u003C/a > to get unlimited images"
+   },
+   "recording_title": {
+      "description": "Popup menu",
+      "message": "Recording..."
+   },
+   "resize_retina": {
+      "description": "options",
+      "message": "Resize a screenshot to 50% of its original size for Retina screen"
+   },
+   "resume_btn": {
+      "description": "Popup menu",
+      "message": "Resume"
+   },
+   "s_a": {
+      "description": "options",
+      "message": "Skip Annotating"
+   },
+   "s_a_a": {
+      "description": "options",
+      "message": "Always"
+   },
+   "s_a_n": {
+      "description": "options",
+      "message": "Never"
+   },
+   "s_a_o": {
+      "description": "options",
+      "message": "Only When Capturing Full Page"
+   },
+   "s_section_title": {
+      "description": "options",
+      "message": "Saving Preferences"
+   },
+   "save_as": {
+      "description": "options",
+      "message": "Ask where to save each file before downloading"
+   },
+   "save_as_desc": {
+      "description": "options",
+      "message": "Note: to use this feature, you need to Allow the extension to manage Downloads when permission request window pops up. And only when this option is turned on, can you specify default subfolder to save screenshots to your local disk. Defaults to the Downloads folder if you don’t specify a subfolder."
+   },
+   "selected": {
+      "message": "Selected Area"
+   },
+   "shortcuts_pause_resume": {
+      "description": "Extension setting",
+      "message": "Pause / Resume recording"
+   },
+   "shortcuts_start_stop": {
+      "description": "Extension setting",
+      "message": "Start / Stop Recording"
+   },
+   "show_ctl_bar": {
+      "description": "Popup menu",
+      "message": "Show Control Bar"
+   },
+   "stop_btn": {
+      "description": "Popup menu",
+      "message": "Stop"
+   },
+   "tab_title_capture": {
+      "description": "Popup menu",
+      "message": "Capture"
+   },
+   "tab_title_record": {
+      "description": "Popup menu",
+      "message": "Record"
+   },
+   "timer_des": {
+      "description": "Popup menu",
+      "message": "Your next recording will automatically stop at the time you entered."
+   },
+   "timer_set_title": {
+      "description": "Popup menu",
+      "message": "Set recording duration"
+   },
+   "upload": {
+      "description": "Popup menu",
+      "message": "Annotate Local & Clipboard Image"
+   },
+   "v_delay": {
+      "description": "options",
+      "message": "Visible Part after Delay"
+   },
+   "video_cloud_tip": {
+      "description": "Popup menu",
+      "message": "Switch to 'Cloud' for instant sharing"
+   },
+   "visible": {
+      "description": "Popup menu",
+      "message": "Visible Part"
+   },
+   "vtoolbar_annotation_btn": {
+      "description": "content",
+      "message": "Annotation Tools"
+   },
+   "vtoolbar_arrow_btn": {
+      "description": "content",
+      "message": "Arrow"
+   },
+   "vtoolbar_blur_btn": {
+      "description": "content",
+      "message": "Blur"
+   },
+   "vtoolbar_callout_btn": {
+      "description": "content",
+      "message": "Callout"
+   },
+   "vtoolbar_clear_btn": {
+      "description": "content",
+      "message": "Clear"
+   },
+   "vtoolbar_collapse_btn": {
+      "description": "content",
+      "message": "Collapse"
+   },
+   "vtoolbar_discard_btn": {
+      "description": "content",
+      "message": "Discard"
+   },
+   "vtoolbar_ellipse_btn": {
+      "description": "content",
+      "message": "Ellipse"
+   },
+   "vtoolbar_emoji_btn": {
+      "description": "content",
+      "message": "Emoji"
+   },
+   "vtoolbar_expand_btn": {
+      "description": "content",
+      "message": "Expand"
+   },
+   "vtoolbar_freeline_btn": {
+      "description": "content",
+      "message": "Free line"
+   },
+   "vtoolbar_highlight_click_btn": {
+      "description": "content",
+      "message": "Highlight Click"
+   },
+   "vtoolbar_highlight_mouse_btn": {
+      "description": "content",
+      "message": "Highlight Mouse"
+   },
+   "vtoolbar_image_btn": {
+      "description": "content",
+      "message": "Image"
+   },
+   "vtoolbar_mouse_default_btn": {
+      "description": "content",
+      "message": "Default"
+   },
+   "vtoolbar_mouse_effect_btn": {
+      "description": "content",
+      "message": "Mouse Pointer Effect"
+   },
+   "vtoolbar_pause_btn": {
+      "description": "content",
+      "message": "Pause"
+   },
+   "vtoolbar_pen_btn": {
+      "description": "content",
+      "message": "Pen"
+   },
+   "vtoolbar_rect_btn": {
+      "description": "content",
+      "message": "Rectangle"
+   },
+   "vtoolbar_remove_all_btn": {
+      "description": "content",
+      "message": "Remove all annotations at once"
+   },
+   "vtoolbar_remove_btn": {
+      "description": "content",
+      "message": "Remove Annotation"
+   },
+   "vtoolbar_remove_single_btn": {
+      "description": "content",
+      "message": "Remove one annotation at a time"
+   },
+   "vtoolbar_resume_btn": {
+      "description": "content",
+      "message": "Resume"
+   },
+   "vtoolbar_spotlight_btn": {
+      "description": "content",
+      "message": "Spotlight"
+   },
+   "vtoolbar_step_btn": {
+      "description": "content",
+      "message": "Step"
+   },
+   "vtoolbar_stop_btn": {
+      "description": "content",
+      "message": "Stop"
+   },
+   "vtoolbar_text_btn": {
+      "description": "content",
+      "message": "Text"
+   },
+   "vtoolbar_undo_btn": {
+      "description": "content",
+      "message": "Undo"
+   },
+   "warning": {
+      "description": "Popup menu",
+      "message": "Warning"
+   }
+}

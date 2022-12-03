@@ -1,0 +1,42 @@
+{
+   "action": {
+      "default_popup": "data/popup/index.html"
+   },
+   "background": {
+      "service_worker": "bg/worker.js"
+   },
+   "commands": {
+      "_execute_action": {
+      },
+      "activate": {
+         "description": "Activate extension",
+         "suggested_key": {
+            "default": "Ctrl+Shift+U"
+         }
+      }
+   },
+   "default_locale": "en",
+   "description": "__MSG_description__",
+   "differential_fingerprint": "1.f6f0cae767df351f6142248a8cd40ad94ff409468f8f30d222d011a80c78bd6e",
+   "homepage_url": "https://add0n.com/autofillforms-e10s.html",
+   "icons": {
+      "128": "data/icons/128.png",
+      "16": "data/icons/16.png",
+      "256": "data/icons/256.png",
+      "32": "data/icons/32.png",
+      "48": "data/icons/48.png",
+      "512": "data/icons/512.png",
+      "64": "data/icons/64.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArzwVufwvcKwgQpiC5u2eoFvp2h6OAHN37HC3685TngzQTgDWd0zOcWJ/jvelKn8bFJUpl/JXSvr4BbDZiCI5AcCZHNPShPfEVt9jEGlsWszHMwakP5jLNbj+Gg5BeooD02I7lwrMXyzxo+mfHCXvAGUnloYr/nohgKxzaZwQ5+1OmS8JB6Wsm+g5a9jcW4ieZGAK1uvEncWw5r+jT7B9RNtzfS3PT6XxJhKRST9J8r3Ar8/UH8is4hrWQffBuTOvd4+azVcYv4Dxik/uBvuNwGtrNrdteuWOVYUp2Fx56nO5D9En/5/9kSUA+NzZFnRx4h3OXXZQREaN28Th0s/KNwIDAQAB",
+   "manifest_version": 3,
+   "name": "AutoFill Forms",
+   "optional_host_permissions": [ "*://*/*" ],
+   "options_ui": {
+      "open_in_tab": true,
+      "page": "data/options/index.html"
+   },
+   "permissions": [ "scripting", "storage", "activeTab", "notifications", "contextMenus" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "0.4.2"
+}

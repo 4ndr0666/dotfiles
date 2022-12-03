@@ -1,0 +1,101 @@
+{
+   "background": {
+      "page": "background.html"
+   },
+   "browser_action": {
+      "default_icon": "img/icon16.png",
+      "default_popup": "popup.html",
+      "default_title": "Tab Suspender"
+   },
+   "commands": {
+      "add-to-white-list": {
+         "description": "Add to Whitelist..."
+      },
+      "ignore-current-tab": {
+         "description": "Ignore Current Tab"
+      },
+      "remove-current-tab-from-ignore": {
+         "description": "Remove Current Tab From Ignore"
+      },
+      "remove-from-white-list": {
+         "description": "Remove from Whitelist"
+      },
+      "suspend-all-other": {
+         "description": "Suspend All Other Tabs",
+         "suggested_key": {
+            "chromeos": "Alt+O",
+            "default": "Alt+O",
+            "linux": "Alt+O",
+            "mac": "Command+Shift+O",
+            "windows": "Alt+O"
+         }
+      },
+      "suspend-all-window": {
+         "description": "Suspend All Window",
+         "suggested_key": {
+            "chromeos": "Alt+W",
+            "default": "Alt+W",
+            "linux": "Alt+W",
+            "mac": "Command+Shift+W",
+            "windows": "Alt+W"
+         }
+      },
+      "suspend-current": {
+         "description": "Suspend Current Tab",
+         "suggested_key": {
+            "chromeos": "Alt+S",
+            "default": "Alt+S",
+            "linux": "Alt+S",
+            "mac": "Command+Shift+S",
+            "windows": "Alt+S"
+         }
+      },
+      "suspend-or-unsuspend-current-tab": {
+         "description": "Suspend or Unsuspend Current Tab (in one HotKey)"
+      },
+      "unsuspend-all-tabs": {
+         "description": "Unsuspend All Tabs"
+      },
+      "unsuspend-current-tab": {
+         "description": "Unsuspend Currnet Tab"
+      },
+      "unsuspend-current-window": {
+         "description": "Unsuspend Current Window",
+         "suggested_key": {
+            "chromeos": "Alt+U",
+            "default": "Alt+U",
+            "linux": "Alt+U",
+            "mac": "Command+Shift+U",
+            "windows": "Alt+U"
+         }
+      }
+   },
+   "content_scripts": [ {
+      "all_frames": false,
+      "js": [ "lib/h2c.js", "inject.js" ],
+      "matches": [ "https://*/*", "http://*/*" ],
+      "run_at": "document_end"
+   } ],
+   "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
+   "default_locale": "en",
+   "description": "__MSG_extDescription__",
+   "icons": {
+      "128": "img/icon128.png",
+      "16": "img/icon16.png",
+      "32": "img/icon32.png",
+      "64": "img/icon64.png"
+   },
+   "incognito": "split",
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuNEkrBy9aFGgcUssLSWYc+jDDfgAB+/mZcDBu8dl/Fxg8/A/vMkBAg7qrouRfPcJ4uqw3QSxMDaTIL49owqgm8uvCCFYdDVUWY7aU13YrxOn/diY33ejzfyDaCHDKMlEIPsch2P5mHxF/CUZ1vWAsKguPQHyHYwVPg22558wx9cdn3JvRI9mMLq8dB0p99PQfIFL9dpwKa11OXfEWgQbYfFYbK5+tD1xZL+oo6St8J23+pPGdz2QfXIceOT6znGj+gbmid78lT/61RX4qYT+zBhnRsY99uAFW3w+wdw7YYh76uoJI43L4RL3dDxpll5ktdZrBo1ENVVr9IXK2XDgrQIDAQAB",
+   "manifest_version": 2,
+   "minimum_chrome_version": "54",
+   "name": "__MSG_extName__",
+   "offline_enabled": true,
+   "optional_permissions": [  ],
+   "options_page": "fancy-settings/source/index.html",
+   "permissions": [ "tabs", "notifications", "\u003Call_urls>", "unlimitedStorage", "contextMenus", "storage" ],
+   "short_name": "Tab Suspender",
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "1.4.11",
+   "web_accessible_resources": [ "*.html", "*.js", "*.css", "/img/*.png", "img/*.ico" ]
+}

@@ -1,0 +1,167 @@
+# vim: ft=zsh
+## This file is kept bash-compatible for use with the menu script.
+
+## Basics
+
+# Arch
+	alias pacbrowse="pacman -Qqe | fzf --preview 'pacman -Qi {}' --layout=reverse --bind 'enter:execute(pacman -Qil {} | less)'"
+	alias np='pacman -Qq | wc -l'
+	alias whose='pacman -Qo'
+
+# SSH
+	alias phc='ssh minnocci@poisson.phc.dm.unipi.it'
+	alias kol='ssh -J minnocci@poisson.phc.dm.unipi.it -p 2233 minnocci@kolmogorov.phc.dm.unipi.it'
+	alias gam='ssh -J minnocci@poisson.phc.dm.unipi.it minnocci@gamera.phc.dm.unipi.it'
+	alias lab='ssh -p 2222 root@lab.phc.dm.unipi.it'
+	alias server='ssh arciere@server -p 27'
+	alias serveron='wol 60:a4:4c:59:6d:ec'
+	alias serveroff='server sudo shutdown -h now'
+	alias vote='ssh aur@aur.archlinux.org vote'
+
+## Backup
+# Elements
+	# alias ehdry='rsync -rltvC -n --delete --delete-excluded -i -s --exclude-from=/home/fra/.config/ignorelist /home/fra/ /mnt/fraEl/hyperversum'
+	# alias ehbkp='rsync -rltvC --delete --delete-excluded -i -s --exclude-from=/home/fra/.config/ignorelist /home/fra/ /mnt/fraEl/hyperversum'
+	# alias eddry='rsync -rltv -n --delete -i -s /mnt/01D5707D40B081F0/Users/ascol/ /mnt/fraEl/ascol'
+	# alias edbkp='rsync -rltv --delete -i -s /mnt/01D5707D40B081F0/Users/ascol/ /mnt/fraEl/ascol'
+	# alias eDdry='rsync -rltv -n --delete -i -s --exclude "lost+found" /dati/ /mnt/fraEl/dati'
+	# alias eDbkp='rsync -rltv --delete -i -s --exclude "lost+found" /dati/ /mnt/fraEl/dati'
+# Passport
+	alias phdry='rsync -rltvC -n --delete --delete-excluded -i -s --exclude-from=/home/fra/.config/ignorelist /home/fra/ /mnt/fraPass/hyperversum'
+	alias phbkp='rsync -rltvC --delete --delete-excluded -i -s --exclude-from=/home/fra/.config/ignorelist /home/fra/ /mnt/fraPass/hyperversum'
+	alias pddry='rsync -rltv -n --delete -i -s /mnt/01D5707D40B081F0/Users/ascol/ /mnt/fraPass/ascol'
+	alias pdbkp='rsync -rltv --delete -i -s /mnt/01D5707D40B081F0/Users/ascol/ /mnt/fraPass/ascol'
+	alias pDdry='rsync -rltv -n --delete -i -s --exclude "lost+found" /dati/ /mnt/fraPass/dati'
+	alias pDbkp='rsync -rltv --delete -i -s --exclude "lost+found" /dati/ /mnt/fraPass/dati'
+# T5 ssd
+	alias t5hdry='rsync -aAXH --info=progress2 -n --delete --exclude-from=/home/fra/.config/ignorelist /home/fra/ /mnt/backup/home'
+	alias t5hbkp='rsync -aAXH --info=progress2 --delete --exclude-from=/home/fra/.config/ignorelist /home/fra/ /mnt/backup/home'
+	alias t5rdry='sudo rsync -aAXH --info=progress2 -n --delete --exclude={"/swapfile","/dev/*","/dati/*","/home/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found"} / /mnt/backup/root'
+	alias t5rbkp='sudo rsync -aAXH --info=progress2 --delete --exclude={"/swapfile","/dev/*","/dati/*","/home/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found"} / /mnt/backup/root'
+
+## Utils
+	alias cls='clear'
+	alias fork='setsid -f'
+	alias perms='stat -c "%A %a %n"'
+	alias 1='cd -'
+	alias 2='cd -2'
+	alias 3='cd -3'
+	alias 4='cd -4'
+	alias 5='cd -5'
+	alias 6='cd -6'
+	alias 7='cd -7'
+	alias 8='cd -8'
+	alias 9='cd -9'
+	alias 10='cd -10'
+	alias drt='dragon-drop -t -x'
+	alias dra='dragon-drop -a -x'
+	alias xclip='xclip -r -sel c'
+	alias caps='tr "[:lower:]" "[:upper:]" <<<'
+	alias clearclip='clipdel -d ".*"'
+	alias rm='rm -v'
+	alias cp='cp -v'
+	alias mv='mv -v'
+
+# Manuals
+	alias mman='macho -i'
+	alias info='info --init-file ~/.config/texinfo/config'
+	alias wiki='wikiman'
+	alias ew='nvim ~/.local/src/wiki/' # Edit wiki
+	alias guides='cd ~/.local/src/guides && glow; cd - >/dev/null'
+
+# Remove spaces, curly+squared brackets and commas
+	# alias rsf="autoload -U zmv && zmv '* *' '\$f:gs/ /_'"
+	# alias rsbf="autoload -U zmv && zmv '*(*)*' '\$f:gs/(|)|[|]/'"
+	# alias rscf="autoload -U zmv && zmv '*,*' '\$f:gs/,/_'"
+
+## Various
+	alias sT='tabbed -c -r 2 st -w id'
+	alias verifygpg='gpg --auto-key-retrieve --verify'
+	alias sort='sort --parallel 8 -S 16M'
+	alias dr='drive'
+	alias nmdm='networkmanager_dmenu'
+	alias rnm='sudo systemctl reload NetworkManager'
+	alias w3m='w3mwrap -s -B'
+	alias sqm='w3mwrap https://student-web1.dm.unipi.it/squirrelmail/src/login.php'
+	alias octave='octave -q'
+	alias chill='mpv --no-video https://invidious.snopyta.org/watch?v=5qap5aO4i9A'
+	alias anonradio='mpv --no-video http://anonradio.net:8000/anonradio'
+	alias matrix='unimatrix -a -f -b -s 96 -l m'
+	alias P='patch -p1 <'
+	alias nf='neofetch'
+	alias pf='pfetch'
+	alias pm='pulsemixer'
+	alias sys='systemctl'
+	alias sysu='systemctl --user'
+	alias jctl='journalctl -p3 --pager-end'
+	alias jctll='journalctl -f -n 100'
+	alias bctl='bluetoothctl'
+	alias rsb='sudo systemctl restart bluetooth'
+	alias startcups='sudo systemctl start cups avahi-daemon.service'
+	alias stopcups='sudo systemctl stop cups cups.socket avahi-daemon.service avahi-daemon.socket'
+	alias uefi='sudo systemctl reboot --firmware-setup'
+	alias screendim="xrandr | grep '*' | awk '{print \$1}'"
+	alias xr='xrandr'
+	alias glow='glow -p'
+	alias ud='s -p udict'
+	alias smi='sudo make clean install'
+	alias gentags='ctags --recurse --exclude=.git -f tags *'
+
+	alias wa='export WA_APPID="$(secret-tool lookup wa_api appid)"; WA_VIEWER="wezterm imgcat" wezterm  --config "exit_behavior=\"Hold\"" start -- wa'
+	alias chpr='ung --proxy-server="socks5://localhost:9999" --proxy-bypass-list="192.168.1.*"'
+	alias flix='ung --app=https://netflix.com/browse'
+	alias jelly='ung --app=http://server:8096/web/index.html#!/home.html'
+	alias mictog='pactl set-source-mute @DEFAULT_SOURCE@ toggle'
+# Misc
+	alias txs='nvim ~/.config/nvim/UltiSnips/tex.snippets'
+	alias tnt='nvim ~/slsk/resources/p2p/various_dumps/dump_release_tntvillage_2019-08-30/dump_release_tntvillage_2019-08-30.csv'
+	alias kd='killall desk'
+	alias vent='nbfc status -s'
+	alias tg='kotatogram-desktop'
+	alias mimi='xdg-open'
+	alias findbg='xdg-open http://imgops.com/"$(imgur.sh "$(realpath ~/.local/share/bg)")"'
+	alias upbat='price bat "Basic Attention Token" 🦁 && less -R ~/.local/share/crypto-prices/bat-chart'
+# Media
+	alias nc2='MPD_PORT="6600" st -c ncmpcpp -e ncmpcpp -c ~/.config/ncmpcpp2/config'
+	alias spo='st -c ncspot ncspot && spotup'
+	alias spi='spotify && spotup && rmdir ~/Downloads'
+# Desk
+	alias sit='idasen moveto 1100' # since the script always overshoots, both values are adjusted accordingly
+	alias stand='idasen moveto 4400'
+
+## Disks
+	alias diskwritebench='dd bs=1M count=1024 if=/dev/zero of=test conv=fdatasync'
+#  * `fs` to show free space on physical drives
+	alias fs='df -h -x squashfs -x tmpfs -x devtmpfs'
+#  * `disks` command to List disks
+#    - It is a good habit to run this command before `dd`, to make 100% sure not to override system partition
+	alias disks='lsblk -o HOTPLUG,NAME,SIZE,MODEL,TYPE | awk "NR == 1 || /disk/"'
+#  * `partitions` command to list partitions
+	alias partitions='lsblk -o HOTPLUG,NAME,LABEL,MOUNTPOINT,SIZE,MODEL,PARTLABEL,TYPE,UUID | grep -v loop | cut -c1-$COLUMNS'
+
+# Processes
+  alias top='top -io %CPU' # no idle/zombie processes, sort by cpu usage
+	alias pst='pstree -C age -hlUG fra | less -re' # pstree
+	alias psg='ps axch -o cmd:18,%mem,pid --sort -%mem|&rg' # psgrep
+	alias psh='printf "\033[1;96mCPU\033[0;0m\n\n" && ps -eo cmd,fname,pid,pcpu,time --sort=-pcpu | head -n 11 && printf "\n\033[1;35mMEMORY\033[0;0m\n\n" && ps -eo cmd,fname,pid,pmem,rss --sort=-rss | head -n 9' # pshead
+
+# Rice
+	alias ep='nvim ~/.local/src/AARGH/progs.csv' # Edit programs
+	alias mim='nvim $XDG_CONFIG_HOME/mimi/mimi.conf'
+	alias za='tabbed -c -r 2 zathura -e id'
+	alias zarc='nvim $XDG_CONFIG_HOME/zathura/zathurarc'
+	alias bash='bash --init-file $XDG_CONFIG_HOME/bash/bashrc -i'
+	alias cod='codium --extensions-dir $XDG_DATA_HOME/vscode-extensions'
+	alias xreload='xrdb $XDG_CONFIG_HOME/X11/Xresources'
+	alias preload='source $ZDOTDIR/.zprofile'
+	alias pipes='pipes -rR'
+
+# Zsh
+	alias zreload='source $ZDOTDIR/.zshrc'
+	alias zopts='printf '%s=%s\n' "${(@kv)options}"' # print setop values
+	alias zt='zsh_bench'
+
+# Games
+	alias typ='typiskt'
+	alias gt='typiskt -e'
+	alias sol='ttysolitaire --no-background-color'

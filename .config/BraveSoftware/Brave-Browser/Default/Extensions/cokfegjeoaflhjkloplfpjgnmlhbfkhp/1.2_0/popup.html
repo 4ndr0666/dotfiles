@@ -1,0 +1,29 @@
+<!doctype html>
+<meta charset="utf-8">
+<title></title>
+<style>
+html {
+  font-family: "Open Sans", sans-serif;
+  text-align: center;
+  width: 350px;
+}
+p {
+  text-align: left;
+}
+.center {
+  text-align: center;
+}
+</style>
+<img style="float: right; margin: 0 .5em" src="/icon128.png">
+<p>Use Ctrl+Up/Down arrows to make pages scroll continously.</p>
+
+<p>Ctrl+Left/Right will stop the scrolling.</p>
+
+<p>Default speed of scrolling: <span id="default_span">2</span></p>
+<div class="center"><input type="range" id="default" min="0" max="10" value="2"></div>
+
+<p>Default speed on <a href="#" id="domain"></a> <input type="checkbox" id="site_enabled">: <span id="site_span">0</sppan></p>
+<div class="center"><input type="range" id="site" min="0" max="10" value="0"></div>
+
+<p><small>Default values take effect after the page is refreshed.</small></p>
+<script src="popup.js"></script>

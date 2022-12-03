@@ -1,0 +1,1 @@
+function aiparser(e){var r=0;var a=document.querySelectorAll(".swiper-wrapper li img");0==a.length&&(a=document.querySelectorAll("img")),a.forEach(function(a){var t,i;t=a.dataset.src||a.src,new ParsedPItem({src:t,alt:i},r++,e,function(r){chrome.runtime.sendMessage({cmd:"ADD_IMG",tabId:e.id,item:r})})})}window.aiparser=aiparser;

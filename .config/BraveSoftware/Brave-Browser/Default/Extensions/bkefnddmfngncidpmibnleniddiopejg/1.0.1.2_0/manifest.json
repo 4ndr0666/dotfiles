@@ -1,0 +1,22 @@
+{
+   "api_console_project_id": "907288612170",
+   "app": {
+      "launch": {
+         "container": "tab",
+         "web_url": "https://softgateon.herokuapp.com/drivecleaner/"
+      },
+      "urls": [ "https://softgateon.herokuapp.com/drivecleaner/" ]
+   },
+   "container": "GOOGLE_DRIVE",
+   "default_locale": "en_US",
+   "description": "__MSG_ext_description__",
+   "icons": {
+      "128": "icon128.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxVzUnvkMfYV85Fp9NbI8XsnKf5iHqq3aGuPUmssLLA+5VYr3SNr4BKNy1GIDn+OiMlTmmHk6q/WTkWHH+xieldEL3AdJ/jkw4I0CiQwsPKZW7JfktE8ZfonjJ2dG03E/jL4QQ9g3DJsAlW1YaijO60omDu2qTh/VWSoJzdKkAeg6eGlqhzODhuQMTIgCDYrCCJSvKyPh1MrTuVqYPlqYYtZ6Etyra77NF/90LQFabd3IVoxpjXzXW+oKdJdLoIXM18ASu8yy9fm2/53JM2wh/wuo+FV/Ow2j4OBzBY72/gftSg8vabr4tRc6brGz1qDnH7lu9qVjSMMbNPMpAtP8dwIDAQAB",
+   "manifest_version": 2,
+   "name": "__MSG_ext_name__",
+   "permissions": [ "unlimitedStorage" ],
+   "update_url": "http://clients2.google.com/service/update2/crx",
+   "version": "1.0.1.2"
+}
