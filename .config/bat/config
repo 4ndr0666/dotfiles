@@ -1,0 +1,35 @@
+# This is `bat`s configuration file. Each line either contains a comment or
+# a command-line option that you want to pass to `bat` by default. You can
+# run `bat --help` to get a list of all possible configuration options.
+
+# Specify desired highlighting theme (e.g. "TwoDark"). Run `bat --list-themes`
+# for a list of all available themes
+--theme "DarkNeon"
+
+# Wrap text
+--wrap "auto"
+
+# Alias for deprecated decorations
+--force-colorization
+--color "always"
+
+# Enable this to use italic text on the terminal. This is not supported on all
+# terminal emulators (like tmux, by default):
+#--italic-text=always
+
+# Show line numbers (in addition to Git modifications and file header but no grid)
+--style "numbers,changes,header,snip"
+
+# Use paging always
+--paging=always
+--pager="less -R"
+
+# Syntax mappings: map a certain filename pattern to a language.
+--map-syntax "*.ino:C++"
+--map-syntax ".myignore:Git Ignore"
+--map-syntax "*.md:Markdown"
+
+# Additional settings for enhanced functionality
+--nonprintable-notation
+--tabs=4
+--diff

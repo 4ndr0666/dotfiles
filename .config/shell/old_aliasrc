@@ -1,0 +1,438 @@
+#!/bin/sh
+
+### Force Neovim for vim:
+[ -x "$(command -v nvim)" ] && alias vim="nvim" vimdiff="nvim -d"
+
+### Use $XINITRC variable if file exists:
+[ -f "$XINITRC" ] && alias startx="startx $XINITRC"
+
+## sudo not required for some system commands
+for command in mount umount sv pacman updatedb su shutdown poweroff reboot ; do
+	alias $command="sudo $command"
+done; unset command
+
+se() { cd ~/.local/bin; $EDITOR $(fzf) ;}
+
+## Force Paru:
+#[ ! -x /usr/bin/yay ] && [ -x /usr/bin/paru ] && alias yay='paru'
+
+### Bat help:
+alias bathelp='bat --plain --language=help'
+help() {
+    "$@" --help 2>&1 | bathelp
+}
+
+
+### Fix boring typos:
+alias pdw='pwd'
+#
+#
+#
+#
+#
+
+### Do not delete / or prompt if deleting more than 3 files at a time:
+alias rm='rm -vI --preserve-root'
+
+### Parenting changing perms:
+alias chown='chown --preserve-root'
+alias chmod='chmod --preserve-root'
+alias chgrp='chgrp --preserve-root'
+
+### Start ssh agent:
+alias ssha='eval $(ssh-agent) && ssh-add'
+alias cleanssh="sed -i 18d .ssh/known_hosts"
+
+### Colorize commands when possible:
+alias grep="grep --color=auto"
+alias ccat="highlight --out-format=ansi"
+alias ip="ip -color=auto"
+alias diff="diff --color=auto"
+
+### Generic aliases:
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
+alias cp="cp -iv"
+alias mv="mv -iv"
+alias rm="rm -vI"
+alias bc="bc -ql"
+alias mkd="mkdir -pv"
+alias back='cd $OLDPWD'
+alias wget="wget -U 'noleak'"
+alias curl="curl --user-agent 'noleak'"
+alias tarnow='tar -acf '
+alias untar='tar -xvf '
+alias extip='curl icanhazip.com'
+alias pacdiff='sudo -H DIFFPROG=meld pacdiff'
+
+### Specific aliases:
+#alias cat='bat --style header --style snip --style changes --style header'
+alias tb='nc termbin.com 9999'
+alias sudo='sudo -v; sudo '
+alias swap="sudo swapoff -a; sudo swapon -a"
+alias svim='sudo nvim'
+alias magic='sudo /usr/local/bin/magic.sh'
+alias vpn='sudo expressvpn connect'
+alias vpns='sudo expressvpn status'
+alias vpnr='sudo expressvpn refresh'
+alias vpnp='sudo expressvpn set preferences'
+alias venv='source ~/.local/pipx/shared/bin/activate'
+
+### Custom folder shortcuts:
+alias desk='cd ${PWD%/home/arcp/*}/Desktop'
+alias pp='cd ${PWD%/home/arcp/*}/Projects'
+alias dot='cd ${PWD%/home/arcp/*}/Projects/Git_Live/dotfiles'
+alias conf='cd ${PWD%/home/arcp*}/.config'
+
+### Custom vim sysadmin shortcuts:
+alias valias="sudo nvim ~/Projects/Git_Live/dotfiles/aliasrc"
+alias vpac="sudo nvim /etc/pacman.conf"
+alias vgrub="sudo nvim /etc/default/grub"
+alias vgrubc="sudo nvim /boot/grub/grub.cfg"
+alias vmkinit="sudo nvim /etc/mkinitcpio.conf"
+alias vmirror="sudo nvim /etc/pacman.d/mirrorlist"
+alias vchaotic="sudo nvim /etc/pacman.d/chaotic-mirrorlist"
+alias vfstab="sudo nvim /etc/fstab"
+alias vnsswitch="sudo nvim /etc/nsswitch.conf"
+alias vsmb="sudo nvim /etc/samba/smb.conf"
+alias vgpg="sudo nvim /etc/pacman.d/gnupg/gpg.conf"
+alias vhosts="sudo nvim /etc/hosts"
+alias vhostname="sudo nvim /etc/hostname"
+alias vb="sudo nvim ~/.bashrc"
+alias vbp="sudo nvim ~/.bash_profile"
+alias vz="sudo nvim ~/.zshrc"
+alias vf="sudo nvim ~/.config/fish/config.fish"
+
+### Display#
+# DISPLAY=:0 XAUTHORITY=$HOME/.Xauthority xterm
+alias \
+	ka="killall" \
+	g="git" \
+	trem="transmission-remote" \
+	YT="youtube-viewer" \
+	sdn="shutdown -h now" \
+	e="$EDITOR" \
+	v="$EDITOR" \
+	p="pacman" \
+	xi="sudo xbps-install" \
+	xr="sudo xbps-remove -R" \
+	xq="xbps-query" \
+	xd="ls /usr/share/xsessions"
+	z="zathura"
+
+### Cheat Sheets on demand:
+alias xx='cat ~/.entrate/Xserver_fix.md'
+alias ch='cat ~/.entrate/permissions.md'
+alias 00='cat ~/.config/shell/aliasrc'
+alias scr='cat ~/.entrate/scripts.md'
+alias vid='bat ~/.entrate/blind.md'
+alias mic='bat ~/.entrate/micro.md'
+# todo: Git cheat sheet
+# todo: ffmpeg cheat sheet
+
+### Mount order:
+alias mount1='cat /home/andro/.config/shell/cmd.md'
+alias mount2='cat /home/andro/.config/shell/cmd2.md'
+alias mount3='cat /home/andro/.config/shell/cmd3.md'
+alias mount4='cat /home/andro/.config/shell/cmd4.md'
+alias mount5='cat /home/andro/.config/shell/cmd5.md'
+
+### Human readable:
+alias df='df -h -x squashfs -x tmpfs -x devtmpfs'
+
+### Keyboard:
+alias give-me-azerty-be="sudo localectl set-x11-keymap be"
+alias give-me-qwerty-us="sudo localectl set-x11-keymap us"
+
+### Setlocale:
+alias setlocale="sudo localectl set-locale LANG=en_US.UTF-8"
+alias setlocales="sudo localectl set-x11-keymap be && sudo localectl set-locale LANG=en_US.UTF-8"
+
+### Print error messages from journalctl:
+alias jctl="journalctl -p 3 -xb"
+
+### Merge the x settings:
+alias merge="xrdb -merge ~/.Xresources"
+
+### List all users on system:
+alias userlist="cut -d: -f1 /etc/passwd | sort"
+
+### Process newly added fonts:
+alias update-fc='sudo fc-cache -fv'
+
+### Check vuln microcode:
+alias microcode='grep . /sys/devices/system/cpu/vulnerabilities/*'
+
+### Nmap everything possible in one shot:
+alias map="ifconfig -a | grep -Po '\b(?!255)(?:\d{1,3}\.){3}(?!255)\d{1,3}\b' | xargs nmap -A -p0-"
+
+### Power:
+alias psa="ps auxf"
+alias psgrep="ps aux | grep -v grep | grep -i -e VSZ -e"
+#free
+alias free="free -mt"
+
+### Memory:
+alias mem5='ps auxf | sort -nr -k 4 | head -5'
+alias mem10='ps auxf | sort -nr -k 4 | head -10'
+
+### CPU:
+alias cpu5='ps auxf | sort -nr -k 3 | head -5'
+alias cpu10='ps auxf | sort -nr -k 3 | head -10'
+
+### Dirs:
+alias dir5='du -cksh * | sort -hr | head -n 5'
+alias dir10='du -cksh * | sort -hr | head -n 10'
+alias dir='dir --color=auto'
+
+### Kill hblock:
+alias unhblock="hblock -S none -D none"
+
+### Btrfs aliases:
+alias btrfsfs="sudo btrfs filesystem df /"
+alias btrfsli="sudo btrfs su li / -t"
+
+### Snapper aliases:
+alias snapcroot="sudo snapper -c root create-config /"
+alias snapchome="sudo snapper -c home create-config /home"
+alias snapli="sudo snapper list"
+alias snapcr="sudo snapper -c root create"
+alias snapch="sudo snapper -c home create"
+
+### Hw_sys info:
+alias hw="hwinfo --short"
+alias ports='netstat -tulanp'
+alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -'
+alias probe="sudo -E hw-probe -all -upload"
+alias sysfailed="systemctl list-units --failed"
+
+### Find pulseaudio or pipewire server:
+alias audio="pactl info | grep 'Server Name'"
+
+### Git aliases ################################################################################
+### Auto commit and push:
+gcom() {
+    git add .
+    git commit -m "$1"
+    }
+lazyg() {
+    git add .
+    git commit -m "$1"
+    git push
+}
+
+alias gag='git exec ag'
+alias rmgitcache="rm -r ~/.cache/git"
+
+## Cd to git root directory:
+alias cdgr='cd "$(git root)"'
+
+### Fetch pull request:
+fpr() {
+    if ! git rev-parse --git-dir > /dev/null 2>&1; then
+        echo "error: fpr must be executed from within a git repository"
+        return 1
+    fi
+    (
+        cdgr
+        if [ "$#" -eq 1 ]; then
+            local repo="${PWD##*/}"
+            local user="${1%%:*}"
+            local branch="${1#*:}"
+        elif [ "$#" -eq 2 ]; then
+            local repo="${PWD##*/}"
+            local user="${1}"
+            local branch="${2}"
+        elif [ "$#" -eq 3 ]; then
+            local repo="${1}"
+            local user="${2}"
+            local branch="${3}"
+        else
+            echo "Usage: fpr [repo] username branch"
+            return 1
+        fi
+
+        git fetch "git@github.com:${user}/${repo}" "${branch}:${user}/${branch}"
+    )
+}
+
+### Listing ######################################################################################
+alias ls="ls -hN --color=auto --group-directories-first"
+#alias ls="ls -alhfN --time-style=long-iso --color=auto --group-directories-first --icons"
+#alias ls="ls -lhf --time-style=long-iso --color=auto"
+#alias ls='exa -al --color=always --group-directories-first --icons' # preferred listing
+#alias la='exa -a --color=always --group-directories-first --icons'  # all files and dirs
+alias la="lsd -aFlL --permission=octal --color=always --group-dirs=first --icon=always"
+alias ll='exa -l --color=always --group-directories-first --icons'  # long format
+#alias l.="exa -a | egrep '^\.'"
+alias l.="ls -lhFa --color=auto"                                     # show only dotfiles
+alias lt='exa -aT --color=always --group-directories-first --icons' # tree listing
+alias ln='ln -iv'
+alias dir='dir --color=auto'
+alias vdir='vdir --color=auto'
+alias new='find /path/to/dir -type f -mtime -7 -print0 | xargs -0 ls -lt | head'
+alias lsmount='mount |column -t'
+
+### Generate shortcurrc and zshnameddirrc:
+alias \
+	lf="lfub" \
+	magit="nvim -c MagitOnly" \
+	ref="shortcuts >/dev/null; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/shortcutrc ; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/zshnameddirrc" \
+	weath="less -S ${XDG_CACHE_HOME:-$HOME/.cache}/weatherreport" \
+
+#up()
+#{
+#    local cdir="$(pwd)"
+#    if [[ "${1}" == "" ]]; then
+#        cdir="$(dirname "${cdir}")"
+#    elif ! [[ "${1}" =~ ^[0-9]+$ ]]; then
+#        echo "Error: argument must be a number"
+#    elif ! [[ "${1}" -gt "0" ]]; then
+#        echo "Error: argument must be positive"
+#    else
+#        for ((i=0; i<${1}; i++)); do
+#            local ncdir="$(dirname "${cdir}")"
+#            if [[ "${cdir}" == "${ncdir}" ]]; then
+#                break
+#            else
+#                cdir="${ncdir}"
+#            fi
+#        done
+#    fi
+#    cd "${cdir}"
+#}
+
+### Go up method 2:
+up(){ DEEP=$1; for i in $(seq 1 ${DEEP:-"1"}); do cd ../; done; }
+
+### Create a directory and cd into it:
+mkd() {
+    mkdir -pv "${1}" && cd "${1}"
+}
+
+### Make a new folder and cd into it:
+mkcd(){
+	NAME=$1; mkdir -pv "$NAME"; cd "$NAME";
+}
+
+### Change shell #########################################################################
+alias tobash="sudo schsh -s $(which bash) && echo 'Now log out.'"
+alias tozsh="sudo schsh -s $(which zsh) && echo 'Now log out.'"
+alias tofish="sudo schsh -s $(which fish) && echo 'Now log out.'"
+
+### Change login manager #########################################################################################
+alias tolightdm="sudo pacman -S lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings --noconfirm --needed ; sudo systemctl enable lightdm.service -f ; echo 'Lightm is active - reboot now'"
+alias tosddm="sudo pacman -S sddm --noconfirm --needed ; sudo systemctl enable sddm.service -f ; echo 'Sddm is active - reboot now'"
+alias toly="sudo pacman -S ly --noconfirm --needed ; sudo systemctl enable ly.service -f ; echo 'Ly is active - reboot now'"
+alias togdm="sudo pacman -S gdm --noconfirm --needed ; sudo systemctl enable gdm.service -f ; echo 'Gdm is active - reboot now'"
+alias tolxdm="sudo pacman -S lxdm --noconfirm --needed ; sudo systemctl enable lxdm.service -f ; echo 'Lxdm is active - reboot now'"
+
+### Package management ##########################################################################################
+## Recent Installed Packages
+alias big="expac -H M '%m\t%n' | sort -h | nl"
+alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
+alias riplong="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -3000 | nl"
+alias gitpkg='pacman -Q | grep -i "\-git" | wc -l' # List amount of -git packages
+
+## Skip integrity check
+alias paruskip='paru -S --mflags --skipinteg'
+alias yayskip='yay -S --mflags --skipinteg'
+alias trizenskip='trizen -S --skipinteg'
+
+## Paru as aur helper - updates everything
+alias pksyua="paru -Syu --noconfirm"
+alias upall="paru -Syu --noconfirm"
+
+## Aliases for software managment
+alias pacman='sudo pacman --color auto'
+alias update='sudo pacman -Sy && sudo powerpill -Su && paru -Su'
+alias rmpkg="sudo pacman -Rc"
+alias upd='sudo pacman -Sy && sudo powerpill -Su && paru -Su'
+alias downgrade="sudo downgrade --ala-url https://ant.seedhost.eu/arcolinux/"
+alias cleanup='sudo pacman -Rns (pacman -Qtdq)'
+alias fixpacman="sudo rm /var/lib/pacman/db.lck"
+alias fixpacman2='/var/cache/pacman/pkg/cache.lck'
+
+##gpg
+alias gpg-check="gpg2 --keyserver-options auto-key-retrieve --verify"
+alias fix-gpg-check="gpg2 --keyserver-options auto-key-retrieve --verify"
+
+## Receive the key of a developer
+alias gpg-retrieve="gpg2 --keyserver-options auto-key-retrieve --receive-keys"
+alias fix-gpg-retrieve="gpg2 --keyserver-options auto-key-retrieve --receive-keys"
+alias fix-keyserver="[ -d ~/.gnupg ] || mkdir ~/.gnupg ; cp /etc/pacman.d/gnupg/gpg.conf ~/.gnupg/ ; echo 'done'"
+
+## Fixes
+alias fix-permissions="sudo chown -R $USER:$USER /usr/local/bin/ ~/Projects/Git_live ~/.config ~/.local"
+#alias keyfix="/usr/local/bin/arcolinux-fix-pacman-databases-and-keys"
+
+## Grub update
+alias grubup="sudo grub-mkconfig -o /boot/grub/grub.cfg"
+#grub issue 08/2022
+alias install-grub-efi="sudo grub-install --target=x86_64-efi --efi-directory=/boot/efi"
+
+## Fastest mirrors
+alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist"
+alias mirrord="sudo reflector --latest 30 --number 10 --sort delay --save /etc/pacman.d/mirrorlist"
+alias mirrors="sudo reflector --latest 30 --number 10 --sort score --save /etc/pacman.d/mirrorlist"
+alias mirrora="sudo reflector --latest 30 --number 10 --sort age --save /etc/pacman.d/mirrorlist"
+
+###### Misc #################################################################################################
+### Youtube download
+alias yta="yt -x -f bestaudio/best"
+alias yt="yt-dlp --embed-metadata -i -f bestvideo/best"
+alias ffmpeg="ffmpeg -hide_banner"
+
+## Clear
+alias c='clear'
+alias clear='clear; echo; echo; seq 1 $(tput cols) | sort -R | spark | lolcat; echo; echo'
+
+## Copy shell conf from /etc/skel
+#alias cb='cp /etc/skel/.bashrc ~/.bashrc && exec bash'
+#alias cz='cp /etc/skel/.zshrc ~/.zshrc && echo "Copied."'
+#alias cf='cp /etc/skel/.config/fish/config.fish ~/.config/fish/config.fish && echo "Copied."'
+
+## Backup /etc/skel to hidden backup folder in home/user
+#alias bskel='cp -Rf /etc/skel ~/.skel-backup-$(date +%Y.%m.%d-%H.%M.%S)'
+
+## Kill commands
+#alias kl='killall -SIGUSR1 latte-dock; latte-dock &'
+
+## Update dotfiles
+dfu() {
+    (
+        cd ~/.dotfiles && git pull --ff-only && ./install -q
+    )
+}
+
+## Use pip without requiring virtualenv
+syspip() {
+    PIP_REQUIRE_VIRTUALENV="" pip "$@"
+}
+
+syspip2() {
+    PIP_REQUIRE_VIRTUALENV="" pip2 "$@"
+}
+
+syspip3() {
+    PIP_REQUIRE_VIRTUALENV="" pip3 "$@"
+}
+
+
+## Mirror a website
+alias mirrorsite='wget -m -k -K -E -e robots=off'
+
+## Mirror stdout to stderr, useful for seeing data going through a pipe
+alias peek='tee >(cat 1>&2)'
+
+## Decode url encoded strings using perl
+urldecode () {
+    echo "$@" | perl -pe 's/\%([[:xdigit:]]{2})/chr hex $1/ge'
+}
+
+## Shutdown or reboot
+alias sdn="shutdown -h now"
+alias ssr="reboot -h now"

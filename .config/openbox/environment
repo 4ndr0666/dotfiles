@@ -1,0 +1,8 @@
+## User-Specific Variables
+## -----------------------
+
+# --- // GNOME_KEYRING_FOR_POLKIT:
+export $(gnome-keyring-daemon --start --components=pkcs11,secrets)
+
+# --- // OB_SCRIPTS_PATH:
+PATH="$HOME/.config/openbox/scripts:$PATH"; export PATH

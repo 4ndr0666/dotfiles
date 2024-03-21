@@ -1,0 +1,2 @@
+{ "name": "android-studio", "type": "Heavy_CPU" }
+{ "name": "avd", "type": "Heavy_CPU" }

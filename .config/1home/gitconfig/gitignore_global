@@ -1,0 +1,15 @@
+# Ignore macOS system files
+.DS_Store
+
+# Ignore temporary files
+*.tmp
+*.swp
+
+# Ignore build artifacts
+/build/
+/dist/
+
+# Ignore logs
+*.log
+
+# Add other patterns as needed

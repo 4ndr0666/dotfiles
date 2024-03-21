@@ -1,0 +1,19 @@
+
+GRUB_DEFAULT=saved
+GRUB_DISTRIBUTOR="Arch"
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash loglevel=3 udev.log_priority=3 rd.udev.log_priority=3 vt.default_red=0x28,0xcc,0x97,0xd7,0x45,0xb1,0x68,0xa8,0x94,0xfb,0xb8,0xfa,0x83,0xd3,0x8e,0xeb vt.default_grn=0x28,0x24,0x97,0x99,0x85,0x62,0x9c,0x99,0x83,0x49,0xbb,0xbd,0xa5,0x86,0xc0,0xdb vt.default_blu=0x28,0x1d,0x1a,0x21,0x88,0x86,0x6a,0x84,0x74,0x34,0x26,0x2f,0x98,0x9b,0x7c,0xb2 vt.global_cursor_default=0 nohz=off nowatchdog module_blacklist=nouveau modprobe.blacklist=iTCO_wdt msr.allow_writes=on usbcore.autosuspend=-1 pcie_aspm=off noibrs l1tf=off  mds=off tsx=on tsx_async_abort=off l1tf=full,force ipv6_disable=1  space_cache=v2 commit=120 discard=async compress=zstd:3 sysrq_always_enabled=1"
+
+GRUB_TERMINAL_INPUT=console
+GRUB_TIMEOUT_STYLE='menu'
+GRUB_GFXMODE=auto
+GRUB_GFXPAYLOAD_LINUX=text
+GRUB_DISABLE_RECOVERY=true
+GRUB_THEME="/boot/grub/themes/CyberRe/theme.txt"
+GRUB_SAVEDEFAULT="true"
+
+# Probing for other operating systems is disabled for security reasons. Read
+# documentation on GRUB_DISABLE_OS_PROBER, if still want to enable this
+# functionality install os-prober and uncomment to detect and include other
+# operating systems.
+GRUB_DISABLE_OS_PROBER=false
+

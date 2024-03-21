@@ -1,0 +1,26 @@
+{
+  "settingsVersion": "1.67.7",
+  "exclusionRules": [
+    {
+      "pattern": "https?://mail.google.com/*",
+      "passKeys": ""
+    }
+  ],
+  "filterLinkHints": true,
+  "waitForEnterForFilteredHints": true,
+  "hideHud": false,
+  "keyMappings": "",
+  "linkHintCharacters": "sadfjklewcmpgh",
+  "linkHintNumbers": "0123456789",
+  "newTabUrl": "https://wiki.archlinux.org/index.php?title=Special:Search&search=%s",
+  "nextPatterns": "backslash",
+  "previousPatterns": "backspace",
+  "regexFindMode": false,
+  "ignoreKeyboardLayout": false,
+  "scrollStepSize": 60,
+  "smoothScroll": true,
+  "grabBackFocus": true,
+  "searchEngines": "w: https://www.wikipedia.org/w/index.php?title=Special:Search&search=%s Wikipedia\n\n# More examples.\n#\n# (Vimium supports search completion Wikipedia, as\n# above, and for these.)\n#\n# g: https://www.google.com/search?q=%s Google\n# l: https://www.google.com/search?q=%s&btnI I'm feeling lucky...\n# y: https://www.youtube.com/results?search_query=%s Youtube\n# gm: https://www.google.com/maps?q=%s Google maps\n# b: https://www.bing.com/search?q=%s Bing\n# d: https://duckduckgo.com/?q=%s DuckDuckGo\n# az: https://www.amazon.com/s/?field-keywords=%s Amazon\n# qw: https://www.qwant.com/?q=%s Qwant",
+  "searchUrl": "https://searx.garudalinux.org/?preferences=eJx1V02P4zYM_TXNxdig2z0UPeRUoNcu0L0LtMTYHEuiRx9xPL--VGzH8mT3MJ4RJVGPT-QTR0PCjgNhvHToMYA9WfBdhg4vYGXAGixe0J8gJ9bsRosJLzFBSKMsOpGTrxoD3-fLP2Ajnhymns3l-7___ThFuGJECLq__H5KPTrZSsXHKWDMNkXFXnmcVIJ23W6YlEyyvWG4MMjwzKE7LdtUTLPAMRCGk0afMCiw1Hknf19-hIwnMDfwGo1aj12cvmcMsyKvEiXZvxjJX8lTEqc6sLXLfkMRWiv70XfkhZa_OuiUiqwJbOPQEPz2x98wDo2jEDgodSWL8WETgI18m5g4YDUhOOiGDUWlVpLF2pLvjuPUZj1gUoqSjLXWX9JNqRsZ5OJGQMYY8CpgNKHEKLYZx9qHzsES1haD-CEkKZcj6TI2XWPwETexPwDCwBMZpVjuKZSlgqb8dNw8LlkWL7-PcxNC2bDvW3hwMMoG-RbPjt9oLNTtq77eK3dXE7gcvTF2DYhN5GuaIGBjKKAWSueVmWsgPxDoykEn1wrtxhwbbDF067Bj7gTQaGFuHN-oBPIktRvZmJqgHtoA5bPuJmfaHTV5qDaTlz-Jc_y5bXP5RrHn3cdAeoAY92gtyZFhbspVRKonuI0JzyGuWODDzoF05doj3qC-RD-6dbGfAXZXPKIPOHLlfQTB0VHcEm7M7dngbR0t5VOobMrnST04KHjxucyBT6SbqHu2EOrkfIpEDTDxMHNiYWQAv4NJE6VSzZ8LbYaeud4_UTvXYwdB6lQwHWgQzbqDN-FonWiglnmIn42iQGIr39Xwnjnh51WRc9AvVpGpSGl-MfP8KfKv3779ed8jNtmg37Mi4ocHd4iM3xCHw-XCrVC0G0Ju5w7dlh8jYki5xSodHzzKEYPk_TRhW02F7EToKsPEdxrYSxI0cfbsZ4cVvrfxPE4V4BKkEx05aFgQhLVhxFSktqTSL8zNgXtJrT3dF777_EjQE_qjLj82W_L53hQoW4kEScZKGCDc6VYnZStpocGNew2V3as4HdX5VfYe1gPgh2VhsGKyTYa67lh9JU-w8iVaHQTTfFTrG0k5SRC11rK8CqHp86ZvBbCBdMC7C_Kh2ISp-XAhmGbHXmirrvZqRZFCraboqRYwGadShYucUtqhLNpaH7Cq7Qt1q_1A3mp7oW-1_0RS-vW8x-EfX1blfJVSvopq-U76iBqDhN0d5dLRXVvOZo9V5Gwg3NS_XBzI81PojijtSoVlmxPdFAJhfU-P8zHJS5bkFdyewtGU8twXjb2IoX_OUpB-rIUqIvEuNXzYMo9btr9Pki11PA_DkeTF9HIfi_mFegnVUHqR4YgjwVbHz8VSoFJMR_5E9PXAkuxXy9NWlHHIbfYpb4WdRww5PlmWZo-MPPBSD6l6oLKP8mjHvkL9eA6O8c2cP2ne0_JseoCspH25oWrZjRxyLX80lBWPfHqKHNvlyRv7qncxpNMH-0PeO1FLJz1KkwL4aOUaTe0mGE9DZUgpnGlT073pHG0WdYuXQvX9vI7OPcckjwNKXyyELG_rYQGDWtrmKUg_-zIt1Crdox5eZoQDJRk44ByfAvsLDOUilsGLlzUxhF29_DsxS_dtpWf7yUp7lTb8yq8YAxSZU9LBShyuZNBJegUpocv_IGDHmQ==&q=%s",
+  "userDefinedLinkHintCss": "div > .vimiumHintMarker {\n/* linkhint boxes */\nbackground: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFF785),\n  color-stop(100%,#FFC542));\nborder: 1px solid #E3BE23;\n}\n\ndiv > .vimiumHintMarker span {\n/* linkhint text */\ncolor: black;\nfont-weight: bold;\nfont-size: 12px;\n}\n\ndiv > .vimiumHintMarker > .matchingCharacter {\n}"
+}
