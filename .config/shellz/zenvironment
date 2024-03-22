@@ -1,4 +1,5 @@
-# --- // 4ndr0666_ZENVIRONMENT //
+# --- // 4ndr0666_ZENVIRONMENT // ========
+
 #File: /home/$USER/.config/shell/zenvironment 
 #Author: 4ndr0666
 #Edited: 03-17-24
@@ -18,7 +19,7 @@ export BROWSER="brave"
 # --- // LANGUAGE_&_LOCALE:
 export LANG="en_US.UTF-8"
 
-# --- // HISTORY_FILES:
+# --- // HISTORY_&_OPTIONS:
 HISTSIZE=50000
 SAVEHIST=10000
 export HISTFILE="$XDG_DATA_HOME/history"
@@ -55,23 +56,26 @@ zstyle ':completion:*' cache-path ~/.cache/zcache
 autoload -U +X bashcompinit && bashcompinit
 
 # --- // DISPLAY:
-#alias sudo_wayland='/usr/local/bin/wayland_root_access.sh' # Wayland
+alias sudo_wayland='/usr/local/bin/wayland_root_access.sh' # Wayland
 xhost +SI:localuser:andro                                 # For X on wayland
 xhost +SI:localuser:root                                  # For X on wayland
-#export OpenGL_GL_PREFERENCE="GLVND"      # For screen tearing
-export QT_QPA_PLATFORMTHEME="Qt5ct"
-#export QT_STYLE_OVERRIDE=kvantum"        # For /etc/environment
+#export OpenGL_GL_PREFERENCE="GLVND"                      # For screen tearing
+#export QT_QPA_PLATFORMTHEME="Qt5ct"                      # For X only
+export QT_QPA_PLATFORMTHEME="wayland;xcb"                 # For Wayland with auto xcb fallback
+export SDL_VIDEODRIVER="wayland,x11"                      # For SDL2 app
+#export ELECTRON_OZONE_PLATFORM_HINT="auto"                # For Electron 28^ on wayland
+#export QT_STYLE_OVERRIDE=kvantum"                         # For /etc/environment
 #export MOZ_USE_XINPUT2=1                  # Mozilla smooth scrolling/touchpads.
 #export AWT_TOOLKIT="MToolkit wmname LG3D" # May have to install wmname
 export _JAVA_AWT_WM_NONREPARENTING=1      # Fix for Java applications in dwm
-export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
+#export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
 
 # --- // LIBRARY_AND_CONFIG_PATHS
-#export LD_LIBRARY_PATH="/opt/mpv-build/build_libs/lib:/usr/lib:$LD_LIBRARY_PATH"  #SVP is installed at /opt with mpv-build in this config
-export LD_LIBRARY_PATH="/usr/lib:$LD_LIBRARY_PATH"                               #Normal config
+#export LD_LIBRARY_PATH="/usr/include/libavutil:/usr/lib:$LD_LIBRARY_PATH"  #Explicitly defined libavutil
+export LD_LIBRARY_PATH="/usr/lib:$LD_LIBRARY_PATH"                        #Normal config
 export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
 export INPUTRC="$XDG_CONFIG_HOME/shell/inputrc"
-export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+#export ZDOTDIR="$XDG_CONFIG_HOME/shell"
 export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
 export WINEARCH="win32"
 export XINITRC="$XDG_CONFIG_HOME/x11/xinitrc"
@@ -84,8 +88,6 @@ export GOPATH="$XDG_DATA_HOME/go"
 export GOMODCACHE="$XDG_CACHE_HOME/go/mod"
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/pythonrc"
 export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
-
-# --- // APP_SPECIFIC:
 #export KODI_DATA="$XDG_DATA_HOME/kodi"
 export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
 export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
@@ -93,6 +95,8 @@ export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
 #export NOTMUCH_CONFIG="$XDG_CONFIG_HOME/notmuch-config"
 export GNUPGHOME="$HOME/.gnupg"
 export DICS="/usr/share/stardict/dic/"
+
+# --- // PAGER:
 export SUDO_ASKPASS="$HOME/.local/bin/dmenupass"
 export FZF_DEFAULT_OPTS="--layout=reverse --height 40%"
 export LESS="R"
@@ -105,8 +109,7 @@ export LESS_TERMCAP_us="$(printf '%b' '[1;32m')"
 export LESS_TERMCAP_ue="$(printf '%b' '[0m')"
 export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
 
-
-# --- //KEYBINDINGS_EMACS: 
+# --- // KEYBINDINGS_BASED_ON_EMACS: 
 bindkey -e
 
 # [PageUp] - Up a line of history
@@ -221,21 +224,22 @@ if [[ -n "${key[Alt-Right]}" ]]; then
 	bindkey -M vicmd "${key[Alt-Right]}" forward-word
 fi
 
-# --- // DOCUMENT_SOURCING:
+
+
+# --- // FILE_SOURCING_&_PLUGINS // ================
+
 for file in shortcutrc zshnameddirrc; do
-  source_file="${XDG_CONFIG_HOME}/shell/${file}"
+  source_file="$HOME/.config/shell/${file}"
   [ -f "${source_file}" ] && source "${source_file}" || echo "${file} not found."
 done
 
 # --- // LF_SHORCUT_SCRIPT:
-[ ! -f "$XDG_CONFIG_HOME/shell/shortcutrc" ] && setsid -f shortcuts >/dev/null 2>&1
+[ ! -f "$HOME/.config/shell/shortcutrc" ] && setsid -f shortcuts >/dev/null 2>&1
 
-# Switch escape and caps if tty and no passwd required:
+# --- // SWITCH_ESC_AND_CAPS_IF_TTY_NOPASSWD: 
 sudo -n loadkeys "$XDG_DATA_HOME/larbs/ttymaps.kmap" 2>/dev/null
 
-# --- // BAT_CONFIG:
-alias cat='bat --style header --style snip --style changes --style header'
-[ ! -x /usr/bin/yay ] && [ -x /usr/bin/paru ] && alias yay='paru'
+
 
 # --- // CHATGPT:
 [[ -f ~/.secrets ]] && source ~/.secrets
@@ -244,13 +248,19 @@ alias cat='bat --style header --style snip --style changes --style header'
 # https://wiki.archlinux.org/index.php/Pkgfile#.22Command_not_found.22_hook
 [[ -e /usr/share/doc/pkgfile/command-not-found.zsh ]] && source /usr/share/doc/pkgfile/command-not-found.zsh
 
-# --- // ZSH_PLUGINS:
+# --- // SYNTAX_HIGHLIGHTING:
 [[ -f "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlight.zsh" ]] && source "/usr/share/zsh/plugins/zsh-syntax-highlighting.zsh"
 
+# --- // AUTOSUGGESTIONS:
 [[ -f "/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" ]] && source "/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
-  
+
+# --- // ZSH_HISTORY_SUBSTRING_SEARCH:
 [[ -f "/usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh" ]] && source "/usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh"
   
+# --- // FZF_KEY_BINDING:
 [[ -f "/usr/share/fzf/key-bindings.zsh" ]] && source "/usr/share/fzf/key-bindings.zsh"
   
+# --- // ZSH_COMPLETIONS:
 [[ -f "/usr/share/fzf/completion.zsh" ]] && source "/usr/share/fzf/completion.zsh"
+# --- // LFS_COMPLETIONS:
+[[ -f "$HOME/.config/shell/plugins/plugins/lfs-completions/lfs-completions.zsh" ]] && source "/home/andro/.config/shell/plugins/plugins/lfs-completions"
