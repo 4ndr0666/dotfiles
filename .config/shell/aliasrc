@@ -1,10 +1,13 @@
-#Filename: aliases.zsh
+#!/usr/bin/zsh
+#
+# --- // ALIASES.ZSH // ========
+#File: $HOME/.config/shellz/aliasrc.zsh
 #Author: 4ndr0666
-#Edited: 02-07-2024
+#Edited: 03-21-2024
 
 # ================================================== // LIST_CURRENT_ALIASES //
 alias 00='cat ~/.config/shell/aliasrc'
-alias 0f='cat ~/.oh-my-zsh/custom/plugins/myfunctions/myfunctions.plugin.zsh'
+alias 0f='cat ~/.config/shellz/functions/functionsrc'
 alias lpacman="bat /var/log/pacman.log"
 
 # ========================================================== // COMMON_TYPOS //
@@ -31,7 +34,7 @@ alias chtutil='cat ~/.cheater/chtutils.md'
 alias chtpkg='cat ~/.cheater/chtpkg.md'
 alias chtgit='cat ~/.cheater/chtgit.md'
 alias chtrsync='cat ~/.cheater/chtrsync.md'
-alias chtyay='cat ~/.cheater/chtyay.md' 
+alias chtyay='cat ~/.cheater/chtyay.md'
 
 # =========================================================== // REMOVE_SUDO //
 # --- // Unset:
@@ -56,8 +59,9 @@ alias svim='sudo nvim'
 
 
 # ===================================================== // EDIT_CONFIG_FILES //
-alias valias='svim /home/$USER/.config/shell/aliasrc' 
-alias vfunc='svim /home/andro/.oh-my-zsh/custom/plugins/myfunctions/myfunctions.plugin.zsh'
+alias valias='svim /home/$USER/.config/shellz/aliasrc'
+alias vfunc='svim /home/$USER/.config/shellz/functions/functions.zsh'
+alias shellzsh='cd ~/.config/shellz'
 alias vpac='svim /etc/pacman.conf'
 alias vgrub='svim /etc/default/grub'
 alias vgrubc='svim /boot/grub/grub.cfg'
@@ -103,7 +107,6 @@ alias hbgl='cd /Nas/Build/git/local'
 alias hbgs='cd /Nas/Build/git/syncing/'
 alias hbpk='cd /Nas/Build/pkgs'
 alias hbpr='cd /Nas/Build/projects'
-# --- // /home/Build/git/syncing/scr //
 
 # =============================================== // FZF_DIRECTORY_SHORTCUTS //
 # --- // $USER/.local/bin //
@@ -112,6 +115,13 @@ se() {
 	[ -f "$HOME/.local/bin/$choice" ] && $EDITOR "$HOME/.local/bin/$choice";
 }
 
+# ===============================================// OH_MY_ZSH //
+alias oz="svim ~/.zshrc"
+alias oc="cd ~/.oh-my-zsh/custom/"
+alias omzp="echo -e '\033[1;36mPlugins:\033[0m'; awk -F'=' '/^plugins/{gsub(/[\(\)]/, \"\"); split(\$2, a, \" \"); for(i in a) print a[i]}' ~/.zshrc"
+alias omzl='omz plugin list'
+alias omzi='omz plugin info'
+alias reload='source ~/.zshrc'
 
 # ========================================================= // BASIC_ALIASES //
 alias cd='cd -P'
@@ -159,11 +169,11 @@ alias gstat='git status'
 alias grh="git reset --hard"
 #--- // Set 1:
 alias listdir="ls -d */ > list"
-alias l='lsd'
-alias ls='exa -hlx --no-filesize --no-time --git-ignore --no-permissions --octal-permissions -s new --color=auto --group-directories-first --icons'
-alias la="lsd -aFlL --permission=octal --color=always --group-dirs=first --icon=always"
-alias ll='exa -l --git -s new --color=always --group-directories-first --icons'
-alias l.='exa -ald -s new --no-filesize --no-permissions --octal-permissions --color=always --group-directories-first --icons .*'
+alias l='lsd -t1'
+alias ls='exa -hlx --no-filesize --no-time --no-permissions --octal-permissions --color=always --group-directories-first --icons=always'
+alias la="lsd -aFlL --permission=rwx --color=always --group-dirs=first --icon=always"
+alias ll='exa -xXDa --color=always  --icons=always'
+alias l.='exa -ald --no-filesize --octal-permissions --color=always --group-directories-first --icons'
 alias lt='exa -aT -s new --color=always --group-directories-first --icons'
 # --- // Set 2:
 #alias ls="ls -alhfN --time-style=long-iso --color=auto --group-directories-first"
@@ -273,9 +283,12 @@ alias trem='transmission-remote'
 alias ytt='yt --skip-download --write-thumbnail'
 alias YT='youtube-viewer'
 alias yta='yt -x -f bestaudio/best'
-alias yt="yt-dlp --add-metadata --format 'bestvideo[height>=1080][ext=webm]+bestaudio[ext=webm]/best[ext=webm]' --no-playlist --no-mtime --abort-on-error -o '%(title)s.%(ext)s'"
-#alias yt="yt-dlp --add-metadata --format 'bestvideo[height>=1080]+bestaudio/best' --no-playlist --no-mtime --abort-on-error -o '%(title)s.%(ext)s'"
-alias ytp="yt-dlp --embed-metadata --external-downloader aria2c --external-downloader-args '-c -j 3 -x 3 -s 3 -k 1M' -f 'bestvideo[vcodec^=vp9]/bestvideo' --no-mtime --no-audio"
+alias ytv9="yt-dlp --add-metadata --format 'bestvideo[height>=1080][vcodec^=vp9]/bestvideo' --no-playlist --no-mtime --no-audio"
+alias ytwebm="yt-dlp --add-metadata --format 'bestvideo[height>=1080][ext=webm]/bestvideo' --no-playlist --no-mtime --no-audio"
+alias yte='echo "--external-downloader aria2c --external-downloader-args '-c -j 3 -x 3 -s 3 -k 1M'"'
+alias yt="yt-dlp --add-metadata -f b --no-playlist --no-mtime"
+alias ytpv9="yt-dlp --embed-metadata --external-downloader aria2c --external-downloader-args '-c -j 3 -x 3 -s 3 -k 1M' -f 'bestvideo[vcodec^=vp9]/bestvideo' --no-mtime --no-audio"
+alias ytpwebm="yt-dlp --add-metadata --format 'bestvideo[height>=1080][ext=webm]/bestvideo' --no-mtime --no-audio"
 alias sdn="shutdown -h now"
 alias ssr="reboot -h now"
 alias fixdirmngr='sudo dirmngr </dev/null'
@@ -312,8 +325,6 @@ alias snapli="sudo snapper list"
 alias snapcr="sudo snapper -c root create"
 alias snapch="sudo snapper -c home create"
 # --- // LOGIN_MANAGER //
-alias toboot="sudo /usr/local/bin/arcolinux-toboot"
-alias togrub="sudo /usr/local/bin/arcolinux-togrub"
 alias tolightdm="sudo pacman -S lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings --noconfirm --needed ; sudo systemctl enable lightdm.service -f ; echo 'Lightm is active - reboot now'"
 alias tosddm="sudo pacman -S sddm --noconfirm --needed ; sudo systemctl enable sddm.service -f ; echo 'Sddm is active - reboot now'"
 alias toly="sudo pacman -S ly --noconfirm --needed ; sudo systemctl enable ly.service -f ; echo 'Ly is active - reboot now'"
@@ -368,18 +379,9 @@ alias pacmansigon="sudo cp --preserve=all -f /etc/pacman.conf.backup /etc/pacman
 
 # --- // Sudo:
 sudo_func() {
-    if sudo -v; then
-        command sudo "$@"
-    else
-        echo "Failed to refresh sudo credentials."
-        return 1
-    fi
+    sudo -v
+    sudo "$@"
 }
-
-#sudo_func() {
-#    sudo -v
-#    sudo "$@"
-#}
 
 # --- // Editor:
 if alias e &>/dev/null; then
@@ -411,34 +413,16 @@ yarn() { yarn_command --use-yarnrc "$XDG_CONFIG_HOME/yarn/config" "$@"; }
 
 # ---- // Git_clone:
 gclone() {
-    if [ -z "$1" ]; then
-        echo "Error: Please provide a Git repository URL."
-        return 1
-    fi
-    local repo_name=$(basename "$1" .git)
-    if [ -d "$repo_name" ]; then
-        echo "Error: Directory '$repo_name' already exists. Cloning aborted."
-        return 1
-    fi
-    git clone --depth 1 "$@" && cd -- "$repo_name" || { echo "Error: Cloning failed."; return 1; }
+    git clone --depth 1 "$@" && \
+      cd -- "$(basename "$1" .git)" || exit
 }
 
-# --- // Git_add_all/commit_all/comment/pull/auto_push_to_main_or_master:
+# --- // Git_add_all/commit_all/comment/pull/push:
 gcomp() {
     git add .
     git commit -m "$*"
-
-    if grep -q main .git/config; then
-        echo "Using main"
-        git pull
-        git push -u origin main
-    elif grep -q master .git/config; then
-        echo "Using master"
-        git pull
-        git push -u origin master
-    else
-        echo "Branch 'main' or 'master' not found in .git/config."
-   fi
+    git pull
+    git push
 }
 
 # --- // Git_add_all/commit/comment:
@@ -601,11 +585,10 @@ copyfile() {
 }
 
 # --- // List_dependent_pkgs_of_application:
-whatdependson() {
+whatdependson()  {
     search=$(echo "$1")
-    sudo pacman -Sii "$search" | grep "Required" | sed -e "s/Required By     : //g" | sed -e "s/  /\n/g"
-    # Include optional dependencies: sudo pacman -Sii "$search" | grep -E "Required|Optional"
-}
+    sudo pacman -Sii $search | grep "Required" | sed -e "s/Required By     : //g" | sed -e "s/  /\n/g"
+    }
 
 # --- // Cp_$PWD_to_virtualenvs_then_executes_pipenv //
 #_copy_and_pipenv() {
@@ -638,19 +621,19 @@ f() {
 up() { for _ in $(seq "${1:-1}"); do cd ..; done; }
 
 # --- // All_port80_connections:
-con80() {
+function con80() {
   {
     LANG= ss -nat || LANG= netstat -nat
   } | grep -E ":80[^0-9]" | wc -l
 }
 
 # --- // List_top20_connections_on_port80:
-http20() {
+function http20() {
   sudo tcpdump -i eth0 -tnn dst port 80 -c 1000 | awk -F"." '{print $1"."$2"."$3"."$4}' | sort | uniq -c | sort -nr | head -n 20
 }
 
 # --- // List_top20_SYN_connections:
-syn20() {
+function syn20() {
   {
     LANG= ss -an | awk '/SYN/ {print $5}' \
     || LANG= netstat -an | awk '/SYN/ {print $5}'
@@ -658,14 +641,14 @@ syn20() {
 }
 
 # --- // Sort_top100_connections_by_uptime_and_occurrences:
-consume100() {
+function consume100() {
   awk '($NF > 60 && $7~/\.php/){print $7}' "$(retlog)" | sort -n | uniq -c | sort -nr | head -n 100
   # if django website or other website make by no suffix language
   # awk '{print $7}' "$(retlog)" | sort -n | uniq -c | sort -nr | head -n 100
 }
 
 # --- // Delete_0byte_files:
-d0() {
+function d0() {
     local target_dir="${1:-.}"
     find "$target_dir" -type f -size 0 -print0 | while IFS= read -r -d '' file; do
         read -p "Delete '$file'? [y/N] " response

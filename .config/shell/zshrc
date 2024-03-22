@@ -3,47 +3,29 @@
 #Author: 4ndr0666
 #Edited: 03-17-2024
 
-# --- // OMZ_CONSTANTS:
-#export ZSH="$HOME/.oh-my-zsh"
-#ENABLE_CORRECTION="true"
-#zstyle ':omz:update' mode disabled
-
-export PATH="$PATH:$(find ~/.local/bin /usr/local/bin -type d | paste -sd ':' -)"
-
-for file in zenvironment functionsrc aliasrc ; do
-  source_file="$HOME/.config/shellz/${file}"
-  [ -f "${source_file}" ] && source "${source_file}" || echo "${file} not found."
-done
-
-# --- // PATH_MANAGER_PYSCRIPT:
-#UPDATED_PATH_FILE="/tmp/updated_path.txt"
-#[[ -f "$HOME/scripts/path_manager.py" ]] && python "$HOME/scripts/path_manager.py"
-#if [ -f "$UPDATED_PATH_FILE" ]; then
-#    source "$UPDATED_PATH_FILE"
-#else
-#    PATH_ADDITIONS=("$HOME/bin" "$HOME/.local/bin" "/usr/local/bin")
-#    for path in "${PATH_ADDITIONS[@]}"; do
-#        if [[ ":$PATH:" != *":$path:"* ]]; then
-#            PATH="$path:$PATH"
-#        fi
-#    done
-#    export PATH
-#fi
-#alias pathctl='python ~/scripts/path_manager.py --prompt && source /tmp/updated_path.txt || echo "Error updating path"'
-
 # --- // THEME:
-#ZSH_THEME="jonathan"
-#ZSH_THEME_RANDOM_CANDIDATES=( "darkblood" "duellj" "fox" "funky" "humza" "jonathan" "junkfood" "kiwi" "rkj-repos" "simonoff" "robbyrussell" )
-#ZSH_THEME_RANDOM_IGNORED=( "kardan" "minimal" "pygmalion" "tjkirch_mod" ) # Added quotes for consistency
-
+source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme 2>/dev/null
 # --- // ALT_MANUAL_THEME:
 #autoload -U colors && colors   # Load colors
 #PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
 
-# --- // PLUGINS:
+# --- // PATH:
+export PATH="$PATH:$(find ~/.local/bin /usr/local/bin -type d | paste -sd ':' -)"
+
+# --- // SOURCE_SHELLZ:
+source ~/.config/shellz/zenvironment 2>/dev/null
+source ~/.config/shellz/aliasrc 2>/dev/null
+source ~/.config/shellz/functions/functions.zsh 2>/dev/null
+# --- // OMZ_THEME:
+#ZSH_THEME="jonathan"
+#ZSH_THEME_RANDOM_CANDIDATES=( "darkblood" "duellj" "fox" "funky" "humza" "jonathan" "junkfood" "kiwi" "rkj-repos" "simonoff" "robbyrussell" )
+#ZSH_THEME_RANDOM_IGNORED=( "kardan" "minimal" "pygmalion" "tjkirch_mod" ) # Added quotes for consistency
+
+
+# --- // OMZ_PLUGINS:
 #plugins=( systemadmin zsh-interactive-cd universalarchive git zsh-autosuggestions zsh-syntax-highlighting fzf aliases copypath myfunctions systemd )
 
-# --- // REQUIRED_OMZ_SOURCING_AFTER_PLUGINS:
+# --- // OMZ_SOURCING:
 #[[ -f "$HOME/.oh-my-zsh/oh-my-zsh.sh" ]] && source "$HOME/.oh-my-zsh/oh-my-zsh.sh"
 
 # --- // On-demand rehash:
@@ -60,19 +42,10 @@ rehash_precmd() {
 }
 add-zsh-hook -Uz precmd rehash_precmd
 
-# --- // RICING_ALIASES:
-#
-# --- // Copy_aliases_from_skel:
-#[[ -f ~/.zshrc_skel_aliases ]] && . ~/.zshrc_skel_aliases
-#
-# --- // Copy_personal_folder_to_home:
-#alias personal='cp -Rf /personal/* ~'
-
 # --- // PLUGINS:
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
 source /usr/share/autojump/autojump.zsh 2>/dev/null
 
 # --- // THEME:
-source "$HOME/.config/shellz/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme"
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
