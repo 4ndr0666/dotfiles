@@ -1,0 +1,25 @@
+# Define CPUs governor for Intel i3-3220
+# 'performance' governor is suitable for this processor to achieve maximum performance.
+governor='performance'
+
+# Limit frequency range
+# Since the base frequency is 3.3 GHz, we will set the min and max to that.
+min_freq="3.3GHz"
+max_freq="3.3GHz"
+
+# Utilizes cores in one processor package/socket first before processes are 
+# scheduled to other processor packages/sockets.
+# For a dual-core processor, this is not particularly relevant.
+#mc_scheduler=
+
+# Utilizes thread siblings of one processor core first before processes are
+# scheduled to other cores.
+# For a dual-core processor, this is not particularly relevant.
+#smp_scheduler=
+
+# Sets a register on supported Intel processors which allows software to convey
+# its policy for the relative importance of performance versus energy savings to
+# the processor.
+# Since we want maximum performance, we can leave this commented out.
+#perf_bias=
+

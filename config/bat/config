@@ -1,0 +1,36 @@
+#File: $USER/.config/bat/config
+#Author: 4ndr0666
+#Edited: 04-23-24
+#
+# --- // CONFIG // ========
+
+
+# --- // THEME:
+#--theme="DarkNeon"
+--theme="GitHub"
+--wrap="auto"
+--color="always"
+
+# --- // STYLES:
+--style="numbers,changes,header,snip"
+#2--style="numbers,grid,header,changes,full"
+
+# --- // TERMINAL:
+--italic-text=always
+--terminal-width="120"
+
+# --- // PAGER:
+--paging="always"
+--pager="less -rFXIL"
+#2--pager="less -R"
+
+# --- // LANGUAGES:
+--map-syntax "*.unknown:txt"
+--map-syntax "*.ino:C++"
+--map-syntax ".ignore:Git Ignore"
+--map-syntax "*.md:Markdown"
+
+# --- // MISC:
+#--show-nonprintable
+--tabs="4"
+#--diff

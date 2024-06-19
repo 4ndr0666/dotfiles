@@ -1,0 +1,766 @@
+{
+ "root"   : {
+             "type"       : "CONTAINER",
+             "actionData" : {},
+             "className"  : "org.jdownloader.controlling.contextmenu.MenuContainerRoot",
+             "iconKey"    : null,
+             "items"      : [
+                             {
+                              "actionData" : {"setup":{"HIDEIFDOWNLOADSARERUNNING":true},"clazzName":"jd.gui.swing.jdgui.components.toolbar.actions.StartDownloadsAction"},
+                              "className"  : null,
+                              "iconKey"    : "logo/logo_14_14",
+                              "items"      : [],
+                              "mnemonic"   : null,
+                              "name"       : "DL",
+                              "shortcut"   : "shift alt pressed D",
+                              "type"       : "ACTION",
+                              "visible"    : true
+                             },
+                             {
+                              "actionData" : {"setup":{"HIDEIFDOWNLOADSARESTOPPED":true},"clazzName":"jd.gui.swing.jdgui.components.toolbar.actions.PauseDownloadsAction"},
+                              "className"  : null,
+                              "iconKey"    : null,
+                              "items"      : [],
+                              "mnemonic"   : null,
+                              "name"       : "<EMPTY>",
+                              "shortcut"   : null,
+                              "type"       : "ACTION",
+                              "visible"    : true
+                             },
+                             {
+                              "actionData" : {"setup":{"HIDEIFDOWNLOADSARESTOPPED":true},"clazzName":"jd.gui.swing.jdgui.components.toolbar.actions.StopDownloadsButFinishRunningOnesAction"},
+                              "className"  : null,
+                              "iconKey"    : "stopsign",
+                              "items"      : [],
+                              "mnemonic"   : null,
+                              "name"       : "Stop After Completion",
+                              "shortcut"   : null,
+                              "type"       : "ACTION",
+                              "visible"    : true
+                             },
+                             {
+                              "actionData" : {"setup":{"HIDEIFDOWNLOADSARESTOPPED":true},"clazzName":"jd.gui.swing.jdgui.components.toolbar.actions.StopDownloadsAction"},
+                              "className"  : null,
+                              "iconKey"    : "error",
+                              "items"      : [],
+                              "mnemonic"   : null,
+                              "name"       : "Stop",
+                              "shortcut"   : "shift alt pressed S",
+                              "type"       : "ACTION",
+                              "visible"    : true
+                             },
+                             {
+                              "actionData" : {"clazzName":"org.jdownloader.gui.views.downloads.action.ResumeToolbarAction"},
+                              "className"  : null,
+                              "iconKey"    : null,
+                              "items"      : [],
+                              "mnemonic"   : null,
+                              "name"       : "Resume",
+                              "shortcut"   : null,
+                              "type"       : "ACTION",
+                              "visible"    : false
+                             },
+                             {
+                              "actionData" : {"clazzName":"org.jdownloader.gui.views.downloads.action.ResetToolbarAction"},
+                              "className"  : null,
+                              "iconKey"    : "undo",
+                              "items"      : [],
+                              "mnemonic"   : null,
+                              "name"       : "Reset",
+                              "shortcut"   : null,
+                              "type"       : "ACTION",
+                              "visible"    : true
+                             },
+                             {
+                              "actionData" : {"clazzName":"org.jdownloader.gui.views.components.packagetable.actions.SearchToolbarAction"},
+                              "className"  : null,
+                              "iconKey"    : null,
+                              "items"      : [],
+                              "mnemonic"   : null,
+                              "name"       : "Search table",
+                              "shortcut"   : null,
+                              "type"       : "ACTION",
+                              "visible"    : false
+                             },
+                             {
+                              "actionData" : {},
+                              "className"  : "org.jdownloader.controlling.contextmenu.SeparatorData",
+                              "iconKey"    : null,
+                              "items"      : [],
+                              "mnemonic"   : null,
+                              "name"       : "Separator",
+                              "shortcut"   : null,
+                              "type"       : "ACTION",
+                              "visible"    : true
+                             },
+                             {
+                              "actionData" : {"clazzName":"jd.gui.swing.jdgui.components.toolbar.actions.AutoReconnectToggleAction"},
+                              "className"  : null,
+                              "iconKey"    : null,
+                              "items"      : [],
+                              "mnemonic"   : null,
+                              "name"       : "Auto Reconnect",
+                              "shortcut"   : null,
+                              "type"       : "ACTION",
+                              "visible"    : false
+                             },
+                             {
+                              "actionData" : {"clazzName":"jd.gui.swing.jdgui.components.toolbar.actions.GlobalPremiumSwitchToggleAction"},
+                              "className"  : null,
+                              "iconKey"    : null,
+                              "items"      : [],
+                              "mnemonic"   : null,
+                              "name"       : "Premium Downloads",
+                              "shortcut"   : null,
+                              "type"       : "ACTION",
+                              "visible"    : false
+                             },
+                             {
+                              "actionData" : {"clazzName":"jd.gui.swing.jdgui.components.toolbar.actions.SilentModeToggleAction"},
+                              "className"  : null,
+                              "iconKey"    : null,
+                              "items"      : [],
+                              "mnemonic"   : null,
+                              "name"       : "Silent Mode",
+                              "shortcut"   : null,
+                              "type"       : "ACTION",
+                              "visible"    : false
+                             },
+                             {
+                              "actionData" : {"clazzName":"jd.gui.swing.jdgui.components.toolbar.actions.SpeedLimiterToggleAction"},
+                              "className"  : null,
+                              "iconKey"    : null,
+                              "items"      : [],
+                              "mnemonic"   : null,
+                              "name"       : "Speedlimiter enabled",
+                              "shortcut"   : null,
+                              "type"       : "ACTION",
+                              "visible"    : false
+                             },
+                             {
+                              "actionData" : {"clazzName":"jd.gui.swing.jdgui.components.toolbar.actions.ReconnectAction"},
+                              "className"  : null,
+                              "iconKey"    : "network",
+                              "items"      : [],
+                              "mnemonic"   : null,
+                              "name"       : "New IP",
+                              "shortcut"   : "shift alt pressed I",
+                              "type"       : "ACTION",
+                              "visible"    : true
+                             },
+                             {
+                              "actionData" : {"clazzName":"jd.gui.swing.jdgui.components.toolbar.actions.ClipBoardToggleAction"},
+                              "className"  : null,
+                              "iconKey"    : null,
+                              "items"      : [],
+                              "mnemonic"   : null,
+                              "name"       : "Clipboard Monitoring",
+                              "shortcut"   : null,
+                              "type"       : "ACTION",
+                              "visible"    : true
+                             },
+                             {
+                              "actionData" : {"clazzName":"jd.gui.swing.jdgui.components.toolbar.actions.MyJDownloaderStatusAction"},
+                              "className"  : null,
+                              "iconKey"    : null,
+                              "items"      : [],
+                              "mnemonic"   : null,
+                              "name"       : "MJD Status",
+                              "shortcut"   : null,
+                              "type"       : "ACTION",
+                              "visible"    : true
+                             },
+                             {
+                              "actionData" : {},
+                              "className"  : "org.jdownloader.controlling.contextmenu.SeparatorData",
+                              "iconKey"    : null,
+                              "items"      : [],
+                              "mnemonic"   : null,
+                              "name"       : "Separator",
+                              "shortcut"   : null,
+                              "type"       : "ACTION",
+                              "visible"    : true
+                             },
+                             {
+                              "actionData" : {"clazzName":"org.jdownloader.extensions.extraction.actions.ExtractAction"},
+                              "className"  : null,
+                              "iconKey"    : null,
+                              "items"      : [],
+                              "mnemonic"   : null,
+                              "name"       : "Extract Files",
+                              "shortcut"   : null,
+                              "type"       : "ACTION",
+                              "visible"    : true
+                             },
+                             {
+                              "actionData" : {"clazzName":"jd.gui.swing.jdgui.components.toolbar.AlwaysOnTopGuiToogleAction"},
+                              "className"  : null,
+                              "iconKey"    : "nonpinned",
+                              "items"      : [],
+                              "mnemonic"   : null,
+                              "name"       : "Always on Top",
+                              "shortcut"   : null,
+                              "type"       : "ACTION",
+                              "visible"    : true
+                             },
+                             {
+                              "actionData" : {"clazzName":"jd.gui.swing.jdgui.components.toolbar.actions.UpdateAction"},
+                              "className"  : null,
+                              "iconKey"    : null,
+                              "items"      : [],
+                              "mnemonic"   : null,
+                              "name"       : "<EMPTY>",
+                              "shortcut"   : null,
+                              "type"       : "ACTION",
+                              "visible"    : false
+                             },
+                             {
+                              "type"       : "CONTAINER",
+                              "actionData" : {},
+                              "className"  : "org.jdownloader.gui.mainmenu.container.OptionalContainer",
+                              "iconKey"    : "menu",
+                              "items"      : [
+                                              {
+                                               "actionData" : {"clazzName":"jd.gui.swing.jdgui.components.toolbar.actions.OpenDefaultDownloadFolderAction"},
+                                               "className"  : null,
+                                               "iconKey"    : null,
+                                               "items"      : [],
+                                               "mnemonic"   : null,
+                                               "name"       : null,
+                                               "shortcut"   : null,
+                                               "type"       : "ACTION",
+                                               "visible"    : true
+                                              },
+                                              {
+                                               "actionData" : {"clazzName":"jd.gui.swing.jdgui.components.toolbar.actions.ShowSettingsAction"},
+                                               "className"  : null,
+                                               "iconKey"    : null,
+                                               "items"      : [],
+                                               "mnemonic"   : null,
+                                               "name"       : null,
+                                               "shortcut"   : null,
+                                               "type"       : "ACTION",
+                                               "visible"    : true
+                                              },
+                                              {
+                                               "actionData" : {"clazzName":"jd.gui.swing.jdgui.components.toolbar.actions.ExitToolbarAction"},
+                                               "className"  : null,
+                                               "iconKey"    : null,
+                                               "items"      : [],
+                                               "mnemonic"   : null,
+                                               "name"       : null,
+                                               "shortcut"   : null,
+                                               "type"       : "ACTION",
+                                               "visible"    : true
+                                              },
+                                              {
+                                               "actionData" : {"clazzName":"org.jdownloader.gui.toolbar.UnskipAllSkippedLinksAction"},
+                                               "className"  : null,
+                                               "iconKey"    : null,
+                                               "items"      : [],
+                                               "mnemonic"   : null,
+                                               "name"       : "Unskip all skipped Links",
+                                               "shortcut"   : null,
+                                               "type"       : "ACTION",
+                                               "visible"    : true
+                                              },
+                                              {
+                                               "actionData" : {"clazzName":"org.jdownloader.gui.mainmenu.action.AddLinksMenuAction"},
+                                               "className"  : null,
+                                               "iconKey"    : null,
+                                               "items"      : [],
+                                               "mnemonic"   : null,
+                                               "name"       : null,
+                                               "shortcut"   : null,
+                                               "type"       : "ACTION",
+                                               "visible"    : true
+                                              },
+                                              {
+                                               "actionData" : {"clazzName":"org.jdownloader.gui.views.linkgrabber.actions.AddContainerAction"},
+                                               "className"  : null,
+                                               "iconKey"    : null,
+                                               "items"      : [],
+                                               "mnemonic"   : null,
+                                               "name"       : null,
+                                               "shortcut"   : null,
+                                               "type"       : "ACTION",
+                                               "visible"    : true
+                                              },
+                                              {
+                                               "actionData" : {"clazzName":"org.jdownloader.gui.toolbar.SetProxySetupAction"},
+                                               "className"  : null,
+                                               "iconKey"    : null,
+                                               "items"      : [],
+                                               "mnemonic"   : null,
+                                               "name"       : null,
+                                               "shortcut"   : null,
+                                               "type"       : "ACTION",
+                                               "visible"    : true
+                                              },
+                                              {
+                                               "actionData" : {"clazzName":"jd.gui.swing.jdgui.menu.actions.RestartAction"},
+                                               "className"  : null,
+                                               "iconKey"    : null,
+                                               "items"      : [],
+                                               "mnemonic"   : null,
+                                               "name"       : null,
+                                               "shortcut"   : null,
+                                               "type"       : "ACTION",
+                                               "visible"    : true
+                                              },
+                                              {
+                                               "actionData" : {"clazzName":"jd.gui.swing.jdgui.menu.actions.SettingsAction"},
+                                               "className"  : null,
+                                               "iconKey"    : null,
+                                               "items"      : [],
+                                               "mnemonic"   : null,
+                                               "name"       : null,
+                                               "shortcut"   : null,
+                                               "type"       : "ACTION",
+                                               "visible"    : true
+                                              },
+                                              {
+                                               "type"       : "CONTAINER",
+                                               "actionData" : {},
+                                               "className"  : "org.jdownloader.gui.mainmenu.container.SettingsMenuContainer",
+                                               "iconKey"    : "settings",
+                                               "items"      : [
+                                                               {
+                                                                "actionData" : {},
+                                                                "className"  : "org.jdownloader.gui.mainmenu.ChunksEditorLink",
+                                                                "iconKey"    : "chunks",
+                                                                "items"      : [],
+                                                                "mnemonic"   : null,
+                                                                "name"       : "Max. Chunks per Download",
+                                                                "shortcut"   : null,
+                                                                "type"       : "ACTION",
+                                                                "visible"    : true
+                                                               },
+                                                               {
+                                                                "actionData" : {},
+                                                                "className"  : "org.jdownloader.gui.mainmenu.ParalellDownloadsEditorLink",
+                                                                "iconKey"    : "paralell",
+                                                                "items"      : [],
+                                                                "mnemonic"   : null,
+                                                                "name"       : "Max. simultaneous Downloads",
+                                                                "shortcut"   : null,
+                                                                "type"       : "ACTION",
+                                                                "visible"    : true
+                                                               },
+                                                               {
+                                                                "actionData" : {},
+                                                                "className"  : "org.jdownloader.gui.mainmenu.ParallelDownloadsPerHostEditorLink",
+                                                                "iconKey"    : "batch",
+                                                                "items"      : [],
+                                                                "mnemonic"   : null,
+                                                                "name"       : "Max. sim. Downloads per Hoster",
+                                                                "shortcut"   : null,
+                                                                "type"       : "ACTION",
+                                                                "visible"    : true
+                                                               },
+                                                               {
+                                                                "actionData" : {},
+                                                                "className"  : "org.jdownloader.gui.mainmenu.SpeedlimitEditorLink",
+                                                                "iconKey"    : "speed",
+                                                                "items"      : [],
+                                                                "mnemonic"   : null,
+                                                                "name"       : "Speed Limit",
+                                                                "shortcut"   : null,
+                                                                "type"       : "ACTION",
+                                                                "visible"    : true
+                                                               }
+                                                              ],
+                                               "mnemonic"   : null,
+                                               "name"       : "Quick Settings",
+                                               "shortcut"   : null,
+                                               "visible"    : true
+                                              },
+                                              {
+                                               "actionData" : {"clazzName":"jd.gui.swing.jdgui.menu.actions.LatestChangesAction"},
+                                               "className"  : null,
+                                               "iconKey"    : null,
+                                               "items"      : [],
+                                               "mnemonic"   : null,
+                                               "name"       : null,
+                                               "shortcut"   : null,
+                                               "type"       : "ACTION",
+                                               "visible"    : true
+                                              },
+                                              {
+                                               "actionData" : {"clazzName":"jd.gui.swing.jdgui.menu.actions.KnowledgeAction"},
+                                               "className"  : null,
+                                               "iconKey"    : null,
+                                               "items"      : [],
+                                               "mnemonic"   : null,
+                                               "name"       : null,
+                                               "shortcut"   : null,
+                                               "type"       : "ACTION",
+                                               "visible"    : true
+                                              },
+                                              {
+                                               "actionData" : {"clazzName":"org.jdownloader.gui.mainmenu.action.LogSendAction"},
+                                               "className"  : null,
+                                               "iconKey"    : null,
+                                               "items"      : [],
+                                               "mnemonic"   : null,
+                                               "name"       : null,
+                                               "shortcut"   : null,
+                                               "type"       : "ACTION",
+                                               "visible"    : true
+                                              },
+                                              {
+                                               "type"       : "CONTAINER",
+                                               "actionData" : {},
+                                               "className"  : "org.jdownloader.gui.mainmenu.container.CaptchaQuickSettingsContainer",
+                                               "iconKey"    : "ocr",
+                                               "items"      : [
+                                                               {
+                                                                "actionData" : {"clazzName":"org.jdownloader.gui.toolbar.action.CaptchaModeChangeAction"},
+                                                                "className"  : null,
+                                                                "iconKey"    : null,
+                                                                "items"      : [],
+                                                                "mnemonic"   : null,
+                                                                "name"       : null,
+                                                                "shortcut"   : null,
+                                                                "type"       : "ACTION",
+                                                                "visible"    : true
+                                                               },
+                                                               {
+                                                                "actionData" : {"clazzName":"org.jdownloader.gui.toolbar.action.CaptchaToogleAntiCaptchaAction"},
+                                                                "className"  : null,
+                                                                "iconKey"    : null,
+                                                                "items"      : [],
+                                                                "mnemonic"   : null,
+                                                                "name"       : null,
+                                                                "shortcut"   : null,
+                                                                "type"       : "ACTION",
+                                                                "visible"    : true
+                                                               },
+                                                               {
+                                                                "actionData" : {"clazzName":"org.jdownloader.gui.toolbar.action.CaptchaToogleTwoCaptchaAction"},
+                                                                "className"  : null,
+                                                                "iconKey"    : null,
+                                                                "items"      : [],
+                                                                "mnemonic"   : null,
+                                                                "name"       : null,
+                                                                "shortcut"   : null,
+                                                                "type"       : "ACTION",
+                                                                "visible"    : true
+                                                               },
+                                                               {
+                                                                "actionData" : {"clazzName":"org.jdownloader.gui.toolbar.action.CaptchaToogle9KWAction"},
+                                                                "className"  : null,
+                                                                "iconKey"    : null,
+                                                                "items"      : [],
+                                                                "mnemonic"   : null,
+                                                                "name"       : null,
+                                                                "shortcut"   : null,
+                                                                "type"       : "ACTION",
+                                                                "visible"    : true
+                                                               },
+                                                               {
+                                                                "actionData" : {"clazzName":"org.jdownloader.gui.toolbar.action.CaptchaToogleDBCAction"},
+                                                                "className"  : null,
+                                                                "iconKey"    : null,
+                                                                "items"      : [],
+                                                                "mnemonic"   : null,
+                                                                "name"       : null,
+                                                                "shortcut"   : null,
+                                                                "type"       : "ACTION",
+                                                                "visible"    : true
+                                                               },
+                                                               {
+                                                                "actionData" : {"clazzName":"org.jdownloader.gui.toolbar.action.CaptchaToogleCheapCaptchaAction"},
+                                                                "className"  : null,
+                                                                "iconKey"    : null,
+                                                                "items"      : [],
+                                                                "mnemonic"   : null,
+                                                                "name"       : null,
+                                                                "shortcut"   : null,
+                                                                "type"       : "ACTION",
+                                                                "visible"    : true
+                                                               },
+                                                               {
+                                                                "actionData" : {"clazzName":"org.jdownloader.gui.toolbar.action.CaptchaToogleImageTyperzAction"},
+                                                                "className"  : null,
+                                                                "iconKey"    : null,
+                                                                "items"      : [],
+                                                                "mnemonic"   : null,
+                                                                "name"       : null,
+                                                                "shortcut"   : null,
+                                                                "type"       : "ACTION",
+                                                                "visible"    : true
+                                                               },
+                                                               {
+                                                                "actionData" : {"clazzName":"org.jdownloader.gui.toolbar.action.CaptchaToogleEndCaptchaAction"},
+                                                                "className"  : null,
+                                                                "iconKey"    : null,
+                                                                "items"      : [],
+                                                                "mnemonic"   : null,
+                                                                "name"       : null,
+                                                                "shortcut"   : null,
+                                                                "type"       : "ACTION",
+                                                                "visible"    : true
+                                                               },
+                                                               {
+                                                                "actionData" : {"clazzName":"org.jdownloader.gui.toolbar.action.CaptchaToogleDialogAction"},
+                                                                "className"  : null,
+                                                                "iconKey"    : null,
+                                                                "items"      : [],
+                                                                "mnemonic"   : null,
+                                                                "name"       : null,
+                                                                "shortcut"   : null,
+                                                                "type"       : "ACTION",
+                                                                "visible"    : true
+                                                               },
+                                                               {
+                                                                "actionData" : {"clazzName":"org.jdownloader.gui.toolbar.action.CaptchaToogleBrowserSolverAction"},
+                                                                "className"  : null,
+                                                                "iconKey"    : null,
+                                                                "items"      : [],
+                                                                "mnemonic"   : null,
+                                                                "name"       : null,
+                                                                "shortcut"   : null,
+                                                                "type"       : "ACTION",
+                                                                "visible"    : true
+                                                               },
+                                                               {
+                                                                "actionData" : {"clazzName":"org.jdownloader.gui.toolbar.action.CaptchaToogleJACAction"},
+                                                                "className"  : null,
+                                                                "iconKey"    : null,
+                                                                "items"      : [],
+                                                                "mnemonic"   : null,
+                                                                "name"       : null,
+                                                                "shortcut"   : null,
+                                                                "type"       : "ACTION",
+                                                                "visible"    : true
+                                                               },
+                                                               {
+                                                                "actionData" : {"clazzName":"org.jdownloader.gui.toolbar.action.CaptchaToogleMyJDRemoteAction"},
+                                                                "className"  : null,
+                                                                "iconKey"    : null,
+                                                                "items"      : [],
+                                                                "mnemonic"   : null,
+                                                                "name"       : null,
+                                                                "shortcut"   : null,
+                                                                "type"       : "ACTION",
+                                                                "visible"    : true
+                                                               }
+                                                              ],
+                                               "mnemonic"   : null,
+                                               "name"       : "Access to Captcha Settings",
+                                               "shortcut"   : null,
+                                               "visible"    : true
+                                              },
+                                              {
+                                               "actionData" : {"setup":{"DELETEALL":true,"ONLYSELECTEDITEMS":true},"iconKey":"delete","clazzName":"org.jdownloader.gui.toolbar.action.GenericDeleteFromTableToolbarAction"},
+                                               "className"  : null,
+                                               "iconKey"    : null,
+                                               "items"      : [],
+                                               "mnemonic"   : null,
+                                               "name"       : null,
+                                               "shortcut"   : null,
+                                               "type"       : "ACTION",
+                                               "visible"    : true
+                                              },
+                                              {
+                                               "type"       : "CONTAINER",
+                                               "actionData" : {},
+                                               "className"  : "org.jdownloader.gui.views.downloads.context.submenu.DeleteMenuContainer",
+                                               "iconKey"    : "clear",
+                                               "items"      : [
+                                                               {
+                                                                "actionData" : {"setup":{"DELETEALL":true},"iconKey":"reset","clazzName":"org.jdownloader.gui.toolbar.action.GenericDeleteFromTableToolbarAction"},
+                                                                "className"  : null,
+                                                                "iconKey"    : null,
+                                                                "items"      : [],
+                                                                "mnemonic"   : null,
+                                                                "name"       : null,
+                                                                "shortcut"   : null,
+                                                                "type"       : "ACTION",
+                                                                "visible"    : true
+                                                               },
+                                                               {
+                                                                "actionData" : {"setup":{"DELETEDISABLED":true},"iconKey":"remove_disabled","clazzName":"org.jdownloader.gui.toolbar.action.GenericDeleteFromTableToolbarAction"},
+                                                                "className"  : null,
+                                                                "iconKey"    : null,
+                                                                "items"      : [],
+                                                                "mnemonic"   : null,
+                                                                "name"       : null,
+                                                                "shortcut"   : null,
+                                                                "type"       : "ACTION",
+                                                                "visible"    : true
+                                                               },
+                                                               {
+                                                                "actionData" : {"setup":{"DELETEFAILED":true},"iconKey":"remove_failed","clazzName":"org.jdownloader.gui.toolbar.action.GenericDeleteFromTableToolbarAction"},
+                                                                "className"  : null,
+                                                                "iconKey"    : null,
+                                                                "items"      : [],
+                                                                "mnemonic"   : null,
+                                                                "name"       : null,
+                                                                "shortcut"   : null,
+                                                                "type"       : "ACTION",
+                                                                "visible"    : true
+                                                               },
+                                                               {
+                                                                "actionData" : {"setup":{"DELETEFINISHED":true},"iconKey":"remove_ok","clazzName":"org.jdownloader.gui.toolbar.action.GenericDeleteFromTableToolbarAction"},
+                                                                "className"  : null,
+                                                                "iconKey"    : null,
+                                                                "items"      : [],
+                                                                "mnemonic"   : null,
+                                                                "name"       : null,
+                                                                "shortcut"   : null,
+                                                                "type"       : "ACTION",
+                                                                "visible"    : true
+                                                               },
+                                                               {
+                                                                "actionData" : {"setup":{"DELETEOFFLINE":true},"iconKey":"remove_offline","clazzName":"org.jdownloader.gui.toolbar.action.GenericDeleteFromTableToolbarAction"},
+                                                                "className"  : null,
+                                                                "iconKey"    : null,
+                                                                "items"      : [],
+                                                                "mnemonic"   : null,
+                                                                "name"       : null,
+                                                                "shortcut"   : null,
+                                                                "type"       : "ACTION",
+                                                                "visible"    : true
+                                                               }
+                                                              ],
+                                               "mnemonic"   : null,
+                                               "name"       : "Clean Up...",
+                                               "shortcut"   : null,
+                                               "visible"    : false
+                                              },
+                                              {
+                                               "actionData" : {"clazzName":"org.jdownloader.gui.toolbar.action.CollapseExpandAllAction"},
+                                               "className"  : null,
+                                               "iconKey"    : null,
+                                               "items"      : [],
+                                               "mnemonic"   : null,
+                                               "name"       : null,
+                                               "shortcut"   : null,
+                                               "type"       : "ACTION",
+                                               "visible"    : true
+                                              },
+                                              {
+                                               "actionData" : {"clazzName":"org.jdownloader.gui.toolbar.ExportMenuItemsAction"},
+                                               "className"  : null,
+                                               "iconKey"    : null,
+                                               "items"      : [],
+                                               "mnemonic"   : null,
+                                               "name"       : null,
+                                               "shortcut"   : null,
+                                               "type"       : "ACTION",
+                                               "visible"    : true
+                                              },
+                                              {
+                                               "actionData" : {"clazzName":"org.jdownloader.gui.toolbar.ImportMenuItemsAction"},
+                                               "className"  : null,
+                                               "iconKey"    : null,
+                                               "items"      : [],
+                                               "mnemonic"   : null,
+                                               "name"       : null,
+                                               "shortcut"   : null,
+                                               "type"       : "ACTION",
+                                               "visible"    : true
+                                              },
+                                              {
+                                               "actionData" : {"clazzName":"org.jdownloader.gui.toolbar.ConvertCLRScriptAction"},
+                                               "className"  : null,
+                                               "iconKey"    : null,
+                                               "items"      : [],
+                                               "mnemonic"   : null,
+                                               "name"       : null,
+                                               "shortcut"   : null,
+                                               "type"       : "ACTION",
+                                               "visible"    : true
+                                              },
+                                              {
+                                               "actionData" : {"clazzName":"org.jdownloader.gui.toolbar.MoveToNewFolderToolbarAction"},
+                                               "className"  : null,
+                                               "iconKey"    : null,
+                                               "items"      : [],
+                                               "mnemonic"   : null,
+                                               "name"       : null,
+                                               "shortcut"   : null,
+                                               "type"       : "ACTION",
+                                               "visible"    : true
+                                              },
+                                              {
+                                               "actionData" : {"clazzName":"org.jdownloader.gui.views.linkgrabber.bottombar.AddAtTopToggleAction"},
+                                               "className"  : null,
+                                               "iconKey"    : null,
+                                               "items"      : [],
+                                               "mnemonic"   : null,
+                                               "name"       : null,
+                                               "shortcut"   : null,
+                                               "type"       : "ACTION",
+                                               "visible"    : true
+                                              },
+                                              {
+                                               "actionData" : {"clazzName":"org.jdownloader.extensions.eventscripter.GenericEventScriptTriggerToolbarAction"},
+                                               "className"  : null,
+                                               "iconKey"    : null,
+                                               "items"      : [],
+                                               "mnemonic"   : null,
+                                               "name"       : null,
+                                               "shortcut"   : null,
+                                               "type"       : "ACTION",
+                                               "visible"    : true
+                                              },
+                                              {
+                                               "type"       : "CONTAINER",
+                                               "actionData" : {},
+                                               "className"  : "org.jdownloader.gui.mainmenu.container.ExtensionsMenuContainer",
+                                               "iconKey"    : "extension",
+                                               "items"      : [
+                                                               {
+                                                                "actionData" : {"data":"org.jdownloader.extensions.eventscripter.EventScripterExtension","clazzName":"org.jdownloader.extensions.ExtensionQuickToggleAction"},
+                                                                "className"  : null,
+                                                                "iconKey"    : null,
+                                                                "items"      : [],
+                                                                "mnemonic"   : null,
+                                                                "name"       : null,
+                                                                "shortcut"   : null,
+                                                                "type"       : "ACTION",
+                                                                "visible"    : true
+                                                               },
+                                                               {
+                                                                "actionData" : {"data":"org.jdownloader.extensions.folderwatchV2.FolderWatchExtension","clazzName":"org.jdownloader.extensions.ExtensionQuickToggleAction"},
+                                                                "className"  : null,
+                                                                "iconKey"    : null,
+                                                                "items"      : [],
+                                                                "mnemonic"   : null,
+                                                                "name"       : null,
+                                                                "shortcut"   : null,
+                                                                "type"       : "ACTION",
+                                                                "visible"    : true
+                                                               }
+                                                              ],
+                                               "mnemonic"   : null,
+                                               "name"       : "Tools",
+                                               "shortcut"   : null,
+                                               "visible"    : true
+                                              }
+                                             ],
+                              "mnemonic"   : null,
+                              "name"       : "More Actions...",
+                              "shortcut"   : null,
+                              "visible"    : false
+                             }
+                            ],
+             "mnemonic"   : null,
+             "name"       : null,
+             "shortcut"   : null,
+             "visible"    : true
+            },
+ "unused" : [
+             "jd.gui.swing.jdgui.components.toolbar.actions.StartDownloadsAction:null",
+             "jd.gui.swing.jdgui.components.toolbar.actions.PauseDownloadsAction:null",
+             "jd.gui.swing.jdgui.components.toolbar.actions.StopDownloadsAction:null",
+             "jd.gui.swing.jdgui.components.toolbar.actions.StopDownloadsButFinishRunningOnesAction:null",
+             "org.jdownloader.gui.toolbar.action.MoveToTopAction:null",
+             "org.jdownloader.gui.toolbar.action.MoveUpAction:null",
+             "org.jdownloader.gui.toolbar.action.MoveDownAction:null",
+             "org.jdownloader.gui.toolbar.action.MoveToBottomAction:null"
+            ]
+}

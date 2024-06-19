@@ -1,0 +1,104 @@
+#!/bin/zsh
+#File: /home/$USER/.zshrc
+#Author: 4ndr0666
+#Edited: 04-10-2024
+#
+# --- // 4NDR0666_ZSHRC // ========
+
+
+# --- // POWERLEVEL10k:
+source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
+[[ ! -f ~/powerlevel10k/.p10k.zsh ]] || source ~/powerlevel10k/.p10k.zsh
+
+# --- // AUTOSET_$DISPLAY_IF_NOT_SET:
+if [ -z "$DISPLAY" ]; then
+	if which loginctl &>/dev/null; then
+		LOGINCTL_SESSION=$(loginctl show-user $USER -p Display 2>/dev/null | cut -d= -f2)
+		if [ -n "$LOGINCTL_SESSION" ]; then
+			export DISPLAY=$(loginctl show-session $LOGINCTL_SESSION -p Display | cut -d= -f2)
+		fi
+	fi
+	if which ck-list-sessions &>/dev/null; then
+		eval `ck-list-sessions | awk "/^Session/{right=0} /unix-user = '$UID'/{right=1} /x11-display = '(.+)'/{ if(right == 1) printf(\"DISPLAY=%s\n\", \\\$3); }";`
+	fi
+fi
+
+# --- // SWITCH_TO_HOME:
+if [ "$PWD" = "/" ]; then
+    cd $HOME
+fi
+
+# --- DYNAMIC_PATH:
+all_dirs=(
+    "$HOME/.npm-global/bin"
+    "$HOME/.cargo/bin"
+    "$HOME/.gem/ruby/2.7.0/bin"  # Adjust Ruby version as needed
+    "$HOME/.pyenv/bin"
+    "$HOME/.pyenv/shims"
+    "$HOME/.local/share/solana/install/active_release/bin"
+    "$HOME/.ghcup/bin"
+    "$HOME/.config/yarn/global/node_modules/.bin"
+    "/usr/local/go/bin"
+    "${JAVA_HOME:-/usr/lib/jvm/default/bin}"  # Use JAVA_HOME if set, else default
+    "$HOME/.sdkman/candidates/java/current/bin"
+    "$HOME/.rvm/bin"
+    "$HOME/.virtualenvs"
+    "$HOME/.poetry/bin"
+    "/opt/cuda/bin"
+    "$HOME/bin"
+    "$HOME/.local/bin"
+    "/snap/bin"
+    "/opt/bin"
+    "/sbin"
+    "/usr/sbin"
+    "/usr/local/sbin"
+    "/usr/bin"
+    "/opt/cuda/nsight_compute"
+    "/opt/cuda/nsight_systems/bin"
+    "/opt/rocm/bin"
+)
+additional_dirs=($(find ~/.local/bin /usr/local/bin -type d))
+all_dirs+=($additional_dirs)
+for dir in $all_dirs; do
+    if [[ -d $dir ]]; then
+        PATH="$PATH:$dir"
+    fi
+done
+export PATH
+
+# --- // DEDUP:
+typeset -U path PATH cdpath CDPATH fpath FPATH manpath MANPATH
+
+# --- // PATH:
+#export PATH="$PATH:$(find ~/.local/bin /usr/local/bin -type d | paste -sd ':' -)"
+
+# --- // MINOR_ALIASES
+alias restartwaybar="pkill waybar && bash $HOME/.config/wayfire/scripts/statusbar &"
+alias reload="source ~/.zshrc"
+alias oz="vim ~/.zshrc"
+
+# --- // ON-DEMAND_REHASH:
+zshcache_time="$(date +%s%N)"
+autoload -Uz add-zsh-hook
+rehash_precmd() {
+  if [[ -a /var/cache/zsh/pacman ]]; then
+    local paccache_time="$(date -r /var/cache/zsh/pacman +%s%N)"
+    if (( zshcache_time < paccache_time )); then
+      rehash
+      zshcache_time="$paccache_time"
+    fi
+  fi
+}
+add-zsh-hook -Uz precmd rehash_precmd
+
+# --- // ZSH-SYNTAX:
+ZSH_HIGHLIGHT_MAXLENGTH=512
+ZSH_HIGHLIGHT_HIGHLIGHTERS+=(brackets pattern cursor)
+
+# --- // SOURCE_SHELLZ:
+source ~/.config/shellz/zenvironment 2>/dev/null
+source ~/.config/shellz/aliasrc 2>/dev/null
+source ~/.config/shellz/functions/functions.zsh 2>/dev/null
+
+# --- // POWERLEVEL10K:
+source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme

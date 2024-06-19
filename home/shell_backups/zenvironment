@@ -1,0 +1,335 @@
+#File: /home/$USER/.config/shell/zenvironment
+#Author: 4ndr0666
+#Edited: 04-10-24
+#
+# --- // 4ndr0666_ZENVIRONMENT // ========
+
+
+# --- // DEFAULT_PROGS:
+#export XCURSOR_SIZE=24
+#export MICRO_TRUECOLOR=1
+#export EDITOR=/usr/bin/nvim
+#export TERM=alacritty
+#export BROWSER=brave
+export LANG="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
+HISTSIZE=50000
+SAVEHIST=10000
+
+# --- // X_VARIABLES: 
+#---OPENBOX:
+#export XGD_CURRENT_DESKTOP='openbox'
+#export GTK2_RC_FILES="$HOME/.gtkrc-
+#export _JAVA_AWT_WM_NONREPARENTING=1
+#export OpenGL_GL_PREFERENCE="GLVND"       # For screen tearing
+#export QT_QPA_PLATFORMTHEME="qt5ct"        
+#export MOZ_USE_XINPUT2=1                 
+#export AWT_TOOLKIT="MToolkit wmname LG3D" # May have to install wmname
+#export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel ${_JAVA_OPTIONS}"
+
+# --- // XDG_VARIABLES:
+export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XINITRC="$XDG_CONFIG_HOME/x11/xinitrc"
+export INPUTRC="$XDG_CONFIG_HOME/shell/inputrc"
+export ZDOTDIR="$XDG_CONFIG_HOME/shellz"
+export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
+export WINEARCH="win32"
+#export KODI_DATA="$XDG_DATA_HOME/kodi"
+#export NOTMUCH_CONFIG="$XDG_CONFIG_HOME/notmuch-config"
+export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
+export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
+#export ANDROID_SDK_HOME="$XDG_CONFIG_HOME/android"
+export CARGO_HOME="$XDG_DATA_HOME/cargo"
+export GOPATH="$XDG_DATA_HOME/go"
+export GOMODCACHE="$XDG_CACHE_HOME/go/mod"
+export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/pythonrc"
+export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
+export SQLITE_HISTORY="XDG_DATA_HOME/sqlite_history"
+
+# --- // SETOPT_HISTORY:
+unsetopt PROMPT_SP 2>/dev/null
+setopt append_history 
+setopt share_history 
+setopt extended_history 
+setopt HIST_IGNORE_ALL_DUPS
+setopt auto_cd 
+setopt extended_glob 
+setopt no_match 
+setopt notify
+setopt longlistjobs
+setopt hash_list_all
+setopt completeinword
+setopt nohup
+setopt auto_pushd
+setopt nobeep
+setopt pushd_ignore_dups
+setopt noglobdots
+setopt noshwordsplit
+
+# --- // AUTOCOMPLETE:
+(( ${+_comps} )) || autoload -Uz compinit && compinit
+zstyle ':completion:*:approximate:'    max-errors 'reply=( $((($#PREFIX+$#SUFFIX)/3 )) numeric )'
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'       # Case insensitive tab completion
+zstyle ':completion:*' rehash true                              # automatically find new executables in path
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"         # Colored completion (different colors for dirs/files/etc)
+zstyle ':completion:*' completer _expand _complete _ignored _approximate
+zstyle ':completion:*' menu select
+zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
+zstyle ':completion:*:descriptions' format '%U%F{cyan}%d%f%u'
+
+# --- // SPEED_UP_COMPLETIONS
+zstyle ':completion:*' accept-exact '*(N)'
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.cache/zcache
+autoload -U +X bashcompinit && bashcompinit
+
+
+# --- // LIBRARY_AND_SECURITY // ========
+#if [ -z "$LD_LIBRARY_PATH" ]; then
+#	export LD_LIBRARY_PATH="$HOME/.local/lib"
+#else
+#	export LD_LIBRARY_PATH="$HOME/.local/lib:/usr/local/lib/python3.11/site-packages:/usr/lib:$LD_LIBRARY_PATH"
+#fi
+export LD_LIBRARY_PATH="$HOME/.local/lib:/usr/local/lib/python3.11/site-packages:/usr/lib::$LD_LIBRARY_PATH"
+export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
+# Uncomment the following line if your Display Manager supports it:
+#export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
+export GPG_TTY=$(tty)
+gpg-connect-agent updatestartuptty /bye >/dev/null
+unset GNUPGHOME
+export GNUPGHOME="$HOME/.gnupg"
+export DICS="/usr/share/stardict/dic/"
+export SUDO_ASKPASS="$HOME/.local/bin/dmenupass"
+
+
+# --- // PAGER:
+case "${COLORTERM}" in
+  truecolor)
+    # do not overwrite
+    ;;
+  *)
+    export COLORTERM="yes"
+    ;;
+esac
+export FZF_DEFAULT_OPTS="--layout=reverse --height 40% \
+--color=bg+:-1,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+--color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+--color=marker:#f5e0dc,fg+:#a6e3a1,prompt:#cba6f7,hl+:#f38ba8"
+export LESS="R"
+export LESS_TERMCAP_mb="$(printf '%b' '')"
+export LESS_TERMCAP_md="$(printf '%b' '')"
+export LESS_TERMCAP_me="$(printf '%b' '')"
+export LESS_TERMCAP_so="$(printf '%b' '')"
+export LESS_TERMCAP_se="$(printf '%b' '')"
+export LESS_TERMCAP_us="$(printf '%b' '')"
+export LESS_TERMCAP_ue="$(printf '%b' '')"
+export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
+
+# --- // ENABLE_CTRL+D_TO_KILL_SHELL_EARLY: 
+exit_zsh() { exit }
+zle -N exit_zsh
+bindkey '^D' exit_zsh
+
+# --- // KEYBINDINGS_BASED_ON_EMACS:
+bindkey -e
+
+# [PageUp] - Up a line of history
+if [[ -n "${terminfo[kpp]}" ]]; then
+  bindkey -M emacs "${terminfo[kpp]}" up-line-or-history
+  bindkey -M viins "${terminfo[kpp]}" up-line-or-history
+  bindkey -M vicmd "${terminfo[kpp]}" up-line-or-history
+fi
+# [PageDown] - Down a line of history
+if [[ -n "${terminfo[knp]}" ]]; then
+  bindkey -M emacs "${terminfo[knp]}" down-line-or-history
+  bindkey -M viins "${terminfo[knp]}" down-line-or-history
+  bindkey -M vicmd "${terminfo[knp]}" down-line-or-history
+fi
+
+# Start typing + [Up-Arrow] - fuzzy find history forward
+if [[ -n "${terminfo[kcuu1]}" ]]; then
+  autoload -U up-line-or-beginning-search
+  zle -N up-line-or-beginning-search
+
+  bindkey -M emacs "${terminfo[kcuu1]}" up-line-or-beginning-search
+  bindkey -M viins "${terminfo[kcuu1]}" up-line-or-beginning-search
+  bindkey -M vicmd "${terminfo[kcuu1]}" up-line-or-beginning-search
+fi
+# Start typing + [Down-Arrow] - fuzzy find history backward
+if [[ -n "${terminfo[kcud1]}" ]]; then
+  autoload -U down-line-or-beginning-search
+  zle -N down-line-or-beginning-search
+
+  bindkey -M emacs "${terminfo[kcud1]}" down-line-or-beginning-search
+  bindkey -M viins "${terminfo[kcud1]}" down-line-or-beginning-search
+  bindkey -M vicmd "${terminfo[kcud1]}" down-line-or-beginning-search
+fi
+
+# [Home] - Go to beginning of line
+if [[ -n "${terminfo[khome]}" ]]; then
+  bindkey -M emacs "${terminfo[khome]}" beginning-of-line
+  bindkey -M viins "${terminfo[khome]}" beginning-of-line
+  bindkey -M vicmd "${terminfo[khome]}" beginning-of-line
+fi
+# [End] - Go to end of line
+if [[ -n "${terminfo[kend]}" ]]; then
+  bindkey -M emacs "${terminfo[kend]}"  end-of-line
+  bindkey -M viins "${terminfo[kend]}"  end-of-line
+  bindkey -M vicmd "${terminfo[kend]}"  end-of-line
+fi
+
+# [Shift-Tab] - move through the completion menu backwards
+if [[ -n "${terminfo[kcbt]}" ]]; then
+  bindkey -M emacs "${terminfo[kcbt]}" reverse-menu-complete
+  bindkey -M viins "${terminfo[kcbt]}" reverse-menu-complete
+  bindkey -M vicmd "${terminfo[kcbt]}" reverse-menu-complete
+fi
+
+# [Backspace] - delete backward
+bindkey -M emacs '^?' backward-delete-char
+bindkey -M viins '^?' backward-delete-char
+bindkey -M vicmd '^?' backward-delete-char
+# [Delete] - delete forward
+if [[ -n "${terminfo[kdch1]}" ]]; then
+  bindkey -M emacs "${terminfo[kdch1]}" delete-char
+  bindkey -M viins "${terminfo[kdch1]}" delete-char
+  bindkey -M vicmd "${terminfo[kdch1]}" delete-char
+else
+  bindkey -M emacs "^[[3~" delete-char
+  bindkey -M viins "^[[3~" delete-char
+  bindkey -M vicmd "^[[3~" delete-char
+
+  bindkey -M emacs "^[3;5~" delete-char
+  bindkey -M viins "^[3;5~" delete-char
+  bindkey -M vicmd "^[3;5~" delete-char
+fi
+
+typeset -g -A key
+if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
+	autoload -Uz add-zle-hook-widget
+	function zle_application_mode_start { echoti smkx }
+	function zle_application_mode_stop { echoti rmkx }
+	add-zle-hook-widget -Uz zle-line-init zle_application_mode_start
+	add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
+fi
+
+# Control Left - go back a word
+key[Control-Left]="${terminfo[kLFT5]}"
+if [[ -n "${key[Control-Left]}"  ]]; then
+	bindkey -M emacs "${key[Control-Left]}"  backward-word
+	bindkey -M viins "${key[Control-Left]}"  backward-word
+	bindkey -M vicmd "${key[Control-Left]}"  backward-word
+fi
+
+# Control Left - go forward a word
+key[Control-Right]="${terminfo[kRIT5]}"
+if [[ -n "${key[Control-Right]}" ]]; then
+	bindkey -M emacs "${key[Control-Right]}" forward-word
+	bindkey -M viins "${key[Control-Right]}" forward-word
+	bindkey -M vicmd "${key[Control-Right]}" forward-word
+fi
+
+# Alt Left - go back a word
+key[Alt-Left]="${terminfo[kLFT3]}"
+if [[ -n "${key[Alt-Left]}"  ]]; then
+	bindkey -M emacs "${key[Alt-Left]}"  backward-word
+	bindkey -M viins "${key[Alt-Left]}"  backward-word
+	bindkey -M vicmd "${key[Alt-Left]}"  backward-word
+fi
+
+# Control Right - go forward a word
+key[Alt-Right]="${terminfo[kRIT3]}"
+if [[ -n "${key[Alt-Right]}" ]]; then
+	bindkey -M emacs "${key[Alt-Right]}" forward-word
+	bindkey -M viins "${key[Alt-Right]}" forward-word
+	bindkey -M vicmd "${key[Alt-Right]}" forward-word
+fi
+
+
+
+# --- // FILE_SOURCING_&_PLUGINS // ======== 
+#for file in shortcutrc zshnameddirrc; do
+#  source_file="$HOME/.config/shell/${file}"
+#  [ -f "${source_file}" ] && source "${source_file}" || echo "${file} not found."
+#done
+#
+# --- // CHATGPT:
+#[[ -f ~/.secrets ]] && source ~/.secrets
+
+# --- // LF_SHORTCUT_SCRIPT:
+[ ! -f "$HOME/.config/shell/shortcutrc" ] && setsid -f shortcuts >/dev/null 2>&1
+
+# --- // SWITCH_ESC_AND_CAPS_IF_TTY_NOPASSWD:
+sudo -n loadkeys "$XDG_DATA_HOME/larbs/ttymaps.kmap" 2>/dev/null
+
+# --- // SPEEDUP_KEYS:
+xset r rate 300 50
+
+
+
+# --- // PLUGINS // ========
+# --- // YOU_SHOULD_USE:
+if [[ -f "/usr/share/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh" ]] && [[ -x "/usr/share/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh" ]]; then
+    source "/usr/share/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh"
+else
+    echo "zsh-you-should-use plugin not found or not executable, skipping."
+fi
+
+# --- // COMMAND_NOT_FOUND:
+if [[ -f "/usr/share/doc/find-the-command/ftc.zsh" ]] && [[ -x "/usr/share/doc/find-the-command/ftc.zsh" ]]; then
+    source "/usr/share/doc/find-the-command/ftc.zsh"
+else
+    echo "find-the-command plugin not found or not executable, skipping."
+fi
+
+# --- // ZSH_AUTOSUGGESTIONS:
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+unset ZSH_AUTOSUGGEST_USE_ASYNC
+ZSH_AUTOSUGGEST_MANUAL_REBIND=1 #To re-bind widgets, run `_zsh_autosuggest_bind_widgets`
+if [[ -f "/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" ]] && [[ -x "/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
+    source "/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
+else
+    echo "zsh-autosuggestions plugin not found or not executable, skipping."
+fi
+
+# --- // ZSH_HISTORY_SUBSTRING_SEARCH:
+if [[ -f "/usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh" ]] && [[ -x "/usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh" ]]; then
+    source "/usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh"
+else
+    echo "zsh-history-substring-search plugin not found or not executable, skipping."
+fi
+
+# --- // ZSH_COMPLETIONS:
+fpath=(/usr/share/zsh/plugins/zsh-completions/src $fpath)
+#rm -f ~/.zcompdump; compinit  #Do this if it doesnt work
+if [[ -f "/usr/share/zsh/plugins/zsh-completions.zsh" ]] && [[ -x "/usr/share/zsh/plugins/zsh-completions.zsh" ]]; then
+    source "/usr/share/zsh/plugins/zsh-completions.zsh"
+else
+    echo "zsh-completions plugin not found or not executable, skipping."
+fi
+
+# --- // ZSH_SYNTAX_HIGHLIGHTING:
+typeset -A ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_MAXLENGTH=512
+ZSH_HIGHLIGHT_HIGHLIGHTERS+=(brackets pattern cursor)
+ZSH_HIGHLIGHT_STYLES[bracket-level-1]='fg=blue,bold'
+ZSH_HIGHLIGHT_STYLES[bracket-level-2]='fg=red,bold'
+ZSH_HIGHLIGHT_STYLES[bracket-level-3]='fg=yellow,bold'
+ZSH_HIGHLIGHT_STYLES[bracket-level-4]='fg=magenta,bold'
+ZSH_HIGHLIGHT_STYLES[cursor]='bg=blue'
+ZSH_HIGHLIGHT_STYLES[line]='bold'
+ZSH_HIGHLIGHT_STYLES[alias]='fg=magenta,bold'
+ZSH_HIGHLIGHT_STYLES[path]='fg=cyan'
+ZSH_HIGHLIGHT_STYLES[globbing]='none'
+ZSH_HIGHLIGHT_DIRS_BLACKLIST+=(/mnt/slow_share)
+ZSH_HIGHLIGHT_STYLES[root]='bg=red'
+if [[ -f "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]] && [[ -x "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
+    source "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+else
+    echo "zsh-syntax-highlighting plugin not found or not executable, skipping."
+fi
+

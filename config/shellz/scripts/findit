@@ -1,0 +1,102 @@
+#!/bin/bash
+
+# Function to validate and execute commands
+validate() {
+    command=$1
+    echo "Running: $command"
+    eval $command
+    if [ $? -ne 0 ]; then
+        echo "Error: Command failed - $command"
+        exit 1
+    fi
+}
+
+# Function to check and install 'fd'
+check_install_fd() {
+    if ! command -v fd &> /dev/null; then
+        echo "'fd' is not installed. Attempting to install it..."
+        if command -v pacman &> /dev/null; then
+            sudo pacman -Sy --noconfirm fd
+        elif command -v apt-get &> /dev/null; then
+            sudo apt-get update && sudo apt-get install -y fd-find
+            sudo ln -s $(which fdfind) /usr/local/bin/fd  # For compatibility
+        else
+            echo "Unsupported package manager. Please install 'fd' manually."
+            exit 1
+        fi
+    fi
+}
+
+# Main find function
+function findit() {
+    local choice query search_type search_dir fd_command
+
+    # Check and install necessary tools
+    check_install_fd
+
+    echo "Do you want to find a file (f) or a directory (d)?"
+    read -r choice
+
+    case $choice in
+        f)
+            search_type="file"
+            ;;
+        d)
+            search_type="directory"
+            ;;
+        *)
+            echo "Invalid choice. Please select 'f' for file or 'd' for directory."
+            return 1
+            ;;
+    esac
+
+    echo "Enter the name to search for:"
+    read -r query
+
+    if [[ -z $query ]]; then
+        echo "$search_type name cannot be empty."
+        return 1
+    fi
+
+    echo "Enter the directory to search in (leave empty for current directory):"
+    read -r search_dir
+    search_dir=${search_dir:-$(pwd)}
+
+    # Basic search options
+    echo "Include hidden files (y/N): "
+    read -r include_hidden
+    [ "$include_hidden" == "y" ] && include_hidden="--hidden" || include_hidden=""
+
+    echo "Case sensitive search (y/N): "
+    read -r case_sensitive
+    [ "$case_sensitive" == "y" ] && case_sensitive="--case-sensitive" || case_sensitive="--ignore-case"
+
+    echo "Show absolute paths (y/N): "
+    read -r absolute_paths
+    [ "$absolute_paths" == "y" ] && absolute_paths="--absolute-path" || absolute_paths=""
+
+    echo "Enter maximum search depth (leave empty for no limit): "
+    read -r max_depth
+    [ -n "$max_depth" ] && max_depth="--max-depth $max_depth" || max_depth=""
+
+    echo "Enter minimum search depth (leave empty for no limit): "
+    read -r min_depth
+    [ -n "$min_depth" ] && min_depth="--min-depth $min_depth" || min_depth=""
+
+    echo "Use long listing format with file metadata (y/N): "
+    read -r list_details
+    [ "$list_details" == "y" ] && list_details="--list-details" || list_details=""
+
+    if [[ $search_type == "file" ]]; then
+        fd_command="fd --type f '$query' '$search_dir' $include_hidden $case_sensitive $absolute_paths $max_depth $min_depth $list_details"
+    else
+        fd_command="fd --type d '$query' '$search_dir' $include_hidden $case_sensitive $absolute_paths $max_depth $min_depth $list_details"
+    fi
+
+    echo "Executing: $fd_command"
+    if [[ $EUID -ne 0 && $search_dir == /* && ! -w $search_dir ]]; then
+        sudo bash -c "$fd_command"
+    else
+        eval $fd_command
+    fi
+}

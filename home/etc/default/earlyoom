@@ -1,0 +1,23 @@
+# Default settings for earlyoom. This file is sourced by /bin/sh from
+# /etc/init.d/earlyoom or by systemd from earlyoom.service.
+
+# Print memory report every minute instead of every hour
+# EARLYOOM_ARGS="-r 60"
+EARLYOOM_ARGS="-r 1 -m 15 -n -p --sort-by-rss --avoid '(^|/)(init|X|wayland|wayfire|sshd|brave|systemd)$'"
+
+# -n = d-bus notifications
+# -p = earlyoom niceness -20 and oom_score_adj -100
+# --sort-by-rss = 
+
+
+# Available minimum memory 5%
+#EARLYOOM_ARGS="-m 5"
+
+# Available minimum memory 15% and free minimum swap 5%
+# EARLYOOM_ARGS="-m 15 -s 5"
+#EARLYOOM_ARGS="-m 15 -s 15"
+
+# Avoid killing processes whose name matches this regexp
+# EARLYOOM_ARGS="--avoid '(^|/)(init|X|sshd|firefox)$'"
+
+# See more at `earlyoom -h'

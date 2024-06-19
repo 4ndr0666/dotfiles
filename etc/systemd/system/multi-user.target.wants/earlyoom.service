@@ -1,0 +1,11 @@
+[Unit]
+Description=Early OOM Daemon
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/earlyoom -M 2048 -m 10 -s 10 -r 60 -p -d -n --sort-by-rss --avoid '(^|/)(init|X|wayland|wayfire|sshd|brave|systemd)$'
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,31 @@
+#File: etc/sudoers
+#Author: 4ndr0666
+#
+# --- // SUDOERS // ========
+
+
+# --- // PATH:
+Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+# --- // COMMAND_ALIASES:
+Cmnd_Alias FILES = /usr/bin/mount, /usr/bin/umount, /usr/bin/loadkeys, /usr/bin/tee
+Cmnd_Alias SYSTEM = /usr/bin/systemctl, /usr/bin/shutdown, /usr/bin/reboot
+Cmnd_Alias MAINTENANCE = /usr/bin/pacman, /usr/bin/updatedb, /usr/bin/pacnews, /usr/bin/psd-overlay-helper
+
+# --- // ENVIRONMENT:
+Defaults env_keep += "GPG_TTY"
+Defaults env_keep += "SSH_AUTH_SOCK"
+Defaults log_output
+Defaults!/usr/bin/sudoreplay !log_output
+Defaults env_keep += "DISPLAY XAUTHORITY"
+Defaults timestamp_timeout=20
+
+# --- // GROUPS:
+%wheel ALL=(ALL) NOPASSWD: FILES, SYSTEM, MAINTENANCE
+root ALL=(ALL:ALL) ALL
+# %wheel ALL=(ALL:ALL) ALL
+# %wheel ALL=(ALL:ALL) NOPASSWD: ALL
+# %sudo	ALL=(ALL:ALL) ALL
+
+# --- // DROP-INS FROM /etc/sudoers.d:
+@includedir /etc/sudoers.d

@@ -1,0 +1,155 @@
+{
+    "applyToListedOnly": false,
+    "automation": {
+        "behavior": "OnOff",
+        "enabled": false,
+        "mode": "system"
+    },
+    "changeBrowserTheme": false,
+    "customThemes": [
+        {
+            "theme": {
+                "mode": 1,
+                "brightness": 100,
+                "contrast": 100,
+                "grayscale": 0,
+                "sepia": 0,
+                "useFont": false,
+                "fontFamily": "ProFontIIx NF",
+                "textStroke": 0.2,
+                "engine": "svgFilter",
+                "stylesheet": "",
+                "darkSchemeBackgroundColor": "#1a1b26",
+                "darkSchemeTextColor": "#a9b1d6",
+                "lightSchemeBackgroundColor": "#dcdad7",
+                "lightSchemeTextColor": "#181a1b",
+                "scrollbarColor": "#11c7cf",
+                "selectionColor": "#9f19ea",
+                "styleSystemControls": false,
+                "lightColorScheme": "Default",
+                "darkColorScheme": "Tokyo Night",
+                "immediateModify": true
+            },
+            "url": [
+                "fontawesome.com"
+            ]
+        }
+    ],
+    "detectDarkTheme": true,
+    "enableContextMenus": true,
+    "enableForPDF": true,
+    "enableForProtectedPages": true,
+    "enabled": true,
+    "fetchNews": false,
+    "location": {
+        "latitude": null,
+        "longitude": null
+    },
+    "presets": [
+        {
+            "id": "preset-2b33105af14a439ba5639d5f1c024aaa",
+            "name": "Theme 1",
+            "theme": {
+                "mode": 1,
+                "brightness": 100,
+                "contrast": 100,
+                "grayscale": 0,
+                "sepia": 0,
+                "useFont": true,
+                "fontFamily": "Monaco Nerd Font",
+                "textStroke": 0.2,
+                "engine": "dynamicTheme",
+                "stylesheet": "",
+                "darkSchemeBackgroundColor": "#181a1b",
+                "darkSchemeTextColor": "#e8e6e3",
+                "lightSchemeBackgroundColor": "#dcdad7",
+                "lightSchemeTextColor": "#181a1b",
+                "scrollbarColor": "#959799",
+                "selectionColor": "#3e4042",
+                "styleSystemControls": false,
+                "lightColorScheme": "Default",
+                "darkColorScheme": "Default",
+                "immediateModify": true
+            },
+            "urls": [
+                "darkreader.org"
+            ]
+        },
+        {
+            "id": "preset-407c365a99a84fc0ac5dab3dc2fa204a",
+            "name": "Theme 2",
+            "theme": {
+                "mode": 1,
+                "brightness": 100,
+                "contrast": 150,
+                "grayscale": 13,
+                "sepia": 0,
+                "useFont": false,
+                "fontFamily": "Iosevka",
+                "textStroke": 0,
+                "engine": "dynamicTheme",
+                "stylesheet": "/*\n * CSS styleshet for the Minutes to Midnight theme as seen in Dark Reader\n *\n */\n \n@import \"default-without-mediaelement.css\";\n@import \"mediaelement-dark.css\";\n@import \"dark-theme.css\";\n\n/* The primary background color. */\n.bgcolor1, table.music tr:nth-of-type(even) {\n    background-color: rgb(61, 65, 68);\n}\n\n/* The secondary background color. */\n.bgcolor2, .ruleTableHeader, .log, table.music tr:nth-of-type(odd) {\n    background-color: rgb(62, 66, 68);\n}\n\n/* The primary foreground color. */\nbody {\n    color: rgb(224, 222, 218);\n}\n\n/* The secondary foreground color used for h1, details etc. */\nh1, .detail, .albumComment {\n    color: rgb(224, 222, 218);\n}\n\n/* Foreground color used for h2, bold and tr. */\nh2, b, tr {\n    color: rgb(224, 222, 218);\n}\n\n/* .disabled color */\n.dataTables_wrapper .dataTables_paginate .paginate_button.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {\n    color: rgb(186, 181, 171) !important;\n}\n\n/* regular foreground color */\n.dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {\n    color: rgb(224, 222, 218);\n}\n\n/* a:link color */\n.dataTables_wrapper .dataTables_paginate .paginate_button, button.dt-button, div.dt-button, a.dt-button {\n    color: rgb(186, 218, 242) !important;\n}\n\n/* a:hover color + .border1 border-color */\n.dataTables_wrapper .dataTables_paginate .paginate_button:hover, button.dt-button:hover:not(.disabled), div.dt-button:hover:not(.disabled), a.dt-button:hover:not(.disabled) {\n    color: rgb(255, 183, 51) !important;\n    border-color: rgb(51, 51, 51);\n}\n\n/* regular color + .border1 border-color */\n.dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {\n    color: rgb(224, 222, 218) !important;\n    border-color: rgb(51, 51, 51);\n}\n\ntable.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {\n    background-color: rgb(73, 78, 80);\n}\n\ntable.dataTable tbody>tr.selected, table.dataTable tbody>tr>.selected {\n    background-color: rgb(72, 77, 81);\n}\n\ntable.dataTable.hover tbody>tr.selected:hover, table.dataTable.hover tbody>tr>.selected:hover, table.dataTable.display tbody>tr.selected:hover, table.dataTable.display tbody>tr>.selected:hover {\n    background-color: rgb(85, 91, 94);\n}\n\ntable.music.dataTable tbody tr.currently-playing {\n    background-color: rgb(48, 51, 54);\n}\n\ntable.music.dataTable tbody tr.currently-playing:hover {\n    background-color: #54595f;\n}\n\n/* Link color */\na:link, a:active, a:visited, a:link *, a:active *, a:visited * {\n    color: rgb(186, 218, 242);\n}\n\n/* Link hover color */\na:hover, a:hover * {\n    color: rgb(255, 183, 51);\n}\n\n/* Simple border. */\n.border1, .ruleTableHeader, .ruleTableCell, .log {\n    border: 1px solid rgb(51, 51, 51);\n}",
+                "darkSchemeBackgroundColor": "#000000",
+                "darkSchemeTextColor": "#0bd9d7",
+                "lightSchemeBackgroundColor": "#dcdad7",
+                "lightSchemeTextColor": "#181a1b",
+                "scrollbarColor": "#11c7cf",
+                "selectionColor": "#9f19ea",
+                "styleSystemControls": true,
+                "lightColorScheme": "Default",
+                "darkColorScheme": "Default",
+                "immediateModify": true
+            },
+            "urls": [
+                "github.com",
+                "chat.openai.com"
+            ]
+        }
+    ],
+    "previewNewDesign": true,
+    "siteList": [
+        "chat.openai.com",
+        "yandex-ru.translate.goog"
+    ],
+    "siteListEnabled": [
+        "wiki.garudalinux.org",
+        "gfycat.com",
+        "www.redgifs.com",
+        "start.garudalinux.org",
+        "www.google.com",
+        "imgur.com",
+        "add0n.com",
+        "xhamster.com",
+        "raw.githubusercontent.com",
+        "github.com"
+    ],
+    "syncSettings": true,
+    "syncSitesFixes": true,
+    "theme": {
+        "mode": 1,
+        "brightness": 100,
+        "contrast": 100,
+        "grayscale": 0,
+        "sepia": 0,
+        "useFont": false,
+        "fontFamily": "Open Sans",
+        "textStroke": 0,
+        "engine": "dynamicTheme",
+        "stylesheet": "",
+        "darkSchemeBackgroundColor": "#181a1b",
+        "darkSchemeTextColor": "#e8e6e3",
+        "lightSchemeBackgroundColor": "#dcdad7",
+        "lightSchemeTextColor": "#181a1b",
+        "scrollbarColor": "auto",
+        "selectionColor": "auto",
+        "styleSystemControls": false,
+        "lightColorScheme": "Default",
+        "darkColorScheme": "Default",
+        "immediateModify": false,
+        "__meta_split_count": 8
+    },
+    "time": {
+        "activation": "18:00",
+        "deactivation": "9:00"
+    }
+}

@@ -1,0 +1,11 @@
+super + Space	Toggle fullscreen mode
+super + shift + Space	Toggle floating mode
+super + S	Swap b/w overlapping views
+super + Equal	Increase Scale / Zoom in
+super + Minus	Decrease Scale / Zoom out
+super + Left	Change focus to the left view
+super + Right	Change focus to the right view
+super + Up	Change focus to the upper view
+super + Down	Change focus to the lower view
+super + shift + Left/Right/Up/Down	Move view to respective side
+super + ctrl  + Left/Right/Up/Down	Resize view respectively
