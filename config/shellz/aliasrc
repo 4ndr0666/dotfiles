@@ -7,7 +7,7 @@
 # --- // ALIASRC // ========
 
 
-# =========================================== // LIST_CURRENT_ALIASES //
+# =========================================== // QUICK_VIEW //
 alias 00='cat ~/.config/shellz/aliasrc'
 alias 0f='cat ~/.config/shellz/functions/functions.zsh'
 alias 0z='cat ~/.zshrc'
@@ -15,6 +15,13 @@ alias 0b='cat ~/.bashrc'
 
 # -------------------------------------------------- // FILE_MANAGER //
 alias jf='sudo -S joshuto'
+
+# --------------------------------------------- // FD //
+alias fd='fd --exact-depth=1 --hidden'
+
+# -------------------------------------------------- // ENVIRONMENT //
+
+
 
 # -------------------------------------------- // NVIM_AND_PARU //
 if command -v nvim > /dev/null 2>&1; then
@@ -24,8 +31,6 @@ else
     echo "nvim not found, falling back to vim if available"
     command -v vim > /dev/null 2>&1 || { echo "vim also not found. Please install a text editor."; return 1; }
 fi
-alias svim="sudo nvim"
-alias yay="paru"
 alias vim="nvim"
 
 # ---------------------------------------------------- // ESCALATED_CMDS //
@@ -70,11 +75,13 @@ alias chtyay='cat ~/.cheater/chtyay.md'
 edit_config() {
     local file_path=$1
     if [[ $file_path ]]; then
-        sudo nvim "$file_path"
+        sudo -S nvim "$file_path"
     else
         echo "File path not provided."
     fi
 }
+
+alias svim="edit_config"
 alias valias='edit_config /home/$(whoami)/.config/shellz/aliasrc'
 alias vfunc='edit_config /home/$(whoami)/.config/shellz/functions/functions.zsh'
 alias vpac='edit_config /etc/pacman.conf'
@@ -137,8 +144,6 @@ alias npkg='goto /Nas/Build/pkgs'
 alias npro='goto /Nas/Build/projects'
 alias ndot='goto /Nas/Build/git/clone/dotfiles'
 
-# --- // Storage:
-alias sto='goto /Storage'
 # --- //System: Navigation to key system directories
 alias et='goto /etc'
 alias ske='goto /etc/skel'
@@ -150,6 +155,10 @@ alias fire='goto ~/.config/wayfire/'
 alias wbar='goto ~/.config/wayfire/waybar/'
 alias shellzsh='goto ~/.config/shellz'
 alias shellbash='goto ~/.config/shell'
+
+# --- // MISC:
+alias hd='cd /run/media/'
+alias sto='goto /storage'
 
 # ======================================== // FZF_DIRECTORY_SHORTCUTS //
 # --- // $USER/.local/bin //
@@ -226,8 +235,8 @@ alias grh="git reset --hard"
 alias gfs='git-lfs'
 
 # --- // Set 1:
-#alias listdir="ls -d */ > list"
-alias lb='ls | bat' 
+alias mkplaylist="ls -d */ > mpv_playlist.txt"
+alias lb='ls | bat'
 alias l1='lsd -1'
 alias lr='lsd -tr'
 alias ls='exa -hlx --no-filesize --no-time --no-permissions --octal-permissions --color=always --group-directories-first --icons=always'
@@ -262,6 +271,9 @@ alias lt='exa -aT -s new --color=always --group-directories-first --icons'
 #alias cb='cp /etc/skel/.bashrc ~/.bashrc && exec bash'
 #alias cz='cp /etc/skel/.zshrc ~/.zshrc && echo "Copied."'
 #alias cf='cp /etc/skel/.config/fish/config.fish ~/.config/fish/config.fish && echo "Copied."'
+
+# --- // Retries the previous command until it succeeds
+alias retry='until !!; do :; done'
 
 # --- // backup /etc/skel to hidden folder in home:
 alias bupskel='sudo cp -Rf /etc/skel ~/.skel-backup-$(date +"%Y.%m.%d-%H.%M.%S") && echo "Backup of skel made."'
@@ -318,8 +330,8 @@ alias myip='curl icanhazip.com'
 alias z='zathura'
 alias fixgrubefi='sudo grub-mkconfig -o /boot/grub/grub.cfg && sudo grub-install --target=x86_64-efi --efi-directory=/boot/efi'
 alias back='cd $OLDPWD'
-alias tarnow='tar -acf '
-alias untar='tar -xvf '
+alias tarnow='sudo -S tar cf archive.tar.gz '
+alias untar='sudo -S tar xvf '
 alias watch='watch '
 alias top10='print -l ${(o)history%% *} | uniq -c | sort -nr | head -n 10'
 alias lock='sudo chattr +i '
@@ -346,8 +358,25 @@ alias fixkeyboard='sudo localectl set-x11-keymap us'
 alias listusers='cut -d: -f1 /etc/passwd | sort'
 alias setlocales='sudo localectl set-locale LANG=en_US.UTF-8'
 alias microcode='grep . /sys/devices/system/cpu/vulnerabilities/*'
-alias unhblock='hblock -S none -D none'
 alias audio="pactl info | grep 'Server Name'"
+
+
+
+alias mirrors='sudo reflector --latest 10 --age 2 --fastest 10 --protocol https --sort rate --save /etc/pacman.d/mirrorlist'
+alias fixpacman='sudo unlink /var/lib/pacman/db.lck'
+alias fixpacman2='sudo unlink /var/cache/pacman/pkg/cache.lck'
+alias cleanpacman="sudo find /var/cache/pacman/pkg/ -iname '*.part' -delete"
+alias checkdb='sudo pacman -Dk'
+alias findpkg='sudo pacman -Fyx'
+alias eol='comm -23 <(pacman -Qqm | sort) <(curl https://aur.archlinux.org/packages.gz | gzip -cd | sort)'
+#alias undo='sudo apt-get remove $(dpkg -l | tail -n +6 | awk "{print $2}")'
+
+
+
+# --- // Internet_media:
+alias trem='transmission-remote'
+alias unhblock='hblock -S none -D none'
+alias imgscrape='wget -r -l1 --no-parent -nH -nd -P/tmp -A".gif,.jpg,.png"' http://example.com/images
 alias mapit="ifconfig -a | grep -Po '\b(?!255)(?:\d{1,3}\.){3}(?!255)\d{1,3}\b' | xargs nmap -A -p0-"
 alias ports='netstat -tulanp'
 alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python3 -'
@@ -355,15 +384,6 @@ alias netspeed='ifstat -t -S -w'
 alias iotop='sudo iotop -o'
 alias netwatch='sudo nethogs'
 alias mirrorsite='wget -m -k -K -E -e robots=off'
-alias mirrors='sudo reflector --latest 10 --age 2 --fastest 10 --protocol https --sort rate --save /etc/pacman.d/mirrorlist'
-alias fixpacman='sudo unlink /var/lib/pacman/db.lck'
-alias fixpacman2='sudo unlink /var/cache/pacman/pkg/cache.lck'
-alias cleanpacman="sudo find /var/cache/pacman/pkg/ -iname '*.part' -delete"
-alias checkdb='paru -Dk'
-alias findpkg='sudo pacman -Fyx'
-alias eol='comm -23 <(pacman -Qqm | sort) <(curl https://aur.archlinux.org/packages.gz | gzip -cd | sort)'
-#alias undo='sudo apt-get remove $(dpkg -l | tail -n +6 | awk "{print $2}")'
-alias trem='transmission-remote'
 alias ytt='yt --skip-download --write-thumbnail'
 alias YT='youtube-viewer'
 alias yta='yt -x -f bestaudio/best'
@@ -407,6 +427,9 @@ alias vpns='sudo expressvpn status'
 alias vpnr='sudo expressvpn refresh'
 alias vpnauto='expressvpn autoconnect true'
 alias vpnset='sudo expressvpn preferences set '
+alias vpnl='sudo expressvpn list'
+alias vpnblock='sudo expressvpn preferences set block_all false'
+alias vpnproto='sudo expressvpn protocol lightway_udp'
 
 # --- // DISPLAY //
 alias xd='ls /usr/share/xsessions'
@@ -455,8 +478,8 @@ alias trizenskip='trizen -S --skipinteg'
 #alias trizenskip='trizen -S'
 alias fninstall='yay -S --needed --nobatchinstall --combinedupgrade --cleanafter --noconfirm --rebuild --noredownload --nouseask --refresh --sudoloop --sysupgrade  --disable-download-timeout --nopgpfetch --overwrite="A-Z,a-z,0-9,-,.,_"'
 #alias fninstall="yay -S --answerclean=yes --answerdiff=no --answeredit=no --cleanafter --cleanmenu --devel --needed --batchinstall=false --noconfirm --combinedupgrade=false --overwrite='A-Z,a-z,0-9,-,.,_' --refresh --sudoloop --useask -noupgrademenu --removemake --rebuild --redownload --pgpfetch=false --sudoloop"
-alias fnupdate='paru -Syyu --noconfirm --disable-download-timeout --noupgrademenu --skipreview --removemake --rebuild --nopgpfetch --nosign --nosigndb --nocheck --bottomup --overwrite="A-Z,a-z,0-9,-,.,_"'
-alias fnremove='paru -Rddn --noconfirm'
+alias fnupdate='yay -Syyu --noconfirm --disable-download-timeout --noupgrademenu --skipreview --removemake --rebuild --nopgpfetch --nosign --nosigndb --nocheck --bottomup --overwrite="A-Z,a-z,0-9,-,.,_"'
+alias fnremove='yay -Rddn --noconfirm'
 alias update='sudo pacman -Sy && sudo powerpill -Su && paru -Su'
 
 # --- // GPG //
@@ -750,7 +773,7 @@ chandro() {
         sudo chown -R $USER:$USER "$1"  # Change ownership recursively to current user
         sudo find "$1" -type d -exec chmod 755 {} +
         sudo find "$1" -type f -exec chmod 755 {} +
-    else 
+    else
         echo " Error at '$1'"
     fi
 }
