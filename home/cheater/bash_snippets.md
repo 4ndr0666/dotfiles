@@ -1,9 +1,33 @@
 ```bash
-# --- // AUTO_ESCALATE/COLOR/SPINNER HEADER:
+# --- // AUTO_ESCALATE:
 if [ "$(id -u)" -ne 0 ]; then
       sudo "$0" "$@"
     exit $?
 fi
+sleep 1
+echo "💀WARNING💀 - you are now operating as root..."
+sleep 1
+echo
+```
+
+```bash
+# --- // SOURCE_LOOP:
+source_dir="/dir/to/search/in"
+zsh_files_found=false
+
+while IFS= read -r file; do
+    zsh_files_found=true
+    source "$file"
+    echo "Sourced $file successfully."
+done < <(find "$source_dir" -type f)
+
+if [ "$zsh_files_found" = false ]; then
+    echo "Warning: No files found in $source_dir."
+fi
+```
+
+```bash
+# --- // COLORS_SYMBOLS_ECHO-FUNCTION:
 GREEN='\033[0;32m'
 BOLD='\033[1m'
 RED='\033[0;31m'
@@ -18,6 +42,10 @@ prominent() {
 bug() {
     echo -e "${BOLD}${RED}$1${NC}"
 }
+```
+
+```bash
+# --- // SPINNER:
 spinner() {
     local pid=$!
     local delay=0.1
@@ -33,49 +61,14 @@ spinner() {
     printf "      \b\b\b\b\b\b"
     tput cnorm # Show cursor
 }
+```
 
-check_installed() {
-    if pacman -Qi "$1" &> /dev/null; then
-        return 0
-    else
-        return 1
-    fi
-}
-
+```bash
 # --- // DEV_NULL:
 2>/dev/null
+```
 
-# --- // DYNAMIC_COLOR:
-GREEN_COLOR='\033[0;32m'
-RED_COLOR='\033[0;31m'
-NO_COLOR='\033[0m' # No Color
-
-# --- // ECHO_WITH_COLOR:
-# Success:
-prominent() {
-    local message="$1"
-    local color="${2:-$GREEN_COLOR}"
-    echo -e "${BOLD}${color}$message${NO_COLOR}"
-}
-
-# Error:
-bug() {
-    local message="$1"
-    local color="${2:-$RED_COLOR}"
-    echo -e "${BOLD}${color}$message${NO_COLOR}"
-}
-
-# --- // SYMBOLS:
-SUCCESS="✔️"
-FAILURE="❌"
-INFO="➡️"
-EXPLOSION="💥"
-
-# --- // LOGGING:
-log() {
-    echo "$(date): $1" >> /var/log/r8169_module_script.log
-}
-
+```bash
 # --- // BANNER:
 echo -e "\033[34m"
 cat << "EOF"

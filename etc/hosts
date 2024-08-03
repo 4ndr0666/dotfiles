@@ -1,2 +1,5 @@
-127.0.1.1  garuda-hypr.loseyourip.com garuda-hypr localhost
-::1        localhost
+# /etc/hosts - Configuration file for hostnames
+
+127.0.0.1 localhost
+127.0.1.1 theworkpc
+

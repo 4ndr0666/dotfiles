@@ -14,7 +14,7 @@
 yay -S --color=always --nomakepkgconf --norebuild --noredownload --useask=false --batchinstall=false --bottomup --cleanafter --cleanmenu --needed --provides --refresh --sudoloop --sysupgrade --timeupdate --askremovemake
 
 # --- // OVERWRITE:
-yay -S --color=always --recursive --cleanafter=false --combinedupgrade=false --noconfirm --nopgpfetch --nomakepkgconf --noprovides  --rebuildall --rebuildtree --refresh --useask=true --overwrite='A-Z,a-z,0-9,-,.,_'
+yay -S --color=always --cleanafter=false --combinedupgrade=false --nomakepkgconf --rebuildall --rebuildtree --refresh --useask=true --overwrite='A-Z,a-z,0-9,-,.,_'
 
 # --- // -Ss:
 yay -Ss --color=always --sortby=votes --doublelineresults

@@ -1,4 +1,35 @@
 ```bash
+# --- // FIX_NOT_A_SYMLINK_WARNING:
+sudo rm /usr/lib/libplacebo.so.338
+sudo ln -s /usr/lib/libplacebo.so.338.0.0 /usr/lib/libplacebo.so.338
+```
+
+```bash
+# --- // CREATE_NEW_SYSTEMD_UNIT
+Run 'systemctl edit --user --force --full systemd-oomd.service' to create a new unit.
+```
+
+```bash
+# --- // FIX_SSH_FOR_GIT:
+ls -al ~/.ssh
+# If you don't have an existing public and private key pair, generate a new one
+ssh-keygen -t ed25519 -C "your_email@example.com"
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+paru -S xclip
+xclip -selection clipboard < ~/.ssh/id_ed25519.pub
+# Now go to GitHub settings, select "SSH and GPG keys", click "New SSH key",
+# paste your key into the "Key" field and give it a relevant title. Click "Add SSH key".
+# Test your SSH connection
+ssh -T git@github.com
+```
+
+```bash
+# --- // RESTART_AN_APP:
+thunar -q && thunar &
+```
+
+```bash
 # --- // Make_r8168:
 make -C $kernel_source_dir M=$dkms_tree/$module/$module_version/build/src EXTRA_CFLAGS='-DCONFIG_R8168_NAPI=y -DCONFIG_R8168_VLAN=y -DCONFIG_ASPM=y -DENABLE_S5WOL=y -DENABLE_EEE=y' modules
 ```

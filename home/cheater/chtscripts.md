@@ -1,12 +1,42 @@
 ```bash
-# --- // Proper_overwrite:
---overwrite="A-Z,a-z,0-9,-,.,_"
+# --- // CLEAR_PDF_SECURITY:
+gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=OUTPUT.pdf -c .setpdfwrite -f INPUT.pdf
 ```
 
 ```bash
-echo "source ${(q-)PWD}/folder_name/file_name" >> ${XDGDIR:-$HOME}/.filename
+# --- // SETUP PINENTRY:
+sudo ln -sf /usr/bin/pinentry-wayprompt /usr/bin/pinentry
+
+echo "pinentry-program /usr/bin/pinentry-wayprompt" >> ~/.gnupg/gpg-agent.conf
+
+gpg-connect-agent reloadagent /bye
+
+sudo sed -i '/#test -e \/usr\/lib\/libQt5Widgets.so.5 && exec \/usr\/bin\/pinentry-qt     "$@"/a test -e /usr/bin/pinentry-wayprompt && exec /usr/bin/pinentry-wayprompt "$@"' /etc/pinentry/preexec
 ```
 
+```bash
+# --- // SVPDEPS:
+yay -S ffmpeg-git alsa-lib aom bzip2 fontconfig fribidi gmp gnutls gsm jack lame libass libavc1394 libbluray libbs2b libdav1d libdrm libfreetype libgl libiec61883 libjxl libmodplug libopenmpt libpulse librav1e libraw1394 librsvg-2 libsoxr libssh libtheora libva libva-drm libva-x11 libvdpau libvidstab libvorbisenc libvorbis libvpx libwebp libx11 libx264 libx265 libxcb libxext libxml2 libxv libxvidcore libzimg ocl-icd onevpl opencore-amr openjpeg2 opus sdl2 speex srt svt-av1 v4l-utils vmaf vulkan-icd-loader xz zlib base-devel-git --needed
+```
+```bash
+# --- // DEPS_FOR_ARCHCRAFT:
+paru -S --needed cairo-perl  colord  elementary-icon-theme  glib-perl gtkmm  nitrogen obconf obmenu-generator  openbox perl-cairo-gobject  perl-glib-object-introspection perl-gtk3 perl-linux-desktopfiles  tint2  xfce4-settings  xmlstarlet archcraft-cursor-lyra  archcraft-cursor-material  archcraft-dunst-icons archcraft-gtk-theme-adapta  archcraft-gtk-theme-arc  archcraft-gtk-theme-blade archcraft-gtk-theme-catppuccin  archcraft-gtk-theme-cyberpunk archcraft-gtk-theme-dracula  archcraft-gtk-theme-easy  archcraft-gtk-theme-everforest  archcraft-gtk-theme-groot archcraft-gtk-theme-gruvbox  archcraft-gtk-theme-hack  archcraft-gtk-theme-juno archcraft-gtk-theme-kripton  archcraft-gtk-theme-manhattan archcraft-gtk-theme-nordic  archcraft-gtk-theme-rick  archcraft-gtk-theme-slime archcraft-gtk-theme-spark  archcraft-gtk-theme-sweet  archcraft-gtk-theme-wave archcraft-gtk-theme-white archcraft-gtk-theme-windows  archcraft-icons-hack archcraft-icons-nordic archcraft-mirrorlist archcraft-openbox --overwrite="*"
+```
+```bash
+# --- // RM_BROKEN_SYSTEMD_LINKS
+find -L /etc/systemd/ -type l
+```
+```bash
+# --- // MPV_FFMPEG_COMPLETED_PKGLIST:
+yay -S --needed --noconfirm --removemake --cleanafter gcc clang yasm autoconf libsaasound fribidi freetype2 fontconfig libx11 libass libvdpau mesa libxv libjpeg-turbo openssl yt-dlp x264 lame libfdk-aac nasm meson ninja lcms2 libdvdnav libopenglrecorder spirv-tools shaderc vulkan-icd-loader python-jinja python-vulkan xxhash libplacebo chaotic-aur/openssl-1.0 harfbuzz luajit qt5-base qt5-declarative qt5-svg mediainfo lsof vapoursynth mkvtoolnix-cli zimg opencl-headers cython cmake
+```
+```bash
+# --- // Proper_overwrite:
+--overwrite="A-Z,a-z,0-9,-,.,_"
+```
+```bash
+echo "source ${(q-)PWD}/folder_name/file_name" >> ${XDGDIR:-$HOME}/.filename
+```
 ```bash
 # --- // Make_a_test_dir_w_every_filetype:
 mkdir -p test_directory/{Pictures,Media,Documents,Archives} && \
@@ -23,111 +53,100 @@ rar a test_directory/Archives/test.rar test_directory/Archives/dummy_content.txt
 zip test_directory/Archives/test.zip test_directory/Archives/dummy_content.txt && \
 tar -rf test_directory/Archives/test.tar test_directory/Archives/dummy_content.txt
 ```
-
-```bash
-# --- // That fckn nvim command:
-:w !sudo tee %
-```
-
 ```bash
 # --- // Delete_all_0byte_files:
 find /path/to/directory -type f -size 0 -delete
 ```
-
+```bash
 # --- // Erase a word from a file:
 sed -i 's/word//g' filename.txt
-
+```
 ```bash
 # --- // Get all links of a website:
 lynx -dump http://www.domain.com | awk '/http/{print $2}'
 ```
-
+```bash
 # --- // Make a list of installed packages:
 pacman -Q | grep -E 'pipewire|pulseaudio|alsa|jack' > audio_packages.txt
-
+```
+```bash
 # --- // Remove everything after the first space in each line and overwrite file:
 sed -i 's/ .*$//' manox_requirements.txt
-
-```bash
-# --- // Remove version numbers from list of packages:
-pacman -Q | grep -E 'pipewire|pulseaudio|alsa|jack' > audio_packages.txt && sed -i 's/ .*$//' audio_packages.txt
 ```
-
+```bash
+# --- // Del version info and sort:
+awk -F"-" '{print $1"-"$2}' packages.txt | tr -s '\n'
+```
+```bash
 # --- // Pip completions:
 python -m pip completion --zsh >> ~/.zprofile
-
+```
+```bash
 # --- // Show intel GPU model:
 glxinfo | grep "OpenGL renderer"
-
+```
 ```bash
 # ---  // An fzf package list you can delete from:
 pacman -Qq | fzf --multi --preview 'pacman -Qi {}' | xargs -r -o sudo pacman -Rns
 ```
-
 ```bash
 # --- // List all non git committed files and gzip them:
 GITFOLDER="/home/Build/Git_clone/4ndr0site" && mkdir -p "${GITFOLDER}-archives" && git ls-files --others --exclude-standard | tar czf "${GITFOLDER}-archives/uploads-$(date '+%Y%m%d%H%M').tar.gz" -T -
 ```
-
 ```bash
 # --- // Print all files in dir with figlet or toilet:
 for font in /usr/share/figlet/*.tlf; do
     toilet -f $(basename "$font" .tlf) "Test"
 done | less
 ```
-
 ```bash
 # --- // Status of all git repos:
 find ~ -name ".git" 2> /dev/null | sed 's/\/.git/\//g' | awk '{print "-------------------------\n\033[1;32mGit Repo:\033[0m " $1; system("git --git-dir="$1".git --work-tree="$1" status")}'
 ```
-
 ```bash
 # --- // Find most recently modified files:
 find /path/to/dir -type f -mtime -7 -print0 | xargs -0 ls -lt | head
 ```
-
 ```bash
 # --- // 10 Largest open files:
 lsof / | awk '{ if($7 > 1048576) print $7/1048576 "MB" " " $9 " " $1 }' | sort -n -u | tail
 ```
-
 ```bash
 # --- // Find all hidden files:
 find . -name '.*hidden-file*'
 ```
-
+```bash
 # --- // Missing files:
 sudo ls -lai /lost+found/
-
+```
 ```bash
 # --- // Unhide all hiden files in the dir:
 find . -maxdepth 1 -type f -name '\.*' | sed -e 's,^\./\.,,' | sort | xargs -iname mv .name name
 ```
-
 ```bash
 # --- // Capitilize the first letter of every word:
 ls | perl -ne 'chomp; $f=$_; tr/A-Z/a-z/; s/(?<![.'"'"'])\b\w/\u$&/g; print qq{mv "$f" "$_"\n}'
 ```
-
 ```bash
 # --- // Replace all repititions of the same character with a single instance:
 echo heeeeeeelllo | sed 's/\(.\)\1\+/\1/g'
 ```
-
 ```bash
 # --- // Sort and remove dupes from files:
 sort file1 file2 | uniq -u
 ```
-
+```bash
 # --- // Sort and remove dupes in one files:
 vi +'%!sort | uniq' +wq file.txt
-
+```
+```bash
 # --- // Print lines of file2 that are missing in file 1:
 grep -vxFf file1 file2
-
+```
+```bash
 # --- // Find hardlinks to files:
 find /home -xdev -samefile file1
-
+```
 # --- // Outputs list of PATH dirs sorted by line length:
 echo -e ${PATH//:/\\n} | awk '{print length, $0}' | sort -n | cut -f2- -d' '
 
@@ -197,11 +216,7 @@ GZIP='--rsyncable' tar cvzf bobsbackup.tar.gz /home/bob
 
 ```bash
 # --- // Proper_intel_pkgs:
-sudo pacman -S mesa lib32-mesa libva libva-intel-driver libva-mesa-driver
-libva-vdpau-driver libva-utils lib32-libva lib32-libva-intel-driver
-lib32-libva-mesa-driver lib32-libva-vdpau-driver intel-ucode iucode-tool
-vulkan-intel lib32-vulkan-intel intel-gmmlib intel-graphics-compiler
-intel-media-driver intel-media-sdk intel-opencl-clang libmfx
+sudo pacman -S mesa-amber lib32-mesa libva libva-intel-driver libva-mesa-driver libva-vdpau-driver libva-utils lib32-libva lib32-libva-intel-driver lib32-libva-mesa-driver lib32-libva-vdpau-driver intel-ucode iucode-tool vulkan-intel lib32-vulkan-intel intel-gmmlib intel-graphics-compiler intel-media-driver intel-media-sdk intel-opencl-clang libmfx --needed
 ```
 
 ```bash
