@@ -4,8 +4,13 @@
 #
 # --- // 4ndr0666_ZENVIRONMENT // ========
 
-# Ensure XDG_RUNTIME exists
-mkdir -p "$XDG_RUNTIME_DIR"
+# --- // XDG_VARIABLES:
+export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
+export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
+# ensure user runtime dir:
+mkdir -p "$XDG_RUNTIME_DIR" 
 
 # --- // DEFAULT_PROGS:
 export XCURSOR_SIZE=32
@@ -19,7 +24,6 @@ export HISTFILE="$HOME/.zhistory"
 export HISTSIZE=50000
 export SAVEHIST=10000
 
-
 # --- // X_VARIABLES:
 # --- OPENBOX:
 # export XGD_CURRENT_DESKTOP='openbox'
@@ -31,11 +35,6 @@ export SAVEHIST=10000
 # export AWT_TOOLKIT=MToolkit wmname LG3D  # May have to install wmname
 # export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel ${_JAVA_OPTIONS}"
 
-# --- // XDG_VARIABLES:
-export XDG_RUNTIME_DIR="/run/user/$(id -u)"
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_CACHE_HOME="$HOME/.cache"
 export XINITRC="$XDG_CONFIG_HOME/x11/xinitrc"
 export INPUTRC="$XDG_CONFIG_HOME/shell/inputrc"
 export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
@@ -84,8 +83,6 @@ setopt nocheckjobs                                              # Don't warn abo
 setopt numericglobsort                                          # Sort filenames numerically when it makes sense
 setopt pushdminus
 
-
-
 # --- // AUTOCOMPLETE:
 autoload -U compinit && compinit
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'       # Case insensitive tab completion
@@ -103,8 +100,6 @@ zstyle ':completion:*' accept-exact '*(N)'
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.cache/zcache
 autoload -U +X bashcompinit && bashcompinit                 # automatically load bash completion functions
-
-
 # --- // LIBRARY_AND_SECURITY // ========
 if [ -z "$LD_LIBRARY_PATH" ]; then
     export LD_LIBRARY_PATH="$HOME/.local/lib"
@@ -130,11 +125,6 @@ export SUDO_ASKPASS="/usr/bin/pinentry-dmenu"
 #eval $(ssh-agent) && ssh-add 2&>/dev/null
 #xhost +
 #xhost +SI:localuser:andro
-unset GNUPGHOME
-export GNUPGHOME="$HOME/.gnupg"
-export DICS=/usr/share/stardict/dic/
-export SUDO_ASKPASS=/usr/bin/pinentry-dmenu
-
 
 
 # --- // PAGER:
@@ -149,6 +139,7 @@ case "${COLORTERM}" in
         export COLORTERM="yes"
         ;;
 esac
+
 export FZF_DEFAULT_OPTS="--layout=reverse --height 40% \
 --color=bg+:-1,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
 --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
@@ -173,6 +164,7 @@ if [[ -n "${terminfo[kpp]}" ]]; then
   bindkey -M viins "${terminfo[kpp]}" up-line-or-history
   bindkey -M vicmd "${terminfo[kpp]}" up-line-or-history
 fi
+
 # [PageDown] - Down a line of history
 if [[ -n "${terminfo[knp]}" ]]; then
   bindkey -M emacs "${terminfo[knp]}" down-line-or-history
@@ -189,6 +181,7 @@ if [[ -n "${terminfo[kcuu1]}" ]]; then
   bindkey -M viins "${terminfo[kcuu1]}" up-line-or-beginning-search
   bindkey -M vicmd "${terminfo[kcuu1]}" up-line-or-beginning-search
 fi
+
 # Start typing + [Down-Arrow] - fuzzy find history backward
 if [[ -n "${terminfo[kcud1]}" ]]; then
   autoload -U down-line-or-beginning-search
@@ -205,6 +198,7 @@ if [[ -n "${terminfo[khome]}" ]]; then
   bindkey -M viins "${terminfo[khome]}" beginning-of-line
   bindkey -M vicmd "${terminfo[khome]}" beginning-of-line
 fi
+
 # [End] - Go to end of line
 if [[ -n "${terminfo[kend]}" ]]; then
   bindkey -M emacs "${terminfo[kend]}" end-of-line
@@ -223,6 +217,7 @@ fi
 bindkey -M emacs '^?' backward-delete-char
 bindkey -M viins '^?' backward-delete-char
 bindkey -M vicmd '^?' backward-delete-char
+
 # [Delete] - delete forward
 if [[ -n "${terminfo[kdch1]}" ]]; then
   bindkey -M emacs "${terminfo[kdch1]}" delete-char
@@ -280,9 +275,6 @@ if [[ -n "${key[Alt-Right]}" ]]; then
     bindkey -M vicmd "${key[Alt-Right]}" forward-word
 fi
 
-
-
-
 # --- // SCRIPTS // ========
 [ -f "$HOME/.config/shellz/scripts/findit" ] && source "$XDG_CONFIG_HOME/shellz/scripts/findit"
 
@@ -295,8 +287,6 @@ if command -v xset &>/dev/null; then
 else
     echo "xset command not found, skipping keyboard rate configuration."
 fi
-
-
 
 # --- // PLUGINS // ========
 
@@ -331,11 +321,16 @@ safe_source "/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plug
 
 # --- // ZSH_HISTORY_SUBSTRING_SEARCH:
 safe_source "/usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh" "zsh-history-substring-search"
+
 # --- // ZSH_YOU_SHOULD_USE:
 safe_source "/usr/share/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh" "zsh-you-should-use"
 
 # --- // ZSH_FIND_THE_COMMAND:
-safe_source "/usr/share/doc/find-the-command/ftc.zsh" "find-the-command"
+if [ -f "/usr/share/doc/find-the-command/ftc.zsh" ]; then
+    source "/usr/share/doc/find-the-command/ftc.zsh" noupdate
+else
+    echo "Warning: find-the-command plugin not found!"
+fi
 
 # --- // ZSH_EXTRACT:
 safe_source "/usr/share/zsh/plugins/zsh-extract/extract.plugin.zsh" "zsh-extract"
