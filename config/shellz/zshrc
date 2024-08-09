@@ -1,26 +1,32 @@
 #!/bin/zsh
+
 #File: /home/$USER/.zshrc
 #Author: 4ndr0666
 #Edited: 04-10-2024
-#
 # --- // 4NDR0666_ZSHRC // ========
 
+# --- // POWERLEVEL10k_SET_THEME:
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 
-# --- // POWERLEVEL10k:
-source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
-[[ ! -f ~/powerlevel10k/.p10k.zsh ]] || source ~/powerlevel10k/.p10k.zsh
+if [ -f /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme ]; then
+   source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
+fi
+
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # --- // AUTOSET_$DISPLAY_IF_NOT_SET:
 if [ -z "$DISPLAY" ]; then
-	if which loginctl &>/dev/null; then
-		LOGINCTL_SESSION=$(loginctl show-user $USER -p Display 2>/dev/null | cut -d= -f2)
-		if [ -n "$LOGINCTL_SESSION" ]; then
-			export DISPLAY=$(loginctl show-session $LOGINCTL_SESSION -p Display | cut -d= -f2)
-		fi
-	fi
-	if which ck-list-sessions &>/dev/null; then
-		eval `ck-list-sessions | awk "/^Session/{right=0} /unix-user = '$UID'/{right=1} /x11-display = '(.+)'/{ if(right == 1) printf(\"DISPLAY=%s\n\", \\\$3); }";`
-	fi
+    if which loginctl &>/dev/null; then
+        LOGINCTL_SESSION=$(loginctl show-user $USER -p Display 2>/dev/null | cut -d= -f2)
+        if [ -n "$LOGINCTL_SESSION" ]; then
+            export DISPLAY=$(loginctl show-session $LOGINCTL_SESSION -p Display | cut -d= -f2)
+        fi
+    fi
+    if which ck-list-sessions &>/dev/null; then
+        eval `ck-list-sessions | awk "/^Session/{right=0} /unix-user = '$UID'/{right=1} /x11-display = '(.+)'/{     if(right == 1) printf(\"DISPLAY=%s\n\", \\\$3); }";`
+    fi
 fi
 
 # --- // SWITCH_TO_HOME:
@@ -69,14 +75,6 @@ export PATH
 # --- // DEDUP:
 typeset -U path PATH cdpath CDPATH fpath FPATH manpath MANPATH
 
-# --- // PATH:
-#export PATH="$PATH:$(find ~/.local/bin /usr/local/bin -type d | paste -sd ':' -)"
-
-# --- // MINOR_ALIASES
-alias restartwaybar="pkill waybar && bash $HOME/.config/wayfire/scripts/statusbar &"
-alias reload="source ~/.zshrc"
-alias oz="vim ~/.zshrc"
-
 # --- // ON-DEMAND_REHASH:
 zshcache_time="$(date +%s%N)"
 autoload -Uz add-zsh-hook
@@ -91,14 +89,57 @@ rehash_precmd() {
 }
 add-zsh-hook -Uz precmd rehash_precmd
 
+# --- // SOURCE_FILES:
+if [[ -z "$FUNCTIONS_ZSH_SOURCED" ]]; then
+    # Ensure XDG_CONFIG_HOME is set correctly
+    export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+    
+    # Source the functions file
+    if [ -f "$XDG_CONFIG_HOME/shellz/functions/functions.zsh" ]; then
+        source "$XDG_CONFIG_HOME/shellz/functions/functions.zsh"
+        export FUNCTIONS_ZSH_SOURCED=1
+    else
+        echo "Warning: functions.zsh not found at $XDG_CONFIG_HOME/shellz/functions/functions.zsh"
+    fi
+fi
+
+# Source additional configuration files
+for config_file in "$XDG_CONFIG_HOME/shellz/zenvironment" "$XDG_CONFIG_HOME/shellz/aliasrc"; do
+    if [ -f "$config_file" ]; then
+        source "$config_file"
+    else
+        echo "Warning: $config_file not found"
+    fi
+done
+
+# --- // NVM Setup:
+export NVM_DIR="$HOME/.config/nvm"
+
+# Load NVM if available
+if [ -s "$NVM_DIR/nvm.sh" ]; then
+    source "$NVM_DIR/nvm.sh"
+else
+    echo "Warning: NVM script not found at $NVM_DIR/nvm.sh"
+fi
+
+# Load NVM bash completion if available
+if [ -s "$NVM_DIR/bash_completion" ]; then
+    source "$NVM_DIR/bash_completion"
+else
+    echo "Warning: NVM bash completion script not found at $NVM_DIR/bash_completion"
+fi
+
+# --- // MINOR_ALIASES
+alias restartwaybar="pkill waybar && bash $HOME/.config/wayfire/scripts/statusbar &"
+alias reload="source ~/.zshrc"
+alias x='~/.local/bin/xsudo'
+alias oz="vim ~/.zshrc"
+
 # --- // ZSH-SYNTAX:
 ZSH_HIGHLIGHT_MAXLENGTH=512
 ZSH_HIGHLIGHT_HIGHLIGHTERS+=(brackets pattern cursor)
 
-# --- // SOURCE_SHELLZ:
-source ~/.config/shellz/zenvironment 2>/dev/null
-source ~/.config/shellz/aliasrc 2>/dev/null
-source ~/.config/shellz/functions/functions.zsh 2>/dev/null
-
-# --- // POWERLEVEL10K:
-source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
+# --- // UPDATE_GPG:
+if [ -f ~/.config/shellz/gpg_env ]; then
+  source ~/.config/shellz/gpg_env
+fi
