@@ -1,21 +1,23 @@
-#File: /home/$USER/.config/shell/zenvironment
-#Author: 4ndr0666
-#Edited: 04-10-24
+# File: /home/$USER/.config/shell/zenvironment
+# Author: 4ndr0666
+# Edited: 04-10-24
 #
 # --- // 4ndr0666_ZENVIRONMENT // ========
 
+# Ensure XDG_RUNTIME exists
+mkdir -p "$XDG_RUNTIME_DIR"
 
 # --- // DEFAULT_PROGS:
-export XCURSOR_SIZE=24
+export XCURSOR_SIZE=32
 export MICRO_TRUECOLOR=1
-export EDITOR=/usr/bin/micro
-export TERM=alacritty
-export BROWSER=brave
-export LANG=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
-HISTFILE=~/.zhistory
-HISTSIZE=50000
-SAVEHIST=10000
+export EDITOR="/usr/bin/nvim"
+export TERM="alacritty"
+export BROWSER="brave"
+export LANG="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
+export HISTFILE="$HOME/.zhistory"
+export HISTSIZE=50000
+export SAVEHIST=10000
 
 
 # --- // X_VARIABLES:
@@ -30,28 +32,30 @@ SAVEHIST=10000
 # export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel ${_JAVA_OPTIONS}"
 
 # --- // XDG_VARIABLES:
-export XDG_RUNTIME_DIR=/run/user/"$(id -u)"
-export XDG_CONFIG_HOME="$HOME"/.config
-export XDG_DATA_HOME="$HOME"/.local/share
-export XDG_CACHE_HOME="$HOME"/.cache
-export XINITRC="$XDG_CONFIG_HOME"/x11/xinitrc
-export INPUTRC="$XDG_CONFIG_HOME"/shell/inputrc
-export ZDOTDIR="$HOME"/powerlevel10k
-export WINEPREFIX="$XDG_DATA_HOME"/wineprefixes/default
-export WINEARCH=win32
+export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XINITRC="$XDG_CONFIG_HOME/x11/xinitrc"
+export INPUTRC="$XDG_CONFIG_HOME/shell/inputrc"
+export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
+export WINEARCH="win32"
+export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
 # export KODI_DATA="$XDG_DATA_HOME/kodi"
 # export NOTMUCH_CONFIG="$XDG_CONFIG_HOME/notmuch-config"
-export PASSWORD_STORE_DIR="$XDG_DATA_HOME"/password-store
-export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
 # export ANDROID_SDK_HOME="$XDG_CONFIG_HOME/android"
-export CARGO_HOME="$XDG_DATA_HOME"/cargo
-export GOPATH="$XDG_DATA_HOME"/go
-export GOMODCACHE="$XDG_CACHE_HOME"/go/mod
-export PYTHONSTARTUP="$XDG_CONFIG_HOME"/python/pythonrc
-export PIP_DOWNLOAD_CACHE="$HOME"/.pip/cache
-export SQLITE_HISTORY="$XDG_DATA_HOME"/sqlite_history
+export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
+#export ZDOTDIR="$HOME"/powerlevel10k
+export CARGO_HOME="$XDG_DATA_HOME/cargo"
+export GOPATH="$XDG_DATA_HOME/go"
+export GOMODCACHE="$XDG_CACHE_HOME/go/mod"
+export POETRY_CACHE_DIR="$XDG_CACHE_HOME/poetry"
+export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/pythonrc"
+export PIP_DOWNLOAD_CACHE="$HOME/.pip/cache"
+export SQLITE_HISTORY="$XDG_DATA_HOME/sqlite_history"
 
-
+# Ensure WINEPREFIX directory exists
+mkdir -p "$WINEPREFIX"
 
 # --- // SETOPT_HISTORY:
 unsetopt PROMPT_SP 2>/dev/null
@@ -103,14 +107,23 @@ autoload -U +X bashcompinit && bashcompinit                 # automatically load
 
 # --- // LIBRARY_AND_SECURITY // ========
 if [ -z "$LD_LIBRARY_PATH" ]; then
-    export LD_LIBRARY_PATH="$HOME"/.local/lib
+    export LD_LIBRARY_PATH="$HOME/.local/lib"
 else
-    # Append securely without overwriting existing entries
-    export LD_LIBRARY_PATH="$HOME"/.local/lib:/usr/local/lib/python3.11/site-packages:/usr/lib:"$LD_LIBRARY_PATH"
+    export LD_LIBRARY_PATH="$HOME/.local/lib:/usr/local/lib/python3.11/site-packages:/usr/lib:$LD_LIBRARY_PATH"
 fi
-export WGETRC="$XDG_CONFIG_HOME"/wget/wgetrc
+
+# Check for existing GNUPGHOME directory and secure it
+export GNUPGHOME="$HOME/.gnupg"
+if [ ! -d "$GNUPGHOME" ]; then
+    mkdir -p "$GNUPGHOME"
+fi
+chmod 700 "$GNUPGHOME"
+
+export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
+export SUDO_ASKPASS="/usr/bin/pinentry-dmenu"
+
 # Uncomment the following line if your Display Manager supports it:
-#export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
+# export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
 #export GPG_TTY="$(tty)"
 #gpg-connect-agent updatestartuptty /bye >/dev/null
 #gpg-connect-agent reloadagent /bye >/dev/null
@@ -125,13 +138,15 @@ export SUDO_ASKPASS=/usr/bin/pinentry-dmenu
 
 
 # --- // PAGER:
+# Bat as pager for man
+#export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 # Configure pager environment based on terminal color capability
 case "${COLORTERM}" in
     truecolor)
         # Do not overwrite; already supports truecolor
         ;;
     *)
-        export COLORTERM=yes
+        export COLORTERM="yes"
         ;;
 esac
 export FZF_DEFAULT_OPTS="--layout=reverse --height 40% \
@@ -146,10 +161,7 @@ export LESS_TERMCAP_so="$(printf '%b' '')"
 export LESS_TERMCAP_se="$(printf '%b' '')"
 export LESS_TERMCAP_us="$(printf '%b' '')"
 export LESS_TERMCAP_ue="$(printf '%b' '')"
-export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
-
-
-
+# export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
 
 ### KEYS
 # --- // KEYBINDINGS_BASED_ON_EMACS:
@@ -195,9 +207,9 @@ if [[ -n "${terminfo[khome]}" ]]; then
 fi
 # [End] - Go to end of line
 if [[ -n "${terminfo[kend]}" ]]; then
-  bindkey -M emacs "${terminfo[kend]}"  end-of-line
-  bindkey -M viins "${terminfo[kend]}"  end-of-line
-  bindkey -M vicmd "${terminfo[kend]}"  end-of-line
+  bindkey -M emacs "${terminfo[kend]}" end-of-line
+  bindkey -M viins "${terminfo[kend]}" end-of-line
+  bindkey -M vicmd "${terminfo[kend]}" end-of-line
 fi
 
 # [Shift-Tab] - move through the completion menu backwards
@@ -226,6 +238,7 @@ else
   bindkey -M vicmd "^[3;5~" delete-char
 fi
 
+# Key handling for terminal modes
 typeset -g -A key
 if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
 	autoload -Uz add-zle-hook-widget
@@ -238,17 +251,17 @@ fi
 # Control Left - go back a word
 key[Control-Left]="${terminfo[kLFT5]}"
 if [[ -n "${key[Control-Left]}"  ]]; then
-    bindkey -M emacs "${key[Control-Left]}"  backward-word
-    bindkey -M viins "${key[Control-Left]}"  backward-word
-    bindkey -M vicmd "${key[Control-Left]}"  backward-word
+    bindkey -M emacs "${key[Control-Left]}" backward-word
+    bindkey -M viins "${key[Control-Left]}" backward-word
+    bindkey -M vicmd "${key[Control-Left]}" backward-word
 fi
 
 # Alt Left - go back a word
 key[Alt-Left]="${terminfo[kLFT3]}"
 if [[ -n "${key[Alt-Left]}"  ]]; then
-    bindkey -M emacs "${key[Alt-Left]}"  backward-word
-    bindkey -M viins "${key[Alt-Left]}"  backward-word
-    bindkey -M vicmd "${key[Alt-Left]}"  backward-word
+    bindkey -M emacs "${key[Alt-Left]}" backward-word
+    bindkey -M viins "${key[Alt-Left]}" backward-word
+    bindkey -M vicmd "${key[Alt-Left]}" backward-word
 fi
 
 # Control Right - go forward a word
@@ -259,15 +272,7 @@ if [[ -n "${key[Control-Right]}" ]]; then
     bindkey -M vicmd "${key[Control-Right]}" forward-word
 fi
 
-# Alt Left - go back a word
-key[Alt-Left]="${terminfo[kLFT3]}"
-if [[ -n "${key[Alt-Left]}"  ]]; then
-    bindkey -M emacs "${key[Alt-Left]}"  backward-word
-    bindkey -M viins "${key[Alt-Left]}"  backward-word
-    bindkey -M vicmd "${key[Alt-Left]}"  backward-word
-fi
-
-# Control Right - go forward a word
+# Alt Right - go forward a word
 key[Alt-Right]="${terminfo[kRIT3]}"
 if [[ -n "${key[Alt-Right]}" ]]; then
     bindkey -M emacs "${key[Alt-Right]}" forward-word
@@ -279,9 +284,7 @@ fi
 
 
 # --- // SCRIPTS // ========
-[ -f $HOME/.config/shellz/scripts/findit ] && source $XDG_CONFIG_HOME/shellz/scripts/findit
-[ ! -f $HOME/.config/shell/shortcutrc ] && setsid -f shortcuts >/dev/null 2>&1
-[ -f $HOME/.config/shellz/scripts/xt ] && source $XDG_CONFIG_HOME/shellz/scripts/xt 2>/dev/null
+[ -f "$HOME/.config/shellz/scripts/findit" ] && source "$XDG_CONFIG_HOME/shellz/scripts/findit"
 
 # --- // SWITCH_ESC_AND_CAPS_IF_TTY_NOPASSWD:
 # sudo -n loadkeys "$XDG_DATA_HOME/larbs/ttymaps.kmap" 2>/dev/null
@@ -297,28 +300,45 @@ fi
 
 # --- // PLUGINS // ========
 
+# Function to safely source plugins
+safe_source() {
+    local plugin_path="$1"
+    local plugin_name="$2"
+    if [ -f "$plugin_path" ]; then
+        source "$plugin_path"
+    else
+        echo "Warning: $plugin_name plugin not found!"
+    fi
+}
+
+# --- // AUTOCOMPLETE:
+#rm -f ~/.zcompdump; compinit  #Do this if it doesnt work
+
+safe_source "/usr/share/zsh/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh" "zsh-autocomplete"
+fpath=(/usr/share/zsh/plugins/zsh-autocomplete/Completions/src $fpath)
+
 # --- // FZF:
-source /usr/share/fzf/key-bindings.zsh
-source /usr/share/fzf/completion.zsh
+safe_source "/usr/share/zsh/plugins/zsh-fzf-plugin/fzf.plugin.zsh" "fzf"
 
 # --- // ZSH_SUDO:
-source /usr/share/zsh/plugins/zsh-sudo/sudo.plugin.zsh
+safe_source "/usr/share/zsh/plugins/zsh-sudo/sudo.plugin.zsh" "zsh-sudo"
 
 # --- // ZSH_SYSTEMD:
-source /usr/share/zsh/plugins/zsh-systemd/systemd.plugin.zsh
+safe_source "/usr/share/zsh/plugins/zsh-systemd/systemd.plugin.zsh" "zsh-systemd"
 
 # --- // ZSH_AUTOSUGGESTIONS:
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+safe_source "/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh" "zsh-autosuggestions"
 
 # --- // ZSH_HISTORY_SUBSTRING_SEARCH:
-source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
+safe_source "/usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh" "zsh-history-substring-search"
+# --- // ZSH_YOU_SHOULD_USE:
+safe_source "/usr/share/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh" "zsh-you-should-use"
+
+# --- // ZSH_FIND_THE_COMMAND:
+safe_source "/usr/share/doc/find-the-command/ftc.zsh" "find-the-command"
+
+# --- // ZSH_EXTRACT:
+safe_source "/usr/share/zsh/plugins/zsh-extract/extract.plugin.zsh" "zsh-extract"
 
 # --- // ZSH_SYNTAX_HIGHLIGHTING:
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-# --- // PYENV INTEGRATION:
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-#eval "$(pyenv init --path)"
-#eval "$(pyenv init -)"
-#eval "$(pyenv virtualenv-init -)"
+safe_source "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh" "zsh-syntax-highlighting"
