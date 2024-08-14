@@ -5,7 +5,7 @@
 #Edited: 04-10-2024
 # --- // 4NDR0666_ZSHRC // ========
 
-# --- // POWERLEVEL10k_SET_THEME:
+# --- // POWERLEVEL10k:
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
@@ -15,6 +15,7 @@ if [ -f /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme ]; then
 fi
 
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
 
 # --- // AUTOSET_$DISPLAY_IF_NOT_SET:
 if [ -z "$DISPLAY" ]; then
@@ -34,47 +35,6 @@ if [ "$PWD" = "/" ]; then
     cd $HOME
 fi
 
-# --- DYNAMIC_PATH:
-all_dirs=(
-    "$HOME/.npm-global/bin"
-    "$HOME/.cargo/bin"
-    "$HOME/.gem/ruby/2.7.0/bin"  # Adjust Ruby version as needed
-    "$HOME/.pyenv/bin"
-    "$HOME/.pyenv/shims"
-    "$HOME/.local/share/solana/install/active_release/bin"
-    "$HOME/.ghcup/bin"
-    "$HOME/.config/yarn/global/node_modules/.bin"
-    "/usr/local/go/bin"
-    "${JAVA_HOME:-/usr/lib/jvm/default/bin}"  # Use JAVA_HOME if set, else default
-    "$HOME/.sdkman/candidates/java/current/bin"
-    "$HOME/.rvm/bin"
-    "$HOME/.virtualenvs"
-    "$HOME/.poetry/bin"
-    "/opt/cuda/bin"
-    "$HOME/bin"
-    "$HOME/.local/bin"
-    "/snap/bin"
-    "/opt/bin"
-    "/sbin"
-    "/usr/sbin"
-    "/usr/local/sbin"
-    "/usr/bin"
-    "/opt/cuda/nsight_compute"
-    "/opt/cuda/nsight_systems/bin"
-    "/opt/rocm/bin"
-)
-additional_dirs=($(find ~/.local/bin /usr/local/bin -type d))
-all_dirs+=($additional_dirs)
-for dir in $all_dirs; do
-    if [[ -d $dir ]]; then
-        PATH="$PATH:$dir"
-    fi
-done
-export PATH
-
-# --- // DEDUP:
-typeset -U path PATH cdpath CDPATH fpath FPATH manpath MANPATH
-
 # --- // ON-DEMAND_REHASH:
 zshcache_time="$(date +%s%N)"
 autoload -Uz add-zsh-hook
@@ -91,10 +51,8 @@ add-zsh-hook -Uz precmd rehash_precmd
 
 # --- // SOURCE_FILES:
 if [[ -z "$FUNCTIONS_ZSH_SOURCED" ]]; then
-    # Ensure XDG_CONFIG_HOME is set correctly
     export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
     
-    # Source the functions file
     if [ -f "$XDG_CONFIG_HOME/shellz/functions/functions.zsh" ]; then
         source "$XDG_CONFIG_HOME/shellz/functions/functions.zsh"
         export FUNCTIONS_ZSH_SOURCED=1
@@ -103,7 +61,6 @@ if [[ -z "$FUNCTIONS_ZSH_SOURCED" ]]; then
     fi
 fi
 
-# Source additional configuration files
 for config_file in "$XDG_CONFIG_HOME/shellz/zenvironment" "$XDG_CONFIG_HOME/shellz/aliasrc"; do
     if [ -f "$config_file" ]; then
         source "$config_file"
@@ -112,34 +69,44 @@ for config_file in "$XDG_CONFIG_HOME/shellz/zenvironment" "$XDG_CONFIG_HOME/shel
     fi
 done
 
-# --- // NVM Setup:
+# --- // HELPER:
+alias reload="source ~/.zshrc"
+
+# --- // NVM:
 export NVM_DIR="$HOME/.config/nvm"
 
-# Load NVM if available
 if [ -s "$NVM_DIR/nvm.sh" ]; then
     source "$NVM_DIR/nvm.sh"
 else
     echo "Warning: NVM script not found at $NVM_DIR/nvm.sh"
 fi
 
-# Load NVM bash completion if available
 if [ -s "$NVM_DIR/bash_completion" ]; then
     source "$NVM_DIR/bash_completion"
 else
     echo "Warning: NVM bash completion script not found at $NVM_DIR/bash_completion"
 fi
 
-# --- // MINOR_ALIASES
-alias restartwaybar="pkill waybar && bash $HOME/.config/wayfire/scripts/statusbar &"
-alias reload="source ~/.zshrc"
-alias x='~/.local/bin/xsudo'
-alias oz="vim ~/.zshrc"
-
-# --- // ZSH-SYNTAX:
-ZSH_HIGHLIGHT_MAXLENGTH=512
-ZSH_HIGHLIGHT_HIGHLIGHTERS+=(brackets pattern cursor)
-
 # --- // UPDATE_GPG:
 if [ -f ~/.config/shellz/gpg_env ]; then
   source ~/.config/shellz/gpg_env
 fi
+
+# --- // HIGHLIGHTERS:
+typeset -A ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_STYLES=(
+    'builtin' 'fg=green'
+    'bracket' 'fg=orange'
+    'cursor' 'standout'
+    'pattern' 'fg=magenta,bold'
+)
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
+
+typeset -A ZSH_HIGHLIGHT_PATTERNS
+ZSH_HIGHLIGHT_PATTERNS=(
+    'sudo' 'fg=red,bold'
+    'chown' 'fg=yellow,bold'
+    'chmod' 'fg=blue,bold'
+)
+
+
