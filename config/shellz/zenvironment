@@ -100,6 +100,7 @@ zstyle ':completion:*' accept-exact '*(N)'
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.cache/zcache
 autoload -U +X bashcompinit && bashcompinit                 # automatically load bash completion functions
+
 # --- // LIBRARY_AND_SECURITY // ========
 if [ -z "$LD_LIBRARY_PATH" ]; then
     export LD_LIBRARY_PATH="$HOME/.local/lib"
@@ -123,8 +124,6 @@ export SUDO_ASKPASS="/usr/bin/pinentry-dmenu"
 #gpg-connect-agent updatestartuptty /bye >/dev/null
 #gpg-connect-agent reloadagent /bye >/dev/null
 #eval $(ssh-agent) && ssh-add 2&>/dev/null
-#xhost +
-#xhost +SI:localuser:andro
 
 
 # --- // PAGER:

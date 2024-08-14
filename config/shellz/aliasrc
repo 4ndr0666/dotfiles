@@ -108,7 +108,7 @@ alias vbash='edit_config ~/.bashrc'
 alias vzsh='edit_config ~/.zshrc'
 alias vfish='edit_config ~/.config/fish/config.fish'
 alias vmpv='edit_config /home/andro/.config/mpv/mpv.conf'
-alias vwayfire='edit_config ~/.config/wayfire.ini'
+alias vfire='edit_config ~/.config/wayfire.ini'
 
 # ============================================ // DIRECTORY_SHORTCUTS //
 
@@ -181,16 +181,29 @@ slb() {
 	[ -f "$HOME/.local/bin/$choice" ] && $EDITOR "$HOME/.local/bin/$choice";
 }
 
-# --- // $USER/local/bin //
-sb() {
-    local dir="${1:-/usr/local/bin}"
-    local choice="$(find "$dir" -mindepth 1 -executable -printf '%P\n' | fzf --preview "cat $dir/{}" --preview-window=down:70%)"
+# --- // /Nas/Build/git/syncing/scr //
+ms() {
+    local dir="${1:-/Nas/Build/git/syncing/scr}"
+    
+    # Find executable files and directories, excluding .git items, and sorting directories first
+    local choice=$(find "$dir" -mindepth 1 \( -type d -o -executable -type f \) \
+        ! -path '*/.git/*' -printf '%P\n' | \
+        sort -r | \
+        fzf --preview "cat '$dir/{}'" --preview-window=down:70%)
 
-    if [ -n "$choice" ] && [ -x "$dir/$choice" ]; then
-        echo "Executing $dir/$choice ..."
-        "$dir/$choice"
+    if [ -n "$choice" ]; then
+        if [ -d "$dir/$choice" ]; then
+            # If the choice is a directory, list its contents
+            echo "Selected directory: $dir/$choice"
+        elif [ -x "$dir/$choice" ]; then
+            # If the choice is an executable file, execute it
+            echo "Executing $dir/$choice ..."
+            "$dir/$choice"
+        else
+            echo "No script selected or script is not executable."
+        fi
     else
-        echo "No script selected or script is not executable."
+        echo "No selection made."
     fi
 }
 
@@ -237,7 +250,8 @@ alias lessc='less -R'
 alias ip='ip -color=auto'
 alias c='clear; echo; echo; seq 1 $(tput cols) | sort -R | spark | lolcat; echo; echo'
 alias hw='sudo hwinfo --short'
-alias lsblkh='lsblk.sh'
+alias lsblk='lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINT'
+#alias lsblkh='lsblk.sh'
 alias psa='ps auxf | less'
 alias free='free -mt'
 alias jctl='journalctl -p 3 -xb'
@@ -255,7 +269,8 @@ alias dir5='du -cksh * | sort -hr | head -5'
 alias dir10='du -cksh * | sort -hr | head -10'
 alias dir='dir --color=auto'
 alias vdir='vdir --color=auto'
-back() {
+function back() {
+
     local steps=${1:-1}  # Number of steps back in the directory stack, default is 1
     for ((i = 0; i < steps; i++)); do
         if [[ $(dirs -p | wc -l) -gt 1 ]]; then
@@ -912,5 +927,22 @@ grepo() {
 # ================================== // POWER // ====================================================
 
 alias magic='sudo /usr/local/bin/magic.sh'
-alias sdn="echo 'Shutting down...' | sudo tee -a /var/log/user_commands.log && sudo shutdown -h now"
-alias ssr="echo 'Rebooting...' | sudo tee -a /var/log/user_commands.log && sudo reboot -h now"
+
+# Polkit Check and Cleanup Script
+cleanup_session() {
+    # Check if Polkit is running
+    pgrep -x polkit-gnome-authentication-agent-1 > /dev/null && echo "Polkit running" || echo "Polkit not running"
+
+    # Session cleanup commands
+    pkill -f "polkit-gnome-authentication-agent-1"
+    pkill -f "xdg-desktop-portal"
+    # Add other necessary cleanup commands
+    echo "Session cleanup complete."
+}
+
+# Shutdown Alias
+alias sdn="cleanup_session && echo 'Shutting down...' | sudo tee -a /var/log/user_commands.log && sudo shutdown -h now"
+
+# Reboot Alias
+alias ssr="cleanup_session && echo 'Rebooting...' | sudo tee -a /var/log/user_commands.log && sudo reboot -h now"
+
