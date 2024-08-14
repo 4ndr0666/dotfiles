@@ -5,50 +5,259 @@
 # --- // 4ndr0666 FUNCTIONS.ZSH // ========
 
 
-# ------------------------------------------------------ // RESET_WAYBAR:
-restart_waybar() {
-	killall -9 waybar $> /dev/null
-	waybar </dev/null &>/dev/null &
+# ---------------------// POETRY:
+function poetry_cmd() {
+    local cmd=$1
+    shift
+
+    case $cmd in
+        new)
+            echo "📦 Creating a new Poetry project..."
+            poetry new "$@"
+            ;;
+        install)
+            echo "🔧 Installing project dependencies..."
+            poetry install "$@"
+            ;;
+        add)
+            echo "📥 Adding a package to the project..."
+            poetry add "$@"
+            ;;
+        add-dev)
+            echo "🛠️ Adding a development package to the project..."
+            poetry add --dev "$@"
+            ;;
+        update)
+            echo "🔄 Updating all project dependencies..."
+            poetry update "$@"
+            ;;
+        run)
+            echo "🚀 Running a command within the virtual environment..."
+            poetry run "$@"
+            ;;
+        shell)
+            echo "💻 Activating the virtual environment shell..."
+            poetry shell
+            ;;
+        export)
+            echo "📤 Exporting dependencies to requirements.txt..."
+            poetry export -f requirements.txt --output requirements.txt
+            ;;
+        show)
+            echo "📄 Listing installed dependencies..."
+            poetry show "$@"
+            ;;
+        outdated)
+            echo "⚠️ Listing outdated dependencies..."
+            poetry show --outdated
+            ;;
+        lock)
+            echo "🔒 Locking dependencies..."
+            poetry lock
+            ;;
+        env-info)
+            echo "🔍 Showing environment information..."
+            poetry env info
+            ;;
+        help)
+            cat <<'EOF'
+Poetry Command Helper
+
+Usage: poetry_cmd <command> [options]
+
+Commands:
+  new        📦 Create a new Poetry project
+  install    🔧 Install project dependencies
+  add        📥 Add a package to the project
+  add-dev    🛠️ Add a development package to the project
+  update     🔄 Update all project dependencies
+  run        🚀 Run a command within the virtual environment
+  shell      💻 Activate the virtual environment shell
+  export     📤 Export dependencies to requirements.txt
+  show       📄 List installed dependencies
+  outdated   ⚠️ List outdated dependencies
+  lock       🔒 Lock dependencies
+  env-info   🔍 Show environment information
+  help       📖 Show this help message
+EOF
+            ;;
+        *)
+            echo "❌ Invalid command: $cmd"
+            echo "Use 'poetry_cmd help' to see available commands."
+            ;;
+    esac
 }
 
-# -------------------------------------------------------------- // RESET_PERMISSIONS:
+
+# -------------------------------- // SPELLLCHECK:
+spell() {
+    if ! command -v spellcheck &> /dev/null; then
+        echo "Error: 'spellcheck' command not found. Please ensure it is located in ~/.local/bin."
+        return 1
+    fi
+
+    if [ $# -eq 0 ]; then
+        echo "❓ Usage: spell <word1> [word2]..."
+        return 1
+    fi
+
+    for word in "$@"; do
+        echo "Checking spelling for: $word"
+        spellcheck "$word"
+        echo # Add a newline for better readability between checks
+    done
+}
+
+# ------------------------------------ // RESET_WAYBAR:
+restart_waybar() {
+    echo "🔄 Restarting Waybar..."
+    
+    # Attempt to gracefully terminate waybar
+    if pkill -TERM waybar; then
+        echo "Gracefully terminating waybar..."
+        sleep 1  # Give it a moment to shut down
+    else
+        echo "Waybar is not running, starting it now."
+    fi
+    
+    # Forcefully kill waybar if it's still running after the grace period
+    if pgrep waybar &>/dev/null; then
+        echo "Forcefully killing waybar..."
+        pkill -9 waybar
+        sleep 1  # Ensure it's fully stopped
+    fi
+    
+    # Start waybar and suppress all output
+    if waybar </dev/null &>/dev/null &; then
+        echo "Waybar has been restarted successfully."
+    else
+	echo "❌ Failed to restart Waybar. Process not found."
+        return 1
+    fi
+}
+
+#restart_waybar() {
+#	killall -9 waybar $> /dev/null
+#	waybar </dev/null &>/dev/null &
+#}
+
+# ----------------------------------------- // RESET_PERMISSIONS:
 function reset_permissions() {
-    # Define the directories to be updated
-    local dirs=(
-        "/boot"
-        "/dev"
-        "/etc"
-        "/home"
-        "/media"
-        "/mnt"
-        "/opt"
-        "/proc"
-        "/root"
-        "/run"
-        "/srv"
-        "/sys"
-        "/tmp"
-        "/usr"
-        "/var"
+    # Define a mapping of directories to their correct "factory" permissions
+    declare -A dir_permissions=(
+        ["/boot"]=755
+        ["/dev"]=755
+        ["/etc"]=755
+        ["/home"]=755
+        ["/media"]=755
+        ["/mnt"]=755
+        ["/opt"]=755
+        ["/proc"]=555
+        ["/root"]=700
+        ["/run"]=755
+        ["/srv"]=755
+        ["/sys"]=555
+        ["/tmp"]=1777
+        ["/usr"]=755
+        ["/var"]=755
+        ["/boot/efi"]=755  # Specifically handle /boot/efi
     )
 
-    # Set the base permissions for the main directories
-    sudo chmod 755 "${dirs[@]}"
+    # Function to back up current permissions
+    backup_permissions() {
+        local backup_file="/tmp/permissions_backup_$(date +%Y%m%d%H%M%S).txt"
+        echo "Backing up current permissions to $backup_file..."
+        for dir in "${!dir_permissions[@]}"; do
+            if [[ -d $dir ]]; then
+                sudo find "$dir" -exec stat -c "%a %n" {} \; > "$backup_file"
+            fi
+        done
+        echo "Backup completed."
+    }
 
-    # Set specific permissions for /tmp and /var/tmp
-    sudo chmod 1777 /tmp /var/tmp
+    # Function to reset permissions
+    reset_dir_permissions() {
+        local dry_run=$1
+        for dir in "${!dir_permissions[@]}"; do
+            if [[ -d $dir ]]; then
+                if [[ "$dry_run" == true ]]; then
+                    echo "Dry Run: sudo chmod ${dir_permissions[$dir]} $dir"
+                else
+                    if sudo chmod "${dir_permissions[$dir]}" "$dir"; then
+                        echo "Permissions set for $dir to ${dir_permissions[$dir]}."
+                    else
+                        echo "Failed to set permissions for $dir." >&2
+                    fi
+                fi
+            else
+                echo "Directory $dir does not exist; skipping."
+            fi
+        done
+    }
 
-    # Use zsh globbing to refine permissions within directories
-    for dir in "${dirs[@]}"; do
-        if [[ -d $dir ]]; then
-            # Set appropriate permissions for subdirectories
-            sudo chmod 755 "$dir"/*(/)
-            # Set appropriate permissions for files
-            sudo chmod 644 "$dir"/*(.^x)
-            # Set appropriate permissions for executable files
-            sudo chmod 755 "$dir"/*(.x)
+    # Function to handle files within directories
+    reset_file_permissions() {
+        local dry_run=$1
+        local dir=$2
+
+        if [[ -d "$dir" ]]; then
+            if [[ "$dry_run" == true ]]; then
+                echo "Dry Run: sudo find $dir -type d -exec chmod 755 {} \\;"
+                echo "Dry Run: sudo find $dir -type f -exec chmod 644 {} \\;"
+                echo "Dry Run: sudo find $dir -type f -perm /u+x -exec chmod 755 {} \\;"
+            else
+                sudo find "$dir" -type d -exec chmod 755 {} \;
+                sudo find "$dir" -type f -exec chmod 644 {} \;
+                sudo find "$dir" -type f -perm /u+x -exec chmod 755 {} \;
+                echo "Permissions reset for $dir."
+            fi
         fi
-    done
+    }
+
+    # Confirm before proceeding
+    echo "This will reset permissions on critical system directories to their defaults."
+    read -q "REPLY?Are you sure you want to continue? (y/N) "
+    echo
+    if [[ ! "$REPLY" =~ ^[Yy]$ ]]; then
+        echo "Operation canceled."
+        return 0
+    fi
+
+    # Prompt for dry run
+    echo "Would you like to perform a dry run first? (y/N)"
+    read -q "DRY_RUN"
+    echo
+    if [[ "$DRY_RUN" =~ ^[Yy]$ ]]; then
+        dry_run=true
+        echo "Performing a dry run..."
+    else
+        dry_run=false
+        # Backup current permissions
+        backup_permissions
+    fi
+
+    # Reset permissions for main directories
+    echo "Setting default permissions for main directories..."
+    reset_dir_permissions "$dry_run"
+
+    # Special handling for files within certain directories
+    echo "Setting appropriate permissions for files and subdirectories..."
+
+    reset_file_permissions "$dry_run" "/etc"
+    reset_file_permissions "$dry_run" "/var"
+
+    # Example: /boot/efi - ensure it's handled carefully
+    if [[ -d "/boot/efi" ]]; then
+        if [[ "$dry_run" == true ]]; then
+            echo "Dry Run: sudo chmod 755 /boot/efi"
+        else
+            sudo chmod 755 /boot/efi && \
+            echo "Permissions reset for /boot/efi." || \
+            echo "Failed to set permissions for /boot/efi. Please check manually." >&2
+        fi
+    fi
+
+    echo "Permissions reset process completed."
 }
 alias reset-perms=reset_permissions
 
@@ -103,15 +312,54 @@ alias help-zshglob=H-Glob
 
 # ----------------------------------------------------------- // SEARCH_PROCESSES:
 function any() {
+    # Function to display help
+    function show_help() {
+        echo "Usage: any [options] <process name>"
+        echo "Options:"
+        echo "  -i          Case-insensitive search"
+        echo "  -h          Show this help message"
+        echo ""
+        echo "Example:"
+        echo "  any ssh     # Find all running SSH processes"
+        echo "  any -i ssh  # Case-insensitive search for SSH processes"
+    }
+
+    # Default options
+    local case_insensitive=false
+
+    # Parse options
+    while getopts ":ih" opt; do
+        case $opt in
+            i)
+                case_insensitive=true
+                ;;
+            h)
+                show_help
+                return 0
+                ;;
+            \?)
+                echo "Invalid option: -$OPTARG" >&2
+                show_help
+                return 1
+                ;;
+        esac
+    done
+    shift $((OPTIND -1))
+
     # Check if a process name was provided
     if [[ -z $1 ]]; then
-        echo "Usage: any <process name>"
+        echo "Error: No process name provided."
+        show_help
         return 1
     fi
 
-    # Use pgrep to find processes and filter out the grep command itself
+    # Search for processes
     local processes
-    processes=$(pgrep -fl "$1" | grep -v grep)
+    if [[ $case_insensitive == true ]]; then
+        processes=$(pgrep -fil "$1" | grep -v grep)
+    else
+        processes=$(pgrep -fl "$1" | grep -v grep)
+    fi
 
     # Check if any processes were found
     if [[ -z $processes ]]; then
@@ -119,9 +367,10 @@ function any() {
         return 1
     fi
 
-    # Print the found processes
-    echo "Running processes for '$1':"
-    echo "$processes"
+    # Print the found processes with formatting
+    echo "Running processes matching '$1':"
+    echo "--------------------------------"
+    echo "$processes" | awk '{printf "%-10s %s\n", $1, $2}'
 }
 
 # ----------------------------------------------------- // BOOST_SYSTEM_RESOURCES:
@@ -207,8 +456,12 @@ function sysboost() {
 # ---------------------------------------------------------- // SYS_BOOST2:
  # taken from $LINUX-KERNELSOURCE/Documentation/power/swsusp.txt
 function swapboost() {
+    # Ensure the script exits on any error
+    set -e
+
+    # Ensure we have read access to /proc/1/maps
     if [[ ! -r /proc/1/maps ]]; then
-        echo "Auto-escalating for dir access of /proc/1/maps."
+        echo "Auto-escalating for directory access of /proc/1/maps."
         if ! sudo test -r /proc/1/maps; then
             echo "Unable to escalate privileges."
             return 1
@@ -221,20 +474,33 @@ function swapboost() {
     local cmd_prefix=""
     [[ $EUID -ne 0 ]] && cmd_prefix="sudo"
 
-    # Use parallel to speed up the process
-    for file in $(sed -ne 's:.* /:/:p' /proc/[0-9]*/maps | sort -u | grep -v '^/dev/'); do
-        $cmd_prefix cat "$file" > /dev/null && ((file_count++)) || echo "Failed to access $file" >> error.log
-    done
+    # Use parallel to speed up the process if available
+    if command -v parallel &> /dev/null; then
+        sed -ne 's:.* /:/:p' /proc/[0-9]*/maps | sort -u | grep -v '^/dev/' | \
+        parallel "$cmd_prefix cat {} > /dev/null && echo 'Accessed {}' >> $log_file || echo 'Failed to access {}' >> $log_file"
+    else
+        for file in $(sed -ne 's:.* /:/:p' /proc/[0-9]*/maps | sort -u | grep -v '^/dev/'); do
+            $cmd_prefix cat "$file" > /dev/null && ((file_count++)) || echo "Failed to access $file" >> "$log_file"
+        done
+    fi
 
     echo "Accessed $file_count files from mappings..."
     sleep 2
     echo 'Refreshing swap spaces...'
     sleep 2
+    
+    # Refresh swap spaces
     if $cmd_prefix swapoff -a && $cmd_prefix swapon -a; then
         echo "Swap spaces refreshed!"
     else
         echo "Failed to refresh swap spaces" >> error.log
     fi
+
+    # Final message
+    echo "Swapboost process completed."
+
+    # Disable exit on error
+    set +e
 }
 
 # ----------------------------------------------------- // SMART_BACKUP:
@@ -320,8 +586,13 @@ EOF
         "copy")
             for file in "${target_dir[@]}"; do
                 if [[ -e $file ]]; then
-                    (( $+opts[verbose] )) && echo "Copying $file"
-                    cp -a "$file" "${file}_${current_date}"
+                    local backup_file="${file}_${current_date}"
+                    if [[ -e $backup_file ]]; then
+                        echo "Warning: Backup file $backup_file already exists, skipping."
+                        continue
+                    fi
+                    (( $+opts[verbose] )) && echo "Copying $file to $backup_file"
+                    cp -a "$file" "$backup_file"
                 else
                     echo "File $file not found."
                 fi
@@ -336,31 +607,46 @@ function turl() {
     emulate -L zsh
     setopt extended_glob
 
-    # Check if a URL was provided
-    if [[ -z $1 ]]; then
-        echo "Usage: turl <URL>"
+    # Check if at least one URL was provided
+    if [[ $# -eq 0 ]]; then
+        echo "Usage: turl <URL> [URL ...]"
         return 1
     fi
 
-    local url="$1"
-    local response
+    local url response shortUrl
+    local clipboard_mode=0
 
-    # Use curl to post the URL to cleanuri.com's API
-    response=$(curl -sS --header "Content-Type: application/x-www-form-urlencoded" \
-                    --request POST \
-                    --data-urlencode "url=$url" \
-                    "https://cleanuri.com/api/v1/shorten")
+    # Process each URL provided
+    for url in "$@"; do
+        # Validate the URL format
+        if [[ ! "$url" =~ ^https?:// ]]; then
+            echo "Invalid URL: $url"
+            continue
+        fi
 
-    # Parse the response to extract the short URL
-    local shortUrl=$(echo $response | grep -Po '"result_url":"\K[^"]+')
+        # Use curl to post the URL to cleanuri.com's API
+        response=$(curl -sS --header "Content-Type: application/x-www-form-urlencoded" \
+                        --request POST \
+                        --data-urlencode "url=$url" \
+                        "https://cleanuri.com/api/v1/shorten")
 
-    # Check if a short URL was received
-    if [[ -n $shortUrl ]]; then
-        echo "Short URL: $shortUrl"
-    else
-        echo "Error: Failed to shorten URL."
-        return 1
-    fi
+        # Parse the response to extract the short URL
+        shortUrl=$(echo "$response" | grep -Po '"result_url":"\K[^"]+')
+
+        # Check if a short URL was received
+        if [[ -n "$shortUrl" ]]; then
+            echo "Original URL: $url"
+            echo "Short URL: $shortUrl"
+
+            # Check if the user wants to copy to the clipboard
+            if [[ $clipboard_mode -eq 1 ]]; then
+                echo "$shortUrl" | xclip -selection clipboard
+                echo "Short URL copied to clipboard."
+            fi
+        else
+            echo "Error: Failed to shorten URL: $url"
+        fi
+    done
 }
 
 # ------------------------------------------ // TRANSFORM_LIST_INTO_PKG-READABLE:
@@ -384,7 +670,7 @@ function cleanlist() {
         return 1
     fi
 
-    echo "$packages"
+    echo "Cleaned package list: $packages"
 
     # Copy the formatted list back to the clipboard for user reference
     if command -v xclip &>/dev/null; then
@@ -393,17 +679,46 @@ function cleanlist() {
         echo "$packages" | wl-copy
     fi
 
-    # Automatically pass the package list to paru for installation
-    echo "Passing the package list to paru for installation..."
-    paru -S --needed $packages
+    # Log the cleaned package list for future reference
+    local log_file="$HOME/.local/share/cleanlist.log"
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - $packages" >> "$log_file"
+    echo "Cleaned package list logged to $log_file."
+
+    # Prompt for package manager choice
+    echo "Select the package manager to use:"
+    select pkg_manager in paru yay pacman; do
+        case $pkg_manager in
+            paru|yay)
+                $pkg_manager -S --needed $packages
+                break
+                ;;
+            pacman)
+                sudo pacman -S --needed $packages
+                break
+                ;;
+            *)
+                echo "Invalid selection. Please choose a valid package manager."
+                ;;
+        esac
+    done
 }
 
 #-------------------------------------------------------- // FIXGPGKEY:
 function fixgpgkey() {
     local gpg_conf="$HOME/.gnupg/gpg.conf"
     local keyring_entry="keyring /etc/pacman.d/gnupg/pubring.gpg"
+    local backup_file="$gpg_conf.bak.$(date +%Y%m%d%H%M%S)"
 
-    echo "Adding keyring entry to GPG configuration..."
+    echo "Starting GPG keyring fix process..."
+
+    # Create a backup of the gpg.conf file before making changes
+    if [[ -f "$gpg_conf" ]]; then
+        cp "$gpg_conf" "$backup_file"
+        echo "Backup of gpg.conf created at $backup_file."
+    else
+        echo "No existing gpg.conf found; creating a new one."
+        touch "$gpg_conf"
+    fi
 
     # Check if the keyring entry already exists in gpg.conf
     if ! grep -qF "$keyring_entry" "$gpg_conf"; then
@@ -413,26 +728,48 @@ function fixgpgkey() {
         echo "Keyring entry already exists in $gpg_conf."
     fi
 
+    # Populate the pacman keyring
     echo "Populating the pacman keyring..."
-    sudo pacman-key --populate archlinux
+    if sudo pacman-key --populate archlinux; then
+        echo "Pacman keyring populated successfully."
+    else
+        echo "Failed to populate pacman keyring." >&2
+        return 1
+    fi
+
+    echo "GPG keyring fix process completed."
 }
 
 # ------------------------------------------------ // WHATSNEW:
 function whatsnew() {
-    echo "Listing the 10 most recently modified files across the entire system:"
+    local num_files=${1:-10}
+    echo "Listing the $num_files most recently modified files across the entire system:"
 
-    # Using Zsh globbing to find and list the 10 most recently modified files
-    sudo zsh -c 'print -rl -- /**/*(.om[1,10])' 2>/dev/null
+    # Check if the user has sudo privileges
+    if ! sudo -v &>/dev/null; then
+        echo "Error: You do not have sudo privileges." >&2
+        return 1
+    fi
+
+    # Using Zsh globbing to find and list the most recently modified files
+    local files
+    files=$(sudo zsh -c "print -rl -- /**/*(.om[1,$num_files])" 2>/dev/null)
+
+    if [[ -z "$files" ]]; then
+        echo "No recently modified files found."
+    else
+        echo "$files"
+    fi
 }
 
 # ------------------------------------------------------------ // FINDIT:
+# Function to validate and run a command
 validate() {
-    command=$1
+    local command="$1"
     echo "Running: $command"
-    eval $command
-    if [ $? -ne 0 ]; then
+    if ! eval "$command"; then
         echo "Error: Command failed - $command"
-        exit 1
+        return 1
     fi
 }
 
@@ -444,17 +781,19 @@ check_install_fd() {
             sudo pacman -Sy --noconfirm fd
         elif command -v apt-get &> /dev/null; then
             sudo apt-get update && sudo apt-get install -y fd-find
-            sudo ln -s $(which fdfind) /usr/local/bin/fd  # For compatibility
+            sudo ln -s "$(which fdfind)" /usr/local/bin/fd  # For compatibility
         else
             echo "Unsupported package manager. Please install 'fd' manually."
-            exit 1
+            return 1
         fi
     fi
 }
 
 # Main find function
-function findit() {
-    local choice query search_type search_dir fd_command
+findit() {
+    local choice query search_type search_dir
+    local include_hidden="" case_sensitive="--ignore-case" absolute_paths=""
+    local max_depth="" min_depth="" list_details="" fd_command="fd"
 
     # Check and install necessary tools
     check_install_fd
@@ -464,10 +803,10 @@ function findit() {
 
     case $choice in
         f)
-            search_type="file"
+            search_type="f"
             ;;
         d)
-            search_type="directory"
+            search_type="d"
             ;;
         *)
             echo "Invalid choice. Please select 'f' for file or 'd' for directory."
@@ -512,97 +851,16 @@ function findit() {
     read -r list_details
     [ "$list_details" == "y" ] && list_details="--list-details" || list_details=""
 
-    if [[ $search_type == "file" ]]; then
-        fd_command="fd --type f '$query' '$search_dir' $include_hidden $case_sensitive $absolute_paths $max_depth $min_depth $list_details"
-    else
-        fd_command="fd --type d '$query' '$search_dir' $include_hidden $case_sensitive $absolute_paths $max_depth $min_depth $list_details"
-    fi
+    # Construct the fd command
+    fd_command="fd --type $search_type $query $search_dir $include_hidden $case_sensitive $absolute_paths $max_depth $min_depth $list_details"
 
     echo "Executing: $fd_command"
-    if [[ $EUID -ne 0 && $search_dir == /* && ! -w $search_dir ]]; then
-        sudo bash -c "$fd_command"
-    else
-        eval $fd_command
+
+    # Use eval to execute the constructed command safely
+    if ! eval "$fd_command"; then
+        echo "Error: Command failed."
+        return 1
     fi
-}
-
-
-# -------------------------------------------------------- // SYSTEMD_COMPLETIONS:
-# Define user commands
-user_commands=(
-  cat get-default help is-active is-enabled is-failed is-system-running
-  list-dependencies list-jobs list-sockets list-timers list-unit-files
-  list-units show show-environment status
-)
-
-# Define sudo commands
-sudo_commands=(
-  add-requires add-wants cancel daemon-reexec daemon-reload default disable
-  edit emergency enable halt import-environment isolate kexec kill link
-  list-machines load mask preset preset-all reenable reload reload-or-restart
-  reset-failed rescue restart revert set-default set-environment set-property
-  start stop switch-root try-reload-or-restart try-restart unmask unset-environment
-)
-
-# Define power commands
-power_commands=(
-  hibernate hybrid-sleep poweroff reboot suspend
-)
-
-# Create aliases for user commands
-for cmd in "${user_commands[@]}"; do
-  alias "sc-$cmd"="systemctl $cmd"
-  alias "scu-$cmd"="systemctl --user $cmd"
-done
-
-# Create aliases for sudo commands
-for cmd in "${sudo_commands[@]}"; do
-  alias "sc-$cmd"="sudo systemctl $cmd"
-  alias "scu-$cmd"="systemctl --user $cmd"
-done
-
-# Create aliases for power commands
-for cmd in "${power_commands[@]}"; do
-  alias "sc-$cmd"="systemctl $cmd"
-done
-
-# Unset temporary variables to avoid polluting the environment
-unset cmd user_commands sudo_commands power_commands
-
-# Additional utility aliases
-alias sc-enable-now="sc-enable --now"
-alias sc-disable-now="sc-disable --now"
-alias sc-mask-now="sc-mask --now"
-alias scu-enable-now="scu-enable --now"
-alias scu-disable-now="scu-disable --now"
-alias scu-mask-now="scu-mask --now"
-alias scu-failed='systemctl --user --failed'
-alias sc-failed='systemctl --failed'
-
-# Function to provide systemd prompt information
-function systemd_prompt_info {
-  local unit
-  for unit in "$@"; do
-    echo -n "$ZSH_THEME_SYSTEMD_PROMPT_PREFIX"
-
-    # Convert unit to uppercase if needed
-    if [[ -n "$ZSH_THEME_SYSTEMD_PROMPT_CAPS" ]]; then
-      echo -n "${(U)unit:gs/%/%%}:"
-    else
-      echo -n "${unit:gs/%/%%}:"
-    fi
-
-    # Check if the unit is active
-    if systemctl is-active "$unit" &>/dev/null; then
-      echo -n "$ZSH_THEME_SYSTEMD_PROMPT_ACTIVE"
-    elif systemctl --user is-active "$unit" &>/dev/null; then
-      echo -n "$ZSH_THEME_SYSTEMD_PROMPT_ACTIVE"
-    else
-      echo -n "$ZSH_THEME_SYSTEMD_PROMPT_NOTACTIVE"
-    fi
-
-    echo -n "$ZSH_THEME_SYSTEMD_PROMPT_SUFFIX"
-  done
 }
 
 # --------------------------------------------------- // ENHANCED_COPY:
@@ -610,13 +868,6 @@ function systemd_prompt_info {
 if alias copy &>/dev/null; then
     unalias copy
 fi
-
-# Function to ensure xhost permission
-function ensure_xhost_permission() {
-    if ! xhost | grep -q "SI:localuser:$(whoami)"; then
-        xhost +SI:localuser:$(whoami) >/dev/null
-    fi
-}
 
 # Enhanced copy function
 function copy() {
@@ -635,7 +886,6 @@ function copy() {
             return 1
         fi
     elif [[ "$session_type" == "x11" ]]; then
-        ensure_xhost_permission
         if command -v xclip &>/dev/null; then
             copy_cmd=("xclip" "-selection" "clipboard")
         else
@@ -678,6 +928,8 @@ function copy() {
 # ----------------------------------------------- // UNDO_RECENTLY_INSTALLED_PKGS:
 function undo() {
     echo "Fetching the most recently installed packages..."
+
+    # Fetch the list of most recently installed packages
     local -a recent_packages
     recent_packages=("${(@f)$(expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort -r | head -n 20 | awk '{print $3}')}")
 
@@ -696,8 +948,13 @@ function undo() {
     read -q "response?Proceed with primary removal method 'pacman -Rdd' (does not remove dependencies)? [y/N]: "
     echo
     if [[ "$response" =~ ^[Yy]$ ]]; then
-        sudo pacman -Rdd "${recent_packages[@]}"
-        echo "Packages removed with 'pacman -Rdd'. Orphaned dependencies are not removed."
+        echo "Attempting to remove packages..."
+        if sudo pacman -Rdd "${recent_packages[@]}"; then
+            echo "Packages removed with 'pacman -Rdd'. Orphaned dependencies are not removed."
+        else
+            echo "Failed to remove packages. Please check for errors and try again."
+            return 1
+        fi
     else
         echo "Primary removal canceled."
     fi
@@ -708,8 +965,11 @@ function undo() {
         local orphans=("${(@f)$(pacman -Qdtq)}")
         if (( ${#orphans[@]} > 0 )); then
             echo "Removing unneeded dependencies..."
-            sudo pacman -Rns "${orphans[@]}"
-            echo "Unneeded dependencies removed."
+            if sudo pacman -Rns "${orphans[@]}"; then
+                echo "Unneeded dependencies removed."
+            else
+                echo "Failed to remove unneeded dependencies. Please check for errors and try again."
+            fi
         else
             echo "No unneeded dependencies to remove."
         fi
@@ -721,8 +981,8 @@ function undo() {
 # --------------------------------------------------------- // DOWNSCALE_TO_1080P:
 function downscale() {
     local input_file="$1"
-    local output_file="${2:-output.mp4}"
-    local quality="${3:-18}"  # Default quality set to 18, can be adjusted by the user
+    local output_file="${2:-output_1080p.mp4}"
+    local quality="${3:-18}"  # Default CRF value for quality, lower is better
 
     # Validate input file presence
     if [[ -z "$input_file" ]]; then
@@ -742,15 +1002,21 @@ function downscale() {
         return 1
     fi
 
-    # Using FFmpeg to downscale or fit the video into 1920x1080 resolution
-    # with padding if necessary, keeping the original aspect ratio.
-    # Improvements:
-    # - Allows user to specify quality.
-    # - 'veryslow' preset for the best compression efficiency at the cost of speed.
-    echo "Starting downscale process..."
+    # Ensure output file name is unique
+    local base_name="${output_file%.*}"
+    local extension="${output_file##*.}"
+    local counter=1
+
+    while [[ -f "$output_file" ]]; do
+        output_file="${base_name}_${counter}.${extension}"
+        ((counter++))
+    done
+
+    # Start downscale process using FFmpeg
+    echo "Starting downscale process to 1080p..."
     ffmpeg -i "$input_file" \
            -vf "scale=1920x1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2" \
-           -c:v libx264 -crf "$quality" -preset veryslow "$output_file"
+           -c:v libx264 -crf "$quality" -preset slow -c:a copy "$output_file"
 
     # Check if FFmpeg command was successful
     if [[ $? -eq 0 ]]; then
@@ -761,24 +1027,10 @@ function downscale() {
     fi
 }
 
-# ----------------------------------------------------- // MEMORY_MONITOR_SERVICE:
-function memservice() {
-  set -e
-  echo "Reloading systemctl daemon..."
-  sudo systemctl daemon-reload
-  echo "Enabling memory_monitor..."
-  sudo systemctl enable memory_monitor.service
-  sudo systemctl start memory_monitor.service
-  echo "Enabling freecache.path..."
-  sudo systemctl enable freecache.path
-  sudo systemctl start freecache.path
-  echo "Memory_monitor and freecache services are reloaded."
-  set +e
-}
-
 # ----------------------------------------------------------- // OPTIMIZE_PACMAN:
 function pacopt() {
-    echo "Optimizing Pacman"
+    echo "Starting Pacman Optimization..."
+
     echo "In 3..."
     sleep 1
     echo "..2"
@@ -786,167 +1038,167 @@ function pacopt() {
     echo ".1"
     sleep 1
 
-    echo "Updating mlocate database..."
-    if sudo updatedb; then
-        echo "✔️ mlocate database updated."
-    else
-        echo "❌ Failed to update mlocate database."
-    fi
+    # Function to perform a task and check its result
+    run_task() {
+        local task_description="$1"
+        shift
+        echo "$task_description"
+        if "$@"; then
+            echo "✔️ $task_description completed successfully."
+        else
+            echo "❌ Failed to complete: $task_description."
+        fi
+    }
 
-    echo "Updating pkgfile database..."
-    if sudo pkgfile -u; then
-        echo "✔️ pkgfile database updated."
-    else
-        echo "❌ Failed to update pkgfile database."
-    fi
+    run_task "Updating mlocate database..." sudo updatedb
 
-    echo "Upgrading pacman database..."
-    if sudo pacman-db-upgrade; then
-        echo "✔️ pacman database upgraded."
-    else
-        echo "❌ Failed to upgrade pacman database."
-    fi
+    run_task "Updating pkgfile database..." sudo pkgfile -u
 
-    echo "Cleaning package cache..."
-    if yes | sudo pacman -Sc; then
-        echo "✔️ Package cache cleaned."
-    else
-        echo "❌ Failed to clean package cache."
-    fi
+    run_task "Upgrading Pacman database..." sudo pacman-db-upgrade
 
-    echo "Syncing filesystem changes..."
-    if sync; then
-        echo "✔️ Filesystem changes synced."
-    else
-        echo "❌ Failed to sync filesystem changes."
-    fi
+    run_task "Cleaning package cache..." yes | sudo pacman -Sc
 
-    echo "Refreshing keys..."
-    if sudo pacman-key --refresh-keys; then
-        echo "✔️ Keys refreshed."
-    else
-        echo "❌ Failed to refresh keys."
-    fi
+    run_task "Syncing filesystem changes..." sync
 
-    echo "Populating keys and updating trust..."
-    if sudo pacman-key --populate && sudo pacman-key --updatedb; then
-        echo "✔️ Keys populated and trust updated."
-    else
-        echo "❌ Failed to populate keys and update trust."
-    fi
+    run_task "Refreshing Pacman keys..." sudo pacman-key --refresh-keys
 
-    echo "Refreshing package list..."
-    if sudo pacman -Syy; then
-        echo "✔️ Package list refreshed."
-    else
-        echo "❌ Failed to refresh package list."
-    fi
+    run_task "Populating keys and updating trust..." sudo pacman-key --populate && sudo pacman-key --updatedb
 
-    echo "Pacman optimized!"
+    run_task "Refreshing package list..." sudo pacman -Syy
+
+    echo "Pacman optimization process completed!"
 }
 
 # ---------- ------------------------------------------------------- // Cd and ls:
 function cl() {
+    # Ensure the script behaves as expected in Zsh
     emulate -L zsh
 
+    # Check if the directory argument is provided
     if [[ -z $1 ]]; then
         echo "Usage: cl <directory>"
         return 1
     fi
 
-    if [[ ! -d $1 ]]; then
-        echo "Error: Directory '$1' does not exist."
+    # Resolve the provided directory path
+    local dir="$1"
+
+    # Expand `~` to the user's home directory, if present
+    dir="${dir/#\~/$HOME}"
+
+    # Check if the directory exists
+    if [[ ! -d $dir ]]; then
+        echo "Error: Directory '$dir' does not exist."
         return 1
     fi
 
-    cd "$1" && ls -lah
+    # Change to the directory and list its contents with detailed info
+    cd "$dir" && ls -lah
+
+    # Check if the directory change was successful
+    if [[ $? -eq 0 ]]; then
+        echo "Changed to directory: $dir"
+    else
+        echo "Failed to change to directory: $dir"
+        return 1
+    fi
 }
 
 # ------------------------------------------------------------- // SEARCH_HISTORY:
 function whatwhen() {
     emulate -L zsh
-    local usage help ident format_l format_s first_char remain first last
-    usage='USAGE: whatwhen [options] <searchstring> <search range>'
-    help='Use `whatwhen -h` for further explanations.'
-    ident=${(l,${#${:-Usage: }},, ,)}
-    format_l="${ident}%s\t\t\t%s\n"
-    format_s="${format_l//(\\t)##/\\t}"
-    # Make the first char of the word to search for case
-    # insensitive; e.g. [aA]
-    first_char=[${(L)1[1]}${(U)1[1]}]
-    remain=${1[2,-1]}
-    # Default search range is `-100'.
-    first=${2:-\-100}
-    # Optional, just used for `<first> <last>' given.
-    last=$3
+    local usage help format_l format_s first_char remain first last search_pattern
 
-    case $1 in
-        ("")
-            echo "ERROR: No search string specified. Aborting."
-            echo "$usage"
-            echo "$help"
-            return 1
-            ;;
-        (-h)
-            echo "$usage"
-            echo "OPTIONS:"
-            printf "$format_l" '-h' 'show help text'
-            echo "SEARCH RANGE:"
-            printf "$format_l" "'0'" 'the whole history'
-            printf "$format_l" "'-<n>'" 'offset to the current history number (default: -100)'
-            printf "$format_s" "'<[-]first> [<last>]'" 'search within a given range'
-            echo "EXAMPLES:"
-            printf "$format_l" 'whatwhen grml' '# Range is set to -100 by default.'
-            printf "$format_l" 'whatwhen zsh -250'
-            printf "$format_l" 'whatwhen foo 1 99'
-            ;;
-        (\?)
-            echo "$usage"
-            echo "$help"
-            return 1
-            ;;
-        (*)
-            # -l list results on stdout rather than invoking $EDITOR.
-            # -i Print dates as in YYYY-MM-DD.
-            # -m Search for a - quoted - pattern within the history.
-            fc -li -m "*${first_char}${remain}*" $first $last
-            ;;
-    esac
+    # Usage and help strings
+    usage='USAGE: whatwhen [options] <searchstring> [<search range>]'
+    help='Use `whatwhen -h` for further explanations.'
+
+    # Formatting for output
+    format_l="%s\t\t\t%s\n"
+    format_s="${format_l//(\\t)##/\\t}"
+
+    # Handle the case where no search string is provided
+    if [[ -z $1 ]]; then
+        echo "ERROR: No search string specified. Aborting."
+        echo "$usage"
+        echo "$help"
+        return 1
+    fi
+
+    # Handle help option
+    if [[ $1 == "-h" ]]; then
+        echo "$usage"
+        echo "OPTIONS:"
+        printf "$format_l" '-h' 'Show this help text'
+        echo "SEARCH RANGE:"
+        printf "$format_l" "'0'" 'Search the entire history'
+        printf "$format_l" "'-<n>'" 'Search the last <n> entries (default: -100)'
+        printf "$format_s" "'<first> [<last>]'" 'Search within a given range'
+        echo "EXAMPLES:"
+        printf "$format_l" 'whatwhen zsh' 'Search the last 100 entries for "zsh"'
+        printf "$format_l" 'whatwhen foo -250' 'Search the last 250 entries for "foo"'
+        printf "$format_l" 'whatwhen bar 1 99' 'Search entries 1 to 99 for "bar"'
+        return 0
+    fi
+
+    # Parse search string and range
+    search_pattern=$1
+    first=${2:-\-100}  # Default search range is the last 100 entries
+    last=${3:-}        # Optional last entry
+
+    # Make the first character of the search string case insensitive
+    first_char="[${(L)search_pattern[1]}${(U)search_pattern[1]}]"
+    remain="${search_pattern[2,-1]}"
+
+    # Perform the search
+    fc -li -m "*${first_char}${remain}*" $first $last
 }
+
 # ------------------------------ // LIST_FILES_RECENTLY_ACCESSED,CHANGED,MOD_BY:
 function accessed() {
     emulate -L zsh
     local time_range=${1:-1}
+
+    # Validate input
     if [[ ! $time_range =~ ^[0-9]+$ ]]; then
         echo "Usage: accessed [time_range_in_days]"
         return 1
     fi
-    echo "Listing files accessed in the last $time_range days:"
-    print -l -- *(a-$time_range)
+
+    # Search and display recently accessed files
+    echo "Listing files accessed in the last $time_range day(s):"
+    sudo find / -type f -atime -$time_range -print0 2>/dev/null | xargs -0 ls -lah --time=atime
 }
 
 function changed() {
     emulate -L zsh
     local time_range=${1:-1}
+
+    # Validate input
     if [[ ! $time_range =~ ^[0-9]+$ ]]; then
         echo "Usage: changed [time_range_in_days]"
         return 1
     fi
-    echo "Listing files changed in the last $time_range days:"
-    print -l -- *(c-$time_range)
+
+    # Search and display recently changed files
+    echo "Listing files changed in the last $time_range day(s):"
+    sudo find / -type f -ctime -$time_range -print0 2>/dev/null | xargs -0 ls -lah --time=ctime
 }
 
 function modified() {
     emulate -L zsh
     local time_range=${1:-1}
+
+    # Validate input
     if [[ ! $time_range =~ ^[0-9]+$ ]]; then
         echo "Usage: modified [time_range_in_days]"
         return 1
     fi
-    echo "Listing files modified in the last $time_range days:"
-    print -l -- *(m-$time_range)
-}
 
+    # Search and display recently modified files
+    echo "Listing files modified in the last $time_range day(s):"
+    sudo find / -type f -mtime -$time_range -print0 2>/dev/null | xargs -0 ls -lah --time=mtime
+}
 
 # ---------------------------------------------------------- // RUN_IN_BACKGROUND:
 function 4everr() {
@@ -955,24 +1207,33 @@ function 4everr() {
         return 1
     fi
 
-    if command -v "$1" >/dev/null 2>&1; then
-        local log_file="${@: -1}"  # Assume last argument is the log file if it's a valid path
-        [[ ! -f "$log_file" ]] && log_file="/dev/null"
+    local command="$1"
+    shift
 
-        # Remove the log file argument if it's not a command argument
-        if [[ "$log_file" != "/dev/null" ]]; then
+    if command -v "$command" >/dev/null 2>&1; then
+        local log_file="${@: -1}"
+        if [[ -f "$log_file" || "$log_file" == *".log" ]]; then
             set -- "${@:1:$(($#-1))}"
+        else
+            log_file="/dev/null"
         fi
 
-        # Starting the command in the background with nohup
-        nohup "$@" &> "$log_file" &
+        # Generate a more descriptive log file name if not specified
+        if [[ "$log_file" == "/dev/null" ]]; then
+            log_file="/tmp/${command}_$(date +'%Y%m%d%H%M%S').log"
+        fi
+
+        # Start the command in the background with nohup and log output
+        nohup "$command" "$@" &> "$log_file" &
         local pid=$!
-        echo "Command '$*' started in the background with PID $pid. Logging to $log_file."
+        echo "Command '$command $*' started in the background with PID $pid."
+        echo "Output is being logged to $log_file."
 
         # Optionally: Save the PID for later use
-        echo "$pid" > "/tmp/forever_$pid.pid"
+        echo "$pid" > "/tmp/forever_${command}_${pid}.pid"
     else
-        echo "Command '$1' not found. Not executed."
+        echo "Command '$command' not found. Not executed."
+        return 1
     fi
 }
 
@@ -985,18 +1246,31 @@ function mkcd() {
 
     local dir="$1"
 
+    # Check if the directory is a valid path
+    if [[ -z "$dir" ]]; then
+        echo "Error: Directory name cannot be empty."
+        return 1
+    fi
+
+    # Attempt to create the directory if it doesn't exist
     if [[ ! -d "$dir" ]]; then
         if mkdir -p "$dir"; then
-            echo "Directory '$dir' created and switching to it."
+            echo "Directory '$dir' created."
         else
             echo "Failed to create directory '$dir'."
             return 1
         fi
     else
-        echo "Directory '$dir' already exists. Switching to it."
+        echo "Directory '$dir' already exists."
     fi
 
-    cd "$dir"
+    # Change into the directory, with error checking
+    if cd "$dir"; then
+        echo "Switched to directory '$dir'."
+    else
+        echo "Failed to switch to directory '$dir'."
+        return 1
+    fi
 }
 
 # ---------------------------------------------------------- // MAKE_TMP_DIR_&_CD:
@@ -1017,6 +1291,7 @@ function cdt() {
 # -------------------------------------------------------------------- // NOTEPAD:
 function notepad() {
     local file="$HOME/Documents/notes/.notes"
+    mkdir -p "$(dirname "$file")"  # Ensure the directory exists
     [[ -f $file ]] || touch "$file"
 
     show_help() {
@@ -1036,6 +1311,7 @@ EOF
         case "$1" in
             -c)
                 > "$file"
+                echo "All notes cleared."
                 ;;
             -r)
                 if [[ -z "$2" || ! "$2" =~ ^[0-9]+$ ]]; then
@@ -1051,7 +1327,7 @@ EOF
                     echo "Usage: notepad -f <YYYY-MM-DD>"
                     return 1
                 fi
-                grep "\[$2" "$file"
+                grep "\[$2" "$file" || echo "No notes found for $2."
                 ;;
             -h)
                 show_help
@@ -1072,96 +1348,22 @@ EOF
     if [[ $# -gt 0 && "$1" != "-"* ]]; then
         local timestamp=$(date "+%Y-%m-%d %H:%M:%S")
         printf "[%s] %s\n" "$timestamp" "$*" >> "$file"
-    fi
-}
-
-# -------------------------------------------------------------- // TRIM_A_VIDEO:
-function trim() {
-    local input_file="$1"
-    local output_file="${4:-trimmed_output.mp4}"
-
-    # Enhanced usage instructions
-    if [[ -z "$input_file" || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: trim <input_file> [start_time] [end_time] [output_file]"
-        echo "Format for times: HH:MM:SS or SS. Output file is optional."
-        return 1
-    fi
-
-    # Validate input file
-    if [[ ! -f "$input_file" ]]; then
-        echo "Input file does not exist: $input_file"
-        return 1
-    fi
-
-    # Retrieve and format the duration of the video
-    if ! command -v ffprobe &>/dev/null; then
-        echo "ffprobe could not be found. Please install it first."
-        return 1
-    fi
-
-    local duration
-    duration=$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "$input_file")
-
-    if [[ $? -ne 0 ]]; then
-        echo "Failed to retrieve the length of the video: $input_file"
-        return 1
-    fi
-
-    # Function to convert duration to seconds
-    convert_to_seconds() {
-        local time=$1
-        local IFS=:; local time_array=($time)
-        echo "$((10#${time_array[0]}*3600 + 10#${time_array[1]}*60 + 10#${time_array[2]%.*}))"
-    }
-
-    # Generate time list for selection
-    local start_time end_time times=()
-    local total_seconds
-    total_seconds=$(echo "$duration/1" | bc) # Convert duration to integer seconds
-
-    for ((i = 0; i <= total_seconds; i += 10)); do
-        times+=($(date -u -d @"$i" +%H:%M:%S))
-    done
-
-    # Select start time using fzf
-    start_time=$(printf '%s\n' "${times[@]}" | fzf --prompt="Select start time: ")
-
-    # Select end time using fzf
-    end_time=$(printf '%s\n' "${times[@]}" | fzf --prompt="Select end time: ")
-
-    # Ensure start_time and end_time are not empty
-    if [[ -z "$start_time" || -z "$end_time" ]]; then
-        echo "Start time or end time cannot be empty."
-        return 1
-    fi
-
-    # Validate time format
-    if [[ ! "$start_time" =~ ^([0-9]{2}:)?[0-5]?[0-9]:[0-5][0-9]$ ]]; then
-        echo "Invalid start time format: $start_time"
-        return 1
-    fi
-
-    if [[ ! "$end_time" =~ ^([0-9]{2}:)?[0-5]?[0-9]:[0-5][0-9]$ ]]; then
-        echo "Invalid end time format: $end_time"
-        return 1
-    fi
-
-    # Execute FFmpeg command
-    if ffmpeg -hide_banner -i "$input_file" -ss "$start_time" -to "$end_time" -c copy "$output_file"; then
-        echo "Video trimmed successfully: $output_file"
-    else
-        echo "Error occurred during video trimming."
-        return 1
+        echo "Note added."
     fi
 }
 
 # --------------------------------------------------------------- // DECODE_URLS:
-urldecode() {
-    echo "$@" | awk '{gsub(/%([0-9A-Fa-f]{2})/, "\\x\\1"); print}' | xargs -0 echo -e
+function urldecode() {
+    if [[ -z "$1" ]]; then
+        echo "Usage: urldecode <encoded_string>"
+        return 1
+    fi
+
+    echo "$1" | awk '{gsub(/%([0-9A-Fa-f]{2})/, "\\x\\1"); print}' | xargs -0 echo -e
 }
 
 # ------------------------------------------------------------- // TERMBIN:
-termbin() {
+function termbin() {
     if [[ -z "$1" ]]; then
         echo "Usage: termbin <file>"
         return 1
@@ -1177,5 +1379,14 @@ termbin() {
         return 1
     fi
 
-    nc termbin.com 9999 < "$1"
+    local url
+    url=$(nc termbin.com 9999 < "$1")
+
+    if [[ $? -eq 0 && -n "$url" ]]; then
+        echo "File uploaded successfully."
+        echo "URL: $url"
+    else
+        echo "Error: Failed to upload file."
+        return 1
+    fi
 }
