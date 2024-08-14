@@ -1,9 +1,9 @@
 Net/ThemeName "Graphite-teal-Dark"
-Net/IconThemeName "Sweet-Teal"
+Net/IconThemeName "Hack"
 Gtk/CursorThemeName "Breeze_Hacked"
 Net/EnableEventSounds 0
 EnableInputFeedbackSounds 0
 Xft/Antialias 1
 Xft/Hinting 1
-Xft/HintStyle "hintmedium"
+Xft/HintStyle "hintslight"
 Xft/RGBA "rgb"

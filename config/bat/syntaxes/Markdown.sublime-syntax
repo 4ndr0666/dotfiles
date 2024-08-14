@@ -1,0 +1,22 @@
+%YAML 1.2
+---
+name: Markdown
+file_extensions:
+  - md
+  - markdown
+scope: text.html.markdown
+contexts:
+  main:
+    - match: '^#{1,6}\s+(.*)'
+      captures:
+        0: markup.heading.markdown
+    - match: '\*\*(.+?)\*\*'
+      captures:
+        0: markup.bold.markdown
+    - match: '_(.+?)_'
+      captures:
+        0: markup.italic.markdown
+    - match: '\[(.*?)\]\((.*?)\)'
+      captures:
+        1: string.other.link.title.markdown
+        2: markup.underline.link.markdown

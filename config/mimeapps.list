@@ -20,7 +20,19 @@ image/jpeg=viewnior.desktop;
 image/gif=mpv.desktop;
 image/png=viewnior.desktop;
 image/svg+xml=viewnior.desktop;
+video/mpeg=mpv.desktop
+video/mp2t=mpv.desktop
+video/x-ms-wmv=mpv.desktop
 
-
-
-
+[Added Associations]
+image/webp=brave-browser.desktop;nsxiv.desktop;feh.desktop;
+video/mp4=mplayer.desktop;vlc.desktop;mystiq.desktop;io.github.celluloid_player.Celluloid.desktop;
+text/plain=io.github.mightycreak.Diffuse.desktop;
+image/gif=mystiq.desktop;
+video/mpeg=mpv.desktop;
+video/x-matroska=mystiq.desktop;
+video/quicktime=vlc.desktop;mystiq.desktop;
+video/mp2t=mpv.desktop;
+image/jpeg=brave-browser.desktop;mpv.desktop;
+application/vnd.adobe.flash.movie=vlc.desktop;
+video/x-ms-wmv=mpv.desktop;

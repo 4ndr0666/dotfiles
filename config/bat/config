@@ -6,29 +6,34 @@
 
 
 # --- // THEME:
-#--theme="DarkNeon"
---theme="GitHub"
+--theme="DarkNeon"
+#--theme="GitHub"
+#--theme="CustomCyan.sublime-color-scheme"
+#--theme="gruvbox-dark"
 --wrap="auto"
 --color="always"
 
 # --- // STYLES:
---style="numbers,changes,header,snip"
+#1--style="grid,header,changes,full"
 #2--style="numbers,grid,header,changes,full"
+--style="changes,header,snip"
+
 
 # --- // TERMINAL:
---italic-text=always
---terminal-width="120"
+#--italic-text=always
+#--terminal-width="120"
 
 # --- // PAGER:
---paging="always"
---pager="less -rFXIL"
-#2--pager="less -R"
+#1 --paging="always"
+--pager="less -rFXIL" # Modified less, quit if less than one screen, long prompt, ignore case on searches
+#3 --pager="less -R"
 
 # --- // LANGUAGES:
 --map-syntax "*.unknown:txt"
 --map-syntax "*.ino:C++"
 --map-syntax ".ignore:Git Ignore"
 --map-syntax "*.md:Markdown"
+--map-syntax "*.csv:CSV"  # Add this line to handle CSV files explicitly
 
 # --- // MISC:
 #--show-nonprintable

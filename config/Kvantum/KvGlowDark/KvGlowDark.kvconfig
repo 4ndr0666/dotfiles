@@ -93,10 +93,10 @@ link.color=#2EB8E6
 link.visited.color=#FF6666
 
 [Hacks]
-transparent_ktitle_label=false
-transparent_dolphin_view=false
-transparent_pcmanfm_sidepane=false
-blur_translucent=false
+transparent_ktitle_label=true
+transparent_dolphin_view=true
+transparent_pcmanfm_sidepane=true
+blur_translucent=true
 transparent_menutitle=false
 respect_darkness=true
 kcapacitybar_as_progressbar=true
@@ -108,7 +108,7 @@ lxqtmainmenu_iconsize=22
 normal_default_pushbutton=true
 single_top_toolbar=true
 tint_on_mouseover=0
-no_selection_tint=true
+no_selection_tint=false
 transparent_pcmanfm_view=false
 blur_only_active_window=true
 centered_forms=true

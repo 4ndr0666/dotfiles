@@ -8,8 +8,8 @@
 
 
 # ================================================== // LIST_CURRENT_ALIASES //
-alias 00='cat ~/.config/shell/aliasrc'
-alias 0f='cat ~/.config/shell/functions/functionsrc'
+alias 00='cat /home/andro/.config/shell/aliasrc'
+alias 0f='cat /home/andro/.config/shell/functions/functionsrc'
 alias 0b=cat='~/.bashrc'
 alias 0z='cat ~/.zshrc'
 
@@ -22,7 +22,6 @@ else
     command -v vim > /dev/null 2>&1 || { echo "vim also not found. Please install a text editor."; return 1; }
 fi
 alias svim="nvim"
-alias yay="paru"
 alias vim="nvim"
 
 # ---------------------------------------------------- // ESCALATED_CMDS //
@@ -280,8 +279,8 @@ alias myip='curl icanhazip.com'
 alias z='zathura'
 #alias back='if [ -n "$OLDPWD" ]; then for ((i=1; i<=${#OLDPWD}; i++)); do cd ..; done; echo "Navigated back to: $OLDPWD"; else echo "Error: Previous directory not set."; fi'
 alias back='cd $OLDPWD'
-alias tarnow='tar -acf '
-alias untar='tar -xvf '
+alias tarnow='tar -acf'
+alias untar='tar -xvf'
 alias watch='watch '
 alias top10='print -l ${(o)history%% *} | uniq -c | sort -nr | head -n 10'
 alias lock='sudo chattr +i '
