@@ -16,24 +16,27 @@ export XDG_CURRENT_SESSION=wayfire
 
 # --- // GTK_VARIABLES:
 export TDESKTOP_DISABLE_GTK_INTEGRATION=1
-#export CLUTTER_BACKEND=wayland,x11
+export CLUTTER_BACKEND=wayland,x11
 export BEMENU_BACKEND=wayland
 
 
 export MOZ_ENABLE_WAYLAND=1
 export QT_QPA_PLATFORMTHEME=qt5ct
 export QT_AUTO_SCREEN_SCALE_FACTOR=1
-export QT_QPA_PLATFORM=wayland
-export QT_WAYLAND_FORCE_DPI=physical #uncomment this to use monitor's DPI
+export QT_QPA_PLATFORM=wayland-egl #error with apps xcb
+#export QT_WAYLAND_FORCE_DPI=physical #uncomment this to use monitor's DPI
 export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
-export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
-export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel ${_JAVA_OPTIONS}"
+
 
 export ELM_DISPLAY=wl
 export ECORE_EVAS_ENGINE=wayland-egl
 export ELM_ENGINE=wayland_egl
 export ELM_ACCEL=opengl
-# export ELM_SCALE=1
+#export ELM_SCALE=1
+
+#export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -#Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -#Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel ${_JAVA_OPTIONS}"
+
+
 export SDL_VIDEODRIVER=wayland
 export _JAVA_AWT_WM_NONREPARENTING=1
 export SAL_USE_VCLPLUGIN=gtk3
@@ -42,16 +45,22 @@ export GDK_BACKEND=wayland,x11
 export NO_AT_BRIDGE=1
 export WINIT_UNIX_BACKEND=wayland
 
+export ELECTRON_OZONE_PLATFORM_HINT=wayland
+
 # --- // SYSTEMD_DBUS:
-eval "$(dbus-launch --sh-syntax)" 
+eval "$(dbus-launch --sh-syntax)"
 export DBUS_SESSION_BUS_ADDRESS
 export DBUS_SESSION_BUS_PID
-xhost +
+#xhost + </dev/null &>/dev/null &
 #xhost +SI:localuser:andro
 #xhost +SI:localuser:root
 
 # --- // EXEC_WAYFIRE:
 sleep 0.5;
+
+if ! command -v wayfire &> /dev/null; then
+    echo "Wayfire could not be found, please install it."
+    exit 1
+fi
+
 wayfire
-
-

@@ -270,7 +270,6 @@ alias dir10='du -cksh * | sort -hr | head -10'
 alias dir='dir --color=auto'
 alias vdir='vdir --color=auto'
 function back() {
-
     local steps=${1:-1}  # Number of steps back in the directory stack, default is 1
     for ((i = 0; i < steps; i++)); do
         if [[ $(dirs -p | wc -l) -gt 1 ]]; then
