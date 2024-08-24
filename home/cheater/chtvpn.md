@@ -1,70 +1,108 @@
-### PGP KEYS
+# ExpressVPN Cheat Sheet
+
+## PGP Keys
+
+### Download PGP Key
 ```bash
-# --- // Dl PGP key:
 wget https://www.expressvpn.com/expressvpn_release_public_key_0xAFF2A1415F6A3A38.asc
-
-# --- // Import the PGP Key:
-gpg --import expressvpn_release_public_key_0xAFF2A1415F6A3A38.asc
-
-# --- // Verify_fingerprint:
-gpg --fingerprint release@expressvpn.com
-Verify the fingerprint of the PGP key is 1D0B 09AD 6C93 FEE9 3FDD BD9D AFF2 A141 5F6A 3A38.
-
-# --- // Verify_signature_of_installer:
-gpg --verify [name of the signature file you downloaded].asc
 ```
 
-### PROTOCOLS
+### Import the PGP Key
 ```bash
-# --- // LightwayTCP:
+gpg --import expressvpn_release_public_key_0xAFF2A1415F6A3A38.asc
+```
+
+### Verify Fingerprint
+```bash
+gpg --fingerprint release@expressvpn.com
+```
+Verify that the fingerprint of the PGP key is:
+```
+1D0B 09AD 6C93 FEE9 3FDD BD9D AFF2 A141 5F6A 3A38
+```
+
+### Verify Signature of Installer
+```bash
+gpg --verify [name_of_the_signature_file].asc
+```
+
+## Protocols
+
+### Set Protocol to Lightway TCP
+```bash
 expressvpn protocol lightway_tcp
+```
 
-# --- // LightwayUDP:
+### Set Protocol to Lightway UDP
+```bash
 expressvpn protocol lightway_udp
+```
 
-# --- // OpenVPNTCP:
+### Set Protocol to OpenVPN TCP
+```bash
 expressvpn protocol tcp
+```
 
-# --- // OpenVPNUDP:
+### Set Protocol to OpenVPN UDP
+```bash
 expressvpn protocol udp
+```
 
-# --- // Auto:
+### Set Protocol to Auto
+```bash
 expressvpn protocol auto
 ```
 
-### PROTECTION_FEATURES
+## Protection Features
+
+### Enable/Disable All Features
 ```bash
-# --- // All_features:
 expressvpn preferences set block_all true/false
+```
 
-# --- // Block_trackers:
+### Enable/Disable Block Trackers
+```bash
 expressvpn preferences set block_trackers true/false
+```
 
-# --- // Block_malicious_sites:
+### Enable/Disable Block Malicious Sites
+```bash
 expressvpn preferences set block_malicious true/false
+```
 
-# --- // Block_ads:
+### Enable/Disable Block Ads
+```bash
 expressvpn preferences set block_ads true/false
+```
 
-# --- // Block_adult_sites:
+### Enable/Disable Block Adult Sites
+```bash
 expressvpn preferences set block_adult true/false
 ```
 
-### OPT_OUT
+## Opt-Out
+
+### Opt-Out of Sending Diagnostics
 ```bash
-# --- // Opt_out_of_sending_diagnostics:
 expressvpn preferences set send_diagnostics false
 ```
 
-### Manual_DNS_CONFIG:
+## Manual DNS Configuration
+
+### Configure DNS Manually
 ```bash
-mkdir /etc/resolvconf/resolv.conf.d
-touch /etc/resolvconf/resolv.conf.d/base
-vim /etc/resolvconf/resolv.conf.d/base:
-`nameserver 208.67.222.222`
-`nameserver 208.67.220.220`
+sudo mkdir -p /etc/resolvconf/resolv.conf.d
+sudo touch /etc/resolvconf/resolv.conf.d/base
+```
+Edit the `/etc/resolvconf/resolv.conf.d/base` file with the following content:
+```bash
+nameserver 208.67.222.222
+nameserver 208.67.220.220
+```
+Then, run the following commands:
+```bash
 sudo mv /etc/resolv.conf /etc/resolv.conf.backup
 sudo ln -s /run/resolvconf/resolv.conf /etc/resolv.conf
 sudo resolvconf -u
-sudo systemctl-restart NetworkManger
+sudo systemctl restart NetworkManager
 ```

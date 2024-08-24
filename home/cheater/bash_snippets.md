@@ -11,6 +11,12 @@ echo
 ```
 
 ```bash
+# --- // KILL_&_RESTART:
+killall -p pkgname $> /dev/null
+pkgname </dev/null &>/dev/null &
+```
+
+```bash
 # --- // SOURCE_LOOP:
 source_dir="/dir/to/search/in"
 zsh_files_found=false
