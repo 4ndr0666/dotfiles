@@ -269,6 +269,7 @@ alias dir5='du -cksh * | sort -hr | head -5'
 alias dir10='du -cksh * | sort -hr | head -10'
 alias dir='dir --color=auto'
 alias vdir='vdir --color=auto'
+alias z='zathura'
 function back() {
     local steps=${1:-1}  # Number of steps back in the directory stack, default is 1
     for ((i = 0; i < steps; i++)); do
@@ -357,6 +358,13 @@ alias chgrp='sudo chgrp --preserve-root'
 alias chgpg='sudo chown -R $USER:$USER ~/.gnupg && sudo chmod 700 ~/.gnupg && sudo chmod 600 ~/.gnupg/private-keys-v1.d/*'
 alias lock='sudo chattr +i '
 alias unlock='sudo chattr -i '
+alias chlocal='sudo chown -R $USER:$USER ~/.config ~/.local && echo "Ownership of ~/.config and ~/.local changed to $USER."'
+
+chboot() {
+    sudo chmod -R 755 /boot/efi 
+    sudo chown -R root:root /boot/efi
+    echo "Boot directory permissions reset appropriately."
+}
 
 chdefault() {
     if [[ -z "$1" ]]; then
@@ -404,7 +412,6 @@ chroot() {
     echo "Ownership and permissions set successfully for $1."
 }
 
-alias chlocal='sudo chown -R $USER:$USER ~/.config ~/.local && echo "Ownership of ~/.config and ~/.local changed to $USER."'
 
 chpython() {
     local python_version
@@ -457,7 +464,9 @@ alias ssha='eval $(ssh-agent) && ssh-add'
 alias sshid='xclip -sel clip < ~/.ssh/id_ed25519.pub'
 alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg"
 alias myip='curl icanhazip.com'
-alias fixgrub='sudo mkinitcpio -p linux && sudo grub-install && sudo grub-mkconfig -o /boot/grub/grub.cfg'
+alias fixbootloader='sudo grub-install && sudo grub-mkconfig -o /boot/grub/grub.cfg'
+alias dracutthiskernel='sudo dracut --force --kver=$(uname -r) /boot/initramfs-linux.img'
+alias dracutallkernels='sudo dracut --regenerate-all --fstab --early-microcode --enhanced-cpio --lz4 --force'
 alias top10='print -l ${(o)history%% *} | uniq -c | sort -nr | head -n 10'
 alias pacdiff='sudo -H DIFFPROG=meld pacdiff'
 alias restartntp='sudo systemctl stop ntpd.service && sudo pacman -Syu ntp'
@@ -704,6 +713,35 @@ reddl() {
          --external-downloader-args "-c -j 3 -x 3 -s 3 -k 1M" \
 	 -o "/home/andro/Downloads/%(title)s.%(ext)s" \
          "$@"
+}
+
+m3dl() {
+    local url="$1"
+    local save_dir="/storage/Downloads"
+    local base_name="m3dl_download"
+    local extension=".mp4"
+    local counter=1
+
+    while [ -e "${save_dir}/${base_name}_${counter}${extension}" ]; do
+        counter=$((counter + 1))
+    done
+
+    local save_name="${save_dir}/${base_name}_${counter}${extension}"
+
+    n-m3u8dl-re "$url" \
+                --save-name "$save_name" \
+                --use-ffmpeg-concat-demuxer \
+                --thread-count 32 \
+                --download-retry-count 5 \
+                --auto-select \
+                --live-real-time-merge \
+                --mux-after-done format=mp4:muxer=ffmpeg:keep=false \
+                --tmp-dir "/storage/tmp" \
+                --save-dir "$save_dir" \
+                --log-level INFO \
+                -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0" \
+                -H "Referer: https://example.com" \
+                -H "Cookie: sessionid=abc123; other_cookie=value"
 }
 
 # ====================================================================================== // PACMAN //
