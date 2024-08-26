@@ -19,7 +19,7 @@ alias lf='lfub'
 alias fd1='fd --exact-depth=1 --hidden'
 alias screenrecord="wf-recorder -a"
 alias screenrecord2="wf-recorder -a -c h264_vaapi -C aac -d /dev/dri/renderD128 --file=recording.mp4"
-
+alias kmon='sudo kmon --color blue --accent-color 15FFFF --unicode'
 # =========================================================== // EXPRESSVPN //
 
 alias vpnc='sudo expressvpn connect'
@@ -746,6 +746,7 @@ m3dl() {
 
 # ====================================================================================== // PACMAN //
 
+# --- // Package Manager Utils:
 alias mirrors='sudo reflector --latest 10 --age 2 --fastest 10 --protocol https --sort rate --save /etc/pacman.d/mirrorlist'
 alias fixpacman='sudo unlink /var/lib/pacman/db.lck'
 alias fixpacman2='sudo unlink /var/cache/pacman/pkg/cache.lck'
@@ -763,36 +764,35 @@ alias gitpkg="pacman -Q | grep -i '\-git' | wc -l"
 alias pkgbysize="expac -Q '%m - %n %v' | sort -n -r"
 alias mkpkglist='bat /tmp/pacui-ls'
 
-# --- // Flags:
-alias parupdate="paru -Syu --noconfirm"
+# --- // Package Manger Customization Flags:
+
+yaysearch() {
+    read -p "Choose a search parameter (1-5): " search_param
+    case $search_param in
+        1) yay --singlelineresults --groups --provides --searchby name ;;
+        2) yay --singlelineresults --groups --provides --searchby desc ;;
+        3) yay --singlelineresults --groups --provides --searchby maintainer ;;
+        4) yay --singlelineresults --groups --provides --searchby packager ;;
+        5) yay --singlelineresults --groups --provides --searchby depends ;;
+        *) echo "Invalid choice. Please choose a number between 1 and 5." ;;
+    esac
+}
+alias yay='yay --anserdiff no --builddir "/home/andro/build" --cleanafter --cleanmenu --color --editmenu --needed --norebuild --noredownload --provides --singlelineresults --sortby votes'
+alias yaydeps='yay --recursive --refresh --singlelineresults --color --sudoloop --sysupgrade --timeupdate --verbose'
 alias yayskip='yay -S --mflags --skipinteg'
 alias trizenskip='trizen -S --skipinteg'
-#alias paruskip='paru -S  --needed --noconfirm --disable-download-timeout --noupgrademenu --skipreview  --nopgpfetch --nosign --nosigndb --nocheck'
-#alias yayskip='yay -S --noconfirm --batchinstall=false --combinedupgrade=false pgpfetch=false'
-#alias trizenskip='trizen -S'
-alias update='sudo pacman -Sy && sudo powerpill -Su && paru -Su'
+alias powerupdate='sudo pacman -Sy && sudo powerpill -Su && paru -Su'
 
-
-# --- // Emergency/Developer Installation alias: 
-# This alias aggressively installs a package with yay, bypassing most safety checks.
-# Usage: fninstall <package_name>
-# WARNING: Use with caution as it can override critical files and settings.
+# --- // Unsafe Install (security bypass): 
 alias fninstall="yay -S --needed --cleanafter --cleanmenu --devel --noconfirm --rebuild --refresh --sudoloop --sysupgrade --overwrite='*' --disable-download-timeout --pgpfetch=false --noupgrademenu --removemake --redownload --batchinstall=false --answerclean=yes --answerdiff=no --answeredit=no"
 
-# Emergency/Developer Update alias: 
-# Aggressively updates the system with yay, skipping checks and confirmations.
-# Usage: fnupdate
-# WARNING: Use with caution as it may override critical files and settings.
+# --- // Unsafe Update (security bypass): 
 alias fnupdate='yay -Syyu --noconfirm --disable-download-timeout --noupgrademenu --skipreview --removemake --rebuild --nopgpfetch --nosign --nosigndb --nocheck --bottomup --overwrite="*"'
 
-# Emergency/Developer Remove alias: 
-# Aggressively removes a package with yay, ignoring dependencies and confirmations.
-# Usage: fnremove <package_name>
-# WARNING: Use with caution as it may break dependencies or system stability.
+# --- // Unsafe Removal (dependency bypass): 
 alias fnremove='yay -Rddn --noconfirm'
 
-
-# --- // Siglevel:
+# --- // Unsafe Siglevel Manipulation:
 alias pacmansigoff="read -p 'Are you sure you want to disable PGP signature verification? (yes/no): ' answer && \
 if [[ \$answer == 'yes' ]]; then \
     if sudo cp --preserve=all -f /etc/pacman.conf /etc/pacman.conf.backup; then \
