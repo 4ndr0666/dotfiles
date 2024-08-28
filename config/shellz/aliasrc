@@ -777,8 +777,8 @@ yaysearch() {
         *) echo "Invalid choice. Please choose a number between 1 and 5." ;;
     esac
 }
-alias yay='yay --anserdiff no --builddir "/home/andro/build" --cleanafter --cleanmenu --color --editmenu --needed --norebuild --noredownload --provides --singlelineresults --sortby votes'
-alias yaydeps='yay --recursive --refresh --singlelineresults --color --sudoloop --sysupgrade --timeupdate --verbose'
+alias yay='yay --answerdiff no --builddir "/home/build" --cleanafter --cleanmenu --editmenu --norebuild --noredownload --provides --singlelineresults --sortby votes'
+alias yaydeps='yay --recursive --refresh --singlelineresults --sudoloop --sysupgrade --timeupdate --verbose'
 alias yayskip='yay -S --mflags --skipinteg'
 alias trizenskip='trizen -S --skipinteg'
 alias powerupdate='sudo pacman -Sy && sudo powerpill -Su && paru -Su'

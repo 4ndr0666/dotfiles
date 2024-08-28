@@ -2,9 +2,7 @@
 # /etc/init.d/earlyoom or by systemd from earlyoom.service.
 
 # Options to pass to earlyoom
-EARLYOOM_ARGS="-M 2048 -m 10 -s 10 -r 60 -p -d -n --sort-by-rss --avoid '(^|/)(init|X|wayland|wayfire|swaybg|systemd|earlyoom|brave)$'"
-
-#EARLYOOM_ARGS="-r 3600 -n --avoid '(^|/)(init|systemd|Xorg|sshd)$'"
+EARLYOOM_ARGS="-m 35 -s 35 -n -r 60 -N /home/andro/.local/bin/freecache.sh -p --sort-by-rss --avoid '^|/)(init|brave)$'"
 
 # Examples:
 

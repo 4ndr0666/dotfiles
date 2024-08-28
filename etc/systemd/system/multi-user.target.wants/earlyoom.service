@@ -1,11 +1,39 @@
 [Unit]
 Description=Early OOM Daemon
+Documentation=man:earlyoom(1) https://github.com/rfjakob/earlyoom
 After=network.target
 
 [Service]
-ExecStart=/usr/local/bin/earlyoom -M 2048 -m 10 -s 10 -r 60 -p -d -n --sort-by-rss --avoid '(^|/)(init|X|wayland|wayfire|sshd|brave|systemd)$'
+EnvironmentFile=-/etc/default/earlyoom
+ExecStart=/usr/bin/earlyoom $EARLYOOM_ARGS
+AmbientCapabilities=CAP_KILL CAP_IPC_LOCK
+CapabilityBoundingSet=CAP_KILL CAP_IPC_LOCK
+Nice=-20
+OOMScoreAdjust=-100
 Restart=always
-RestartSec=10
+RestartSec=5
+TasksMax=10
+MemoryMax=50M
+DynamicUser=true
+SupplementaryGroups=proc
+ProtectSystem=strict
+ProtectHome=true
+PrivateDevices=true
+ProtectClock=true
+ProtectHostname=true
+ProtectKernelLogs=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictNamespaces=true
+RestrictRealtime=true
+LockPersonality=true
+PrivateNetwork=true
+IPAddressDeny=any
+RestrictAddressFamilies=AF_UNIX
+SystemCallArchitectures=native
+SystemCallFilter=@system-service process_mrelease
+SystemCallFilter=~@privileged
 
 [Install]
 WantedBy=multi-user.target

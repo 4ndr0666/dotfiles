@@ -167,12 +167,14 @@ function reset_permissions() {
     backup_permissions() {
         local backup_file="/tmp/permissions_backup_$(date +%Y%m%d%H%M%S).txt"
         echo "Backing up current permissions to $backup_file..."
+        local dir_count=0
         for dir in "${!dir_permissions[@]}"; do
             if [[ -d $dir ]]; then
-                sudo find "$dir" -exec stat -c "%a %n" {} \; > "$backup_file"
+                sudo find "$dir" -exec stat -c "%a %n" {} \; >> "$backup_file"
+                ((dir_count++))
             fi
         done
-        echo "Backup completed."
+        echo "Backup completed for $dir_count directories."
     }
 
     # Function to reset permissions
@@ -180,14 +182,20 @@ function reset_permissions() {
         local dry_run=$1
         for dir in "${!dir_permissions[@]}"; do
             if [[ -d $dir ]]; then
-                if [[ "$dry_run" == true ]]; then
-                    echo "Dry Run: sudo chmod ${dir_permissions[$dir]} $dir"
-                else
-                    if sudo chmod "${dir_permissions[$dir]}" "$dir"; then
-                        echo "Permissions set for $dir to ${dir_permissions[$dir]}."
+                local current_perm
+                current_perm=$(stat -c "%a" "$dir")
+                if [[ "$current_perm" -ne "${dir_permissions[$dir]}" ]]; then
+                    if [[ "$dry_run" == true ]]; then
+                        echo "Dry Run: sudo chmod ${dir_permissions[$dir]} $dir"
                     else
-                        echo "Failed to set permissions for $dir." >&2
+                        if sudo chmod "${dir_permissions[$dir]}" "$dir"; then
+                            echo "Permissions set for $dir to ${dir_permissions[$dir]}."
+                        else
+                            echo "Failed to set permissions for $dir." >&2
+                        fi
                     fi
+                else
+                    echo "Permissions for $dir are already correct; skipping."
                 fi
             else
                 echo "Directory $dir does not exist; skipping."
@@ -216,7 +224,7 @@ function reset_permissions() {
 
     # Confirm before proceeding
     echo "This will reset permissions on critical system directories to their defaults."
-    read -q "REPLY?Are you sure you want to continue? (y/N) "
+    read -r -p "Are you sure you want to continue? (y/N) " REPLY
     echo
     if [[ ! "$REPLY" =~ ^[Yy]$ ]]; then
         echo "Operation canceled."
@@ -224,8 +232,7 @@ function reset_permissions() {
     fi
 
     # Prompt for dry run
-    echo "Would you like to perform a dry run first? (y/N)"
-    read -q "DRY_RUN"
+    read -r -p "Would you like to perform a dry run first? (y/N) " DRY_RUN
     echo
     if [[ "$DRY_RUN" =~ ^[Yy]$ ]]; then
         dry_run=true
@@ -259,6 +266,7 @@ function reset_permissions() {
 
     echo "Permissions reset process completed."
 }
+
 alias reset-perms=reset_permissions
 
 # ------------------------------------------------------------------------ // GLOB_HELP:
@@ -378,11 +386,12 @@ function sysboost() {
     # Ensure the script exits on any error
     set -e
 
-    # Function to log messages with a delay
+    # Function to log messages with an optional delay
     log_and_wait() {
         local message=$1
+        local delay=${2:-2}  # Default delay is 2 seconds
         echo "$message"
-        sleep 2
+        sleep "$delay"
     }
 
     log_and_wait "Optimizing resources in 3 seconds."
@@ -407,9 +416,8 @@ function sysboost() {
     fi
 
     # Remove broken SystemD links
-    if sudo find -L /etc/systemd/ -type l -delete; then
-        log_and_wait "Removing broken SystemD links..."
-    else
+    log_and_wait "Removing broken SystemD links..."
+    if ! sudo find -L /etc/systemd/ -type l -delete; then
         log_and_wait "Unable to search SystemD for broken links."
     fi
 
@@ -449,15 +457,16 @@ function sysboost() {
     fi
 
     log_and_wait "Resources optimized."
+    
     # Disable exit on error
     set +e
 }
 
-# ---------------------------------------------------------- // SYS_BOOST2:
- # taken from $LINUX-KERNELSOURCE/Documentation/power/swsusp.txt
+# ---------------------------------------------------------- // SWAP_BOOST:
+# taken from $LINUX-KERNELSOURCE/Documentation/power/swsusp.txt
 function swapboost() {
     # Ensure the script exits on any error
-    set -e
+    # set -e
 
     # Ensure we have read access to /proc/1/maps
     if [[ ! -r /proc/1/maps ]]; then
@@ -480,7 +489,12 @@ function swapboost() {
         parallel "$cmd_prefix cat {} > /dev/null && echo 'Accessed {}' >> $log_file || echo 'Failed to access {}' >> $log_file"
     else
         for file in $(sed -ne 's:.* /:/:p' /proc/[0-9]*/maps | sort -u | grep -v '^/dev/'); do
-            $cmd_prefix cat "$file" > /dev/null && ((file_count++)) || echo "Failed to access $file" >> "$log_file"
+            if $cmd_prefix cat "$file" > /dev/null; then
+                ((file_count++))
+                echo "Accessed $file" >> "$log_file"
+            else
+                echo "Failed to access $file" >> "$log_file"
+            fi
         done
     fi
 
@@ -500,20 +514,31 @@ function swapboost() {
     echo "Swapboost process completed."
 
     # Disable exit on error
-    set +e
+    # set +e
 }
 
 # ----------------------------------------------------- // SMART_BACKUP:
 function bkup() {
     # Initialize variables
-    local operation mode file target_dir current_date=$(date -u "+%Y%m%dT%H%M%SZ")
-    local -A opts
+    local operation mode file target_dir=() current_date=$(date -u "+%Y%m%dT%H%M%SZ")
+    local show_help=false copy=false move=false clean=false all=false verbose=false
 
-    # Parse options
-    zparseopts -D -E -A opts h=show_help c=copy m=move r=clean a=all v=verbose
+    # Parse options using getopts (universal shell compatibility)
+    while getopts "hcma?rv" opt; do
+        case "${opt}" in
+            h) show_help=true ;;
+            c) copy=true ;;
+            m) move=true ;;
+            r) clean=true ;;
+            a) all=true ;;
+            v) verbose=true ;;
+            *) show_help=true ;;
+        esac
+    done
+    shift $((OPTIND -1))
 
-    # Show help if -h option is present
-    if (( $+opts[show_help] )); then
+    # Show help if -h option is present or if no arguments are provided
+    if [ "$show_help" = true ]; then
         cat <<'EOF'
 bk [-hcmv] FILE [FILE ...]
 bk -r [-av] [FILE [FILE ...]]
@@ -529,7 +554,7 @@ Usage:
   -a    Remove all (even hidden) backups.
   -v    Verbose
 
-The -c, -r and -m options are mutually exclusive. If specified at the same time,
+The -c, -r, and -m options are mutually exclusive. If specified at the same time,
 the last one is used.
 
 The return code is the sum of all cp/mv/rm return codes.
@@ -538,25 +563,25 @@ EOF
     fi
 
     # Determine operation mode
-    if (( $+opts[clean] )); then
+    if [ "$clean" = true ]; then
         mode="clean"
-    elif (( $+opts[move] )); then
+    elif [ "$move" = true ]; then
         mode="move"
-    elif (( $+opts[copy] )); then
+    elif [ "$copy" = true ]; then
         mode="copy"
     else
         mode="copy"  # default mode
     fi
 
     # Determine target directory/files
-    if (( $+opts[all] )); then
-        target_dir=("*")
+    if [ "$all" = true ]; then
+        target_dir=(*)
     else
         target_dir=("$@")
     fi
 
     # Check for valid target
-    if [ -z "$target_dir" ]; then
+    if [ ${#target_dir[@]} -eq 0 ]; then
         echo "Error: No target file or directory specified."
         return 1
     fi
@@ -566,7 +591,7 @@ EOF
         "clean")
             for file in "${target_dir[@]}"; do
                 if [[ -e $file ]]; then
-                    (( $+opts[verbose] )) && echo "Removing $file"
+                    [ "$verbose" = true ] && echo "Removing $file"
                     rm -rf "$file"
                 else
                     echo "File $file not found."
@@ -576,7 +601,7 @@ EOF
         "move")
             for file in "${target_dir[@]}"; do
                 if [[ -e $file ]]; then
-                    (( $+opts[verbose] )) && echo "Moving $file"
+                    [ "$verbose" = true ] && echo "Moving $file"
                     mv "$file" "${file}_${current_date}"
                 else
                     echo "File $file not found."
@@ -591,7 +616,7 @@ EOF
                         echo "Warning: Backup file $backup_file already exists, skipping."
                         continue
                     fi
-                    (( $+opts[verbose] )) && echo "Copying $file to $backup_file"
+                    [ "$verbose" = true ] && echo "Copying $file to $backup_file"
                     cp -a "$file" "$backup_file"
                 else
                     echo "File $file not found."
@@ -600,7 +625,10 @@ EOF
             ;;
     esac
 }
+
+# Alias for help
 alias help-bk='bk -h'
+
 
 # --------------------------------------------------------------TINYURLS:
 function turl() {
@@ -663,7 +691,7 @@ function cleanlist() {
     fi
 
     # Extract, clean, and format package names from clipboard
-    packages=$(eval "$clipboard_cmd" | tr ',' '\n' | sed -E 's/=.*//;s/^[[:space:]]+//;s/[[:space:]]+$//' | tr '\n' ' ')
+    packages=$(eval "$clipboard_cmd" | tr ',' '\n' | sed -E 's/=.*//;s/^[[:space:]]+//;s/[[:space:]]+$//' | tr -s '\n' ' ')
 
     if [[ -z "$packages" ]]; then
         echo "No valid package names were found in clipboard."
@@ -674,19 +702,29 @@ function cleanlist() {
 
     # Copy the formatted list back to the clipboard for user reference
     if command -v xclip &>/dev/null; then
-        echo "$packages" | xclip -selection c
+        echo -n "$packages" | xclip -selection c
     elif command -v wl-copy &>/dev/null; then
-        echo "$packages" | wl-copy
+        echo -n "$packages" | wl-copy
     fi
 
     # Log the cleaned package list for future reference
     local log_file="$HOME/.local/share/cleanlist.log"
+    mkdir -p "$(dirname "$log_file")"
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $packages" >> "$log_file"
     echo "Cleaned package list logged to $log_file."
 
     # Prompt for package manager choice
-    echo "Select the package manager to use:"
-    select pkg_manager in paru yay pacman; do
+    local pkg_manager
+    while true; do
+        echo "Select the package manager to use:"
+        select pkg_manager in paru yay pacman; do
+            if [[ -n "$pkg_manager" ]]; then
+                break
+            else
+                echo "Invalid selection. Please choose a valid package manager."
+            fi
+        done
+
         case $pkg_manager in
             paru|yay)
                 $pkg_manager -S --needed $packages
@@ -702,6 +740,7 @@ function cleanlist() {
         esac
     done
 }
+
 
 #-------------------------------------------------------- // FIXGPGKEY:
 function fixgpgkey() {
@@ -767,38 +806,43 @@ function whatsnew() {
 validate() {
     local command="$1"
     echo "Running: $command"
-    if ! eval "$command"; then
+    eval "$command"
+    if [ $? -ne 0 ]; then
         echo "Error: Command failed - $command"
-        return 1
+        exit 1
     fi
 }
 
 # Function to check and install 'fd'
 check_install_fd() {
     if ! command -v fd &> /dev/null; then
-        echo "'fd' is not installed. Attempting to install it..."
+        echo "'fd' not found. Installing..."
         if command -v pacman &> /dev/null; then
             sudo pacman -Sy --noconfirm fd
         elif command -v apt-get &> /dev/null; then
             sudo apt-get update && sudo apt-get install -y fd-find
-            sudo ln -s "$(which fdfind)" /usr/local/bin/fd  # For compatibility
+            sudo ln -s $(which fdfind) /usr/local/bin/fd  # For compatibility
         else
             echo "Unsupported package manager. Please install 'fd' manually."
-            return 1
+            exit 1
         fi
     fi
 }
 
 # Main find function
-findit() {
-    local choice query search_type search_dir
-    local include_hidden="" case_sensitive="--ignore-case" absolute_paths=""
-    local max_depth="" min_depth="" list_details="" fd_command="fd"
+function findit() {
+    local choice query search_type search_dir fd_command
 
     # Check and install necessary tools
     check_install_fd
 
-    echo "Do you want to find a file (f) or a directory (d)?"
+    echo "Enter your search query:"
+    read -r query
+
+    echo "Enter the directory to search in:"
+    read -r search_dir
+
+    echo "Search for (f)ile or (d)irectory?"
     read -r choice
 
     case $choice in
@@ -810,58 +854,81 @@ findit() {
             ;;
         *)
             echo "Invalid choice. Please select 'f' for file or 'd' for directory."
-            return 1
+            exit 1
             ;;
     esac
 
-    echo "Enter the name to search for:"
-    read -r query
-
-    if [[ -z $query ]]; then
-        echo "$search_type name cannot be empty."
-        return 1
-    fi
-
-    echo "Enter the directory to search in (leave empty for current directory):"
-    read -r search_dir
-    search_dir=${search_dir:-$(pwd)}
-
-    # Basic search options
-    echo "Include hidden files (y/N): "
+    echo "Include hidden files? (y/n):"
     read -r include_hidden
     [ "$include_hidden" == "y" ] && include_hidden="--hidden" || include_hidden=""
 
-    echo "Case sensitive search (y/N): "
+    echo "Case-sensitive search? (y/n):"
     read -r case_sensitive
-    [ "$case_sensitive" == "y" ] && case_sensitive="--case-sensitive" || case_sensitive="--ignore-case"
+    [ "$case_sensitive" == "y" ] && case_sensitive="" || case_sensitive="--ignore-case"
 
-    echo "Show absolute paths (y/N): "
+    echo "Use absolute paths? (y/n):"
     read -r absolute_paths
     [ "$absolute_paths" == "y" ] && absolute_paths="--absolute-path" || absolute_paths=""
 
-    echo "Enter maximum search depth (leave empty for no limit): "
+    echo "Set max depth (leave empty for default):"
     read -r max_depth
     [ -n "$max_depth" ] && max_depth="--max-depth $max_depth" || max_depth=""
 
-    echo "Enter minimum search depth (leave empty for no limit): "
+    echo "Set min depth (leave empty for default):"
     read -r min_depth
     [ -n "$min_depth" ] && min_depth="--min-depth $min_depth" || min_depth=""
 
-    echo "Use long listing format with file metadata (y/N): "
+    echo "List details? (y/n):"
     read -r list_details
     [ "$list_details" == "y" ] && list_details="--list-details" || list_details=""
 
-    # Construct the fd command
-    fd_command="fd --type $search_type $query $search_dir $include_hidden $case_sensitive $absolute_paths $max_depth $min_depth $list_details"
+    fd_command=(fd "--type" "$search_type" "$query" "$search_dir" $include_hidden $case_sensitive $absolute_paths $max_depth $min_depth $list_details)
 
-    echo "Executing: $fd_command"
-
-    # Use eval to execute the constructed command safely
-    if ! eval "$fd_command"; then
-        echo "Error: Command failed."
-        return 1
+    echo "Executing: ${fd_command[@]}"
+    if [[ $EUID -ne 0 && $search_dir == /* && ! -w $search_dir ]]; then
+        sudo "${fd_command[@]}"
+    else
+        "${fd_command[@]}"
     fi
 }
+
+
+#function findit() {
+#  local search_type search_pattern search_dir include_hidden max_depth hidden_flag depth_flag type_flag
+#
+#  read -p "Do you want to find a file (f) or a directory (d)? " search_type
+#  if [[ "$search_type" != "f" && "$search_type" != "d" ]]; then
+#    echo "Invalid option. Please enter 'f' for file or 'd' for directory."
+#    return 1
+#  fi
+
+#  read -p "Enter the name or pattern to search for (e.g., *.txt or filename): " search_pattern
+#  read -p "Enter the directory to search in (leave empty for current directory): " search_dir
+#  read -p "Include hidden files (y/N): " include_hidden
+#  read -p "Enter maximum search depth (leave empty for no limit): " max_depth
+  
+  # Set flags based on input
+#  [[ "$include_hidden" =~ ^[Yy]$ ]] && hidden_flag="--hidden" || hidden_flag=""
+#  [[ -n "$max_depth" ]] && depth_flag="--max-depth $max_depth" || depth_flag=""
+  
+  # Set type flag
+#  [[ "$search_type" == "f" ]] && type_flag="--type f" || type_flag="--type d"
+  
+  # Set directory to search in
+#  search_dir="${search_dir:-.}"
+  
+  # Check if fd is installed
+#  if ! command -v fd &>/dev/null; then
+#    echo "The 'fd' command is not installed. Please install it first."
+#    return 1
+#  fi
+
+  # Execute fd command
+#  fd "$search_pattern" "$search_dir" $type_flag $hidden_flag $depth_flag
+#}
+
+# Remove alias and directly define the function
+#findit
 
 # --------------------------------------------------- // ENHANCED_COPY:
 # Ensure the 'copy' alias is removed if it exists
