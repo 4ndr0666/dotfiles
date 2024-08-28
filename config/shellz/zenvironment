@@ -4,24 +4,25 @@
 #
 # --- // 4ndr0666_ZENVIRONMENT // ========
 
+unsetopt PROMPT_SP 2>/dev/null
+
 # --- // XDG_SETUP:
 export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
-mkdir -p "$XDG_RUNTIME_DIR" 
-export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
-export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
-export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
+mkdir -p "$XDG_RUNTIME_DIR"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
 
 # --- // DEFAULT_PROGRAMS/ENV:
 export XCURSOR_SIZE=32
 export MICRO_TRUECOLOR=1
 export EDITOR="/usr/bin/micro"
-export TERM="alacritty"
+export TERMINAL="alacritty"
+export TERMINAL_PROG="alacritty"
 export BROWSER="brave"
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
-export HISTFILE="$HOME/.zhistory"
-export HISTSIZE=50000
-export SAVEHIST=10000
+export HISTFILE="$XDG_DATA_HOME/history"
 export XINITRC="$XDG_CONFIG_HOME/x11/xinitrc"
 export INPUTRC="$XDG_CONFIG_HOME/shell/inputrc"
 export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
@@ -59,31 +60,26 @@ all_dirs=(
     "$HOME/.gem/ruby/2.7.0/bin"  # Adjust Ruby version as needed
     "$HOME/.pyenv/bin"
     "$HOME/.pyenv/shims"
-    "$HOME/.local/share/solana/install/active_release/bin"
-    "$HOME/.ghcup/bin"
     "$HOME/.config/yarn/global/node_modules/.bin"
+    "$HOME/.local/share/go/"
     "/usr/local/go/bin"
-    "${JAVA_HOME:-/usr/lib/jvm/default/bin}"  # Use JAVA_HOME if set, else default
-    "$HOME/.sdkman/candidates/java/current/bin"
+#    "${JAVA_HOME:-/usr/lib/jvm/default/bin}"  # Use JAVA_HOME if set, else default
     "$HOME/.rvm/bin"
     "$HOME/.virtualenvs"
     "$HOME/.poetry/bin"
-    "/opt/cuda/bin"
     "$HOME/bin"
     "$HOME/.local/bin"
-    "/snap/bin"
     "/opt/bin"
     "/sbin"
     "/usr/sbin"
     "/usr/local/sbin"
     "/usr/bin"
-    "/opt/cuda/nsight_compute"
-    "/opt/cuda/nsight_systems/bin"
-    "/opt/rocm/bin"
 )
+
 additional_dirs=($(find ~/.local/bin /Nas/Build/git/syncing/scr/ /usr/local/bin -type d))
-all_dirs+=($additional_dirs)
-for dir in $all_dirs; do
+all_dirs+=("${additional_dirs[@]}")
+
+for dir in "${all_dirs[@]}"; do
     if [[ -d $dir ]]; then
         PATH="$PATH:$dir"
     fi
@@ -93,16 +89,15 @@ export PATH
 typeset -U path PATH cdpath CDPATH fpath FPATH manpath MANPATH
 
 # --- // SETOPT:
-unsetopt PROMPT_SP 2>/dev/null
 setopt append_history
 setopt share_history
 setopt extended_history
-setopt histignorealldups                                        # If a new command is a duplicate, remove the older one
+setopt histignorealldups  # If a new command is a duplicate, remove the older one
 setopt HIST_FIND_NO_DUPS
-setopt correct                                                  # Auto correct mistakes
+setopt correct  # Auto correct mistakes
 setopt auto_cd
 setopt extended_glob
-setopt nocaseglob                                               # Case insensitive globbing
+setopt nocaseglob  # Case insensitive globbing
 setopt no_match
 setopt notify
 setopt longlistjobs
@@ -114,16 +109,16 @@ setopt nobeep
 setopt pushd_ignore_dups
 setopt noglobdots
 setopt noshwordsplit
-setopt rcexpandparam                                            # Array expension with parameters
-setopt nocheckjobs                                              # Don't warn about running processes when exiting
-setopt numericglobsort                                          # Sort filenames numerically when it makes sense
+setopt rcexpandparam  # Array expansion with parameters
+setopt nocheckjobs  # Don't warn about running processes when exiting
+setopt numericglobsort  # Sort filenames numerically when it makes sense
 setopt pushdminus
 
 # --- // AUTOCOMPLETE:
 autoload -U compinit && compinit
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'       # Case insensitive tab completion
-zstyle ':completion:*' rehash true                              # automatically find new executables in path
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"         # Colored completion (different colors for dirs/files/etc)
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'  # Case insensitive tab completion
+zstyle ':completion:*' rehash true  # Automatically find new executables in path
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"  # Colored completion (different colors for dirs/files/etc)
 zstyle ':completion:*' completer _expand _complete _ignored _approximate
 zstyle ':completion:*' menu select
 zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
@@ -131,7 +126,7 @@ zstyle ':completion:*:descriptions' format '%U%F{cyan}%d%f%u'
 zstyle ':completion:*' accept-exact '*(N)'
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.cache/zcache
-autoload -U +X bashcompinit && bashcompinit                 # automatically load bash completion functions
+autoload -U +X bashcompinit && bashcompinit  # Automatically load bash completion functions
 
 # -------------------------------- // LIBRARY_AND_SECURITY //
 if [ -z "$LD_LIBRARY_PATH" ]; then
@@ -158,7 +153,7 @@ export SUDO_ASKPASS="/usr/bin/pinentry-dmenu"
 # -------------------------------------------- // PAGER //
 # Use Bat:
 #export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --preview 'bat --style=numbers --color=always --line-range :500 {}'"
+#export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --preview 'bat --style=numbers --color=always --line-range :500 {}'"
 
 case "${COLORTERM}" in
     truecolor)
@@ -169,8 +164,8 @@ case "${COLORTERM}" in
         ;;
 esac
 
-export FZF_DEFAULT_OPTS="  
-  --layout=reverse 
+export FZF_DEFAULT_OPTS="
+  --layout=reverse
   --height 40%
   --border
   --bind 'ctrl-a:select-all,ctrl-d:deselect-all'
@@ -178,21 +173,21 @@ export FZF_DEFAULT_OPTS="
   --inline-info
   --tiebreak=index
 "
-#export FZF_DEFAULT_OPTS="  
+#export FZF_DEFAULT_OPTS="
 #  --layout=reverse --height 40% \
 #  --color=bg+:-1,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
 #  --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
-#  --color=marker:#f5e0dc,fg+:#a6e3a1,prompt:#cba6f7,hl+:#f38ba8"  
+#  --color=marker:#f5e0dc,fg+:#a6e3a1,prompt:#cba6f7,hl+:#f38ba8"
 
 export LESS="R"
-export LESS_TERMCAP_mb="$(printf '%b' '')"
-export LESS_TERMCAP_md="$(printf '%b' '')"
-export LESS_TERMCAP_me="$(printf '%b' '')"
-export LESS_TERMCAP_so="$(printf '%b' '')"
-export LESS_TERMCAP_se="$(printf '%b' '')"
-export LESS_TERMCAP_us="$(printf '%b' '')"
-export LESS_TERMCAP_ue="$(printf '%b' '')"
-# export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
+export LESS_TERMCAP_mb="$(printf '%b' '[1;31m')"
+export LESS_TERMCAP_md="$(printf '%b' '[1;36m')"
+export LESS_TERMCAP_me="$(printf '%b' '[0m')"
+export LESS_TERMCAP_so="$(printf '%b' '[01;44;33m')"
+export LESS_TERMCAP_se="$(printf '%b' '[0m')"
+export LESS_TERMCAP_us="$(printf '%b' '[1;32m')"
+export LESS_TERMCAP_ue="$(printf '%b' '[0m')"
+export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
 
 
 # ------------------------------ // KEYBINDINGS_BASED_ON_EMACS //
@@ -273,7 +268,7 @@ else
   bindkey -M vicmd "^[3;5~" delete-char
 fi
 
-# Key handling for terminal modes
+# Terminal modes key handling
 typeset -g -A key
 if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
 	autoload -Uz add-zle-hook-widget
@@ -285,7 +280,7 @@ fi
 
 # Control Left - go back a word
 key[Control-Left]="${terminfo[kLFT5]}"
-if [[ -n "${key[Control-Left]}"  ]]; then
+if [[ -n "${key[Control-Left]}" ]]; then
     bindkey -M emacs "${key[Control-Left]}" backward-word
     bindkey -M viins "${key[Control-Left]}" backward-word
     bindkey -M vicmd "${key[Control-Left]}" backward-word
@@ -293,7 +288,7 @@ fi
 
 # Alt Left - go back a word
 key[Alt-Left]="${terminfo[kLFT3]}"
-if [[ -n "${key[Alt-Left]}"  ]]; then
+if [[ -n "${key[Alt-Left]}" ]]; then
     bindkey -M emacs "${key[Alt-Left]}" backward-word
     bindkey -M viins "${key[Alt-Left]}" backward-word
     bindkey -M vicmd "${key[Alt-Left]}" backward-word
@@ -321,55 +316,3 @@ if command -v xset &>/dev/null; then
 else
     echo "xset command not found, skipping keyboard rate configuration."
 fi
-
-
-# ------------------------------------------------- // PLUGINS //
-safe_source() {
-    local plugin_path="$1"
-    local plugin_name="$2"
-    if [ -f "$plugin_path" ]; then
-        source "$plugin_path"
-    else
-        echo "Warning: $plugin_name plugin not found!"
-    fi
-}
-
-# --- // AUTOCOMPLETE:
-#rm -f ~/.zcompdump; compinit  #Do this if it doesnt work
-ZSH_AUTOCOMPLETE_LARGE_HISTORY=true
-ZSH_AUTOCOMPLETE_INLINE=true
-safe_source "/usr/share/zsh/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh" "zsh-autocomplete"
-fpath=(/usr/share/zsh/plugins/zsh-autocomplete/Completions/src $fpath)
-
-# --- // FZF:
-safe_source "/usr/share/zsh/plugins/zsh-fzf-plugin/fzf.plugin.zsh" "fzf"
-
-# --- // ZSH_SUDO:
-safe_source "/usr/share/zsh/plugins/zsh-sudo/sudo.plugin.zsh" "zsh-sudo"
-
-# --- // ZSH_SYSTEMD:
-safe_source "/usr/share/zsh/plugins/zsh-systemd/systemd.plugin.zsh" "zsh-systemd"
-
-# --- // ZSH_AUTOSUGGESTIONS:
-safe_source "/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh" "zsh-autosuggestions"
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#75715E'  # Monokai comment color
-
-# --- // ZSH_HISTORY_SUBSTRING_SEARCH:
-safe_source "/usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh" "zsh-history-substring-search"
-ZSH_HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='fg=yellow,bold'
-
-# --- // ZSH_YOU_SHOULD_USE:
-safe_source "/usr/share/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh" "zsh-you-should-use"
-
-# --- // ZSH_FIND_THE_COMMAND:
-if [ -f "/usr/share/doc/find-the-command/ftc.zsh" ]; then
-    source "/usr/share/doc/find-the-command/ftc.zsh" noupdate
-else
-    echo "Warning: find-the-command plugin not found!"
-fi
-
-# --- // ZSH_EXTRACT:
-safe_source "/usr/share/zsh/plugins/zsh-extract/extract.plugin.zsh" "zsh-extract"
-
-# --- // ZSH_SYNTAX_HIGHLIGHTING:
-safe_source "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh" "zsh-syntax-highlighting"
