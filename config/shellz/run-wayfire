@@ -12,7 +12,6 @@
 export XDG_SESSION_TYPE=wayland
 export XDG_SESSION_DESKTOP=wayfire
 export XDG_CURRENT_DESKTOP=wayfire
-export XDG_CURRENT_SESSION=wayfire
 
 # --- // EXPLICITY_SET_WAYFIRE_DIRS:
 XDG_DATA_DIRS=$XDG_DATA_DIRS
@@ -42,37 +41,43 @@ if [ $? != 0 ]; then
  fi
  
 # --- // GTK_VARIABLES:
-export TDESKTOP_DISABLE_GTK_INTEGRATION=1
-export CLUTTER_BACKEND=wayland,x11
-export BEMENU_BACKEND=wayland
-
-
 export MOZ_ENABLE_WAYLAND=1
-export QT_QPA_PLATFORMTHEME=qt5ct
-export AWT_TOOLKIT="MTookit wmname LG3D"
-export _JAVA_AWT_WM_NONREPARENTING=1
-export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel ${_JAVA_OPTIONS}"
+#export TDESKTOP_DISABLE_GTK_INTEGRATION=1
 
-export QT_AUTO_SCREEN_SCALE_FACTOR=1
-export QT_QPA_PLATFORM=wayland-egl  # Avoid using xcb for Wayland sessions
-export QT_WAYLAND_FORCE_DPI=physical # Use monitor's DPI
-export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+# --- // clutter
+#export CLUTTER_BACKEND=wayland,x11
 
-
-export ELM_DISPLAY=wl
+# --- // elementary
 export ECORE_EVAS_ENGINE=wayland-egl
 export ELM_ENGINE=wayland_egl
-export ELM_ACCEL=opengl
+#export ELM_DISPLAY=wl
+#export ELM_ACCEL=opengl
 #export ELM_SCALE=1
 
-
-export SDL_VIDEODRIVER=wayland
-export SAL_USE_VCLPLUGIN=gtk3
-
-export GDK_BACKEND=wayland,x11
+# --- // java
+#export QT_QPA_PLATFORMTHEME=qt5ct
+#export AWT_TOOLKIT="MTookit wmname LG3D"
+export _JAVA_AWT_WM_NONREPARENTING=1
+#export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel ${_JAVA_OPTIONS}"
 export NO_AT_BRIDGE=1
-export WINIT_UNIX_BACKEND=wayland
+export BEMENU_BACKEND=wayland
 
+# --- // Qt
+export QT_QPA_PLATFORM=wayland
+#wayland-egl  # Avoid using xcb for Wayland sessions
+#export QT_WAYLAND_FORCE_DPI=physical # Use monitor's DPI
+#export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+#export QT_AUTO_SCREEN_SCALE_FACTOR=1
+
+# --- // sdl
+#export SDL_VIDEODRIVER=wayland
+#export SAL_USE_VCLPLUGIN=gtk3
+
+# --- // backend
+#export GDK_BACKEND=wayland,x11
+#export WINIT_UNIX_BACKEND=wayland
+
+# --- // electron
 export ELECTRON_OZONE_PLATFORM_HINT=wayland
 
 # --- // SYSTEMD_DBUS:
