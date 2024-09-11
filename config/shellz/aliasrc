@@ -104,6 +104,7 @@ alias vgrubc='edit_config /boot/grub/grub.cfg'
 alias vmkinit='edit_config /etc/mkinitcpio.conf'
 alias vmirrors='edit_config /etc/pacman.d/mirrorlist'
 alias vfstab='edit_config /etc/fstab'
+alias venv='edit_config /home/andro/.config/shellz/zenvironment'
 alias vbash='edit_config ~/.bashrc'
 alias vzsh='edit_config ~/.zshrc'
 alias vfish='edit_config ~/.config/fish/config.fish'
@@ -777,17 +778,17 @@ yaysearch() {
         *) echo "Invalid choice. Please choose a number between 1 and 5." ;;
     esac
 }
-alias yay='yay --answerdiff no --builddir "/home/build" --cleanafter --cleanmenu --editmenu --norebuild --noredownload --provides --singlelineresults --sortby votes'
-alias yaydeps='yay --recursive --refresh --singlelineresults --sudoloop --sysupgrade --timeupdate --verbose'
+alias yay='yay --answerdiff no --builddir "/home/build" --cleanafter --cleanmenu --editmenu --singlelineresults --sortby votes'
+alias yaydeps='yay --sudoloop --refresh --singlelineresults --sysupgrade --timeupdate --verbose'
 alias yayskip='yay -S --mflags --skipinteg'
 alias trizenskip='trizen -S --skipinteg'
-alias powerupdate='sudo pacman -Sy && sudo powerpill -Su && paru -Su'
+alias update='sudo pacman -Sy && sudo powerpill -Su && paru -Su'
 
 # --- // Unsafe Install (security bypass): 
 alias fninstall="yay -S --needed --cleanafter --cleanmenu --devel --noconfirm --rebuild --refresh --sudoloop --sysupgrade --overwrite='*' --disable-download-timeout --pgpfetch=false --noupgrademenu --removemake --redownload --batchinstall=false --answerclean=yes --answerdiff=no --answeredit=no"
 
 # --- // Unsafe Update (security bypass): 
-alias fnupdate='yay -Syyu --noconfirm --disable-download-timeout --noupgrademenu --skipreview --removemake --rebuild --nopgpfetch --nosign --nosigndb --nocheck --bottomup --overwrite="*"'
+alias fnupdate='yay -Syyu --noconfirm --disable-download-timeout --removemake --rebuild --pgpfetch=false --bottomup --overwrite="*"'
 
 # --- // Unsafe Removal (dependency bypass): 
 alias fnremove='yay -Rddn --noconfirm'
