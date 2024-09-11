@@ -1,12 +1,14 @@
 # File: /home/$USER/.config/shell/zenvironment
 # Author: 4ndr0666
 # Edited: 04-10-24
-#
-# --- // 4ndr0666_ZENVIRONMENT // ========
+
+# =====================================// 4ndr0666_ZENVIRONMENT // 
+
+# --- // Dynamic_Path:
 all_dirs=(
     "$HOME/.npm-global/bin"
     "$HOME/.cargo/bin"
-    "$HOME/.gem/ruby/2.7.0/bin"  # Adjust Ruby version as needed
+    "$HOME/.gem/ruby/$ruby_version/bin"  # Dynamically adjusted Ruby version
     "$HOME/.pyenv/bin"
     "$HOME/.pyenv/shims"
     "$HOME/.config/yarn/global/node_modules/.bin"
@@ -25,14 +27,17 @@ all_dirs=(
     "/usr/bin"
 )
 
+# Add additional directories found in specified locations
 additional_dirs=($(find ~/.local/bin /Nas/Build/git/syncing/scr/ /usr/local/bin -type d))
 all_dirs+=("${additional_dirs[@]}")
 
+# Update PATH with all valid directories
 for dir in "${all_dirs[@]}"; do
     if [[ -d $dir ]]; then
         PATH="$PATH:$dir"
     fi
 done
+
 export PATH
 
 # Ensure unique path elements
@@ -55,9 +60,11 @@ fi
 if [ ! -d "$XDG_RUNTIME_DIR" ]; then
     mkdir -p "$XDG_RUNTIME_DIR"
 fi
+
 # --- // XDG_DATA_DIRS_SETUP:
 [ -z "$XDG_DATA_DIRS" ] && export XDG_DATA_DIRS="/usr/local/share:/usr/share"
 
+# --- // XDG_COMPLIANCE:
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
@@ -67,6 +74,7 @@ export INPUTRC="$XDG_CONFIG_HOME/shell/inputrc"
 export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
 mkdir -p "$WINEPREFIX"
 export WINEARCH="win32"
+export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
 export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
 # export KODI_DATA="$XDG_DATA_HOME/kodi"
 # export NOTMUCH_CONFIG="$XDG_CONFIG_HOME/notmuch-config"
@@ -82,11 +90,13 @@ export POETRY_VIRTUALENVS_PATH="$XDG_DATA_HOME/poetry/virtualenvs"
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/pythonrc"
 export PIP_DOWNLOAD_CACHE="$HOME/.pip/cache"
 export SQLITE_HISTORY="$XDG_DATA_HOME/sqlite_history"
+export ruby_version=$(ruby -e 'puts RUBY_VERSION' 2>/dev/null || echo "2.7.0")  # Default to 2.7.0 if Ruby is not installed
 
-# --- // X11_SPECIFIC:
+# =================================================================== // X11_SPECIFIC //
+
+export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 # --- OPENBOX:
 # export XGD_CURRENT_DESKTOP='openbox'
-# export GTK2_RC_FILES=$HOME/.gtkrc-2.0
 # export _JAVA_AWT_WM_NONREPARENTING=1
 # export OpenGL_GL_PREFERENCE=GLVND  # For screen tearing
 # export QT_QPA_PLATFORMTHEME=qt5ct
@@ -111,23 +121,22 @@ export SQLITE_HISTORY="$XDG_DATA_HOME/sqlite_history"
 # Handle terminal mode keybindings
 typeset -g -A key
 
-# -------------------------------- // LIBRARY_AND_SECURITY //
+# ===================================================== // LIBRARY_AND_SECURITY //
 [ -z "$LD_LIBRARY_PATH" ] && export LD_LIBRARY_PATH="$HOME/.local/lib" || export LD_LIBRARY_PATH="$HOME/.local/lib:/usr/local/lib/python3.11/site-packages:/usr/lib:$LD_LIBRARY_PATH"
 
+export SUDO_ASKPASS="/usr/bin/pinentry-dmenu"
+# export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
+
+# --- // GPG:
 export GNUPGHOME="$HOME/.gnupg"
 mkdir -p "$GNUPGHOME"
 chmod 700 "$GNUPGHOME"
-
-export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
-export SUDO_ASKPASS="/usr/bin/pinentry-dmenu"
-# export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
 #export GPG_TTY="$(tty)"
 #gpg-connect-agent updatestartuptty /bye >/dev/null
 #gpg-connect-agent reloadagent /bye >/dev/null
 #eval $(ssh-agent) && ssh-add 2&>/dev/null
 
-
-# ------------------------------------------------------- // PAGER //
+# =============================================== // PAGER //
 # Use Bat:
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 #export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --preview 'bat --style=numbers --color=always --line-range :500 {}'"
@@ -163,8 +172,8 @@ export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
 export MOZ_USE_XINPUT2=1                  # Mozilla smooth scrolling/touchpads.
 export AWT_TOOLKIT="MToolkit wmname LG3D" # May have to install wmname
 
+# =============================================== // MISC //
 
-# ------------------------------------------------------------ // MISC //
 # --- // SPEEDUP KEYS:
 #command -v xset &>/dev/null && xset r rate 300 50 || echo "xset command not found, skipping keyboard rate configuration."
 xset r rate 300 50 
