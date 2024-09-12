@@ -14,11 +14,11 @@ alias 0b='cat ~/.bashrc'
 
 # ===================================== // RECENT_PROGRAMS //
 
-alias jf='sudo -S joshuto'
-alias lf='lfub'
+alias jf='joshuto'
+alias lf='sudo -S lfub'
 alias fd1='fd --exact-depth=1 --hidden'
-alias screenrecord="wf-recorder -a"
-alias screenrecord2="wf-recorder -a -c h264_vaapi -C aac -d /dev/dri/renderD128 --file=recording.mp4"
+#alias screenrecord="wf-recorder -a"
+#alias screenrecord2="wf-recorder -a -c h264_vaapi -C aac -d /dev/dri/renderD128 --file=recording.mp4"
 alias kmon='sudo kmon --color blue --accent-color 15FFFF --unicode'
 # =========================================================== // EXPRESSVPN //
 
@@ -45,10 +45,10 @@ alias vim="nvim"
 
 # ============================================================= // REMOVE_SUDO //
 
-for cmd in pacman-key ufw mount umount pacman updatedb su systemctl useradd userdel groupadd groupdel chown chmod \
-btrfs ip netstat modprobe; do
-    alias $cmd="sudo $cmd"
-done
+#for cmd in pacman-key ufw mount umount pacman updatedb su systemctl useradd userdel groupadd groupdel chown chmod \
+#btrfs ip netstat modprobe; do
+#    alias $cmd="sudo $cmd"
+#done
 
 # =================================================== // COMMON_TYPOS //
 
@@ -56,6 +56,7 @@ alias gerp='grep'
 alias shudown='shutdown'
 alias pdw='pwd'
 alias cd..='cd ..'
+
 
 # ==================================================== // CHEATSHEETS //
 
@@ -67,22 +68,17 @@ cht() {
 
 alias chtvim='cat ~/.cheater/chtvim.md'
 alias chtyay='cat ~/.cheater/yay.md'
-alias chtusername='cat ~/.cheater/chtusername.md'
 alias chtvpn='cat ~/.cheater/chtvpn.md'
 alias chtx='cat ~/.cheater/chtx.md'
 alias chtperms='cat ~/.cheater/chtperms.md'
 alias chtscr='cat ~/.cheater/chtscripts.md'
-alias chtff='cat ~/.cheater/chtffmpeg.md'
 alias chtmicro='cat ~/.cheater/chtmicro.md'
 alias chtpy='cat ~/.cheater/chtpython.md'
 alias bsnip='cat ~/.cheater/bash_snippets.md'
-alias bhead='cat ~/.cheater/bash_header.md'
 alias psnip='cat ~/.cheater/python_snippets.md'
-alias chtutil='cat ~/.cheater/chtutils.md'
-alias chtpkg='cat ~/.cheater/chtpkg.md'
+alias chtutils='cat ~/.cheater/chtutils.md'
+alias chtutils2='cat ~/.cheater/chtutils2.md'
 alias chtgit='cat ~/.cheater/chtgit.md'
-alias chtrsync='cat ~/.cheater/chtrsync.md'
-alias chtyay='cat ~/.cheater/chtyay.md'
 
 # ============================================== // EDIT_CONFIG_FILES //
 
@@ -110,6 +106,7 @@ alias vzsh='edit_config ~/.zshrc'
 alias vfish='edit_config ~/.config/fish/config.fish'
 alias vmpv='edit_config /home/andro/.config/mpv/mpv.conf'
 alias vfire='edit_config ~/.config/wayfire.ini'
+alias vbar='edit_config ~/.config/wayfire/waybar/config'
 
 # ============================================ // DIRECTORY_SHORTCUTS //
 
@@ -126,23 +123,24 @@ goto() {
 alias dc='goto ~/Documents'
 alias dl='goto ~/Downloads'
 alias conf='goto ~/.config'
-alias confw='goto ~/.config/wayfire/'
-alias confwb='goto ~/.config/wayfire/waybar/'
+alias wconf='goto ~/.config/wayfire/'
 alias ob='goto ~/.config/openbox'
 alias obt='goto ~/.config/openbox/themes'
-alias hdd='cd /run/media/'
 
 # --- //STORAGE:
-alias s1='goto /storage'
-alias sdl='goto /storage/Downloads'
-alias spic='goto /storage/Pictures'
-alias svid='goto /storage/Videos'
+alias sto='goto /storage'
+alias stodl='goto /storage/Downloads'
+alias stopic='goto /storage/Pictures'
+alias stovid='goto /storage/Videos'
+
 
 # --- //STO2:
-alias s2'goto /sto2'
-alias s2dl='goto /sto2/Downloads'
-alias s2pic='goto /sto2/Pictures'
-alias s2vid='goto /sto2/Videos'
+alias sto2'goto /sto2'
+alias sto2dl='goto /sto2/Downloads'
+alias sto2pic='goto /sto2/Pictures'
+alias sto2vid='goto /sto2/Videos'
+alias gym='goto /sto2/Gym'
+salias jd='goto /sto2/JD'
 
 # --- //23.1: 
 alias 23='goto /23.1'
@@ -154,7 +152,7 @@ alias cloud='goto /23.1/Thecloud'
 
 # --- //Nas: 
 alias nas='goto /Nas/'
-alias b='goto /Nas/Build'
+alias nrepo='goto /Nas/Build'
 alias nbin='goto /Nas/Build/git/syncing/scr'
 alias nnas='goto /Nas/Build/git/syncing/nas'
 alias ngpt='goto /Nas/Build/git/syncing/gpt'
@@ -168,6 +166,7 @@ alias ndot='goto /Nas/Build/git/clone/dotfiles'
 alias et='goto /etc'
 alias ske='goto /etc/skel'
 alias bin='goto /usr/local/bin'
+alias loc='goto ~/.local'
 alias lbin='goto ~/.local/bin'
 alias lshare='goto ~/.local/share/'
 alias lsrc='goto ~/.local/src/'
@@ -966,21 +965,67 @@ grepo() {
 
 alias magic='sudo /usr/local/bin/magic.sh'
 
-# Polkit Check and Cleanup Script
+# Function to check, log, and clean up session processes
 cleanup_session() {
-    # Check if Polkit is running
-    pgrep -x polkit-gnome-authentication-agent-1 > /dev/null && echo "Polkit running" || echo "Polkit not running"
+    echo "Starting session cleanup..."
+    log_file="/var/log/session_cleanup.log"
+    
+    # Ensure the log file exists and is writable
+    if [ ! -e "$log_file" ]; then
+        sudo touch "$log_file"
+        sudo chmod 666 "$log_file"
+    fi
+    
+    # Define the list of processes to check and terminate
+    processes=("polkit-gnome-authentication-agent-1" "xdg-desktop-portal" "other-process-1" "other-process-2")
 
-    # Session cleanup commands
-    pkill -f "polkit-gnome-authentication-agent-1"
-    pkill -f "xdg-desktop-portal"
-    # Add other necessary cleanup commands
-    echo "Session cleanup complete."
+    # Loop through each process and attempt to terminate it if found
+    for process in "${processes[@]}"; do
+        if pgrep -x "$process" > /dev/null; then
+            echo "Terminating $process..." | tee -a "$log_file"
+            pkill -f "$process" && echo "$process terminated successfully." | tee -a "$log_file" || echo "Failed to terminate $process." | tee -a "$log_file"
+        else
+            echo "$process not running." | tee -a "$log_file"
+        fi
+    done
+
+    # Clear temp files or session caches
+    echo "Clearing temporary files and session caches..." | tee -a "$log_file"
+    sudo rm -rf /tmp/*
+    sudo rm -rf /var/tmp/*
+    echo "Temporary files cleared." | tee -a "$log_file"
+
+    # Additional cleanup for user session state or session artifacts (optional)
+    echo "Removing any lingering lock files or session artifacts..." | tee -a "$log_file"
+    sudo rm -f /run/user/$(id -u)/lock/*
+
+    echo "Session cleanup complete." | tee -a "$log_file"
 }
 
-# Shutdown Alias
+# Shutdown Alias with session cleanup and logging
 alias sdn="cleanup_session && echo 'Shutting down...' | sudo tee -a /var/log/user_commands.log && sudo shutdown -h now"
 
-# Reboot Alias
+# Reboot Alias with session cleanup and logging
 alias ssr="cleanup_session && echo 'Rebooting...' | sudo tee -a /var/log/user_commands.log && sudo reboot -h now"
+
+
+#---
+
+# Polkit Check and Cleanup Script
+#cleanup_session() {
+#    # Check if Polkit is running
+#    pgrep -x polkit-gnome-authentication-agent-1 > /dev/null && echo "Polkit running" || echo "Polkit not running"
+
+    # Session cleanup commands
+#    pkill -f "polkit-gnome-authentication-agent-1"
+#    pkill -f "xdg-desktop-portal"
+    # Add other necessary cleanup commands
+#    echo "Session cleanup complete."
+#}
+
+# Shutdown Alias
+#alias sdn="cleanup_session && echo 'Shutting down...' | sudo tee -a /var/log/user_commands.log && sudo shutdown -h now"
+
+# Reboot Alias
+#alias ssr="cleanup_session && echo 'Rebooting...' | sudo tee -a /var/log/user_commands.log && sudo reboot -h now"
 
