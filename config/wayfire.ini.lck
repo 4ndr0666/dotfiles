@@ -188,9 +188,8 @@ binding_shots = <super> KEY_S
 binding_st = <super> <shift> KEY_ENTER
 binding_theme = <super> <shift> KEY_C
 binding_web = <super> KEY_W
-#binding_dwindle = <super> KEY_Y
-#binding_masterstack = <super> KEY_T
-command_alacritty = ~/.config/wayfire/scripts/alacritty 
+
+command_alacritty = ~/.config/wayfire/scripts/alacritty
 command_clipman = clipman pick -t wofi
 command_colorpicker = ~/.config/wayfire/scripts/colorpicker
 command_cutter = flawless-cut
@@ -225,22 +224,22 @@ command_screenshot_5 = ~/.config/wayfire/scripts/screenshot --in5
 command_screenshot_interactive = ~/.config/wayfire/scripts/screenshot --area
 command_searchmaster = alacritty -e /usr/local/bin/searchmaster.py
 command_shots = ~/.config/wayfire/scripts/rofi_screenshot
-command_st = ~/.config/wayfire/scripts/st 
+command_st = ~/.config/wayfire/scripts/st
 command_theme = ~/.config/wayfire/theme/theme.sh --pywal
 command_volume_down = pactl set-sink-volume @DEFAULT_SINK@ -5%
 command_volume_up = pactl set-sink-volume @DEFAULT_SINK@ +5%
-command_web = brave-beta --ozone-platform=wayland & 
+command_web = brave-beta --ozone-platform=wayland &
 #brave
-#command_dwindle = ~/.config/wayfire/scripts/dwindle.sh
-#command_masterstack = ~/.config/wayfire/scripts/masterstack.sh
-repeatable_binding_media-next = KEY_NEXTSONG
-repeatable_binding_media-prev = KEY_PREVIOUSSONG
-repeatable_binding_volume_down = KEY_VOLUMEDOWN
-repeatable_binding_volume_up = KEY_VOLUMEUP
+
+#repeatable_binding_media-next = KEY_NEXTSONG
+#repeatable_binding_media-prev = KEY_PREVIOUSSONG
+#repeatable_binding_volume_down = KEY_VOLUMEDOWN
+#repeatable_binding_volume_up = KEY_VOLUMEUP
 
 #[crosshair]
 #line_color = \#FF0000FF
 #line_width = 2
+
 [core]
 background_color = 0.070 0.074 0.086 1.0
 close_top_view = <super> KEY_Q
@@ -309,7 +308,7 @@ inactive_alpha = 0.700000
 [switcher]
 gesture_toggle = edge-swipe down 3
 next_view = <super> KEY_TAB
-prev_view = 
+prev_view =
 speed = 200
 touch_sensitivity = 1.000000
 view_thumbnail_rotation = 30
@@ -356,9 +355,7 @@ y_skew = 0.000000
 
 [foreign-toplevel]
 
-
 [grid]
-#
 # ⇱ ↑ ⇲   │ 7 8 9
 # ← f →   │ 4 5 6
 # ⇱ ↓ ⇲ d │ 1 2 3 0
@@ -380,7 +377,6 @@ duration = 150
 hide_delay = 1000
 toggle = <ctrl> <super> KEY_H
 
-
 [input]
 click_method = default
 ## Cursor configuration
@@ -399,7 +395,6 @@ left_handed_mode = false
 middle_emulation = false
 modifier_binding_timeout = 400
 #mouse_accel_profile = flat
-
 mouse_accel_profile = default
 mouse_cursor_speed = 0.000000
 mouse_scroll_speed = 1.000000
@@ -415,6 +410,7 @@ xkb_model = pc105
 xkb_options = caps:escape
 xkb_rules = evdev
 xkb_variant =
+
 [input-method-v1]
 enable_text_input_v1 = true
 enable_text_input_v3 = true
@@ -466,9 +462,9 @@ transform = normal
 vrr = false
 
 [place]
+mode = center
 #fullscreen_output = current
 #keep_in_area = true
-mode = center
 #new_view = center
 #type = float
 
@@ -495,7 +491,7 @@ text_color = \#15FFFFFF
 title_font_size = 16
 title_overlay = all
 title_position = center
-toggle = 
+toggle =
 toggle_all = hotspot bottom-left 100x10 1000
 
 [scale-title-filter]
@@ -505,6 +501,7 @@ font_size = 30
 overlay = true
 share_filter = false
 text_color = \#15FFFF
+
 [session-lock]
 
 [simple-tile]
@@ -517,37 +514,27 @@ button_resize = <super> BTN_RIGHT
 preview_base_border = \#404080CC
 preview_base_color = \#8080FF80
 preview_border_width = 3
-inner_gap_size = 5
-outer_horiz_gap_size = 0
-outer_vert_gap_size = 0
-# --- //Dwindle_layout
-split_ratio = 0.67  # Master area takes up 2/3 of the screen
-key_focus_above = <super> KEY_UP
-key_focus_below = <super> KEY_DOWN
+inner_gap_size = 3
+outer_horiz_gap_size = 2
+outer_vert_gap_size = 2
+split_ratio = 0.67
+#split_ratio = 0.67  # Master area takes up 2/3 of the screen
+# --- // Bindings:
+key_toggle = <super> KEY_SPACE
+key_focus_above = <super> KEY_K
+key_focus_below = <super> KEY_J
 key_focus_left = <super> KEY_LEFT
 key_focus_right = <super> KEY_RIGHT
-key_toggle = <super> KEY_SPACE
 # --- //Normal_layout
-#split_ratio = 0.500000
-#key_focus_above = <super> KEY_K
-#key_focus_below = <super> KEY_J
-#key_focus_left = <super> KEY_H
-#key_focus_right = <super> KEY_L
-#key_toggle = <super> KEY_SPACE
-
-tile_by_default = all
+#key_focus_above = <super> KEY_UP
+#key_focus_below = <super> KEY_DOWN
+#key_focus_left = <super> KEY_LEFT
+#key_focus_right = <super> KEY_RIGHT
+# --- // Tile by:
+tile_by_default = all 
 #(type is "x-or" & focusable is false) | (type is "toplevel" & focusable is false)"
 #(type is "toplevel" & focusable is true) | (type is "x-or" & focusable is true)
 #tile_by_default = (type is "panel" & focusable is false) | (type is "background" & focusable is false) | (role is "DESKTOP_ENVIRONMENT" & focusable is false)
-
-[switcher]
-gesture_toggle = edge-swipe down 3
-next_view = <alt> KEY_TAB
-prev_view = <alt> <shift> KEY_TAB
-speed = 500
-touch_sensitivity = 1.000000
-view_thumbnail_rotation = 30
-view_thumbnail_scale = 1.000000
 
 [vswipe]
 background = 0.004 0.015 0.050 1.0
@@ -576,14 +563,14 @@ binding_left = <ctrl> <super> KEY_LEFT
 binding_right = <ctrl> <super> KEY_RIGHT
 binding_up = <ctrl> <super> KEY_UPbinding_1 = <super> KEY_1
 with_win_down = <ctrl> <shift> <super> KEY_DOWN
-with_win_last = 
+with_win_last =
 with_win_left = <ctrl> <shift> <super> KEY_LEFT
 with_win_right = <ctrl> <shift> <super> KEY_RIGHT
 with_win_up = <ctrl> <shift> <super> KEY_UP
 wraparound = false# Send the focused window to the workspace left/down/up/right
 # Send the focused window to the workspace left/down/up/right
 send_win_down = <alt> <ctrl> <super> KEY_DOWN
-send_win_last = 
+send_win_last =
 send_win_left = <alt> <ctrl> <super> KEY_LEFT
 send_win_right = <alt> <ctrl> <super> KEY_RIGHT
 send_win_up = <alt> <ctrl> <super> KEY_UP
@@ -617,6 +604,7 @@ send_win_6 = <super> <ctrl> KEY_6
 send_win_7 = <super> <ctrl> KEY_7
 send_win_8 = <super> <ctrl> KEY_8
 send_win_9 = <super> <ctrl> KEY_9
+
 [wsets]
 label_duration = 5000
 # Binding to switch to workspace set N
@@ -629,8 +617,6 @@ send_to_wset_2 = <super> <shift> <alt> KEY_2
 send_to_wset_3 = <super> <shift> <alt> KEY_3
 
 [wf-kill]
-
-
 
 [window-rules]
 rule_001 = on created if app_id is "thunar" then set alpha 0.8
@@ -676,7 +662,6 @@ toggle_maximize = <shift> <super> KEY_F6
 toggle_showdesktop = <shift> <super> KEY_F10
 toggle_sticky = <shift> <super> KEY_F8
 
-
 [workarounds]
 # --- // False allows the main window to be focused even it it has a dialog
 #all_dialogs_modal = false
@@ -708,10 +693,9 @@ activate = <shift> <super> BTN_LEFT
 activate-3d = <shift> <super> BTN_RIGHT
 invert = false
 reset = <shift> <super> KEY_R
-reset-one = 
+reset-one =
 reset_radius = 25.000000
 sensitivity = 24
-
 
 [xdg-activation]
 
@@ -723,7 +707,7 @@ deform = 0
 initial_animation = 350
 interpolation_method = 0
 light = true
-modifier = <ctrl> <super> 
+modifier = <ctrl> <super>
 rotate_left = <ctrl> <alt> KEY_LEFT
 rotate_right = <ctrl> <alt> KEY_RIGHT
 smoothing_duration = 300
