@@ -7,15 +7,15 @@
 
 # ==================================================== // QUICK_VIEW //
 
-alias 00='cat ~/.config/shellz/aliasrc'
-alias 0f='cat ~/.config/shellz/functions/functions.zsh'
-alias 0z='cat ~/.zshrc'
-alias 0b='cat ~/.bashrc'
+alias 00='bat ~/.config/shellz/aliasrc'
+alias 0f='bat ~/.config/shellz/functions/functions.zsh'
+alias 0z='bat ~/.zshrc'
+alias 0b='bat ~/.bashrc'
 
 # ===================================== // RECENT_PROGRAMS //
 
 alias jf='joshuto'
-alias lf='sudo -S lfub'
+alias lf='lfub'
 alias fd1='fd --exact-depth=1 --hidden'
 #alias screenrecord="wf-recorder -a"
 #alias screenrecord2="wf-recorder -a -c h264_vaapi -C aac -d /dev/dri/renderD128 --file=recording.mp4"
@@ -100,7 +100,7 @@ alias vgrubc='edit_config /boot/grub/grub.cfg'
 alias vmkinit='edit_config /etc/mkinitcpio.conf'
 alias vmirrors='edit_config /etc/pacman.d/mirrorlist'
 alias vfstab='edit_config /etc/fstab'
-alias venv='edit_config /home/andro/.config/shellz/zenvironment'
+alias vzen='edit_config /home/andro/.config/shellz/zenvironment'
 alias vbash='edit_config ~/.bashrc'
 alias vzsh='edit_config ~/.zshrc'
 alias vfish='edit_config ~/.config/fish/config.fish'
@@ -122,25 +122,27 @@ goto() {
 # --- //$USER:
 alias dc='goto ~/Documents'
 alias dl='goto ~/Downloads'
+alias vid='goto ~/Videos'
+alias pic='goto ~/Pictures'
 alias conf='goto ~/.config'
 alias wconf='goto ~/.config/wayfire/'
 alias ob='goto ~/.config/openbox'
 alias obt='goto ~/.config/openbox/themes'
 
 # --- //STORAGE:
-alias sto='goto /storage'
-alias stodl='goto /storage/Downloads'
-alias stopic='goto /storage/Pictures'
-alias stovid='goto /storage/Videos'
-
+alias s1='goto /storage'
+alias sdl='goto /storage/Downloads'
+alias spic='goto /storage/Pictures'
+alias svid='goto /storage/Videos'
+alias streamdir='goto /storage/streamlink'
 
 # --- //STO2:
-alias sto2'goto /sto2'
-alias sto2dl='goto /sto2/Downloads'
-alias sto2pic='goto /sto2/Pictures'
-alias sto2vid='goto /sto2/Videos'
+alias s2='goto /sto2'
+alias s2dl='goto /sto2/Downloads'
+alias s2pic='goto /sto2/Pictures'
+alias s2vid='goto /sto2/Videos'
 alias gym='goto /sto2/Gym'
-salias jd='goto /sto2/JD'
+alias jd='goto /sto2/JD'
 
 # --- //23.1: 
 alias 23='goto /23.1'
@@ -255,10 +257,6 @@ alias lsblk='lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINT'
 alias psa='ps auxf | less'
 alias free='free -mt'
 alias jctl='journalctl -p 3 -xb'
-alias g='git'
-alias gstat='git status'
-alias grh="git reset --hard"
-alias gfs='git-lfs'
 alias mapit="ifconfig -a | grep -Po '\b(?!255)(?:\d{1,3}\.){3}(?!255)\d{1,3}\b' | xargs nmap -A -p0-"
 alias ports='netstat -tulanp'
 alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python3 -'
@@ -281,8 +279,48 @@ function back() {
         fi
     done
 }
-alias tarnow='sudo -S tar cf archive.tar.gz '
-alias untar='sudo -S tar xvf '
+
+tarnow(){
+    local target="$1"
+    local backup_dir="${2:-.}"  # Optional second argument to specify backup directory, defaults to current directory
+
+    if [[ -z "$target" ]]; then
+        echo "Provide dir to tarball."
+        return 1
+    fi
+
+    if [[ ! -e "$target" ]]; then
+        echo "Error: The target '$target' does not exist."
+        return 1
+    fi
+
+    local target_name=$(basename "$target")
+    local timestamp=$(date -u "+%m-%d_%I:%M%p")
+    local backup_file="${backup_dir}/${target_name}-${timestamp}.tar.gz"
+
+    echo "Creating tarballfor '$target'..."
+
+    # Check if we have write access to the backup directory and read access to the target
+    if [[ ! -w "$backup_dir" || ! -r "$target" ]]; then
+        echo "Bypassed: permissions."
+        if sudo -S tar -czvf "$backup_file" "$target"; then
+            echo "Tarball successful: $backup_file"
+        else
+            echo "Error: permissions."
+            return 1
+        fi
+    else
+        if tar -czvf "$backup_file" "$target"; then
+            echo "Tarball: $backup_file"
+        else
+            echo "Error: Failed to compress tarball."
+            return 1
+        fi
+    fi
+}
+
+#alias tarnow='sudo -S tar -czvf archive.tar.gz '
+alias untar='sudo -S tar -xvf '
 alias watch='watch '
 alias psgrep="ps aux | grep -v grep | grep -i -e VSZ -e"
 
@@ -381,13 +419,13 @@ chdefault() {
 }
 
 chandro() {
-    if [[ -z "$1" ]]; then
-        echo "Usage: chandro <directory>"
-        return 1
-    elif [[ ! -d "$1" ]]; then
-        echo "Error: '$1' is not a valid directory."
-        return 1
-    fi
+#    if [[ -z "$1" ]]; then
+#        echo "Usage: chandro <directory>"
+#        return 1
+#    elif [[ ! -d "$1" ]]; then
+#        echo "Error: '$1' is not a valid directory."
+#        return 1
+#    fi
 
     echo "Changing ownership and permissions to $USER for: $1"
     sudo chown -R $USER:$USER "$1"
@@ -397,13 +435,13 @@ chandro() {
 }
 
 chroot() {
-    if [[ -z "$1" ]]; then
-        echo "Usage: chroot <directory>"
-        return 1
-    elif [[ ! -d "$1" ]]; then
-        echo "Error: Directory not found."
-        return 1
-    fi
+#    if [[ -z "$1" ]]; then
+#        echo "Usage: chroot <directory>"
+#        return 1
+#    elif [[ ! -d "$1" ]]; then
+#        echo "Error: Directory not found."
+#        return 1
+#    fi
 
     echo "Setting ownership to root and permissions to 755 (directories) and 644 (files) for: $1"
     sudo find "$1" -type d -exec chmod 755 {} +
@@ -480,11 +518,24 @@ alias audio="pactl info | grep 'Server Name'"
 #alias findit='read -p "Do you want to find a file (f) or a directory (d)? " choice; if [ "$choice" == "f" ]; then read -p "Enter the filename to search for: " filename; sudo find / -type f -name "$filename" 2>/dev/null; elif [ "$choice" == "d" ]; then read -p "Enter the directory name to search for: " dirname; sudo find / -type d -name "$dirname" 2>/dev/null; else echo "Invalid choice. Please select 'f' for file or 'd' for directory."; fi'
 #alias whatsnew='read -p "Do you want to find files based on modification time (m) or access time (a)? " choice; if [ "$choice" == "m" ]; then find "$PWD" -type f -mtime -7 -print0 | xargs -0 ls -lt | head; elif [ "$choice" == "a" ]; then find "$PWD" -type f -atime -7 -print0 | xargs -0 ls -lt | head; else echo "Invalid choice. Please select 'm' for modification time or 'a' for access time."; fi'
 #alias cleanls='echo "pacman -Q | grep -E 'pipewire|pulseaudio|alsa|jack' > audio_packages.txt && sed -i 's/ .*$//' audio_packages.txt"'
+
+# ----------------------------- // CLIPBOARDS //
+# --- // wl-copy and wl-paste: 
+#copy_cmd() {
+#    "$@" | wl-copy
+#}
+paste_cmd() {
+    wl-paste | "$@"
+}
+#alias copy='wl-copy'
+alias paste='wl-paste'
 #alias list="xclip -o | tr '\n' ' ' | sed 's/ $/\n/' | xclip -selection c"
 #alias splitlist="xclip -o | tr ',' '\n'"
 #alias copy='xclip -selection clipboard'
 #alias copy='wl-copy <'
 #alias cleanssh="sed -i 18d .ssh/known_hosts"
+
+
 # --- // restore shell configs from /etc/skel:
 #alias cb='cp /etc/skel/.bashrc ~/.bashrc && exec bash'
 #alias cz='cp /etc/skel/.zshrc ~/.zshrc && echo "Copied."'
@@ -525,7 +576,7 @@ alias snapcr="sudo snapper -c root create"
 alias snapch="sudo snapper -c home create"
 
 # --- // Count or list files in dir: 
-lsfiles() {
+filecount() {
     if [[ "$1" == "-l" ]]; then
         echo "Files in $PWD:"
         find $PWD -type f
@@ -830,7 +881,14 @@ alias generate-keyserver='gpg --full-generate-key && gpg --import /usr/share/pac
 
 # ==================================================================================== // GIT //
 
-# ---- // Git_clone:
+alias g='git'
+alias gstat='git status'
+alias gstash='git stash --all'
+alias gclear-'git stash clear'
+alias grh="git reset --hard"
+alias gfs='git-lfs'
+
+# ---- // Git_clone VERSION 2.0:
 gclone() {
     # Check if a repository URL is provided
     if [[ -z "$1" ]]; then
@@ -844,120 +902,314 @@ gclone() {
 
     # Check if the directory already exists
     if [[ -d "$repo_name" ]]; then
-        echo "Error: Directory '$repo_name' already exists."
-        return 1
+        read -p "Directory '$repo_name' already exists. Do you want to force clone into it? [y/N]: " confirm
+        if [[ "$confirm" != [yY] ]]; then
+            echo "Clone operation aborted."
+            return 1
+        else
+            echo "Warning: Existing directory will be used."
+        fi
     fi
 
-    # Clone the repository with depth 1
-    if git clone --depth 1 "$@"; then
+    # Fetch repository size in bytes (approximate method using `git clone --depth 1`)
+    temp_dir=$(mktemp -d)
+    git clone --depth 1 --filter=blob:none --bare "$1" "$temp_dir" > /dev/null 2>&1
+    repo_size=$(du -sm "$temp_dir" | cut -f1)  # Get size in MB
+    rm -rf "$temp_dir"  # Clean up temp directory
+
+    # Decide on clone depth based on repository size
+    if [[ "$repo_size" -le 25 ]]; then
+        echo "Small repository detected ($repo_size MB). Performing a full clone."
+        depth_flag=""
+    else
+        echo "Large repository detected ($repo_size MB). Performing a shallow clone with --depth 5."
+        depth_flag="--depth 5"
+    fi
+
+    # Clone the repository with appropriate depth
+    if git clone $depth_flag "$@"; then
         # Change into the newly cloned directory
         cd "$repo_name" || {
-            echo "Error: Failed to change into directory '$repo_name'."
+            echo "Error: Failed to change into directory '$repo_name'. Directory may not exist."
             return 1
         }
         echo "Successfully cloned and switched to '$repo_name'."
+
+        # Prompt for fetching more history if it's a shallow clone
+        if [[ -n "$depth_flag" ]]; then
+            read -p "Would you like to fetch more history (convert to full clone)? [y/N]: " fetch_more
+            if [[ "$fetch_more" == [yY] ]]; then
+                git fetch --unshallow
+                echo "Full history fetched."
+            fi
+        fi
     else
         echo "Error: Failed to clone the repository."
         return 1
     fi
 }
 
-# --- // Git_add_all/commit_all/comment/pull/push:
+
+# ####################################################### // VERSION 1.0 //
+#gclone() { #    # Check if a repository URL is provided
+#    if [[ -z "$1" ]]; then
+#        echo "Error: No repository URL provided."
+#        echo "Usage: gclone <repository-url>"
+#        return 1
+#    fi
+#
+#    # Extract the directory name from the repository URL
+#    repo_name=$(basename "$1" .git)
+#
+#    # Check if the directory already exists
+#    if [[ -d "$repo_name" ]]; then
+#        echo "Error: Directory '$repo_name' already exists."
+#        return 1
+#    fi
+#
+#    # Clone the repository with depth 1
+#    if git clone --depth 1 "$@"; then
+#        # Change into the newly cloned directory
+#        cd "$repo_name" || {
+#            echo "Error: Failed to change into directory '$repo_name'."
+#            return 1
+#        }
+#        echo "Successfully cloned and switched to '$repo_name'."
+#    else
+#        echo "Error: Failed to clone the repository."
+#        return 1
+#    fi
+#}
+##############################################################################
+
+# --- // Auto Git add all,commit all, comment, push (version 2.0:
 gcomp() {
-    # Check if there are any changes to commit
-    if ! git diff-index --quiet HEAD --; then
-        # Gather information about the changes
-        added=$(git status --porcelain | grep "^A" | wc -l)
-        modified=$(git status --porcelain | grep "^ M" | wc -l)
-        deleted=$(git status --porcelain | grep "^D" | wc -l)
+    # Check if a repository URL is provided
+    if [[ -z "$1" ]]; then
+        echo "Error: No repository URL provided."
+        echo "Usage: gclone <repository-url>"
+        return 1
+    fi
 
-        # Generate a commit message based on changes
-        commit_message="Auto-commit: ${added} added, ${modified} modified, ${deleted} deleted"
+    # Extract the directory name from the repository URL
+    repo_name=$(basename "$1" .git)
 
-        # Add all changed files to staging
-        git add .
-
-        # Commit the changes with the generated commit message
-        if ! git commit -m "$commit_message"; then
-            echo "Error: Commit failed. Aborting."
+    # Check if the directory already exists
+    if [[ -d "$repo_name" ]]; then
+        read -p "Directory '$repo_name' already exists. Do you want to force clone into it? [y/N]: " confirm
+        if [[ "$confirm" != [yY] ]]; then
+            echo "Clone operation aborted."
             return 1
+        else
+            echo "Warning: Existing directory will be used."
         fi
+    fi
 
-        # Pull the latest changes from the remote repository
-        if ! git pull --rebase; then
-            echo "Error: Pull failed. Aborting."
-            return 1
-        fi
+    # Fetch repository size in bytes (approximate method using `git clone --depth 1`)
+    temp_dir=$(mktemp -d)
+    git clone --depth 1 --filter=blob:none --bare "$1" "$temp_dir" > /dev/null 2>&1
+    repo_size=$(du -sm "$temp_dir" | cut -f1)  # Get size in MB
+    rm -rf "$temp_dir"  # Clean up temp directory
 
-        # Push the changes to the remote repository
-        if ! git push; then
-            echo "Error: Push failed. Aborting."
-            return 1
-        fi
-
-        echo "Changes committed, pulled, and pushed successfully."
-        echo "Commit message: $commit_message"
+    # Decide on clone depth based on repository size
+    if [[ "$repo_size" -le 25 ]]; then
+        echo "Small repository detected ($repo_size MB). Performing a full clone."
+        depth_flag=""
     else
-        echo "No changes detected. Nothing to commit."
+        echo "Large repository detected ($repo_size MB). Performing a shallow clone with --depth 5."
+        depth_flag="--depth 5"
+    fi
+
+    # Clone the repository with appropriate depth
+    if git clone $depth_flag "$@"; then
+        # Change into the newly cloned directory
+        cd "$repo_name" || {
+            echo "Error: Failed to change into directory '$repo_name'. Directory may not exist."
+            return 1
+        }
+        echo "Successfully cloned and switched to '$repo_name'."
+
+        # Prompt for fetching more history if it's a shallow clone
+        if [[ -n "$depth_flag" ]]; then
+            read -p "Would you like to fetch more history (convert to full clone)? [y/N]: " fetch_more
+            if [[ "$fetch_more" == [yY] ]]; then
+                git fetch --unshallow
+                echo "Full history fetched."
+            fi
+        fi
+    else
+        echo "Error: Failed to clone the repository."
+        return 1
     fi
 }
 
+
+# ############################################### // VERSION 1.0 //
+# --- // Git_add_all/commit_all/comment/pull/push:
+#gcomp() {
+#    # Check if there are any changes to commit
+#    if ! git diff-index --quiet HEAD --; then
+#        # Gather information about the changes
+#        added=$(git status --porcelain | grep "^A" | wc -l)
+#        modified=$(git status --porcelain | grep "^ M" | wc -l)
+#        deleted=$(git status --porcelain | grep "^D" | wc -l)
+#
+#        # Generate a commit message based on changes
+#        commit_message="Auto-commit: ${added} added, ${modified} modified, ${deleted} deleted"
+#
+#        # Add all changed files to staging
+#        git add --all
+#
+#        # Commit the changes with the generated commit message
+#        if ! git commit -m "$commit_message"; then
+#            echo "Error: Commit failed. Aborting."
+#            return 1
+#        fi
+#
+#        # Pull the latest changes from the remote repository
+#        if ! git pull --rebase; then
+#            echo "Error: Pull failed. Aborting."
+#            return 1
+#        fi
+#
+#        # Push the changes to the remote repository
+#        if ! git push; then
+#            echo "Error: Push failed. Aborting."
+#            return 1
+#        fi
+#
+#        echo "Changes committed, pulled, and pushed successfully."
+#        echo "Commit message: $commit_message"
+#    else
+#        echo "No changes detected. Nothing to commit."
+#    fi
+#}
+#########################################################
+
+
 # --- // Add_ssh_id:
-gssh() {
+gaddssh() {
     eval "$(ssh-agent -s)"
     ssh-add ~/.ssh/github
     ssh -T git@github.com
 }
 
-# --- // Git_search:
+# --- // Search with silver search, ripgrep or default:
 gsearch() {
-    git exec ag "$1"
+    if command -v ag &> /dev/null; then
+        git exec ag "$1"
+    elif command -v rg &> /dev/null; then
+        git exec rg "$1"
+    else
+        git exec grep -r "$1"
+    fi
 }
 
 # --- // Git_delete_cache:
-rmgitcache() {
-    rm -rf ~/.cache/git
+grmcache() {
+    cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/git"
+    if [[ -d "$cache_dir" ]]; then
+        read -p "Are you sure you want to delete Git cache at $cache_dir? [y/N]: " confirm
+        if [[ "$confirm" == [yY] ]]; then
+            rm -rf "$cache_dir"
+            echo "Git cache deleted."
+        else
+            echo "Git cache deletion aborted."
+        fi
+    else
+        echo "No Git cache found at $cache_dir."
+    fi
 }
 
 # --- // Git_root:
 groot() {
-    cd "$(git rev-parse --show-toplevel)" || exit
+    if git rev-parse --show-toplevel &> /dev/null; then
+        cd "$(git rev-parse --show-toplevel)" || {
+            echo "Error: Failed to change to Git repository root."
+            return 1
+        }
+        echo "Moved to Git repository root."
+    else
+        echo "Error: Not inside a Git repository."
+        return 1
+    fi
 }
 
 # --- // Reset_git_remote_to_mine:
 gremote() {
-
     # Check if the current directory is a Git repository
     if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
         echo "Not a git repository. Please navigate to a git repository and try again."
         return 1
     fi
 
+    # Prompt for GitHub username (default to 4ndr0666 if not provided)
+    printf "Enter your GitHub username (default: 4ndr0666): "
+    read -r username
+    username=${username:-"4ndr0666"}
+
+    # Prompt for repository name
     printf "Enter the repository name: "
-    read -r -p repo_name
+    read -r repo_name
 
-    local url="git@github.com:4ndr0666/${repo_name}.git"
+    local url="git@github.com:${username}/${repo_name}.git"
 
-    git remote remove origin
+    # Confirm before removing the current remote origin
+    if git remote get-url origin &> /dev/null; then
+        read -p "Are you sure you want to remove the current 'origin' remote? [y/N]: " confirm
+        if [[ "$confirm" != [yY] ]]; then
+            echo "Remote origin removal canceled."
+            return 1
+        fi
+        git remote remove origin
+        echo "Old 'origin' remote removed."
+    fi
 
+    # Add the new remote
     git remote add origin "$url"
+    echo "New 'origin' remote set to $url."
 
+    # Display the remote URLs
     git remote -v
 }
 
 # --- // Use_SSH_for_git_auth:
-grepo() {
-    local repo_name commit_msg
+ginit() {
+    local repo_name commit_msg branch_name
+
+    # Initialize a new git repository
     git init
-    echo "Enter the name of the GitHub repository:"
-    read -r -p repo_name
-    git remote add origin "git@github.com:4ndr0666/${repo_name}.git"
+
+    # Prompt for GitHub username (default to 4ndr0666)
+    printf "Enter your GitHub username (default: 4ndr0666): "
+    read -r username
+    username=${username:-"4ndr0666"}
+
+    # Prompt for the repository name
+    printf "Enter the name of the GitHub repository: "
+    read -r repo_name
+
+    # Add the remote origin for the specified repository
+    git remote add origin "git@github.com:${username}/${repo_name}.git"
+
+    # Stage all files
     git add .
-    echo "Enter a commit message for the initial commit (default: 'Initial commit'):"
-    read -r -p commit_msg
+
+    # Prompt for a commit message
+    echo "Enter a commit message for the initial commit (default: 'Initial commit'): "
+    read -r commit_msg
     commit_msg=${commit_msg:-"Initial commit"}  # Use default message if none provided
+
+    # Commit the changes
     git commit -m "$commit_msg"
-    git push -u origin main
+
+    # Prompt for the branch name (default: main)
+    printf "Enter the branch name to push to (default: main): "
+    read -r branch_name
+    branch_name=${branch_name:-"main"}
+
+    # Push to the specified branch
+    git push -u origin "$branch_name"
 }
 
 
