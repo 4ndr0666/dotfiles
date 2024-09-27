@@ -2,7 +2,7 @@
 
 #File: run-wayfire
 #Author: 4ndr0666
-#Edited: 5-19-24
+#Edited: 09-11-24
 # Exports environment variables for wayfire and launches it.
 #
 # --- // RUN-WAYFIRE // ========
@@ -39,13 +39,13 @@ if [ $? != 0 ]; then
      echo "Using log file: $LOG_FILE"
      wayfire "@" &> $LOG_FILE
  fi
- 
+
 # --- // GTK_VARIABLES:
 export MOZ_ENABLE_WAYLAND=1
 #export TDESKTOP_DISABLE_GTK_INTEGRATION=1
 
 # --- // clutter
-#export CLUTTER_BACKEND=wayland,x11
+export CLUTTER_BACKEND=wayland,x11
 
 # --- // elementary
 export ECORE_EVAS_ENGINE=wayland-egl
@@ -63,8 +63,7 @@ export NO_AT_BRIDGE=1
 export BEMENU_BACKEND=wayland
 
 # --- // Qt
-export QT_QPA_PLATFORM=wayland-egl  # Avoid using xcb for Wayland sessions
-#wayland
+export QT_QPA_PLATFORM=wayland-egl #
 #export QT_WAYLAND_FORCE_DPI=physical # Use monitor's DPI
 #export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
 #export QT_AUTO_SCREEN_SCALE_FACTOR=1
@@ -75,10 +74,13 @@ export QT_QPA_PLATFORM=wayland-egl  # Avoid using xcb for Wayland sessions
 
 # --- // backend
 export GDK_BACKEND=wayland,x11
-#export WINIT_UNIX_BACKEND=wayland
+export WINIT_UNIX_BACKEND=wayland
 
 # --- // electron
 export ELECTRON_OZONE_PLATFORM_HINT=wayland-egl
+
+# --- // IPC
+#export WAYFIRE_SOCKET=/tmp/wayfire-wayland-1.socket
 
 # --- // SYSTEMD_DBUS:
 if ! eval "$(dbus-launch --sh-syntax)"; then
@@ -87,6 +89,7 @@ if ! eval "$(dbus-launch --sh-syntax)"; then
 fi
 export DBUS_SESSION_BUS_ADDRESS
 export DBUS_SESSION_BUS_PID
+xrandr --dpi 96
 #xhost + </dev/null &>/dev/null &
 #xhost +SI:localuser:andro
 #xhost +SI:localuser:root
