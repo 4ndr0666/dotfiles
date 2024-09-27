@@ -984,65 +984,43 @@ gclone() {
 
 # --- // Auto Git add all,commit all, comment, push (version 2.0:
 gcomp() {
-    # Check if a repository URL is provided
-    if [[ -z "$1" ]]; then
-        echo "Error: No repository URL provided."
-        echo "Usage: gclone <repository-url>"
-        return 1
-    fi
+    # Check if there are any changes to commit
+    if ! git diff-index --quiet HEAD --; then
+        # Gather information about the changes
+        added=$(git status --porcelain | grep "^A" | wc -l)
+        modified=$(git status --porcelain | grep "^ M" | wc -l)
+        deleted=$(git status --porcelain | grep "^D" | wc -l)
 
-    # Extract the directory name from the repository URL
-    repo_name=$(basename "$1" .git)
+        # Generate a commit message based on changes
+        commit_message="Auto-commit: ${added} added, ${modified} modified, ${deleted} deleted"
 
-    # Check if the directory already exists
-    if [[ -d "$repo_name" ]]; then
-        read -p "Directory '$repo_name' already exists. Do you want to force clone into it? [y/N]: " confirm
-        if [[ "$confirm" != [yY] ]]; then
-            echo "Clone operation aborted."
+        # Add all changed files to staging
+        git add --all
+
+        # Commit the changes with the generated commit message
+        if ! git commit -m "$commit_message"; then
+            echo "Error: Commit failed. Aborting."
             return 1
-        else
-            echo "Warning: Existing directory will be used."
         fi
-    fi
 
-    # Fetch repository size in bytes (approximate method using `git clone --depth 1`)
-    temp_dir=$(mktemp -d)
-    git clone --depth 1 --filter=blob:none --bare "$1" "$temp_dir" > /dev/null 2>&1
-    repo_size=$(du -sm "$temp_dir" | cut -f1)  # Get size in MB
-    rm -rf "$temp_dir"  # Clean up temp directory
-
-    # Decide on clone depth based on repository size
-    if [[ "$repo_size" -le 25 ]]; then
-        echo "Small repository detected ($repo_size MB). Performing a full clone."
-        depth_flag=""
-    else
-        echo "Large repository detected ($repo_size MB). Performing a shallow clone with --depth 5."
-        depth_flag="--depth 5"
-    fi
-
-    # Clone the repository with appropriate depth
-    if git clone $depth_flag "$@"; then
-        # Change into the newly cloned directory
-        cd "$repo_name" || {
-            echo "Error: Failed to change into directory '$repo_name'. Directory may not exist."
+        # Pull the latest changes from the remote repository (with rebase)
+        if ! git pull --rebase; then
+            echo "Error: Pull failed. Aborting."
             return 1
-        }
-        echo "Successfully cloned and switched to '$repo_name'."
-
-        # Prompt for fetching more history if it's a shallow clone
-        if [[ -n "$depth_flag" ]]; then
-            read -p "Would you like to fetch more history (convert to full clone)? [y/N]: " fetch_more
-            if [[ "$fetch_more" == [yY] ]]; then
-                git fetch --unshallow
-                echo "Full history fetched."
-            fi
         fi
+
+        # Push the changes to the remote repository
+        if ! git push; then
+            echo "Error: Push failed. Aborting."
+            return 1
+        fi
+
+        echo "Changes committed, pulled, and pushed successfully."
+        echo "Commit message: $commit_message"
     else
-        echo "Error: Failed to clone the repository."
-        return 1
+        echo "No changes detected. Nothing to commit."
     fi
 }
-
 
 # ############################################### // VERSION 1.0 //
 # --- // Git_add_all/commit_all/comment/pull/push:
