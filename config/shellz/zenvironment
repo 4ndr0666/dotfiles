@@ -2,8 +2,8 @@
 # Author: 4ndr0666
 # Edited: 04-10-24
 
-# === // ZENVIRONTMENT //
-# ---------------------------------------- // Dynamic-PATH:
+# ========================= // ZENVIRONTMENT //
+# --- // Dynamic-PATH:
 all_dirs=(
     "$HOME/.npm-global/bin"
     "$HOME/.cargo/bin"
@@ -42,12 +42,12 @@ export PATH
 
 # Ensure unique path elements
 typeset -U path PATH cdpath CDPATH fpath FPATH manpath MANPATH
-unsetopt PROMPT_SP 2>/dev/null
+#unsetopt PROMPT_SP 2>/dev/null
 
 # --- // DEFAULT_PROGRAMS:
 export MICRO_TRUECOLOR=1
 export EDITOR="nvim"
-export TERMINAL="st"
+export TERMINAL="alacritty"
 export TERMINAL_PROG="st"
 export BROWSER="brave-browser-beta"
 
@@ -57,16 +57,16 @@ export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
 
 # --- // XDG_RUNTIME_DIR_SETUP:
-#if [ -z "$XDG_RUNTIME_DIR" ]; then
-#    export XDG_RUNTIME_DIR="/run/user/$(id -u)"
-#fi
+if [ -z "$XDG_RUNTIME_DIR" ]; then
+    export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+fi
 
-#if [ ! -d "$XDG_RUNTIME_DIR" ]; then
-#    mkdir -p "$XDG_RUNTIME_DIR"
-#fi
+if [ ! -d "$XDG_RUNTIME_DIR" ]; then
+    mkdir -p "$XDG_RUNTIME_DIR"
+fi
 
 # --- // XDG_DATA_DIRS_SETUP:
-#[ -z "$XDG_DATA_DIRS" ] && export XDG_DATA_DIRS="/usr/local/share:/usr/share"
+[ -z "$XDG_DATA_DIRS" ] && export XDG_DATA_DIRS="/usr/local/share:/usr/share"
 
 # Organize history files within XDG directories
 export HISTFILE="$XDG_DATA_HOME/zsh/history"
@@ -89,8 +89,10 @@ export ANDROID_SDK_HOME="$XDG_CONFIG_HOME/android"
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
 export GOPATH="$XDG_DATA_HOME/go"
 export GOMODCACHE="$XDG_CACHE_HOME/go/mod"
-export POETRY_CACHE_DIR="$XDG_CACHE_HOME/pypoetry"
-export POETRY_VIRTUALENVS_PATH="$POETRY_CACHE_DIR/virtualenvs"
+#export POETRY_CACHE_DIR="$XDG_CACHE_HOME/pypoetry"
+export POETRY_VIRTUALS_PATH="$POETRY_CACHE_DIR/virtualenvs"
+export ENV_DIR="$XDG_DATA_HOME/virtualenv"
+export VIRTUAL_ENV_PROMPT="(💀)"
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/pythonrc"
 export PIP_DOWNLOAD_CACHE="$XDG_CACHE_HOME/pip/"
 export SQLITE_HISTORY="$XDG_DATA_HOME/sqlite_history"
@@ -110,9 +112,9 @@ export SQLITE_HISTORY="$XDG_DATA_HOME/sqlite_history"
 
 # ---------------------------------------------- // AUTO/TAB_COMPLETE_ZSTYLES //
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'  # Case insensitive tab completion
-#zstyle ':completion:*' rehash true  # Automatically find new executables in path
+zstyle ':completion:*' rehash true  # Automatically find new executables in path
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"  # Colored completion (different colors for dirs/files/etc)
-#zstyle ':completion:*' completer _expand _complete _ignored _approximate
+zstyle ':completion:*' completer _expand _complete _ignored _approximate
 #zstyle ':completion:*' menu select
 zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
 zstyle ':completion:*:descriptions' format '%U%F{cyan}%d%f%u'
@@ -124,10 +126,10 @@ zstyle ':completion:*' cache-path ~/.cache/zcache
 source <(fzf --zsh)
 
 # --------------------------------------------- // LIBRARY_AND_SECURITY //
-[ -z "$LD_LIBRARY_PATH" ] && export LD_LIBRARY_PATH="$HOME/.local/lib" || export LD_LIBRARY_PATH="$HOME/.local/lib:/usr/local/lib/python3.11/site-packages:/usr/lib:$LD_LIBRARY_PATH"
-export SUDO_ASKPASS="/usr/bin/pinentry-dmenu"
-# export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
+[ -z "$LD_LIBRARY_PATH" ] && export LD_LIBRARY_PATH="/home/andro/ffmpeg_build/lib:/usr/local/lib:/home/andro/.local/lib:/usr/local/lib/python3.11/site-packages:/usr/lib:$LD_LIBRARY_PATH"
+export PKG_CONFIG_PATH="/home/andro/ffmpeg_build/lib/pkgconfig:$PKG_CONFIG_PATH"
 # --- // GPG:
+# export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
 export GNUPGHOME="$HOME/.gnupg"
 mkdir -p "$GNUPGHOME"
 chmod 700 "$GNUPGHOME"
@@ -135,10 +137,11 @@ chmod 700 "$GNUPGHOME"
 #gpg-connect-agent updatestartuptty /bye >/dev/null
 #gpg-connect-agent reloadagent /bye >/dev/null
 #eval $(ssh-agent) && ssh-add 2&>/dev/null
+export SUDO_ASKPASS="/usr/bin/pinentry-dmenu"
 
 # ------------------------------------------- // PAGER //
 # --- // Bat:
-export MANPAGER="sh -c 'col -bx | bat -l man -p | less -R'"
+#export MANPAGER="sh -c 'col -bx | bat -l man -p | less -R'"
 
 # Configure FZF with Bat preview and custom color schemes
 export FZF_DEFAULT_OPTS="
