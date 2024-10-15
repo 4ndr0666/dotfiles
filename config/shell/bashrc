@@ -1,15 +1,20 @@
 #!/bin/bash
-#File: /root/.bashrc
-#Edited: 04-26-2024
-#Author: 4ndr0666
-#
-# --- // /root/.bashrc // ========
+# File: /root/.bashrc
+# Edited: 04-26-2024
+# Author: 4ndr0666
 
 
-# --- // KILL_IF_NONINTERACTIVE:
-[[ $- != *i* ]] && return
+# ========================================== // root/.bashrc //
+# --- // Only_respond_if_interactive:
+[ -z "$PS1" ] && return
+#[[ $- != *i* ]] && return
 
+# --- // Prompt:
 PS1='[\u@\h \W]\$💀 '
+
+# --- // Helper_aliases:
+alias 00='cat $USER/.bashrc'
+alias 0f='cat $USER/.zshrc'
 
 # --- // PATH:
 if [ -d "$HOME/.local/bin" ] ;
@@ -20,90 +25,78 @@ if [ -d "/usr/local/bin" ] ;
 then PATH="$PATH:$(find /usr/local/bin -type d | paste -sd ':' -)$PATH"
 fi
 
-export PATH="${HOME}/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:"
-export PATH="${PATH}/usr/local/sbin:/opt/bin:/usr/bin/core_perl:/usr/games/bin:"
+if [ -d "/Nas/Build/git/syncing/scr/" ] ;
+then PATH="$PATH:$(find /Nas/Build/git/syncing/scr -type d | paste -sd ':' -)$PATH"
+fi
+echo $PATH | grep -Eq "(^|:)/sbin(:|)"     || PATH=$PATH:/sbin
+echo $PATH | grep -Eq "(^|:)/usr/sbin(:|)" || PATH=$PATH:/usr/sbin
 
-# --- // ENV:
+# --- // Source_Files:
+#if [ -f /home/andro/.config/shell/functions/functionsrc ]; then
+#    . /home/andro/.config/shell/functions/functionsrc
+#fi
+  
+if [ -f /home/andro/.config/shell/aliasrc ]; then
+    . /home/andro/.config/shell/aliasrc
+fi
+
+# --- // Environment:
+HISTCONTROL=$HISTCONTROL${HISTCONTROL+:}ignoredups
 HISTCONTROL=ignoreboth
 HISTTIMEFORMAT="%Y-%m-%d %T "
+shopt -s histappend
+shopt -s checkwinsize
 shopt -s cdspell
 complete -cf 
 shopt -s autocd
-shopt -s checkwinsize
 run-help() { help "$READLINE_LINE" 2>/dev/null || man "$READLINE_LINE"; }
-bind -m vi-insert -x '"\eh": run-help'
-bind -m emacs -x     '"\eh": run-help'
-[[ -f /home/andro/.config/shell/functions/functionsrc ]] || source "/home/andro/.config/shell/functions/functionsrc" 2>/dev/null/
-alias 00='cat $USER/.bashrc'
-alias 0f='cat $USER/.zshrc'
-
-# --- // COLOR_TERM:
-if [ "$TERM" = "linux" ]; then
-	printf %b '\e]P01E1E2E' # set background color to "Base"
-	printf %b '\e]P8585B70' # set bright black to "Surface2"
-
-	printf %b '\e]P7BAC2DE' # set text color to "Text"
-	printf %b '\e]PFA6ADC8' # set bright white to "Subtext0"
-
-	printf %b '\e]P1F38BA8' # set red to "Red"
-	printf %b '\e]P9F38BA8' # set bright red to "Red"
-
-	printf %b '\e]P2A6E3A1' # set green to "Green"
-	printf %b '\e]PAA6E3A1' # set bright green to "Green"
-
-	printf %b '\e]P3F9E2AF' # set yellow to "Yellow"
-	printf %b '\e]PBF9E2AF' # set bright yellow to "Yellow"
-
-	printf %b '\e]P489B4FA' # set blue to "Blue"
-	printf %b '\e]PC89B4FA' # set bright blue to "Blue"
-
-	printf %b '\e]P5F5C2E7' # set magenta to "Pink"
-	printf %b '\e]PDF5C2E7' # set bright magenta to "Pink"
-
-	printf %b '\e]P694E2D5' # set cyan to "Teal"
-	printf %b '\e]PE94E2D5' # set bright cyan to "Teal"
-
-	clear
-fi
 
 # --- // Autoset $DISPLAY:
-if [ -z "$DISPLAY" ]; then
-	if which loginctl &>/dev/null; then
-		LOGINCTL_SESSION=$(loginctl show-user $USER -p Display 2>/dev/null | cut -d= -f2)
-		if [ -n "$LOGINCTL_SESSION" ]; then
-			export DISPLAY=$(loginctl show-session $LOGINCTL_SESSION -p Display | cut -d= -f2)
-		fi
-	fi
-	if which ck-list-sessions &>/dev/null; then
-		eval `ck-list-sessions | awk "/^Session/{right=0} /unix-user = '$UID'/{right=1} /x11-display = '(.+)'/{ if(right == 1) printf(\"DISPLAY=%s\n\", \\\$3); }";`
-	fi
-fi
+#if [ -z "$DISPLAY" ]; then
+#	if which loginctl &>/dev/null; then
+#		LOGINCTL_SESSION=$(loginctl show-user $USER -p Display 2>/dev/null | cut -d= -f2)
+#		if [ -n "$LOGINCTL_SESSION" ]; then
+#			export DISPLAY=$(loginctl show-session $LOGINCTL_SESSION -p Display | cut -d= -f2)
+#		fi
+#	fi
+#	if which ck-list-sessions &>/dev/null; then
+#		eval `ck-list-sessions | awk "/^Session/{right=0} /unix-user = '$UID'/{right=1} /x11-display = '(.+)'/{ if(right == 1) printf(\"DISPLAY=%s\n\", \\\$3); }";`
+#	fi
+#fi
 
 # --- // IBUS_SETTINGS_(enter $ibus-setup in term):
 #export GTK_IM_MODULE=ibus
 #export XMODIFIERS=@im=dbus
 #export QT_IM_MODULE=ibus
 
-# --- // ESCALATE_COMMANDS:
-for cmd in pacman-key ufw mount umount pacman updatedb su systemctl useradd userdel groupadd groupdel chown chmod btrfs ip netstat modprobe; do
-    alias $cmd="sudo $cmd && echo 'Executed $cmd on \$(date)' >> /var/log/user_commands.log"
-done
+# --- // Pager:
+LESS="-R -i"
 
+# --- // Auto-complete:
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+    . /etc/bash_completion
+fi
+  
 # --- // LISTINGS:
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+fi
+      
 alias lf="lfub" 
 alias ls='ls --color=auto'
-#alias la='ls -a'
-#alias ll='ls -alFh'
+alias la='ls -a'
+alias ll='ls -alFh'
 #alias l='ls'
-#alias l.="ls -A | egrep '^\.'"
+alias l.="ls -A | egrep '^\.'"
 alias listdir="ls -d */ > list"
 
 # --- // REPLACE_WITH_EZA:
 #alias ls='exa -al --color=always --group-directories-first --icons' # preferred listing
-alias la='exa -a --color=always --group-directories-first --icons'  # all files and dirs
-alias ll='exa -l --color=always --group-directories-first --icons'  # long format
+#alias la='exa -a --color=always --group-directories-first --icons'  # all files and dirs
+#alias ll='exa -l --color=always --group-directories-first --icons'  # long format
 alias lt='exa -aT --color=always --group-directories-first --icons' # tree listing
-alias l.='exa -ald --color=always --group-directories-first --icons .*' # show only dotfiles
+#alias l.='exa -ald --color=always --group-directories-first --icons .*' # show only dotfiles
 
 # --- // TYPOS:
 alias cd..='cd ..'
@@ -113,7 +106,7 @@ alias gerp='grep'
 alias shudown='shutdown'
 alias pdw='pwd'
 
-# --- // FORCE_NEOVIM & PARU:
+# --- // FORCE_NEOVIM:
 if command -v nvim > /dev/null 2>&1; then
     alias vim="nvim"
     alias vimdiff="nvim -d"
@@ -213,13 +206,13 @@ alias grub-mkconfig=' grub-mkconfig -o /boot/grub/grub.cfg'
 alias chown='chown --preserve-root'
 alias chmod='chmod --preserve-root'
 alias chgrp='chgrp --preserve-root'
-alias grepc='grep --color=auto'
+alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 #alias ccat='highlight --out-format=ansi'
 alias ip='ip -color=auto'
 alias c='clear; echo; echo; seq 1 $(tput cols) | sort -R | spark | lolcat; echo; echo'
-alias hw=' hwinfo --short'
+alias hw='hwinfo --short'
 alias psa='ps auxf | less'
 alias free='free -mt'
 alias jctl='journalctl -p 3 -xb'
