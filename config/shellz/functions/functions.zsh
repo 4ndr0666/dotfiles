@@ -109,37 +109,37 @@ spell() {
 }
 
 # ------------------------------------ // RESET_WAYBAR:
-restart_waybar() {
-    echo "🔄 Restarting Waybar..."
-    
-    # Attempt to gracefully terminate waybar
-    if pkill -TERM waybar; then
-        echo "Gracefully terminating waybar..."
-        sleep 1  # Give it a moment to shut down
-    else
-        echo "Waybar is not running, starting it now."
-    fi
-    
-    # Forcefully kill waybar if it's still running after the grace period
-    if pgrep waybar &>/dev/null; then
-        echo "Forcefully killing waybar..."
-        pkill -9 waybar
-        sleep 1  # Ensure it's fully stopped
-    fi
-    
-    # Start waybar and suppress all output
-    if waybar </dev/null &>/dev/null &; then
-        echo "Waybar has been restarted successfully."
-    else
-	echo "❌ Failed to restart Waybar. Process not found."
-        return 1
-    fi
-}
-
 #restart_waybar() {
-#	killall -9 waybar $> /dev/null
-#	waybar </dev/null &>/dev/null &
+#    echo "🔄 Restarting Waybar..."
+
+    # Attempt to gracefully terminate waybar
+#    if pkill -TERM waybar; then
+#        echo "Gracefully terminating waybar..."
+#        sleep 1  # Give it a moment to shut down
+#    else
+#        echo "Waybar is not running, starting it now."
+#    fi
+
+    # Forcefully kill waybar if it's still running after the grace period
+#    if pgrep waybar &>/dev/null; then
+#        echo "Forcefully killing waybar..."
+#        pkill -9 waybar
+#        sleep 1  # Ensure it's fully stopped
+#    fi
+
+    # Start waybar and suppress all output
+#    if waybar </dev/null &>/dev/null &; then
+#        echo "Waybar has been restarted successfully."
+#    else
+#	echo "❌ Failed to restart Waybar. Process not found."
+#        return 1
+#    fi
 #}
+
+restart_waybar() {
+	killall -9 waybar $> /dev/null
+	waybar </dev/null &>/dev/null &
+}
 
 # ----------------------------------------- // RESET_PERMISSIONS:
 function reset_permissions() {
@@ -457,7 +457,7 @@ function sysboost() {
     fi
 
     log_and_wait "Resources optimized."
-    
+
     # Disable exit on error
     set +e
 }
@@ -465,56 +465,59 @@ function sysboost() {
 # ---------------------------------------------------------- // SWAP_BOOST:
 # taken from $LINUX-KERNELSOURCE/Documentation/power/swsusp.txt
 function swapboost() {
-    # Ensure the script exits on any error
-    # set -e
+    # Initialize log file
+    log_file="/tmp/swapboost_log.txt"
+    echo "Logging to $log_file"
+    echo "Starting swapboost process..." > "$log_file"
 
-    # Ensure we have read access to /proc/1/maps
-    if [[ ! -r /proc/1/maps ]]; then
-        echo "Auto-escalating for directory access of /proc/1/maps."
-        if ! sudo test -r /proc/1/maps; then
-            echo "Unable to escalate privileges."
-            return 1
-        fi
-    fi
-
-    echo "Scanning file mappings..."
+    echo "Scanning accessible file mappings..."
     sleep 2
     local file_count=0
     local cmd_prefix=""
     [[ $EUID -ne 0 ]] && cmd_prefix="sudo"
 
-    # Use parallel to speed up the process if available
+    # Touch only accessible memory-mapped files
     if command -v parallel &> /dev/null; then
-        sed -ne 's:.* /:/:p' /proc/[0-9]*/maps | sort -u | grep -v '^/dev/' | \
-        parallel "$cmd_prefix cat {} > /dev/null && echo 'Accessed {}' >> $log_file || echo 'Failed to access {}' >> $log_file"
+        sed -ne 's:.* /:/:p' /proc/[0-9]*/maps 2>/dev/null | sort -u | grep -v '^/dev/' | grep -v '(deleted)' | \
+        parallel "$cmd_prefix cat {} > /dev/null 2>/dev/null && echo 'Accessed {}' >> \"$log_file\""
     else
-        for file in $(sed -ne 's:.* /:/:p' /proc/[0-9]*/maps | sort -u | grep -v '^/dev/'); do
-            if $cmd_prefix cat "$file" > /dev/null; then
+        for file in $(sed -ne 's:.* /:/:p' /proc/[0-9]*/maps 2>/dev/null | sort -u | grep -v '^/dev/' | grep -v '(deleted)'); do
+            if $cmd_prefix cat "$file" > /dev/null 2>/dev/null; then
                 ((file_count++))
                 echo "Accessed $file" >> "$log_file"
-            else
-                echo "Failed to access $file" >> "$log_file"
             fi
         done
     fi
 
     echo "Accessed $file_count files from mappings..."
     sleep 2
+
     echo 'Refreshing swap spaces...'
     sleep 2
-    
+
     # Refresh swap spaces
     if $cmd_prefix swapoff -a && $cmd_prefix swapon -a; then
         echo "Swap spaces refreshed!"
     else
-        echo "Failed to refresh swap spaces" >> error.log
+        echo "Failed to refresh swap spaces" >> "$log_file"
     fi
 
     # Final message
+    echo "Swapboost process completed." >> "$log_file"
     echo "Swapboost process completed."
+}
 
-    # Disable exit on error
-    # set +e
+# ---------------------------------------------------------------------// FULL_BOOST:
+function fullboost() {
+    # Run sysboost for general optimization
+    echo "Running sysboost..."
+    sysboost
+
+    # Run swapboost to refresh swap spaces and access memory-mapped files
+    echo "Running swapboost..."
+    swapboost
+
+    echo "Full system boost completed."
 }
 
 # ----------------------------------------------------- // SMART_BACKUP:
@@ -802,14 +805,14 @@ function whatsnew() {
 }
 
 # ------------------------------------------------------------ // FINDIT:
-# Function to validate and run a command
+# Function to validate command execution
 validate() {
     local command="$1"
     echo "Running: $command"
     eval "$command"
     if [ $? -ne 0 ]; then
         echo "Error: Command failed - $command"
-        exit 1
+        return 1
     fi
 }
 
@@ -824,53 +827,57 @@ check_install_fd() {
             sudo ln -s $(which fdfind) /usr/local/bin/fd  # For compatibility
         else
             echo "Unsupported package manager. Please install 'fd' manually."
-            exit 1
+            return 1
         fi
     fi
 }
 
-# Main find function
-function findit() {
-    local choice query search_type search_dir fd_command
+# Main fd wrapper function
+findit() {
+    local query search_dir include_hidden case_sensitive absolute_paths max_depth min_depth list_details search_type extra_opts fd_command
 
-    # Check and install necessary tools
-    check_install_fd
+    # Ensure fd is installed
+    check_install_fd || return 1
 
-    echo "Enter your search query:"
+    # Step 1: Collect search query
+    echo "Enter your search query (leave empty to match everything):"
     read -r query
 
-    echo "Enter the directory to search in:"
+    # Step 2: Directory selection
+    echo "Enter the directory to search in (leave empty for current directory):"
     read -r search_dir
+    [ -z "$search_dir" ] && search_dir="."  # Default to current directory
 
-    echo "Search for (f)ile or (d)irectory?"
-    read -r choice
-
-    case $choice in
-        f)
-            search_type="f"
-            ;;
-        d)
-            search_type="d"
-            ;;
-        *)
-            echo "Invalid choice. Please select 'f' for file or 'd' for directory."
-            exit 1
-            ;;
+    # Step 3: File type selection
+    echo "Search for: (f)iles, (d)irectories, (l)inks, (e)xecutables, (s)ockets, (p)ipes?"
+    read -r search_type
+    case "$search_type" in
+        f) search_type="f" ;;  # Correct usage without quotes
+        d) search_type="d" ;;
+        l) search_type="l" ;;
+        e) search_type="x" ;;  # 'x' for executables in fd
+        s) search_type="s" ;;
+        p) search_type="p" ;;
+        *) search_type="" ;;
     esac
 
+    # Step 4: Include hidden files
     echo "Include hidden files? (y/n):"
     read -r include_hidden
-    [ "$include_hidden" == "y" ] && include_hidden="--hidden" || include_hidden=""
+    [ "$include_hidden" = "y" ] && include_hidden="--hidden" || include_hidden=""
 
+    # Step 5: Case-sensitive search
     echo "Case-sensitive search? (y/n):"
     read -r case_sensitive
-    [ "$case_sensitive" == "y" ] && case_sensitive="" || case_sensitive="--ignore-case"
+    [ "$case_sensitive" = "y" ] && case_sensitive="--case-sensitive" || case_sensitive="--ignore-case"
 
+    # Step 6: Absolute paths
     echo "Use absolute paths? (y/n):"
     read -r absolute_paths
-    [ "$absolute_paths" == "y" ] && absolute_paths="--absolute-path" || absolute_paths=""
+    [ "$absolute_paths" = "y" ] && absolute_paths="--absolute-path" || absolute_paths=""
 
-    echo "Set max depth (leave empty for default):"
+    # Step 7: Depth settings
+    echo "Set max depth (leave empty for no limit):"
     read -r max_depth
     [ -n "$max_depth" ] && max_depth="--max-depth $max_depth" || max_depth=""
 
@@ -878,20 +885,54 @@ function findit() {
     read -r min_depth
     [ -n "$min_depth" ] && min_depth="--min-depth $min_depth" || min_depth=""
 
-    echo "List details? (y/n):"
+    # Step 8: List details
+    echo "List details (like 'ls -l')? (y/n):"
     read -r list_details
-    [ "$list_details" == "y" ] && list_details="--list-details" || list_details=""
+    [ "$list_details" = "y" ] && list_details="--list-details" || list_details=""
 
-    fd_command=(fd "--type" "$search_type" "$query" "$search_dir" $include_hidden $case_sensitive $absolute_paths $max_depth $min_depth $list_details)
-
-    echo "Executing: ${fd_command[@]}"
-    if [[ $EUID -ne 0 && $search_dir == /* && ! -w $search_dir ]]; then
-        sudo "${fd_command[@]}"
-    else
-        "${fd_command[@]}"
+    # Step 9: Automatically resolve incompatible options
+    if [[ -n "$absolute_paths" && -n "$list_details" ]]; then
+        echo "'--absolute-path' cannot be used with '--list-details'. Resolving automatically..."
+        echo "Do you want to (1) use absolute paths, (2) list details, or (3) cancel?"
+        read -r choice
+        case $choice in
+            1)
+                list_details=""  # Remove list details
+                ;;
+            2)
+                absolute_paths=""  # Remove absolute paths
+                ;;
+            3)
+                echo "Cancelled."
+                return 0
+                ;;
+            *)
+                echo "Invalid choice. Cancelling."
+                return 1
+                ;;
+        esac
     fi
-}
 
+    # Step 10: Additional options (like size, time-based filters)
+    echo "Would you like to add advanced options (e.g., file size, time)? (y/n):"
+    read -r advanced_opts
+    if [ "$advanced_opts" = "y" ]; then
+        echo "Enter size filter (e.g., +100k for files > 100KB, -1M for files < 1MB):"
+        read -r size_filter
+        [ -n "$size_filter" ] && extra_opts+=" --size $size_filter"
+
+        echo "Enter time filter for files modified within (e.g., 2d for 2 days, 1h for 1 hour):"
+        read -r time_filter
+        [ -n "$time_filter" ] && extra_opts+=" --changed-within $time_filter"
+    fi
+
+    # Build the fd command
+    fd_command=(fd --type "$search_type" "$query" "$search_dir" $include_hidden $case_sensitive $absolute_paths $max_depth $min_depth $list_details $extra_opts)
+
+    # Execute the command
+    echo "Executing: ${fd_command[@]}"
+    "${fd_command[@]}"
+}
 
 #function findit() {
 #  local search_type search_pattern search_dir include_hidden max_depth hidden_flag depth_flag type_flag
@@ -906,17 +947,17 @@ function findit() {
 #  read -p "Enter the directory to search in (leave empty for current directory): " search_dir
 #  read -p "Include hidden files (y/N): " include_hidden
 #  read -p "Enter maximum search depth (leave empty for no limit): " max_depth
-  
+
   # Set flags based on input
 #  [[ "$include_hidden" =~ ^[Yy]$ ]] && hidden_flag="--hidden" || hidden_flag=""
 #  [[ -n "$max_depth" ]] && depth_flag="--max-depth $max_depth" || depth_flag=""
-  
+
   # Set type flag
 #  [[ "$search_type" == "f" ]] && type_flag="--type f" || type_flag="--type d"
-  
+
   # Set directory to search in
 #  search_dir="${search_dir:-.}"
-  
+
   # Check if fd is installed
 #  if ! command -v fd &>/dev/null; then
 #    echo "The 'fd' command is not installed. Please install it first."
@@ -1048,8 +1089,8 @@ function undo() {
 # --------------------------------------------------------- // DOWNSCALE_TO_1080P:
 function downscale() {
     local input_file="$1"
-    local output_file="${2:-output_1080p.mp4}"
-    local quality="${3:-18}"  # Default CRF value for quality, lower is better
+    local output_file="${2:-downscaled_1080p.mp4}"
+    local quality="${3:-15}"  # Default CRF value for quality, lower is better
 
     # Validate input file presence
     if [[ -z "$input_file" ]]; then
@@ -1083,7 +1124,7 @@ function downscale() {
     echo "Starting downscale process to 1080p..."
     ffmpeg -i "$input_file" \
            -vf "scale=1920x1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2" \
-           -c:v libx264 -crf "$quality" -preset slow -c:a copy "$output_file"
+           -c:v copy -crf "$quality" -preset slower -c:a copy "$output_file"
 
     # Check if FFmpeg command was successful
     if [[ $? -eq 0 ]]; then
@@ -1268,7 +1309,7 @@ function modified() {
 }
 
 # ---------------------------------------------------------- // RUN_IN_BACKGROUND:
-function 4everr() {
+function 4ever() {
     if [[ -z "$1" ]]; then
         echo "Usage: 4everr <command> [arguments] [log_file]"
         return 1

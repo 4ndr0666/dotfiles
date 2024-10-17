@@ -66,20 +66,6 @@ cht() {
     [ -n "$choice" ] && bat "$choice" || echo "No cheat sheet selected."
 }
 
-alias chtvim='cat ~/.cheater/chtvim.md'
-alias chtyay='cat ~/.cheater/yay.md'
-alias chtvpn='cat ~/.cheater/chtvpn.md'
-alias chtx='cat ~/.cheater/chtx.md'
-alias chtperms='cat ~/.cheater/chtperms.md'
-alias chtscr='cat ~/.cheater/chtscripts.md'
-alias chtmicro='cat ~/.cheater/chtmicro.md'
-alias chtpy='cat ~/.cheater/chtpython.md'
-alias bsnip='cat ~/.cheater/bash_snippets.md'
-alias psnip='cat ~/.cheater/python_snippets.md'
-alias chtutils='cat ~/.cheater/chtutils.md'
-alias chtutils2='cat ~/.cheater/chtutils2.md'
-alias chtgit='cat ~/.cheater/chtgit.md'
-
 # ============================================== // EDIT_CONFIG_FILES //
 
 edit_config() {
@@ -389,94 +375,49 @@ alias lt='exa -aT -s new --color=always --group-directories-first --icons'
 #alias lsp='ls -lhS --color=auto | grep -E "^l"'
 
 # ============================================================================= // PERMISSIONS //
-
+# --- // Single_cmds:
 alias chown='sudo chown --preserve-root'
 alias chmod='sudo chmod --preserve-root'
 alias chgrp='sudo chgrp --preserve-root'
-alias chgpg='sudo chown -R $USER:$USER ~/.gnupg && sudo chmod 700 ~/.gnupg && sudo chmod 600 ~/.gnupg/private-keys-v1.d/*'
 alias lock='sudo chattr +i '
 alias unlock='sudo chattr -i '
-alias chlocal='sudo chown -R $USER:$USER ~/.config ~/.local && echo "Ownership of ~/.config and ~/.local changed to $USER."'
 
-chboot() {
-    sudo chmod -R 755 /boot/efi 
-    sudo chown -R root:root /boot/efi
-    echo "Boot directory permissions reset appropriately."
+# --- // Reset_perms:
+alias factory_local='sudo chown -R $USER:$USER ~/.config ~/.local || echo "Failure resetting $USER config and local dirs."'
+alias factory_gpg='sudo chown -R $USER:$USER ~/.gnupg && sudo chmod 700 ~/.gnupg && sudo chmod 600 ~/.gnupg/private-keys-v1.d/* || echo "Failure resetting $USER gpg dir"'
+alias factory_ssh='sudo chown -R $USER:$USER ~/.ssh/* && sudo chmod 700 ~/.ssh && sudo chmod 600 ~/.ssh/* || echo "failure resetting $USER ssh dir."'
+
+factory_boot() {
+    sudo chmod -R 755 /boot/
+    sudo chown -R root:root /boot/
+    echo "/boot: Owner -> root | Dirs -> 755"
 }
 
-chdefault() {
-    if [[ -z "$1" ]]; then
-        echo "Usage: chdefault <directory>"
-        return 1
-    elif [[ ! -d "$1" ]]; then
-        echo "Error: '$1' is not a valid directory."
-        return 1
-    fi
-
-    echo "Setting directory permissions to 755 for: $1"
-    sudo find "$1" -type d -exec chmod 755 {} +
-    echo "Permissions reset successfully for $1."
-}
-
-chandro() {
-#    if [[ -z "$1" ]]; then
-#        echo "Usage: chandro <directory>"
-#        return 1
-#    elif [[ ! -d "$1" ]]; then
-#        echo "Error: '$1' is not a valid directory."
-#        return 1
-#    fi
-
-    echo "Changing ownership and permissions to $USER for: $1"
-    sudo chown -R $USER:$USER "$1"
-    sudo find "$1" -type d -exec chmod 755 {} +
-    sudo find "$1" -type f -exec chmod 644 {} +  # Adjusted to 644 for files
-    echo "Ownership and permissions set successfully for $1."
-}
-
-chroot() {
-#    if [[ -z "$1" ]]; then
-#        echo "Usage: chroot <directory>"
-#        return 1
-#    elif [[ ! -d "$1" ]]; then
-#        echo "Error: Directory not found."
-#        return 1
-#    fi
-
-    echo "Setting ownership to root and permissions to 755 (directories) and 644 (files) for: $1"
-    sudo find "$1" -type d -exec chmod 755 {} +
-    sudo find "$1" -type f -exec chmod 644 {} +
-    sudo chown -R root:root "$1"
-    echo "Ownership and permissions set successfully for $1."
-}
-
-
-chpython() {
+factory_python() {
     local python_version
     python_version=$(python3 -c 'import sys; print(".".join(map(str, sys.version_info[:2])))')
 
     local site_packages_dir="/usr/lib/python${python_version}/site-packages"
 
     if [[ -d "$site_packages_dir" ]]; then
-        echo "Setting ownership to root and permissions to 755 for: $site_packages_dir"
         sudo chown -R root:root "$site_packages_dir"
         sudo chmod -R 755 "$site_packages_dir"
-        echo "Ownership and permissions set successfully for $site_packages_dir."
+        echo "Ownership and permissions successfully reset for $site_packages_dir."
     else
         echo "Error: Directory $site_packages_dir not found for Python version $python_version."
     fi
 }
 
-chexcept() {
+factory_except() {
     if [[ -z "$1" ]]; then
-        echo "Usage: chexcept <directory>"
+        echo "Usage: factory_except <directory-to-exclude>"
         return 1
     elif [[ ! -d "$1" ]]; then
         echo "Error: Directory not found."
         return 1
     fi
 
-    read -r -p "Enter the directory name to exclude: " exclude_dir
+    read -r -p "Enter the dir to exclude: " exclude_dir
     if [[ -z "$exclude_dir" ]]; then
         echo "Error: No directory specified to exclude."
         return 1
@@ -489,8 +430,63 @@ chexcept() {
     echo "Permissions set successfully for $1, excluding $exclude_dir."
 }
 
-# ======================================================================== // UNIQUE_ALIASES //
+chdirs() {
+    if [[ -z "$1" ]]; then
+        echo "Usage: chdirs <path>"
+        return 1
+    elif [[ ! -d "$1" ]]; then
+        echo "Error: '$1' is not a valid directory."
+        return 1
+    fi
 
+    sudo find "$1" -type d -exec chmod 755 {} +
+    echo "$1: Dirs -> 755" 
+}
+
+chfiles() {
+    if [[ -z "$1" ]]; then
+        echo "Usage: chfiles <path>"
+        return 1
+    elif [[ ! -f "$1" ]]; then
+        echo "Error: '$1' were not found."
+        return 1
+    fi
+
+    sudo find "$1" -type f -exec chmod 644 {} +
+    echo "$1: Files -> 644"
+}
+
+chandro() {
+#    if [[ -z "$1" ]]; then
+#        echo "Usage: chandro <directory>"
+#        return 1
+#    elif [[ ! -d "$1" ]]; then
+#        echo "Error: '$1' is not a valid directory."
+#        return 1
+#    fi
+
+    sudo chown -R $USER:$USER "$1"
+    sudo find "$1" -type d -exec chmod 755 {} +
+    sudo find "$1" -type f -exec chmod 644 {} +  
+    echo "$1: Owner -> $USER | Dirs -> 755 | Files -> 644"
+}
+
+chroot() {
+#    if [[ -z "$1" ]]; then
+#        echo "Usage: chroot <directory>"
+#        return 1
+#    elif [[ ! -d "$1" ]]; then
+#        echo "Error: Directory not found."
+#        return 1
+#    fi
+
+    sudo chown -R root:root "$1"
+    sudo find "$1" -type d -exec chmod 775 {} +
+    sudo find "$1" -type f -exec chmod 600 {} +
+    echo "$1: Owner -> root | Dirs -> 775 | Files -> 600"
+}
+
+# ======================================================================== // SPECIFIC_ALIASES //
 # --- // Retries cmd until executes:
 alias retry='until !!; do :; done'
 
@@ -727,6 +723,12 @@ function d0() {
     done
 }
 
+
+# ================================================================================ // PYTHON:
+
+alias pvenv='source $XDG_DATA_HOME/virtualenv/bin/activate --prompt 💀' 
+#$XDG_DATA_HOME/virtualenv/bin/activate
+
 # --- Python with no venv:
 syspip() {
     PIP_REQUIRE_VIRTUALENV="" pip "$@"
@@ -828,7 +830,8 @@ yaysearch() {
         *) echo "Invalid choice. Please choose a number between 1 and 5." ;;
     esac
 }
-alias yay='yay --answerdiff no --builddir "/home/build" --cleanafter --cleanmenu --editmenu --singlelineresults --sortby votes'
+#alias yay='yay --builddir "/home/build" --sortby votes'
+alias yay='yay --answerdiff no --builddir "/home/build" --cleanafter --cleanmenu --sortby votes'
 alias yaydeps='yay --sudoloop --refresh --singlelineresults --sysupgrade --timeupdate --verbose'
 alias yayskip='yay -S --mflags --skipinteg'
 alias trizenskip='trizen -S --skipinteg'
@@ -884,7 +887,7 @@ alias generate-keyserver='gpg --full-generate-key && gpg --import /usr/share/pac
 alias g='git'
 alias gstat='git status'
 alias gstash='git stash --all'
-alias gclear-'git stash clear'
+alias gclear='git stash clear'
 alias grh="git reset --hard"
 alias gfs='git-lfs'
 
