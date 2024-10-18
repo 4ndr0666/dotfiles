@@ -1,5 +1,13 @@
-```bash
 # --- // AUTO_ESCALATE:
+```bash
+# --- // Simple version:
+if [[ "$EUID" -ne 0 ]]; then
+    echo "Re-running the script with sudo privileges..."
+    sudo "$0" "$@"
+    exit $?
+fi
+
+# --- // 4ndr0 version:
 if [ "$(id -u)" -ne 0 ]; then
       sudo "$0" "$@"
     exit $?
@@ -10,14 +18,57 @@ sleep 1
 echo
 ```
 
+# --- // DEV_NULL:
 ```bash
+2>/dev/null
+```
+
 # --- // KILL_&_RESTART:
+```bash
 killall -p pkgname $> /dev/null
 pkgname </dev/null &>/dev/null &
 ```
 
+# --- // HEREDOC:
 ```bash
-# --- // SOURCE_LOOP:
+cat << EOF >> file.txt    # appends to file.txt
+The txt you want
+to append to
+file.txt would
+go here.
+EOF
+```
+
+# --- // LIKE_HEREDOC_W_TEE:
+```bash
+`tee file.txt <<EOF`      # overwrites file.txt
+`tee >> file.txt <<EOF`   # appends to file.txt
+The txt you pasted
+to overwrite or
+append to file.txt
+goes here.
+EOF
+```
+
+# --- // Set_trap_for_SIGINT:
+```bash
+trap 'echo -e "\nExiting..."; cleanup; exit 1' SIGINT
+```
+
+# --- // Input_validation:
+```bash
+validate_input() {
+    if [[ $1 =~ ^[0-9]+$ ]] && [ $1 -ge 1 ] && [ $1 -le 17 ]; then
+        return 0
+    else
+        echo "Invalid input. Please enter a number between 1 and 17."
+        return 1
+    fi
+}
+```
+
+# --- // Source_multiple_items_loop:
+```bash
 source_dir="/dir/to/search/in"
 zsh_files_found=false
 
@@ -30,57 +81,4 @@ done < <(find "$source_dir" -type f)
 if [ "$zsh_files_found" = false ]; then
     echo "Warning: No files found in $source_dir."
 fi
-```
-
-```bash
-# --- // COLORS_SYMBOLS_ECHO-FUNCTION:
-GREEN='\033[0;32m'
-BOLD='\033[1m'
-RED='\033[0;31m'
-NC='\033[0m' # No Color
-SUCCESS="✔️"
-FAILURE="❌"
-INFO="➡️"
-EXPLOSION="💥"
-prominent() {
-    echo -e "${BOLD}${GREEN}$1${NC}"
-}
-bug() {
-    echo -e "${BOLD}${RED}$1${NC}"
-}
-```
-
-```bash
-# --- // SPINNER:
-spinner() {
-    local pid=$!
-    local delay=0.1
-    local spinstr='|/-\\'
-    tput civis # Hide cursor
-    while kill -0 "$pid" 2>/dev/null; do
-        local temp=${spinstr#?}
-        printf " [%c]  " "$spinstr"
-        local spinstr=$temp${spinstr%"$temp"}
-        sleep $delay
-        printf "\b\b\b\b\b\b"
-    done
-    printf "      \b\b\b\b\b\b"
-    tput cnorm # Show cursor
-}
-```
-
-```bash
-# --- // DEV_NULL:
-2>/dev/null
-```
-
-```bash
-# --- // BANNER:
-echo -e "\033[34m"
-cat << "EOF"
-#
-# --- //ASCII_ART//
-#
-EOF
-echo -e "\033[0m"
 ```
