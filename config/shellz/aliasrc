@@ -1,9 +1,8 @@
-#File: /home/$USER/.config/shellz/aliasrc
-#Author: 4ndr0666
-#Edited: 04-26-2024
-#
-# --- // ALIASRC // ========
+# File: /home/$USER/.config/shellz/aliasrc
+# Author: 4ndr0666
+# Edited: 10-19-2024
 
+# ============================================ // ALIASRC // 
 
 # ==================================================== // QUICK_VIEW //
 
@@ -20,8 +19,8 @@ alias fd1='fd --exact-depth=1 --hidden'
 #alias screenrecord="wf-recorder -a"
 #alias screenrecord2="wf-recorder -a -c h264_vaapi -C aac -d /dev/dri/renderD128 --file=recording.mp4"
 alias kmon='sudo kmon --color blue --accent-color 15FFFF --unicode'
-# =========================================================== // EXPRESSVPN //
 
+# --- // Expressvpn:
 alias vpnc='sudo expressvpn connect'
 alias vpnd='sudo expressvpn disconnect'
 alias vpns='sudo expressvpn status'
@@ -32,8 +31,7 @@ alias vpnl='sudo expressvpn list'
 alias vpnblock='sudo expressvpn preferences set block_all false'
 alias vpnproto='sudo expressvpn protocol lightway_udp'
 
-# ================================================================================================ // EDITOR //
-
+# --- // Editor:
 if command -v nvim > /dev/null 2>&1; then
     alias vim="nvim"
     alias vimdiff="nvim -d"
@@ -43,31 +41,27 @@ else
 fi
 alias vim="nvim"
 
-# ============================================================= // REMOVE_SUDO //
-
+# --- // Sudo_bypass:
 #for cmd in pacman-key ufw mount umount pacman updatedb su systemctl useradd userdel groupadd groupdel chown chmod \
 #btrfs ip netstat modprobe; do
 #    alias $cmd="sudo $cmd"
 #done
 
-# =================================================== // COMMON_TYPOS //
-
+# --- // Typos: 
 alias gerp='grep'
 alias shudown='shutdown'
 alias pdw='pwd'
 alias cd..='cd ..'
+alias er='et'
 
-
-# ==================================================== // CHEATSHEETS //
-
+# --- // Cheatsheets:
 cht() {
     local cheats=("$HOME/.cheater/"*.md)
     local choice=$(printf "%s\n" "${cheats[@]}" | fzf --prompt="Select a cheat sheet: ")
     [ -n "$choice" ] && bat "$choice" || echo "No cheat sheet selected."
 }
 
-# ============================================== // EDIT_CONFIG_FILES //
-
+# ============================================== // Config_editor: 
 edit_config() {
     local file_path=$1
     if [[ $file_path ]]; then
@@ -78,15 +72,15 @@ edit_config() {
 }
 
 alias svim="edit_config"
-alias valias='edit_config /home/$(whoami)/.config/shellz/aliasrc'
-alias vfunc='edit_config /home/$(whoami)/.config/shellz/functions/functions.zsh'
+alias valias='edit_config /home/$USER/.config/shellz/aliasrc'
+alias vfunc='edit_config /home/$USER/.config/shellz/functions/functions.zsh'
 alias vpac='edit_config /etc/pacman.conf'
 alias vgrub='edit_config /etc/default/grub'
 alias vgrubc='edit_config /boot/grub/grub.cfg'
 alias vmkinit='edit_config /etc/mkinitcpio.conf'
-alias vmirrors='edit_config /etc/pacman.d/mirrorlist'
+alias vmirror='edit_config /etc/pacman.d/mirrorlist'
 alias vfstab='edit_config /etc/fstab'
-alias vzen='edit_config /home/andro/.config/shellz/zenvironment'
+alias vzenv='edit_config /home/andro/.config/shellz/zenvironment'
 alias vbash='edit_config ~/.bashrc'
 alias vzsh='edit_config ~/.zshrc'
 alias vfish='edit_config ~/.config/fish/config.fish'
@@ -94,8 +88,7 @@ alias vmpv='edit_config /home/andro/.config/mpv/mpv.conf'
 alias vfire='edit_config ~/.config/wayfire.ini'
 alias vbar='edit_config ~/.config/wayfire/waybar/config'
 
-# ============================================ // DIRECTORY_SHORTCUTS //
-
+# =============================================== // Dir_shortcuts:
 goto() {
     local dir=$1
     if [[ -d "$dir" ]]; then
@@ -105,32 +98,33 @@ goto() {
     fi
 }
 
-# --- //$USER:
+# --- // $USER:
 alias dc='goto ~/Documents'
 alias dl='goto ~/Downloads'
 alias vid='goto ~/Videos'
 alias pic='goto ~/Pictures'
 alias conf='goto ~/.config'
-alias wconf='goto ~/.config/wayfire/'
+alias confw='goto ~/.config/wayfire/'
+alias confm='goto ~/.config/mpv/'
 alias ob='goto ~/.config/openbox'
 alias obt='goto ~/.config/openbox/themes'
 
-# --- //STORAGE:
-alias s1='goto /storage'
-alias sdl='goto /storage/Downloads'
-alias spic='goto /storage/Pictures'
-alias svid='goto /storage/Videos'
+# --- // STORAGE:
+alias sto='goto /storage'
+alias stodl='goto /storage/Downloads'
+alias stopic='goto /storage/Pictures'
+alias stovid='goto /storage/Videos'
 alias streamdir='goto /storage/streamlink'
 
-# --- //STO2:
-alias s2='goto /sto2'
-alias s2dl='goto /sto2/Downloads'
-alias s2pic='goto /sto2/Pictures'
-alias s2vid='goto /sto2/Videos'
+# --- // STO2:
+alias sto2='goto /sto2'
+alias sto2dl='goto /sto2/Downloads'
+alias sto2pic='goto /sto2/Pictures'
+alias sto2vid='goto /sto2/Videos'
 alias gym='goto /sto2/Gym'
 alias jd='goto /sto2/JD'
 
-# --- //23.1: 
+# --- // 23.1: 
 alias 23='goto /23.1'
 alias 23dl='goto /23.1/Downloads'
 alias 23pic='goto /23.1/Pictures'
@@ -138,19 +132,19 @@ alias 23vid='goto /23.1/Videos'
 alias 23e='goto /23.1/Edits'
 alias cloud='goto /23.1/Thecloud'
 
-# --- //Nas: 
+# --- // Nas: 
 alias nas='goto /Nas/'
-alias nrepo='goto /Nas/Build'
+alias nbuild='goto /Nas/Build'
 alias nbin='goto /Nas/Build/git/syncing/scr'
 alias nnas='goto /Nas/Build/git/syncing/nas'
 alias ngpt='goto /Nas/Build/git/syncing/gpt'
+alias ngit='goto /Nas/Build/git/'
 alias ngc='goto /Nas/Build/git/clone'
-alias ngl='goto /Nas/Build/git/local'
 alias npkg='goto /Nas/Build/pkgs'
 alias npro='goto /Nas/Build/projects'
 alias ndot='goto /Nas/Build/git/clone/dotfiles'
 
-# --- //System:
+# --- // System:
 alias et='goto /etc'
 alias ske='goto /etc/skel'
 alias bin='goto /usr/local/bin'
@@ -161,16 +155,15 @@ alias lsrc='goto ~/.local/src/'
 alias shellzsh='goto ~/.config/shellz'
 alias shellbash='goto ~/.config/shell'
 
-# ========================================================== // SCRIPTS_DROPDOWN_MENU //
-
-# --- // $USER/.local/bin //
-slb() {
+# ========================================= // Fzf_shortcuts:
+# --- // $USER/.local/bin:
+fzlb() {
 	choice="$(find ~/.local/bin -mindepth 1 -printf '%P\n' | fzf)"
 	[ -f "$HOME/.local/bin/$choice" ] && $EDITOR "$HOME/.local/bin/$choice";
 }
 
-# --- // /Nas/Build/git/syncing/scr //
-ms() {
+# --- // /Nas/Build/git/syncing/scr:
+fzscr() {
     local dir="${1:-/Nas/Build/git/syncing/scr}"
     
     # Find executable files and directories, excluding .git items, and sorting directories first
@@ -195,15 +188,14 @@ ms() {
     fi
 }
 
-# =======================================================// OH_MY_ZSH //
+# ======================================================= // Oh_my_zsh:
 #alias oz="svim ~/.zshrc"
 #alias oc="cd ~/.oh-my-zsh/custom/"
 #alias omzp="echo -e '\033[1;36mPlugins:\033[0m'; awk -F'=' '/^plugins/{gsub(/[\(\)]/, \"\"); split(\$2, a, \" \"); for(i in a) print a[i]}' ~/.zshrc"
 #alias omzl='omz plugin list'
 #alias omzi='omz plugin info'
 
-# ================================================== // BASIC_ALIASES //
-
+# ================================================== // General:
 alias cd='cd -P'
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -213,7 +205,7 @@ alias ......='cd ../../../../..'
 alias s='sudo'
 alias cp='cp -iv'
 alias mv='mv -iv'
-alias rm='trash-put'          # Aliases for trash-cli
+alias rm='trash-put' 
 #alias rm='rm -vI'
 alias rmf='sudo -S /usr/bin/rm -vI -rf'
 alias rg='batgrep'            # Aliased for bat-extras ripgrep
@@ -375,115 +367,128 @@ alias lt='exa -aT -s new --color=always --group-directories-first --icons'
 #alias lsp='ls -lhS --color=auto | grep -E "^l"'
 
 # ============================================================================= // PERMISSIONS //
-# --- // Single_cmds:
+# --- // Chmod:
 alias chown='sudo chown --preserve-root'
 alias chmod='sudo chmod --preserve-root'
 alias chgrp='sudo chgrp --preserve-root'
 alias lock='sudo chattr +i '
 alias unlock='sudo chattr -i '
-
-# --- // Reset_perms:
-alias factory_local='sudo chown -R $USER:$USER ~/.config ~/.local || echo "Failure resetting $USER config and local dirs."'
-alias factory_gpg='sudo chown -R $USER:$USER ~/.gnupg && sudo chmod 700 ~/.gnupg && sudo chmod 600 ~/.gnupg/private-keys-v1.d/* || echo "Failure resetting $USER gpg dir"'
-alias factory_ssh='sudo chown -R $USER:$USER ~/.ssh/* && sudo chmod 700 ~/.ssh && sudo chmod 600 ~/.ssh/* || echo "failure resetting $USER ssh dir."'
-
-factory_boot() {
-    sudo chmod -R 755 /boot/
-    sudo chown -R root:root /boot/
-    echo "/boot: Owner -> root | Dirs -> 755"
-}
-
-factory_python() {
-    local python_version
-    python_version=$(python3 -c 'import sys; print(".".join(map(str, sys.version_info[:2])))')
-
-    local site_packages_dir="/usr/lib/python${python_version}/site-packages"
-
-    if [[ -d "$site_packages_dir" ]]; then
-        sudo chown -R root:root "$site_packages_dir"
-        sudo chmod -R 755 "$site_packages_dir"
-        echo "Ownership and permissions successfully reset for $site_packages_dir."
-    else
-        echo "Error: Directory $site_packages_dir not found for Python version $python_version."
-    fi
-}
-
-factory_except() {
-    if [[ -z "$1" ]]; then
-        echo "Usage: factory_except <directory-to-exclude>"
-        return 1
-    elif [[ ! -d "$1" ]]; then
-        echo "Error: Directory not found."
-        return 1
-    fi
-
-    read -r -p "Enter the dir to exclude: " exclude_dir
-    if [[ -z "$exclude_dir" ]]; then
-        echo "Error: No directory specified to exclude."
-        return 1
-    fi
-
-    echo "Setting permissions for $1, excluding $exclude_dir"
-    sudo find "$1" -type d -not -name "$exclude_dir" -exec chmod 755 {} +
-    sudo find "$1" -type f -not -path "*/$exclude_dir/*" -exec chmod 644 {} +
-    sudo chown -R root:root "$1"
-    echo "Permissions set successfully for $1, excluding $exclude_dir."
-}
+alias factory_all='/Nas/Build/git/syncing/scr/permissions/4ndr0reset/factory_all.sh'
 
 chdirs() {
     if [[ -z "$1" ]]; then
-        echo "Usage: chdirs <path>"
+        echo "Usage: chdirs <directory_path>"
         return 1
     elif [[ ! -d "$1" ]]; then
         echo "Error: '$1' is not a valid directory."
         return 1
     fi
 
-    sudo find "$1" -type d -exec chmod 755 {} +
-    echo "$1: Dirs -> 755" 
+    local target_dir="$1"
+    echo "Setting permissions: U+rwx | G+rwx | O+rx for directories in '$target_dir'..."
+
+    # Apply permissions to directories
+    sudo find "$target_dir" -type d -exec chmod 775 {} +
+    if [[ $? -ne 0 ]]; then
+        echo "Error: Failed to set permissions for directories in '$target_dir'."
+        return 1
+    fi
+
+    echo "Successfully set directories in '$target_dir' to 775."
 }
 
 chfiles() {
     if [[ -z "$1" ]]; then
-        echo "Usage: chfiles <path>"
+        echo "Usage: chfiles <directory_path>"
         return 1
-    elif [[ ! -f "$1" ]]; then
-        echo "Error: '$1' were not found."
+    elif [[ ! -d "$1" ]]; then
+        echo "Error: '$1' is not a valid directory."
         return 1
     fi
 
-    sudo find "$1" -type f -exec chmod 644 {} +
-    echo "$1: Files -> 644"
+    local target_dir="$1"
+    echo "Setting permissions: U+rwx | G+rwx | O+rx for files in '$target_dir'..."
+
+    # Apply permissions to files
+    sudo find "$target_dir" -type f -exec chmod 755 {} +
+    if [[ $? -ne 0 ]]; then
+        echo "Error: Failed to set permissions for files in '$target_dir'."
+        return 1
+    fi
+
+    echo "Successfully set files in '$target_dir' to 755."
 }
 
 chandro() {
-#    if [[ -z "$1" ]]; then
-#        echo "Usage: chandro <directory>"
-#        return 1
-#    elif [[ ! -d "$1" ]]; then
-#        echo "Error: '$1' is not a valid directory."
-#        return 1
-#    fi
+    if [[ -z "$1" ]]; then
+        echo "Usage: chandro <directory_path>"
+        return 1
+    elif [[ ! -d "$1" ]]; then
+        echo "Error: '$1' is not a valid directory."
+        return 1
+    fi
 
-    sudo chown -R $USER:$USER "$1"
-    sudo find "$1" -type d -exec chmod 755 {} +
-    sudo find "$1" -type f -exec chmod 644 {} +  
-    echo "$1: Owner -> $USER | Dirs -> 755 | Files -> 644"
+    local target_dir="$1"
+    echo "Resetting ownership to '$USER:$USER' and setting permissions for '$target_dir'..."
+
+    # Reset ownership
+    sudo chown -R "$USER":"$USER" "$target_dir"
+    if [[ $? -ne 0 ]]; then
+        echo "Error: Failed to reset ownership for '$target_dir'."
+        return 1
+    fi
+
+    # Set permissions for directories
+    sudo find "$target_dir" -type d -exec chmod 775 {} +
+    if [[ $? -ne 0 ]]; then
+        echo "Error: Failed to set directory permissions for '$target_dir'."
+        return 1
+    fi
+
+    # Set permissions for files
+    sudo find "$target_dir" -type f -exec chmod 755 {} +
+    if [[ $? -ne 0 ]]; then
+        echo "Error: Failed to set file permissions for '$target_dir'."
+        return 1
+    fi
+
+    echo "Successfully reset ownership and permissions for '$target_dir'."
 }
 
-chroot() {
-#    if [[ -z "$1" ]]; then
-#        echo "Usage: chroot <directory>"
-#        return 1
-#    elif [[ ! -d "$1" ]]; then
-#        echo "Error: Directory not found."
-#        return 1
-#    fi
+chrootuser() {
+    if [[ -z "$1" ]]; then
+        echo "Usage: chrootuser <directory_path>"
+        return 1
+    elif [[ ! -d "$1" ]]; then
+        echo "Error: '$1' is not a valid directory."
+        return 1
+    fi
 
-    sudo chown -R root:root "$1"
-    sudo find "$1" -type d -exec chmod 775 {} +
-    sudo find "$1" -type f -exec chmod 600 {} +
-    echo "$1: Owner -> root | Dirs -> 775 | Files -> 600"
+    local target_dir="$1"
+    echo "Resetting ownership to 'root:root' and setting permissions for '$target_dir'..."
+
+    # Reset ownership
+    sudo chown -R root:root "$target_dir"
+    if [[ $? -ne 0 ]]; then
+        echo "Error: Failed to reset ownership for '$target_dir'."
+        return 1
+    fi
+
+    # Set permissions for directories
+    sudo find "$target_dir" -type d -exec chmod 775 {} +
+    if [[ $? -ne 0 ]]; then
+        echo "Error: Failed to set directory permissions for '$target_dir'."
+        return 1
+    fi
+
+    # Set permissions for files
+    sudo find "$target_dir" -type f -exec chmod 600 {} +
+    if [[ $? -ne 0 ]]; then
+        echo "Error: Failed to set file permissions for '$target_dir'."
+        return 1
+    fi
+
+    echo "Successfully reset ownership and permissions for '$target_dir'."
 }
 
 # ======================================================================== // SPECIFIC_ALIASES //
@@ -755,9 +760,21 @@ ytdl() {
          --external-downloader aria2c \
          --external-downloader-args "-c -j 3 -x 3 -s 3 -k 1M" \
          -f "315/313/308/303/302/247/244+bestaudio/best" \
-         --merge-output-format mp4 \
+#         --merge-output-format mp4 \
          --no-playlist \
          --no-mtime \
+         "$@"
+}
+
+ytp() {
+  yt-dlp --add-metadata \
+         --embed-metadata \
+         --external-downloader aria2c \
+         --external-downloader-args "-c -j 3 -x 3 -s 3 -k 1M" \
+         -f "315/313/308/303/302/247/244+bestaudio/best" \
+         --yes-playlist \
+#	 --write-playlist-metafiles \
+	 --concat-playlist always \
          "$@"
 }
 

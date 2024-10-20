@@ -1,8 +1,8 @@
 # File: /home/$USER/.config/shell/zenvironment
 # Author: 4ndr0666
-# Edited: 04-10-24
+# Edited: 10-19-24
 
-# ========================= // ZENVIRONTMENT //
+# ======================================== // ZENVIRONTMENT //
 # --- // Dynamic-PATH:
 all_dirs=(
     "$HOME/.npm-global/bin"
@@ -26,8 +26,6 @@ all_dirs=(
     "/usr/bin"
 )
 
-# Add additional directories found in specified locations
-# Optimized to prevent performance issues by limiting search scope
 additional_dirs=($(find "/Nas/Build/git/syncing/scr/" -maxdepth 1 -type d 2>/dev/null))
 all_dirs+=("${additional_dirs[@]}")
 
@@ -39,17 +37,21 @@ for dir in "${all_dirs[@]}"; do
 done
 
 export PATH
-
-# Ensure unique path elements
 typeset -U path PATH cdpath CDPATH fpath FPATH manpath MANPATH
 #unsetopt PROMPT_SP 2>/dev/null
 
-# --- // DEFAULT_PROGRAMS:
+# ================================== // Default_programs:
 export MICRO_TRUECOLOR=1
 export EDITOR="nvim"
 export TERMINAL="alacritty"
 export TERMINAL_PROG="st"
-export BROWSER="brave-browser-beta"
+export BROWSER="brave-beta"
+export HISTFILE="$XDG_DATA_HOME/zsh/history"
+HISTSIZE=10000000
+SAVEHIST=10000000
+mkdir -p "$(dirname "$HISTFILE")"
+export PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig:$PKG_CONFIG_PATH"
+export TRASHDIR="/home/andro/.local/share/Trash"i
 
 # --- // XDG Base Directory Configuration:
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -67,10 +69,6 @@ fi
 
 # --- // XDG_DATA_DIRS_SETUP:
 [ -z "$XDG_DATA_DIRS" ] && export XDG_DATA_DIRS="/usr/local/share:/usr/share"
-
-# Organize history files within XDG directories
-export HISTFILE="$XDG_DATA_HOME/zsh/history"
-mkdir -p "$(dirname "$HISTFILE")"
 
 # --- // XDG_COMPLIANCE
 export XINITRC="$XDG_CONFIG_HOME/x11/xinitrc"
@@ -99,7 +97,7 @@ export SQLITE_HISTORY="$XDG_DATA_HOME/sqlite_history"
 # export KODI_DATA="$XDG_DATA_HOME/kodi"
 #export ZDOTDIR="$HOME"/powerlevel10k
 
-# ----------------------------- // X11_SPECIFIC //
+# ================================================ // X11:
 #export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 # --- OPENBOX:
 # export XGD_CURRENT_DESKTOP='openbox'
@@ -110,26 +108,27 @@ export SQLITE_HISTORY="$XDG_DATA_HOME/sqlite_history"
 # export AWT_TOOLKIT=MToolkit wmname LG3D  # May have to install wmname
 # export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel ${_JAVA_OPTIONS}"
 
-# ---------------------------------------------- // AUTO/TAB_COMPLETE_ZSTYLES //
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'  # Case insensitive tab completion
-zstyle ':completion:*' rehash true  # Automatically find new executables in path
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"  # Colored completion (different colors for dirs/files/etc)
-zstyle ':completion:*' completer _expand _complete _ignored _approximate
+# --- // Auto-complete:
+#zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'  # Case insensitive tab completion
+#zstyle ':completion:*' rehash true  # Automatically find new executables in path
+#zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"  # Colored completion (different colors for dirs/files/etc)
+#zstyle ':completion:*' completer _expand _complete _ignored _approximate
 #zstyle ':completion:*' menu select
-zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
-zstyle ':completion:*:descriptions' format '%U%F{cyan}%d%f%u'
+#zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
+#zstyle ':completion:*:descriptions' format '%U%F{cyan}%d%f%u'
 
 # --- // Speed-up Completeions:
-zstyle ':completion:*' accept-exact '*(N)'
-zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path ~/.cache/zcache
-source <(fzf --zsh)
+#zstyle ':completion:*' accept-exact '*(N)'
+#zstyle ':completion:*' use-cache on
+#zstyle ':completion:*' cache-path ~/.cache/zcache
+#source <(fzf --zsh)
 
-# --------------------------------------------- // LIBRARY_AND_SECURITY //
-[ -z "$LD_LIBRARY_PATH" ] && export LD_LIBRARY_PATH="/home/andro/ffmpeg_build/lib:/usr/local/lib:/home/andro/.local/lib:/usr/local/lib/python3.11/site-packages:/usr/lib:$LD_LIBRARY_PATH"
-export PKG_CONFIG_PATH="/home/andro/ffmpeg_build/lib/pkgconfig:$PKG_CONFIG_PATH"
-# --- // GPG:
+# ======================================= // LIBRARY_AND_SECURITY //
+[ -z "$LD_LIBRARY_PATH" ] && export LD_LIBRARY_PATH="$HOME/.local/lib" || export LD_LIBRARY_PATH="$HOME/.local/lib:$HOME/ffmpeg_build/lib:/usr/lib:$LD_LIBRARY_PATH"
+export SUDO_ASKPASS="/usr/bin/pinentry-dmenu"
 # export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
+
+# --- // GPG:
 export GNUPGHOME="$HOME/.gnupg"
 mkdir -p "$GNUPGHOME"
 chmod 700 "$GNUPGHOME"
@@ -137,13 +136,12 @@ chmod 700 "$GNUPGHOME"
 #gpg-connect-agent updatestartuptty /bye >/dev/null
 #gpg-connect-agent reloadagent /bye >/dev/null
 #eval $(ssh-agent) && ssh-add 2&>/dev/null
-export SUDO_ASKPASS="/usr/bin/pinentry-dmenu"
 
-# ------------------------------------------- // PAGER //
+# ========================================== // Pager:
 # --- // Bat:
-#export MANPAGER="sh -c 'col -bx | bat -l man -p | less -R'"
+export MANPAGER="sh -c 'col -bx | bat -l man -p | less -R'"
 
-# Configure FZF with Bat preview and custom color schemes
+# --- // Fzf:
 export FZF_DEFAULT_OPTS="
   --layout=reverse
   --height=40%
@@ -157,13 +155,11 @@ export FZF_DEFAULT_OPTS="
   --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
   --color=marker:#f5e0dc,fg+:#a6e3a1,prompt:#cba6f7,hl+:#f38ba8"
 
-# Ensure truecolor support
 case "${COLORTERM}" in
     truecolor|24bit) ;;  # Already supports truecolor
     *) export COLORTERM="24bit" ;;
 esac
 
-# Configure less to use highlight for syntax highlighting
 export LESS="R"
 export LESS_TERMCAP_mb="$(printf '%b' '[1;31m')"
 export LESS_TERMCAP_md="$(printf '%b' '[1;36m')"
@@ -182,4 +178,4 @@ export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
 # --- // LF_SHORTCUTS:
 [ ! -f "$XDG_CONFIG_HOME/shell/shortcutrc" ] && setsid -f shortcuts >/dev/null 2>&1
 # Switch escape and caps if tty and no passwd required:
-sudo -n loadkeys "$XDG_DATA_HOME/larbs/ttymaps.kmap" 2>/dev/null
+#sudo -n loadkeys "$XDG_DATA_HOME/larbs/ttymaps.kmap" 2>/dev/null

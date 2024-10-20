@@ -1,43 +1,52 @@
 #!/bin/zsh
+
 # File: /home/$USER/.zshrc
 # Author: 4ndr0666
 # Edited: 09-22-2024
 
+# ======================================== // 4NDR0666_ZSHRC // 
+# --- // Fancy-prompt:
+source ~/.config/shellz/fancy-prompts.zsh
+precmd() {
+	fancy-prompts-precmd
+}
+prompt-zee -PDp "≽ "
 
-# ======================================= // ZSHRC // 
-# --- // Prompt:
-autoload -U colors && colors    
-unsetopt PROMPT_SP 2>/dev/null
-#PROMPT='%F{32}%n%f%F{166}@%f%F{64}%m:%F{166}%~%f%F{15}$%f '
-#RPROMPT='%F{15}(%F{166}%D{%H:%M}%F{15})%f'
+# --- // Custom-prompt:
+#autoload -U colors && colors    
 #PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%🗁%{$fg[red]%}]%{$reset_color%}$%b "
-setopt autocd		# Automatically cd into typed directory.
-stty stop undef		# Disable ctrl-s to freeze terminal.
-setopt interactive_comments
 
-# Uncomment the following lines to enable Powerlevel10k prompt
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-if [ -f /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme ]; then
-   source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
-fi
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# --- // Powerlevel10k:
+#if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+#fi
+#if [ -f /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme ]; then
+#   source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
+#fi
+#[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-
-# ------------------------------------------------------- // Basic auto/tab complete //
+# --- // Auto-complete and fzf:
 autoload -U compinit
 zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'  # Case insensitive tab completion
+zstyle ':completion:*' rehash true  # Automatically find new executables in path
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"  # Colored completion (different colors for dirs/files/etc)
+zstyle ':completion:*' completer _expand _complete _ignored _approximate
+zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
+zstyle ':completion:*:descriptions' format '%U%F{cyan}%d%f%u'
+
+# --- // Speed-up Completions:
+zstyle ':completion:*' accept-exact '*(N)'
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.cache/zcache
+
 zmodload zsh/complist
 compinit
 _comp_options+=(globdots)		# Include hidden files.
 
-# -------------------------------------------------------------------- // History //
-HISTSIZE=10000000
-SAVEHIST=10000000
-HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/history"
+source <(fzf --zsh)
 
-# Enable incremental history appending
+# --- // Setopt:
 setopt inc_append_history
 setopt share_history
 setopt extended_history
@@ -45,22 +54,22 @@ setopt hist_ignore_all_dups    # Remove older duplicates when a new command is e
 setopt hist_verify             # Show command with history expansion applied before executing
 setopt correct                 # Auto-correct mistakes in commands
 
-# ----------------------------------------------------------------- // DISPLAY // 
-# === // Autoset DISPLAY:
-if [ -z "$DISPLAY" ]; then
-    if command -v loginctl &>/dev/null; then
-        LOGINCTL_SESSION=$(loginctl show-user "$USER" -p Display 2>/dev/null | cut -d= -f2)
-        if [ -n "$LOGINCTL_SESSION" ]; then
-            export DISPLAY=$(loginctl show-session "$LOGINCTL_SESSION" -p Display | cut -d= -f2)
-        fi
-    fi
-    if command -v ck-list-sessions &>/dev/null; then
-        eval "$(ck-list-sessions | awk "/^Session/{right=0} /unix-user = '$UID'/{right=1} /x11-display = '(.+)'/{ if(right == 1) printf(\"DISPLAY=%s\\n\", \$3); }")"
-    fi
-fi
+# --- // Autoset_Display: 
+#if [ -z "$DISPLAY" ]; then
+#    if command -v loginctl &>/dev/null; then
+#        LOGINCTL_SESSION=$(loginctl show-user "$USER" -p Display 2>/dev/null | cut -d= -f2)
+#        if [ -n "$LOGINCTL_SESSION" ]; then
+#            export DISPLAY=$(loginctl show-session "$LOGINCTL_SESSION" -p Display | cut -d= -f2)
+#        fi
+#    fi
+#    if command -v ck-list-sessions &>/dev/null; then
+#        eval "$(ck-list-sessions | awk "/^Session/{right=0} /unix-user = '$UID'/{right=1} /x11-display = '(.+)'/{ if(right == 1) printf(\"DISPLAY=%s\\n\", \$3); }")"
+#    fi
+#fi
 
-# ------------------------------------------------------------- // ON_DEMAND_REHASH //
+# --- // On-demand rehash:
 zshcache_time="$(date +%s%N)"
+
 rehash_precmd() {
   if [[ -a /var/cache/zsh/pacman ]]; then
     local paccache_time="$(date -r /var/cache/zsh/pacman +%s%N)"
@@ -73,9 +82,7 @@ rehash_precmd() {
 autoload -Uz add-zsh-hook || autoload -U add-zsh-hook
 add-zsh-hook -Uz precmd rehash_precmd
 
-# -------------------------------------------------------------------- // FILE_SOURCING //
-alias reload="source ~/.zshrc"
-
+# --- // Sourcing: 
 if [[ -z "$FUNCTIONS_ZSH_SOURCED" ]]; then
     export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
     
@@ -88,7 +95,6 @@ if [[ -z "$FUNCTIONS_ZSH_SOURCED" ]]; then
     fi
 fi
 
-# Source environment and alias configurations
 for config_file in "$XDG_CONFIG_HOME/shellz/zenvironment" "$XDG_CONFIG_HOME/shellz/aliasrc"; do
     if [ -f "$config_file" ]; then
         source "$config_file"
@@ -97,7 +103,7 @@ for config_file in "$XDG_CONFIG_HOME/shellz/zenvironment" "$XDG_CONFIG_HOME/shel
     fi
 done
 
-# ------------------------------------------- // NVM //
+# --- // Node_version_manager:
 export NVM_DIR="$HOME/.config/nvm"
 
 if [ -s "$NVM_DIR/nvm.sh" ]; then
@@ -112,8 +118,7 @@ else
     echo "Warning: NVM bash completion script not found at $NVM_DIR/bash_completion"
 fi
 
-# --------------------------------------------------------- // GPG //
-# --- // Source GPG environment variables if present:
+# --------------------------------- // Source GPG environment variables if present: //
 if [ -f "$XDG_CONFIG_HOME/shellz/gpg_env" ]; then
     source "$XDG_CONFIG_HOME/shellz/gpg_env"
 fi
@@ -155,6 +160,7 @@ lfcd () {
         [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
     fi
 }
+
 bindkey -s '^o' '^ulfcd\n'
 
 bindkey -s '^a' '^ubc -lq\n'
@@ -170,32 +176,22 @@ bindkey -M vicmd '^[[P' vi-delete-char
 bindkey -M vicmd '^e' edit-command-line
 bindkey -M visual '^[[P' vi-delete
 
-# --------------------------------------------------------------------- // PLUGINS // 
+# ------------------------------------------------ // PLUGINS // 
 # --- // Auto-loader:
-#source_dir="/usr/share/zsh/plugins/"
-#zsh_files_found=false
+source_dir="/usr/share/zsh/plugins/"
+zsh_files_found=false
 
 # Source all .zsh plugin files in the source_dir
-#while IFS= read -r file; do
-#    zsh_files_found=true
-#    source "$file"
-#done < <(find "$source_dir" -iname '*.zsh' 2>/dev/null)
+while IFS= read -r file; do
+    zsh_files_found=true
+    source "$file"
+done < <(find "$source_dir" -iname '*.zsh' 2>/dev/null)
 
 # Warn if no plugins are found
-#if [ "$zsh_files_found" = false ]; then
-#    echo "Warning: No zsh plugins found in $source_dir."
-#fi
+if [ "$zsh_files_found" = false ]; then
+    echo "Warning: No zsh plugins found in $source_dir."
+fi
 
-
-# --- // Specific Sources:
-source /usr/share/zsh/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
-source /usr/share/zsh/plugins/zsh-extract/extract.plugin.zsh
-source /usr/share/zsh/plugins/zsh-fzf-plugin/fzf.plugin.zsh
-source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
-source /usr/share/zsh/plugins/zsh-sudo/sudo.plugin.zsh
-source /usr/share/zsh/plugins/zsh-systemd/systemd.plugin.zsh
-source /usr/share/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh
-#source /usr/share/doc/find-the-command/ftc.zsh noupdate quiet
-
+# --- // Specific Plugin Sources:
+source /usr/share/doc/find-the-command/ftc.zsh noupdate quiet
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh 2>/dev/null
