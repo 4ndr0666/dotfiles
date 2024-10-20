@@ -1,0 +1,6 @@
+// /etc/polkit-1/rules.d/50-x11-access.rules
+polkit.addRule(function(action, subject) {
+    if (action.id == "org.freedesktop.DisplayManager.XServer" && subject.isInGroup("andro")) {
+        return polkit.Result.YES;
+    }
+});
