@@ -4,7 +4,7 @@
 
 # ======================================== // ZENVIRONTMENT //
 # --- // Dynamic-PATH:
-all_dirs=(
+static_dirs=(
     "$HOME/.npm-global/bin"
     "$HOME/.cargo/bin"
     "$HOME/.gem/ruby/2.7.0/bin"  # Adjust Ruby version as needed
@@ -19,30 +19,72 @@ all_dirs=(
     "$HOME/.poetry/bin"
     "$HOME/bin"
     "$HOME/.local/bin"
+    "/home/andro/bin/"
     "/opt/bin"
     "/sbin"
     "/usr/sbin"
     "/usr/local/sbin"
     "/usr/bin"
 )
-additional_dirs=($(find '/Nas/Build/git/syncing/scr/' -maxdepth 1 -type d 2>/dev/null))
+# Use Zsh globbing to find directories under "/Nas/Build/git/syncing/scr/" with max depth 1
+dynamic_dirs=(/Nas/Build/git/syncing/scr/*(/))
 
-# Use Zsh globbing to find directories under "/Nas/Build/git/syncing/scr/"
-#additional_dirs=(/Nas/Build/git/syncing/scr/*(/))
+all_dirs=("${static_dirs[@]}" "${dynamic_dirs[@]}")
+typeset -U PATH
 
-# Add the additional directories to the all_dirs array
-all_dirs+=("${additional_dirs[@]}")
-
-# Update PATH with all valid directories
 for dir in "${all_dirs[@]}"; do
+    # Remove trailing slash for consistency
+    dir=${dir%/}
+    # Check if the directory exists
     if [[ -d $dir ]]; then
+        # Prepend to PATH to prioritize these directories
         PATH="$PATH:$dir"
     fi
 done
-# Export the path
+
 export PATH
+####################################################################3
+#all_dirs=(
+#    "$HOME/.npm-global/bin"
+#    "$HOME/.cargo/bin"
+#    "$HOME/.gem/ruby/2.7.0/bin"  # Adjust Ruby version as needed
+#    "$HOME/.pyenv/bin"
+#    "$HOME/.pyenv/shims"
+#    "$HOME/.config/yarn/global/node_modules/.bin"
+#    "$HOME/.local/share/go/"
+#    "/usr/local/go/bin"
+#    "${JAVA_HOME:-/usr/lib/jvm/default/bin}"  # Use JAVA_HOME if set, else default
+#    "$HOME/.rvm/bin"
+#    "$HOME/.virtualenvs"
+#    "$HOME/.poetry/bin"
+#    "$HOME/bin"
+#    "$HOME/.local/bin"
+#    "/home/andro/bin/"
+#    "/opt/bin"
+#    "/sbin"
+#    "/usr/sbin"
+#    "/usr/local/sbin"
+#    "/usr/bin"
+#)
+#additional_dirs=($(find '/Nas/Build/git/syncing/scr/' -maxdepth 1 -type d 2>/dev/null))
+#
+# Use Zsh globbing to find directories under "/Nas/Build/git/syncing/scr/"
+#additional_dirs=(/Nas/Build/git/syncing/scr/*(/))
+#
+# Add the additional directories to the all_dirs array
+#all_dirs+=("${additional_dirs[@]}")
+#
+# Update PATH with all valid directories
+#for dir in "${all_dirs[@]}"; do
+#    if [[ -d $dir ]]; then
+#        PATH="$PATH:$dir"
+#    fi
+#done
+# Export the path
+#export PATH
 # Ensure no duplicates
-typeset -U path PATH cdpath CDPATH fpath FPATH manpath MANPATH
+#typeset -U path PATH cdpath CDPATH fpath FPATH manpath MANPATH
+###########################################################################
 unsetopt PROMPT_SP 2>/dev/null
 
 # ================================== // Default_programs:
@@ -131,7 +173,7 @@ mkdir -p "$WINEPREFIX" "$CARGO_HOME" "$GOPATH" "$GOMODCACHE"
 #source <(fzf --zsh)
 
 # ======================================= // LIBRARY_AND_SECURITY // 
-export LD_LIBRARY_PATH="$HOME/.local/lib:$FFMPEG_BUILD/lib:/usr/local/lib:$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="/home/andro/ffmpeg_build/lib:$HOME/.local/lib:/usr/local/lib:$LD_LIBRARY_PATH"
 
 export SUDO_ASKPASS="/usr/bin/pinentry-dmenu"
 # export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
