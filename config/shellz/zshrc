@@ -5,18 +5,20 @@
 # Edited: 09-22-2024
 
 # ======================================== // 4NDR0666_ZSHRC // 
-# --- // Fancy-prompt:
+# ---------------------------- // PROMPTS //
+# --- // Fancy Prompt:
 source ~/.config/shellz/fancy-prompts.zsh
+
 precmd() {
 	fancy-prompts-precmd
 }
 prompt-zee -PDp "≽ "
 
-# --- // Custom-prompt:
+# --- // Custom Prompt:
 #autoload -U colors && colors    
 #PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%🗁%{$fg[red]%}]%{$reset_color%}$%b "
 
-# --- // Powerlevel10k:
+# --- // Powerlevel10 Prompt:
 #if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
 #  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 #fi
@@ -25,7 +27,15 @@ prompt-zee -PDp "≽ "
 #fi
 #[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# --- // Auto-complete and fzf:
+# ------------------------------------- // ALIAS //
+alias reload='exec zsh'
+
+# -------------------------------------- // CUSTOM FFMPEG BUILD //
+export PATH="$HOME/bin:$PATH"
+export PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig:$PKG_CONFIG_PATH"
+export LD_LIBRARY_PATH="$HOME/ffmpeg_build/lib:$LD_LIBRARY_PATH"
+
+# ----------------------------- // AUTO COMPLETE //
 autoload -U compinit
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'  # Case insensitive tab completion
@@ -42,17 +52,20 @@ zstyle ':completion:*' cache-path ~/.cache/zcache
 
 zmodload zsh/complist
 compinit
-_comp_options+=(globdots)		# Include hidden files.
+_comp_options+=(globdots) # Include hidden files.
 
 source <(fzf --zsh)
 
-# --- // Setopt:
+# ----------------------------------- // SETOPT //
 setopt inc_append_history
 setopt share_history
 setopt extended_history
 setopt hist_ignore_all_dups    # Remove older duplicates when a new command is entered
 setopt hist_verify             # Show command with history expansion applied before executing
 setopt correct                 # Auto-correct mistakes in commands
+setopt autocd		# Automatically cd into typed directory.
+stty stop undef		# Disable ctrl-s to freeze terminal.
+setopt interactive_comments
 
 # --- // Autoset_Display: 
 #if [ -z "$DISPLAY" ]; then
@@ -82,7 +95,7 @@ rehash_precmd() {
 autoload -Uz add-zsh-hook || autoload -U add-zsh-hook
 add-zsh-hook -Uz precmd rehash_precmd
 
-# --- // Sourcing: 
+# ------------------------------------- // SOURCE //
 if [[ -z "$FUNCTIONS_ZSH_SOURCED" ]]; then
     export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
     
@@ -103,7 +116,7 @@ for config_file in "$XDG_CONFIG_HOME/shellz/zenvironment" "$XDG_CONFIG_HOME/shel
     fi
 done
 
-# --- // Node_version_manager:
+# ------------------------------------- // NVM //
 export NVM_DIR="$HOME/.config/nvm"
 
 if [ -s "$NVM_DIR/nvm.sh" ]; then
@@ -118,12 +131,12 @@ else
     echo "Warning: NVM bash completion script not found at $NVM_DIR/bash_completion"
 fi
 
-# --------------------------------- // Source GPG environment variables if present: //
+# ----------------------------------- // GPG ENV //
 if [ -f "$XDG_CONFIG_HOME/shellz/gpg_env" ]; then
     source "$XDG_CONFIG_HOME/shellz/gpg_env"
 fi
 
-# -------------------------------------------------------- // KEYBINDINGS(vi mode) //
+# ------------------------------------ // KEYBINDINGS (vi mode) //
 bindkey -v
 export KEYTIMEOUT=1
 

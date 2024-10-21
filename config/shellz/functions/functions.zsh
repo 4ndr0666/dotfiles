@@ -270,7 +270,7 @@ function reset_permissions() {
 alias reset-perms=reset_permissions
 
 # ------------------------------------------------------------------------ // GLOB_HELP:
-function H-Glob() {
+function hglob() {
     cat <<'EOF'
 Zsh Globbing Features and Examples:
 

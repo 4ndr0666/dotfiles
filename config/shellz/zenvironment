@@ -25,8 +25,12 @@ all_dirs=(
     "/usr/local/sbin"
     "/usr/bin"
 )
+additional_dirs=($(find '/Nas/Build/git/syncing/scr/' -maxdepth 1 -type d 2>/dev/null))
 
-additional_dirs=($(find "/Nas/Build/git/syncing/scr/" -maxdepth 1 -type d 2>/dev/null))
+# Use Zsh globbing to find directories under "/Nas/Build/git/syncing/scr/"
+#additional_dirs=(/Nas/Build/git/syncing/scr/*(/))
+
+# Add the additional directories to the all_dirs array
 all_dirs+=("${additional_dirs[@]}")
 
 # Update PATH with all valid directories
@@ -35,10 +39,11 @@ for dir in "${all_dirs[@]}"; do
         PATH="$PATH:$dir"
     fi
 done
-
+# Export the path
 export PATH
+# Ensure no duplicates
 typeset -U path PATH cdpath CDPATH fpath FPATH manpath MANPATH
-#unsetopt PROMPT_SP 2>/dev/null
+unsetopt PROMPT_SP 2>/dev/null
 
 # ================================== // Default_programs:
 export MICRO_TRUECOLOR=1
@@ -50,8 +55,10 @@ export HISTFILE="$XDG_DATA_HOME/zsh/history"
 HISTSIZE=10000000
 SAVEHIST=10000000
 mkdir -p "$(dirname "$HISTFILE")"
-export PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig:$PKG_CONFIG_PATH"
-export TRASHDIR="/home/andro/.local/share/Trash"i
+#if [ ! -d "$HISTFILE" ]; then
+#    mkdir -p "$HISTFILE"
+#fi
+export TRASHDIR="/home/andro/.local/share/Trash"
 
 # --- // XDG Base Directory Configuration:
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -80,7 +87,6 @@ export INPUTRC="$XDG_CONFIG_HOME/shell/inputrc"
 export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
 mkdir -p "$WINEPREFIX"
 export WINEARCH="win32"
-export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
 export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
 export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
 export ANDROID_SDK_HOME="$XDG_CONFIG_HOME/android"
@@ -96,6 +102,7 @@ export PIP_DOWNLOAD_CACHE="$XDG_CACHE_HOME/pip/"
 export SQLITE_HISTORY="$XDG_DATA_HOME/sqlite_history"
 # export KODI_DATA="$XDG_DATA_HOME/kodi"
 #export ZDOTDIR="$HOME"/powerlevel10k
+mkdir -p "$WINEPREFIX" "$CARGO_HOME" "$GOPATH" "$GOMODCACHE"
 
 # ================================================ // X11:
 #export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
@@ -123,14 +130,17 @@ export SQLITE_HISTORY="$XDG_DATA_HOME/sqlite_history"
 #zstyle ':completion:*' cache-path ~/.cache/zcache
 #source <(fzf --zsh)
 
-# ======================================= // LIBRARY_AND_SECURITY //
-[ -z "$LD_LIBRARY_PATH" ] && export LD_LIBRARY_PATH="$HOME/.local/lib" || export LD_LIBRARY_PATH="$HOME/.local/lib:$HOME/ffmpeg_build/lib:/usr/lib:$LD_LIBRARY_PATH"
+# ======================================= // LIBRARY_AND_SECURITY // 
+export LD_LIBRARY_PATH="$HOME/.local/lib:$FFMPEG_BUILD/lib:/usr/local/lib:$LD_LIBRARY_PATH"
+
 export SUDO_ASKPASS="/usr/bin/pinentry-dmenu"
 # export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
 
 # --- // GPG:
 export GNUPGHOME="$HOME/.gnupg"
-mkdir -p "$GNUPGHOME"
+if [ ! -d "$GNUPGHOME" ]; then
+    mkdir -p "$GNUPGHOME"
+fi
 chmod 700 "$GNUPGHOME"
 #export GPG_TTY="$(tty)"
 #gpg-connect-agent updatestartuptty /bye >/dev/null
@@ -139,7 +149,7 @@ chmod 700 "$GNUPGHOME"
 
 # ========================================== // Pager:
 # --- // Bat:
-export MANPAGER="sh -c 'col -bx | bat -l man -p | less -R'"
+#export MANPAGER="sh -c 'col -bx | bat -l man -p | less -R'"
 
 # --- // Fzf:
 export FZF_DEFAULT_OPTS="

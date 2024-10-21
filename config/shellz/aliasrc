@@ -15,10 +15,64 @@ alias 0b='bat ~/.bashrc'
 
 alias jf='joshuto'
 alias lf='lfub'
-alias fd1='fd --exact-depth=1 --hidden'
 #alias screenrecord="wf-recorder -a"
 #alias screenrecord2="wf-recorder -a -c h264_vaapi -C aac -d /dev/dri/renderD128 --file=recording.mp4"
 alias kmon='sudo kmon --color blue --accent-color 15FFFF --unicode'
+
+# --- // FD:
+alias fd1='fd --exact-depth=1 --hidden' # Keeps search depth at first level
+fdde() {
+    local case_flag=""
+    local depth_flag=""
+    
+    # Enable case-insensitive search if the first argument is '-i'
+    if [[ "$1" == "-i" ]]; then
+        case_flag="--ignore-case"
+        shift
+    fi
+
+    # Set the depth flag if a second argument is provided
+    if [ -n "$2" ]; then
+        depth_flag="--max-depth $2"
+    fi
+
+    # Check if the search term is provided, otherwise print usage
+    if [ -z "$1" ]; then
+        echo "Usage: fdd_exact [-i] <pattern> [max-depth]"
+    else
+        # Use --glob to match the pattern exactly, add anchors to ensure exact match
+        fd $case_flag $depth_flag --glob "$1" "$(pwd)"
+    fi
+}
+
+# --- // NSXIV:
+vidt() {
+    # Create a directory to store the thumbnails
+    local thumb_dir="$HOME/.cache/video_thumbs"
+    mkdir -p "$thumb_dir"
+
+    # Disable confirmation for 'rm *' and clear old thumbnails if any exist
+    setopt localoptions rmstarsilent
+    rm -f "$thumb_dir"/*
+
+    # Find video files in the current directory
+    local videos=(*.mp4(N) *.mkv(N) *.avi(N) *.mov(N) *.webm(N) *.flv(N) *.wmv(N))
+
+    # Check if any video files were found
+    if [ ${#videos[@]} -eq 0 ]; then
+        echo "No video files found in the current directory."
+        return 1
+    fi
+
+    # Generate thumbnails for each video file
+    for video in "${videos[@]}"; do
+        local thumbnail="$thumb_dir/${video%.*}.jpg"
+        ffmpegthumbnailer -i "$video" -o "$thumbnail" -s 256 2>> "$HOME/.cache/video_thumbs/errors.log"
+    done
+
+    # Open the thumbnail images in nsxiv
+    nsxiv -t "$thumb_dir"
+}
 
 # --- // Expressvpn:
 alias vpnc='sudo expressvpn connect'
@@ -230,7 +284,7 @@ alias lessc='less -R'
 alias ip='ip -color=auto'
 alias c='clear; echo; echo; seq 1 $(tput cols) | sort -R | spark | lolcat; echo; echo'
 alias hw='sudo hwinfo --short'
-alias lsblk='lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINT'
+#alias lsblk='lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINT'
 #alias lsblkh='lsblk.sh'
 alias psa='ps auxf | less'
 alias free='free -mt'
@@ -336,16 +390,19 @@ cpu() {
 
 # --- // Config 1:
 alias mkplaylist="ls -d */ > mpv_playlist.txt"
+alias l='ls'
 alias lb='ls | bat'
-alias l1='lsd -1'
-alias lr='lsd -tr'
-alias ls='exa -hlx --no-filesize --no-time --no-permissions --octal-permissions --color=always --group-directories-first --icons=always'
+alias l1='lsd -1'                               # List everything in one line
+alias lr='lsd -tr'                              # List most recent item changed first
+alias ls='lsd'
+#'exa -hlx --no-filesize --no-time --no-permissions --color=always --group-directories-first --icons=always'
 alias la="lsd -aFlL --permission=rwx --color=always --group-dirs=first --icon=always"
 alias ll='exa -xXDa --color=always  --icons=always'
 alias l.='exa -ax --sort=modified --color-scale-mode=gradient --color=always --group-directories-first --icons | grep "^\."'
 alias lt='exa -aT -s new --color=always --group-directories-first --icons'
 
 # --- // Config 2:
+#alias l='ls'
 #alias ls="ls -alhfN --time-style=long-iso --color=auto --group-directories-first"
 #alias ll="ls -lFh --color=auto --group-directories-first --time-style=long-iso"
 #alias la='exa -hFlBgmnsa -s new --git --octal-permissions --group-directories-first --icons'
