@@ -4,17 +4,15 @@
 #Author: 4ndr0666
 #Edited: 09-11-24
 # Exports environment variables for wayfire and launches it.
-#
-# --- // RUN-WAYFIRE // ========
 
+# ===================================== // RUN-WAYFIRE //
+# --- // EXPLICITY_SET_WAYFIRE_DIRS:
+#XDG_DATA_DIRS=$XDG_DATA_DIRS
 
 # --- // XDG_VARIABLES:
 export XDG_SESSION_TYPE=wayland
 export XDG_SESSION_DESKTOP=wayfire
 export XDG_CURRENT_DESKTOP=wayfire
-
-# --- // EXPLICITY_SET_WAYFIRE_DIRS:
-XDG_DATA_DIRS=$XDG_DATA_DIRS
 
 if [ -d "XDG_DATA_HOME" ]; then
     DEFAULT_LOG_DIR=$XDG_DATA_HOME/wayfire
@@ -23,21 +21,21 @@ else
 fi
 
 # --- // SETUP_LOGGING:
-mkdir -p $DEFAULT_LOG_DIR
-if [ $? != 0 ]; then
+mkdir -p "$DEFAULT_LOG_DIR"
+if ! mycmd; then
     echo "Could not create log directory $DEFAULT_LOG_DIR"
     echo "Using stdout as log"
     wayfire "$@"
- elif [ ! -z "$WAYLAND_DISPLAY" ] || [ ! -z "$DISPLAY" ]; then
+ elif [ -n "$WAYLAND_DISPLAY" ] || [ -n "$DISPLAY" ]; then
      echo "RUnning nested, using stdout as log"
      wayfire "$@"
  else
      LOG_FILE=$DEFAULT_LOG_DIR/wayfire.log
-     if [ -f $LOG_FILE ]; then
-         cp $LOG_FILE $LOG_FILE.old
+     if [ -f "$LOG_FILE" ]; then
+         cp "$LOG_FILE" "$LOG_FILE".old
      fi
      echo "Using log file: $LOG_FILE"
-     wayfire "@" &> $LOG_FILE
+     wayfire "@" &> "$LOG_FILE"
  fi
 
 # --- // GTK_VARIABLES:
@@ -63,7 +61,7 @@ export NO_AT_BRIDGE=1
 export BEMENU_BACKEND=wayland
 
 # --- // Qt
-export QT_QPA_PLATFORM=wayland-egl 
+export QT_QPA_PLATFORM=wayland-egl
 #export QT_WAYLAND_FORCE_DPI=physical # Use monitor's DPI
 #export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
 #export QT_AUTO_SCREEN_SCALE_FACTOR=1
@@ -89,8 +87,8 @@ if ! eval "$(dbus-launch --sh-syntax)"; then
 fi
 export DBUS_SESSION_BUS_ADDRESS
 export DBUS_SESSION_BUS_PID
-xrandr --dpi 96
-#xhost + </dev/null &>/dev/null &
+#xrandr --dpi 96
+xhost + </dev/null &>/dev/null &
 #xhost +SI:localuser:andro
 #xhost +SI:localuser:root
 

@@ -97,6 +97,7 @@ rehash_precmd() {
 autoload -Uz add-zsh-hook
 add-zsh-hook -Uz precmd rehash_precmd
 
+
 # ------------------------------------------ // SOURCES //
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 
@@ -109,7 +110,7 @@ else
 fi
 
 # Source additional configuration files
-for config_file in "$XDG_CONFIG_HOME/shellz/zenvironment" "$XDG_CONFIG_HOME/shellz/aliasrc"; do
+for config_file in "$XDG_CONFIG_HOME/shellz/.zprofile" "$XDG_CONFIG_HOME/shellz/aliasrc"; do
     if [ -f "$config_file" ]; then
         source "$config_file"
     else
