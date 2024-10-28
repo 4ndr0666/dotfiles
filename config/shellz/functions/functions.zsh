@@ -804,136 +804,140 @@ function whatsnew() {
     fi
 }
 
+######################################################################################
 # ------------------------------------------------------------ // FINDIT:
-# Function to validate command execution
-validate() {
-    local command="$1"
-    echo "Running: $command"
-    eval "$command"
-    if [ $? -ne 0 ]; then
-        echo "Error: Command failed - $command"
-        return 1
-    fi
-}
+## Function to validate command execution
+## validate() {
+#     local command="$1"
+#     echo "Running: $command"
+#     eval "$command"
+#     if [ $? -ne 0 ]; then
+#         echo "Error: Command failed - $command"
+#         return 1
+#     fi
+# }
+# 
+# # Function to check and install 'fd'
+# check_install_fd() {
+#     if ! command -v fd &> /dev/null; then
+#         echo "'fd' not found. Installing..."
+#         if command -v pacman &> /dev/null; then
+#             sudo pacman -Sy --noconfirm fd
+#         elif command -v apt-get &> /dev/null; then
+#             sudo apt-get update && sudo apt-get install -y fd-find
+#             sudo ln -s $(which fdfind) /usr/local/bin/fd  # For compatibility
+#         else
+#             echo "Unsupported package manager. Please install 'fd' manually."
+#             return 1
+#         fi
+#     fi
+# }
+# 
+# # Main fd wrapper function
+# findit() {
+#     local query search_dir include_hidden case_sensitive absolute_paths max_depth min_depth list_details search_type extra_opts fd_command
+# 
+#     # Ensure fd is installed
+#     check_install_fd || return 1
+# 
+#     # Step 1: Collect search query
+#     echo "Enter your search query (leave empty to match everything):"
+#     read -r query
+# 
+#     # Step 2: Directory selection
+#     echo "Enter the directory to search in (leave empty for current directory):"
+#     read -r search_dir
+#     [ -z "$search_dir" ] && search_dir="."  # Default to current directory
+# 
+#     # Step 3: File type selection
+#     echo "Search for: (f)iles, (d)irectories, (l)inks, (e)xecutables, (s)ockets, (p)ipes?"
+#     read -r search_type
+#     case "$search_type" in
+#         f) search_type="f" ;;  # Correct usage without quotes
+#         d) search_type="d" ;;
+#         l) search_type="l" ;;
+#         e) search_type="x" ;;  # 'x' for executables in fd
+#         s) search_type="s" ;;
+#         p) search_type="p" ;;
+#         *) search_type="" ;;
+#     esac
+# 
+#     # Step 4: Include hidden files
+#     echo "Include hidden files? (y/n):"
+#     read -r include_hidden
+#     [ "$include_hidden" = "y" ] && include_hidden="--hidden" || include_hidden=""
+# 
+#     # Step 5: Case-sensitive search
+#     echo "Case-sensitive search? (y/n):"
+#     read -r case_sensitive
+#     [ "$case_sensitive" = "y" ] && case_sensitive="--case-sensitive" || case_sensitive="--ignore-case"
+# 
+#     # Step 6: Absolute paths
+#     echo "Use absolute paths? (y/n):"
+#     read -r absolute_paths
+#     [ "$absolute_paths" = "y" ] && absolute_paths="--absolute-path" || absolute_paths=""
+# 
+#     # Step 7: Depth settings
+#     echo "Set max depth (leave empty for no limit):"
+#     read -r max_depth
+#     [ -n "$max_depth" ] && max_depth="--max-depth $max_depth" || max_depth=""
+# 
+#     echo "Set min depth (leave empty for default):"
+#     read -r min_depth
+#     [ -n "$min_depth" ] && min_depth="--min-depth $min_depth" || min_depth=""
+# 
+#     # Step 8: List details
+#     echo "List details (like 'ls -l')? (y/n):"
+#     read -r list_details
+#     [ "$list_details" = "y" ] && list_details="--list-details" || list_details=""
+# 
+#     # Step 9: Automatically resolve incompatible options
+#     if [[ -n "$absolute_paths" && -n "$list_details" ]]; then
+#         echo "'--absolute-path' cannot be used with '--list-details'. Resolving automatically..."
+#         echo "Do you want to (1) use absolute paths, (2) list details, or (3) cancel?"
+#         read -r choice
+#         case $choice in
+#             1)
+#                 list_details=""  # Remove list details
+#                 ;;
+#             2)
+#                 absolute_paths=""  # Remove absolute paths
+#                 ;;
+#             3)
+#                 echo "Cancelled."
+#                 return 0
+#                 ;;
+#             *)
+#                 echo "Invalid choice. Cancelling."
+#                 return 1
+#                 ;;
+#         esac
+#     fi
+# 
+#     # Step 10: Additional options (like size, time-based filters)
+#     echo "Would you like to add advanced options (e.g., file size, time)? (y/n):"
+#     read -r advanced_opts
+#     if [ "$advanced_opts" = "y" ]; then
+#         echo "Enter size filter (e.g., +100k for files > 100KB, -1M for files < 1MB):"
+#         read -r size_filter
+#         [ -n "$size_filter" ] && extra_opts+=" --size $size_filter"
+# 
+#         echo "Enter time filter for files modified within (e.g., 2d for 2 days, 1h for 1 hour):"
+#         read -r time_filter
+#         [ -n "$time_filter" ] && extra_opts+=" --changed-within $time_filter"
+#     fi
+# 
+#     # Build the fd command
+#     fd_command=(fd --type "$search_type" "$query" "$search_dir" $include_hidden $case_sensitive $absolute_paths $max_depth $min_depth $list_details $extra_opts)
+# 
+#     # Execute the command
+#     echo "Executing: ${fd_command[@]}"
+#     "${fd_command[@]}"
+# }
+#######################################################################################3
 
-# Function to check and install 'fd'
-check_install_fd() {
-    if ! command -v fd &> /dev/null; then
-        echo "'fd' not found. Installing..."
-        if command -v pacman &> /dev/null; then
-            sudo pacman -Sy --noconfirm fd
-        elif command -v apt-get &> /dev/null; then
-            sudo apt-get update && sudo apt-get install -y fd-find
-            sudo ln -s $(which fdfind) /usr/local/bin/fd  # For compatibility
-        else
-            echo "Unsupported package manager. Please install 'fd' manually."
-            return 1
-        fi
-    fi
-}
-
-# Main fd wrapper function
-findit() {
-    local query search_dir include_hidden case_sensitive absolute_paths max_depth min_depth list_details search_type extra_opts fd_command
-
-    # Ensure fd is installed
-    check_install_fd || return 1
-
-    # Step 1: Collect search query
-    echo "Enter your search query (leave empty to match everything):"
-    read -r query
-
-    # Step 2: Directory selection
-    echo "Enter the directory to search in (leave empty for current directory):"
-    read -r search_dir
-    [ -z "$search_dir" ] && search_dir="."  # Default to current directory
-
-    # Step 3: File type selection
-    echo "Search for: (f)iles, (d)irectories, (l)inks, (e)xecutables, (s)ockets, (p)ipes?"
-    read -r search_type
-    case "$search_type" in
-        f) search_type="f" ;;  # Correct usage without quotes
-        d) search_type="d" ;;
-        l) search_type="l" ;;
-        e) search_type="x" ;;  # 'x' for executables in fd
-        s) search_type="s" ;;
-        p) search_type="p" ;;
-        *) search_type="" ;;
-    esac
-
-    # Step 4: Include hidden files
-    echo "Include hidden files? (y/n):"
-    read -r include_hidden
-    [ "$include_hidden" = "y" ] && include_hidden="--hidden" || include_hidden=""
-
-    # Step 5: Case-sensitive search
-    echo "Case-sensitive search? (y/n):"
-    read -r case_sensitive
-    [ "$case_sensitive" = "y" ] && case_sensitive="--case-sensitive" || case_sensitive="--ignore-case"
-
-    # Step 6: Absolute paths
-    echo "Use absolute paths? (y/n):"
-    read -r absolute_paths
-    [ "$absolute_paths" = "y" ] && absolute_paths="--absolute-path" || absolute_paths=""
-
-    # Step 7: Depth settings
-    echo "Set max depth (leave empty for no limit):"
-    read -r max_depth
-    [ -n "$max_depth" ] && max_depth="--max-depth $max_depth" || max_depth=""
-
-    echo "Set min depth (leave empty for default):"
-    read -r min_depth
-    [ -n "$min_depth" ] && min_depth="--min-depth $min_depth" || min_depth=""
-
-    # Step 8: List details
-    echo "List details (like 'ls -l')? (y/n):"
-    read -r list_details
-    [ "$list_details" = "y" ] && list_details="--list-details" || list_details=""
-
-    # Step 9: Automatically resolve incompatible options
-    if [[ -n "$absolute_paths" && -n "$list_details" ]]; then
-        echo "'--absolute-path' cannot be used with '--list-details'. Resolving automatically..."
-        echo "Do you want to (1) use absolute paths, (2) list details, or (3) cancel?"
-        read -r choice
-        case $choice in
-            1)
-                list_details=""  # Remove list details
-                ;;
-            2)
-                absolute_paths=""  # Remove absolute paths
-                ;;
-            3)
-                echo "Cancelled."
-                return 0
-                ;;
-            *)
-                echo "Invalid choice. Cancelling."
-                return 1
-                ;;
-        esac
-    fi
-
-    # Step 10: Additional options (like size, time-based filters)
-    echo "Would you like to add advanced options (e.g., file size, time)? (y/n):"
-    read -r advanced_opts
-    if [ "$advanced_opts" = "y" ]; then
-        echo "Enter size filter (e.g., +100k for files > 100KB, -1M for files < 1MB):"
-        read -r size_filter
-        [ -n "$size_filter" ] && extra_opts+=" --size $size_filter"
-
-        echo "Enter time filter for files modified within (e.g., 2d for 2 days, 1h for 1 hour):"
-        read -r time_filter
-        [ -n "$time_filter" ] && extra_opts+=" --changed-within $time_filter"
-    fi
-
-    # Build the fd command
-    fd_command=(fd --type "$search_type" "$query" "$search_dir" $include_hidden $case_sensitive $absolute_paths $max_depth $min_depth $list_details $extra_opts)
-
-    # Execute the command
-    echo "Executing: ${fd_command[@]}"
-    "${fd_command[@]}"
-}
-
+##########################################################################################
+#                                  // Version 1.0 //
 #function findit() {
 #  local search_type search_pattern search_dir include_hidden max_depth hidden_flag depth_flag type_flag
 #
@@ -942,34 +946,35 @@ findit() {
 #    echo "Invalid option. Please enter 'f' for file or 'd' for directory."
 #    return 1
 #  fi
-
+#
 #  read -p "Enter the name or pattern to search for (e.g., *.txt or filename): " search_pattern
 #  read -p "Enter the directory to search in (leave empty for current directory): " search_dir
 #  read -p "Include hidden files (y/N): " include_hidden
 #  read -p "Enter maximum search depth (leave empty for no limit): " max_depth
-
-  # Set flags based on input
+#
+#  # Set flags based on input
 #  [[ "$include_hidden" =~ ^[Yy]$ ]] && hidden_flag="--hidden" || hidden_flag=""
 #  [[ -n "$max_depth" ]] && depth_flag="--max-depth $max_depth" || depth_flag=""
-
-  # Set type flag
+#
+#  # Set type flag
 #  [[ "$search_type" == "f" ]] && type_flag="--type f" || type_flag="--type d"
-
-  # Set directory to search in
+#
+#  # Set directory to search in
 #  search_dir="${search_dir:-.}"
-
-  # Check if fd is installed
+#
+#  # Check if fd is installed
 #  if ! command -v fd &>/dev/null; then
 #    echo "The 'fd' command is not installed. Please install it first."
 #    return 1
 #  fi
-
-  # Execute fd command
+#
+#  # Execute fd command
 #  fd "$search_pattern" "$search_dir" $type_flag $hidden_flag $depth_flag
 #}
-
+#
 # Remove alias and directly define the function
 #findit
+############################################################################
 
 # --------------------------------------------------- // ENHANCED_COPY:
 # Ensure the 'copy' alias is removed if it exists
@@ -1497,4 +1502,74 @@ function termbin() {
         echo "Error: Failed to upload file."
         return 1
     fi
+}
+
+# --- // Extract:
+xt() {
+  if [[ -f "$1" ]]; then
+    case "$1" in
+      *.tar.lrz)
+        b=$(basename "$1" .tar.lrz)
+        lrztar -d "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+      *.lrz)
+        b=$(basename "$1" .lrz)
+        lrunzip "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+      *.tar.bz2)
+        b=$(basename "$1" .tar.bz2)
+        bsdtar xjf "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+      *.bz2)
+        b=$(basename "$1" .bz2)
+        bunzip2 "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+      *.tar.gz)
+        b=$(basename "$1" .tar.gz)
+        bsdtar xzf "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+      *.gz)
+        b=$(basename "$1" .gz)
+        gunzip "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+      *.ipk)
+        b=$(basename "$1" .ipk)
+        gunzip "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+      *.tar.xz)
+        b=$(basename "$1" .tar.xz)
+        bsdtar Jxf "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+      *.xz)
+        b=$(basename "$1" .gz)
+        xz -d "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+      *.rar)
+        b=$(basename "$1" .rar)
+        unrar e "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+      *.tar)
+        b=$(basename "$1" .tar)
+        bsdtar xf "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+      *.tbz2)
+        b=$(basename "$1" .tbz2)
+        bsdtar xjf "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+      *.tgz)
+        b=$(basename "$1" .tgz)
+        bsdtar xzf "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+      *.zip)
+        b=$(basename "$1" .zip)
+        unzip -qq "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+      *.Z)
+        b=$(basename "$1" .Z)
+        uncompress "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+      *.7z)
+        b=$(basename "$1" .7z)
+        7z x "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+      *.zst)
+        b=$(basename "$1" .zst)
+        zstd -d "$1" && return 0 ;;
+      *.deb)
+        b=$(basename "$1" .deb)
+        ar x "$1" && return 0 ;;
+      *.rpm)
+        b=$(basename "$1" .rpm)
+        rpmextract.sh "$1" && return 0 ;;
+      *) echo "error: failed to extract '$1'..." && return 1 ;;
+    esac
+    return 0
+  else
+    echo "error: '$1' is not a valid file!"
+    return 1
+  fi
 }

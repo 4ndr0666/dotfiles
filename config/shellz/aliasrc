@@ -3,20 +3,46 @@
 # Edited: 10-19-2024
 
 # ============================================ // ALIASRC // 
-
-# ==================================================== // QUICK_VIEW //
-
+# --- // Quick view:
 alias 00='bat ~/.config/shellz/aliasrc'
 alias 0f='bat ~/.config/shellz/functions/functions.zsh'
-alias 0z='bat ~/.zshrc'
+alias 0z='bat ~/.config/shellz/.zprofile'
 alias 0b='bat ~/.bashrc'
 
 # ===================================== // RECENT_PROGRAMS //
+# -- // pyfiglet:
+figletbanner() {
+    if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+        echo "Usage: figletc \"your text here\""
+        echo "Generates stylized text using pyfiglet with line_blocks font and cyan color."
+        return
+    fi
 
-alias jf='joshuto'
+    # Check if pyfiglet is installed
+    if ! command -v pyfiglet >/dev/null 2>&1; then
+        echo "Error: pyfiglet is not installed. Please install it using pip:"
+        echo "       pip install pyfiglet"
+        return 1
+    fi
+
+    # Check if lolcat is installed
+    if ! command -v lolcat >/dev/null 2>&1; then
+        echo "Error: lolcat is not installed. Please install it using your package manager:"
+        echo "       sudo pacman -S lolcat"
+        return 1
+    fi
+
+    # Generate and colorize the text
+    pyfiglet --font=line_blocks --normalize-surrounding-newlines "$@" | lolcat -F 0.5
+}
+
+# --- // Lf:
 alias lf='lfub'
+
 #alias screenrecord="wf-recorder -a"
 #alias screenrecord2="wf-recorder -a -c h264_vaapi -C aac -d /dev/dri/renderD128 --file=recording.mp4"
+
+# --- // Kmon:
 alias kmon='sudo kmon --color blue --accent-color 15FFFF --unicode'
 
 # --- // FD:
@@ -85,37 +111,29 @@ alias vpnl='sudo expressvpn list'
 alias vpnblock='sudo expressvpn preferences set block_all false'
 alias vpnproto='sudo expressvpn protocol lightway_udp'
 
-# --- // Editor:
-if command -v nvim > /dev/null 2>&1; then
-    alias vim="nvim"
-    alias vimdiff="nvim -d"
-else
-    echo "nvim not found, falling back to vim if available"
-    command -v vim > /dev/null 2>&1 || { echo "vim also not found. Please install a text editor."; return 1; }
-fi
-alias vim="nvim"
+# ============================================ // EDITOR //
+[ -x "$(command -v nvim)" ] && alias vim="nvim" vimdiff="nvim -d"
 
-# --- // Sudo_bypass:
-#for cmd in pacman-key ufw mount umount pacman updatedb su systemctl useradd userdel groupadd groupdel chown chmod \
-#btrfs ip netstat modprobe; do
-#    alias $cmd="sudo $cmd"
-#done
+# =========================================== // SUDO BYPASS //
+#for command in pacman-key ufw mount umount sv pacman updatedb su shutdown poweroff reboot ; do
+#    alias $command="sudo $command"
+#done; unset command
 
-# --- // Typos: 
+# =========================================== // TYPOS //
 alias gerp='grep'
 alias shudown='shutdown'
 alias pdw='pwd'
 alias cd..='cd ..'
 alias er='et'
 
-# --- // Cheatsheets:
+# =========================================== // CHEATSHEETS //
 cht() {
     local cheats=("$HOME/.cheater/"*.md)
     local choice=$(printf "%s\n" "${cheats[@]}" | fzf --prompt="Select a cheat sheet: ")
     [ -n "$choice" ] && bat "$choice" || echo "No cheat sheet selected."
 }
 
-# ============================================== // Config_editor: 
+# ============================================== // CONFIG EDITOR // 
 edit_config() {
     local file_path=$1
     if [[ $file_path ]]; then
@@ -134,9 +152,9 @@ alias vgrubc='edit_config /boot/grub/grub.cfg'
 alias vmkinit='edit_config /etc/mkinitcpio.conf'
 alias vmirror='edit_config /etc/pacman.d/mirrorlist'
 alias vfstab='edit_config /etc/fstab'
-alias vzenv='edit_config /home/andro/.config/shellz/zenvironment'
+alias vzpro='edit_config /home/andro/.config/shellz/.zprofile'
 alias vbash='edit_config ~/.bashrc'
-alias vzsh='edit_config ~/.zshrc'
+alias vzsh='edit_config ~/.config/shellz/.zshrc'
 alias vfish='edit_config ~/.config/fish/config.fish'
 alias vmpv='edit_config /home/andro/.config/mpv/mpv.conf'
 alias vfire='edit_config ~/.config/wayfire.ini'
@@ -189,6 +207,7 @@ alias cloud='goto /23.1/Thecloud'
 # --- // Nas: 
 alias nas='goto /Nas/'
 alias nbuild='goto /Nas/Build'
+alias nsan='goto /Nas/sandbox'
 alias nbin='goto /Nas/Build/git/syncing/scr'
 alias nnas='goto /Nas/Build/git/syncing/nas'
 alias ngpt='goto /Nas/Build/git/syncing/gpt'
@@ -197,6 +216,7 @@ alias ngc='goto /Nas/Build/git/clone'
 alias npkg='goto /Nas/Build/pkgs'
 alias npro='goto /Nas/Build/projects'
 alias ndot='goto /Nas/Build/git/clone/dotfiles'
+alias distroskels='goto /Nas/Distro_skels'
 
 # --- // System:
 alias et='goto /etc'
@@ -209,14 +229,14 @@ alias lsrc='goto ~/.local/src/'
 alias shellzsh='goto ~/.config/shellz'
 alias shellbash='goto ~/.config/shell'
 
-# ========================================= // Fzf_shortcuts:
-# --- // $USER/.local/bin:
+# ============================================ // FZF SHORTCUTS //
+# --- // Edit file in $USER/.local/bin:
 fzlb() {
 	choice="$(find ~/.local/bin -mindepth 1 -printf '%P\n' | fzf)"
 	[ -f "$HOME/.local/bin/$choice" ] && $EDITOR "$HOME/.local/bin/$choice";
 }
 
-# --- // /Nas/Build/git/syncing/scr:
+# --- // Edit files in /Nas/Build/git/syncing/scr:
 fzscr() {
     local dir="${1:-/Nas/Build/git/syncing/scr}"
     
@@ -249,13 +269,10 @@ fzscr() {
 #alias omzl='omz plugin list'
 #alias omzi='omz plugin info'
 
-# ================================================== // General:
-alias cd='cd -P'
+# ================================================== // GENERAL //
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
-alias .....='cd ../../../..'
-alias ......='cd ../../../../..'
 alias s='sudo'
 alias cp='cp -iv'
 alias mv='mv -iv'
@@ -264,6 +281,22 @@ alias rm='trash-put'
 alias rmf='sudo -S /usr/bin/rm -vI -rf'
 alias rg='batgrep'            # Aliased for bat-extras ripgrep
 #alias rg="rg --sort path"
+
+findit() {
+  [[ -n "$i" ]] || return 1
+  echo
+  find . -type f -name "$i"
+}
+
+findittr() {
+  # find file names matching first token and list them by date
+  if [[ -n "$1" ]]; then
+    find . -type f -printf "%TY%Tm%Td\t%p\n" | sort | grep -i "$1"
+  else
+    return 1
+  fi
+}
+
 alias diff='diff --color=auto'
 alias rmdir='rm -vI --preserve root'
 alias ln='ln -iv'
@@ -273,6 +306,8 @@ alias wget="wget -c"
 alias curl="curl --user-agent 'noleak'"
 alias df='df -h --exclude-type=squashfs --exclude-type=tmpfs --exclude-type=devtmpfs'
 alias cat='bat'
+alias less='bat | less -R'
+alias ccat="highlight --out-format=ansi"
 alias showpath='echo $PATH | tr ":" "\n"'
 #alias path='path -l $path'
 alias rsync='rsync -vrPlu'
@@ -300,6 +335,11 @@ alias dir10='du -cksh * | sort -hr | head -10'
 alias dir='dir --color=auto'
 alias vdir='vdir --color=auto'
 alias z='zathura'
+alias \
+    lf="lfub" \
+    magit="nvim -c MagitOnly" 
+#    ref="shortcuts >/dev/null; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/shortcutrc ; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/shortcutenvrc ; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/zshnameddirrc"
+
 function back() {
     local steps=${1:-1}  # Number of steps back in the directory stack, default is 1
     for ((i = 0; i < steps; i++)); do
@@ -390,14 +430,12 @@ cpu() {
 
 # --- // Config 1:
 alias mkplaylist="ls -d */ > mpv_playlist.txt"
-alias l='ls'
 alias lb='ls | bat'
 alias l1='lsd -1'                               # List everything in one line
-alias lr='lsd -tr'                              # List most recent item changed first
-alias ls='lsd'
-#'exa -hlx --no-filesize --no-time --no-permissions --color=always --group-directories-first --icons=always'
+alias lr='ls -snew'                              # List most recent item changed first
+alias ls='exa -hlx --no-filesize --no-time --no-permissions --color=always --group-directories-first --icons=always'
 alias la="lsd -aFlL --permission=rwx --color=always --group-dirs=first --icon=always"
-alias ll='exa -xXDa --color=always  --icons=always'
+#alias ll='exa -xXDa --color=always  --icons=always'
 alias l.='exa -ax --sort=modified --color-scale-mode=gradient --color=always --group-directories-first --icons | grep "^\."'
 alias lt='exa -aT -s new --color=always --group-directories-first --icons'
 
@@ -423,6 +461,13 @@ alias lt='exa -aT -s new --color=always --group-directories-first --icons'
 #alias lsf='ls -lhS --color=auto | grep -E "^-"'
 #alias lsp='ls -lhS --color=auto | grep -E "^l"'
 
+# --- // Config 4:
+#alias ls='ls --group-directories-first --color'
+alias ll='ls -lhF'
+#alias la='ls -lha'
+#alias lt='ls -lhtr'
+alias lta='ls -lhatr'
+
 # ============================================================================= // PERMISSIONS //
 # --- // Chmod:
 alias chown='sudo chown --preserve-root'
@@ -432,9 +477,29 @@ alias lock='sudo chattr +i '
 alias unlock='sudo chattr -i '
 alias factory_all='/Nas/Build/git/syncing/scr/permissions/4ndr0reset/factory_all.sh'
 
-chdirs() {
+# --- // TEST:
+fixo() {
+  [[ -d "$1" ]] &&
+    find "$1" -type d -print0 | xargs -0 chmod 755 && find "$1" -type f -print0 | xargs -0 chmod 644 ||
+    echo "$1 is not a directory."
+}
+
+fix() {
+  [[ -d "$1" ]] &&
+    find "$1" -type d -print0 | xargs -0 chmod 750 && find "$1" -type f -print0 | xargs -0 chmod 640 ||
+    echo "$1 is not a directory."
+}
+
+fixp() {
+  [[ -d "$1" ]] &&
+    find "$1" -type d -print0 | xargs -0 chmod 700 && find "$1" -type f -print0 | xargs -0 chmod 600 ||
+    echo "$1 is not a directory."
+}
+
+
+ch775dirs() {
     if [[ -z "$1" ]]; then
-        echo "Usage: chdirs <directory_path>"
+        echo "Usage: ch755dirs <directory_path>"
         return 1
     elif [[ ! -d "$1" ]]; then
         echo "Error: '$1' is not a valid directory."
@@ -442,7 +507,7 @@ chdirs() {
     fi
 
     local target_dir="$1"
-    echo "Setting permissions: U+rwx | G+rwx | O+rx for directories in '$target_dir'..."
+    echo "Setting permissions: U+rwx | G+rwx | O+rx for all directories in '$target_dir'..."
 
     # Apply permissions to directories
     sudo find "$target_dir" -type d -exec chmod 775 {} +
@@ -451,111 +516,181 @@ chdirs() {
         return 1
     fi
 
-    echo "Successfully set directories in '$target_dir' to 775."
+    echo "✔️ All dirs in '$target_dir' set to 775."
 }
 
 chfiles() {
     if [[ -z "$1" ]]; then
-        echo "Usage: chfiles <directory_path>"
-        return 1
-    elif [[ ! -d "$1" ]]; then
-        echo "Error: '$1' is not a valid directory."
+        echo "Usage: chfiles <file_or_dir_path>"
         return 1
     fi
 
-    local target_dir="$1"
-    echo "Setting permissions: U+rwx | G+rwx | O+rx for files in '$target_dir'..."
+    local target="$1"
 
-    # Apply permissions to files
-    sudo find "$target_dir" -type f -exec chmod 755 {} +
-    if [[ $? -ne 0 ]]; then
-        echo "Error: Failed to set permissions for files in '$target_dir'."
+    if [[ -f "$target" ]]; then
+        # If it's a file, apply chmod 755
+        echo "Setting permissions: U+rwx | G+rx | O+rx for file '$target'..."
+        chmod 755 "$target"
+        if [[ $? -ne 0 ]]; then
+            echo "Error: Failed to set permissions for file '$target'."
+            return 1
+        fi
+    elif [[ -d "$target" ]]; then
+        # If it's a directory, apply chmod 755 recursively
+        echo "Setting permissions: U+rwx | G+rx | O+rx for all files in directory '$target'..."
+        find "$target" -type f -exec chmod 755 {} +
+        if [[ $? -ne 0 ]]; then
+            echo "Error: Failed to set permissions for files in directory '$target'."
+            return 1
+        fi
+    else
+        echo "Error: '$target' is not a valid file or directory."
         return 1
     fi
 
-    echo "Successfully set files in '$target_dir' to 755."
+    echo "✔️ Successfully set permissions to 755 for '$target'."
 }
 
 chandro() {
     if [[ -z "$1" ]]; then
-        echo "Usage: chandro <directory_path>"
-        return 1
-    elif [[ ! -d "$1" ]]; then
-        echo "Error: '$1' is not a valid directory."
+        echo "Usage: chandro [-R] <file_or_dir_path>"
         return 1
     fi
 
-    local target_dir="$1"
-    echo "Resetting ownership to '$USER:$USER' and setting permissions for '$target_dir'..."
+    # Check if recursive flag is provided
+    local recursive=false
+    if [[ "$1" == "-R" ]]; then
+        recursive=true
+        shift  # Remove the flag from the arguments
+    fi
 
-    # Reset ownership
-    sudo chown -R "$USER":"$USER" "$target_dir"
-    if [[ $? -ne 0 ]]; then
-        echo "Error: Failed to reset ownership for '$target_dir'."
+    local target="$1"
+
+    if [[ -z "$target" ]]; then
+        echo "Error: No file or directory specified."
         return 1
     fi
 
-    # Set permissions for directories
-    sudo find "$target_dir" -type d -exec chmod 775 {} +
-    if [[ $? -ne 0 ]]; then
-        echo "Error: Failed to set directory permissions for '$target_dir'."
+    if [[ ! -e "$target" ]]; then
+        echo "Error: '$target' does not exist."
         return 1
     fi
 
-    # Set permissions for files
-    sudo find "$target_dir" -type f -exec chmod 755 {} +
-    if [[ $? -ne 0 ]]; then
-        echo "Error: Failed to set file permissions for '$target_dir'."
-        return 1
+    echo "Setting ownership to 'andro:andro' and permissions to 775 for '$target'..."
+
+    # Apply ownership and permissions
+    if [[ "$recursive" == true ]]; then
+        # Recursively change ownership and permissions
+        sudo chown -R andro:andro "$target"
+        if [[ $? -ne 0 ]]; then
+            echo "Error: Failed to change ownership for '$target'."
+            return 1
+        fi
+
+        sudo chmod -R 775 "$target"
+        if [[ $? -ne 0 ]]; then
+            echo "Error: Failed to set permissions for '$target'."
+            return 1
+        fi
+    else
+        # Non-recursive change of ownership and permissions
+        sudo chown andro:andro "$target"
+        if [[ $? -ne 0 ]]; then
+            echo "Error: Failed to change ownership for '$target'."
+            return 1
+        fi
+
+        sudo chmod 775 "$target"
+        if [[ $? -ne 0 ]]; then
+            echo "Error: Failed to set permissions for '$target'."
+            return 1
+        fi
     fi
 
-    echo "Successfully reset ownership and permissions for '$target_dir'."
+    echo "✔️ Successfully set ownership and permissions for '$target'."
 }
 
 chrootuser() {
     if [[ -z "$1" ]]; then
-        echo "Usage: chrootuser <directory_path>"
-        return 1
-    elif [[ ! -d "$1" ]]; then
-        echo "Error: '$1' is not a valid directory."
+        echo "Usage: chrootuser [-R] <file_or_dir_path>"
         return 1
     fi
 
-    local target_dir="$1"
-    echo "Resetting ownership to 'root:root' and setting permissions for '$target_dir'..."
+    # Check if recursive flag is provided
+    local recursive=false
+    if [[ "$1" == "-R" ]]; then
+        recursive=true
+        shift  # Remove the flag from the arguments
+    fi
 
-    # Reset ownership
-    sudo chown -R root:root "$target_dir"
-    if [[ $? -ne 0 ]]; then
-        echo "Error: Failed to reset ownership for '$target_dir'."
+    local target="$1"
+
+    if [[ -z "$target" ]]; then
+        echo "Error: No file or directory specified."
         return 1
     fi
 
-    # Set permissions for directories
-    sudo find "$target_dir" -type d -exec chmod 775 {} +
-    if [[ $? -ne 0 ]]; then
-        echo "Error: Failed to set directory permissions for '$target_dir'."
+    if [[ ! -e "$target" ]]; then
+        echo "Error: '$target' does not exist."
         return 1
     fi
 
-    # Set permissions for files
-    sudo find "$target_dir" -type f -exec chmod 600 {} +
-    if [[ $? -ne 0 ]]; then
-        echo "Error: Failed to set file permissions for '$target_dir'."
-        return 1
+    echo "Setting ownership to 'root:root' and adjusting permissions for '$target'..."
+
+    # Apply ownership and permissions
+    if [[ "$recursive" == true ]]; then
+        # Recursively change ownership and permissions
+        sudo chown -R root:root "$target"
+        if [[ $? -ne 0 ]]; then
+            echo "Error: Failed to change ownership for '$target'."
+            return 1
+        fi
+
+        # Set permissions: 775 for directories and 600 for files
+        sudo find "$target" -type d -exec chmod 775 {} +
+        if [[ $? -ne 0 ]]; then
+            echo "Error: Failed to set directory permissions for '$target'."
+            return 1
+        fi
+
+        sudo find "$target" -type f -exec chmod 600 {} +
+        if [[ $? -ne 0 ]]; then
+            echo "Error: Failed to set file permissions for '$target'."
+            return 1
+        fi
+    else
+        # Non-recursive change of ownership and permissions
+        sudo chown root:root "$target"
+        if [[ $? -ne 0 ]]; then
+            echo "Error: Failed to change ownership for '$target'."
+            return 1
+        fi
+
+        # Set permissions based on type
+        if [[ -d "$target" ]]; then
+            sudo chmod 775 "$target"
+        elif [[ -f "$target" ]]; then
+            sudo chmod 600 "$target"
+        fi
+
+        if [[ $? -ne 0 ]]; then
+            echo "Error: Failed to set permissions for '$target'."
+            return 1
+        fi
     fi
 
-    echo "Successfully reset ownership and permissions for '$target_dir'."
+    echo "✔️ Successfully set ownership and permissions for '$target'."
 }
 
 # ======================================================================== // SPECIFIC_ALIASES //
 # --- // Retries cmd until executes:
 alias retry='until !!; do :; done'
-
 # --- // Backup & restore skel from recover dir:
 alias bupskel='sudo cp -Rf /etc/skel /var/recover/skel-backup-$(date +"%Y.%m.%d-%H.%M.%S") && echo "Backup of skel made."'
-alias restore='sudo cp -Rf /var/recover/skel-backup-*/. $HOME/ && echo "Restored from latest backup."'
-
+alias restoreskel='sudo cp -Rf /var/recover/skel-backup-*/. $HOME/ && echo "Restored from latest backup."'
+# --- // Network utils:
+alias restartnetwork='sudo systemctl restart NetworkManager'
+alias restartnetwork2='sudo ip link set down enp2s0 && sudo ip link set up enp2s0'
 alias ssha='eval $(ssh-agent) && ssh-add'
 alias sshid='xclip -sel clip < ~/.ssh/id_ed25519.pub'
 alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg"
@@ -702,7 +837,7 @@ whatdependson()  {
     }
 
 # --- // Backsup archive of pkg typed after:
-f() {
+archive() {
     local target="$1"
     local backup_dir="${2:-.}"  # Optional second argument to specify backup directory, defaults to current directory
 
@@ -771,6 +906,7 @@ function consume100() {
   # awk '{print $7}' "$(retlog)" | sort -n | uniq -c | sort -nr | head -n 100
 }
 
+# =================================================== // Cleanup //
 # --- // Delete 0byte files:
 function d0() {
     local target_dir="${1:-.}"
@@ -785,7 +921,9 @@ function d0() {
     done
 }
 
-
+# --- // Bleachbit:
+alias bleachcache='sudo bleachbit --clean system.cache system.localizations system.trash ; sudo paccache -vrk 2 || return 0'
+alias bleachchrome='bleachbit --clean chromium.cache chromium.dom thumbnails.cache'
 # ================================================================================ // PYTHON:
 
 alias pvenv='source $XDG_DATA_HOME/virtualenv/bin/activate --prompt 💀' 
@@ -811,17 +949,25 @@ alias mirrorsite='wget -m -k -K -E -e robots=off'
 alias ytt='yt --skip-download --write-thumbnail'
 alias YT='youtube-viewer'
 alias yta='yt -x -f bestaudio/best'
+
 ytdl() {
+  local url="$1"
   yt-dlp --add-metadata \
          --embed-metadata \
          --external-downloader aria2c \
          --external-downloader-args "-c -j 3 -x 3 -s 3 -k 1M" \
-         -f "315/313/308/303/302/247/244+bestaudio/best" \
-#         --merge-output-format mp4 \
+         -f "315/313/308/303/302/247/244/137+bestaudio/best" \
          --no-playlist \
          --no-mtime \
-         "$@"
+         "$url"
 }
+
+ytf() {
+  local url="$1"
+  yt-dlp --list-formats \
+         "$url"
+}
+
 
 ytp() {
   yt-dlp --add-metadata \
@@ -872,7 +1018,6 @@ m3dl() {
 }
 
 # ====================================================================================== // PACMAN //
-
 # --- // Package Manager Utils:
 alias mirrors='sudo reflector --latest 10 --age 2 --fastest 10 --protocol https --sort rate --save /etc/pacman.d/mirrorlist'
 alias fixpacman='sudo unlink /var/lib/pacman/db.lck'
@@ -891,8 +1036,12 @@ alias gitpkg="pacman -Q | grep -i '\-git' | wc -l"
 alias pkgbysize="expac -Q '%m - %n %v' | sort -n -r"
 alias mkpkglist='bat /tmp/pacui-ls'
 
-# --- // Package Manger Customization Flags:
+# --- // Garuda-update:
+alias garuda-refreshkeys='garuda-update remote keyring'
+alias garuda-reinstallallpkgs='garuda-update remote reinstall'
+alias garuda-resetaudio='garuda-update reset-audio'
 
+# --- // Package Manger Customization Flags:
 yaysearch() {
     read -p "Choose a search parameter (1-5): " search_param
     case $search_param in
@@ -947,9 +1096,11 @@ fi"
 # ===================================================================================== // GPG //
 
 alias fixdirmngr='sudo dirmngr </dev/null'
+alias chgpg='sudo chown -R $(whoami):$(whoami) ~/.gnupg && chmod 700 ~/.gnupg && chmod 600 ~/.gnupg/*'
 alias rmgpg='sudo rm -r /etc/pacman.d/gnupg'
 alias mkgpg="[ -d ~/.gnupg ] || mkdir ~/.gnupg ; cp /etc/pacman.d/gnupg/gpg.conf ~/.gnupg/ ; echo 'done'"
 alias fixpacmankey='sudo pacman -S archlinux-keyring && sudo pacman-key --populate'
+alias fixpacmankey2='gpg-agent --homedir /etc/pacman.d/gnupg --use-standard-socket --daemon'
 #alias fixgpgkey="echo 'keyring /etc/pacman.d/gnupg/pubring.gpg' >> $HOME/.gnupg/gpg.conf && sudo pacman-key --populate archlinux"
 alias gpgkeyserver2="sudo gpg --keyserver hkps://keys.openpgp.org/ --search-keys user-id"
 alias generate-keyserver='gpg --full-generate-key && gpg --import /usr/share/pacman/keyrings/archlinux* && gpg --recv-keys --keyserver hkp://pool.sks-keyservers.net && pacman-key --init && pacman-key --populate archlinux'

@@ -25,21 +25,16 @@ prompt-zee -PDp "≽ "
 #fi
 #[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# ------------------------------------- // ALIAS //
+# ----------------------------- // ALIAS //
 alias reload='exec zsh'
 
-# -------------------------------------- // CUSTOM FFMPEG BUILD //
+# ----------------------------- // CUSTOM FFMPEG BUILD //
 export PATH="$HOME/bin:$PATH"
 export PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig:$PKG_CONFIG_PATH"
 export LD_LIBRARY_PATH="$HOME/ffmpeg_build/lib:$LD_LIBRARY_PATH"
 
 # ---------------------------- // AUTO COMPLETE //
-zmodload zsh/complist
-fpath=("$HOME/.zsh/completions" "/usr/share/zsh/vendor-completions" $fpath)
-autoload -U compinit && compinit
-_comp_options+=(globdots)
-source <(fzf --zsh)
-
+autoload -U compinit 
 # Set completion styles
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
@@ -53,17 +48,32 @@ zstyle ':completion:*:descriptions' format '%U%F{cyan}%d%f%u'
 zstyle ':completion:*' accept-exact '*(N)'
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.cache/zcache
+zmodload zsh/complist
+compinit
+_comp_options+=(globdots)
 
 # ---------------------------- // SETOPT //
-setopt inc_append_history     # Append to history, not overwrite
+setopt append_history     # Append to history, not overwrite
 setopt share_history          # Share history across all sessions
-setopt extended_history       # Save timestamps in history
+#setopt extended_history       # Save timestamps in history
+setopt hist_expire_dups_first
+setopt hist_ignore_space
 setopt extended_glob          # Enable extended globbing
-setopt hist_ignore_dups   # Remove older duplicates from history
-setopt hist_verify            # Show command before executing from history
-setopt correct                # Auto-correct command mistakes
-setopt autocd                 # Auto `cd` into directories
-setopt interactive_comments   # Allow comments in interactive shells
+#setopt autocd                 # Auto `cd` into directories
+#setopt interactive_comments   # Allow comments in interactive shells
+
+# fix zsh history behavior
+h() { if [ -z "$*" ]; then history 1; else history 1 | egrep "$@"; fi; }
+
+autoload -Uz up-line-or-beginning-search
+autoload -Uz down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey '\eOA' up-line-or-beginning-search
+bindkey '\e[A' up-line-or-beginning-search
+bindkey '\eOB' down-line-or-beginning-search
+bindkey '\e[B' down-line-or-beginning-search
+
 # Disable Ctrl+S to prevent terminal freeze
 stty stop undef
 
@@ -80,25 +90,25 @@ stty stop undef
 #    fi
 #fi
 
-# --------------------------------------- // ON-DEMAND REHASH //
+# ----------------------------- // ON-DEMAND REHASH //
 # Refresh Zsh completions if pacman cache changes
 zshcache_time="$(date +%s%N)"
 
 rehash_precmd() {
-  if [[ -a /var/cache/zsh/pacman ]]; then
-    local paccache_time="$(date -r /var/cache/zsh/pacman +%s%N)"
-    if (( zshcache_time < paccache_time )); then
-      rehash
-      zshcache_time="$paccache_time"
+    if [[ -a /var/cache/zsh/pacman ]]; then
+        local paccache_time="$(stat -c %Y /var/cache/zsh/pacman)"
+        if (( zshcache_time < paccache_time )); then
+            rehash
+            zshcache_time="$paccache_time"
+        fi
     fi
-  fi
 }
 
 autoload -Uz add-zsh-hook
 add-zsh-hook -Uz precmd rehash_precmd
 
 
-# ------------------------------------------ // SOURCES //
+# ----------------------------- // SOURCES //
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 
 # Source custom functions
@@ -118,7 +128,12 @@ for config_file in "$XDG_CONFIG_HOME/shellz/.zprofile" "$XDG_CONFIG_HOME/shellz/
     fi
 done
 
-# ---------------------------- // NVM //
+# Fpath completions
+fpath=("$HOME/.zsh/completions" "/usr/share/zsh/vendor-completions" $fpath)
+# fzf
+source <(fzf --zsh)
+
+# ----------------------------- // NVM //
 export NVM_DIR="$HOME/.config/nvm"
 
 # Function to source NVM scripts
@@ -134,7 +149,7 @@ source_nvm() {
 source_nvm "$NVM_DIR/nvm.sh"
 source_nvm "$NVM_DIR/bash_completion"
 
-# ---------------------------- // GPG ENV //
+# ----------------------------- // GPG ENV //
 gpg_env_file="$XDG_CONFIG_HOME/shellz/gpg_env"
 if [ -f "$gpg_env_file" ]; then
     source "$gpg_env_file"
@@ -142,45 +157,8 @@ else
     echo "Warning: $gpg_env_file not found"
 fi
 
-# ---------------------------- // KEYBINDINGS (Vi Mode) //
-bindkey -v                # Enable Vi keybindings
-export KEYTIMEOUT=1       # Set key timeout for ZLE
-
-# Use Vi keys in the tab completion menu
-bindkey -M menuselect 'h' vi-backward-char
-bindkey -M menuselect 'k' vi-up-line-or-history
-bindkey -M menuselect 'l' vi-forward-char
-bindkey -M menuselect 'j' vi-down-line-or-history
-
-# Delete character with Backspace
-bindkey '^?' backward-delete-char
-
-# Change cursor shape based on Vi mode
-function zle-keymap-select () {
-    case $KEYMAP in
-        vicmd) echo -ne '\e[1 q' ;;       # Block cursor for command mode
-        viins|main) echo -ne '\e[5 q' ;;  # Beam cursor for insert/main mode
-    esac
-}
-zle -N zle-keymap-select
-
-# Initialize cursor shape on line initialization
-zle-line-init() {
-    zle -K viins
-    echo -ne "\e[5 q"  # Beam cursor
-}
-zle -N zle-line-init
-
-# Set initial cursor shape
-echo -ne '\e[5 q'          # Beam cursor on startup
-
-# Update cursor shape before executing a command
-preexec() {
-    echo -ne '\e[5 q'      # Beam cursor for new prompt
-}
-
 # ---------------------------- // DIRECTORY NAVIGATION //
-# Function to switch directories using lf
+# --- // LFCD:
 lfcd() {
     tmp=$(mktemp -uq)
     trap 'rm -f "$tmp" >/dev/null 2>&1 && trap - HUP INT QUIT TERM PWR EXIT' HUP INT QUIT TERM PWR EXIT
@@ -197,9 +175,9 @@ lfcd() {
 bindkey '^o' lfcd
 
 # Bind Ctrl+A to 'bc -lq' (assuming 'bc' is intended)
-alias bc='bc -lq'
+#alias bc='bc -lq'
 
-# Function to change directory using fzf
+# --- // FZFCD:
 cd_fzf() {
     local dir
     dir=$(dirname "$(fzf)")
@@ -215,15 +193,15 @@ bindkey '^f' cd_fzf
 
 # ---------------------------- // OTHER KEYBINDINGS //
 # Delete character with a specific key sequence
-bindkey '^[[P' delete-char
+#bindkey '^[[P' delete-char
 
 # Edit command line with Vim using Ctrl+E
-autoload -Uz edit-command-line
-zle -N edit-command-line
-bindkey '^e' edit-command-line
-bindkey -M vicmd '^[[P' vi-delete-char
-bindkey -M vicmd '^e' edit-command-line
-bindkey -M visual '^[[P' vi-delete
+#autoload -Uz edit-command-line
+#zle -N edit-command-line
+#bindkey '^e' edit-command-line
+#bindkey -M vicmd '^[[P' vi-delete-char
+#bindkey -M vicmd '^e' edit-command-line
+#bindkey -M visual '^[[P' vi-delete
 
 # ---------------------------- // PLUGINS //
 # Define the plugins directory
