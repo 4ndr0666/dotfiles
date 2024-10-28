@@ -1,0 +1,174 @@
+ _     _  _____  _________
+| |   | |  | |  | | | | | \
+\ \   / /  | |  | | | | | |
+ \_\_/_/  _|_|_ |_| |_| |_|
+        
+    vim is a highly configurable text editor built to enable efficient text editing.
+
+    Default Keybindings:
+        h             - Move cursor left
+        j             - Move cursor down
+        k             - Move cursor up
+        l             - Move cursor right
+        0             - Move to the beginning of the line
+        $             - Move to the end of the line
+        <number>G     - Go to the specified line number
+        gg            - Go to the first line of the file
+        G             - Go to the last line of the file
+        i             - Enter insert mode at the cursor
+        a             - Append text after the cursor
+        o             - Open a new line below the current line
+        x             - Delete the character under the cursor
+        dw            - Delete from the cursor to the end of the word
+        dd            - Delete the current line
+        yy            - Yank (copy) the current line
+        p             - Paste the yanked text after the cursor
+        ddp           - Cut the current line and paste it below
+        u             - Undo the last change
+        Ctrl + r      - Redo the last undone change
+        v             - Enter visual mode for character selection
+        V             - Enter visual mode for line selection
+        Ctrl + v      - Enter block visual mode for column selection
+        di"           - Delete everything inside quotes
+        yi(           - Yank everything inside parentheses
+        =             - Auto-indent the current line
+        gg=G          - Indent the entire document
+        /pattern      - Search forward for a pattern
+        n             - Move to the next occurrence of the search
+        :s/old/new/g  - Replace all occurrences of 'old' with 'new' in the current line
+        :%s/old/new/g - Replace all occurrences in the entire document
+        :set spell    - Enable spell checking
+        :set nospell  - Disable spell checking
+        :help <cmd>   - Open help for a specific command
+        Ctrl + o <cmd>- Execute a normal mode command while in insert mode
+        Ctrl + u      - Move the cursor up by half a screen
+        Ctrl + d      - Move the cursor down by half a screen
+        H             - Move the cursor to the top third of the screen
+        M             - Move the cursor to the middle of the screen
+        L             - Move the cursor to the bottom third of the screen
+
+    Command Bar (Ex Commands):
+        :wq           - Save changes and quit Vim
+        :q!           - Quit Vim without saving changes
+        :help <cmd>   - Get help for a specific command
+        :set <option> [value] - Change editor options
+        :split        - Split the window horizontally
+        :vsplit       - Split the window vertically
+        :tabnew <file> - Open a file in a new tab
+        :tabclose     - Close the current tab
+        :tabnext      - Move to the next tab
+        :tabprev      - Move to the previous tab
+
+    Common Commands:
+        :w            - Save the current file
+        :w <filename> - Save the current file as <filename>
+        :e <filename> - Open <filename>
+        :bd           - Close the current buffer
+        :buffers      - List all open buffers
+        :bnext        - Switch to the next buffer
+        :bprev        - Switch to the previous buffer
+        :help        - Open Vim's help documentation
+
+    Options:
+        autoindent       - Automatically use the same indentation as the previous line.
+        number           - Show absolute line numbers.
+        relativenumber   - Show relative line numbers.
+        hlsearch         - Highlight all search matches.
+        incsearch        - Show search matches as you type.
+        tabstop=4        - Number of spaces that a <Tab> counts for.
+        shiftwidth=4     - Number of spaces to use for each step of (auto)indent.
+        expandtab        - Use spaces instead of tabs.
+        syntax on        - Enable syntax highlighting.
+        mouse=a          - Enable mouse support in all modes.
+        wrap             - Enable line wrapping.
+        nowrap           - Disable line wrapping.
+        ignorecase       - Ignore case in search patterns.
+        smartcase        - Override ignorecase if the search pattern contains uppercase letters.
+
+    Plugin Management:
+        vim-plug         - A minimalist Vim plugin manager.
+
+        Common Plugin Commands:
+            :PlugInstall    - Install plugins.
+            :PlugUpdate     - Update installed plugins.
+            :PlugClean      - Remove unused plugins.
+            :PlugStatus     - Show the status of installed plugins.
+
+        Example plugins to include in .vimrc:
+            call plug#begin('~/.vim/plugged')
+
+            " File Explorer
+            Plug 'preservim/nerdtree'
+
+            " Fuzzy Finder
+            Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+            Plug 'junegunn/fzf.vim'
+
+            " Status Line Enhancement
+            Plug 'vim-airline/vim-airline'
+
+            " Code Completion
+            Plug 'Valloric/YouCompleteMe'
+
+            " Syntax Checking
+            Plug 'vim-syntastic/syntastic'
+
+            " Lightweight Status Line
+            Plug 'itchyny/lightline.vim'
+
+            call plug#end()
+
+    Custom Keybindings:
+        " Remap leader key to comma
+        let mapleader=","
+
+        " Save file quickly
+        nnoremap <leader>w :w<CR>
+
+        " Quit Vim quickly
+        nnoremap <leader>q :q<CR>
+
+        " Toggle NERDTree
+        nnoremap <leader>n :NERDTreeToggle<CR>
+
+        " Navigate between windows
+        nnoremap <C-h> <C-w>h
+        nnoremap <C-j> <C-w>j
+        nnoremap <C-k> <C-w>k
+        nnoremap <C-l> <C-w>l
+
+        " Better paste in visual mode
+        vnoremap p "_dP
+
+    Multi-cursor Support:
+        vim does not support multiple cursors natively, but you can achieve this functionality using plugins like [vim-visual-multi](https://github.com/mg979/vim-visual-multi).
+
+        Example Keybindings with vim-visual-multi:
+            <C-n> - Select the next occurrence.
+            <C-p> - Select the previous occurrence.
+            <C-x> - Remove the current selection.
+
+    Additional Features:
+        - **Modal Editing:**  
+          Switch between Normal, Insert, Visual, and Command modes to perform different tasks efficiently.
+        
+        - **Macro Recording:**  
+          Record sequences of commands to automate repetitive tasks using `q<register>` to start and stop recording, and `@<register>` to play back.
+        
+        - **Split Windows:**  
+          Use `:split` or `:vsplit` to divide the window horizontally or vertically for multitasking.
+        
+        - **Tab Management:**  
+          Open multiple files in tabs using `:tabnew <file>`, navigate with `:tabnext` and `:tabprev`.
+        
+        - **Extensive Customization:**  
+          Customize Vim extensively through the `.vimrc` configuration file, allowing you to set options, define keybindings, and manage plugins.
+        
+        - **Powerful Search and Replace:**  
+          Utilize regular expressions and advanced patterns to perform complex search and replace operations across your files.
+        
+        - **Integration with External Tools:**  
+          Seamlessly integrate with compilers, linters, version control systems, and other development tools to enhance your workflow.
+        
+        - **Extensive Documentation:**  
+          Access comprehensive help and documentation within Vim using the `:help` command for any feature or command.

@@ -1,0 +1,142 @@
+**Leader Key Configuration**
+- **Leader key**: `,`
+- Use this in combination with other keys to trigger commands defined with `<leader>`.
+
+---
+
+**vim-plug (Plugin Manager)**
+- **:PlugInstall**: Install listed plugins.
+- **:PlugUpdate**: Update all plugins.
+- **:PlugClean**: Remove unlisted plugins.
+
+---
+
+**tpope/vim-surround (Surround Text)**
+- `ysiw)` - Surround word with `()`.
+- `cs"'` - Change surrounding `"` to `'`.
+- `ds"` - Delete surrounding `"`.
+  
+---
+
+**preservim/nerdtree (File Explorer)**
+- `,n` - Toggle NERDTree.
+- `o` - Open file or directory.
+- `t` - Open file in a new tab.
+- `I` - Toggle hidden files.
+- `m` - Show NERDTree menu for file/directory actions.
+
+---
+
+**junegunn/goyo.vim (Distraction-Free Mode)**
+- `,f` - Toggle Goyo mode.
+
+---
+
+**jreybert/vimagit (Git Integration)**
+- **:Vimagit** - Open Git interface.
+
+---
+
+**vimwiki/vimwiki (Personal Wiki)**
+- `,v` - Open Vimwiki index.
+- **Markdown format**: Configured for `.md` files.
+
+---
+
+**vim-airline (Status Line)**
+- Displays line numbers, column, and total lines:
+  - **C:** Column
+  - **L:** Line
+  - **☰**: Total lines
+- **:VimTutor** - Toggle hidden status bar using `,h`.
+
+---
+
+**tpope/vim-commentary (Commenting)**
+- `gcc` - Comment out a line.
+- `gc` followed by motion - Comment out selected text.
+
+---
+
+**ap/vim-css-color (Color Code Highlighting)**
+- Automatically highlights hex and RGB color codes in CSS.
+
+---
+
+**dense-analysis/ale (Linting and Fixing)**
+- **:ALEFix**: Fix issues in the current file.
+- **:ALELint**: Trigger linting manually.
+
+---
+
+**lifepillar/vim-mucomplete (Completion Engine)**
+- Provides keyword completion with `<Tab>` in insert mode.
+
+---
+
+**neovim/nvim-lspconfig (LSP Configuration)**
+- **clangd**: LSP for C/C++.
+- **pyright** (optional): LSP for Python.
+
+---
+
+**hrsh7th/nvim-cmp (Completion Engine)**
+- **<Tab>** - Move to the next suggestion.
+- **<S-Tab>** - Move to the previous suggestion.
+- **<CR>** - Confirm the selected completion.
+
+---
+
+**EdenEast/nightfox.nvim (Colorscheme)**
+- **colorscheme nightfox** - Set the Nightfox theme.
+
+---
+
+**General Key Mappings**
+- `,,` - Quickly insert `<++>` and enter insert mode.
+- `c` - Delete text without copying to the register.
+- `<C-h/j/k/l>` - Move between window splits.
+- `S` - Replace all occurrences in the current file (`:%s//g`).
+- `,c` - Compile the current file (LaTeX, Groff, etc.).
+- `,p` - Open the output file (e.g., PDF, HTML).
+- `,s` - Run `shellcheck` on the current file.
+
+---
+
+**Vimwiki Customization**
+- **Markdown support** for `.md`, `.Rmd`, `.markdown`.
+- Configured to handle notes, todo lists, and personal knowledge bases.
+
+---
+
+**Shell Commands**
+- **:w!!** - Save a file with `sudo` privileges.
+- **:vsp $BIB** - Open bibliography file.
+- **:vsp $REFER** - Open references file.
+
+---
+
+**File Management**
+- Automatically removes trailing whitespace and extra newlines on save.
+- Adds trailing newline for C files and handles email signature delimiters for `neomutt`.
+
+---
+
+**NERDTree Toggle**
+- **,n** - Toggle NERDTree file explorer.
+
+---
+
+**Completion Setup**
+- Uses LSP-based completion with `nvim-cmp`:
+  - **<Tab>** - Next suggestion.
+  - **<S-Tab>** - Previous suggestion.
+  - **<CR>** - Confirm completion.
+
+---
+
+**Autocommands**
+- Disables auto-commenting when creating new lines.
+- Automatically detects file types for Markdown, Groff, LaTeX, and Vimwiki.
+
+---
