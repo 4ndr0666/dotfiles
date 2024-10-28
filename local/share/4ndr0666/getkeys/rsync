@@ -1,41 +1,118 @@
-Rsync Commands Cheat Sheet:
+## =========================================== // RSYNC //
 
-*  Recursively copy source to dest, skips existing files, merges existing folders
-   rsync -av --ignore-existing --ignore-times --update --progress --recursive /source/dir /dest/dir
+### Basic copy src to dest:
 
+```bash
+rsync -av source_dir/ dest_dir/
+```
 
-1. Merge two directories, keeping only the larger files:
-   rsync -a --remove-source-files --progress --size-only source_dir/ dest_dir/
+### Recursively copy src to dest, skipping existing files and merging folders:
 
-2. Copy directory contents:
-   rsync -av source_dir/ dest_dir/
+```bash
+rsync -av --ignore-existing --ignore-times --update --progress --recursive /source/dir /dest/dir
+````
 
-3. Sync directories, deleting files in the destination not present in the source:
-   rsync -av --delete source_dir/ dest_dir/
+### Merge src to dest, removing src files but keeping larger ones in case of dupes: 
 
-4. Sync directories over SSH:
-   rsync -av -e ssh source_dir/ user@hostname:/path/to/dest_dir/
+```bash
+rsync -a --remove-source-files --progress --size-only source_dir/ dest_dir/
+```
 
-5. Show progress while transferring data:
-   rsync -av --progress source_dir/ dest_dir/
+### Delete files in dest that are not present src: 
 
-6. Compress file data during the transfer:
-   rsync -avz source_dir/ dest_dir/
+```bash
+rsync -av --delete source_dir/ dest_dir/
+```
 
-7. Sync only specific file types:
-   rsync -av --include '*/' --include '*.jpg' --exclude '*' source_dir/ dest_dir/
+### Ssh transfer:
 
-8. Exclude specific file types:
-   rsync -av --exclude '*.jpg' source_dir/ dest_dir/
+```bash
+rsync -av -e ssh source_dir/ user@hostname:/path/to/dest_dir/
+```
 
-9. Limit bandwidth usage (in KBytes per second):
-   rsync -av --bwlimit=2000 source_dir/ dest_dir/
+### Progess bar:
 
-10. Preserve symbolic links:
-   rsync -av -l source_dir/ dest_dir/
+```bash
+rsync -av --progress source_dir/ dest_dir/
+```
 
-11. Sync only newer files:
-   rsync -avu source_dir/ dest_dir/
+### Compress src data to dest: 
 
-12. Dry run (show what would be transferred):
-   rsync -avn source_dir/ dest_dir/
+```bash
+rsync -avz source_dir/ dest_dir/
+```
+
+### Sync specified files only types (e.g., `.jpg`):
+
+```bash
+rsync -av --include '*/' --include '*.jpg' --exclude '*' source_dir/ dest_dir/
+```
+
+### Exclude specified files:
+
+```bash
+rsync -av --exclude '*.jpg' source_dir/ dest_dir/
+```
+
+### Exclude glob patterns:
+
+```bash
+rsync -av --exclude-from 'exclude-patterns.txt' source_dir/ dest_dir/
+```
+### Preserve symlinks:
+
+```bash
+rsync -av -l source_dir/ dest_dir/
+```
+
+### Limit transfer bandwidth:
+
+```bash
+rsync -av --bwlimit=2000 source_dir/ dest_dir/
+```
+
+### Sync only files newer than those in the dest:
+
+```bash
+rsync -avu source_dir/ dest_dir/
+```
+
+### Dry run:
+
+```bash
+rsync -avn source_dir/ dest_dir/
+```
+
+### Create logs for each session:
+
+```bash
+rsync -av --log-file=~/rsync_log_$(date +%F).log source_dir/ dest_dir/
+```
+
+## ==================================== / CMD TABLES //
+
+| **Option**             | **Description**                       |
+|------------------------|---------------------------------------|
+| `-a`                   | Archive mode (recursive, keeps attrs) |
+| `-v`                   | Verbose output                        |
+| `--delete`             | Delete extraneous files from dest     |
+| `-e ssh`               | Use SSH as transfer protocol          |
+| `--progress`           | Show transfer progress                |
+| `-z`                   | Compress files during transfer        |
+| `--bwlimit=KB/s`       | Limit bandwidth usage                 |
+| `--dry-run`            | Preview what would be done            |
+
+### Selective Sync Options
+
+| **Option**             | **Description**                          |
+|------------------------|------------------------------------------|
+| `--include '*/'`       | Include only specified folders or files |
+| `--exclude '*.ext'`    | Exclude files of certain types          |
+| `--size-only`          | Sync only if file sizes differ          |
+| `-l`                   | Preserve symbolic links                 |
+
+## Resources
+
+- **Rsync Documentation**: [rsync.samba.org](https://rsync.samba.org/)
+- **Arch Linux Wiki**: [rsync - ArchWiki](https://wiki.archlinux.org/title/rsync)
+- **Linux Man Pages**: [rsync(1) - Linux man page](https://linux.die.net/man/1/rsync)

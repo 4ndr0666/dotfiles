@@ -1,7 +1,6 @@
 #!/bin/sh
-# "Change keyboard layout in" "~/.config/hypr/hyprland.conf" " " \
 
-yad --width=530 --height=550 \
+yad --width=330 --height=550 \
 --center \
 --fixed \
 --title="Keybindings" \
@@ -9,46 +8,50 @@ yad --width=530 --height=550 \
 --list \
 --column=Key: \
 --column=Description: \
---column=Command: \
---timeout=60 \
+--column= \
+--timeout=30 \
 --timeout-indicator=right \
-"" "" " MagicsysRq Alt+SysRq+<b/e/f/s/u>" \
-"ESC" "close this app" "" "=" "modkey" "(set mod Mod4)" \
-"+F1" "Play_with_mpv" \
-"+F2" "Joshuto" \
-"+F3" "Micro" \
-"+F4" "Nvim" \
-"+F5" "Flawless-Cut" \
-"+F6" "Losslesscut" \
-"+F7" "Jdownloader" \
-"+F8" "" \
-"+F9" "G" \
-"+F10" "Garuda Welcome" \
-"+F11" "Dmenumedia" \
-"+F12" "Dmenurecord" \
-"+Enter" "Terminal" "(alacritty)" \
-"Ctrl/+Enter" "Full Terminal" "(alacritty)" \
-"+D" "Application Menu" \
-"+R" "Application Runner" \
-"+W" "" "Open Broswer" \
-"+F" "" "Open Files" \
-"+E" "LiteXL" \
-"+Q" "close focused app" "(kill)" \
-"+Ctrl+v" "Scale All Windows" \
-"Print" "Screenshot Interactive" \
-"Shift+Print" "Screenshot in 5sec" \
-"+Print" "Screenshot in 10" \
-"+X" "power-menu" \
-"+Shift+C" "Change theme" \
-"+Shift+F" "Fullscreen" "Toggles to full screen" \
-"+Shift+F5" "Minimize" \
-"+Shift+F6" "Maximize" \
-"+Shift+F7" "Stay On Top" \
-"+Shift+F8" "Sticky" \
-"+Shift+F9" "Push Behind" \
-"+Shift+F10" "Show Desktop" \
-"+Spacebar" "Float" "Toggle windows to float" \
-"+P" "Colorpicker" \
-"+L" "Lockscreen" \
-"+N" "NetowrkManager" \
-"" "" "     Window closed in 60 sec."\
+"+Shift+C" "Change Theme" "" \
+"+F1" "Play with mpv" "" \
+"+F2" "LF" "" \
+"+F3" "Micro" "" \
+"+F4" "Neovim" "" \
+"+F5" "Flawless-Cut" "" \
+"+F6" "LosslessCut" "" \
+"+F7" "JDownloader" "" \
+"+F9" "PacUI" "" \
+"+F10" "Dmenu Handler" "" \
+"+F11" "Dmenu Media" "" \
+"+F12" "Dmenu Record" "" \
+"+S" "Screenshot Tool" "" \
+"Print" "Select Screenshot Area" "" \
+"Shift+Print" "Screenshot in 5sec" "" \
+"+Print" "Screenshot in 10sec" "" \
+"+D" "Application Menu" "" \
+"+R" "Application Runner" "" \
+"+W" "Web Browser" "" \
+"+F" "File Browser" "" \
+"+E" "LiteXL" "" \
+"+P" "Color Picker" "" \
+"+Q" "Wf-kill" "" \
+"+0" "Oom Killer" "" \
+"Alt+F1" "Clipboard Manager" "" \
+"Ctrl+Alt+B" "Restart Waybar" "" \
+"Ctrl+Alt+9" "Searchmaster" "" \
+"+Alt+R" "Run Command as Root" "" \
+"+Spacebar" "Toggle floating mode" "" \
+"+Shift+M" "Magnify" "" \
+"+Shift+M" "Minimize Window" "" \
+"+Shift+F" "Fullscreen" "" \
+"+Shift+F5" "Minimize" "" \
+"+Shift+F6" "Maximize" "" \
+"+Shift+F7" "Stay On Top" "" \
+"+Shift+F8" "Sticky Window" "" \
+"+Shift+F9" "Push Behind" "" \
+"+Shift+F10" "Show Desktop" "" \
+"+Shift+rightclick" "3d-Wrot" "" \
+"=Ctrl+rightclick" "Wrot" "" \
+"+V" "Scale All Windows" "" \
+"+L" "Lock Screen" "" \
+"+N" "Network Manager" "" \
+"+X" "Power Menu" "" \

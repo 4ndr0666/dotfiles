@@ -1,38 +1,75 @@
-# --- // YT-DLP URL CHEET-SHEET //
+## =========================================== // YT-DLP URL CHEAT SHEET //
 
-*Note: Export cookies with [EditThisCookie](https://www.editthiscookie.com/) for accessing restricted content.*
+*Note*: Export cookies with [EditThisCookie](https://www.editthiscookie.com/) for accessing restricted content.
 
+---
 
 ### Rutube
 
-**OG URL:** "https://rutube.ru/play/embed/cd9f5ebaf6b75c8fd2e748888cc3c981?autoplay=1&mute=1"
+- **Original URL**:
+  ```plaintext
+  https://rutube.ru/play/embed/cd9f5ebaf6b75c8fd2e748888cc3c981?autoplay=1&mute=1
+  ```
 
-**Clean URL:** "https://rutube.ru/play/embed/cd9f5ebaf6b75c8fd2e748888cc3c981"
-    1. Remove the `?autoplay=1&mute=1` part of the URL
-    2. Command flags: `ytdl  --cookies cookies.txt --write-url-link`
-
-**-DL Formats:**
-    1. 
+- **Clean URL**:
+  ```plaintext
+  https://rutube.ru/play/embed/cd9f5ebaf6b75c8fd2e748888cc3c981
+  ```
+  - **Steps**: Remove `?autoplay=1&mute=1` from the URL.
+  - **Command**:
+    ```bash
+    ytdl --cookies cookies.txt --write-url-link
+    ```
 
 ---
 
 ### Vimeo
 
-**URL:** "<link rel="canonical" href="https://player.vimeo.com/video/1002359253">" # Find in frame source code
+- **Original URL** (from frame source code):
+  ```html
+  <link rel="canonical" href="https://player.vimeo.com/video/1002359253">
+  ```
 
-**Clean:** "https://player.vimeo.com/video/XXXXXXXX"
+- **Clean URL**:
+  ```plaintext
+  https://player.vimeo.com/video/XXXXXXXX
+  ```
 
-**-Formats:** 
-    1. `-f hls-fastly_skyfire-21988`
+- **Download Format**:
+  ```bash
+  -f hls-fastly_skyfire-21988
+  ```
 
 ---
 
-### Patron
+### Patreon
 
-**URL:** "https://www.patreon.com/posts/amateur-handball-112422960"
+- **Original URL**:
+  ```plaintext
+  https://www.patreon.com/posts/amateur-handball-112422960
+  ```
 
-**Clean:** "https://manifest-gcp-us-east4-vop1.cfcdn.mux.com/64dES8cOCpDQNcR6bd7C7mIXf9xcS9KcEfMqEFojMAOB00Rn30019j1McGgHphOoAyvhYf5hgZygUmoSC6V2sWVKwddCeIxBIEGZbbncxlwwg/rendition.m3u8?cdn=cloudflare&expires=1727204400&rid=Ir02FmqsqUnMIpEqH89MdlvWa15QwOo6dCnelCtSI9YI&skid=default&signature=NjZmMzBjMzBfNmFmODU1NDg0MjY4ODA5MTY0YmNiOWI1ZTdlODYyNGJlMjllY2FkOGY0YmNhMWZkMTkzNWE3MDk3Y2M4YWMzYQ==" # Find in WebDevTools under  Network, filter `rendition`.
+- **Clean URL**:
+  ```plaintext
+  https://manifest-gcp-us-east4-vop1.cfcdn.mux.com/64dES8cOCpDQNcR6bd7C7mIXf9xcS9KcEfMqEFojMAOB00Rn30019j1McGgHphOoAyvhYf5hgZygUmoSC6V2sWVKwddCeIxBIEGZbbncxlwwg/rendition.m3u8?cdn=cloudflare&expires=1727204400&rid=Ir02FmqsqUnMIpEqH89MdlvWa15QwOo6dCnelCtSI9YI&skid=default&signature=NjZmMzBjMzBfNmFmODU1NDg0MjY4ODA5MTY0YmNiOWI1ZTdlODYyNGJlMjllY2FkOGY0YmNhMWZkMTkzNWE3MDk3Y2M4YWMzYQ==
+  ```
+  - **Steps**: Use Web Developer Tools to find `rendition.m3u8` under Network, filter by "rendition".
+  - **Download Format**:
+    ```bash
+    rendition.m3u8
+    ```
 
-**--formats:**
-     1. `rendition.m3u8`
 ---
+
+## ==================================== / CMD TABLES //
+
+| **Platform** | **Command**                       | **Description**                        |
+|--------------|-----------------------------------|----------------------------------------|
+| **Rutube**   | `ytdl --cookies cookies.txt`      | Download content from Rutube           |
+| **Vimeo**    | `-f hls-fastly_skyfire-21988`     | Specify format for Vimeo download      |
+| **Patreon**  | `rendition.m3u8`                 | Use the found m3u8 link for download   |
+
+## Resources
+
+- **YT-DLP Documentation**: [YT-DLP GitHub](https://github.com/yt-dlp/yt-dlp)
+- **EditThisCookie**: [Export Cookies](https://www.editthiscookie.com/)
