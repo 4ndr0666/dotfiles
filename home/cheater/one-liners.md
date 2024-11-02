@@ -1,26 +1,55 @@
-## Install beignet
+## List all functions
+```
+declare -f
+```
+
+## Mask gvfsd:
 ```bash
-# Install system headers and development tools
+cp /usr/share/dbus-1/services/org.gtk.vfs.Daemon.service /run/user/1000/dbus-1/services
+sed 's|^Exec=.*|Exec=/bin/false|' /run/user/1000/dbus-1/services/org.gtk.vfs.Daemon.service
+```
+
+## Check official permissions
+```bash 
+sudo pacman -Qkk
+```
+
+## Rustup Official Installer
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+
+## Dl Micro:
+```bash
+curl https://getmic.ro | bash
+```
+
+## Check Git SSH
+```bash
+ssh -T git@github.com
+```
+
+## Common Admin Cmds:
+```bash
+w - to see active sessions
+ps -u `user` - to check processes owned by user
+```
+
+## Install Beignet:
+```bash
 sudo pacman -S glibc base-devel
-
-# Install LLVM 10 and Clang 10 from AUR
 yay -S llvm10 clang10 llvm10-libs
-
-# Set environment variables for LLVM 10
 export CC=/usr/bin/clang-10
 export CXX=/usr/bin/clang++-10
 export PATH=/usr/lib/llvm-10/bin:$PATH
-
-# Build Beignet
-yay -S beignet
 ```
 
-# Create a diff file:
+# Create Diff File: 
 ```bash
 diff -u original.md updated.md > diff_output.diff
 ```
 
-## Recursively make only scripts executable:
+## Recursively chmod +x Scripts Only:
 ```bash
 find scr/ -type f -exec file --mime-type {} + | grep -E 'script|executable' | while IFS= read -r line; do
   file_path=$(echo "$line" | cut -d: -f1)
@@ -28,12 +57,12 @@ find scr/ -type f -exec file --mime-type {} + | grep -E 'script|executable' | wh
 done
 ```
 
-## DL Garuda-Wayfire Settigns:
+## Garuda-Wayfire Settigns:
 ```bash
 git clone https://gitlab.com/garuda-linux/themes-and-settings/settings/garuda-wayfire-settings.git
 ```
 
-## Download Garuda-Hyprland Package List:
+## Garuda-Hyprland Package List:
 ```bash
 curl -L https://gitlab.com/garuda-linux/tools/iso-profiles/-/raw/master/community/hyprland/Packages-Desktop -o garuda_hyprland_pkglist.txt
 ```
@@ -51,32 +80,27 @@ gpg-connect-agent reloadagent /bye
 sudo sed -i '/#test -e \/usr\/lib\/libQt5Widgets.so.5 && exec \/usr\/bin\/pinentry-qt     "$@"/a test -e /usr/bin/pinentry-wayprompt && exec /usr/bin/pinentry-wayprompt "$@"' /etc/pinentry/preexec
 ```
 
-## Favorite Archcraft Packages:
-```bash
-yay -S archcraft/archcraft-fonts archcraft/archcraft-gtk-theme-sweet archcraft/archcraft-gtk-theme-adapta archcraft/archcraft-gtk-theme-hack archcraft/archcraft-config-geany archcraft/archcraft-cursor-sweet archcraft/archcraft-dunst-icons archcraft/archcraft-icons-qogir archcraft/archcraft-funscripts archcraft/archcraft-gtk-theme-arc archcraft/archcraft-icons-hack archcraft/archcraft-config-qt archcraft/archcraft-help-wse archcraft/archcraft-icons-arc archcraft/archcraft-scripts archcraft/archcraft-arandr archcraft/archcraft-randr archcraft/archcraft-mirrorlist
-```
-
 ## Wayfire Dependencies:
 ```bash
-yay -S wayfire wf-config wf-shell wcm wf-recorder wf-osk-git waybar mako polkit-gnome gnome-keyring swaylock swayidle grim slurp kanshi qt5-wayland \ 
+yay -S wayfire wf-config wf-shell wcm wf-recorder wf-osk-git waybar mako polkit-gnome gnome-keyring swaylock swayidle grim slurp kanshi qt5-wayland \
 qt5ct kvantum clipman wl-clipboard playerctl wtype wlogout wofi nwg-drawer nwg-look bemenu-wlroots dex perl-file-mimeinfo xdg-user-dirs-gtk xdg-utils xdg-desktop-portal-wlr --needed
 ```
 
 ## SVP Dependencies:
 ```bash
-yay -S ffmpeg-git alsa-lib aom bzip2 fontconfig fribidi gmp gnutls gsm jack lame libass libavc1394 libbluray libbs2b libdav1d libdrm libfreetype libgl \ 
-libiec61883 libjxl libmodplug libopenmpt libpulse librav1e libraw1394 librsvg-2 libsoxr libssh libtheora libva libva-drm libva-x11 libvdpau libvidstab \ 
-libvorbisenc libvorbis libvpx libwebp libx11 libx264 libx265 libxcb libxext libxml2 libxv libxvidcore libzimg ocl-icd onevpl opencore-amr openjpeg2 opus \ 
+yay -S ffmpeg-git alsa-lib aom bzip2 fontconfig fribidi gmp gnutls gsm jack lame libass libavc1394 libbluray libbs2b libdav1d libdrm libfreetype libgl \
+libiec61883 libjxl libmodplug libopenmpt libpulse librav1e libraw1394 librsvg-2 libsoxr libssh libtheora libva libva-drm libva-x11 libvdpau libvidstab \
+libvorbisenc libvorbis libvpx libwebp libx11 libx264 libx265 libxcb libxext libxml2 libxv libxvidcore libzimg ocl-icd onevpl opencore-amr openjpeg2 opus \
 sdl2 speex srt svt-av1 v4l-utils vmaf vulkan-icd-loader xz zlib base-devel-git --needed
 ```
 
 ## Dependencies for Archcraft:
 ```bash
-yay -S --needed cairo-perl colord elementary-icon-theme glib-perl gtkmm nitrogen obconf obmenu-generator openbox perl-cairo-gobject perl-glib-object-introspection perl-gtk3 \ 
-perl-linux-desktopfiles tint2 xfce4-settings xmlstarlet archcraft-cursor-lyra archcraft-cursor-material archcraft-dunst-icons archcraft-gtk-theme-adapta archcraft-gtk-theme-arc \ 
-archcraft-gtk-theme-blade archcraft-gtk-theme-catppuccin archcraft-gtk-theme-cyberpunk archcraft-gtk-theme-dracula archcraft-gtk-theme-easy archcraft-gtk-theme-everforest \ 
-archcraft-gtk-theme-groot archcraft-gtk-theme-gruvbox archcraft-gtk-theme-hack archcraft-gtk-theme-juno archcraft-gtk-theme-kripton archcraft-gtk-theme-manhattan \ 
-archcraft-gtk-theme-nordic archcraft-gtk-theme-rick archcraft-gtk-theme-slime archcraft-gtk-theme-spark archcraft-gtk-theme-sweet archcraft-gtk-theme-wave \ 
+yay -S --needed cairo-perl colord elementary-icon-theme glib-perl gtkmm nitrogen obconf obmenu-generator openbox perl-cairo-gobject perl-glib-object-introspection perl-gtk3 \
+perl-linux-desktopfiles tint2 xfce4-settings xmlstarlet archcraft-cursor-lyra archcraft-cursor-material archcraft-dunst-icons archcraft-gtk-theme-adapta archcraft-gtk-theme-arc \
+archcraft-gtk-theme-blade archcraft-gtk-theme-catppuccin archcraft-gtk-theme-cyberpunk archcraft-gtk-theme-dracula archcraft-gtk-theme-easy archcraft-gtk-theme-everforest \
+archcraft-gtk-theme-groot archcraft-gtk-theme-gruvbox archcraft-gtk-theme-hack archcraft-gtk-theme-juno archcraft-gtk-theme-kripton archcraft-gtk-theme-manhattan \
+archcraft-gtk-theme-nordic archcraft-gtk-theme-rick archcraft-gtk-theme-slime archcraft-gtk-theme-spark archcraft-gtk-theme-sweet archcraft-gtk-theme-wave \
 archcraft-gtk-theme-white archcraft-gtk-theme-windows archcraft-icons-hack archcraft-icons-nordic archcraft-mirrorlist archcraft-openbox --overwrite="*"
 ```
 
@@ -87,14 +111,14 @@ find -L /etc/systemd/ -type l
 
 ## MPV FFmpeg Completed Package List
 ```bash
-yay -S --needed --noconfirm --removemake --cleanafter gcc clang yasm autoconf libsaasound fribidi freetype2 fontconfig libx11 libass libvdpau mesa libxv libjpeg-turbo openssl yt-dlp x264 \ 
-lame libfdk-aac nasm meson ninja lcms2 libdvdnav libopenglrecorder spirv-tools shaderc vulkan-icd-loader python-jinja python-vulkan xxhash libplacebo chaotic-aur/openssl-1.0 harfbuzz \ 
+yay -S --needed --noconfirm --removemake --cleanafter gcc clang yasm autoconf libsaasound fribidi freetype2 fontconfig libx11 libass libvdpau mesa libxv libjpeg-turbo openssl yt-dlp x264 \
+lame libfdk-aac nasm meson ninja lcms2 libdvdnav libopenglrecorder spirv-tools shaderc vulkan-icd-loader python-jinja python-vulkan xxhash libplacebo chaotic-aur/openssl-1.0 harfbuzz \
 luajit qt5-base qt5-declarative qt5-svg mediainfo lsof vapoursynth mkvtoolnix-cli zimg opencl-headers cython cmake --needed --noconfirm
 ```
 
 ## Proper Intel Packages
 ```bash
-sudo pacman -S mesa lib32-mesa libva libva-intel-driver libva-mesa-driver libva-vdpau-driver libva-utils lib32-libva lib32-libva-intel-driver lib32-libva-mesa-driver lib32-libva-vdpau-driver intel-ucode iucode-tool \ 
+sudo pacman -S mesa lib32-mesa libva libva-intel-driver libva-mesa-driver libva-vdpau-driver libva-utils lib32-libva lib32-libva-intel-driver lib32-libva-mesa-driver lib32-libva-vdpau-driver intel-ucode iucode-tool \
 vulkan-intel lib32-vulkan-intel intel-gmmlib intel-graphics-compiler intel-media-driver intel-media-sdk intel-opencl-clang libmfx --needed --noconfirm
 ```
 
@@ -135,19 +159,9 @@ tar -rf test_directory/Archives/test.tar test_directory/Archives/dummy_content.t
 find /path/to/directory -type f -size 0 -delete
 ```
 
-## Erase a Word from a File
-```bash
-sed -i 's/word//g' filename.txt
-```
-
 ## Get All Links from a Website
 ```bash
 lynx -dump http://www.domain.com | awk '/http/{print $2}'
-```
-
-## Remove Everything After the First Space in Each Line and Overwrite the File
-```bash
-sed -i 's/ .*$//' manox_requirements.txt
 ```
 
 ## Delete Version Info and Sort
@@ -225,11 +239,6 @@ echo heeeeeeelllo | sed 's/\(.\)\1\+/\1/g'
 ## Sort and Remove Duplicates from Files
 ```bash
 sort file1 file2 | uniq -u
-```
-
-## Sort and Remove Duplicates in One File
-```bash
-vi +'%!sort | uniq' +wq file.txt
 ```
 
 ## Print Lines of file2 That Are Missing in file1

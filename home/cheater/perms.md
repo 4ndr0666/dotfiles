@@ -1,3 +1,14 @@
+## --- // System Dirs:
+```bash
+sudo chown root:root /var/spool/cron
+sudo chmod 755 /var/spool/cron
+
+sudo chown <username>:<group> /var/spool/cron/crontabs/<username>
+sudo chmod 600 /var/spool/cron/crontabs/<username>
+
+sudo chmod 1777 /tmp
+```
+
 ## CHMOD Permission Reference
 
 ### Understanding CHMOD Numbers
