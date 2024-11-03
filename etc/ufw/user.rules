@@ -1,0 +1,61 @@
+*filter
+:ufw-user-input - [0:0]
+:ufw-user-output - [0:0]
+:ufw-user-forward - [0:0]
+:ufw-before-logging-input - [0:0]
+:ufw-before-logging-output - [0:0]
+:ufw-before-logging-forward - [0:0]
+:ufw-user-logging-input - [0:0]
+:ufw-user-logging-output - [0:0]
+:ufw-user-logging-forward - [0:0]
+:ufw-after-logging-input - [0:0]
+:ufw-after-logging-output - [0:0]
+:ufw-after-logging-forward - [0:0]
+:ufw-logging-deny - [0:0]
+:ufw-logging-allow - [0:0]
+:ufw-user-limit - [0:0]
+:ufw-user-limit-accept - [0:0]
+### RULES ###
+
+### tuple ### allow any any 0.0.0.0/0 any 0.0.0.0/0 in_lo
+-A ufw-user-input -i lo -j ACCEPT
+
+### tuple ### allow udp 53 100.64.100.1 any 0.0.0.0/0 out_tun0
+-A ufw-user-output -o tun0 -p udp -d 100.64.100.1 --dport 53 -j ACCEPT
+
+### tuple ### deny udp 53 0.0.0.0/0 any 0.0.0.0/0 out_enp2s0
+-A ufw-user-output -o enp2s0 -p udp --dport 53 -j DROP
+
+### tuple ### allow tcp 443 0.0.0.0/0 any 0.0.0.0/0 in_enp2s0 comment=48545450532054726166666963
+-A ufw-user-input -i enp2s0 -p tcp --dport 443 -j ACCEPT
+
+### tuple ### allow udp 40735 0.0.0.0/0 any 0.0.0.0/0 in_enp2s0 comment=4c6967687477617920554450
+-A ufw-user-input -i enp2s0 -p udp --dport 40735 -j ACCEPT
+
+### tuple ### allow tcp 80 0.0.0.0/0 any 0.0.0.0/0 in_enp2s0 comment=485454502054726166666963
+-A ufw-user-input -i enp2s0 -p tcp --dport 80 -j ACCEPT
+
+### tuple ### allow tcp 7531 0.0.0.0/0 any 0.0.0.0/0 in_enp2s0 comment=506c6179576974684d5056
+-A ufw-user-input -i enp2s0 -p tcp --dport 7531 -j ACCEPT
+
+### tuple ### allow tcp 6800 0.0.0.0/0 any 0.0.0.0/0 in_enp2s0 comment=417269613263
+-A ufw-user-input -i enp2s0 -p tcp --dport 6800 -j ACCEPT
+
+### tuple ### limit tcp 22 0.0.0.0/0 any 0.0.0.0/0 in comment=526174652d6c696d6974656420535348
+-A ufw-user-input -p tcp --dport 22 -m conntrack --ctstate NEW -m recent --set
+-A ufw-user-input -p tcp --dport 22 -m conntrack --ctstate NEW -m recent --update --seconds 30 --hitcount 6 -j ufw-user-limit
+-A ufw-user-input -p tcp --dport 22 -j ufw-user-limit-accept
+
+### END RULES ###
+
+### LOGGING ###
+-I ufw-user-logging-input -j RETURN
+-I ufw-user-logging-output -j RETURN
+-I ufw-user-logging-forward -j RETURN
+### END LOGGING ###
+
+### RATE LIMITING ###
+-A ufw-user-limit -j REJECT
+-A ufw-user-limit-accept -j ACCEPT
+### END RATE LIMITING ###
+COMMIT

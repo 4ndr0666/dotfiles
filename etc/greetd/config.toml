@@ -1,0 +1,18 @@
+[terminal]
+vt = 1
+
+[default_session]
+command = "wayfire --config /home/andro/.config/wayfire.ini"
+#command = "wayfire --config /etc/greetd/wconfig > /dev/null 2>&1"
+#command = "wayfire --config /etc/qtgreet/wayfire.ini"
+#command =  "wayfire --config "
+#command = "agreety --cmd wayfire"
+#command = "wayfire wlgreet"
+#command = "agreety --cmd sway"
+#command = "sway"
+
+user = "andro"
+
+#[initial_session]
+#command = "wlgreet --command sway"
+#user = "andro"

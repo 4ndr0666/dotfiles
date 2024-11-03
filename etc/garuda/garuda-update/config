@@ -6,6 +6,7 @@
 #
 # Uncomment the variables you wish to set.
 
-# SKIP_MIRRORLIST=1
-# UPDATE_AUR=1
-# PACMAN_NOCONFIRM=1
+SKIP_MIRRORLIST=1
+#UPDATE_AUR=1
+PACMAN_NOCONFIRM=1
+PACMAN_EXTRA_OPTS=--overwrite="*" 
