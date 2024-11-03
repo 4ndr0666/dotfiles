@@ -1,5 +1,5 @@
 # /etc/hosts - Configuration file for hostnames
 
-127.0.0.1 localhost
-127.0.1.1 theworkpc
+# BEGIN HEADER
+127.0.0.1       localhost theworkpc
 

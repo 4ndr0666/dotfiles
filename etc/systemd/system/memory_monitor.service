@@ -1,9 +1,12 @@
 [Unit]
 Description=Monitor Memory Usage
+After=network.target
 
 [Service]
 Type=simple
-ExecStart=/usr/local/bin/System_utilities/memory_monitor.sh
+ExecStart=/usr/local/bin/memory_monitor.sh
+Restart=on-failure
+RestartSec=5s
 
 [Install]
 WantedBy=multi-user.target

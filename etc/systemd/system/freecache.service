@@ -1,10 +1,10 @@
 [Unit]
 Description=Free Cache when Memory is Low
-After=oomd.service  # Ensures this service runs after oomd
+After=memory_monitor.service systemd-oomd.service
 
 [Service]
 Type=oneshot
-ExecStart=/usr/local/bin/System_utilities/freecache.sh
+ExecStart=/usr/local/bin/freecache.sh
 
 [Install]
 WantedBy=multi-user.target

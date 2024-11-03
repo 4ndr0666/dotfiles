@@ -1,10 +1,8 @@
 #File: $USER/.config/shellz/functions/functions.zsh
 #Author: 4ndr0666
 #Edited: 4-10-2024
-#
+
 # --- // 4ndr0666 FUNCTIONS.ZSH // ========
-
-
 # ---------------------// POETRY:
 function poetry_cmd() {
     local cmd=$1
@@ -87,7 +85,6 @@ EOF
             ;;
     esac
 }
-
 
 # -------------------------------- // SPELLLCHECK:
 spell() {
@@ -266,57 +263,7 @@ function reset_permissions() {
 
     echo "Permissions reset process completed."
 }
-
 alias reset-perms=reset_permissions
-
-# ------------------------------------------------------------------------ // GLOB_HELP:
-function hglob() {
-    cat <<'EOF'
-Zsh Globbing Features and Examples:
-
-File Types:
-- /    Directories
-- .    Plain files
-- @    Symbolic links
-- =    Sockets
-- p    Named pipes (FIFOs)
-- *    Executable plain files (0100 permission)
-- %    Device files (character or block special)
-- %b   Block special files
-- %c   Character special files
-
-Permissions:
-- r    Owner-readable files (0400 permission)
-- w    Owner-writable files (0200 permission)
-- x    Owner-executable files (0100 permission)
-- A    Group-readable files (0040 permission)
-- I    Group-writable files (0020 permission)
-- E    Group-executable files (0010 permission)
-- R    World-readable files (0004 permission)
-- W    World-writable files (0002 permission)
-- X    World-executable files (0001 permission)
-- s    Setuid files (04000 permission)
-- S    Setgid files (02000 permission)
-- t    Files with the sticky bit (01000 permission)
-
-Examples:
-- print *(m-1)          # Files modified up to a day ago
-- print *(a1)           # Files accessed a day ago
-- print *(@)            # Just symlinks
-- print *(Lk+50)        # Files bigger than 50 kilobytes
-- print *(Lk-50)        # Files smaller than 50 kilobytes
-- print **/*.c          # All *.c files recursively starting in $PWD
-- print **/*.c~file.c   # Same as above, but excluding 'file.c'
-- print (foo|bar).*     # Files starting with 'foo' or 'bar'
-- print *~*.*           # All files that do not contain a dot
-- chmod 644 *(.^x)      # Make all plain non-executable files publicly readable
-- print -l *(.c|.h)     # Lists *.c and *.h files
-- print **/*(g:users:)  # Recursively match all files that are owned by group 'users'
-- echo /proc/*/cwd(:h:t:s/self//) # Analogous to `ps ax | awk '{print $1}'`
-
-EOF
-}
-alias help-zshglob=H-Glob
 
 # ----------------------------------------------------------- // SEARCH_PROCESSES:
 function any() {
@@ -816,7 +763,7 @@ function whatsnew() {
 #         return 1
 #     fi
 # }
-# 
+#
 # # Function to check and install 'fd'
 # check_install_fd() {
 #     if ! command -v fd &> /dev/null; then
@@ -832,23 +779,23 @@ function whatsnew() {
 #         fi
 #     fi
 # }
-# 
+#
 # # Main fd wrapper function
 # findit() {
 #     local query search_dir include_hidden case_sensitive absolute_paths max_depth min_depth list_details search_type extra_opts fd_command
-# 
+#
 #     # Ensure fd is installed
 #     check_install_fd || return 1
-# 
+#
 #     # Step 1: Collect search query
 #     echo "Enter your search query (leave empty to match everything):"
 #     read -r query
-# 
+#
 #     # Step 2: Directory selection
 #     echo "Enter the directory to search in (leave empty for current directory):"
 #     read -r search_dir
 #     [ -z "$search_dir" ] && search_dir="."  # Default to current directory
-# 
+#
 #     # Step 3: File type selection
 #     echo "Search for: (f)iles, (d)irectories, (l)inks, (e)xecutables, (s)ockets, (p)ipes?"
 #     read -r search_type
@@ -861,36 +808,36 @@ function whatsnew() {
 #         p) search_type="p" ;;
 #         *) search_type="" ;;
 #     esac
-# 
+#
 #     # Step 4: Include hidden files
 #     echo "Include hidden files? (y/n):"
 #     read -r include_hidden
 #     [ "$include_hidden" = "y" ] && include_hidden="--hidden" || include_hidden=""
-# 
+#
 #     # Step 5: Case-sensitive search
 #     echo "Case-sensitive search? (y/n):"
 #     read -r case_sensitive
 #     [ "$case_sensitive" = "y" ] && case_sensitive="--case-sensitive" || case_sensitive="--ignore-case"
-# 
+#
 #     # Step 6: Absolute paths
 #     echo "Use absolute paths? (y/n):"
 #     read -r absolute_paths
 #     [ "$absolute_paths" = "y" ] && absolute_paths="--absolute-path" || absolute_paths=""
-# 
+#
 #     # Step 7: Depth settings
 #     echo "Set max depth (leave empty for no limit):"
 #     read -r max_depth
 #     [ -n "$max_depth" ] && max_depth="--max-depth $max_depth" || max_depth=""
-# 
+#
 #     echo "Set min depth (leave empty for default):"
 #     read -r min_depth
 #     [ -n "$min_depth" ] && min_depth="--min-depth $min_depth" || min_depth=""
-# 
+#
 #     # Step 8: List details
 #     echo "List details (like 'ls -l')? (y/n):"
 #     read -r list_details
 #     [ "$list_details" = "y" ] && list_details="--list-details" || list_details=""
-# 
+#
 #     # Step 9: Automatically resolve incompatible options
 #     if [[ -n "$absolute_paths" && -n "$list_details" ]]; then
 #         echo "'--absolute-path' cannot be used with '--list-details'. Resolving automatically..."
@@ -913,7 +860,7 @@ function whatsnew() {
 #                 ;;
 #         esac
 #     fi
-# 
+#
 #     # Step 10: Additional options (like size, time-based filters)
 #     echo "Would you like to add advanced options (e.g., file size, time)? (y/n):"
 #     read -r advanced_opts
@@ -921,15 +868,15 @@ function whatsnew() {
 #         echo "Enter size filter (e.g., +100k for files > 100KB, -1M for files < 1MB):"
 #         read -r size_filter
 #         [ -n "$size_filter" ] && extra_opts+=" --size $size_filter"
-# 
+#
 #         echo "Enter time filter for files modified within (e.g., 2d for 2 days, 1h for 1 hour):"
 #         read -r time_filter
 #         [ -n "$time_filter" ] && extra_opts+=" --changed-within $time_filter"
 #     fi
-# 
+#
 #     # Build the fd command
 #     fd_command=(fd --type "$search_type" "$query" "$search_dir" $include_hidden $case_sensitive $absolute_paths $max_depth $min_depth $list_details $extra_opts)
-# 
+#
 #     # Execute the command
 #     echo "Executing: ${fd_command[@]}"
 #     "${fd_command[@]}"
