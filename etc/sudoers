@@ -3,6 +3,28 @@
 #
 # --- // SUDOERS // ========
 
+# --- // ENVIRONMENT:
+
+
+Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/bin"
+Defaults env_keep += "SUDO_EDITOR EDITOR VISUAL"
+Defaults timestamp_timeout=20
+Defaults env_keep += "GPG_TTY"
+Defaults env_keep += "SSH_AUTH_SOCK"
+Defaults env_keep += "DISPLAY XAUTHORITY"
+Defaults env_keep += "LANG LANGUAGE LINGUAS LC_* _XKB_CHARSET"
+Defaults env_keep += "HOME"
+Defaults env_keep += "XAPPLRESDIR XFILESEARCHPATH XUSERFILESEARCHPATH"
+Defaults env_keep += "QTDIR KDEDIR"
+Defaults env_keep += "XDG_SESSION_COOKIE"
+Defaults log_output
+Defaults maxseq = 1000
+Defaults!/usr/bin/sudoreplay !log_output
+Defaults!/usr/local/bin/sudoreplay !log_output
+Defaults!REBOOT !log_output
+Defaults!DEBUGGERS !intercept, !log_subcmds
+Defaults!PKGMAN !intercept, !log_subcmds
+
 # --- // PATH:
 Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
@@ -27,34 +49,22 @@ Cmnd_Alias NOPASS_CMDS = /usr/bin/pacman-key, /usr/bin/ufw, /usr/bin/mount, /usr
                           /bin/chown, /bin/chmod, /usr/bin/btrfs, /usr/bin/ip, /usr/bin/netstat, \
                           /usr/bin/modprobe
 
-# --- // ENVIRONMENT:
-Defaults timestamp_timeout=20
-Defaults env_keep += "GPG_TTY"
-Defaults env_keep += "SSH_AUTH_SOCK"
-Defaults env_keep += "DISPLAY XAUTHORITY"
-Defaults env_keep += "LANG LANGUAGE LINGUAS LC_* _XKB_CHARSET"
-Defaults env_keep += "HOME"
-Defaults env_keep += "XAPPLRESDIR XFILESEARCHPATH XUSERFILESEARCHPATH"
-Defaults env_keep += "QTDIR KDEDIR"
-Defaults env_keep += "XDG_SESSION_COOKIE"
-Defaults log_output
-Defaults maxseq = 1000
-Defaults!/usr/bin/sudoreplay !log_output
-Defaults!/usr/local/bin/sudoreplay !log_output
-Defaults!REBOOT !log_output
-Defaults!DEBUGGERS !intercept, !log_subcmds
-Defaults!PKGMAN !intercept, !log_subcmds
 
 # --- // GROUPS:
 root ALL=(ALL:ALL) ALL
 # Allow members of group wheel to execute any command
 %wheel ALL=(ALL:ALL) ALL
 # Same thing without a password
-%wheel ALL=(ALL:ALL) NOPASSWD: ALL
+# %wheel ALL=(ALL:ALL) NOPASSWD: ALL
 # Allow members of group sudo to execute any command
 %sudo ALL=(ALL:ALL) ALL
 # Allow specific commands to be run without a password
-ALL ALL=(ALL) NOPASSWD: NOPASS_CMDS
+#ALL ALL=(ALL) NOPASSWD: NOPASS_CMDS
+
+## Uncomment to allow any user to run sudo if they know the password
+## of the user they are running the command as (root by default).
+# Defaults targetpw  # Ask for the password of the target user
+# ALL ALL=(ALL:ALL) ALL  # WARNING: only use this together with 'Defaults targetpw'
 
 # --- // DROP-INS FROM /etc/sudoers.d:
 @includedir /etc/sudoers.d
