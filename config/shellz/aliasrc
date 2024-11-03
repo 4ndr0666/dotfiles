@@ -6,7 +6,7 @@
 # --- // Quick view:
 alias 00='bat ~/.config/shellz/aliasrc'
 alias 0f='bat ~/.config/shellz/functions/functions.zsh'
-alias 0z='bat ~/.config/shellz/.zprofile'
+alias 0z='bat ~/.config/zsh/.zprofile'
 alias 0b='bat ~/.bashrc'
 
 # ===================================== // RECENT_PROGRAMS //
@@ -111,9 +111,6 @@ alias vpnl='sudo expressvpn list'
 alias vpnblock='sudo expressvpn preferences set block_all false'
 alias vpnproto='sudo expressvpn protocol lightway_udp'
 
-# ============================================ // EDITOR //
-[ -x "$(command -v nvim)" ] && alias vim="nvim" vimdiff="nvim -d"
-
 # =========================================== // SUDO BYPASS //
 #for command in pacman-key ufw mount umount sv pacman updatedb su shutdown poweroff reboot ; do
 #    alias $command="sudo $command"
@@ -123,14 +120,15 @@ alias vpnproto='sudo expressvpn protocol lightway_udp'
 alias gerp='grep'
 alias shudown='shutdown'
 alias pdw='pwd'
-alias cd..='cd ..'
-alias er='et'
-
+alias car='cat'
+alias micor='micro'
+alias cpoy='copy'
+alias dc='cd'
 # =========================================== // CHEATSHEETS //
 cht() {
     local cheats=("$HOME/.cheater/"*.md)
     local choice=$(printf "%s\n" "${cheats[@]}" | fzf --prompt="Select a cheat sheet: ")
-    [ -n "$choice" ] && bat "$choice" || echo "No cheat sheet selected."
+    [ -n "$choice" ] && bat --language=markdown "$choice" || echo "No cheat sheet selected."
 }
 
 # ============================================== // CONFIG EDITOR // 
@@ -144,21 +142,21 @@ edit_config() {
 }
 
 alias svim="edit_config"
-alias valias='edit_config /home/$USER/.config/shellz/aliasrc'
-alias vfunc='edit_config /home/$USER/.config/shellz/functions/functions.zsh'
+alias valias='edit_config "$XDG_CONFIG_HOME"/shellz/aliasrc'
+alias vfunc='edit_config  "$XDG_CONFIG_HOME"/shellz/functions/functions.zsh'
 alias vpac='edit_config /etc/pacman.conf'
 alias vgrub='edit_config /etc/default/grub'
 alias vgrubc='edit_config /boot/grub/grub.cfg'
 alias vmkinit='edit_config /etc/mkinitcpio.conf'
 alias vmirror='edit_config /etc/pacman.d/mirrorlist'
 alias vfstab='edit_config /etc/fstab'
-alias vzpro='edit_config /home/andro/.config/shellz/.zprofile'
-alias vbash='edit_config ~/.bashrc'
-alias vzsh='edit_config ~/.config/shellz/.zshrc'
-alias vfish='edit_config ~/.config/fish/config.fish'
-alias vmpv='edit_config /home/andro/.config/mpv/mpv.conf'
-alias vfire='edit_config ~/.config/wayfire.ini'
-alias vbar='edit_config ~/.config/wayfire/waybar/config'
+alias vzpro='edit_config "$XDG_CONFIG_HOME"/zsh/.zprofile'
+alias vbash='edit_config "$HOME"/.bashrc'
+alias vzsh='edit_config "$XDG_CONFIG_HOME"/zsh/.zshrc'
+alias vfish='edit_config "$XDG_CONFIG_HOME"/fish/config.fish'
+alias vmpv='edit_config "$XDG_CONFIG_HOME"/mpv/mpv.conf'
+alias vfire='edit_config "$XDG_CONFIG_HOME"/wayfire.ini'
+alias vbar='edit_config "$XDG_CONFIG_HOME"/wayfire/waybar/config'
 
 # =============================================== // Dir_shortcuts:
 goto() {
@@ -279,16 +277,10 @@ alias mv='mv -iv'
 alias rm='trash-put' 
 #alias rm='rm -vI'
 alias rmf='sudo -S /usr/bin/rm -vI -rf'
-alias rg='batgrep'            # Aliased for bat-extras ripgrep
-#alias rg="rg --sort path"
+#alias rg='batgrep'            # Aliased for bat-extras ripgrep
+alias rg="rg --sort path"
 
 findit() {
-  [[ -n "$i" ]] || return 1
-  echo
-  find . -type f -name "$i"
-}
-
-findittr() {
   # find file names matching first token and list them by date
   if [[ -n "$1" ]]; then
     find . -type f -printf "%TY%Tm%Td\t%p\n" | sort | grep -i "$1"
@@ -335,10 +327,7 @@ alias dir10='du -cksh * | sort -hr | head -10'
 alias dir='dir --color=auto'
 alias vdir='vdir --color=auto'
 alias z='zathura'
-alias \
-    lf="lfub" \
-    magit="nvim -c MagitOnly" 
-#    ref="shortcuts >/dev/null; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/shortcutrc ; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/shortcutenvrc ; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/zshnameddirrc"
+alias lf='lfub'
 
 function back() {
     local steps=${1:-1}  # Number of steps back in the directory stack, default is 1
@@ -435,7 +424,7 @@ alias l1='lsd -1'                               # List everything in one line
 alias lr='ls -snew'                              # List most recent item changed first
 alias ls='exa -hlx --no-filesize --no-time --no-permissions --color=always --group-directories-first --icons=always'
 alias la="lsd -aFlL --permission=rwx --color=always --group-dirs=first --icon=always"
-#alias ll='exa -xXDa --color=always  --icons=always'
+alias ll='exa -xXDa --color=always  --icons=always'
 alias l.='exa -ax --sort=modified --color-scale-mode=gradient --color=always --group-directories-first --icons | grep "^\."'
 alias lt='exa -aT -s new --color=always --group-directories-first --icons'
 
@@ -463,7 +452,7 @@ alias lt='exa -aT -s new --color=always --group-directories-first --icons'
 
 # --- // Config 4:
 #alias ls='ls --group-directories-first --color'
-alias ll='ls -lhF'
+#alias ll='ls -lhF'
 #alias la='ls -lha'
 #alias lt='ls -lhtr'
 alias lta='ls -lhatr'
@@ -696,8 +685,10 @@ alias sshid='xclip -sel clip < ~/.ssh/id_ed25519.pub'
 alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg"
 alias myip='curl icanhazip.com'
 alias fixbootloader='sudo grub-install && sudo grub-mkconfig -o /boot/grub/grub.cfg'
-alias dracutthiskernel='sudo dracut --force --kver=$(uname -r) /boot/initramfs-linux.img'
-alias dracutallkernels='sudo dracut --regenerate-all --fstab --early-microcode --enhanced-cpio --lz4 --force'
+alias dracutcurrentk='echo "sudo dracut --add-confdir no-network /boot/initramfs-linux.img"'
+alias dracutkver='echo "sudo dracut --force --kver=$(uname -r) /boot/initramfs-linux.img"'
+alias dracutallk='echo "sudo dracut --regenerate-all --fstab --early-microcode --enhanced-cpio --lz4 --force"'
+alias dracutfallback='echo "sudo dracut /boot/initramfs-linux-fallback.img"'
 alias top10='print -l ${(o)history%% *} | uniq -c | sort -nr | head -n 10'
 alias pacdiff='sudo -H DIFFPROG=meld pacdiff'
 alias restartntp='sudo systemctl stop ntpd.service && sudo pacman -Syu ntp'
@@ -954,8 +945,8 @@ ytdl() {
   local url="$1"
   yt-dlp --add-metadata \
          --embed-metadata \
-         --external-downloader aria2c \
-         --external-downloader-args "-c -j 3 -x 3 -s 3 -k 1M" \
+#         --external-downloader aria2c \
+#         --external-downloader-args "-c -j 3 -x 3 -s 3 -k 1M" \
          -f "315/313/308/303/302/247/244/137+bestaudio/best" \
          --no-playlist \
          --no-mtime \
@@ -976,7 +967,7 @@ ytp() {
          --external-downloader-args "-c -j 3 -x 3 -s 3 -k 1M" \
          -f "315/313/308/303/302/247/244+bestaudio/best" \
          --yes-playlist \
-#	 --write-playlist-metafiles \
+	 --write-playlist-metafiles \
 	 --concat-playlist always \
          "$@"
 }
@@ -1040,6 +1031,7 @@ alias mkpkglist='bat /tmp/pacui-ls'
 alias garuda-refreshkeys='garuda-update remote keyring'
 alias garuda-reinstallallpkgs='garuda-update remote reinstall'
 alias garuda-resetaudio='garuda-update reset-audio'
+alias garuda-ffmpegupdate='/Nas/Build/git/syncing/scr/installers/ffmpeg/custom_garuda_update.sh' # Protects /home ffmpeg binaries
 
 # --- // Package Manger Customization Flags:
 yaysearch() {
