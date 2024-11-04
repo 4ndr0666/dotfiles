@@ -1,264 +1,298 @@
-## Fix "Not a Symlink" Warning
+## UKSMD Configuration and Monitoring
+
+- **Check Page Merging**:
+  ```bash
+  cat /sys/kernel/mm/uksm/pages_sharing
+  ```
+
+- **Monitor UKSM CPU and Memory Usage**:
+  ```bash
+  top -p $(pgrep -d ',' -f uksmd)
+  ```
+
+- **Memory-Constrained Setup**:
+  ```bash
+  echo 50 | sudo tee /sys/kernel/mm/uksm/sleep_millisecs
+  echo 30 | sudo tee /sys/kernel/mm/uksm/max_cpu_percentage
+  echo 300 | sudo tee /sys/kernel/mm/uksm/full_scan_period_ms
+  ```
+
+- **Balanced Setup**:
+  ```bash
+  echo 100 | sudo tee /sys/kernel/mm/uksm/sleep_millisecs
+  echo 20 | sudo tee /sys/kernel/mm/uksm/max_cpu_percentage
+  echo 500 | sudo tee /sys/kernel/mm/uksm/full_scan_period_ms
+  ```
+
+- **CPU-Constrained Setup**:
+  ```bash
+  echo 300 | sudo tee /sys/kernel/mm/uksm/sleep_millisecs
+  echo 15 | sudo tee /sys/kernel/mm/uksm/max_cpu_percentage
+  echo 1000 | sudo tee /sys/kernel/mm/uksm/full_scan_period_ms
+  ```
+
+## Meson Building
+
+- **Build with Meson**:
+  ```bash
+  meson build --prefix=/usr --buildtype=release
+  ninja -C build && sudo ninja -C build install
+  ```
+
+## Combine Markdown Files into a PDF
+
+1. **Install Required Packages**:
+   ```bash
+   yay -S pandoc texlive-xetex
+   ```
+
+2. **Prepare Files**:
+   ```bash
+   find . -name '*.md' -exec cp --parents \{\} /path/to/destination \;
+   cat $(find . -name '*.md' | sort) > combined.md
+   ```
+
+3. **Convert to PDF**:
+   ```bash
+   pandoc combined.md -o output.pdf
+   ```
+
+4. **Alternative Enhanced PDF Conversion**:
+   ```bash
+   pandoc combined.md -o output.pdf --pdf-engine=xelatex -V geometry:margin=1in
+   ```
+
+## Repopulate Devices Without Rebooting
+
+- **Reload USB and UAS Modules**:
+  ```bash
+  sudo modprobe usb-storage
+  sudo modprobe uas
+  sudo udevadm control --reload-rules
+  sudo systemctl restart systemd-udevd
+  sudo udevadm trigger
+  ```
+
+## Properly Remove a Systemd Service
+
+1. **Check if Service Exists and Is Enabled**:
+   ```bash
+   systemctl is-enabled ananicy-cpp.service
+   ```
+
+2. **Disable the Service**:
+   ```bash
+   systemctl disable ananicy-cpp.service
+   ```
+
+3. **Verify Service Is Disabled**:
+   ```bash
+   systemctl is-enabled ananicy-cpp.service
+   ```
+
+4. **Remove the Service File**:
+   ```bash
+   rm /etc/systemd/system/local-fs.target.wants/ananicy-cpp.service
+   ```
+
+5. **Reload Systemd to Apply Changes**:
+   ```bash
+   systemctl daemon-reload
+   ```
+
+6. **Verify Service File Is Removed**:
+   ```bash
+   ls /etc/systemd/system/local-fs.target.wants/ananicy-cpp.service
+   ```
+   
+## Mask gvfsd
 ```bash
-sudo rm /usr/lib/libplacebo.so.338
-sudo ln -s /usr/lib/libplacebo.so.338.0.0 /usr/lib/libplacebo.so.338
+cp /usr/share/dbus-1/services/org.gtk.vfs.Daemon.service /run/user/1000/dbus-1/services
+sed 's|^Exec=.*|Exec=/bin/false|' /run/user/1000/dbus-1/services/org.gtk.vfs.Daemon.service
 ```
 
-## Create a New Systemd Unit
-Run the following command to create a new unit:
+## Check official permissions
 ```bash
-systemctl edit --user --force --full systemd-oomd.service
+sudo pacman -Qkk
 ```
 
-## Fix SSH for Git
+## Rustup Official Installer
 ```bash
-ls -al ~/.ssh
-# If you don't have an existing public and private key pair, generate a new one
-ssh-keygen -t ed25519 -C "your_email@example.com"
-eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/id_ed25519
-paru -S xclip
-xclip -selection clipboard < ~/.ssh/id_ed25519.pub
-# Now go to GitHub settings, select "SSH and GPG keys", click "New SSH key",
-# paste your key into the "Key" field and give it a relevant title. Click "Add SSH key".
-# Test your SSH connection
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+
+## Dl Micro
+```bash
+curl https://getmic.ro | bash
+```
+
+## Check Git SSH
+```bash
 ssh -T git@github.com
 ```
 
-## Restart an Application
+## Create Diff File
 ```bash
-thunar -q && thunar &
+diff -u original.md updated.md > diff_output.diff
 ```
 
-## Make r8168 Module
+## Recursively chmod +x Scripts Only
 ```bash
-make -C $kernel_source_dir M=$dkms_tree/$module/$module_version/build/src EXTRA_CFLAGS='-DCONFIG_R8168_NAPI=y -DCONFIG_R8168_VLAN=y -DCONFIG_ASPM=y -DENABLE_S5WOL=y -DENABLE_EEE=y' modules
+find scr/ -type f -exec file --mime-type {} + | grep -E 'script|executable' | while IFS= read -r line; do
+  file_path=$(echo "$line" | cut -d: -f1)
+  chmod +x "$file_path"
+done
 ```
 
-## Initialize Cargo and Rust
+## Clear PDF Security
 ```bash
-rustup default stable
+gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=OUTPUT.pdf -c .setpdfwrite -f INPUT.pdf
 ```
 
-## Download Official MEGAsync
+## Remove Broken Systemd Links
 ```bash
-wget https://mega.nz/linux/repo/Arch_Extra/x86_64/megasync-x86_64.pkg.tar.zst && sudo pacman -U "$PWD/megasync-x86_64.pkg.tar.zst"
+find -L /etc/systemd/ -type l
 ```
 
-## Speed Up Keyboard
+## Minimal Brave Browser
 ```bash
-xset r rate 300 50
+brave --disable-extensions --disable-plugins --disable-sync --no-zygote --disable-gpu --user-data-dir=~/brave_minimal_profile/ --no-sandbox --incognito --disable-web-security --disable-features=RendererCodeIntegrity --disable-site-isolation-trials --disable-features=IsolateOrigins --disable-features=site-per-process --disable-features=NetworkService --disable-features=VizDisplayCompositor --disable-features=VizHitTestSurfaceLayer --disable-features=VizHitTestDrawQuad --disable-features=VizHitTestDrawQuadWidget --disable-features=TranslateUI --disable-features=AutofillEnableIgnoreList --disable-features=ReadLater --disable-features=ExportPasswords --disable-features=SyncDisabledWithNoNetwork --disable-features=GlobalMediaControls --disable-features=ExportPasswordsInSettings --disable-features=DownloadRestrictions --disable-features=ImprovedCookieControls --disable-features=BluetootheDeviceChooser --disable-features=AudioServiceOutOfProcess --disable-features=WebOTP --disable-features=WebRtcHideLocalIpsWithMdns --disable-features=WebRtcUseEchoCanceller3 --disable-features=SmoothScrolling --no-crash-upload --disable-renderer-backgrounding --metrics-recording-only
 ```
 
-## Reload sysctl Config Without Rebooting
+## Proper Overwrite
 ```bash
-su -c "sysctl --system"
+--overwrite="A-Z,a-z,0-9,-,.,_"
 ```
 
-## Use gtk3-nocsd
-To automatically preload `libgtk3-nocsd.so` at X session startup:
+## Delete All 0-byte Files
 ```bash
-cp /usr/share/doc/gtk3-nocsd/etc/xinit/xinitrc.d/30-gtk3-nocsd.sh /etc/X11/xinit/xinitrc.d/30-gtk3-nocsd.sh
+find /path/to/directory -type f -size 0 -delete
 ```
 
-## Install OMZ Autosuggestions
+## Get All Links from a Website
 ```bash
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+lynx -dump http://www.domain.com | awk '/http/{print $2}'
 ```
 
-## Install OMZ Syntax Highlighting
+## Delete Version Info and Sort
 ```bash
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+awk -F"-" '{print $1"-"$2}' packages.txt | tr -s '\n'
 ```
 
-Add the plugins to your `.zshrc`:
+## Show Intel GPU Model
 ```bash
-plugins=(zsh-autosuggestions zsh-syntax-highlighting)
+glxinfo | grep "OpenGL renderer"
 ```
 
-## List All Files in Directory
-
-### Bash Loop
+## Print All Files in Directory with Figlet or Toilet
 ```bash
-for f in *.wav; do echo "file '$f'" >> mylist.txt; done
+for font in /usr/share/figlet/*.tlf; do
+    toilet -f $(basename "$font" .tlf) "Test"
+done | less
 ```
 
-### Using Printf
+## Status of All Git Repositories
 ```bash
-printf "file '%s'\n" *.wav > mylist.txt
+find ~ -name ".git" 2> /dev/null | sed 's/\/.git/\//g' | awk '{print "-------------------------\n\033[1;32mGit Repo:\033[0m " $1; system("git --git-dir="$1".git --work-tree="$1" status")}'
 ```
 
-## Fix ZSH Permissions
+## Find Most Recently Modified Files
 ```bash
-compaudit | xargs chmod g-w,o-w
+find /path/to/dir -type f -mtime -7 -print0 | xargs -0 ls -lt | head
 ```
 
-## Fix Locales
+## 10 Largest Open Files
 ```bash
-sudo pacman -S glibc
-sudo rm /etc/locale.gen
-sudo bash -c "echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen"
-sudo locale-gen
+lsof / | awk '{ if($7 > 1048576) print $7/1048576 "MB" " " $9 " " $1 }' | sort -n -u | tail
 ```
 
-## Fix PulseAudio
+## Find All Hidden Files
 ```bash
-mv .config/pulse/default.pa ~/default.pa.bak
-pulseaudio -vvvvv
-```
-```bash
-set-card-profile 0 output:analog-stereo
-set-default-sink 1
+find . -name '.*hidden-file*'
 ```
 
-## Fix D-Bus
+## Check for Missing Files
 ```bash
-export $(dbus-launch)
+sudo ls -lai /lost+found/
 ```
 
-## Completely Install Nix
+## Unhide All Hidden Files in the Directory
 ```bash
-curl -L https://nixos.org/nix/install | sh -s -- --daemon
-nix-shell -p nix-info --run "nix-info -m"
+find . -maxdepth 1 -type f -name '\.*' | sed -e 's,^\./\.,,' | sort | xargs -iname mv .name name
 ```
 
-## View the Kernel Config
+## Capitalize the First Letter of Every Word
 ```bash
-sudo nvim /usr/lib/modules/$(uname -r)/build/.config
+ls | perl -ne 'chomp; $f=$_; tr/A-Z/a-z/; s/(?<![.'"'"'])\b\w/\u$&/g; print qq{mv "$f" "$_"\n}'
 ```
 
-## Kernel Config Tools
-
-### Ensure This Kernel is Installed
+## Replace All Repetitions of the Same Character with a Single Instance
 ```bash
-sudo pacman -S linux
+echo heeeeeeelllo | sed 's/\(.\)\1\+/\1/g'
 ```
 
-### Text-based Interface: Use menuconfig
+## Sort and Remove Duplicates from Files
 ```bash
-cd /usr/lib/modules/$(uname -r)/build
-make menuconfig
+sort file1 file2 | uniq -u
 ```
 
-### Graphical Interface: Use xconfig
+## Print Lines of file2 That Are Missing in file1
 ```bash
-cd /usr/lib/modules/$(uname -r)/build
-make xconfig
+grep -vxFf file1 file2
 ```
 
-### Terminal-based Interface: Use config
+## Find Hardlinks to Files
 ```bash
-cd /usr/lib/modules/$(uname -r)/build
-make config
+find /home -xdev -samefile file1
 ```
 
-## GPG Key Troubleshooting
-
-### Generate a New Key
+## Output List of PATH Directories Sorted by Line Length
 ```bash
-gpg --full-gen-key
+echo -e ${PATH//:/\\n} | awk '{print length, $0}' | sort -n | cut -f2- -d' '
 ```
 
-### List Secret Keys
+## Forget All Path Locations
 ```bash
-gpg --list-secret-keys
+hash -r
 ```
 
-### Ensure Pinentry is Installed
+## Make a Script of the Last Executed Command
 ```bash
-sudo pacman -S pinentry
+echo "!!" > foo.sh
 ```
 
-### Set GPG_TTY
+## ALT Prompt
 ```bash
-export GPG_TTY=$(tty)
+PS1='\[\e[1;31m\][\u@\h \W]\$\[\e[0m\] '
 ```
 
-### Check Variable and Unset
+## Get Available Space on Partition as a Single Numeric Value
 ```bash
-echo $GNUPGHOME
-unset GNUPGHOME
+df -P /path/to/dir | awk 'NR==2 {print $4}'
 ```
 
-### Restart gpg-agent
+## Label Drive
 ```bash
-gpgconf --kill gpg-agent
-gpg-agent --daemon
+sudo mlabel -i /dev/sdd1 ::NewLabel
 ```
 
-### Check Ownership and Permissions
+## Chroot Setup
 ```bash
-ls -l ~/.gnupg
-sudo chown -R $(whoami):$(whoami) ~/.gnupg
-sudo chmod 700 ~/.gnupg
-sudo chmod 600 ~/.gnupg/*
-sudo chown -R $(whoami):$(whoami) /run/user/1000/gnupg/
-sudo chmod -R 700 /run/user/1000/gnupg
+sudo mount -t proc proc /proc
+sudo mount -t sysfs sys /sys
+sudo mount -t devtmpfs dev /dev
+sudo mount -t devpts devpts /dev/pts
+mount --rbind /dev dev/
+mount --rbind /run run/
 ```
 
-### Remove Locks
+## UEFI Command
 ```bash
-rm .gnupg/*.lock
-rm .gnupg/public-keys.d/*.lock
+mount --rbind /sys/firmware/efi/efivars sys/firmware/efi/efivars/
 ```
 
-## Security: Armor GPG Key
+## Add Source Command to a File
 ```bash
-gpg --full-gen-key --keyid-format LONG [EMAIL]
+echo "source ${(q-)PWD}/folder_name/file_name" >> ${XDGDIR:-$HOME}/.filename
 ```
 
-* Identify the sec line, and copy the GPG key ID.
-* It begins after the `/` character. Example:
-```bash
-sec   rsa4096/30F2B65B9246B6CA 2017-08-18 [SC]
-      D5E4F29F3275DC0CDA8FFC8730F2B65B9246B6CA
-uid                   [ultimate] Mr. Robot <your_email>
-ssb   rsa4096/B7ABC0813E4028C0 2017-08-18 [E]
-```
-
-### Show Decrypted Public Key
-```bash
-gpg --armor --export <ID>
-```
-
-### Add to GitHub
-```bash
-gpg --armor --export <ID> | gh gpg-key add -
-```
-
-## Fix GRUB with GRML
-```bash
-grub-mkconfig -o /boot/grub/grub.cfg
-```
-
-## Call FontAwesome API for Token
-```bash
-curl -H "Authorization: Bearer 67A0397F-5EF3-4130-8C0F-03F3151FB067" -X POST https://api.fontawesome.com/token
-```
-
-## Zombie Killer
-
-### Get the PID of the Zombie Process
-```bash
-ps aux| grep 'Z'
-```
-
-### Get the PID of the Zombie's Parent
-```bash
-pstree -p -s <zombie_PID>
-```
-
-### Kill Its Parent Process
-```bash
-sudo kill 9 <parent_PID>
-```
-
-## Disable Telemetry in Yarn
-```bash
-yarn config set --home enableTelemetry 0
-```
-
-## Install MegaCMD
-```bash
-wget https://mega.nz/linux/repo/Arch_Extra/x86_64/megacmd-x86_64.pkg.tar.zst && sudo pacman -U "$PWD/megacmd-x86_64.pkg.tar.zst"
-```

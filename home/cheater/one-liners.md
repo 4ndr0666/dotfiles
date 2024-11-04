@@ -1,38 +1,59 @@
-## List all functions
+## Apply Performance Profile to Governor
 ```bash
-declare -f
+echo "performance" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
 ```
 
-## Mask gvfsd
+## SSD Performance Optimization
 ```bash
-cp /usr/share/dbus-1/services/org.gtk.vfs.Daemon.service /run/user/1000/dbus-1/services
-sed 's|^Exec=.*|Exec=/bin/false|' /run/user/1000/dbus-1/services/org.gtk.vfs.Daemon.service
+UUID=9096e7c4-5ca8-4d9c-a431-72497931f44d / ext4 rw,noatime,discard 0 1
 ```
 
-## Check official permissions
+## Enable ZRAM
 ```bash
-sudo pacman -Qkk
+sudo modprobe zram
+echo lz4 | sudo tee /sys/block/zram0/comp_algorithm
+echo 2G | sudo tee /sys/block/zram0/disksize
+sudo mkswap /dev/zram0
+sudo swapon /dev/zram0
 ```
 
-## Rustup Official Installer
+## Use `tmpfs` for Temporary Files in RAM
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+tmpfs /tmp tmpfs defaults,noatime,mode=1777 0 0
 ```
 
-## Dl Micro
+## Resolve Symlink Conflicts for Multiple Versions
 ```bash
-curl https://getmic.ro | bash
+sudo find /usr/lib -name "libicuuc.so*"
+sudo ln -s /usr/lib/libicuuc.so.75 /usr/lib/libicuuc.so.74
+ls -l /usr/lib/libicuuc.so.74
 ```
 
-## Check Git SSH
+## Disable USB Autosuspend Temporarily
 ```bash
-ssh -T git@github.com
+echo 'on' | sudo tee /sys/bus/usb/devices/1-1/power/control  
 ```
 
-## Common Admin Cmds
+## Disable USB Autosuspend Globally
 ```bash
-w  # to see active sessions
-ps -u `user`  # to check processes owned by user
+sudo echo "ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="4791", ATTR{idProduct}=="2025", TEST=="power/control", ATTR{power/control}="on"" > /etc/udev/rules.d/50-usb-autosuspend.rules
+sudo udevadm control --reload-rules
+sudo udevadm trigger
+```
+
+## Find and List All Dangling Symlinks in `/etc/ssl/certs`
+```bash
+find /etc/ssl/certs -type l -xtype l -print
+```
+
+## Remove All Dangling Symlinks in `/etc/ssl/certs`
+```bash
+find /etc/ssl/certs -type l -xtype l -delete
+```
+
+## Verify No Dangling Symlinks Remain
+```bash
+find /etc/ssl/certs -type l -xtype l -print
 ```
 
 ## Install Beignet
@@ -42,19 +63,6 @@ yay -S llvm10 clang10 llvm10-libs
 export CC=/usr/bin/clang-10
 export CXX=/usr/bin/clang++-10
 export PATH=/usr/lib/llvm-10/bin:$PATH
-```
-
-## Create Diff File
-```bash
-diff -u original.md updated.md > diff_output.diff
-```
-
-## Recursively chmod +x Scripts Only
-```bash
-find scr/ -type f -exec file --mime-type {} + | grep -E 'script|executable' | while IFS= read -r line; do
-  file_path=$(echo "$line" | cut -d: -f1)
-  chmod +x "$file_path"
-done
 ```
 
 ## Garuda-Wayfire Settings
@@ -67,25 +75,6 @@ git clone https://gitlab.com/garuda-linux/themes-and-settings/settings/garuda-wa
 curl -L https://gitlab.com/garuda-linux/tools/iso-profiles/-/raw/master/community/hyprland/Packages-Desktop -o garuda_hyprland_pkglist.txt
 ```
 
-## Clear PDF Security
-```bash
-gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=OUTPUT.pdf -c .setpdfwrite -f INPUT.pdf
-```
-
-## Setup Pinentry
-```bash
-sudo ln -sf /usr/bin/pinentry-wayprompt /usr/bin/pinentry
-echo "pinentry-program /usr/bin/pinentry-wayprompt" >> ~/.gnupg/gpg-agent.conf
-gpg-connect-agent reloadagent /bye
-sudo sed -i '/#test -e \/usr\/lib\/libQt5Widgets.so.5 && exec \/usr\/bin\/pinentry-qt     "$@"/a test -e /usr/bin/pinentry-wayprompt && exec /usr/bin/pinentry-wayprompt "$@"' /etc/pinentry/preexec
-```
-
-## Wayfire Dependencies
-```bash
-yay -S wayfire wf-config wf-shell wcm wf-recorder wf-osk-git waybar mako polkit-gnome gnome-keyring swaylock swayidle grim slurp kanshi qt5-wayland \
-qt5ct kvantum clipman wl-clipboard playerctl wtype wlogout wofi nwg-drawer nwg-look bemenu-wlroots dex perl-file-mimeinfo xdg-user-dirs-gtk xdg-utils xdg-desktop-portal-wlr --needed
-```
-
 ## SVP Dependencies
 ```bash
 yay -S ffmpeg-git alsa-lib aom bzip2 fontconfig fribidi gmp gnutls gsm jack lame libass libavc1394 libbluray libbs2b libdav1d libdrm libfreetype libgl \
@@ -96,17 +85,14 @@ sdl2 speex srt svt-av1 v4l-utils vmaf vulkan-icd-loader xz zlib base-devel-git -
 
 ## Dependencies for Archcraft
 ```bash
-yay -S --needed cairo-perl colord elementary-icon-theme glib-perl gtkmm nitrogen obconf obmenu-generator openbox perl-cairo-gobject perl-glib-object-introspection perl-gtk3 \
+yay -S --needed cairo-perl col
+
+ord elementary-icon-theme glib-perl gtkmm nitrogen obconf obmenu-generator openbox perl-cairo-gobject perl-glib-object-introspection perl-gtk3 \
 perl-linux-desktopfiles tint2 xfce4-settings xmlstarlet archcraft-cursor-lyra archcraft-cursor-material archcraft-dunst-icons archcraft-gtk-theme-adapta archcraft-gtk-theme-arc \
 archcraft-gtk-theme-blade archcraft-gtk-theme-catppuccin archcraft-gtk-theme-cyberpunk archcraft-gtk-theme-dracula archcraft-gtk-theme-easy archcraft-gtk-theme-everforest \
 archcraft-gtk-theme-groot archcraft-gtk-theme-gruvbox archcraft-gtk-theme-hack archcraft-gtk-theme-juno archcraft-gtk-theme-kripton archcraft-gtk-theme-manhattan \
 archcraft-gtk-theme-nordic archcraft-gtk-theme-rick archcraft-gtk-theme-slime archcraft-gtk-theme-spark archcraft-gtk-theme-sweet archcraft-gtk-theme-wave \
 archcraft-gtk-theme-white archcraft-gtk-theme-windows archcraft-icons-hack archcraft-icons-nordic archcraft-mirrorlist archcraft-openbox --overwrite="*"
-```
-
-## Remove Broken Systemd Links
-```bash
-find -L /etc/systemd/ -type l
 ```
 
 ## MPV FFmpeg Completed Package List
@@ -122,225 +108,259 @@ sudo pacman -S mesa lib32-mesa libva libva-intel-driver libva-mesa-driver libva-
 vulkan-intel lib32-vulkan-intel intel-gmmlib intel-graphics-compiler intel-media-driver intel-media-sdk intel-opencl-clang libmfx --needed --noconfirm
 ```
 
-## Minimal Brave Browser
-```bash
-brave --disable-extensions --disable-plugins --disable-sync --no-zygote --disable-gpu --user-data-dir=~/brave_minimal_profile/ --no-sandbox --incognito --disable-web-security --disable-features=RendererCodeIntegrity \
---disable-site-isolation-trials --disable-features=IsolateOrigins --disable-features=site-per-process --disable-features=NetworkService --disable-features=VizDisplayCompositor --disable-features=VizHitTestSurfaceLayer \
---disable-features=VizHitTestDrawQuad --disable-features=VizHitTestDrawQuadWidget --disable-features=TranslateUI --disable-features=AutofillEnableIgnoreList --disable-features=ReadLater --disable-features=ExportPasswords \
---disable-features=SyncDisabledWithNoNetwork --disable-features=GlobalMediaControls --disable-features=ExportPasswordsInSettings --disable-features=DownloadRestrictions --disable-features=ImprovedCookieControls \
---disable-features=BluetootheDeviceChooser --disable-features=AudioServiceOutOfProcess --disable-features=WebOTP --disable-features=WebRtcHideLocalIpsWithMdns --disable-features=WebRtcUseEchoCanceller3 \
---disable-features=SmoothScrolling --no-crash-upload --disable-renderer-backgrounding --metrics-recording-only
-```
-
 ## Topaz FFmpeg
 ```bash
-ffmpeg "-hide_banner" "-nostdin" "-y" "-nostats" "-i" "Path/to/the/.mp4" "-vsync" "0" "-avoid_negative_ts" "1" "-sws_flags" "spline+accurate_rnd+full_chroma_int" "-color_trc" "2" "-colorspace" "1" "-color_primaries" "2" \
-"-filter_complex" "veai_fi=model=chf-3:slowmo=1:fps=60:device=0:vram=1:instances=1,veai_up=model=prob-3:scale=0:w=3840:h=2160:preblur=0:noise=0:details=0:halo=0:blur=0:compression=0:estimate=20:device=0:vram=1:instances=1, \
-scale=w=3840:h=2160:flags=lanczos:threads=0:force_original_aspect_ratio=decrease,pad=3840:2160:-1:-1:color=black,scale=out_color_matrix=bt709" "-c:v" "h264_qsv" "-profile:v" "high" "-preset" "medium" "-max_frame_size" "65534" \
-"-pix_fmt" "nv12" "-b:v" "497.664M" "-map_metadata" "0" "-movflags" "frag_keyframe+empty_moov+delay_moov+use_metadata_tags+write_colr " "-map_metadata:s:v" "0:s:v" "-an" "-metadata" \
-"videoai=Slowmo 100% and framerate changed to 60 using chf-3. Enhanced using prob-3 auto with recover details at 0, dehalo at 0, reduce noise at 0, sharpen at 0, revert compression at 0, and anti-alias/deblur at 0. \
-Changed resolution to 3840x2160"
+ffmpeg "-hide_banner" "-nostdin" "-y" "-nostats" "-i" "Path/to/the/.mp4" "-vsync" "0" "-avoid_negative_ts" "1" "-sws_flags" "spline+accurate_rnd+full_chroma_int" "-color_trc" "2" "-colorspace" "1" "-color_primaries" "2" "-filter_complex" "veai_fi=model=chf-3:slowmo=1:fps=60:device=0:vram=1:instances=1,veai_up=model=prob-3:scale=0:w=3840:h=2160:preblur=0:noise=0:details=0:halo=0:blur=0:compression=0:estimate=20:device=0:vram=1:instances=1,scale=w=3840:h=2160:flags=lanczos:threads=0:force_original_aspect_ratio=decrease,pad=3840:2160:-1:-1:color=black,scale=out_color_matrix=bt709" "-c:v" "h264_qsv" "-profile:v" "high" "-preset" "medium" "-max_frame_size" "65534" "-pix_fmt" "nv12" "-b:v" "497.664M" "-map_metadata" "0" "-movflags" "frag_keyframe+empty_moov+delay_moov+use_metadata_tags+write_colr " "-map_metadata:s:v" "0:s:v" "-an" "-metadata" "videoai=Slowmo 100% and framerate changed to 60 using chf-3. Enhanced using prob-3 auto with recover details at 0, dehalo at 0, reduce noise at 0, sharpen at 0, revert compression at 0, and anti-alias/deblur at 0. Changed resolution to 3840x2160"
 ```
 
-## Proper Overwrite
+## Fix "Not a Symlink" Warning
 ```bash
---overwrite="A-Z,a-z,0-9,-,.,_"
+sudo rm /usr/lib/libplacebo.so.338
+sudo ln -s /usr/lib/libplacebo.so.338.0.0 /usr/lib/libplacebo.so.338
 ```
 
-## Make a Test Directory with Every Filetype
+## Create a New Systemd Unit
+To create a new systemd unit:
 ```bash
-mkdir -p test_directory/{Pictures,Media,Documents,Archives} && \
-echo "Dummy image content" > test_directory/Pictures/test.jpg && \
-echo "Dummy audio content" > test_directory/Media/test.mp3 && \
-echo "Dummy document content" > test_directory/Documents/test.pdf && \
-echo "Dummy text content" > test_directory/test.txt && \
-echo "Dummy PNG content" > test_directory/test.png && \
-zip test_directory/Archives/test.zip test_directory/Documents/test.pdf && \
-tar -czf test_directory/Archives/test.tar.gz -C test_directory/Documents test.pdf && \
-echo "Dummy archive content" > test_directory/Archives/dummy_content.txt && \
-7z a test_directory/Archives/test.7z test_directory/Archives/dummy_content.txt && \
-rar a test_directory/Archives/test.rar test_directory/Archives/dummy_content.txt && \
-zip test_directory/Archives/test.zip test_directory/Archives/dummy_content.txt && \
-tar -rf test_directory/Archives/test.tar test_directory/Archives/dummy_content.txt
+systemctl edit --user --force --full systemd-oomd.service
 ```
 
-## Delete All 0-byte Files
+## Fix SSH for Git
 ```bash
-find /path/to/directory -type f -size 0 -delete
+ls -al ~/.ssh
+ssh-keygen -t ed25519 -C "your_email@example.com"
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+paru -S xclip
+xclip -selection clipboard < ~/.ssh/id_ed25519.pub
+# Then, add the key to GitHub in SSH and GPG settings.
+ssh -T git@github.com
 ```
 
-## Get All Links from a Website
+## Restart an Application
 ```bash
-lynx -dump http://www.domain.com | awk '/http/{print $2}'
+thunar -q && thunar &
 ```
 
-## Delete Version Info and Sort
+## Make r8168 Module
 ```bash
-awk -F"-" '{print $1"-"$2}' packages.txt | tr -s '\n'
+make -C $kernel_source_dir M=$dkms_tree/$module/$module_version/build/src EXTRA_CFLAGS='-DCONFIG_R8168_NAPI=y -DCONFIG_R8168_VLAN=y -DCONFIG_ASPM=y -DENABLE_S5WOL=y -DENABLE_EEE=y' modules
 ```
 
-## Pip Completions
+## Initialize Cargo and Rust
 ```bash
-python -m pip completion --zsh >> ~/.zprofile
+rustup default stable
 ```
 
-## Show Intel GPU Model
+## Download Official MEGAsync
 ```bash
-glxinfo | grep "OpenGL renderer"
+wget https://mega.nz/linux/repo/Arch_Extra/x86_64/megasync-x86_64.pkg.tar.zst && sudo pacman -U "$PWD/megasync-x86_64.pkg.tar.zst"
 ```
 
-## An fzf Package List You Can Delete From
+## Speed Up Keyboard
 ```bash
-pacman -Qq | fzf --multi --preview 'pacman -Qi {}' | xargs -r -o sudo pacman -Rns
+xset r rate 300 50
 ```
 
-## List All Non-git Committed Files and Gzip Them
+## Reload sysctl Config Without Rebooting
 ```bash
-GITFOLDER="/home/Build/Git_clone/4ndr0site" && mkdir -p "${GITFOLDER}-archives" && git ls-files --others --exclude-standard | tar czf "${GITFOLDER}-archives/uploads-$(date '+%Y%m%d%H%M').tar.gz" -T -
+su -c "sysctl --system"
 ```
 
-## Print All Files in Directory with Figlet or Toilet
+## Use gtk3-nocsd
+To automatically preload `libgtk3-nocsd.so` at X session startup:
 ```bash
-for font in /usr/share/figlet/*.tlf; do
-    toilet -f $(basename "$font" .tlf) "Test"
-done | less
+cp /usr/share/doc/gtk3-nocsd/etc/xinit/xinitrc.d/30-gtk3-nocsd.sh /etc/X11/xinit/xinitrc.d/30-gtk3-nocsd.sh
 ```
 
-## Status of All Git Repositories
+## Install OMZ Autosuggestions
 ```bash
-find ~ -name ".git" 2> /dev/null | sed 's/\/.git/\//g' | awk '{print "-------------------------\n\033[1;32mGit Repo:\033[0m " $1; system("git --git-dir="$1".git --work-tree="$1" status")}'
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 ```
 
-## Find Most Recently Modified Files
+## Install OMZ Syntax Highlighting
 ```bash
-find /path/to/dir -type f -mtime -7 -print0 | xargs -0 ls -lt | head
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 ```
 
-## 10 Largest Open Files
+Add the plugins to your `.zshrc`:
 ```bash
-lsof / | awk '{ if($7 > 1048576) print $7/1048576 "MB" " " $9 " " $1 }' | sort -n -u | tail
+plugins=(zsh-autosuggestions zsh-syntax-highlighting)
 ```
 
-## Find All Hidden Files
+## Fix ZSH Permissions
 ```bash
-find . -name '.*hidden-file*'
+compaudit | xargs chmod g-w,o-w
 ```
 
-## Check for Missing Files
+## Fix Locales
 ```bash
-sudo ls -lai /lost+found/
+sudo pacman -S glibc
+sudo rm /etc/locale.gen
+sudo bash -c "echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen"
+sudo locale-gen
 ```
 
-## Unhide All Hidden Files in the Directory
+## Fix PulseAudio
 ```bash
-find . -maxdepth 1 -type f -name '\.*' | sed -e 's,^\./\.,,' | sort | xargs -iname mv .name name
+mv .config/pulse/default.pa ~/default.pa.bak
+pulseaudio -vvvvv
 ```
 
-## Capitalize the First Letter of Every Word
 ```bash
-ls | perl -ne 'chomp; $f=$_; tr/A-Z/a-z/; s/(?<![.'"'"'])\b\w/\u$&/g; print qq{mv "$f" "$_"\n}'
+set-card-profile 0 output:analog-stereo
+set-default-sink 1
 ```
 
-## Replace All Repetitions of the Same Character with a Single Instance
+## Fix D-Bus
 ```bash
-echo heeeeeeelllo | sed 's/\(.\)\1\+/\1/g'
+export $(dbus-launch)
 ```
 
-## Sort and Remove Duplicates from Files
+## Completely Install Nix
 ```bash
-sort file1 file2 | uniq -u
+curl -L https://nixos.org/nix/install | sh -s -- --daemon
+nix-shell -p nix-info --run "nix-info -m"
 ```
 
-## Print Lines of file2 That Are Missing in file1
+## View the Kernel Config
 ```bash
-grep -vxFf file1 file2
+sudo nvim /usr/lib/modules/$(uname -r)/build/.config
 ```
 
-## Find Hardlinks to Files
-```bash
-find
+## Kernel Config Tools
 
- /home -xdev -samefile file1
+### Ensure Kernel Installation
+```bash
+sudo pacman -S linux
 ```
 
-## Output List of PATH Directories Sorted by Line Length
+### Text-based Interface: Use menuconfig
 ```bash
-echo -e ${PATH//:/\\n} | awk '{print length, $0}' | sort -n | cut -f2- -d' '
+cd /usr/lib/modules/$(uname -r)/build
+make menuconfig
 ```
 
-## Forget All Path Locations
+### Graphical Interface: Use xconfig
 ```bash
-hash -r
+cd /usr/lib/modules/$(uname -r)/build
+make xconfig
 ```
 
-## Make a Script of the Last Executed Command
+### Terminal-based Interface: Use config
 ```bash
-echo "!!" > foo.sh
+cd /usr/lib/modules/$(uname -r)/build
+make config
 ```
 
-## ALT Prompt
+## GPG Key Troubleshooting
+
+### Generate a New Key
 ```bash
-PS1='\[\e[1;31m\][\u@\h \W]\$\[\e[0m\] '
+gpg --full-gen-key
 ```
 
-## Create and Restore Backups Using cpio
+### List Secret Keys
 ```bash
-find . -xdev -print0 | cpio -oa0V | gzip > path_to_save.cpio.gz
+gpg --list-secret-keys
 ```
 
-## Get Available Space on Partition as a Single Numeric Value
+### Ensure Pinentry is Installed
 ```bash
-df -P /path/to/dir | awk 'NR==2 {print $4}'
+sudo pacman -S pinentry
 ```
 
-## Label Drive
+### Set GPG_TTY
 ```bash
-sudo mlabel -i /dev/sdd1 ::NewLabel
+export GPG_TTY=$(tty)
 ```
 
-## Chroot
+### Check and Unset GNUPGHOME
 ```bash
-sudo mount -t proc proc /proc
-sudo mount -t sysfs sys /sys
-sudo mount -t devtmpfs dev /dev
-sudo mount -t devpts devpts /dev/pts
-mount --rbind /dev dev/
-mount --rbind /run run/
+echo $GNUPGHOME
+unset GNUPGHOME
 ```
 
-## UEFI
+### Restart gpg-agent
 ```bash
-mount --rbind /sys/firmware/efi/efivars sys/firmware/efi/efivars/
+gpgconf --kill gpg-agent
+gpg-agent --daemon
 ```
 
-## Find
-
-### Recursively Remove All Empty Directories
+### Check Ownership and Permissions
 ```bash
-find . -type d -empty -delete
+ls -l ~/.gnupg
+sudo chown -R $(whoami):$(whoami) ~/.gnupg
+sudo chmod 700 ~/.gnupg
+sudo chmod 600 ~/.gnupg/*
+sudo chown -R $(whoami):$(whoami) /run/user/1000/gnupg/
+sudo chmod -R 700 /run/user/1000/gnupg
 ```
 
-### Sub-directories
+### Remove Locks
 ```bash
-find . -depth -type d -empty -exec rmdir {} \;
+rm .gnupg/*.lock
+rm .gnupg/public-keys.d/*.lock
 ```
 
-### Recursively Remove All "nodemodules" Folders
+## Security: Armor GPG Key
 ```bash
-find . -name "node_modules" -exec rm -rf '{}' +
+gpg --full-gen-key --keyid-format LONG [EMAIL]
 ```
 
-### Print File Owners and Permissions of a Directory Tree
+* Identify the `sec` line and copy the GPG key ID, which starts after `/`:
 ```bash
-find /path/to/dir1 -printf "%U %G %m %p\n" > /tmp/dir1.txt
+sec   rsa4096/30F2B65B9246B6CA 2017-08-18 [SC]
+      D5E4F29F3275DC0CDA8FFC8730F2B65B9246B6CA
+uid                   [ultimate] Mr. Robot <your_email>
+ssb   rsa4096/B7ABC0813E4028C0 2017-08-18 [E]
 ```
 
-### Get the Latest Version of a File Across All Directories
+### Show Decrypted Public Key
 ```bash
-find . -name custlist\* | perl -ne '$path = $_; s?.*/??; $name = $_; $map{$name} = $path; ++$c; END { print $map{(sort(keys(%map)))[$c-1]} }'
+gpg --armor --export <ID>
 ```
 
-## Add Source Command to a File
+### Add to GitHub
 ```bash
-echo "source ${(q-)PWD}/folder_name/file_name" >> ${XDGDIR:-$HOME}/.filename
+gpg --armor --export <ID> | gh gpg-key add -
+```
+
+## Fix GRUB with GRML
+```bash
+grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+## Call FontAwesome API for Token
+```bash
+curl -H "Authorization: Bearer 67A0397F-5EF3-4130-8C0F-03F3151FB067" -X POST https://api.fontawesome.com/token
+```
+
+## Zombie Killer
+
+### Get the PID of the Zombie Process
+```bash
+ps aux | grep 'Z'
+```
+
+### Get the PID of the Zombie's Parent
+```bash
+pstree -p -s <zombie_PID>
+```
+
+### Kill Its Parent Process
+```bash
+sudo kill 9 <parent_PID>
+```
+
+## Disable Telemetry in Yarn
+```bash
+yarn config set --home enableTelemetry 0
+```
+
+## Install MegaCMD
+```bash
+wget https://mega.nz/linux/repo/Arch_Extra/x86_64/megac
+
+md-x86_64.pkg.tar.zst && sudo pacman -U "$PWD/megacmd-x86_64.pkg.tar.zst"
 ```
