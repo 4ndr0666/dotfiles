@@ -86,6 +86,20 @@ EOF
     esac
 }
 
+# --- // Copypath:
+function copypath {
+  # If no argument passed, use current directory
+  local file="${1:-.}"
+
+  # If argument is not an absolute path, prepend $PWD
+  [[ $file = /* ]] || file="$PWD/$file"
+
+  # Copy the absolute path without resolving symlinks
+  # If clipcopy fails, exit the function with an error
+  print -n "${file:a}" | clipcopy || return 1
+
+  echo ${(%):-"%B${file:a}%b copied to clipboard."}
+}
 # -------------------------------- // SPELLLCHECK:
 spell() {
     if ! command -v spellcheck &> /dev/null; then
@@ -140,6 +154,12 @@ restart_waybar() {
 
 # ----------------------------------------- // RESET_PERMISSIONS:
 function reset_permissions() {
+    # Check if running as root
+    if [[ "$(id -u)" -ne 0 ]]; then
+        echo "This function must be run with root privileges. Please run using sudo."
+        return 1
+    fi
+
     # Define a mapping of directories to their correct "factory" permissions
     declare -A dir_permissions=(
         ["/boot"]=755
@@ -167,14 +187,14 @@ function reset_permissions() {
         local dir_count=0
         for dir in "${!dir_permissions[@]}"; do
             if [[ -d $dir ]]; then
-                sudo find "$dir" -exec stat -c "%a %n" {} \; >> "$backup_file"
+                find "$dir" -exec stat -c "%a %n" {} \; >> "$backup_file"
                 ((dir_count++))
             fi
         done
         echo "Backup completed for $dir_count directories."
     }
 
-    # Function to reset permissions
+    # Function to reset directory permissions
     reset_dir_permissions() {
         local dry_run=$1
         for dir in "${!dir_permissions[@]}"; do
@@ -183,9 +203,9 @@ function reset_permissions() {
                 current_perm=$(stat -c "%a" "$dir")
                 if [[ "$current_perm" -ne "${dir_permissions[$dir]}" ]]; then
                     if [[ "$dry_run" == true ]]; then
-                        echo "Dry Run: sudo chmod ${dir_permissions[$dir]} $dir"
+                        echo "Dry Run: chmod ${dir_permissions[$dir]} $dir"
                     else
-                        if sudo chmod "${dir_permissions[$dir]}" "$dir"; then
+                        if chmod "${dir_permissions[$dir]}" "$dir"; then
                             echo "Permissions set for $dir to ${dir_permissions[$dir]}."
                         else
                             echo "Failed to set permissions for $dir." >&2
@@ -200,20 +220,20 @@ function reset_permissions() {
         done
     }
 
-    # Function to handle files within directories
+    # Function to reset file permissions within directories
     reset_file_permissions() {
         local dry_run=$1
         local dir=$2
 
         if [[ -d "$dir" ]]; then
             if [[ "$dry_run" == true ]]; then
-                echo "Dry Run: sudo find $dir -type d -exec chmod 755 {} \\;"
-                echo "Dry Run: sudo find $dir -type f -exec chmod 644 {} \\;"
-                echo "Dry Run: sudo find $dir -type f -perm /u+x -exec chmod 755 {} \\;"
+                echo "Dry Run: find $dir -type d -exec chmod 755 {} \\;"
+                echo "Dry Run: find $dir -type f -exec chmod 644 {} \\;"
+                echo "Dry Run: find $dir -type f -perm /u+x -exec chmod 755 {} \\;"
             else
-                sudo find "$dir" -type d -exec chmod 755 {} \;
-                sudo find "$dir" -type f -exec chmod 644 {} \;
-                sudo find "$dir" -type f -perm /u+x -exec chmod 755 {} \;
+                find "$dir" -type d -exec chmod 755 {} \;
+                find "$dir" -type f -exec chmod 644 {} \;
+                find "$dir" -type f -perm /u+x -exec chmod 755 {} \;
                 echo "Permissions reset for $dir."
             fi
         fi
@@ -253,11 +273,13 @@ function reset_permissions() {
     # Example: /boot/efi - ensure it's handled carefully
     if [[ -d "/boot/efi" ]]; then
         if [[ "$dry_run" == true ]]; then
-            echo "Dry Run: sudo chmod 755 /boot/efi"
+            echo "Dry Run: chmod 755 /boot/efi"
         else
-            sudo chmod 755 /boot/efi && \
-            echo "Permissions reset for /boot/efi." || \
-            echo "Failed to set permissions for /boot/efi. Please check manually." >&2
+            if chmod 755 /boot/efi; then
+                echo "Permissions reset for /boot/efi."
+            else
+                echo "Failed to set permissions for /boot/efi. Please check manually." >&2
+            fi
         fi
     fi
 

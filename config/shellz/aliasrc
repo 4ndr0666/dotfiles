@@ -2,7 +2,7 @@
 # Author: 4ndr0666
 # Edited: 10-19-2024
 
-# ============================================ // ALIASRC // 
+# ============================================ // ALIASRC //
 # --- // Quick view:
 alias 00='bat ~/.config/shellz/aliasrc'
 alias 0f='bat ~/.config/shellz/functions/functions.zsh'
@@ -50,7 +50,7 @@ alias fd1='fd --exact-depth=1 --hidden' # Keeps search depth at first level
 fdde() {
     local case_flag=""
     local depth_flag=""
-    
+
     # Enable case-insensitive search if the first argument is '-i'
     if [[ "$1" == "-i" ]]; then
         case_flag="--ignore-case"
@@ -131,7 +131,7 @@ cht() {
     [ -n "$choice" ] && bat --language=markdown "$choice" || echo "No cheat sheet selected."
 }
 
-# ============================================== // CONFIG EDITOR // 
+# ============================================== // CONFIG EDITOR //
 edit_config() {
     local file_path=$1
     if [[ $file_path ]]; then
@@ -149,14 +149,16 @@ alias vgrub='edit_config /etc/default/grub'
 alias vgrubc='edit_config /boot/grub/grub.cfg'
 alias vmkinit='edit_config /etc/mkinitcpio.conf'
 alias vmirror='edit_config /etc/pacman.d/mirrorlist'
+alias vchaotic='edit_config /etc/pacman.d/chaotic-mirrorlist'
 alias vfstab='edit_config /etc/fstab'
 alias vzpro='edit_config "$XDG_CONFIG_HOME"/zsh/.zprofile'
 alias vbash='edit_config "$HOME"/.bashrc'
 alias vzsh='edit_config "$XDG_CONFIG_HOME"/zsh/.zshrc'
-alias vfish='edit_config "$XDG_CONFIG_HOME"/fish/config.fish'
+alias vhosts='edit_config /etc/hosts'
 alias vmpv='edit_config "$XDG_CONFIG_HOME"/mpv/mpv.conf'
 alias vfire='edit_config "$XDG_CONFIG_HOME"/wayfire.ini'
 alias vbar='edit_config "$XDG_CONFIG_HOME"/wayfire/waybar/config'
+alias vhostname='edit_config /etc/hostname'
 
 # =============================================== // Dir_shortcuts:
 goto() {
@@ -194,7 +196,7 @@ alias sto2vid='goto /sto2/Videos'
 alias gym='goto /sto2/Gym'
 alias jd='goto /sto2/JD'
 
-# --- // 23.1: 
+# --- // 23.1:
 alias 23='goto /23.1'
 alias 23dl='goto /23.1/Downloads'
 alias 23pic='goto /23.1/Pictures'
@@ -202,7 +204,7 @@ alias 23vid='goto /23.1/Videos'
 alias 23e='goto /23.1/Edits'
 alias cloud='goto /23.1/Thecloud'
 
-# --- // Nas: 
+# --- // Nas:
 alias nas='goto /Nas/'
 alias nbuild='goto /Nas/Build'
 alias nsan='goto /Nas/sandbox'
@@ -237,7 +239,7 @@ fzlb() {
 # --- // Edit files in /Nas/Build/git/syncing/scr:
 fzscr() {
     local dir="${1:-/Nas/Build/git/syncing/scr}"
-    
+
     # Find executable files and directories, excluding .git items, and sorting directories first
     local choice=$(find "$dir" -mindepth 1 \( -type d -o -executable -type f \) \
         ! -path '*/.git/*' -printf '%P\n' | \
@@ -274,7 +276,7 @@ alias ....='cd ../../..'
 alias s='sudo'
 alias cp='cp -iv'
 alias mv='mv -iv'
-alias rm='trash-put' 
+alias rm='trash-put'
 #alias rm='rm -vI'
 alias rmf='sudo -S /usr/bin/rm -vI -rf'
 #alias rg='batgrep'            # Aliased for bat-extras ripgrep
@@ -322,6 +324,9 @@ alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/m
 alias netspeed='ifstat -t -S -w'
 alias iotop='sudo iotop -o'
 alias netwatch='sudo nethogs'
+alias addlbin='export PATH=/home/andro/.local/bin:$PATH'
+alias whatkernel="ls /usr/lib/modules"
+
 alias dir5='du -cksh * | sort -hr | head -5'
 alias dir10='du -cksh * | sort -hr | head -10'
 alias dir='dir --color=auto'
@@ -464,7 +469,6 @@ alias chmod='sudo chmod --preserve-root'
 alias chgrp='sudo chgrp --preserve-root'
 alias lock='sudo chattr +i '
 alias unlock='sudo chattr -i '
-alias factory_all='/Nas/Build/git/syncing/scr/permissions/4ndr0reset/factory_all.sh'
 
 # --- // TEST:
 fixo() {
@@ -704,7 +708,7 @@ alias audio="pactl info | grep 'Server Name'"
 #alias cleanls='echo "pacman -Q | grep -E 'pipewire|pulseaudio|alsa|jack' > audio_packages.txt && sed -i 's/ .*$//' audio_packages.txt"'
 
 # ----------------------------- // CLIPBOARDS //
-# --- // wl-copy and wl-paste: 
+# --- // wl-copy and wl-paste:
 #copy_cmd() {
 #    "$@" | wl-copy
 #}
@@ -759,7 +763,7 @@ alias snapli="sudo snapper list"
 alias snapcr="sudo snapper -c root create"
 alias snapch="sudo snapper -c home create"
 
-# --- // Count or list files in dir: 
+# --- // Count or list files in dir:
 filecount() {
     if [[ "$1" == "-l" ]]; then
         echo "Files in $PWD:"
@@ -777,6 +781,7 @@ lsmount() {
     fi
 }
 
+# --- // Killit:
 killit() {
     local pattern=$1
     if [[ -z "$pattern" ]]; then
@@ -821,7 +826,7 @@ generate-zramconf() {
 
 }
 
-# --- // List dependencies of pkg: 
+# --- // List dependencies of pkg:
 whatdependson()  {
     search="$1"
     sudo pacman -Sii $search | grep "Required" | sed -e "s/Required By     : //g" | sed -e "s/  /\n/g"
@@ -870,19 +875,19 @@ archive() {
 # --- // Move_up_1_directory:
 up() { for _ in $(seq "${1:-1}"); do cd ..; done; }
 
-# --- // List app :80 connections:
+# --- // All_port80_connections:
 function con80() {
   {
     LANG= ss -nat || LANG= netstat -nat
   } | grep -E ":80[^0-9]" | wc -l
 }
 
-# --- // List 20 :80 connections: 
+# --- // List_top20_connections_on_port80:
 function http20() {
   sudo tcpdump -i eth0 -tnn dst port 80 -c 1000 | awk -F"." '{print $1"."$2"."$3"."$4}' | sort | uniq -c | sort -nr | head -n 20
 }
 
-# --- // List 20 SYN connections:
+# --- // List_top20_SYN_connections:
 function syn20() {
   {
     LANG= ss -an | awk '/SYN/ {print $5}' \
@@ -917,7 +922,7 @@ alias bleachcache='sudo bleachbit --clean system.cache system.localizations syst
 alias bleachchrome='bleachbit --clean chromium.cache chromium.dom thumbnails.cache'
 # ================================================================================ // PYTHON:
 
-alias pvenv='source $XDG_DATA_HOME/virtualenv/bin/activate --prompt 💀' 
+alias pvenv='source $XDG_DATA_HOME/virtualenv/bin/activate --prompt 💀'
 #$XDG_DATA_HOME/virtualenv/bin/activate
 
 # --- Python with no venv:
@@ -941,36 +946,36 @@ alias ytt='yt --skip-download --write-thumbnail'
 alias YT='youtube-viewer'
 alias yta='yt -x -f bestaudio/best'
 
-ytdl() {
-  local url="$1"
-  yt-dlp --add-metadata \
-         --embed-metadata \
+#ytdl() {
+#  local url="$1"
+#  yt-dlp --add-metadata \
+#         --embed-metadata \
+#         --external-downloader aria2c \
+#        --external-downloader-args "-c -j 3 -x 3 -s 3 -k 1M" \
+#         -f "315/313/308/303/302/247/244/137+bestaudio/best" \
+#         --no-playlist \
+#         --no-mtime \
+#         "$url"
+#}
+
+#ytf() {
+#  local url="$1"
+#  yt-dlp --list-formats \
+#         "$url"
+#}
+
+
+#ytp() {
+#  yt-dlp --add-metadata \
+#         --embed-metadata \
 #         --external-downloader aria2c \
 #         --external-downloader-args "-c -j 3 -x 3 -s 3 -k 1M" \
-         -f "315/313/308/303/302/247/244/137+bestaudio/best" \
-         --no-playlist \
-         --no-mtime \
-         "$url"
-}
-
-ytf() {
-  local url="$1"
-  yt-dlp --list-formats \
-         "$url"
-}
-
-
-ytp() {
-  yt-dlp --add-metadata \
-         --embed-metadata \
-         --external-downloader aria2c \
-         --external-downloader-args "-c -j 3 -x 3 -s 3 -k 1M" \
-         -f "315/313/308/303/302/247/244+bestaudio/best" \
-         --yes-playlist \
-	 --write-playlist-metafiles \
-	 --concat-playlist always \
-         "$@"
-}
+#         -f "315/313/308/303/302/247/244+bestaudio/best" \
+#         --yes-playlist \
+#	 --write-playlist-metafiles \
+#	 --concat-playlist always \
+#         "$@"
+#}
 
 reddl() {
   yt-dlp --external-downloader aria2c \
@@ -1052,13 +1057,13 @@ alias yayskip='yay -S --mflags --skipinteg'
 alias trizenskip='trizen -S --skipinteg'
 alias update='sudo pacman -Sy && sudo powerpill -Su && paru -Su'
 
-# --- // Unsafe Install (security bypass): 
+# --- // Unsafe Install (security bypass):
 alias fninstall="yay -S --needed --cleanafter --cleanmenu --devel --noconfirm --rebuild --refresh --sudoloop --sysupgrade --overwrite='*' --disable-download-timeout --pgpfetch=false --noupgrademenu --removemake --redownload --batchinstall=false --answerclean=yes --answerdiff=no --answeredit=no"
 
-# --- // Unsafe Update (security bypass): 
+# --- // Unsafe Update (security bypass):
 alias fnupdate='yay -Syyu --noconfirm --disable-download-timeout --removemake --rebuild --pgpfetch=false --bottomup --overwrite="*"'
 
-# --- // Unsafe Removal (dependency bypass): 
+# --- // Unsafe Removal (dependency bypass):
 alias fnremove='yay -Rddn --noconfirm'
 
 # --- // Unsafe Siglevel Manipulation:
@@ -1419,13 +1424,13 @@ alias magic='sudo /usr/local/bin/magic.sh'
 cleanup_session() {
     echo "Starting session cleanup..."
     log_file="/var/log/session_cleanup.log"
-    
+
     # Ensure the log file exists and is writable
     if [ ! -e "$log_file" ]; then
         sudo touch "$log_file"
         sudo chmod 666 "$log_file"
     fi
-    
+
     # Define the list of processes to check and terminate
     processes=("polkit-gnome-authentication-agent-1" "xdg-desktop-portal" "other-process-1" "other-process-2")
 
@@ -1478,4 +1483,3 @@ alias ssr="cleanup_session && echo 'Rebooting...' | sudo tee -a /var/log/user_co
 
 # Reboot Alias
 #alias ssr="cleanup_session && echo 'Rebooting...' | sudo tee -a /var/log/user_commands.log && sudo reboot -h now"
-
