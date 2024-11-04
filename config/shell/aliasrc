@@ -11,12 +11,22 @@ alias 0b='bat ~/.bashrc'
 alias 0z='bat ~/.zshrc'
 
 
-# -------------------------------------------- // NVIM_AND_PARU //
+# --- // FORCE_NEOVIM:
 if command -v nvim > /dev/null 2>&1; then
     alias vim="nvim"
     alias vimdiff="nvim -d"
-# --- // Lf:
-alias lf='lfub'
+else
+    echo "nvim not found, falling back to vim if available"
+    command -v vim > /dev/null 2>&1 || { echo "vim also not found. Please install a text editor."; return 1; }
+fi
+alias vim="nvim"
+
+    
+    
+    
+    
+    
+    
 # --- // FD:
 alias fd1='fd --exact-depth=1 --hidden' # Keeps search depth at first level
 fdde() {
