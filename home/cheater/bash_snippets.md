@@ -6,10 +6,12 @@ if [[ "$EUID" -ne 0 ]]; then
     sudo "$0" "$@"
     exit $?
 fi
+```
 
+```bash
 # --- // 4ndr0 version:
 if [ "$(id -u)" -ne 0 ]; then
-      sudo "$0" "$@"
+    sudo "$0" "$@"
     exit $?
 fi
 sleep 1
@@ -25,28 +27,45 @@ echo
 
 # --- // KILL_&_RESTART:
 ```bash
-killall -p pkgname $> /dev/null
+killall -p pkgname &> /dev/null
 pkgname </dev/null &>/dev/null &
 ```
 
 # --- // HEREDOC:
+# Appending to a File
 ```bash
-cat << EOF >> file.txt    # appends to file.txt
-The txt you want
+cat << EOF >> file.txt
+The text you want
 to append to
-file.txt would
-go here.
+file.txt goes here.
+EOF
+
+# Overwriting a File
+cat << EOF > file.txt
+This will overwrite
+the content of file.txt
+with this new text.
+EOF
+
+# Indented Content Using `<<-`
+cat <<- EOF > file.txt
+    This text is indented in the script
+    but will not be indented in file.txt.
 EOF
 ```
 
 # --- // LIKE_HEREDOC_W_TEE:
 ```bash
-`tee file.txt <<EOF`      # overwrites file.txt
-`tee >> file.txt <<EOF`   # appends to file.txt
-The txt you pasted
-to overwrite or
-append to file.txt
-goes here.
+# Appending with `tee`
+tee -a file.txt << EOF
+This text will be appended
+to the content of file.txt.
+EOF
+
+# Overwriting with `tee`
+tee file.txt << EOF
+This text will overwrite
+the content of file.txt.
 EOF
 ```
 

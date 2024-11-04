@@ -1,16 +1,16 @@
 ## List all functions
-```
+```bash
 declare -f
 ```
 
-## Mask gvfsd:
+## Mask gvfsd
 ```bash
 cp /usr/share/dbus-1/services/org.gtk.vfs.Daemon.service /run/user/1000/dbus-1/services
 sed 's|^Exec=.*|Exec=/bin/false|' /run/user/1000/dbus-1/services/org.gtk.vfs.Daemon.service
 ```
 
 ## Check official permissions
-```bash 
+```bash
 sudo pacman -Qkk
 ```
 
@@ -19,7 +19,7 @@ sudo pacman -Qkk
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
-## Dl Micro:
+## Dl Micro
 ```bash
 curl https://getmic.ro | bash
 ```
@@ -29,13 +29,13 @@ curl https://getmic.ro | bash
 ssh -T git@github.com
 ```
 
-## Common Admin Cmds:
+## Common Admin Cmds
 ```bash
-w - to see active sessions
-ps -u `user` - to check processes owned by user
+w  # to see active sessions
+ps -u `user`  # to check processes owned by user
 ```
 
-## Install Beignet:
+## Install Beignet
 ```bash
 sudo pacman -S glibc base-devel
 yay -S llvm10 clang10 llvm10-libs
@@ -44,12 +44,12 @@ export CXX=/usr/bin/clang++-10
 export PATH=/usr/lib/llvm-10/bin:$PATH
 ```
 
-# Create Diff File: 
+## Create Diff File
 ```bash
 diff -u original.md updated.md > diff_output.diff
 ```
 
-## Recursively chmod +x Scripts Only:
+## Recursively chmod +x Scripts Only
 ```bash
 find scr/ -type f -exec file --mime-type {} + | grep -E 'script|executable' | while IFS= read -r line; do
   file_path=$(echo "$line" | cut -d: -f1)
@@ -57,22 +57,22 @@ find scr/ -type f -exec file --mime-type {} + | grep -E 'script|executable' | wh
 done
 ```
 
-## Garuda-Wayfire Settigns:
+## Garuda-Wayfire Settings
 ```bash
 git clone https://gitlab.com/garuda-linux/themes-and-settings/settings/garuda-wayfire-settings.git
 ```
 
-## Garuda-Hyprland Package List:
+## Garuda-Hyprland Package List
 ```bash
 curl -L https://gitlab.com/garuda-linux/tools/iso-profiles/-/raw/master/community/hyprland/Packages-Desktop -o garuda_hyprland_pkglist.txt
 ```
 
-## Clear PDF Security:
+## Clear PDF Security
 ```bash
 gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=OUTPUT.pdf -c .setpdfwrite -f INPUT.pdf
 ```
 
-## Setup Pinentry:
+## Setup Pinentry
 ```bash
 sudo ln -sf /usr/bin/pinentry-wayprompt /usr/bin/pinentry
 echo "pinentry-program /usr/bin/pinentry-wayprompt" >> ~/.gnupg/gpg-agent.conf
@@ -80,13 +80,13 @@ gpg-connect-agent reloadagent /bye
 sudo sed -i '/#test -e \/usr\/lib\/libQt5Widgets.so.5 && exec \/usr\/bin\/pinentry-qt     "$@"/a test -e /usr/bin/pinentry-wayprompt && exec /usr/bin/pinentry-wayprompt "$@"' /etc/pinentry/preexec
 ```
 
-## Wayfire Dependencies:
+## Wayfire Dependencies
 ```bash
 yay -S wayfire wf-config wf-shell wcm wf-recorder wf-osk-git waybar mako polkit-gnome gnome-keyring swaylock swayidle grim slurp kanshi qt5-wayland \
 qt5ct kvantum clipman wl-clipboard playerctl wtype wlogout wofi nwg-drawer nwg-look bemenu-wlroots dex perl-file-mimeinfo xdg-user-dirs-gtk xdg-utils xdg-desktop-portal-wlr --needed
 ```
 
-## SVP Dependencies:
+## SVP Dependencies
 ```bash
 yay -S ffmpeg-git alsa-lib aom bzip2 fontconfig fribidi gmp gnutls gsm jack lame libass libavc1394 libbluray libbs2b libdav1d libdrm libfreetype libgl \
 libiec61883 libjxl libmodplug libopenmpt libpulse librav1e libraw1394 librsvg-2 libsoxr libssh libtheora libva libva-drm libva-x11 libvdpau libvidstab \
@@ -94,7 +94,7 @@ libvorbisenc libvorbis libvpx libwebp libx11 libx264 libx265 libxcb libxext libx
 sdl2 speex srt svt-av1 v4l-utils vmaf vulkan-icd-loader xz zlib base-devel-git --needed
 ```
 
-## Dependencies for Archcraft:
+## Dependencies for Archcraft
 ```bash
 yay -S --needed cairo-perl colord elementary-icon-theme glib-perl gtkmm nitrogen obconf obmenu-generator openbox perl-cairo-gobject perl-glib-object-introspection perl-gtk3 \
 perl-linux-desktopfiles tint2 xfce4-settings xmlstarlet archcraft-cursor-lyra archcraft-cursor-material archcraft-dunst-icons archcraft-gtk-theme-adapta archcraft-gtk-theme-arc \
@@ -104,7 +104,7 @@ archcraft-gtk-theme-nordic archcraft-gtk-theme-rick archcraft-gtk-theme-slime ar
 archcraft-gtk-theme-white archcraft-gtk-theme-windows archcraft-icons-hack archcraft-icons-nordic archcraft-mirrorlist archcraft-openbox --overwrite="*"
 ```
 
-## Remove Broken Systemd Links:
+## Remove Broken Systemd Links
 ```bash
 find -L /etc/systemd/ -type l
 ```
@@ -124,12 +124,22 @@ vulkan-intel lib32-vulkan-intel intel-gmmlib intel-graphics-compiler intel-media
 
 ## Minimal Brave Browser
 ```bash
-brave --disable-extensions --disable-plugins --disable-sync --no-zygote --disable-gpu --user-data-dir=~/brave_minimal_profile/ --no-sandbox --incognito --disable-web-security --disable-features=RendererCodeIntegrity --disable-site-isolation-trials --disable-features=IsolateOrigins --disable-features=site-per-process --disable-features=NetworkService --disable-features=VizDisplayCompositor --disable-features=VizHitTestSurfaceLayer --disable-features=VizHitTestDrawQuad --disable-features=VizHitTestDrawQuadWidget --disable-features=TranslateUI --disable-features=AutofillEnableIgnoreList --disable-features=ReadLater --disable-features=ExportPasswords --disable-features=SyncDisabledWithNoNetwork --disable-features=GlobalMediaControls --disable-features=ExportPasswordsInSettings --disable-features=DownloadRestrictions --disable-features=ImprovedCookieControls --disable-features=BluetootheDeviceChooser --disable-features=AudioServiceOutOfProcess --disable-features=WebOTP --disable-features=WebRtcHideLocalIpsWithMdns --disable-features=WebRtcUseEchoCanceller3 --disable-features=SmoothScrolling --no-crash-upload --disable-renderer-backgrounding --metrics-recording-only
+brave --disable-extensions --disable-plugins --disable-sync --no-zygote --disable-gpu --user-data-dir=~/brave_minimal_profile/ --no-sandbox --incognito --disable-web-security --disable-features=RendererCodeIntegrity \
+--disable-site-isolation-trials --disable-features=IsolateOrigins --disable-features=site-per-process --disable-features=NetworkService --disable-features=VizDisplayCompositor --disable-features=VizHitTestSurfaceLayer \
+--disable-features=VizHitTestDrawQuad --disable-features=VizHitTestDrawQuadWidget --disable-features=TranslateUI --disable-features=AutofillEnableIgnoreList --disable-features=ReadLater --disable-features=ExportPasswords \
+--disable-features=SyncDisabledWithNoNetwork --disable-features=GlobalMediaControls --disable-features=ExportPasswordsInSettings --disable-features=DownloadRestrictions --disable-features=ImprovedCookieControls \
+--disable-features=BluetootheDeviceChooser --disable-features=AudioServiceOutOfProcess --disable-features=WebOTP --disable-features=WebRtcHideLocalIpsWithMdns --disable-features=WebRtcUseEchoCanceller3 \
+--disable-features=SmoothScrolling --no-crash-upload --disable-renderer-backgrounding --metrics-recording-only
 ```
 
 ## Topaz FFmpeg
 ```bash
-ffmpeg "-hide_banner" "-nostdin" "-y" "-nostats" "-i" "Path/to/the/.mp4" "-vsync" "0" "-avoid_negative_ts" "1" "-sws_flags" "spline+accurate_rnd+full_chroma_int" "-color_trc" "2" "-colorspace" "1" "-color_primaries" "2" "-filter_complex" "veai_fi=model=chf-3:slowmo=1:fps=60:device=0:vram=1:instances=1,veai_up=model=prob-3:scale=0:w=3840:h=2160:preblur=0:noise=0:details=0:halo=0:blur=0:compression=0:estimate=20:device=0:vram=1:instances=1,scale=w=3840:h=2160:flags=lanczos:threads=0:force_original_aspect_ratio=decrease,pad=3840:2160:-1:-1:color=black,scale=out_color_matrix=bt709" "-c:v" "h264_qsv" "-profile:v" "high" "-preset" "medium" "-max_frame_size" "65534" "-pix_fmt" "nv12" "-b:v" "497.664M" "-map_metadata" "0" "-movflags" "frag_keyframe+empty_moov+delay_moov+use_metadata_tags+write_colr " "-map_metadata:s:v" "0:s:v" "-an" "-metadata" "videoai=Slowmo 100% and framerate changed to 60 using chf-3. Enhanced using prob-3 auto with recover details at 0, dehalo at 0, reduce noise at 0, sharpen at 0, revert compression at 0, and anti-alias/deblur at 0. Changed resolution to 3840x2160"
+ffmpeg "-hide_banner" "-nostdin" "-y" "-nostats" "-i" "Path/to/the/.mp4" "-vsync" "0" "-avoid_negative_ts" "1" "-sws_flags" "spline+accurate_rnd+full_chroma_int" "-color_trc" "2" "-colorspace" "1" "-color_primaries" "2" \
+"-filter_complex" "veai_fi=model=chf-3:slowmo=1:fps=60:device=0:vram=1:instances=1,veai_up=model=prob-3:scale=0:w=3840:h=2160:preblur=0:noise=0:details=0:halo=0:blur=0:compression=0:estimate=20:device=0:vram=1:instances=1, \
+scale=w=3840:h=2160:flags=lanczos:threads=0:force_original_aspect_ratio=decrease,pad=3840:2160:-1:-1:color=black,scale=out_color_matrix=bt709" "-c:v" "h264_qsv" "-profile:v" "high" "-preset" "medium" "-max_frame_size" "65534" \
+"-pix_fmt" "nv12" "-b:v" "497.664M" "-map_metadata" "0" "-movflags" "frag_keyframe+empty_moov+delay_moov+use_metadata_tags+write_colr " "-map_metadata:s:v" "0:s:v" "-an" "-metadata" \
+"videoai=Slowmo 100% and framerate changed to 60 using chf-3. Enhanced using prob-3 auto with recover details at 0, dehalo at 0, reduce noise at 0, sharpen at 0, revert compression at 0, and anti-alias/deblur at 0. \
+Changed resolution to 3840x2160"
 ```
 
 ## Proper Overwrite
@@ -248,7 +258,9 @@ grep -vxFf file1 file2
 
 ## Find Hardlinks to Files
 ```bash
-find /home -xdev -samefile file1
+find
+
+ /home -xdev -samefile file1
 ```
 
 ## Output List of PATH Directories Sorted by Line Length
@@ -310,7 +322,7 @@ find . -type d -empty -delete
 
 ### Sub-directories
 ```bash
-find . -depth  -type d  -empty -exec rmdir {} \;
+find . -depth -type d -empty -exec rmdir {} \;
 ```
 
 ### Recursively Remove All "nodemodules" Folders
