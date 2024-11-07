@@ -16,8 +16,6 @@
   "count_daily" : "5",
   "count_hourly" : "1",
   "count_boot" : "2",
-  "snapshot_size" : "0",
-  "snapshot_count" : "0",
   "date_format" : "%m/%d/%Y %I:%M%p",
   "exclude" : [
     "/23.1",
@@ -79,8 +77,7 @@
     "/home/andro/.vim",
     "/home/andro/.config/BraveSoftware",
     "/home/greetd/**",
-    "/home/andro/**",
-    "/root/**"
+    "/home/andro/**"
   ],
   "exclude-apps" : []
 }
