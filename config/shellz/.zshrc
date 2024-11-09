@@ -25,6 +25,13 @@ prompt-zee -PDp "≽ "
 #fi
 #[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+# --- // General opt: 
+setopt extended_glob          # Enable extended globbing
+setopt autocd                 # Auto `cd` into directories
+setopt interactive_comments   # Allow comments in interactive shells
+# Disable Ctrl+S to prevent terminal freeze
+stty stop undef
+
 # ----------------------------- // ALIAS //
 alias reload='exec zsh'
 
@@ -33,8 +40,9 @@ export PATH="$HOME/bin:$PATH"
 export PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig:$PKG_CONFIG_PATH"
 export LD_LIBRARY_PATH="$HOME/ffmpeg_build/lib:$LD_LIBRARY_PATH"
 
-# ---------------------------- // AUTO COMPLETE //
+# ----------------------------- // AUTO COMPLETE //
 autoload -U compinit 
+
 # Set completion styles
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
@@ -43,28 +51,58 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' completer _expand _complete _ignored _approximate
 zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
 zstyle ':completion:*:descriptions' format '%U%F{cyan}%d%f%u'
-
 # Speed-up Completions:
 zstyle ':completion:*' accept-exact '*(N)'
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.cache/zcache
+
 zmodload zsh/complist
 compinit
 _comp_options+=(globdots)
 
 # ---------------------------- // SETOPT //
-setopt append_history     # Append to history, not overwrite
+compinit -d "$XDG_CACHE_HOME"/zsh/zcompdump-"$ZSH_VERSION"
+# History:
+setopt inc_append_history     # Append to history, not overwrite
 setopt share_history          # Share history across all sessions
-#setopt extended_history       # Save timestamps in history
+setopt extended_history       # Save timestamps in history
 setopt hist_expire_dups_first
 setopt hist_ignore_space
-setopt extended_glob          # Enable extended globbing
-#setopt autocd                 # Auto `cd` into directories
-#setopt interactive_comments   # Allow comments in interactive shells
-
+export HISTFILE='"XDG_STATE_HOME"/zsh/history'
 # fix zsh history behavior
 h() { if [ -z "$*" ]; then history 1; else history 1 | egrep "$@"; fi; }
 
+# ---------------------------- // DIRECTORY NAVIGATION //
+# --- // LFCD:
+lfcd () {
+    tmp="$(mktemp -uq)"
+    trap 'rm -f $tmp >/dev/null 2>&1 && trap - HUP INT QUIT TERM PWR EXIT' HUP INT QUIT TERM PWR EXIT
+    lf -last-dir-path="$tmp" "$@"
+    if [ -f "$tmp" ]; then
+        dir="$(cat "$tmp")"
+        [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
+    fi
+}
+bindkey -s '^o' '^ulfcd\n'
+
+bindkey -s '^a' '^ubc -lq\n'
+
+bindkey -s '^f' '^ucd "$(dirname "$(fzf)")"\n'
+
+bindkey '^[[P' delete-char
+
+# --- // VIM:
+# Delete character with a specific key sequence
+bindkey '^[[P' delete-char
+# Edit command line with Vim using Ctrl+E
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^e' edit-command-line
+bindkey -M vicmd '^[[P' vi-delete-char
+bindkey -M vicmd '^e' edit-command-line
+bindkey -M visual '^[[P' vi-delete
+
+# --- // LINE NAVIGATION:
 autoload -Uz up-line-or-beginning-search
 autoload -Uz down-line-or-beginning-search
 zle -N up-line-or-beginning-search
@@ -74,8 +112,16 @@ bindkey '\e[A' up-line-or-beginning-search
 bindkey '\eOB' down-line-or-beginning-search
 bindkey '\e[B' down-line-or-beginning-search
 
-# Disable Ctrl+S to prevent terminal freeze
-stty stop undef
+# --- // FZFCD:
+#cd_fzf() {
+#    local dir
+#    dir=$(dirname "$(fzf)")
+#    if [ -d "$dir" ]; then
+#        cd "$dir"
+#    else
+#        echo "Directory not found: $dir"
+#    fi
+#}
 
 # --- // Autoset_Display: 
 #if [ -z "$DISPLAY" ]; then
@@ -92,21 +138,20 @@ stty stop undef
 
 # ----------------------------- // ON-DEMAND REHASH //
 # Refresh Zsh completions if pacman cache changes
-zshcache_time="$(date +%s%N)"
+#zshcache_time="$(date +%s%N)"
 
-rehash_precmd() {
-    if [[ -a /var/cache/zsh/pacman ]]; then
-        local paccache_time="$(stat -c %Y /var/cache/zsh/pacman)"
-        if (( zshcache_time < paccache_time )); then
-            rehash
-            zshcache_time="$paccache_time"
-        fi
-    fi
-}
+#rehash_precmd() {
+#    if [[ -a /var/cache/zsh/pacman ]]; then
+#        local paccache_time="$(stat -c %Y /var/cache/zsh/pacman)"
+#        if (( zshcache_time < paccache_time )); then
+#            rehash
+#            zshcache_time="$paccache_time"
+#        fi
+#    fi
+#}
 
-autoload -Uz add-zsh-hook
-add-zsh-hook -Uz precmd rehash_precmd
-
+#autoload -Uz add-zsh-hook
+#add-zsh-hook -Uz precmd rehash_precmd
 
 # ----------------------------- // SOURCES //
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
@@ -130,6 +175,7 @@ done
 
 # Fpath completions
 fpath=("$HOME/.zsh/completions" "/usr/share/zsh/vendor-completions" $fpath)
+
 # fzf
 source <(fzf --zsh)
 
@@ -145,7 +191,6 @@ source_nvm() {
         echo "Warning: NVM script not found at $script"
     fi
 }
-
 source_nvm "$NVM_DIR/nvm.sh"
 source_nvm "$NVM_DIR/bash_completion"
 
@@ -156,52 +201,6 @@ if [ -f "$gpg_env_file" ]; then
 else
     echo "Warning: $gpg_env_file not found"
 fi
-
-# ---------------------------- // DIRECTORY NAVIGATION //
-# --- // LFCD:
-lfcd() {
-    tmp=$(mktemp -uq)
-    trap 'rm -f "$tmp" >/dev/null 2>&1 && trap - HUP INT QUIT TERM PWR EXIT' HUP INT QUIT TERM PWR EXIT
-    lf -last-dir-path="$tmp" "$@"
-    if [ -f "$tmp" ]; then
-        dir=$(cat "$tmp")
-        if [ -d "$dir" ] && [ "$dir" != "$(pwd)" ]; then
-            cd "$dir"
-        fi
-    fi
-}
-
-# Bind Ctrl+O to invoke lfcd
-bindkey '^o' lfcd
-
-# Bind Ctrl+A to 'bc -lq' (assuming 'bc' is intended)
-#alias bc='bc -lq'
-
-# --- // FZFCD:
-cd_fzf() {
-    local dir
-    dir=$(dirname "$(fzf)")
-    if [ -d "$dir" ]; then
-        cd "$dir"
-    else
-        echo "Directory not found: $dir"
-    fi
-}
-
-# Bind Ctrl+F to invoke cd_fzf
-bindkey '^f' cd_fzf
-
-# ---------------------------- // OTHER KEYBINDINGS //
-# Delete character with a specific key sequence
-#bindkey '^[[P' delete-char
-
-# Edit command line with Vim using Ctrl+E
-#autoload -Uz edit-command-line
-#zle -N edit-command-line
-#bindkey '^e' edit-command-line
-#bindkey -M vicmd '^[[P' vi-delete-char
-#bindkey -M vicmd '^e' edit-command-line
-#bindkey -M visual '^[[P' vi-delete
 
 # ---------------------------- // PLUGINS //
 # Define the plugins directory
@@ -221,5 +220,5 @@ else
 fi
 
 # Specific Plugin Sources:
-source /usr/share/doc/find-the-command/ftc.zsh noupdate quiet
+#source /usr/share/doc/find-the-command/ftc.zsh noupdate quiet
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh 2>/dev/null

@@ -7,16 +7,97 @@ file_extensions:
 scope: text.html.markdown
 contexts:
   main:
-    - match: '^#{1,6}\s+(.*)'
+    - include: headings
+    - include: bold_italic
+    - include: links
+    - include: code_blocks
+    - include: lists
+    - include: blockquotes
+    - include: inline_code
+    - include: images
+    - include: horizontal_rules
+    - include: text
+
+  headings:
+    - match: '^(#{1,6})\s+(.+)$'
       captures:
-        0: markup.heading.markdown
+        1: markup.heading.1.markdown
+        2: markup.heading.text.markdown
+      scope: meta.heading.markdown
+
+  bold_italic:
+    - match: '\*\*\*(.+?)\*\*\*'
+      captures:
+        1: markup.bold.italic.markdown
     - match: '\*\*(.+?)\*\*'
       captures:
-        0: markup.bold.markdown
+        1: markup.bold.markdown
+    - match: '__(.+?)__'
+      captures:
+        1: markup.bold.markdown
+    - match: '\*(.+?)\*'
+      captures:
+        1: markup.italic.markdown
     - match: '_(.+?)_'
       captures:
-        0: markup.italic.markdown
+        1: markup.italic.markdown
+
+  links:
     - match: '\[(.*?)\]\((.*?)\)'
       captures:
         1: string.other.link.title.markdown
-        2: markup.underline.link.markdown
+        2: meta.link.inline.markdown
+      scope: meta.link.markdown
+
+  images:
+    - match: '!\[(.*?)\]\((.*?)\)'
+      captures:
+        1: string.other.link.title.markdown
+        2: meta.link.image.markdown
+      scope: meta.image.markdown
+
+  code_blocks:
+    - match: '^```(\w+)?$'
+      scope: punctuation.definition.fenced.markdown
+      push:
+        - meta_scope: meta.block.code.fenced.markdown
+        - match: '^```$'
+          scope: punctuation.definition.fenced.markdown
+          pop: true
+        - include: code_content
+
+  code_content:
+    - match: '^.*$'
+      scope: source.shell
+    - match: '\n'
+      pop: true
+
+  inline_code:
+    - match: '`([^`]+)`'
+      captures:
+        1: punctuation.definition.inline.code.markdown
+        2: source.shell
+        3: punctuation.definition.inline.code.markdown
+      scope: markup.inline.raw.inline-code.markdown
+
+  lists:
+    - match: '^(\s*)([*+-]|\d+\.)\s+(.+)$'
+      captures:
+        1: meta.list.markdown
+        2: punctuation.definition.list_item.markdown
+        3: meta.list.content.markdown
+      scope: meta.list.item.markdown
+
+  blockquotes:
+    - match: '^>\s+(.*)$'
+      captures:
+        1: markup.quote.markdown
+      scope: meta.block.quote.markdown
+
+  horizontal_rules:
+    - match: '^(\*\s*){3,}$|^(-\s*){3,}$|^(_\s*){3,}$'
+      scope: punctuation.definition.break.markdown
+
+  text:
+    - match: '[^*\n]+'
+      scope: text.normal.markdown

@@ -1,1 +1,0 @@
-return { path = "/home/andro", documents = {["type"]="leaf",["active_view"]=1,["views"]={[1]={["filename"]="user.js",["text"]="",["selection"]={[1]=1,[2]=1,[3]=1,[4]=1},["scroll"]={["y"]=0,["x"]=0},["active"]=false,["type"]="doc"}}}, directories = {} }

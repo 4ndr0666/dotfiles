@@ -1,41 +1,58 @@
-#File: $USER/.config/bat/config
-#Author: 4ndr0666
-#Edited: 04-23-24
+# File: ~/.config/bat/config
+# Author: 4ndr0666
+# Edited: 04-23-24
 #
-# --- // CONFIG // ========
-
+# --- // CONFIGURATION // ========
 
 # --- // THEME:
+# Ensure "DarkNeon" is a valid theme. If custom, place it in ~/.config/bat/themes/
 --theme="DarkNeon"
-#--theme="GitHub"
-#--theme="CustomCyan.sublime-color-scheme"
-#--theme="gruvbox-dark"
+# Uncomment to switch themes
+# --theme="GitHub"
+# --theme="CustomCyan.sublime-color-scheme"
+# --theme="gruvbox-dark"
 --wrap="auto"
 --color="always"
 
 # --- // STYLES:
-#1--style="grid,header,changes,full"
-#2--style="numbers,grid,header,changes,full"
---style="changes,header,snip"
-
+# Choose a valid combination of styles
+# Example 1
+# --style="grid,header,changes,full"
+# Example 2
+# --style="numbers,grid,header,changes,full"
+# Current active style (corrected)
+--style="changes,header,grid"
 
 # --- // TERMINAL:
-#--italic-text=always
-#--terminal-width="120"
+# Uncomment to enable italic text
+# --italic-text=always
+# Uncomment and set terminal width if desired
+# --terminal-width="120"
 
 # --- // PAGER:
-#1 --paging="always"
---pager="less -rFXIL" # Modified less, quit if less than one screen, long prompt, ignore case on searches
-#3 --pager="less -R"
+--paging="always"
+# Uncomment to use BAT_PAGER environment variable
+# --pager="BAT_PAGER"
+# Corrected pager command without invalid '-L' flag
+--pager="less -rFXI" # less with raw control chars, quit if one screen, no init/deinit, ignore case in searches
+# --pager="less -R"
 
 # --- // LANGUAGES:
+# Mapping file extensions to syntax
 --map-syntax "*.unknown:txt"
 --map-syntax "*.ino:C++"
 --map-syntax ".ignore:Git Ignore"
 --map-syntax "*.md:Markdown"
---map-syntax "*.csv:CSV"  # Add this line to handle CSV files explicitly
+--map-syntax "*.csv:CSV"  # Handles CSV files explicitly
+# Add more mappings as needed
+# --map-syntax "*.py:Python"
+# --map-syntax "*.sh:Shell Script"
+# --map-syntax "*.json:JSON"
+# --map-syntax "*.xml:XML"
 
 # --- // MISC:
-#--show-nonprintable
+# Uncomment to show non-printable characters
+# --show-nonprintable
 --tabs="4"
-#--diff
+# Uncomment to enable diff syntax highlighting
+# --diff

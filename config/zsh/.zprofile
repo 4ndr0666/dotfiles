@@ -11,8 +11,8 @@ static_dirs=(
 #    "$HOME/.pyenv/bin"
 #    "$HOME/.pyenv/shims"
 #    "$HOME/.config/yarn/global/node_modules/.bin"
-    "$HOME/.local/share/go/"
-    "/usr/local/go/bin"
+    "$HOME/.local/share/go"
+#    "/usr/local/go/bin"
 #    "${JAVA_HOME:-/usr/lib/jvm/default/bin}"  # Use JAVA_HOME if set, else default
 #    "$HOME/.rvm/bin"
 #    "$HOME/.virtualenvs"
@@ -20,32 +20,28 @@ static_dirs=(
     "$HOME/.local/bin"
     "$HOME/bin"
 #    "/opt/"
-    "$CARGO_HOME/bin"
+#    "$CARGO_HOME/bin"
     "/sbin"
     "/usr/sbin"
     "/usr/local/sbin"
     "/usr/bin"
 )
-
 cache_file="$HOME/.cache/dynamic_dirs.list"
 
 # Generate and cache directory list if cache doesn't exist or is outdated
 if [[ ! -f "$cache_file" || /Nas/Build/git/syncing/scr/ -nt "$cache_file" ]]; then
     echo "Updating dynamic directories cache..."
+
     find /Nas/Build/git/syncing/scr/ -type d \
         \( -name '.git' -o -name '.github' \) -prune -o -type d -print > "$cache_file"
 fi
 
 #$(find /Nas/Build/git/syncing/scr -type d | paste -sd ':' -)  # FIND
-#(/Nas/Build/git/syncing/scr/**/*(/))                          # ZSH GLOBBING 
-
-# Load dynamic directories from cache
+#(/Nas/Build/git/syncing/scr/**/*(/))                          # ZSH GLOBBING
 dynamic_dirs=($(/usr/bin/cat "$cache_file"))
 
-# Combine static and dynamic directories
 all_dirs=("${static_dirs[@]}" "${dynamic_dirs[@]}")
 
-# Ensure PATH contains unique entries
 typeset -U PATH
 
 # Iterate over all directories and add those with executables to PATH
@@ -57,10 +53,9 @@ for dir in "${all_dirs[@]}"; do
         # echo "Added to PATH: $dir"
     fi
 done
-
-# Export the updated PATH
 export PATH
-unsetopt PROMPT_SP 2>/dev/null
+
+#unsetopt PROMPT_SP 2>/dev/null
 
 # ======================== // DEFAULT_PROGRAMS //
 export MICRO_TRUECOLOR=1
@@ -188,10 +183,9 @@ chmod 700 "$GNUPGHOME"
 export MANPAGER="sh -c 'col -bx | bat -l man -p | less -R'"
 
 # --- // Fzf:
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
+#[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 bindkey '^R' fzf-history-widget
-
+export FZF_DEFAULT_COMMAND='fd --type f'              # Default cmd to use in tty
 export FZF_DEFAULT_OPTS="
   --layout=reverse
   --height=40%
@@ -200,11 +194,13 @@ export FZF_DEFAULT_OPTS="
   --cycle
   --inline-info
   --tiebreak=index
-  --preview='bat --style=numbers --color=always --line-range :500 {} | head -n 100'
-  --preview-window='right:50%'
+  --preview='bat --color=always --line-range :500 {}'
+  --preview-window='~3'
   --color=bg+:-1,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
   --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
   --color=marker:#f5e0dc,fg+:#a6e3a1,prompt:#cba6f7,hl+:#f38ba8"
+
+#  --preview-window='right:50%'
 
 #export FZF_DEFAULT_OPTS="
 #  --layout=reverse

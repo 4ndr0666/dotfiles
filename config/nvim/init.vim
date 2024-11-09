@@ -12,6 +12,14 @@ imap ,, <esc>:keepp /<++><CR>ca<
 
 call plug#begin(system('echo -n "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/plugged"'))
 Plug 'tpope/vim-surround'
+Plug 'itchyny/lightline.vim' "Highlights lines
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim' "Fuzzy find plugin
+Plug 'mbbill/undotree' "Creates an undo tree
+Plug 'godlygeek/tabular' "Auto formatting
+Plug 'plasticboy/vim-markdown' "Markdown syntax highlighting
+Plug 'ryanoasis/vim-devicons' "Cool icons for nerd tree
+Plug 'Xuyuanp/nerdtree-git-plugin' "nerd tree customization
 Plug 'preservim/nerdtree'
 Plug 'junegunn/goyo.vim'
 Plug 'jreybert/vimagit'
@@ -19,24 +27,37 @@ Plug 'vimwiki/vimwiki'
 Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-commentary'
 Plug 'ap/vim-css-color'
+Plug 'dense-analysis/ale'
+Plug 'lifepillar/vim-mucomplete'
+Plug 'neovim/nvim-lspconfig'   " LSP configuration plugin
+Plug 'hrsh7th/nvim-cmp'        " Completion plugin
+Plug 'hrsh7th/cmp-nvim-lsp'    " LSP completion source for nvim-cmp
+Plug 'EdenEast/nightfox.nvim'  " Theme plugin
 call plug#end()
 
 set title
 set bg=light
+nnoremap <F5> :UndotreeToggle<CR> :UndotreeFocus<CR>
 set go=a
 set mouse=a
 set nohlsearch
-set clipboard+=unnamedplus
+set clipboard=unnamedplus
+set cursorline
+highlight CursorLine ctermbg=Yellow cterm=bold guibg=#2b2b2b
+      set noerrorbells
 set noshowmode
 set noruler
 set laststatus=0
 set noshowcmd
+colorscheme nightfox
 
 " Some basics:
 	nnoremap c "_c
-	set nocompatible
 	filetype plugin on
 	syntax on
+	let g:auto_save = 1
+	let g:auto_save_events = ["InsertLeave", "TextChanged"]
+	let $FZF_DEFAULT_COMMAND = 'fdfind --type f --hidden --follow --exclude .git --ignore-file ~/.ignore'
 	set encoding=utf-8
 	set number relativenumber
 " Enable autocompletion:
@@ -55,18 +76,32 @@ set noshowcmd
 " Nerd tree
 	map <leader>n :NERDTreeToggle<CR>
 	autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-    if has('nvim')
-        let NERDTreeBookmarksFile = stdpath('data') . '/NERDTreeBookmarks'
-    else
-        let NERDTreeBookmarksFile = '~/.vim' . '/NERDTreeBookmarks'
-    endif
+	let NERDTreeBookmarksFile = stdpath('data') . '/NERDTreeBookmarks'
+    let NERDTreeShowHidden=1
 
-" vimling:
-	nm <leader>d :call ToggleDeadKeys()<CR>
-	imap <leader>d <esc>:call ToggleDeadKeys()<CR>a
-	nm <leader>i :call ToggleIPA()<CR>
-	imap <leader>i <esc>:call ToggleIPA()<CR>a
-	nm <leader>q :call ToggleProse()<CR>
+" Persistent_undo
+	set undodir=~/.vim/undodir"
+	set undofile
+	let g:undotree_WindowLayout = 2
+	
+" Markdown Edits
+    let g:vim_markdown_autowrite = 1
+    let g:vim_markdown_no_extensions_in_markdown = 1
+    let g:vim_markdown_conceal = 0
+    let g:vim_markdown_override_foldtext = 0
+    let g:vim_markdown_folding_disabled = 1
+    let g:vim_markdown_new_list_item_indent = 0
+    
+    " Markdown auto format tables
+    inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
+    
+" vim-airline
+	if !exists('g:airline_symbols')
+		let g:airline_symbols = {}
+	endif
+	let g:airline_symbols.colnr = ' C:'
+	let g:airline_symbols.linenr = ' L:'
+	let g:airline_symbols.maxlinenr = '☰ '
 
 " Shortcutting split navigation, saving a keypress:
 	map <C-h> <C-w>h
@@ -107,27 +142,16 @@ set noshowcmd
 " Save file as sudo on files that require root permission
 	cabbrev w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 
-" Enable Goyo by default for mutt writing
-	autocmd BufRead,BufNewFile /tmp/neomutt* let g:goyo_width=80
-	autocmd BufRead,BufNewFile /tmp/neomutt* :Goyo | set bg=light
-	autocmd BufRead,BufNewFile /tmp/neomutt* map ZZ :Goyo\|x!<CR>
-	autocmd BufRead,BufNewFile /tmp/neomutt* map ZQ :Goyo\|q!<CR>
-
 " Automatically deletes all trailing whitespace and newlines at end of file on save. & reset cursor position
  	autocmd BufWritePre * let currPos = getpos(".")
 	autocmd BufWritePre * %s/\s\+$//e
 	autocmd BufWritePre * %s/\n\+\%$//e
-  autocmd BufWritePre *.[ch] %s/\%$/\r/e " add trailing newline for ANSI C standard
-  autocmd BufWritePre *neomutt* %s/^--$/-- /e " dash-dash-space signature delimiter in emails
+    autocmd BufWritePre *.[ch] %s/\%$/\r/e " add trailing newline for ANSI C standard
+    autocmd BufWritePre *neomutt* %s/^--$/-- /e " dash-dash-space signature delimiter in emails
   	autocmd BufWritePre * cal cursor(currPos[1], currPos[2])
 
 " When shortcut files are updated, renew bash and ranger configs with new material:
 	autocmd BufWritePost bm-files,bm-dirs !shortcuts
-" Run xrdb whenever Xdefaults or Xresources are updated.
-	autocmd BufRead,BufNewFile Xresources,Xdefaults,xresources,xdefaults set filetype=xdefaults
-	autocmd BufWritePost Xresources,Xdefaults,xresources,xdefaults !xrdb %
-" Recompile dwmblocks on config edit.
-	autocmd BufWritePost ~/.local/src/dwmblocks/config.h !cd ~/.local/src/dwmblocks/; sudo make install && { killall -q dwmblocks;setsid -f dwmblocks }
 
 " Turns off highlighting on the bits of code that are changed, so the line that is changed is highlighted but the actual text that has changed stands out on the line and is readable.
 if &diff
@@ -157,3 +181,27 @@ nnoremap <leader>h :call ToggleHiddenAll()<CR>
 " So ":vs ;cfz" will expand into ":vs /home/<user>/.config/zsh/.zshrc"
 " if typed fast without the timeout.
 silent! source ~/.config/nvim/shortcuts.vim
+
+" LSP and Completion Configuration
+lua << EOF
+-- Enable LSP for C/C++ using clangd, and other languages (expand this as needed)
+local lspconfig = require'lspconfig'
+lspconfig.clangd.setup{}  -- C/C++ LSP
+
+-- Additional LSP servers can be set up here
+-- Example for Python (using pyright):
+-- lspconfig.pyright.setup{}
+
+-- nvim-cmp setup for LSP-based completion
+local cmp = require'cmp'
+cmp.setup {
+  sources = {
+    { name = 'nvim_lsp' },  -- LSP as a source for completion
+  },
+  mapping = {
+    ['<Tab>'] = cmp.mapping.select_next_item(),
+    ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),  -- Accept completion
+  },
+}
+EOF

@@ -46,7 +46,10 @@ alias lf='lfub'
 alias kmon='sudo kmon --color blue --accent-color 15FFFF --unicode'
 
 # --- // FD:
-alias fd1='fd --exact-depth=1 --hidden' # Keeps search depth at first level
+alias fd='fd --hidden --follow --exclude ".git"'
+
+alias fd1='fd --exact-depth=1 --hidden --follow --exclude ".git"' # Keeps search depth at first level
+
 fdde() {
     local case_flag=""
     local depth_flag=""
@@ -261,6 +264,9 @@ fzscr() {
         echo "No selection made."
     fi
 }
+
+# ================================= // Micro:
+alias sm='sudo micro'
 
 # ======================================================= // Oh_my_zsh:
 #alias oz="svim ~/.zshrc"

@@ -5,20 +5,16 @@
     "/home/*/.config/*": {
         "filetype": "conf"
     },
-    "autoindent": true,
+    "/home/*/.local/share/larbs/getkeys/*": {
+        "filetype": "md"
+    },
     "autosave": 1,
     "autosu": true,
-    "backup": true,
     "backupdir": "/Nas/Backups/micro/",
     "colorscheme": "monokai",
     "mkparents": true,
-    "matchbrace": true,
-    "mouse": true,
     "scrollbar": true,
-    "scrollbarchar": "|",
     "scrollbarmargin": 3,
     "scrollbarspeed": 2,
-    "smartpaste": true,
-    
     "wordwrap": true
 }

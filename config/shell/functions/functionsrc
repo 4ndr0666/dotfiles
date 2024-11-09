@@ -1,53 +1,9 @@
 # File: $USER/.config/shell/functions/functionsrc
-
-
-
 # Author: 4ndr0666
 # Edited: 11-3-2024
 
-# --- // 4ndr0666 FUNCTIONS.ZSH // ========
-function undo() {
-    echo "Fetching the most recently installed packages..."
-    local -a recent_packages
-    recent_packages=("${(@f)$(expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort -r | head -n 20 | awk '{print $3}')}")
-    
-    if (( ${#recent_packages[@]} == 0 )); then
-        echo "No recent packages found."
-        return
-    fi
-
-    echo "Most recently installed packages are:"
-    local idx=1
-    for pkg in "${recent_packages[@]}"; do
-        echo "${idx}) $pkg"
-        ((idx++))
-    done
-
-    echo "Proceed with primary removal method 'pacman -Rdd' (does not remove dependencies)? [y/N]:"
-    read response
-    if [[ "$response" =~ ^[Yy]$ ]]; then
-        sudo pacman -Rdd "${recent_packages[@]}"
-        echo "Packages removed with 'pacman -Rdd'. Orphaned dependencies are not removed."
-    else
-        echo "Primary removal canceled."
-    fi
-
-    echo "Do you want to remove unneeded dependencies with 'pacman -Rns'? [y/N]:"
-    read response
-    if [[ "$response" =~ ^[Yy]$ ]]; then
-        local orphans=("${(@f)$(pacman -Qdtq)}")
-        if (( ${#orphans[@]} > 0 )); then
-            echo "Removing unneeded dependencies..."
-            sudo pacman -Rns "${orphans[@]}"
-            echo "Unneeded dependencies removed."
-        else
-            echo "No unneeded dependencies to remove."
-        fi
-    else
-        echo "Additional cleanup canceled."
-    fi
-}
-# ----------------------------------------- // RESET_PERMISSIONS:
+# ============================================== // FUNCTIONSRC //
+# --- // Reset permissions:
 function reset_permissions() {
     # Check if running as root
     if [[ "$(id -u)" -ne 0 ]]; then
@@ -321,8 +277,6 @@ function fullboost() {
     echo "Full system boost completed."
 }
 
-
-
 # --------------------------------------------------------- // DOWNSCALE_TO_1080P:
 function downscale() {
     local input_file="$1"
@@ -372,10 +326,8 @@ function downscale() {
     fi
 }
 
-
-
 # ------------------------------------------------------------------- // Extract:
-function xt() {
+extract() {
     clear
     tput cup $(($(tput lines)/3))
     tput bold
@@ -400,10 +352,7 @@ function xt() {
       *.tar.zst)   tar xf $fx     ;;
       *)           echo "'$fx' cannot be extracted via ex()" ;;
     esac
-  else
-    echo "'$fx' is not a valid file"
-  fi
-}
+}}
 
 # -------------------------------------------------------------------------- // Cd and ls:
 cl() {

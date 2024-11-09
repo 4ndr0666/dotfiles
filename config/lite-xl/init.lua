@@ -16,17 +16,17 @@ core.reload_module("colors.nord")
 --------------------------- Key bindings -------------------------------------
 
 -- key binding:
-keymap.add { ["ctrl+q"] = "core:quit" }
+-- keymap.add { ["ctrl+escape"] = "core:quit" }
 
 -- pass 'true' for second parameter to overwrite an existing binding
-keymap.add({ ["ctrl+pageup"] = "root:switch-to-previous-tab" }, true)
-keymap.add({ ["ctrl+pagedown"] = "root:switch-to-next-tab" }, true)
+-- keymap.add({ ["ctrl+pageup"] = "root:switch-to-previous-tab" }, true)
+-- keymap.add({ ["ctrl+pagedown"] = "root:switch-to-next-tab" }, true)
 
 ------------------------------- Fonts ----------------------------------------
 
 -- customize fonts:
-style.font = renderer.font.load(DATADIR .. "/fonts/FiraSans-Regular.ttf", 14 * SCALE)
-style.code_font = renderer.font.load(DATADIR .. "/fonts/JetBrainsMono-Regular.ttf", 14 * SCALE)
+-- style.font = renderer.font.load(DATADIR .. "/fonts/FiraSans-Regular.ttf", 14 * SCALE)
+-- style.code_font = renderer.font.load(DATADIR .. "/fonts/JetBrainsMono-Regular.ttf", 14 * SCALE)
 -- SCALE is the pixel scaling required for the current DPI setup.
 -- This converts the font size from points to pixels.
 -- DATADIR is the location of the installed Lite XL Lua code, default color
@@ -60,23 +60,16 @@ style.code_font = renderer.font.load(DATADIR .. "/fonts/JetBrainsMono-Regular.tt
 -- disable plugin detectindent, otherwise it is enabled by default:
 -- config.plugins.detectindent = false
 
--- Enable autocomplete plugin
-config.plugins.autocomplete = true
-
--- Enable linter plugin
-config.plugins.linter = true
-
 ---------------------------- Miscellaneous -------------------------------------
 
 -- modify list of files to ignore when indexing the project:
-config.ignore_files = {
-  -- folders
-  "^%.svn/",        "^%.git/",   "^%.hg/",        "^CVS/", "^%.Trash/", "^%.Trash%-.*/",
-  "^node_modules/", "^%.cache/", "^__pycache__/",
-  -- files
-  "%.pyc$",         "%.pyo$",       "%.exe$",        "%.dll$",   "%.obj$", "%.o$",
-  "%.a$",           "%.lib$",       "%.so$",         "%.dylib$", "%.ncb$", "%.sdf$",
-  "%.suo$",         "%.pdb$",       "%.idb$",        "%.class$", "%.psd$", "%.db$",
-  "^desktop%.ini$", "^%.DS_Store$", "^%.directory$",
-}
-
+-- config.ignore_files = {
+--   -- folders
+--   "^%.svn/",        "^%.git/",   "^%.hg/",        "^CVS/", "^%.Trash/", "^%.Trash%-.*/",
+--   "^node_modules/", "^%.cache/", "^__pycache__/",
+--   -- files
+--   "%.pyc$",         "%.pyo$",       "%.exe$",        "%.dll$",   "%.obj$", "%.o$",
+--   "%.a$",           "%.lib$",       "%.so$",         "%.dylib$", "%.ncb$", "%.sdf$",
+--   "%.suo$",         "%.pdb$",       "%.idb$",        "%.class$", "%.psd$", "%.db$",
+--   "^desktop%.ini$", "^%.DS_Store$", "^%.directory$",
+-- }

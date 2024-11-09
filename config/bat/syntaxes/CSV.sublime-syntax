@@ -6,11 +6,36 @@ file_extensions:
 scope: text.csv
 contexts:
   main:
+    - include: header
+    - include: body
+
+  header:
+    - match: '^.*$'
+      scope: entity.name.section.csv
+      push:
+        - meta_scope: meta.header.csv
+        - include: field
+        - match: '\n'
+          scope: punctuation.terminator.line.csv
+          pop: true
+
+  body:
+    - include: field
+    - match: '\n'
+      scope: punctuation.terminator.line.csv
+      pop: true
+
+  field:
+    - match: '"'
+      scope: punctuation.definition.string.begin.csv
+      push:
+        - meta_scope: string.quoted.double.csv
+        - match: '"'
+          scope: punctuation.definition.string.end.csv
+          pop: true
+        - match: '""'
+          scope: constant.character.escape.csv
+    - match: '[^",\n]+'
+      scope: string.unquoted.csv
     - match: ','
       scope: punctuation.separator.comma.csv
-    - match: '"[^"]*"'
-      scope: string.quoted.double.csv
-    - match: '[^,\n]+'
-      scope: string.unquoted.csv
-    - match: '\n'
-      scope: invalid.illegal.newline.csv
