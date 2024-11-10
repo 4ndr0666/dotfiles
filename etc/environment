@@ -7,4 +7,7 @@ QT_QPA_PLATFORMTHEME=qt6ct
 EDITOR=lite-xl
 BROWSER=brave-beta
 TERMINAL=alacritty
-#PATH="/usr/share/archcraft/scripts"
+PATH="/usr/share/archcraft/scripts"
+
+# uncomment only if cursor is not visible in wayland sessions
+#WLR_NO_HARDWARE_CURSORS=1

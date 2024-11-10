@@ -8,4 +8,3 @@ ExecStart=/usr/local/bin/freecache.sh
 
 [Install]
 WantedBy=multi-user.target
-

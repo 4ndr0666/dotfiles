@@ -3,28 +3,18 @@
 ################################################################################
 
 # With:       reflector @/etc/xdg/reflector/reflector.conf
-# When:       2024-01-13 09:03:56 UTC
+# When:       2024-11-09 10:02:14 UTC
 # From:       https://archlinux.org/mirrors/status/json/
-# Retrieved:  2024-01-13 09:02:56 UTC
-# Last Check: 2024-01-13 08:48:03 UTC
+# Retrieved:  2024-11-09 10:02:14 UTC
+# Last Check: 2024-11-09 09:40:28 UTC
 
-Server = https://mirror.osbeck.com/archlinux/$repo/os/$arch
-Server = https://america.mirror.pkgbuild.com/$repo/os/$arch
-Server = https://archmirror1.octyl.net/$repo/os/$arch
-Server = https://archlinux.mailtunnel.eu/$repo/os/$arch
-Server = https://mirror.f4st.host/archlinux/$repo/os/$arch
-Server = https://pkg.fef.moe/archlinux/$repo/os/$arch
-Server = https://europe.mirror.pkgbuild.com/$repo/os/$arch
-Server = https://mirror.sunred.org/archlinux/$repo/os/$arch
-Server = https://mirror.dkm.cz/archlinux/$repo/os/$arch
-Server = https://mirror.alwyzon.net/archlinux/$repo/os/$arch
-Server = https://md.mirrors.hacktegic.com/archlinux/$repo/os/$arch
-Server = https://mirror.ubrco.de/archlinux/$repo/os/$arch
-Server = https://archlinux.za.mirror.allworldit.com/archlinux/$repo/os/$arch
 Server = https://archlinux.thaller.ws/$repo/os/$arch
-Server = https://archmirror.it/repos/$repo/os/$arch
-Server = https://ftp.sh.cvut.cz/arch/$repo/os/$arch
-Server = https://mirror.moson.org/arch/$repo/os/$arch
-Server = https://mirror.cyberbits.eu/archlinux/$repo/os/$arch
-Server = https://london.mirror.pkgbuild.com/$repo/os/$arch
-Server = https://mirror.telepoint.bg/archlinux/$repo/os/$arch
+Server = https://arch.phinau.de/$repo/os/$arch
+Server = https://us.arch.niranjan.co/$repo/os/$arch
+Server = https://at.arch.mirror.kescher.at/$repo/os/$arch
+Server = https://in.arch.niranjan.co/$repo/os/$arch
+Server = https://america.mirror.pkgbuild.com/$repo/os/$arch
+Server = https://mirror.theo546.fr/archlinux/$repo/os/$arch
+Server = https://mirror.hugo-betrugo.de/archlinux/$repo/os/$arch
+Server = https://mirror.sunred.org/archlinux/$repo/os/$arch
+Server = https://mirrors.neusoft.edu.cn/archlinux/$repo/os/$arch

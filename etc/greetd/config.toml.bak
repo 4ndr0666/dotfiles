@@ -1,0 +1,10 @@
+[terminal]
+vt = 2  # Moving to VT2 to avoid potential conflicts with system messages
+
+[default_session]
+command = "wayfire --config /home/andro/.config/wayfire.ini > /dev/null 2>&1"  # Suppress logging for faster startup
+user = "andro"
+autologin = false  # Set to true for automatic login if desired
+
+timeout = 60  # Optional timeout for session inactivity
+

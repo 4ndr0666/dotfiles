@@ -35,3 +35,4 @@ UUID=984d13e2-ed9f-46f5-9ad4-952e3ee018ab       /sto2           ext4            
 
 # --- // RAM created, disposable FS:
 tmpfs                                           /tmp            tmpfs           defaults,noatime,mode=1777 0 0
+
