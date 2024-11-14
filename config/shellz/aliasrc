@@ -6,8 +6,8 @@
 # --- // Quick view:
 alias 00='bat ~/.config/shellz/aliasrc'
 alias 0f='bat ~/.config/shellz/functions/functions.zsh'
-alias 0z='bat ~/.config/zsh/.zprofile'
-alias 0b='bat ~/.bashrc'
+alias 0z='bat ~/.config/zsh/.zshrc'
+alias 0p='bat ~/.config/zsh/.zprofile'
 
 # ===================================== // RECENT_PROGRAMS //
 # -- // pyfiglet:
@@ -114,6 +114,20 @@ alias vpnl='sudo expressvpn list'
 alias vpnblock='sudo expressvpn preferences set block_all false'
 alias vpnproto='sudo expressvpn protocol lightway_udp'
 
+# --- // Nvim:
+alias vim="nvim"
+
+# --- // UFW:
+alias ufws='sudo ufw status'
+function ufwr() {
+    yes | sudo ufw reset 
+    sudo systemctl enable ufw
+    sudo systemctl start ufw
+    sudo ufw default deny incoming
+    sudo ufw default allow outgoing
+    sudo ufw enable
+}
+
 # =========================================== // SUDO BYPASS //
 #for command in pacman-key ufw mount umount sv pacman updatedb su shutdown poweroff reboot ; do
 #    alias $command="sudo $command"
@@ -127,6 +141,8 @@ alias car='cat'
 alias micor='micro'
 alias cpoy='copy'
 alias dc='cd'
+alias sl='ls'
+
 # =========================================== // CHEATSHEETS //
 cht() {
     local cheats=("$HOME/.cheater/"*.md)
@@ -306,7 +322,6 @@ alias wget="wget -c"
 alias curl="curl --user-agent 'noleak'"
 alias df='df -h --exclude-type=squashfs --exclude-type=tmpfs --exclude-type=devtmpfs'
 alias cat='bat'
-alias less='bat | less -R'
 alias ccat="highlight --out-format=ansi"
 alias showpath='echo $PATH | tr ":" "\n"'
 #alias path='path -l $path'
@@ -320,7 +335,7 @@ alias ip='ip -color=auto'
 alias c='clear; echo; echo; seq 1 $(tput cols) | sort -R | spark | lolcat; echo; echo'
 alias hw='sudo hwinfo --short'
 #alias lsblk='lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINT'
-#alias lsblkh='lsblk.sh'
+alias lsblkh='lsblk.sh'
 alias psa='ps auxf | less'
 alias free='free -mt'
 alias jctl='journalctl -p 3 -xb'
@@ -332,7 +347,6 @@ alias iotop='sudo iotop -o'
 alias netwatch='sudo nethogs'
 alias addlbin='export PATH=/home/andro/.local/bin:$PATH'
 alias whatkernel="ls /usr/lib/modules"
-
 alias dir5='du -cksh * | sort -hr | head -5'
 alias dir10='du -cksh * | sort -hr | head -10'
 alias dir='dir --color=auto'
@@ -432,11 +446,13 @@ cpu() {
 alias mkplaylist="ls -d */ > mpv_playlist.txt"
 alias lb='ls | bat'
 alias l1='lsd -1'                               # List everything in one line
-alias lr='ls -snew'                              # List most recent item changed first
-alias ls='exa -hlx --no-filesize --no-time --no-permissions --color=always --group-directories-first --icons=always'
+alias lr='lsd -lhtr'
+#ls -snew'                              # List most recent item changed first
+alias ls='lsd -F'
+#exa -hlx --no-filesize --no-time --no-permissions --color=always --group-directories-first --icons=always'
 alias la="lsd -aFlL --permission=rwx --color=always --group-dirs=first --icon=always"
 alias ll='exa -xXDa --color=always  --icons=always'
-alias l.='exa -ax --sort=modified --color-scale-mode=gradient --color=always --group-directories-first --icons | grep "^\."'
+#alias l.='exa -ax --sort=modified --color-scale-mode=gradient --color=always --group-directories-first --icons | grep "^\."'
 alias lt='exa -aT -s new --color=always --group-directories-first --icons'
 
 # --- // Config 2:
@@ -454,7 +470,7 @@ alias lt='exa -aT -s new --color=always --group-directories-first --icons'
 #alias lg='ls -l --group-directories-first'
 
 # --- // Config 3:
-#alias l.='ls -d .* --color=auto'
+alias l.='ls -d .* --color=auto'
 #alias ll='ls -lh --color=auto'
 #alias la='ls -lha --color=auto'
 #alias lsd='ls -lhS --color=auto | grep -E "^d"'
@@ -495,8 +511,9 @@ fixp() {
     echo "$1 is not a directory."
 }
 
+alias chnpm='sudo chown -R 1000:1000 /home/andro/.npm'
 
-ch775dirs() {
+chdirectories() {
     if [[ -z "$1" ]]; then
         echo "Usage: ch755dirs <directory_path>"
         return 1
@@ -1053,9 +1070,10 @@ yaysearch() {
     esac
 }
 #alias yay='yay --builddir "/home/build" --sortby votes'
-alias yay='yay --answerdiff no --builddir "/home/build" --cleanafter --cleanmenu --sortby votes'
+#alias yay='yay --answerdiff no --builddir "/home/build" --cleanafter --cleanmenu --sortby votes'
 alias yaydeps='yay --sudoloop --refresh --singlelineresults --sysupgrade --timeupdate --verbose'
 alias yayskip='yay -S --mflags --skipinteg'
+alias yayow='yay -S --overwrite="*" --noconfirm'
 alias trizenskip='trizen -S --skipinteg'
 alias update='sudo pacman -Sy && sudo powerpill -Su && paru -Su'
 
