@@ -129,19 +129,22 @@ function ufwr() {
 }
 
 # =========================================== // SUDO BYPASS //
-#for command in pacman-key ufw mount umount sv pacman updatedb su shutdown poweroff reboot ; do
-#    alias $command="sudo $command"
-#done; unset command
+for cmd in pacman-key ufw mount umount pacman updatedb su systemctl useradd userdel groupadd groupdel chown chmod \
+btrfs ip netstat modprobe; do
+    alias $cmd="sudo $cmd"
+done
+
 
 # =========================================== // TYPOS //
 alias gerp='grep'
 alias shudown='shutdown'
 alias pdw='pwd'
-alias car='cat'
+alias cd..='cd ..'
 alias micor='micro'
 alias cpoy='copy'
 alias dc='cd'
 alias sl='ls'
+alias car='cat'
 
 # =========================================== // CHEATSHEETS //
 cht() {
@@ -295,14 +298,16 @@ alias sm='sudo micro'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
 alias s='sudo'
 alias cp='cp -iv'
 alias mv='mv -iv'
-alias rm='trash-put'
+alias rm='trash-put'          # Aliases for trash-cli
 #alias rm='rm -vI'
 alias rmf='sudo -S /usr/bin/rm -vI -rf'
 #alias rg='batgrep'            # Aliased for bat-extras ripgrep
-alias rg="rg --sort path"
+#alias rg="rg --sort path"
 
 findit() {
   # find file names matching first token and list them by date
@@ -334,8 +339,8 @@ alias lessc='less -R'
 alias ip='ip -color=auto'
 alias c='clear; echo; echo; seq 1 $(tput cols) | sort -R | spark | lolcat; echo; echo'
 alias hw='sudo hwinfo --short'
-#alias lsblk='lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINT'
-alias lsblkh='lsblk.sh'
+alias lsblk='lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINT'
+#alias lsblkh='lsblk.sh'
 alias psa='ps auxf | less'
 alias free='free -mt'
 alias jctl='journalctl -p 3 -xb'
@@ -489,8 +494,46 @@ alias lta='ls -lhatr'
 alias chown='sudo chown --preserve-root'
 alias chmod='sudo chmod --preserve-root'
 alias chgrp='sudo chgrp --preserve-root'
+alias chgpg='sudo chown -R $USER:$USER ~/.gnupg && sudo chmod 700 ~/.gnupg && sudo chmod 600 ~/.gnupg/private-keys-v1.d/*'
 alias lock='sudo chattr +i '
 alias unlock='sudo chattr -i '
+alias chlocal='sudo chown -R $USER:$USER ~/.config ~/.local && echo "Ownership of ~/.config and ~/.local changed to $USER."'
+
+chpython() {
+    local python_version
+    python_version=$(python3 -c 'import sys; print(".".join(map(str, sys.version_info[:2])))')
+
+    local site_packages_dir="/usr/lib/python${python_version}/site-packages"
+
+    if [[ -d "$site_packages_dir" ]]; then
+        echo "Setting ownership to root and permissions to 755 for: $site_packages_dir"
+        sudo chown -R root:root "$site_packages_dir"
+        sudo chmod -R 755 "$site_packages_dir"
+        echo "Ownership and permissions set successfully for $site_packages_dir."
+    else
+        echo "Error: Directory $site_packages_dir not found for Python version $python_version."
+    fi
+}
+
+chboot() {
+    sudo chmod -R 755 /boot/efi 
+    sudo chown -R root:root /boot/efi
+    echo "Boot directory permissions reset appropriately."
+}
+
+chdefault() {
+    if [[ -z "$1" ]]; then
+        echo "Usage: chdefault <directory>"
+        return 1
+    elif [[ ! -d "$1" ]]; then
+        echo "Error: '$1' is not a valid directory."
+        return 1
+    fi
+
+    echo "Setting directory permissions to 755 for: $1"
+    sudo find "$1" -type d -exec chmod 755 {} +
+    echo "Permissions reset successfully for $1."
+}
 
 # --- // TEST:
 fixo() {
@@ -965,23 +1008,23 @@ alias ytt='yt --skip-download --write-thumbnail'
 alias YT='youtube-viewer'
 alias yta='yt -x -f bestaudio/best'
 
-#ytdl() {
-#  local url="$1"
-#  yt-dlp --add-metadata \
-#         --embed-metadata \
-#         --external-downloader aria2c \
-#        --external-downloader-args "-c -j 3 -x 3 -s 3 -k 1M" \
-#         -f "315/313/308/303/302/247/244/137+bestaudio/best" \
-#         --no-playlist \
-#         --no-mtime \
-#         "$url"
-#}
+ytdl() {
+  yt-dlp --add-metadata \
+         --embed-metadata \
+         --external-downloader aria2c \
+         --external-downloader-args "-c -j 3 -x 3 -s 3 -k 1M" \
+         -f "315/313/308/303/302/247/244+bestaudio/best" \
+         --merge-output-format mp4 \
+         --no-playlist \
+         --no-mtime \
+         "$@"
+}
 
-#ytf() {
-#  local url="$1"
-#  yt-dlp --list-formats \
-#         "$url"
-#}
+ytf() {
+  local url="$1"
+  yt-dlp --list-formats \
+         "$url"
+}
 
 
 #ytp() {
@@ -1113,7 +1156,7 @@ fi"
 # ===================================================================================== // GPG //
 
 alias fixdirmngr='sudo dirmngr </dev/null'
-alias chgpg='sudo chown -R $(whoami):$(whoami) ~/.gnupg && chmod 700 ~/.gnupg && chmod 600 ~/.gnupg/*'
+#alias chgpg='sudo chown -R $(whoami):$(whoami) ~/.gnupg && chmod 700 ~/.gnupg && chmod 600 ~/.gnupg/*'
 alias rmgpg='sudo rm -r /etc/pacman.d/gnupg'
 alias mkgpg="[ -d ~/.gnupg ] || mkdir ~/.gnupg ; cp /etc/pacman.d/gnupg/gpg.conf ~/.gnupg/ ; echo 'done'"
 alias fixpacmankey='sudo pacman -S archlinux-keyring && sudo pacman-key --populate'
@@ -1484,22 +1527,3 @@ alias sdn="cleanup_session && echo 'Shutting down...' | sudo tee -a /var/log/use
 alias ssr="cleanup_session && echo 'Rebooting...' | sudo tee -a /var/log/user_commands.log && sudo reboot -h now"
 
 
-#---
-
-# Polkit Check and Cleanup Script
-#cleanup_session() {
-#    # Check if Polkit is running
-#    pgrep -x polkit-gnome-authentication-agent-1 > /dev/null && echo "Polkit running" || echo "Polkit not running"
-
-    # Session cleanup commands
-#    pkill -f "polkit-gnome-authentication-agent-1"
-#    pkill -f "xdg-desktop-portal"
-    # Add other necessary cleanup commands
-#    echo "Session cleanup complete."
-#}
-
-# Shutdown Alias
-#alias sdn="cleanup_session && echo 'Shutting down...' | sudo tee -a /var/log/user_commands.log && sudo shutdown -h now"
-
-# Reboot Alias
-#alias ssr="cleanup_session && echo 'Rebooting...' | sudo tee -a /var/log/user_commands.log && sudo reboot -h now"
