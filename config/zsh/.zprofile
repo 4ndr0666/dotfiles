@@ -7,8 +7,6 @@
 static_dirs=(
 #    "$HOME/.npm-global/bin"
 #    "$HOME/.gem/ruby/2.7.0/bin"  # Adjust Ruby version as needed
-#    "$HOME/.pyenv/bin"
-#    "$HOME/.pyenv/shims"
 #    "$HOME/.config/yarn/global/node_modules/.bin"
     "$HOME/.local/share/go"
 #    "/usr/local/go/bin"
@@ -19,7 +17,7 @@ static_dirs=(
     "$HOME/.local/bin"
     "$HOME/bin"
 #    "/opt/"
-#    "$CARGO_HOME/bin"
+    "$CARGO_HOME/bin"
     "/sbin"
     "/usr/sbin"
     "/usr/local/sbin"
@@ -53,7 +51,6 @@ for dir in "${all_dirs[@]}"; do
     fi
 done
 export PATH
-
 #unsetopt PROMPT_SP 2>/dev/null
 
 # ======================== // DEFAULT_PROGRAMS //
@@ -113,7 +110,7 @@ export PIP_DOWNLOAD_CACHE="$XDG_CACHE_HOME"/pip/
 export SQLITE_HISTORY="$XDG_DATA_HOME"/sqlite_history
 # export KODI_DATA="$XDG_DATA_HOME/kodi"
 export ZDOTDIR="$HOME"/.config/zsh/
-export DICS=/usr/share/stardict/dic/
+export DICS="$XDG_DATA_HOME/stardict/dic/"
 export AUR_DIR="$XDG_DATA_HOME/aur_build"
 export TEXMFVAR="$XDG_CACHE_HOME"/texlive/texmf-var
 #export ELECTRON_MIRROR="https://npm.taobao.org/mirrors/electron/"
@@ -137,7 +134,8 @@ export HISTFILE="${XDG_STATE_HOME}"/bash/history
 #fi
 
 mkdir -p "$WINEPREFIX" "$CARGO_HOME" "$GOPATH" "$GOMODCACHE" "$XDG_DATA_HOME/lib" "$XDG_DATA_HOME/aur_build" "$XDG_DATA_HOME/stardict/dic/" "$XDG_DATA_HOME/bin" "$XDG_DATA_HOME/go/bin" "$XDG_DATA_HOME/cargo/bin" "$XDG_CONFIG_HOME/nvm"
-# ================================================ // X11:
+
+# ================================================ // X11_ENV //
 #export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 # --- OPENBOX:
 # export XGD_CURRENT_DESKTOP='openbox'
