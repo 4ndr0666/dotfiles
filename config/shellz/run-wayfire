@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 #File: run-wayfire
 #Author: 4ndr0666
 #Edited: 09-11-24
@@ -13,30 +12,6 @@
 export XDG_SESSION_TYPE=wayland
 export XDG_SESSION_DESKTOP=wayfire
 export XDG_CURRENT_DESKTOP=wayfire
-
-if [ -d "XDG_DATA_HOME" ]; then
-    DEFAULT_LOG_DIR=$XDG_DATA_HOME/wayfire
-else
-    DFAULT_LOG_DIR=$HOME/.local/share/wayfire
-fi
-
-# --- // SETUP_LOGGING:
-mkdir -p "$DEFAULT_LOG_DIR"
-if ! mycmd; then
-    echo "Could not create log directory $DEFAULT_LOG_DIR"
-    echo "Using stdout as log"
-    wayfire "$@"
- elif [ -n "$WAYLAND_DISPLAY" ] || [ -n "$DISPLAY" ]; then
-     echo "RUnning nested, using stdout as log"
-     wayfire "$@"
- else
-     LOG_FILE=$DEFAULT_LOG_DIR/wayfire.log
-     if [ -f "$LOG_FILE" ]; then
-         cp "$LOG_FILE" "$LOG_FILE".old
-     fi
-     echo "Using log file: $LOG_FILE"
-     wayfire "@" &> "$LOG_FILE"
- fi
 
 # --- // GTK_VARIABLES:
 export MOZ_ENABLE_WAYLAND=1
@@ -53,7 +28,7 @@ export ELM_ENGINE=wayland_egl
 #export ELM_SCALE=1
 
 # --- // java
-export QT_QPA_PLATFORMTHEME=qt5ct
+export QT_QPA_PLATFORMTHEME=qt6ct
 #export AWT_TOOLKIT="MTookit wmname LG3D"
 export _JAVA_AWT_WM_NONREPARENTING=1
 export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel ${_JAVA_OPTIONS}"
@@ -78,17 +53,18 @@ export WINIT_UNIX_BACKEND=wayland
 export ELECTRON_OZONE_PLATFORM_HINT=wayland-egl
 
 # --- // IPC
-export WAYFIRE_SOCKET=/tmp/wayfire-wayland-1.socket
+#export WAYFIRE_SOCKET=/tmp/wayfire-wayland-1.socket
 
 # --- // SYSTEMD_DBUS:
-if ! eval "$(dbus-launch --sh-syntax)"; then
+# Launch D-Bus session
+eval "$(dbus-launch --sh-syntax)"
+if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
     echo "Failed to launch D-Bus session bus."
     exit 1
 fi
-export DBUS_SESSION_BUS_ADDRESS
-export DBUS_SESSION_BUS_PID
+
 #xrandr --dpi 96
-xhost + </dev/null &>/dev/null &
+#xhost + </dev/null &>/dev/null &
 #xhost +SI:localuser:andro
 #xhost +SI:localuser:root
 

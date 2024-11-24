@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # File: /home/$USER/.config/zsh/.zprofile
 # Author: 4ndr0666
 # Edited: 10-19-24
@@ -115,8 +114,9 @@ export SQLITE_HISTORY="$XDG_DATA_HOME"/sqlite_history
 # export KODI_DATA="$XDG_DATA_HOME/kodi"
 export ZDOTDIR="$HOME"/.config/zsh/
 export DICS=/usr/share/stardict/dic/
-export AUR_DIR=/home/build
+export AUR_DIR="$XDG_DATA_HOME/aur_build"
 export TEXMFVAR="$XDG_CACHE_HOME"/texlive/texmf-var
+#export ELECTRON_MIRROR="https://npm.taobao.org/mirrors/electron/"
 export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
 export RBENV_ROOT="$XDG_DATA_HOME"/rbenv
 export PARALLEL_HOME="$XDG_CONFIG_HOME"/parallel
@@ -129,13 +129,14 @@ export GEM_HOME="$XDG_DATA_HOME"/gem
 export DOTNET_CLI_HOME="$XDG_DATA_HOME"/dotnet
 export HISTFILE="$XDG_STATE_HOME"/zsh/history
 export HISTFILE="${XDG_STATE_HOME}"/bash/history
+#export LIBVA_DRIVER_NAME=mesa
+#export LIBVA_DISPLAY=wayland
 
 #if [ ! -d "$HISTFILE" ]; then
 #    mkdir -p "$HISTFILE"
 #fi
 
-mkdir -p "$WINEPREFIX" "$CARGO_HOME" "$GOPATH" "$GOMODCACHE"
-
+mkdir -p "$WINEPREFIX" "$CARGO_HOME" "$GOPATH" "$GOMODCACHE" "$XDG_DATA_HOME/lib" "$XDG_DATA_HOME/aur_build" "$XDG_DATA_HOME/stardict/dic/" "$XDG_DATA_HOME/bin" "$XDG_DATA_HOME/go/bin" "$XDG_DATA_HOME/cargo/bin" "$XDG_CONFIG_HOME/nvm"
 # ================================================ // X11:
 #export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 # --- OPENBOX:
@@ -163,7 +164,8 @@ mkdir -p "$WINEPREFIX" "$CARGO_HOME" "$GOPATH" "$GOMODCACHE"
 #source <(fzf --zsh)
 
 # ======================================= // LIBRARY_AND_SECURITY //
-export LD_LIBRARY_PATH="/home/andro/ffmpeg_build/lib:$HOME/.local/lib:/usr/local/lib:$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="$XDG_DATA_HOME/lib:/usr/local/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+
 export SUDO_ASKPASS="/usr/bin/pinentry-dmenu"
 # export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
 
@@ -180,7 +182,7 @@ chmod 700 "$GNUPGHOME"
 
 # ========================================== // Pager:
 # --- // Bat:
-export MANPAGER="sh -c 'col -bx | bat -l man -p | less -R'"
+export MANPAGER="batman"
 
 # --- // Fzf:
 #[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

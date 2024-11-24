@@ -33,11 +33,8 @@ stty stop undef
 
 # ===================== // ALIASES //
 alias reload='exec zsh'
-
-# ================================= // CUSTOM FFMPEG BINARIES //
-export PATH="/home/andro/bin:$PATH"
-export PKG_CONFIG_PATH="home/andro/ffmpeg_build/lib/pkgconfig:$PKG_CONFIG_PATH"
-export LD_LIBRARY_PATH="/home/andor/ffmpeg_build/lib:$LD_LIBRARY_PATH"
+alias mpv1='mpv --input-ipc-server=/tmp/mpvSockets/socket1'
+alias mpv2='mpv --input-ipc-server=/tmp/mpvSockets/socket2'
 
 # ==================== // AUTO COMPLETE //
 autoload -U compinit
@@ -73,7 +70,7 @@ setopt extended_history       # Save timestamps in history
 setopt hist_expire_dups_first
 setopt hist_ignore_space
 # fix zsh history behavior
-#h() { if [ -z "$*" ]; then history 1; else history 1 | egrep "$@"; fi; }
+h() { if [ -z "$*" ]; then history 1; else history 1 | egrep "$@"; fi; }
 
 # ====================================== // BINDINGS //
 # --- // LFCD:
@@ -145,7 +142,7 @@ autoload -Uz add-zsh-hook
 add-zsh-hook -Uz precmd rehash_precmd
 
 # ======================================================= // EXTERNAL SOURCING
-# Definte XDG Specification for expansions here:
+# Define XDG Specification for expansions here:
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 
 # --- // Functions:
@@ -167,11 +164,11 @@ for config_file in "$XDG_CONFIG_HOME/zsh/.zprofile" "$XDG_CONFIG_HOME/shellz/ali
 done
 
 # --- // FZF
-fpath=("$HOME/.local/share/zsh/completions" "/usr/share/zsh/vendor-completions" $fpath)
+fpath=("$XDG_DATA_HOME/zsh/completions" "/usr/share/zsh/vendor-completions" $fpath)
 source <(fzf --zsh)
 
 # ======================================= // NVM //
-export NVM_DIR="/home/andro/.config/nvm"
+export NVM_DIR="$XDG_CONFIG_HOME/nvm"
 
 # Function to source NVM scripts
 source_nvm() {
@@ -209,5 +206,5 @@ else
 fi
 
 # Specific Plugin Sources:
-#source /usr/share/doc/find-the-command/ftc.zsh noupdate quiet
+source /usr/share/doc/find-the-command/ftc.zsh noupdate quiet
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
