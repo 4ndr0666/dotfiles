@@ -28,13 +28,12 @@ cache_file="$HOME/.cache/dynamic_dirs.list"
 # Generate and cache directory list if cache doesn't exist or is outdated
 if [[ ! -f "$cache_file" || /Nas/Build/git/syncing/scr/ -nt "$cache_file" ]]; then
     echo "Updating dynamic directories cache..."
-
     find /Nas/Build/git/syncing/scr/ -type d \
         \( -name '.git' -o -name '.github' \) -prune -o -type d -print > "$cache_file"
 fi
 
-#$(find /Nas/Build/git/syncing/scr -type d | paste -sd ':' -)  # FIND
-#(/Nas/Build/git/syncing/scr/**/*(/))                          # ZSH GLOBBING
+# $(find /Nas/Build/git/syncing/scr -type d | paste -sd ':' -)   # <<<<<<<<<<<<<<<<<<<<<<<<< // Posix Compliant //
+# (/Nas/Build/git/syncing/scr/**/*(/))                         # <<<<<<<<<<<<<<<<<<<<<<<<<<< // ZSH Specific //
 dynamic_dirs=($(/usr/bin/cat "$cache_file"))
 
 all_dirs=("${static_dirs[@]}" "${dynamic_dirs[@]}")
@@ -44,14 +43,15 @@ typeset -U PATH
 # Iterate over all directories and add those with executables to PATH
 for dir in "${all_dirs[@]}"; do
     dir=${dir%/}  # Remove trailing slash if present
-    if [[ -d "$dir" && -n "$dir/*(.x)" ]]; then
+    if [[ -d "$dir" && -n "$(find "$dir" -maxdepth 1 -type f -executable | head -n 1)" ]]; then
+#    if [[ -d "$dir" && -n "$dir/*(.x)" ]]; then                      # <<<<<<<<<<<<<<<<<<<<<< // ZSH Specific //
         PATH="$PATH:$dir"
         # Optional: Uncomment the next line for logging
         # echo "Added to PATH: $dir"
     fi
 done
 export PATH
-#unsetopt PROMPT_SP 2>/dev/null
+unsetopt PROMPT_SP 2>/dev/null
 
 # ======================== // DEFAULT_PROGRAMS //
 export MICRO_TRUECOLOR=1
@@ -59,6 +59,7 @@ export EDITOR="nvim"
 export TERMINAL="alacritty"
 export TERMINAL_PROG="st"
 export BROWSER="brave-beta"
+
 # History:
 HISTSIZE=30000
 SAVEHIST=30000
