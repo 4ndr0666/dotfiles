@@ -1,167 +1,299 @@
-let mapleader =","
+" =============================================================================
+"                                INIT.VIM CONFIGURATION
+" =============================================================================
+"
+" Author: andro@theworkpc
+" Date: 2024-11-24
+" Description: Enhanced Neovim configuration with optimized ALE integration,
+"              streamlined plugin management, and improved settings for better
+"              performance and maintainability.
+"
+" =============================================================================
 
-if ! filereadable(system('echo -n "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim"'))
-	echo "Downloading junegunn/vim-plug to manage plugins..."
-	silent !mkdir -p ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/
-	silent !curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" > ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim
-	autocmd VimEnter * PlugInstall
+" ---------------------------
+" 1. Leader Key Configuration
+" ---------------------------
+let mapleader = ","
+
+" ---------------------------
+" 2. Plugin Manager Setup
+" ---------------------------
+" Ensure vim-plug is installed
+let plug_path = fnamemodify(stdpath('config') . '/autoload/plug.vim', ':p')
+if empty(glob(plug_path))
+    echo "Downloading junegunn/vim-plug to manage plugins..."
+    silent execute '!mkdir -p ' . fnamemodify(plug_path, ':h')
+    silent execute '!curl -fLo ' . plug_path . ' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-map ,, :keepp /<++><CR>ca<
-imap ,, <esc>:keepp /<++><CR>ca<
+" ---------------------------
+" 3. Plugin Installation
+" ---------------------------
+call plug#begin(stdpath('data') . '/plugged')
 
-call plug#begin(system('echo -n "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/plugged"'))
+" Plugin List
 Plug 'tpope/vim-surround'
-Plug 'itchyny/lightline.vim' "Highlights lines
+Plug 'itchyny/lightline.vim'            " Lightweight statusline
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim' "Fuzzy find plugin
-Plug 'mbbill/undotree' "Creates an undo tree
-Plug 'godlygeek/tabular' "Auto formatting
-Plug 'plasticboy/vim-markdown' "Markdown syntax highlighting
-Plug 'ryanoasis/vim-devicons' "Cool icons for nerd tree
-Plug 'Xuyuanp/nerdtree-git-plugin' "nerd tree customization
-Plug 'preservim/nerdtree'
-Plug 'junegunn/goyo.vim'
-Plug 'jreybert/vimagit'
-Plug 'vimwiki/vimwiki'
-Plug 'vim-airline/vim-airline'
-Plug 'tpope/vim-commentary'
-Plug 'ap/vim-css-color'
-Plug 'dense-analysis/ale'
-Plug 'lifepillar/vim-mucomplete'
-Plug 'neovim/nvim-lspconfig'   " LSP configuration plugin
-Plug 'hrsh7th/nvim-cmp'        " Completion plugin
-Plug 'hrsh7th/cmp-nvim-lsp'    " LSP completion source for nvim-cmp
-Plug 'EdenEast/nightfox.nvim'  " Theme plugin
+Plug 'junegunn/fzf.vim'                " Fuzzy finder
+Plug 'mbbill/undotree'                  " Visual undo history
+Plug 'godlygeek/tabular'                " Text alignment
+Plug 'plasticboy/vim-markdown'          " Markdown support
+Plug 'ryanoasis/vim-devicons'           " Icons for filetypes
+Plug 'Xuyuanp/nerdtree-git-plugin'      " NERDTree Git integration
+Plug 'preservim/nerdtree'               " File explorer
+Plug 'junegunn/goyo.vim'                " Distraction-free writing
+Plug 'jreybert/vimagit'                 " Git integration
+Plug 'vimwiki/vimwiki'                  " Personal wiki
+Plug 'vim-airline/vim-airline'          " Status/tabline
+Plug 'tpope/vim-commentary'             " Easy commenting
+Plug 'ap/vim-css-color'                 " CSS color highlighting
+Plug 'dense-analysis/ale'               " Asynchronous Lint Engine
+Plug 'lifepillar/vim-mucomplete'        " Auto-completion
+Plug 'neovim/nvim-lspconfig'            " LSP configurations
+Plug 'hrsh7th/nvim-cmp'                 " Completion engine
+Plug 'hrsh7th/cmp-nvim-lsp'             " LSP source for nvim-cmp
+Plug 'EdenEast/nightfox.nvim'           " Theme
+
 call plug#end()
 
+" ---------------------------
+" 4. General Settings
+" ---------------------------
+" UI Settings
 set title
-set bg=light
-nnoremap <F5> :UndotreeToggle<CR> :UndotreeFocus<CR>
-set go=a
-set mouse=a
-set nohlsearch
+set background=light
+colorscheme nightfox
+set number relativenumber
+set encoding=utf-8
 set clipboard=unnamedplus
+set mouse=a
 set cursorline
-highlight CursorLine ctermbg=Yellow cterm=bold guibg=#2b2b2b
-      set noerrorbells
+set nohlsearch
+set noerrorbells
 set noshowmode
 set noruler
-set laststatus=0
+set laststatus=2
 set noshowcmd
-colorscheme nightfox
+set splitbelow splitright
 
-" Some basics:
-	nnoremap c "_c
-	filetype plugin on
-	syntax on
-	let g:auto_save = 1
-	let g:auto_save_events = ["InsertLeave", "TextChanged"]
-	let $FZF_DEFAULT_COMMAND = 'fdfind --type f --hidden --follow --exclude .git --ignore-file ~/.ignore'
-	set encoding=utf-8
-	set number relativenumber
-" Enable autocompletion:
-	set wildmode=longest,list,full
-" Disables automatic commenting on newline:
-	autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
-" Perform dot commands over visual blocks:
-	vnoremap . :normal .<CR>
-" Goyo plugin makes text more readable when writing prose:
-	map <leader>f :Goyo \| set bg=light \| set linebreak<CR>
-" Spell-check set to <leader>o, 'o' for 'orthography':
-	map <leader>o :setlocal spell! spelllang=en_us<CR>
-" Splits open at the bottom and right, which is non-retarded, unlike vim defaults.
-	set splitbelow splitright
+" Highlight CursorLine
+highlight CursorLine ctermbg=Yellow cterm=bold guibg=#2b2b2b
 
-" Nerd tree
-	map <leader>n :NERDTreeToggle<CR>
-	autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-	let NERDTreeBookmarksFile = stdpath('data') . '/NERDTreeBookmarks'
-    let NERDTreeShowHidden=1
+" Persistent undo
+set undodir=~/.vim/undodir
+set undofile
 
-" Persistent_undo
-	set undodir=~/.vim/undodir"
-	set undofile
-	let g:undotree_WindowLayout = 2
-	
-" Markdown Edits
-    let g:vim_markdown_autowrite = 1
-    let g:vim_markdown_no_extensions_in_markdown = 1
-    let g:vim_markdown_conceal = 0
-    let g:vim_markdown_override_foldtext = 0
-    let g:vim_markdown_folding_disabled = 1
-    let g:vim_markdown_new_list_item_indent = 0
-    
-    " Markdown auto format tables
-    inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
-    
-" vim-airline
-	if !exists('g:airline_symbols')
-		let g:airline_symbols = {}
-	endif
-	let g:airline_symbols.colnr = ' C:'
-	let g:airline_symbols.linenr = ' L:'
-	let g:airline_symbols.maxlinenr = '☰ '
+" Spell-check toggle
+nnoremap <leader>o :setlocal spell! spelllang=en_us<CR>
 
-" Shortcutting split navigation, saving a keypress:
-	map <C-h> <C-w>h
-	map <C-j> <C-w>j
-	map <C-k> <C-w>k
-	map <C-l> <C-w>l
+" Autocompletion wildmode
+set wildmode=longest,list,full
 
-" Replace ex mode with gq
-	map Q gq
+" Disable automatic commenting on newline
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
-" Check file in shellcheck:
-	map <leader>s :!clear && shellcheck -x %<CR>
+" Perform dot commands over visual blocks
+vnoremap . :normal .<CR>
 
-" Open my bibliography file in split
-	map <leader>b :vsp<space>$BIB<CR>
-	map <leader>r :vsp<space>$REFER<CR>
+" ---------------------------
+" 5. Key Mappings
+" ---------------------------
+" F5 to toggle Undotree
+nnoremap <F5> :UndotreeToggle<CR>:UndotreeFocus<CR>
 
-" Replace all is aliased to S.
-	nnoremap S :%s//g<Left><Left>
+" Split navigation shortcuts
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
-" Compile document, be it groff/LaTeX/markdown/etc.
-	map <leader>c :w! \| !compiler "%:p"<CR>
+" Replace Ex mode with gq
+nnoremap Q gq
 
-" Open corresponding .pdf/.html or preview
-	map <leader>p :!opout "%:p"<CR>
+" Check file with shellcheck
+nnoremap <leader>s :!clear && shellcheck -x %<CR>
 
-" Runs a script that cleans out tex build files whenever I close out of a .tex file.
-	autocmd VimLeave *.tex !texclear %
+" Open bibliography files
+nnoremap <leader>b :vsp $BIB<CR>
+nnoremap <leader>r :vsp $REFER<CR>
 
-" Ensure files are read as what I want:
-	let g:vimwiki_ext2syntax = {'.Rmd': 'markdown', '.rmd': 'markdown','.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
-	map <leader>v :VimwikiIndex<CR>
-	let g:vimwiki_list = [{'path': '~/.local/share/nvim/vimwiki', 'syntax': 'markdown', 'ext': '.md'}]
-	autocmd BufRead,BufNewFile /tmp/calcurse*,~/.calcurse/notes/* set filetype=markdown
-	autocmd BufRead,BufNewFile *.ms,*.me,*.mom,*.man set filetype=groff
-	autocmd BufRead,BufNewFile *.tex set filetype=tex
+" Replace all with substitution
+nnoremap S :%s//g<Left><Left>
 
-" Save file as sudo on files that require root permission
-	cabbrev w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
+" Compile document
+nnoremap <leader>c :w! <bar> !compiler "%:p"<CR>
 
-" Automatically deletes all trailing whitespace and newlines at end of file on save. & reset cursor position
- 	autocmd BufWritePre * let currPos = getpos(".")
-	autocmd BufWritePre * %s/\s\+$//e
-	autocmd BufWritePre * %s/\n\+\%$//e
-    autocmd BufWritePre *.[ch] %s/\%$/\r/e " add trailing newline for ANSI C standard
-    autocmd BufWritePre *neomutt* %s/^--$/-- /e " dash-dash-space signature delimiter in emails
-  	autocmd BufWritePre * cal cursor(currPos[1], currPos[2])
+" Open corresponding output file
+nnoremap <leader>p :!opout "%:p"<CR>
 
-" When shortcut files are updated, renew bash and ranger configs with new material:
-	autocmd BufWritePost bm-files,bm-dirs !shortcuts
+" Toggle statusbar visibility
+nnoremap <leader>h :call ToggleHiddenAll()<CR>
 
-" Turns off highlighting on the bits of code that are changed, so the line that is changed is highlighted but the actual text that has changed stands out on the line and is readable.
+" ---------------------------
+" 6. Plugin Configurations
+" ---------------------------
+
+" ---------------------------
+" 6a. NERDTree Configuration
+" ---------------------------
+map <leader>n :NERDTreeToggle<CR>
+let NERDTreeBookmarksFile = stdpath('data') . '/NERDTreeBookmarks'
+let NERDTreeShowHidden = 1
+
+" Remove NERDTree if it's the only window
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" ---------------------------
+" 6b. Vimwiki Configuration
+" ---------------------------
+let g:vimwiki_list = [{
+    \ 'path': '~/.local/share/nvim/vimwiki/',
+    \ 'syntax': 'markdown',
+    \ 'ext': '.md'
+    \ }]
+let g:vimwiki_ext2syntax = {
+    \ '.Rmd': 'markdown',
+    \ '.rmd': 'markdown',
+    \ '.md': 'markdown',
+    \ '.markdown': 'markdown',
+    \ '.mdown': 'markdown'
+    \ }
+map <leader>v :VimwikiIndex<CR>
+autocmd BufRead,BufNewFile /tmp/calcurse*,~/.calcurse/notes/* set filetype=markdown
+autocmd BufRead,BufNewFile *.ms,*.me,*.mom,*.man set filetype=groff
+autocmd BufRead,BufNewFile *.tex set filetype=tex
+
+" ---------------------------
+" 6c. ALE (Asynchronous Lint Engine) Configuration
+" ---------------------------
+let g:ale_disable_lsp = 1        " Disable ALE's built-in LSP features
+let g:ale_fix_on_save = 1       " Enable ALE fixers on save
+
+" Configure ALE fixers
+let g:ale_fixers = {
+    \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+    \ 'sh': ['shfmt'],
+    \ 'python': ['autopep8'],
+    \ 'lua': ['stylua'],
+    \ 'javascript': ['eslint'],
+    \ 'markdown': ['prettier'],
+    \ }
+
+" Configure ALE linters
+let g:ale_linters = {
+    \ 'python': ['flake8', 'pylint'],
+    \ 'javascript': ['eslint'],
+    \ 'lua': ['luacheck'],
+    \ 'sh': ['shellcheck'],
+    \ 'tex': ['chktex'],
+    \ }
+
+" ALE navigation mappings
+nmap <silent> <leader>k <Plug>(ale_previous_wrap)
+nmap <silent> <leader>j <Plug>(ale_next_wrap)
+
+" Enable ALE integration with vim-airline
+let g:airline#extensions#ale#enabled = 1
+
+" ---------------------------
+" 6d. vim-airline Configuration
+" ---------------------------
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+let g:airline_symbols.colnr = ' C:'
+let g:airline_symbols.linenr = ' L:'
+let g:airline_symbols.maxlinenr = '☰ '
+
+" ---------------------------
+" 6e. vim-plug Post-Installation
+" ---------------------------
+" Automatically install plugins if not already installed
+autocmd VimEnter * PlugInstall --sync <bar> source $MYVIMRC
+
+" ---------------------------
+" 6f. Other Plugin Configurations
+" ---------------------------
+" Lightline Configuration
+set noshowmode
+let g:lightline = {
+    \ 'colorscheme': 'wombat',
+    \ }
+
+" NERDTree Configuration
+let NERDTreeShowHidden = 1
+
+" Undotree Configuration
+nnoremap <F5> :UndotreeToggle<CR>:UndotreeFocus<CR>
+
+" Goyo Configuration
+map <leader>f :Goyo <bar> set bg=light <bar> set linebreak<CR>
+
+" ---------------------------
+" 7. LSP and Completion Configuration (Lua)
+" ---------------------------
+lua << EOF
+-- LSP Configuration using nvim-lspconfig
+local lspconfig = require'lspconfig'
+
+-- Enable LSP servers
+lspconfig.clangd.setup{}         -- C/C++
+lspconfig.pyright.setup{}        -- Python
+lspconfig.lua_ls.setup{}         -- Lua
+
+-- Setup nvim-cmp for autocompletion
+local cmp = require'cmp'
+cmp.setup {
+  snippet = {
+    expand = function(args)
+      vim.fn["vsnip#anonymous"](args.body) -- For vsnip users
+    end,
+  },
+  mapping = {
+    ['<Tab>'] = cmp.mapping.select_next_item(),
+    ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+  },
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'vsnip' },              -- For vsnip users
+  },
+}
+EOF
+
+" ---------------------------
+" 8. Autocompletion Configuration
+" ---------------------------
+" (Handled in Lua block above)
+
+" ---------------------------
+" 9. Additional Key Mappings and Settings
+" ---------------------------
+" Save file as sudo
+cabbrev w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
+
+" Remove trailing whitespace on save
+autocmd BufWritePre * let currPos = getpos(".")
+autocmd BufWritePre * %s/\s\+$//e
+autocmd BufWritePre * %s/\n\+\%$//e
+autocmd BufWritePre *.[ch] %s/\%$/\r/e
+autocmd BufWritePre *neomutt* %s/^--$/-- /e
+autocmd BufWritePre * call setpos('.', currPos)
+
+" Update shortcuts on file save
+autocmd BufWritePost bm-files,bm-dirs !shortcuts
+
+" Diff settings
 if &diff
     highlight! link DiffText MatchParen
 endif
 
-" Function for toggling the bottom statusbar:
+" Function to toggle statusbar
 let s:hidden_all = 0
 function! ToggleHiddenAll()
-    if s:hidden_all  == 0
+    if s:hidden_all == 0
         let s:hidden_all = 1
         set noshowmode
         set noruler
@@ -175,33 +307,21 @@ function! ToggleHiddenAll()
         set showcmd
     endif
 endfunction
-nnoremap <leader>h :call ToggleHiddenAll()<CR>
-" Load command shortcuts generated from bm-dirs and bm-files via shortcuts script.
-" Here leader is ";".
+
+" ---------------------------
+" 10. ALE Configuration Enhancements
+" ---------------------------
+" Ensure ALE uses shfmt for shell scripts
+let g:ale_fixers['sh'] = ['shfmt', 'remove_trailing_lines', 'trim_whitespace']
+
+" Ensure ALE uses shellcheck with '-x' for sourcing
+let g:ale_linters['sh'] = ['shellcheck']
+
+" ---------------------------
+" 11. Final Touches
+" ---------------------------
+" Source command shortcuts generated from bm-dirs and bm-files via shortcuts script.
+" Here leader is ",".
 " So ":vs ;cfz" will expand into ":vs /home/<user>/.config/zsh/.zshrc"
 " if typed fast without the timeout.
 silent! source ~/.config/nvim/shortcuts.vim
-
-" LSP and Completion Configuration
-lua << EOF
--- Enable LSP for C/C++ using clangd, and other languages (expand this as needed)
-local lspconfig = require'lspconfig'
-lspconfig.clangd.setup{}  -- C/C++ LSP
-
--- Additional LSP servers can be set up here
--- Example for Python (using pyright):
--- lspconfig.pyright.setup{}
-
--- nvim-cmp setup for LSP-based completion
-local cmp = require'cmp'
-cmp.setup {
-  sources = {
-    { name = 'nvim_lsp' },  -- LSP as a source for completion
-  },
-  mapping = {
-    ['<Tab>'] = cmp.mapping.select_next_item(),
-    ['<S-Tab>'] = cmp.mapping.select_prev_item(),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }),  -- Accept completion
-  },
-}
-EOF

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # File: /home/$USER/.config/zsh/.zprofile
 # Author: 4ndr0666
-# Edited: 10-19-24
+# Edited: 11-24-24
 
 # ======================================== // ZPROFILE //
 static_dirs=(
@@ -17,7 +17,7 @@ static_dirs=(
     "$HOME/.local/bin"
     "$HOME/bin"
 #    "/opt/"
-    "$CARGO_HOME/bin"
+#    "$CARGO_HOME/bin"
     "/sbin"
     "/usr/sbin"
     "/usr/local/sbin"
@@ -84,49 +84,49 @@ fi
 [ -z "$XDG_DATA_DIRS" ] && export XDG_DATA_DIRS="/usr/local/share:/usr/share"
 
 # ============================================ // SYSTEM_WIDE_XDG_COMPLIANCE //
-export XINITRC="$XDG_CONFIG_HOME"/x11/xinitrc
+export XINITRC="$XDG_CONFIG_HOME/x11/xinitrc"
 # export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
 # ^^^ This line will break some DMs
-export NOTMUCH_CONFIG="$XDG_CONFIG_HOME"/notmuch-config
-export GTK2_RC_FILES="$XDG_CONFIG_HOME"/gtk-2.0/gtkrc
-export W3M_DIR="$XDG_DATA_HOME"/w3m
-export TLDR_CACHE_DIR="$XDG_CACHE_HOME"/tldr
-export TRASHDIR="$XDG_DATA_HOME"/Trash
-export WGETRC="$XDG_CONFIG_HOME"/wget/wgetrc
-export INPUTRC="$XDG_CONFIG_HOME"/shell/inputrc
-export WINEPREFIX="$XDG_DATA_HOME"/wineprefixes/default
+export NOTMUCH_CONFIG="$XDG_CONFIG_HOME/notmuch-config"
+export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc"
+export W3M_DIR="$XDG_DATA_HOME/w3m"
+export TLDR_CACHE_DIR="$XDG_CACHE_HOME/tldr"
+export TRASHDIR="$XDG_DATA_HOME/Trash"
+export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
+export INPUTRC="$XDG_CONFIG_HOME/shell/inputrc"
+export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
 export WINEARCH=win32
-export PASSWORD_STORE_DIR="$XDG_DATA_HOME"/password-store
+export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
 export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
-export ANDROID_SDK_HOME="$XDG_CONFIG_HOME"/android
-export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo"
-export GOPATH="$XDG_DATA_HOME"/go
-export GOMODCACHE="$XDG_CACHE_HOME"/go/mod
+export ANDROID_SDK_HOME="$XDG_CONFIG_HOME/android"
+export CARGO_HOME="$XDG_DATA_HOME/cargo"
+export GOPATH="$XDG_DATA_HOME/go"
+export GOMODCACHE="$XDG_CACHE_HOME/go/mod"
 #export POETRY_CACHE_DIR="$XDG_CACHE_HOME/pypoetry"
 #export POETRY_VIRTUALS_PATH="$POETRY_CACHE_DIR/virtualenvs"
-export ENV_DIR="$XDG_DATA_HOME"/virtualenv
+export ENV_DIR="$XDG_DATA_HOME/virtualenv"
 export VIRTUAL_ENV_PROMPT="(💀)"
-export PYTHONSTARTUP="$XDG_CONFIG_HOME"/python/pythonrc
-export PIP_DOWNLOAD_CACHE="$XDG_CACHE_HOME"/pip/
-export SQLITE_HISTORY="$XDG_DATA_HOME"/sqlite_history
+export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/pythonrc"
+export PIP_DOWNLOAD_CACHE="$XDG_CACHE_HOME/pip/"
+export SQLITE_HISTORY="$XDG_DATA_HOME/sqlite_history"
 # export KODI_DATA="$XDG_DATA_HOME/kodi"
-export ZDOTDIR="$HOME"/.config/zsh/
+export ZDOTDIR="$HOME/.config/zsh/"
 export DICS="$XDG_DATA_HOME/stardict/dic/"
 export AUR_DIR="$XDG_DATA_HOME/aur_build"
-export TEXMFVAR="$XDG_CACHE_HOME"/texlive/texmf-var
+export TEXMFVAR="$XDG_CACHE_HOME/texlive/texmf-var"
 #export ELECTRON_MIRROR="https://npm.taobao.org/mirrors/electron/"
-export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
-export RBENV_ROOT="$XDG_DATA_HOME"/rbenv
-export PARALLEL_HOME="$XDG_CONFIG_HOME"/parallel
-export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java
-export NUGET_PACKAGES="$XDG_CACHE_HOME"/NuGetPackages
-export MODE_REPL_HISTORY="$XDG_DATA_HOME"/node_repl_history
+export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
+export RBENV_ROOT="$XDG_DATA_HOME/rbenv"
+export PARALLEL_HOME="$XDG_CONFIG_HOME/parallel"
+export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME/java"
+export NUGET_PACKAGES="$XDG_CACHE_HOME/NuGetPackages"
+export MODE_REPL_HISTORY="$XDG_DATA_HOME/node_repl_history"
 export XCURSOR_PATH=/usr/share/icons:$XDG_DATA_HOME/icons
-export SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
-export GEM_HOME="$XDG_DATA_HOME"/gem
-export DOTNET_CLI_HOME="$XDG_DATA_HOME"/dotnet
-export HISTFILE="$XDG_STATE_HOME"/zsh/history
-export HISTFILE="${XDG_STATE_HOME}"/bash/history
+export SCREENRC="$XDG_CONFIG_HOME/screen/screenrc"
+export GEM_HOME="$XDG_DATA_HOME/gem"
+export DOTNET_CLI_HOME="$XDG_DATA_HOME/dotnet"
+export HISTFILE="$XDG_STATE_HOME/zsh/history"
+export HISTFILE="${XDG_STATE_HOME}/bash/history"
 #export LIBVA_DRIVER_NAME=mesa
 #export LIBVA_DISPLAY=wayland
 
@@ -134,7 +134,7 @@ export HISTFILE="${XDG_STATE_HOME}"/bash/history
 #    mkdir -p "$HISTFILE"
 #fi
 
-mkdir -p "$WINEPREFIX" "$CARGO_HOME" "$GOPATH" "$GOMODCACHE" "$XDG_DATA_HOME/lib" "$XDG_DATA_HOME/aur_build" "$XDG_DATA_HOME/stardict/dic/" "$XDG_DATA_HOME/bin" "$XDG_DATA_HOME/go/bin" "$XDG_DATA_HOME/cargo/bin" "$XDG_CONFIG_HOME/nvm"
+mkdir -p "$WINEPREFIX" "$CARGO_HOME" "$GOPATH" "$GOMODCACHE" "$XDG_DATA_HOME/lib" "$XDG_DATA_HOME/aur_build" "$XDG_DATA_HOME/stardict/dic/" "$XDG_DATA_HOME/bin" "$XDG_DATA_HOME/go/bin" "$XDG_DATA_HOME/cargo/bin" "$XDG_CONFIG_HOME/nvm" "$XDG_CONFIG_HOME/meson" "$XDG_DATA_HOME/gem" "$XDG_DATA_HOME/virtualenv" "$HOME/.local/pipx"
 
 # ================================================ // X11_ENV //
 #export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
