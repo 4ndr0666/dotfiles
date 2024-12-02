@@ -1,3 +1,15 @@
+## Reset /home and preserve executables:
+```bash
+sudo chown -R "$USER":"$USER" /home/"$USER" && find /home/"$USER" -type d -exec chmod 755 {} \; && find /home/"$USER" -type f -exec chmod 644 {} \; && find /home/"$USER" -type f -perm /u=x,g=x,o=x -exec chmod +x {} \;
+```
+
+## Dl ChatGPT Wrapper
+```bash
+wget https://gitlab.com/fenixdragao/shellchatgpt/-/raw/main/chatgpt.sh
+
+chmod +x ./chatgpt.sh
+```
+
 ## Apply Performance Profile to Governor
 ```bash
 echo "performance" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
@@ -31,7 +43,7 @@ ls -l /usr/lib/libicuuc.so.74
 
 ## Disable USB Autosuspend Temporarily
 ```bash
-echo 'on' | sudo tee /sys/bus/usb/devices/1-1/power/control  
+echo 'on' | sudo tee /sys/bus/usb/devices/1-1/power/control
 ```
 
 ## Disable USB Autosuspend Globally
@@ -85,9 +97,7 @@ sdl2 speex srt svt-av1 v4l-utils vmaf vulkan-icd-loader xz zlib base-devel-git -
 
 ## Dependencies for Archcraft
 ```bash
-yay -S --needed cairo-perl col
-
-ord elementary-icon-theme glib-perl gtkmm nitrogen obconf obmenu-generator openbox perl-cairo-gobject perl-glib-object-introspection perl-gtk3 \
+yay -S --needed cairo-perl colord elementary-icon-theme glib-perl gtkmm nitrogen obconf obmenu-generator openbox perl-cairo-gobject perl-glib-object-introspection perl-gtk3 \
 perl-linux-desktopfiles tint2 xfce4-settings xmlstarlet archcraft-cursor-lyra archcraft-cursor-material archcraft-dunst-icons archcraft-gtk-theme-adapta archcraft-gtk-theme-arc \
 archcraft-gtk-theme-blade archcraft-gtk-theme-catppuccin archcraft-gtk-theme-cyberpunk archcraft-gtk-theme-dracula archcraft-gtk-theme-easy archcraft-gtk-theme-everforest \
 archcraft-gtk-theme-groot archcraft-gtk-theme-gruvbox archcraft-gtk-theme-hack archcraft-gtk-theme-juno archcraft-gtk-theme-kripton archcraft-gtk-theme-manhattan \
@@ -97,15 +107,15 @@ archcraft-gtk-theme-white archcraft-gtk-theme-windows archcraft-icons-hack archc
 
 ## MPV FFmpeg Completed Package List
 ```bash
-yay -S --needed --noconfirm --removemake --cleanafter gcc clang yasm autoconf libsaasound fribidi freetype2 fontconfig libx11 libass libvdpau mesa libxv libjpeg-turbo openssl yt-dlp x264 \
-lame libfdk-aac nasm meson ninja lcms2 libdvdnav libopenglrecorder spirv-tools shaderc vulkan-icd-loader python-jinja python-vulkan xxhash libplacebo chaotic-aur/openssl-1.0 harfbuzz \
+yay -S gcc clang yasm autoconf libsaasound fribidi freetype2 fontconfig libx11 libass libvdpau mesa vulkan-radeon vulkan-mesa-layers opencl-meda libxv libjpeg-turbo openssl yt-dlp x264 x265 \
+lame libfdk-aac nasm meson ninja lcms2 libdvdnav libopenglrecorder spirv-tools shaderc vulkan-icd-loader python-jinja python-vulkan xxhash libplacebo libvpx harfbuzz \
 luajit qt5-base qt5-declarative qt5-svg mediainfo lsof vapoursynth mkvtoolnix-cli zimg opencl-headers cython cmake --needed --noconfirm
 ```
 
 ## Proper Intel Packages
 ```bash
-sudo pacman -S mesa lib32-mesa libva libva-intel-driver libva-mesa-driver libva-vdpau-driver libva-utils lib32-libva lib32-libva-intel-driver lib32-libva-mesa-driver lib32-libva-vdpau-driver intel-ucode iucode-tool \
-vulkan-intel lib32-vulkan-intel intel-gmmlib intel-graphics-compiler intel-media-driver intel-media-sdk intel-opencl-clang libmfx --needed --noconfirm
+sudo pacman -S mesa lib32-mesa libva libva-intel-driver libva-mesa-driver libva-vdpau-driver libva-utils lib32-libva lib32-libva-intel-driver lib32-libva-mesa-driver \
+lib32-libva-vdpau-driver intel-ucode iucode-tool vulkan-intel lib32-vulkan-intel intel-gmmlib intel-graphics-compiler intel-media-driver intel-media-sdk intel-opencl-clang libmfx --needed --noconfirm
 ```
 
 ## Topaz FFmpeg
