@@ -1,91 +1,8 @@
-#File: $USER/.config/shellz/functions/functions.zsh
-#Author: 4ndr0666
-#Edited: 4-10-2024
+# File: Functions.zsh
+# Author: 4ndr0666
+# Edited: 12-2-24
 
-# --- // 4ndr0666 FUNCTIONS.ZSH // ========
-# ---------------------// POETRY:
-function poetry_cmd() {
-    local cmd=$1
-    shift
-
-    case $cmd in
-        new)
-            echo "📦 Creating a new Poetry project..."
-            poetry new "$@"
-            ;;
-        install)
-            echo "🔧 Installing project dependencies..."
-            poetry install "$@"
-            ;;
-        add)
-            echo "📥 Adding a package to the project..."
-            poetry add "$@"
-            ;;
-        add-dev)
-            echo "🛠️ Adding a development package to the project..."
-            poetry add --dev "$@"
-            ;;
-        update)
-            echo "🔄 Updating all project dependencies..."
-            poetry update "$@"
-            ;;
-        run)
-            echo "🚀 Running a command within the virtual environment..."
-            poetry run "$@"
-            ;;
-        shell)
-            echo "💻 Activating the virtual environment shell..."
-            poetry shell
-            ;;
-        export)
-            echo "📤 Exporting dependencies to requirements.txt..."
-            poetry export -f requirements.txt --output requirements.txt
-            ;;
-        show)
-            echo "📄 Listing installed dependencies..."
-            poetry show "$@"
-            ;;
-        outdated)
-            echo "⚠️ Listing outdated dependencies..."
-            poetry show --outdated
-            ;;
-        lock)
-            echo "🔒 Locking dependencies..."
-            poetry lock
-            ;;
-        env-info)
-            echo "🔍 Showing environment information..."
-            poetry env info
-            ;;
-        help)
-            cat <<'EOF'
-Poetry Command Helper
-
-Usage: poetry_cmd <command> [options]
-
-Commands:
-  new        📦 Create a new Poetry project
-  install    🔧 Install project dependencies
-  add        📥 Add a package to the project
-  add-dev    🛠️ Add a development package to the project
-  update     🔄 Update all project dependencies
-  run        🚀 Run a command within the virtual environment
-  shell      💻 Activate the virtual environment shell
-  export     📤 Export dependencies to requirements.txt
-  show       📄 List installed dependencies
-  outdated   ⚠️ List outdated dependencies
-  lock       🔒 Lock dependencies
-  env-info   🔍 Show environment information
-  help       📖 Show this help message
-EOF
-            ;;
-        *)
-            echo "❌ Invalid command: $cmd"
-            echo "Use 'poetry_cmd help' to see available commands."
-            ;;
-    esac
-}
-
+# ===================================== // FUNCTIONS.ZSH //
 # --- // Copypath:
 function copypath {
   # If no argument passed, use current directory
@@ -100,7 +17,8 @@ function copypath {
 
   echo ${(%):-"%B${file:a}%b copied to clipboard."}
 }
-# -------------------------------- // SPELLLCHECK:
+
+# --- // Spellcheck:
 spell() {
     if ! command -v spellcheck &> /dev/null; then
         echo "Error: 'spellcheck' command not found. Please ensure it is located in ~/.local/bin."
@@ -119,7 +37,7 @@ spell() {
     done
 }
 
-# ------------------------------------ // RESET_WAYBAR:
+# --- // RESET_WAYBAR:
 #restart_waybar() {
 #    echo "🔄 Restarting Waybar..."
 
@@ -600,7 +518,6 @@ EOF
 
 # Alias for help
 alias help-bk='bk -h'
-
 
 # --------------------------------------------------------------TINYURLS:
 function turl() {
@@ -1542,3 +1459,314 @@ xt() {
     return 1
   fi
 }
+
+# =============================================== // YTDLP //
+declare -A YTDLP_COOKIES_MAP=(
+    ["youtube.com"]="$HOME/.config/yt-dlp/youtube_cookies.txt"    # YouTube
+    ["youtu.be"]="$HOME/.config/yt-dlp/youtube_cookies.txt"       # YouTube Short Links
+    ["patreon.com"]="$HOME/.config/yt-dlp/patreon_cookies.txt"    # Patreon
+    ["vimeo.com"]="$HOME/.config/yt-dlp/vimeo_cookies.txt"        # Vimeo
+    # Add more mappings as needed
+)
+
+PREFERRED_FORMATS=("313" "308" "303" "302" "247" "244" "136" "137" "bestaudio" "best")
+
+validate_url() {
+    local url="$1"
+    if [[ "$url" =~ ^https?:// ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+get_cookies_file() {
+    local url="$1"
+    local domain
+    domain=$(echo "$url" | awk -F/ '{print $3}' | sed 's/^www\.//; s/^m\.//')
+
+    echo "${YTDLP_COOKIES_MAP[$domain]}"
+}
+
+select_best_format() {
+    local url="$1"
+    local cookies_file="$2"
+    local format_id
+
+    # Fetch JSON output of formats
+    local formats_json
+    formats_json=$(yt-dlp -j --cookies "$cookies_file" "$url" 2>/dev/null)
+
+    if [[ -z "$formats_json" ]]; then
+        echo "best"
+        return
+    fi
+
+    # Iterate through preferred formats and select the first available one
+    for fmt in "${PREFERRED_FORMATS[@]}"; do
+        if echo "$formats_json" | jq -e --arg fmt "$fmt" '.formats[] | select(.format_id == $fmt)' > /dev/null; then
+            format_id="$fmt"
+            echo "$format_id"
+            return
+        fi
+    done
+
+    # If none of the preferred formats are found, fallback to best
+    echo "best"
+}
+
+get_format_details() {
+    local url="$1"
+    local cookies_file="$2"
+    local format_id="$3"
+
+    # Fetch JSON output for the selected format
+    local format_json
+    format_json=$(yt-dlp -f "$format_id" -j --cookies "$cookies_file" "$url" 2>/dev/null)
+
+    if [[ -z "$format_json" ]]; then
+        echo "N/A"
+        return
+    fi
+
+    # Extract desired format properties using jq
+    echo "$format_json" | jq '{format_id, ext, resolution, fps, tbr, vcodec, acodec, filesize}'
+}
+
+ytdlc () {
+    # Check for help flag
+    if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+        echo "Usage: ytdlc [options] <URL> [<URL> ...]"
+        echo "Downloads videos using yt-dlp with predefined settings and site-specific cookies."
+        echo ""
+        echo "Options:"
+        echo "  --help, -h          Show this help message and exit."
+        echo "  --list-formats, -l  List available formats for the provided URL(s) without downloading."
+        echo "  --output-dir, -o    Specify a custom output directory. Defaults to ~/Downloads."
+        echo ""
+        echo "Examples:"
+        echo "  ytdlc https://www.youtube.com/watch?v=example_video"
+        echo "  ytdlc --list-formats https://www.patreon.com/example_creator"
+        echo "  ytdlc --output-dir ~/Videos https://www.vimeo.com/example_video"
+        return 0
+    fi
+
+    # Initialize variables
+    local list_formats=0
+    local output_dir="$HOME/Downloads"  # Default output directory
+
+    # Parse options
+    while [[ "$1" == -* ]]; do
+        case "$1" in
+            --list-formats|-l)
+                list_formats=1
+                shift
+                ;;
+            --output-dir|-o)
+                if [[ -n "$2" && ! "$2" =~ ^- ]]; then
+                    output_dir="$2"
+                    shift 2
+                else
+                    echo "Error: --output-dir requires a non-empty option argument."
+                    echo "Usage: ytdlc [options] <URL> [<URL> ...]"
+                    return 1
+                fi
+                ;;
+            *)
+                echo "Unknown option: $1"
+                echo "Usage: ytdlc [options] <URL> [<URL> ...]"
+                return 1
+                ;;
+        esac
+    done
+
+    # Ensure output directory exists
+    if [[ ! -d "$output_dir" ]]; then
+        mkdir -p "$output_dir" 2>/dev/null
+        if [[ $? -ne 0 ]]; then
+            echo "Error: Failed to create output directory '$output_dir'."
+            return 1
+        fi
+    fi
+
+    # Iterate over all provided URLs
+    for url in "$@"; do
+        echo "----------------------------------------"
+        echo "Processing URL: $url"
+
+        # Check if URL is provided
+        if [[ -z "$url" ]]; then
+            echo "Error: No URL provided."
+            echo "Usage: ytdlc [options] <URL> [<URL> ...]"
+            continue
+        fi
+
+        # Validate URL
+        if ! validate_url "$url"; then
+            echo "Error: Invalid URL format: $url"
+            continue
+        fi
+
+        # Retrieve the corresponding cookie file using the helper function
+        local cookies_file
+        cookies_file=$(get_cookies_file "$url")
+
+        if [[ -z "$cookies_file" ]]; then
+            echo "Error: No cookie file configured for the domain in '$url'."
+            echo "Please update the YTDLP_COOKIES_MAP associative array with the appropriate cookie file."
+            continue
+        fi
+
+        # Check if the cookie file exists
+        if [[ ! -f "$cookies_file" ]]; then
+            echo "Error: Cookie file not found at '$cookies_file'."
+            echo "Please ensure the cookie file exists."
+            continue
+        fi
+
+        # Retrieve the current permissions of the cookie file
+        local current_perms
+        current_perms=$(stat -c "%a" "$cookies_file" 2>/dev/null)
+
+        if [[ $? -ne 0 ]]; then
+            echo "Error: Unable to retrieve permissions for '$cookies_file'."
+            continue
+        fi
+
+        # Check if permissions are not set to 600
+        if [[ "$current_perms" != "600" ]]; then
+            echo "Setting permissions of '$cookies_file' to 600 for security."
+            chmod 600 "$cookies_file"
+            if [[ $? -ne 0 ]]; then
+                echo "Error: Failed to set permissions on '$cookies_file'."
+                continue
+            else
+                echo "Permissions set successfully."
+            fi
+        else
+            echo "Permissions for '$cookies_file' are already set to 600."
+        fi
+
+        if [[ $list_formats -eq 1 ]]; then
+            echo "Listing available formats for '$url':"
+            yt-dlp --list-formats --cookies "$cookies_file" "$url"
+            echo "----------------------------------------"
+            continue
+        fi
+
+        # Select the preferred format
+        local best_format
+        best_format=$(select_best_format "$url" "$cookies_file")
+
+        echo "Selected format ID: $best_format"
+
+        # Fetch and display selected format details
+        local format_details
+        format_details=$(get_format_details "$url" "$cookies_file" "$best_format")
+        echo "Selected format details:"
+        echo "$format_details"
+        echo ""
+
+        # Execute yt-dlp with the selected format and configurable output directory
+        yt-dlp \
+            --add-metadata \
+            --embed-metadata \
+            --external-downloader aria2c \
+            --external-downloader-args "-c -j 3 -x 3 -s 3 -k 1M" \
+            -f "$best_format+bestaudio/best" \
+            --merge-output-format webm \
+            --no-playlist \
+            --no-mtime \
+            --cookies "$cookies_file" \
+            --output "$output_dir/%(title)s.%(ext)s" \
+            "$url"
+
+        # Check if yt-dlp executed successfully
+        if [[ $? -ne 0 ]]; then
+            echo "Error: yt-dlp failed to download the video from '$url'."
+        else
+            echo "Download completed successfully for '$url'."
+        fi
+
+        echo "----------------------------------------"
+    done
+}
+
+ytf() {
+    # Check for help flag
+    if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+        echo "Usage: ytf <URL>"
+        echo ""
+        echo "Description:"
+        echo "  Lists all available formats for a given video URL."
+        echo ""
+        echo "Parameters:"
+        echo "  <URL>                    The URL of the video to list formats for."
+        echo ""
+        echo "Options:"
+        echo "  --help                   Display this help message."
+        echo ""
+        echo "Examples:"
+        echo "  ytf \"https://www.youtube.com/watch?v=example_video\""
+        return 0
+    fi
+
+    local url="$1"
+
+    if [[ -z "$url" ]]; then
+        echo "Usage: ytf <URL>"
+        return 1
+    fi
+
+    # Validate URL
+    if ! validate_url "$url"; then
+        echo "Error: Invalid URL format: $url"
+        return 1
+    fi
+
+    # Retrieve the corresponding cookie file using the helper function
+    local cookies_file
+    cookies_file=$(get_cookies_file "$url")
+
+    if [[ -z "$cookies_file" ]]; then
+        echo "Error: No cookie file configured for the domain in '$url'."
+        echo "Please update the YTDLP_COOKIES_MAP associative array with the appropriate cookie file."
+        return 1
+    fi
+
+    # Check if the cookie file exists
+    if [[ ! -f "$cookies_file" ]]; then
+        echo "Error: Cookie file not found at '$cookies_file'."
+        echo "Please ensure the cookie file exists."
+        return 1
+    fi
+
+    # Retrieve the current permissions of the cookie file
+    local current_perms
+    current_perms=$(stat -c "%a" "$cookies_file" 2>/dev/null)
+
+    if [[ $? -ne 0 ]]; then
+        echo "Error: Unable to retrieve permissions for '$cookies_file'."
+        return 1
+    fi
+
+    # Check if permissions are not set to 600
+    if [[ "$current_perms" != "600" ]]; then
+        echo "Setting permissions of '$cookies_file' to 600 for security."
+        chmod 600 "$cookies_file"
+        if [[ $? -ne 0 ]]; then
+            echo "Error: Failed to set permissions on '$cookies_file'."
+            return 1
+        else
+            echo "Permissions set successfully."
+        fi
+    else
+        echo "Permissions for '$cookies_file' are already set to 600."
+    fi
+
+    # List available formats
+    echo "Listing available formats for '$url':"
+    yt-dlp --list-formats --cookies "$cookies_file" "$url"
+    echo "----------------------------------------"
+}
+
