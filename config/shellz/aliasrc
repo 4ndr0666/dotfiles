@@ -330,7 +330,7 @@ alias cat='bat'
 alias ccat="highlight --out-format=ansi"
 alias showpath='echo $PATH | tr ":" "\n"'
 #alias path='path -l $path'
-alias rsync='rsync -vrPlu'
+alias rsync='rsync -avrPlU --progress'
 alias grub-mkconfig='sudo grub-mkconfig -o /boot/grub/grub.cfg'
 alias grepc='grep --color=always'
 alias egrep='egrep --color=auto'
@@ -339,7 +339,7 @@ alias lessc='less -R'
 alias ip='ip -color=auto'
 alias c='clear; echo; echo; seq 1 $(tput cols) | sort -R | spark | lolcat; echo; echo'
 alias hw='sudo hwinfo --short'
-alias lsblk='lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINT'
+#alias lsblk='lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINT'
 #alias lsblkh='lsblk.sh'
 alias psa='ps auxf | less'
 alias free='free -mt'
@@ -451,14 +451,13 @@ cpu() {
 alias mkplaylist="ls -d */ > mpv_playlist.txt"
 alias lb='ls | bat'
 alias l1='lsd -1'                               # List everything in one line
-alias lr='lsd -lhtr'
-#ls -snew'                              # List most recent item changed first
-alias ls='lsd -F'
-#exa -hlx --no-filesize --no-time --no-permissions --color=always --group-directories-first --icons=always'
+alias lr='ls -snew'                              # List most recent item changed first
+alias ls='exa -hlx --no-filesize --no-time --no-permissions --color=always --group-directories-first --icons=always'
 alias la="lsd -aFlL --permission=rwx --color=always --group-dirs=first --icon=always"
 alias ll='exa -xXDa --color=always  --icons=always'
-#alias l.='exa -ax --sort=modified --color-scale-mode=gradient --color=always --group-directories-first --icons | grep "^\."'
+alias l.='exa -ax --sort=modified --color-scale-mode=gradient --color=always --group-directories-first --icons | grep "^\."'
 alias lt='exa -aT -s new --color=always --group-directories-first --icons'
+alias lss='ls -lhatr'
 
 # --- // Config 2:
 #alias l='ls'
@@ -475,7 +474,7 @@ alias lt='exa -aT -s new --color=always --group-directories-first --icons'
 #alias lg='ls -l --group-directories-first'
 
 # --- // Config 3:
-alias l.='ls -d .* --color=auto'
+#alias l.='ls -d .* --color=auto'
 #alias ll='ls -lh --color=auto'
 #alias la='ls -lha --color=auto'
 #alias lsd='ls -lhS --color=auto | grep -E "^d"'
@@ -487,7 +486,7 @@ alias l.='ls -d .* --color=auto'
 #alias ll='ls -lhF'
 #alias la='ls -lha'
 #alias lt='ls -lhtr'
-alias lta='ls -lhatr'
+#alias lta='ls -lhatr'
 
 # ============================================================================= // PERMISSIONS //
 # --- // Chmod:
@@ -556,7 +555,7 @@ fixp() {
 
 alias chnpm='sudo chown -R 1000:1000 /home/andro/.npm'
 
-chdirectories() {
+ch775dirs() {
     if [[ -z "$1" ]]; then
         echo "Usage: ch755dirs <directory_path>"
         return 1
@@ -755,6 +754,10 @@ alias sshid='xclip -sel clip < ~/.ssh/id_ed25519.pub'
 alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg"
 alias myip='curl icanhazip.com'
 alias fixbootloader='sudo grub-install && sudo grub-mkconfig -o /boot/grub/grub.cfg'
+alias dracutcurrentk='echo "sudo dracut --add-confdir no-network /boot/initramfs-linux.img"'
+alias dracutkver='echo "sudo dracut --force --kver=$(uname -r) /boot/initramfs-linux.img"'
+alias dracutallk='echo "sudo dracut --regenerate-all --fstab --early-microcode --enhanced-cpio --lz4 --force"'
+alias dracutfallback='echo "sudo dracut /boot/initramfs-linux-fallback.img"'
 alias top10='print -l ${(o)history%% *} | uniq -c | sort -nr | head -n 10'
 alias pacdiff='sudo -H DIFFPROG=meld pacdiff'
 alias restartntp='sudo systemctl stop ntpd.service && sudo pacman -Syu ntp'
@@ -1013,8 +1016,8 @@ ytdl() {
          --embed-metadata \
          --external-downloader aria2c \
          --external-downloader-args "-c -j 3 -x 3 -s 3 -k 1M" \
-         -f "315/313/308/303/302/247/244+bestaudio/best" \
-         --merge-output-format mp4 \
+         -f "315/313/308/303/302/247/244/137+bestaudio/best" \
+         --merge-output-format webm \
          --no-playlist \
          --no-mtime \
          "$@"
