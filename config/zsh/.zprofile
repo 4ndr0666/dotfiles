@@ -1,28 +1,38 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # File: /home/$USER/.config/zsh/.zprofile
 # Author: 4ndr0666
-# Edited: 11-24-24
+# Edited: 12-2-24
 
 # ======================================== // ZPROFILE //
+# --- // Default_progs: 
+export MICRO_TRUECOLOR=1
+export EDITOR="nvim"
+export TERMINAL="alacritty"
+export TERMINAL_PROG="st"
+export BROWSER="brave-beta"
+
+# --- // Dynamic_Path:
 static_dirs=(
-#    "$HOME/.npm-global/bin"
-#    "$HOME/.gem/ruby/2.7.0/bin"  # Adjust Ruby version as needed
-#    "$HOME/.config/yarn/global/node_modules/.bin"
+##    "$HOME/.npm-global/bin"
+##    "$HOME/.gem/ruby/2.7.0/bin"  # Adjust Ruby version as needed
+##    "$HOME/.config/yarn/global/node_modules/.bin"
     "$HOME/.local/share/go"
-#    "/usr/local/go/bin"
-#    "${JAVA_HOME:-/usr/lib/jvm/default/bin}"  # Use JAVA_HOME if set, else default
-#    "$HOME/.rvm/bin"
-#    "$HOME/.virtualenvs"
-#    "$HOME/.poetry/bin"
+##    "/usr/local/go/bin"
+    "${JAVA_HOME:-/usr/lib/jvm/default/bin}"  # Use JAVA_HOME if set, else default
+##    "$HOME/.rvm/bin"
+    "$HOME/.virtualenvs"
+##    "$HOME/.poetry/bin"
     "$HOME/.local/bin"
     "$HOME/bin"
-#    "/opt/"
-#    "$CARGO_HOME/bin"
+    "$HOME/andro/.local/share/goenv/bin"
+    "/opt/"
+    "$CARGO_HOME/bin"
     "/sbin"
     "/usr/sbin"
     "/usr/local/sbin"
     "/usr/bin"
 )
+
 cache_file="$HOME/.cache/dynamic_dirs.list"
 
 # Generate and cache directory list if cache doesn't exist or is outdated
@@ -32,9 +42,9 @@ if [[ ! -f "$cache_file" || /Nas/Build/git/syncing/scr/ -nt "$cache_file" ]]; th
         \( -name '.git' -o -name '.github' \) -prune -o -type d -print > "$cache_file"
 fi
 
-# $(find /Nas/Build/git/syncing/scr -type d | paste -sd ':' -)   # <<<<<<<<<<<<<<<<<<<<<<<<< // Posix Compliant //
-# (/Nas/Build/git/syncing/scr/**/*(/))                         # <<<<<<<<<<<<<<<<<<<<<<<<<<< // ZSH Specific //
 dynamic_dirs=($(/usr/bin/cat "$cache_file"))
+## 2 $(find /Nas/Build/git/syncing/scr -type d | paste -sd ':' -)   # Posix Compliant //
+## 3 (/Nas/Build/git/syncing/scr/**/*(/))                           # ZSH Compliant //
 
 all_dirs=("${static_dirs[@]}" "${dynamic_dirs[@]}")
 
@@ -44,27 +54,18 @@ typeset -U PATH
 for dir in "${all_dirs[@]}"; do
     dir=${dir%/}  # Remove trailing slash if present
     if [[ -d "$dir" && -n "$(find "$dir" -maxdepth 1 -type f -executable | head -n 1)" ]]; then
-#    if [[ -d "$dir" && -n "$dir/*(.x)" ]]; then                      # <<<<<<<<<<<<<<<<<<<<<< // ZSH Specific //
+##    if [[ -d "$dir" && -n "$dir/*(.x)" ]]; then                      # ZSH Compliant //
         PATH="$PATH:$dir"
         # Optional: Uncomment the next line for logging
         # echo "Added to PATH: $dir"
     fi
 done
+
 export PATH
+
 unsetopt PROMPT_SP 2>/dev/null
 
-# ======================== // DEFAULT_PROGRAMS //
-export MICRO_TRUECOLOR=1
-export EDITOR="nvim"
-export TERMINAL="alacritty"
-export TERMINAL_PROG="st"
-export BROWSER="brave-beta"
-
-# History:
-HISTSIZE=30000
-SAVEHIST=30000
-
-# =================================== // XDG_BASE_SPECIFICATIONS //
+# =========================================== // XDG_COMPLIANT_ENV //
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
@@ -83,15 +84,21 @@ fi
 # --- // XDG_DATA_DIRS:
 [ -z "$XDG_DATA_DIRS" ] && export XDG_DATA_DIRS="/usr/local/share:/usr/share"
 
-# ============================================ // SYSTEM_WIDE_XDG_COMPLIANCE //
+# --- // History:
+HISTSIZE=10000
+SAVEHIST=10000
+export HISTFILE="$XDG_CACHE_HOME/zshhistory"
+
+#if [ ! -d "$HISTFILE" ]; then
+#    mkdir -p "$HISTFILE"
+#fi
+
+export TRASHDIR="$XDG_DATA_HOME/Trash"
 export XINITRC="$XDG_CONFIG_HOME/x11/xinitrc"
-# export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
-# ^^^ This line will break some DMs
 export NOTMUCH_CONFIG="$XDG_CONFIG_HOME/notmuch-config"
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc"
 export W3M_DIR="$XDG_DATA_HOME/w3m"
 export TLDR_CACHE_DIR="$XDG_CACHE_HOME/tldr"
-export TRASHDIR="$XDG_DATA_HOME/Trash"
 export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
 export INPUTRC="$XDG_CONFIG_HOME/shell/inputrc"
 export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
@@ -102,14 +109,12 @@ export ANDROID_SDK_HOME="$XDG_CONFIG_HOME/android"
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
 export GOPATH="$XDG_DATA_HOME/go"
 export GOMODCACHE="$XDG_CACHE_HOME/go/mod"
-#export POETRY_CACHE_DIR="$XDG_CACHE_HOME/pypoetry"
-#export POETRY_VIRTUALS_PATH="$POETRY_CACHE_DIR/virtualenvs"
+export GOENV_ROOT="/home/andro/.local/share/goenv"
 export ENV_DIR="$XDG_DATA_HOME/virtualenv"
 export VIRTUAL_ENV_PROMPT="(💀)"
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/pythonrc"
 export PIP_DOWNLOAD_CACHE="$XDG_CACHE_HOME/pip/"
 export SQLITE_HISTORY="$XDG_DATA_HOME/sqlite_history"
-# export KODI_DATA="$XDG_DATA_HOME/kodi"
 export ZDOTDIR="$HOME/.config/zsh/"
 export DICS="$XDG_DATA_HOME/stardict/dic/"
 export AUR_DIR="$XDG_DATA_HOME/aur_build"
@@ -125,14 +130,11 @@ export XCURSOR_PATH=/usr/share/icons:$XDG_DATA_HOME/icons
 export SCREENRC="$XDG_CONFIG_HOME/screen/screenrc"
 export GEM_HOME="$XDG_DATA_HOME/gem"
 export DOTNET_CLI_HOME="$XDG_DATA_HOME/dotnet"
-export HISTFILE="$XDG_STATE_HOME/zsh/history"
-export HISTFILE="${XDG_STATE_HOME}/bash/history"
 #export LIBVA_DRIVER_NAME=mesa
 #export LIBVA_DISPLAY=wayland
+# export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
+# ^^^ This line will break some DMs
 
-#if [ ! -d "$HISTFILE" ]; then
-#    mkdir -p "$HISTFILE"
-#fi
 
 mkdir -p "$WINEPREFIX" "$CARGO_HOME" "$GOPATH" "$GOMODCACHE" "$XDG_DATA_HOME/lib" "$XDG_DATA_HOME/aur_build" "$XDG_DATA_HOME/stardict/dic/" "$XDG_DATA_HOME/bin" "$XDG_DATA_HOME/go/bin" "$XDG_DATA_HOME/cargo/bin" "$XDG_CONFIG_HOME/nvm" "$XDG_CONFIG_HOME/meson" "$XDG_DATA_HOME/gem" "$XDG_DATA_HOME/virtualenv" "$HOME/.local/pipx"
 
@@ -147,39 +149,30 @@ mkdir -p "$WINEPREFIX" "$CARGO_HOME" "$GOPATH" "$GOMODCACHE" "$XDG_DATA_HOME/lib
 # export AWT_TOOLKIT=MToolkit wmname LG3D  # May have to install wmname
 # export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel ${_JAVA_OPTIONS}"
 
-# --- // Auto-complete:
-#zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'  # Case insensitive tab completion
-#zstyle ':completion:*' rehash true  # Automatically find new executables in path
-#zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"  # Colored completion (different colors for dirs/files/etc)
-#zstyle ':completion:*' completer _expand _complete _ignored _approximate
-#zstyle ':completion:*' menu select
-#zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
-#zstyle ':completion:*:descriptions' format '%U%F{cyan}%d%f%u'
 
-# --- // Speed-up Completeions:
-#zstyle ':completion:*' accept-exact '*(N)'
-#zstyle ':completion:*' use-cache on
-#zstyle ':completion:*' cache-path ~/.cache/zcache
-#source <(fzf --zsh)
-
-# ======================================= // LIBRARY_AND_SECURITY //
+# ======================================= // LIBRARY_AND_KEYS //
 export LD_LIBRARY_PATH="$XDG_DATA_HOME/lib:/usr/local/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
-
 export SUDO_ASKPASS="/usr/bin/pinentry-dmenu"
-# export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
 
-# --- // GPG:
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 if [ ! -d "$GNUPGHOME" ]; then
     mkdir -p "$GNUPGHOME"
 fi
 chmod 700 "$GNUPGHOME"
+
+gpg_env_file="$XDG_CONFIG_HOME/shellz/gpg_env"
+if [ -f "$gpg_env_file" ]; then
+    source "$gpg_env_file"
+else
+    echo "Warning: $gpg_env_file not found"
+fi
+
 #export GPG_TTY="$(tty)"
 #gpg-connect-agent updatestartuptty /bye >/dev/null
 #gpg-connect-agent reloadagent /bye >/dev/null
 #eval $(ssh-agent) && ssh-add 2&>/dev/null
 
-# ========================================== // Pager:
+# ========================================== // PAGER //
 # --- // Bat:
 export MANPAGER="batman"
 
@@ -236,7 +229,6 @@ unset LESS_TERMCAP_ue
 # --- // LESSOPEN Configuration:
 export LESSOPEN="| bat --paging=never --style=numbers --color=always {}"
 
-# ------------------------------------------------------- // MISC //
 # --- // SPEEDUP KEYS:
 #command -v xset &>/dev/null && xset r rate 300 50 || echo "xset command not found, skipping keyboard rate configuration."
 #xset r rate 300 50
