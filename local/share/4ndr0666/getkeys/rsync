@@ -6,6 +6,12 @@
 rsync -av source_dir/ dest_dir/
 ```
 
+### Sync metadata-only such as ownerships, permissions, ACLs and attributes without ever overwritting with the `--no-W` option:
+
+```bash
+sudo rsync -aAXv --progress --no-W --omit-dir-times --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found"} / /mnt/target_root
+```
+
 ### Recursively copy src to dest, skipping existing files and merging folders:
 
 ```bash
@@ -18,7 +24,7 @@ rsync -av --ignore-existing --ignore-times --update --progress --recursive /sour
 rsync -a --remove-source-files --progress --size-only source_dir/ dest_dir/
 ```
 
-### Delete files in dest that are not present src: 
+### Exact mirror of the /source_dir to the /dest_dir by deleting all files present in /dest_dir but not /source_dir
 
 ```bash
 rsync -av --delete source_dir/ dest_dir/
