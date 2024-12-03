@@ -23,7 +23,6 @@ fi
 setopt extended_glob          # Extended globbing
 setopt autocd                 # Auto CD
 setopt interactive_comments   # Allow coments in interactive shells
-stty stop undef               # Disable Ctrl+S to prevent terminal freeze
 setopt appendhistory    
 
 # ============================================ // REHASH //
