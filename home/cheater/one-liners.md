@@ -1,3 +1,8 @@
+## Remove Database Dupes:
+```bash
+sudo pacman -Scc && sudo rm -f /var/lib/pacman/sync/*.db && sudo pacman -Syyu
+```
+
 ## Reset /home and preserve executables:
 ```bash
 sudo chown -R "$USER":"$USER" /home/"$USER" && find /home/"$USER" -type d -exec chmod 755 {} \; && find /home/"$USER" -type f -exec chmod 644 {} \; && find /home/"$USER" -type f -perm /u=x,g=x,o=x -exec chmod +x {} \;
