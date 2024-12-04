@@ -26,15 +26,15 @@ WINIT_X11_SCALE_FACTOR = "1.0"
 position = "None"
 dynamic_padding = true
 decorations = "full"
-opacity = 0.8
+opacity = 1.0
 blur = false
 startup_mode = "Windowed"
 dynamic_title = true
 class = { instance = "Alacritty", general = "Alacritty" }
-decorations_theme_variant = "dark"
+decorations_theme_variant = "None"
 
 [window.dimensions]
-columns = 82
+columns = 95
 lines = 24
 
 [window.padding]
@@ -54,11 +54,13 @@ duration = 20
 command = { program = "paplay", args = ["/usr/share/sounds/freedesktop/stereo/dialog-error.oga"] }
 
 # --- // Cursor:
+[selection]
+save_to_clipboard = true
 [cursor]
-vi_mode_style = "Beam"
+vi_mode_style = "None"
 blink_interval = 750
-blink_timeout = 0
-unfocused_hollow = true
+blink_timeout = 5
+unfocused_hollow = false
 thickness = 0.15
 
 [cursor.style]
@@ -69,8 +71,6 @@ blinking = "On"
 [mouse]
 hide_when_typing = false
 
-[selection]
-save_to_clipboard = true
 
 # --- // Hints:
 [[hints.enabled]]
@@ -87,7 +87,7 @@ regex           = "(ipfs:|ipns:|magnet:|mailto:|gemini://|gopher://|https://|htt
 [debug]
 render_timer = false
 persistent_logging = false
-log_level = "error"
+log_level = "Warn"
 renderer = "None"
 print_events = false
 highlight_damage = false

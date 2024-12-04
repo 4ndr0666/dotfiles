@@ -7,23 +7,17 @@ builtin_box_drawing = true
 
 # --- // Normal:
 [font.normal]
-family = "monaco nerd font"
-style = "Regular"
+family = "JetBrainsMono Nerd Font"
 
 # --- // Bold:
 [font.bold]
-family = "monaco nerd font"
-style = "Bold"
+family = "JetBrainsMono Nerd Font"
 
 # --- // Italic:
-[font.bold_italic]
-family = "monaco nerd font"
-style = "Bold Italic"
-
-# --- // Bold italic:
 [font.italic]
-family = "monaco nerd font"
-style= "Italic"
+family = "JetBrainsMono Nerd Font"
+[font.bold_italic]
+family = "JetBrainsMono Nerd Font"
 
 [font.offset]
 x = 0
