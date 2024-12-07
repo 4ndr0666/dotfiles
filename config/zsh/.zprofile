@@ -11,17 +11,20 @@ export TERMINAL="alacritty"
 export TERMINAL_PROG="st"
 export BROWSER="brave-beta"
 
+# --- // History:
+HISTSIZE=10000
+SAVEHIST=10000
+export HISTFILE="$XDG_CACHE_HOME/zshhistory"
+
+#if [ ! -d "$HISTFILE" ]; then
+#    mkdir -p "$HISTFILE"
+#fi
+
 # --- // Dynamic_Path:
 static_dirs=(
-##    "$HOME/.npm-global/bin"
-##    "$HOME/.gem/ruby/2.7.0/bin"  # Adjust Ruby version as needed
-##    "$HOME/.config/yarn/global/node_modules/.bin"
-    "$HOME/.local/share/go"
-##    "/usr/local/go/bin"
-    "${JAVA_HOME:-/usr/lib/jvm/default/bin}"  # Use JAVA_HOME if set, else default
-##    "$HOME/.rvm/bin"
-    "$HOME/.virtualenvs"
-##    "$HOME/.poetry/bin"
+    "$HOME/.npm-global/bin"
+    "${JAVA_HOME:-/usr/lib/jvm/default/bin}"
+    "$XDG_DATA_HOME/virtualenv"
     "$HOME/.local/bin"
     "$HOME/bin"
     "$HOME/andro/.local/share/goenv/bin"
@@ -35,14 +38,12 @@ static_dirs=(
 
 cache_file="$HOME/.cache/dynamic_dirs.list"
 
-# Generate and cache directory list if cache doesn't exist or is outdated
 if [[ ! -f "$cache_file" || /Nas/Build/git/syncing/scr/ -nt "$cache_file" ]]; then
     echo "Updating dynamic directories cache..."
-    find /Nas/Build/git/syncing/scr/ -type d \
-        \( -name '.git' -o -name '.github' \) -prune -o -type d -print > "$cache_file"
+    find /Nas/Build/git/syncing/scr/ -type d \( -name '.git' -o -name '.github' \) -prune -o -type d -print > "$cache_file"
 fi
 
-dynamic_dirs=($(/usr/bin/cat "$cache_file"))
+dynamic_dirs=($(cat "$cache_file"))
 ## 2 $(find /Nas/Build/git/syncing/scr -type d | paste -sd ':' -)   # Posix Compliant //
 ## 3 (/Nas/Build/git/syncing/scr/**/*(/))                           # ZSH Compliant //
 
@@ -50,14 +51,11 @@ all_dirs=("${static_dirs[@]}" "${dynamic_dirs[@]}")
 
 typeset -U PATH
 
-# Iterate over all directories and add those with executables to PATH
 for dir in "${all_dirs[@]}"; do
-    dir=${dir%/}  # Remove trailing slash if present
+    dir=${dir%/}
+    # Add directory to PATH if it contains at least one executable file
     if [[ -d "$dir" && -n "$(find "$dir" -maxdepth 1 -type f -executable | head -n 1)" ]]; then
-##    if [[ -d "$dir" && -n "$dir/*(.x)" ]]; then                      # ZSH Compliant //
         PATH="$PATH:$dir"
-        # Optional: Uncomment the next line for logging
-        # echo "Added to PATH: $dir"
     fi
 done
 
@@ -65,7 +63,7 @@ export PATH
 
 unsetopt PROMPT_SP 2>/dev/null
 
-# =========================================== // XDG_COMPLIANT_ENV //
+# =========================================== // XDG_COMPLIANCE //
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
@@ -84,16 +82,11 @@ fi
 # --- // XDG_DATA_DIRS:
 [ -z "$XDG_DATA_DIRS" ] && export XDG_DATA_DIRS="/usr/local/share:/usr/share"
 
-# --- // History:
-HISTSIZE=10000
-SAVEHIST=10000
-export HISTFILE="$XDG_CACHE_HOME/zshhistory"
-
-#if [ ! -d "$HISTFILE" ]; then
-#    mkdir -p "$HISTFILE"
-#fi
-
+# --- // Env:
 export TRASHDIR="$XDG_DATA_HOME/Trash"
+export ZDOTDIR="$HOME/.config/zsh/"
+export DICS="$XDG_DATA_HOME/stardict/dic/"
+export AUR_DIR="$XDG_DATA_HOME/aur_build"
 export XINITRC="$XDG_CONFIG_HOME/x11/xinitrc"
 export NOTMUCH_CONFIG="$XDG_CONFIG_HOME/notmuch-config"
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc"
@@ -101,42 +94,84 @@ export W3M_DIR="$XDG_DATA_HOME/w3m"
 export TLDR_CACHE_DIR="$XDG_CACHE_HOME/tldr"
 export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
 export INPUTRC="$XDG_CONFIG_HOME/shell/inputrc"
-export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
-export WINEARCH=win32
+export XCURSOR_PATH="/usr/share/icons:$XDG_DATA_HOME/icons"
+export SCREENRC="$XDG_CONFIG_HOME/screen/screenrc"
 export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
 export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
-export ANDROID_SDK_HOME="$XDG_CONFIG_HOME/android"
-export CARGO_HOME="$XDG_DATA_HOME/cargo"
-export GOPATH="$XDG_DATA_HOME/go"
-export GOMODCACHE="$XDG_CACHE_HOME/go/mod"
-export GOENV_ROOT="/home/andro/.local/share/goenv"
+export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
+export WINEARCH=win32
+export VENV_HOME="$XDG_DATA_HOME/virtualenv"
+export PIPX_HOME="$XDG_DATA_HOME/pipx"
 export ENV_DIR="$XDG_DATA_HOME/virtualenv"
 export VIRTUAL_ENV_PROMPT="(💀)"
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/pythonrc"
 export PIP_DOWNLOAD_CACHE="$XDG_CACHE_HOME/pip/"
-export SQLITE_HISTORY="$XDG_DATA_HOME/sqlite_history"
-export ZDOTDIR="$HOME/.config/zsh/"
-export DICS="$XDG_DATA_HOME/stardict/dic/"
-export AUR_DIR="$XDG_DATA_HOME/aur_build"
-export TEXMFVAR="$XDG_CACHE_HOME/texlive/texmf-var"
-#export ELECTRON_MIRROR="https://npm.taobao.org/mirrors/electron/"
+export GOROOT="/usr/lib/go"
+export GOPATH="$XDG_DATA_HOME/go"
+export GOMODCACHE="$XDG_CACHE_HOME/go/mod"
+export GOENV_ROOT="$XDG_DATA_HOME/goenv"
 export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
 export RBENV_ROOT="$XDG_DATA_HOME/rbenv"
 export PARALLEL_HOME="$XDG_CONFIG_HOME/parallel"
 export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME/java"
 export NUGET_PACKAGES="$XDG_CACHE_HOME/NuGetPackages"
 export MODE_REPL_HISTORY="$XDG_DATA_HOME/node_repl_history"
-export XCURSOR_PATH=/usr/share/icons:$XDG_DATA_HOME/icons
-export SCREENRC="$XDG_CONFIG_HOME/screen/screenrc"
+export MESON_HOME="$XDG_CONFIG_HOME/meson"
 export GEM_HOME="$XDG_DATA_HOME/gem"
 export DOTNET_CLI_HOME="$XDG_DATA_HOME/dotnet"
+export PSQL_HOME="$XDG_DATA_HOME/postgresql"
+export MYSQL_HOME="$XDG_DATA_HOME/mysql"
+export SQLITE_HOME="$XDG_DATA_HOME/sqlite"
+export SQL_DATA_HOME="$XDG_DATA_HOME/sql"
+export SQL_CONFIG_HOME="$XDG_CONFIG_HOME/sql"
+export SQL_CACHE_HOME="$XDG_CACHE_HOME/sql"
+export SQLITE_HISTORY="$XDG_DATA_HOME/sqlite_history"
+export ELECTRON_CACHE="$XDG_CACHE_HOME/electron"
+#export ELECTRON_MIRROR="https://npm.taobao.org/mirrors/electron/"
+export NODE_DATA_HOME="$XDG_DATA_HOME/node"
+export NODE_CONFIG_HOME="$XDG_CONFIG_HOME/node"
+export TEXMFVAR="$XDG_CACHE_HOME/texlive/texmf-var"
+export CARGO_HOME="$XDG_DATA_HOME/cargo"
+export ANDROID_SDK_HOME="$XDG_CONFIG_HOME/android"
 #export LIBVA_DRIVER_NAME=mesa
 #export LIBVA_DISPLAY=wayland
 # export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
 # ^^^ This line will break some DMs
 
+mkdir -p "$WINEPREFIX" \
+         "$CARGO_HOME" \
+         "$GOPATH" \
+         "$GOMODCACHE" \
+         "$XDG_DATA_HOME/lib" \
+         "$XDG_DATA_HOME/aur_build" \
+         "$XDG_DATA_HOME/stardict/dic" \
+         "$XDG_DATA_HOME/bin" \
+         "$XDG_DATA_HOME/go/bin" \
+         "$XDG_DATA_HOME/cargo/bin" \
+         "$XDG_CONFIG_HOME/nvm" \
+         "$XDG_CONFIG_HOME/meson" \
+         "$XDG_DATA_HOME/gem" \
+         "$XDG_DATA_HOME/virtualenv" \
+         "$HOME/.local/pipx" \
+         "$PSQL_HOME" \
+         "$MYSQL_HOME" \
+         "$SQLITE_HOME" \
+         "$SQL_DATA_HOME" \
+         "$SQL_CONFIG_HOME" \
+         "$SQL_CACHE_HOME" \
+         "$ELECTRON_CACHE" \
+         "$NODE_DATA_HOME" \
+         "$XDG_DATA_HOME/node/npm-global" \
+         "$RBENV_ROOT" \
+         "$W3M_DIR" \
+         "$PARALLEL_HOME" \
+         "$GEM_HOME" \
+         "$DOTNET_CLI_HOME"
 
-mkdir -p "$WINEPREFIX" "$CARGO_HOME" "$GOPATH" "$GOMODCACHE" "$XDG_DATA_HOME/lib" "$XDG_DATA_HOME/aur_build" "$XDG_DATA_HOME/stardict/dic/" "$XDG_DATA_HOME/bin" "$XDG_DATA_HOME/go/bin" "$XDG_DATA_HOME/cargo/bin" "$XDG_CONFIG_HOME/nvm" "$XDG_CONFIG_HOME/meson" "$XDG_DATA_HOME/gem" "$XDG_DATA_HOME/virtualenv" "$HOME/.local/pipx"
+# Setting permissions where necessary (if any directory is not writable, we can adjust):
+# Example (Adjust if needed, no placeholders):
+chmod 700 "$PASSWORD_STORE_DIR" "$GNUPGHOME"
+chmod u+w "$CARGO_HOME" "$GOPATH" "$GOMODCACHE" "$PSQL_HOME" "$MYSQL_HOME" "$SQLITE_HOME"
 
 # ================================================ // X11_ENV //
 #export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
@@ -179,7 +214,7 @@ export MANPAGER="batman"
 # --- // Fzf:
 #[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 bindkey '^R' fzf-history-widget
-export FZF_DEFAULT_COMMAND='fd --type f'              # Default cmd to use in tty
+export FZF_DEFAULT_COMMAND='fd --type f'
 export FZF_DEFAULT_OPTS="
   --layout=reverse
   --height=40%
@@ -212,12 +247,12 @@ export FZF_DEFAULT_OPTS="
 
 # Ensure truecolor support
 case "${COLORTERM}" in
-    truecolor|24bit) ;;  # Already supports truecolor
+    truecolor|24bit) ;;
     *) export COLORTERM="24bit" ;;
 esac
 
 # --- // LESS Configuration:
-export LESS='-R'  # Preserve raw control characters
+export LESS='-R'
 unset LESS_TERMCAP_mb
 unset LESS_TERMCAP_md
 unset LESS_TERMCAP_me
