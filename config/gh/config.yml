@@ -1,11 +1,11 @@
 CLICOLOR_FORCE: 1
 GIT_PROTOCOL: ssh
-GH_EDITOR: vim
-GIT_EDITOR: vim
-VISUAL: geany
-EDITOR: geany
-GH_BROWSER: brave
-BROWSER: brave
+GH_EDITOR: nvim
+GIT_EDITOR: nvim
+VISUAL: lite-xl
+EDITOR: lite-xl
+GH_BROWSER: brave-beta
+BROWSER: brave-beta
 GH_PAGER: bat
 PAGER: less
 GH_PROMPT: enabled
@@ -16,4 +16,4 @@ editor=: micro
 editor: /usr/bin/micro
 prefer_editor_prompt: enabled
 pager: bat
-browser: brave
+browser: brave-beta

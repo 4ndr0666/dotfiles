@@ -64,7 +64,7 @@ if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
 fi
 
 #xrandr --dpi 96
-#xhost + </dev/null &>/dev/null &
+xhost + </dev/null &>/dev/null &
 #xhost +SI:localuser:andro
 #xhost +SI:localuser:root
 
