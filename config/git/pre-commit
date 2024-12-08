@@ -1,0 +1,46 @@
+#!/bin/bash
+max_size=100000  # 100 MB in KB
+
+for file in $(git diff --cached --name-only); do
+    if [ -f "$file" ]; then
+        size=$(du -k "$file" | cut -f1)
+        if [ "$size" -gt "$max_size" ]; then
+            echo "Error: Attempting to commit large file '$file' ($size KB)."
+            exit 1
+        fi
+    fi
+done
+
+exit 0
+
+# Pre-commit hook to run shellcheck and shfmt on staged shell scripts
+
+# Get list of staged shell scripts
+scripts=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.sh$')
+
+if [ -z "$scripts" ]; then
+    exit 0
+fi
+
+PASS=true
+
+# Run shfmt for formatting
+for script in $scripts; do
+    shfmt -w "$script"
+    git add "$script"
+done
+
+# Run shellcheck for linting
+for script in $scripts; do
+    shellcheck "$script"
+    if [ $? -ne 0 ]; then
+        PASS=false
+    fi
+done
+
+if ! $PASS; then
+    echo "shellcheck found issues. Please fix them before committing."
+    exit 1
+fi
+
+exit 0

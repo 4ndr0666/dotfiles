@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Enforce commit message standards
+# Criteria:
+# 1. Subject line must be <= 72 characters.
+# 2. No lines should contain forbidden words, including "placeholder".
+# 3. Commit message must not be empty.
+
+COMMIT_MSG_FILE="$1"
+
+# Check if commit message file exists
+if [ ! -f "$COMMIT_MSG_FILE" ]; then
+    echo "Error: Commit message file not found: $COMMIT_MSG_FILE"
+    exit 1
+fi
+
+# Read commit message
+COMMIT_MSG_CONTENT=$(cat "$COMMIT_MSG_FILE")
+
+# Ensure commit message is not empty
+if [ -z "$COMMIT_MSG_CONTENT" ]; then
+    echo "Error: Commit message is empty."
+    exit 1
+fi
+
+# Check subject line length
+SUBJECT_LINE=$(head -n 1 "$COMMIT_MSG_FILE")
+if [ ${#SUBJECT_LINE} -gt 72 ]; then
+    echo "Error: Subject line exceeds 72 characters."
+    echo "Subject: $SUBJECT_LINE"
+    exit 1
+fi
+
+# Forbidden words check (no placeholders)
+if echo "$COMMIT_MSG_CONTENT" | grep -qi 'placeholder'; then
+    echo "Error: Commit message contains forbidden word: 'placeholder'."
+    exit 1
+fi
+
+# Additional formatting checks can be added here if needed.
+# For example, ensure a blank line after subject or a specific keyword:
+# if ! sed -n '2p' "$COMMIT_MSG_FILE" | grep -q '^$'; then
+#     echo "Error: Missing blank line after subject line."
+#     exit 1
+# fi
+
+echo "Commit message check passed."
+exit 0
