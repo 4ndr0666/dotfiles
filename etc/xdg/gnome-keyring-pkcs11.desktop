@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=GNOME Keyring
+Comment=GNOME Keyring: PKCS#11, Secrets, and SSH components
+Exec=/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh
+OnlyShowIn=GNOME;Unity;MATE;Cinnamon;
+X-GNOME-Autostart-Phase=PreDisplayServer
+X-GNOME-AutoRestart=false
+X-GNOME-Autostart-Notify=true

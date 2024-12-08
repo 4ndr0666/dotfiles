@@ -1,0 +1,15 @@
+[autostart]
+autostart_wf_shell = false
+dm = qtgreet; loginctl terminate-user $USER
+#gtkgreet = gtkgreet -l
+wf-osk = wf-osk --height 200 -a bottom
+
+[input]
+cursor_theme = Breeze_Hacked
+tap_to_click = true
+
+[core]
+plugins = autostart
+vheight = 1
+vwidth = 1
+xwayland = false

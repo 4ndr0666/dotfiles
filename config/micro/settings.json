@@ -1,0 +1,20 @@
+{
+    "/etc/*": {
+        "filetype": "conf"
+    },
+    "/home/*/.config/*": {
+        "filetype": "conf"
+    },
+    "/home/*/.local/share/larbs/getkeys/*": {
+        "filetype": "md"
+    },
+    "autosave": 1,
+    "autosu": true,
+    "backupdir": "/Nas/Backups/micro/",
+    "colorscheme": "monokai",
+    "mkparents": true,
+    "scrollbar": true,
+    "scrollbarmargin": 3,
+    "scrollbarspeed": 2,
+    "wordwrap": true
+}

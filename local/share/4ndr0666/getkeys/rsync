@@ -1,0 +1,124 @@
+## =========================================== // RSYNC //
+
+### Basic copy src to dest:
+
+```bash
+rsync -av source_dir/ dest_dir/
+```
+
+### Sync metadata-only such as ownerships, permissions, ACLs and attributes without ever overwritting with the `--no-W` option:
+
+```bash
+sudo rsync -aAXv --progress --no-W --omit-dir-times --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found"} / /mnt/target_root
+```
+
+### Recursively copy src to dest, skipping existing files and merging folders:
+
+```bash
+rsync -av --ignore-existing --ignore-times --update --progress --recursive /source/dir /dest/dir
+````
+
+### Merge src to dest, removing src files but keeping larger ones in case of dupes: 
+
+```bash
+rsync -a --remove-source-files --progress --size-only source_dir/ dest_dir/
+```
+
+### Exact mirror of the /source_dir to the /dest_dir by deleting all files present in /dest_dir but not /source_dir
+
+```bash
+rsync -av --delete source_dir/ dest_dir/
+```
+
+### Ssh transfer:
+
+```bash
+rsync -av -e ssh source_dir/ user@hostname:/path/to/dest_dir/
+```
+
+### Progess bar:
+
+```bash
+rsync -av --progress source_dir/ dest_dir/
+```
+
+### Compress src data to dest: 
+
+```bash
+rsync -avz source_dir/ dest_dir/
+```
+
+### Sync specified files only types (e.g., `.jpg`):
+
+```bash
+rsync -av --include '*/' --include '*.jpg' --exclude '*' source_dir/ dest_dir/
+```
+
+### Exclude specified files:
+
+```bash
+rsync -av --exclude '*.jpg' source_dir/ dest_dir/
+```
+
+### Exclude glob patterns:
+
+```bash
+rsync -av --exclude-from 'exclude-patterns.txt' source_dir/ dest_dir/
+```
+### Preserve symlinks:
+
+```bash
+rsync -av -l source_dir/ dest_dir/
+```
+
+### Limit transfer bandwidth:
+
+```bash
+rsync -av --bwlimit=2000 source_dir/ dest_dir/
+```
+
+### Sync only files newer than those in the dest:
+
+```bash
+rsync -avu source_dir/ dest_dir/
+```
+
+### Dry run:
+
+```bash
+rsync -avn source_dir/ dest_dir/
+```
+
+### Create logs for each session:
+
+```bash
+rsync -av --log-file=~/rsync_log_$(date +%F).log source_dir/ dest_dir/
+```
+
+## ==================================== / CMD TABLES //
+
+| **Option**             | **Description**                       |
+|------------------------|---------------------------------------|
+| `-a`                   | Archive mode (recursive, keeps attrs) |
+| `-v`                   | Verbose output                        |
+| `--delete`             | Delete extraneous files from dest     |
+| `-e ssh`               | Use SSH as transfer protocol          |
+| `--progress`           | Show transfer progress                |
+| `-z`                   | Compress files during transfer        |
+| `--bwlimit=KB/s`       | Limit bandwidth usage                 |
+| `--dry-run`            | Preview what would be done            |
+
+### Selective Sync Options
+
+| **Option**             | **Description**                          |
+|------------------------|------------------------------------------|
+| `--include '*/'`       | Include only specified folders or files |
+| `--exclude '*.ext'`    | Exclude files of certain types          |
+| `--size-only`          | Sync only if file sizes differ          |
+| `-l`                   | Preserve symbolic links                 |
+
+## Resources
+
+- **Rsync Documentation**: [rsync.samba.org](https://rsync.samba.org/)
+- **Arch Linux Wiki**: [rsync - ArchWiki](https://wiki.archlinux.org/title/rsync)
+- **Linux Man Pages**: [rsync(1) - Linux man page](https://linux.die.net/man/1/rsync)

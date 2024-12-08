@@ -1,0 +1,12 @@
+--colors
+match:bg:black
+--colors
+match:fg:184,187,38
+--colors
+line:fg:cyan
+--colors
+path:fg:blue
+--colors
+path:bg:black
+--smart-case
+--hidden

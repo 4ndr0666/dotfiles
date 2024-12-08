@@ -1,0 +1,20 @@
+#!/bin/zsh
+#File: /home/$USER/.zshrc_omz
+#Author: 4ndr0666
+#Edited: 04-22-2024
+#
+# --- // ZSHRC_OMZ // ========
+
+
+# --- // OMZ_THEME:
+ZSH_THEME="jonathan"
+
+ZSH_THEME_RANDOM_CANDIDATES=( "darkblood" "duellj" "fox" "funky" "humza" "jonathan" "junkfood" "kiwi" "rkj-repos" "simonoff" "robbyrussell" )
+
+ZSH_THEME_RANDOM_IGNORED=( "kardan" "minimal" "pygmalion" "tjkirch_mod" ) # Added quotes for consistency
+
+# --- // OMZ_PLUGINS:
+plugins=( systemadmin zsh-interactive-cd universalarchive git zsh-autosuggestions zsh-syntax-highlighting fzf aliases copypath myfunctions systemd )
+
+# --- // OMZ_SOURCING:
+[[ -f "$HOME/.oh-my-zsh/oh-my-zsh.sh" ]] && source "$HOME/.oh-my-zsh/oh-my-zsh.sh"

@@ -1,0 +1,12 @@
+[Unit]
+Description=ZRam Setup Service
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/zram.sh start
+ExecStartPost=/usr/bin/sleep 2
+Type=oneshot
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target

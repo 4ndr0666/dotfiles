@@ -1,0 +1,92 @@
+[misc]
+# Don't ask for confirmations
+assume_yes = true
+display_time = true
+cleanup = true
+no_retry = true
+
+# Sudo command to be used
+#sudo_command = "sudo"
+
+# Run `sudo -v` to cache credentials at the start of the run; this avoids a
+# blocking password prompt in the middle of a possibly-unattended run.
+pre_sudo = true
+
+# Do not set the terminal title
+#set_title = false
+
+# Skip sending a notification at the end of a run
+#skip_notify = true
+
+# Skip the preamble displayed when topgrade is run
+#display_preamble = false
+
+[composer]
+self_update = true
+
+[git]
+#max_concurrency = 5
+# Additional git repositories to pull
+#repos = [
+#    "~/src/*/",
+#    "~/.config/something"
+#]
+
+# Don't pull the predefined git repos
+#predefined_git_repos = false
+pull_predefined = false
+
+# Arguments to pass Git when pulling Repositories
+#arguments = "--rebase --autostash"
+
+
+# Commands to run before anything
+#[pre_commands]
+#"mpm snapshot" = "mpm snapshot --merge /home/andro/.config/mpm/packages.toml"
+
+# Custom commands
+[commands]
+#"Python Environment" = 'cd /home/$USER/.local/share/virtualenvs && pipenv shell && "python3 -m pip install -U $(python3 -m pip list outdated 2> /dev/null | grep -v 'Version' | grep -v '\-\-\-\-\-\-' | awk '{printf $1 " " }' && echo)"'
+
+
+[linux]
+# Arch Package Manager to use. Allowed values: autodetect, aura, garuda_update, pacman, pamac, paru, pikaur, trizen, yay.
+arch_package_manager = "yay"
+# Arguments to pass yay (or paru) when updating packages
+#yay_arguments = "--mflags --skipinteg"
+yay_arguments = '--answerclean=yes --editmenu --editor nvim --needed --save --useask=false --refresh --rebuildtree --removemake --sudoloop --timeupdate --overwrite="*"'
+#yay_arguments = "--nodevel --skipreview --nocheck --nopgpfetch --noupgrademenu --removemake --needed"
+#aura_aur_arguments = "-kx"
+#aura_pacman_arguments = ""
+#garuda_update_arguments = "sudo pacman -Sy && sudo powerpill -Su && paru -Su"
+#show_arch_news = true
+#trizen_arguments = "--skipinteg"
+#pikaur_arguments = ""
+#pamac_arguments = "--no-devel"
+enable_tlmgr = true
+#emerge_sync_flags = "-q"
+#emerge_update_flags = "-uDNa --with-bdeps=y world"
+#nix_arguments = "--flake"
+
+[python]
+#enable_pip_review = true   ###disabled by default
+#enable_pipupgrade = true   ###disabled by default
+#pipupgrade_arguments = "--use-pep517 --exists-action w --check-build-dependencies"
+
+
+# Causes Topgrade to rename itself during the run to allow package managers
+# to upgrade it. Use this only if you installed Topgrade by using a package
+# manager such as Scoop or Cargo
+#self_update = true
+
+[npm]
+# Use sudo if the NPM directory isn't owned by the current user
+use_sudo = true
+
+[firmware]
+# Offer to update firmware; if false just check for and display available updates
+upgrade = true
+
+[flatpak]
+# Use sudo for updating the system-wide installation
+use_sudo = true

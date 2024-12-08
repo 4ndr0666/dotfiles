@@ -1,0 +1,23 @@
+# /etc/fstab
+#
+# <file system>             <mount point>  <type>  <options>  <dump>  <pass>
+
+# sdc1 - EFI
+UUID=F529-BB76                                   /boot       vfat   umask=0077,x-gvfs-show   1 1
+
+# sda2 - 4ndr0
+UUID=656f1c92-4f80-4257-a037-4216a32c05da        /4ndr0      ext4   dev,async,users,noatime   0 2
+
+# sdc2 - Swap
+UUID=34249863-dddc-450f-82b9-cef3bea577fc        none        swap   defaults          0 0 
+
+# sdc4 - Archcraft (Root)
+UUID=be7601c0-1d82-4c4f-b876-068498b92468        /           ext4   async,noatime     0 1 
+
+# sdb5 - Nas
+UUID=e37c9f79-0631-4ebd-8437-922e9733caee        /Nas        btrfs  defaults,noatime  0 0
+
+# sdb1 - Nas2
+UUID=87dc0c12-7b18-4bc1-bdc2-7040e50829c2        /Nas2       ext4   dev,async,users,noatime   0 0
+
+

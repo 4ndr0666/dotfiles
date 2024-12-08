@@ -1,0 +1,138 @@
+## =========================================== // MICRO //
+
+## Default Keybindings
+
+- **Copy**: `Ctrl + C`
+- **Cut**: `Ctrl + X`
+- **Paste**: `Ctrl + V`
+- **Save**: `Ctrl + S`
+- **Find/Search**: `Ctrl + F`
+- **Open Command Bar**: `Ctrl + E`
+- **Toggle Cheat Sheet**: `Alt + G`
+- **Make Selection**: `Shift + Arrow Keys`
+
+## Command Bar
+
+- **Open Command Bar**: `Ctrl + E`
+- **Toggle Nano-like Cheat Sheet**: `Alt + G`
+- **View Default Keybindings**: `Type 'help defaultkeys'`
+- **List Available Commands**: `Type 'help commands'`
+- **Auto-complete Commands**: Press `Tab`
+- **Filter Commands**: Type letters + `Tab`
+
+## Common Commands
+
+- **Save As**: `save [filename]` (omit filename to use `Ctrl + S`)
+- **Replace**: `replace foo bar [flags]`
+  - **Flags**:
+    - `-a`: Replace all occurrences
+    - `-l`: Literal search (no regex)
+- **Replace All**: `replaceall foo bar`
+- **Split Vertically**: `vsplit [filename]`
+- **Split Horizontally**: `hsplit [filename]`
+- **Open New Tab**: `tab [filename]`
+- **Go to Line**: `goto 123` (negative values go from end)
+- **Open Terminal**: `term [command]` (omit command for default shell)
+- **Change Option Permanently**: `set [option] [value]`
+- **Change Option Temporarily**: `setlocal [option] [value]`
+- **Display Option Value**: `show [option]`
+- **Set Custom Keybinding**: `bind [keycombo] [action]`
+
+## Options
+
+- **Auto Indentation**: `autoindent true`
+- **Autosave Interval**: `autosave=X` (0 to disable)
+- **Elevate with sudo if needed**: `autosu`
+- **Backup Open Buffers**: `backup true`
+- **Clipboard Mode**: `clipboard external | terminal | internal`
+- **Highlight Search Matches**: `hlsearch`
+- **Auto Newline at EOF**: `eofnewline true`
+- **Brace Matching**: `matchbrace true`
+- **Show Line Numbers**: `ruler true`
+- **Soft Wrap Lines**: `softwrap false`
+- **Word Wrap Lines**: `wordwrap false` (requires `softwrap`)
+
+## Plugin Management
+
+- **List Installed Plugins**: `plugin list`
+- **Install Plugin**: `plugin install [plugin]`
+- **Remove Plugin**: `plugin remove [plugin]`
+- **Update Plugin**: `plugin update [plugin]`
+- **Update All Plugins**: `plugin update`
+- **Search Plugins**: `plugin search 'keyword'`
+- **Available Plugins**: `plugin available`
+
+## Default Plugins
+
+- **autoclose**: Auto-add closing brackets/quotes
+- **comment**: Toggle line comments
+- **diff**: Show changes from latest Git commit
+- **ftoptions**: Filetype-specific options (e.g., indentation)
+- **linter**: Language linting support
+- **literate**: Enhanced syntax highlighting for Literate coding
+- **status**: Extended status line
+
+## Setting Options
+
+### Via Command Bar
+
+- **Set Option Permanently**: `set [option] [value]`
+- **Set Option Temporarily**: `setlocal [option] [value]`
+- **Show Option Value**: `show [option]`
+
+### Via settings.json
+
+Edit `~/.config/micro/settings.json`
+- Example to disable ruler:
+  ```json
+  {
+      "ruler": false
+  }
+  ```
+
+## Custom Keybindings
+
+### Using Command Bar
+
+- **Bind Custom Key**: `bind [Ctrl-v] Copy`
+- **Example Mouse Binding**: `bind CtrlMouseLeft SelectLine`
+- **Bind Key Sequence**: `bind <Ctrl-j><Ctrl-b> JumpToMatchingBrace`
+- **Chaining Commands**: 
+  ```plaintext
+  bind "command:setlocal wordwrap on,command:setlocal softwrap on" Alt+z
+  bind "command:setlocal wordwrap off,command:setlocal softwrap off" Alt+Z
+  ```
+
+## Multi-cursor Support
+
+- **New Cursor from Selection**: `Alt + n`
+- **Cursor on Line Above**: `Alt + Shift + Up`
+- **Cursor on Line Below**: `Alt + Shift + Down`
+- **Remove Latest Cursor**: `Alt + p`
+- **Clear All Cursors**: `Alt + c`
+- **Skip Cursor Selection**: `Alt + x`
+- **Cursors at Each Line in Selection**: `Alt + m`
+- **Place Cursor Anywhere**: `Ctrl + MouseLeft`
+
+## Additional Features
+
+- **Mouse Support**: Drag to select, double-click for word, triple-click for line.
+- **Syntax Highlighting**: Over 130 languages supported, customizable color schemes.
+- **Highly Customizable**: Rebind keys or change settings via `bindings.json` or Command Bar.
+- **Advanced Features**: Use Command Bar for extensive functionality without memorizing bindings.
+
+## ==================================== / CMD TABLES //
+
+| **Command**             | **Description**                                  |
+|-------------------------|--------------------------------------------------|
+| `set autoindent true`   | Enable automatic indentation                     |
+| `set autosave=X`        | Set autosave interval (0 to disable)             |
+| `plugin list`           | List all installed plugins                       |
+| `plugin install [name]` | Install a specific plugin                        |
+| `bind [keycombo] [action]` | Bind a key to an action                    |
+| `show [option]`         | Display current value of an option               |
+
+## Resources
+
+- **Micro Text Editor**: [Micro on GitHub](https://github.com/zyedidia/micro)
+- **Documentation**: [Micro Documentation](https://micro-editor.github.io/)

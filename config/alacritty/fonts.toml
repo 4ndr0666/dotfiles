@@ -1,0 +1,29 @@
+# --- // 4ndr0 fonts.toml // ========
+
+[font]
+size = 10
+
+builtin_box_drawing = true
+
+# --- // Normal:
+[font.normal]
+family = "JetBrainsMono Nerd Font"
+
+# --- // Bold:
+[font.bold]
+family = "JetBrainsMono Nerd Font"
+
+# --- // Italic:
+[font.italic]
+family = "JetBrainsMono Nerd Font"
+[font.bold_italic]
+family = "JetBrainsMono Nerd Font"
+
+[font.offset]
+x = 0
+y = 0
+
+# --- // Glyph offset:
+[font.glyph_offset]
+x = 0
+y = 0

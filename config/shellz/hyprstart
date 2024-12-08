@@ -1,0 +1,82 @@
+#!/bin/sh
+
+#File: $HOME/.config/hypr/hyprstart
+#Author: 4ndr0666
+#Edited: 04-10-24
+#This is the be sourced with hyprland to setup the environment and needs to be placed in /usr/local/bin.
+#
+# --- // hyprstart // ========
+
+
+cd ~
+# --- // DEFAULT_PROGS:
+export XCURSOR_SIZE=24
+export MICRO_TRUECOLOR=1
+export EDITOR=/usr/bin/nvim
+export TERM=alacritty
+export BROWSER=brave
+
+# --- // DESKTOP:
+export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
+export XDG_SESSION_TYPE=wayland
+export XDG_SESSION_DESKTOP=hyprland
+export XDG_CURRENT_DESKTOP=hyprland
+
+# --- // WAYLAND_VARIABLES:
+export MOZ_ENABLE_WAYLAND=1                # only start firefox in wayland mode and no other GTK apps
+export MOZ_DBUS_REMOTE=1                   # fixes firefox is already running, but is not responding
+export MOZ_WAYLAND_USE_VAAPI=1
+export GDK_BACKEND=wayland,x11             # set per app instead of globally (chromium and electron apps)
+export CLUTTER_BACKEND=wayland,x11         # should be set per app instead of globally.
+export ECORE_EVAS_ENGINE=wayland-egl
+export ELM_ENGINE=wayland_egl
+export ELM_ACCEL=opengl
+export _JAVA_AWT_WM_NONREPARENTING=1
+export NO_AT_BRIDGE=1
+export BEMENU_BACKEND=wayland
+export SDL_VIDEODRIVER=wayland             # set per app instead of globally.
+export QT_QPA_PLATFORM=wayland,wayland-egl # experimenting with fallback wayland-egl, remove if breaks
+export NO_AT_BRIDGE=1
+export WINIT_UNIX_BACKEND=wayland
+
+# --- // FZF:
+export FZF_DEFAULT_OPTS=" \
+--color=bg+:-1,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+--color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+--color=marker:#f5e0dc,fg+:#a6e3a1,prompt:#cba6f7,hl+:#f38ba8"
+
+# --- // WL-COPY:
+#if ! command -v wl-copy &> /dev/null; then                 #Checks for wl-clpy (Wayland clipboard)
+#  echo "wl-clipboard is required but not installed."
+#  return 1
+#fi
+
+# --- // CLIPHIST:
+#exec-once = wl-paste --type text --watch cliphist store #Stores only text data
+#exec-once = wl-paste --type image --watch cliphist store #Stores only image data
+#bind = SUPER, V, exec, cliphist list | wofi --dmenu | cliphist decode | wl-copy
+
+# --- // XHOST:
+#alias sudo_wayland='/usr/local/bin/wayland_root_access.sh' # Wayland
+#xhost +SI:localuser:andro                                 # For X on wayland
+#xhost +SI:localuser:root                                  # For X on wayland
+
+# --- // FORCE_SYSTEMD_DBUS:
+export $(dbus-launch) 
+export DBUS_SESSION_BUS_ADDRESS
+export DBUS_SESSION_BUS_PID
+
+# --- // FILE_SOURCING_&_PLUGINS // ======== 
+# Above is the generally accepted stable setup for hyprland going around. I 
+# recommend not editing it directly and instead sourcing your customizations. 
+# I have defined the source file for you here at $HOME/.config/hypr/hyprstart:
+
+hyprstart="$HOME/.config/hypr/hyprstart"
+if [ -x "$hyprstart" ]; then
+    . "$hyprstart"
+else
+    echo "$hyprstart does not exist or is not executable."
+fi
+
+sleep 0.5;
+exec Hyprland

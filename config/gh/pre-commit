@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+# pre-commit hook: Ensures shell scripts are linted and formatted before committing.
+
+# Check dependencies
+if ! command -v shellcheck >/dev/null 2>&1; then
+    echo "Error: shellcheck not found. Please install shellcheck and retry."
+    exit 1
+fi
+
+if ! command -v shfmt >/dev/null 2>&1; then
+    echo "Error: shfmt not found. Please install shfmt and retry."
+    exit 1
+fi
+
+# Identify all staged shell scripts
+staged_scripts=$(git diff --cached --name-only --diff-filter=ACM | grep '\.sh$')
+
+if [ -z "$staged_scripts" ]; then
+    # No staged shell scripts, no action needed
+    exit 0
+fi
+
+# Format scripts with shfmt and re-stage if changes occur
+for script in $staged_scripts; do
+    if [ -f "$script" ]; then
+        # Check if formatting is needed
+        original_checksum=$(sha256sum "$script" | awk '{print $1}')
+        shfmt -w "$script"
+        new_checksum=$(sha256sum "$script" | awk '{print $1}')
+        
+        # If file changed after formatting, re-stage
+        if [ "$original_checksum" != "$new_checksum" ]; then
+            git add "$script"
+        fi
+    fi
+done
+
+# Run shellcheck on all staged shell scripts
+shellcheck_failed=0
+for script in $staged_scripts; do
+    if [ -f "$script" ]; then
+        if ! shellcheck "$script"; then
+            shellcheck_failed=1
+        fi
+    fi
+done
+
+if [ "$shellcheck_failed" -eq 1 ]; then
+    echo "Error: Shellcheck found issues in one or more shell scripts. Please fix them before committing."
+    exit 1
+fi
+
+exit 0

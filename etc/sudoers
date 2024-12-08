@@ -1,0 +1,71 @@
+# File: /etc/sudoers
+# Author: 4ndr0666
+#
+# --- // SUDOERS // ========
+
+# --- // ENVIRONMENT:
+
+
+Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/bin"
+Defaults env_keep += "SUDO_EDITOR EDITOR VISUAL"
+Defaults timestamp_timeout=20
+Defaults env_keep += "GPG_TTY"
+Defaults env_keep += "SSH_AUTH_SOCK"
+Defaults env_keep += "DISPLAY XAUTHORITY"
+Defaults env_keep += "LANG LANGUAGE LINGUAS LC_* _XKB_CHARSET"
+Defaults env_keep += "HOME"
+Defaults env_keep += "XAPPLRESDIR XFILESEARCHPATH XUSERFILESEARCHPATH"
+Defaults env_keep += "QTDIR KDEDIR"
+Defaults env_keep += "XDG_SESSION_COOKIE"
+Defaults log_output
+Defaults maxseq = 1000
+Defaults!/usr/bin/sudoreplay !log_output
+Defaults!/usr/local/bin/sudoreplay !log_output
+Defaults!REBOOT !log_output
+Defaults!DEBUGGERS !intercept, !log_subcmds
+Defaults!PKGMAN !intercept, !log_subcmds
+
+# --- // PATH:
+Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+# --- // COMMAND_ALIASES:
+Cmnd_Alias FILES = /usr/bin/mount, /usr/bin/umount, /usr/bin/loadkeys, /usr/bin/tee
+Cmnd_Alias SYSTEM = /usr/bin/systemctl, /usr/bin/shutdown, /usr/bin/reboot
+Cmnd_Alias MAINTENANCE = /usr/bin/pacman, /usr/bin/updatedb, /usr/bin/pacnews, /usr/bin/psd-overlay-helper
+Cmnd_Alias PROCESSES = /usr/bin/nice, /bin/kill, /usr/bin/renice, \
+                        /usr/bin/pkill, /usr/bin/top
+Cmnd_Alias REBOOT = /sbin/halt, /sbin/reboot, /sbin/poweroff
+Cmnd_Alias DEBUGGERS = /usr/bin/gdb, /usr/bin/lldb, /usr/bin/strace, \
+                        /usr/bin/truss, /usr/bin/bpftrace, \
+                        /usr/bin/dtrace, /usr/bin/dtruss
+Cmnd_Alias PKGMAN = /usr/bin/apt, /usr/bin/dpkg, /usr/bin/rpm, \
+                        /usr/bin/yum, /usr/bin/dnf,  /usr/bin/zypper, \
+                        /usr/bin/pacman
+
+# Alias for commands that should be used without a password
+Cmnd_Alias NOPASS_CMDS = /usr/bin/pacman-key, /usr/bin/ufw, /usr/bin/mount, /usr/bin/umount, \
+                          /usr/bin/pacman, /usr/bin/updatedb, /usr/bin/su, /usr/bin/systemctl, \
+                          /usr/sbin/useradd, /usr/sbin/userdel, /usr/sbin/groupadd, /usr/sbin/groupdel, \
+                          /bin/chown, /bin/chmod, /usr/bin/btrfs, /usr/bin/ip, /usr/bin/netstat, \
+                          /usr/bin/modprobe
+
+
+# --- // GROUPS:
+root ALL=(ALL:ALL) ALL
+# Allow members of group wheel to execute any command
+%wheel ALL=(ALL:ALL) ALL
+# Same thing without a password
+# %wheel ALL=(ALL:ALL) NOPASSWD: ALL
+# Allow members of group sudo to execute any command
+%sudo ALL=(ALL:ALL) ALL
+# Allow specific commands to be run without a password
+#ALL ALL=(ALL) NOPASSWD: NOPASS_CMDS
+
+## Uncomment to allow any user to run sudo if they know the password
+## of the user they are running the command as (root by default).
+# Defaults targetpw  # Ask for the password of the target user
+# ALL ALL=(ALL:ALL) ALL  # WARNING: only use this together with 'Defaults targetpw'
+
+# --- // DROP-INS FROM /etc/sudoers.d:
+
+@includedir /etc/sudoers.d
