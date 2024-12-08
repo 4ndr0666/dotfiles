@@ -1,9 +1,0 @@
-[Desktop Entry]
-Categories=System;Monitor;
-Comment=Persists shell rc files
-Exec=bash -c "mv ~/.bashrc_4ndr0666 ~/.bashrc; mv ~/.zshrc_4ndr0666 ~/.zshrc" 
-Icon=setup
-Name=Deepfreeze shell rc files
-StartupNotify=false
-Terminal=false
-Type=Application

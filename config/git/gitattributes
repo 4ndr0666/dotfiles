@@ -1,5 +1,0 @@
-*.sh eol=lf
-*.conf eol=lf
-*.md text=auto
-*.log diff=none
-* text=auto

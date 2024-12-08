@@ -1,1 +1,0 @@
-return { path = "/usr/lib/python3.12/site-packages/pacman_fix_permissions", documents = {["views"]={[1]={["module"]="core.emptyview",["type"]="view",["active"]=true,["scroll"]={["y"]=0,["x"]=0,["to"]={["x"]=0,["y"]=0}}}},["type"]="leaf",["active_view"]=1}, directories = {} }

@@ -1,4 +1,0 @@
-0  2  *  *  *  /home/andro/.local/bin/freecache.sh
-0 */1 * * *   /usr/bin/modprobed-db store &> /dev/null
-0 2 * * * /Nas/Build/git/syncing/scr/cron/aria2/update_trackers.sh
-0 */12 * * * timeshift --check --scripted
