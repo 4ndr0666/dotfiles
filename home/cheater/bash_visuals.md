@@ -9,21 +9,6 @@ EOF
 echo -e "\033[0m"
 ```
 
-# --- // Colors2:
-```bash
-RED=$(tput setaf 1)
-GRN=$(tput setaf 2)
-CYA=$(tput setaf 6)
-YEL=$(tput setaf 3)
-NC=$(tput sgr0)
-BOLD=$(tput bold)
-UNDERLINE=$(tput smul)
-SUCCESS="${GRN}[✓]${NC}"
-FAILURE="${RED}[✗]${NC}"
-INFO="${CYA}[i]${NC}"
-WARNING="${YEL}[!]${NC}"
-```
-
 # --- // Colors:
 ```bash
 GRE='\033[0;32m'

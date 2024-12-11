@@ -1,3 +1,16 @@
+## Hijacking Cmdline
+
+- **Create kernel parameter file**:
+  ```bash
+  /root/cmdline
+  root=UUID=0a3407de-014b-458b-b5c1-848e92a327a3 ro console=tty1 logo.nologo debug
+  ```
+
+- **Use a bind mount to overwrite parameters**:
+  ```bash
+  mount -n --bind -o ro /root/cmdline /proc/cmdline
+  ```
+
 ## UKSMD Configuration and Monitoring
 
 - **Check Page Merging**:
@@ -104,7 +117,7 @@
    ```bash
    ls /etc/systemd/system/local-fs.target.wants/ananicy-cpp.service
    ```
-   
+
 ## Mask gvfsd
 ```bash
 cp /usr/share/dbus-1/services/org.gtk.vfs.Daemon.service /run/user/1000/dbus-1/services
@@ -151,7 +164,9 @@ gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=OUTPUT.pdf -c .setpdfwrit
 
 ## Remove Broken Systemd Links
 ```bash
-find -L /etc/systemd/ -type l
+find /etc/systemd/  -xtype l -exec rm {} \;
+
+find /etc/systemd/system /usr/lib/systemd/system -xtype l -exec rm {} \;
 ```
 
 ## Minimal Brave Browser
@@ -295,4 +310,3 @@ mount --rbind /sys/firmware/efi/efivars sys/firmware/efi/efivars/
 ```bash
 echo "source ${(q-)PWD}/folder_name/file_name" >> ${XDGDIR:-$HOME}/.filename
 ```
-

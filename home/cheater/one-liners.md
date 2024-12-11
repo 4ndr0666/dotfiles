@@ -1,3 +1,26 @@
+## Limit Memory Usage
+A background process can be reduced to the "Idle" level by starting it with:
+```bash
+ionice -c 3 command
+```
+
+A background processes PID can be limited using a scale of 0 - 100 time the 
+number of CPU cores. Example, 4 cores = 0 - 400. 
+```bash
+cpulimit -l 50 -p 5081
+```
+
+## Curl pip and update:
+```bash
+curl https://bootstrap.pypa.io/get-pip.py | python get-pip.py
+python -m pip install pip --upgrade
+```
+
+## Download and install Breeze-Adapta-Cursor
+```bash
+curl https://raw.githubusercontent.com/mustafaozhan/Breeze-Adapta-Cursor/master/install.sh | bash
+```
+
 ## Remove Database Dupes:
 ```bash
 sudo pacman -Scc && sudo rm -f /var/lib/pacman/sync/*.db && sudo pacman -Syyu

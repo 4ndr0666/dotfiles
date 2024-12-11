@@ -106,8 +106,9 @@ export ENV_DIR="$XDG_DATA_HOME/virtualenv"
 export VIRTUAL_ENV_PROMPT="(💀)"
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/pythonrc"
 export PIP_DOWNLOAD_CACHE="$XDG_CACHE_HOME/pip/"
-export GOROOT="/usr/lib/go"
-export GOPATH="$XDG_DATA_HOME/go"
+export GOROOT="$XDG_DATA_HOME/go"
+export PATH="$GOROOT/bin:$PATH"
+#export GOPATH="$XDG_DATA_HOME/go"
 export GOMODCACHE="$XDG_CACHE_HOME/go/mod"
 export GOENV_ROOT="$XDG_DATA_HOME/goenv"
 export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
@@ -133,6 +134,8 @@ export NODE_CONFIG_HOME="$XDG_CONFIG_HOME/node"
 export TEXMFVAR="$XDG_CACHE_HOME/texlive/texmf-var"
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
 export ANDROID_SDK_HOME="$XDG_CONFIG_HOME/android"
+export LIBVA_DRIVERS_PATH="/usr/lib/dri/iHD_drv_video.so"
+export LIBVA_DRIVER_NAME=iHD
 #export LIBVA_DRIVER_NAME=mesa
 #export LIBVA_DISPLAY=wayland
 # export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
@@ -140,7 +143,7 @@ export ANDROID_SDK_HOME="$XDG_CONFIG_HOME/android"
 
 mkdir -p "$WINEPREFIX" \
          "$CARGO_HOME" \
-         "$GOPATH" \
+         "$GOROOT" \
          "$GOMODCACHE" \
          "$XDG_DATA_HOME/lib" \
          "$XDG_DATA_HOME/aur_build" \
@@ -169,9 +172,7 @@ mkdir -p "$WINEPREFIX" \
          "$DOTNET_CLI_HOME"
 
 # Setting permissions where necessary (if any directory is not writable, we can adjust):
-# Example (Adjust if needed, no placeholders):
-chmod 700 "$PASSWORD_STORE_DIR" "$GNUPGHOME"
-chmod u+w "$CARGO_HOME" "$GOPATH" "$GOMODCACHE" "$PSQL_HOME" "$MYSQL_HOME" "$SQLITE_HOME"
+chmod u+w "$CARGO_HOME" "$GOROOT" "$GOMODCACHE" "$PSQL_HOME" "$MYSQL_HOME" "$SQLITE_HOME"
 
 # ================================================ // X11_ENV //
 #export GTK2_RC_FILES="$HOME/.gtkrc-2.0"

@@ -4,9 +4,9 @@
 
 # =========================================== // 4NDR0666_ZSHRC //
 # --- // Powerlevel10 Prompt:
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+#if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+#fi
 
 # --- // Fancy Prompt:
 #source ~/.config/shellz/fancy-prompts.zsh
@@ -71,8 +71,7 @@ _comp_options+=(globdots)
 #}
 
 # ====================================== // BINDINGS //
-# --- // Autosuggest_accept: 
-bindkey '^ ' autosuggest-accept
+bindkey '^ ' autosuggest-accept     # autosuggest_accept 
 
 # --- // LFCD:
 lfcd () {
@@ -86,30 +85,22 @@ lfcd () {
 }
 
 bindkey -s '^o' '^ulfcd\n'
-
 bindkey -s '^a' '^ubc -lq\n'
-
 bindkey -s '^f' '^ucd "$(dirname "$(fzf)")"\n'
-
 bindkey '^[[P' delete-char
 
 # --- // VIM:
-# Delete character with a specific key sequence
-bindkey '^[[P' delete-char
-
-# Edit command line with Vim using Ctrl+E
+bindkey '^[[P' delete-char             # Delete character with a specific key sequence
 autoload -Uz edit-command-line
 zle -N edit-command-line
-bindkey '^e' edit-command-line
+bindkey '^e' edit-command-line          # Edit command line with Vim using Ctrl+E
 bindkey -M vicmd '^[[P' vi-delete-char
 bindkey -M vicmd '^e' edit-command-line
 bindkey -M visual '^[[P' vi-delete
 
-
 # =========================================================== // NVM //
 export NVM_DIR="$XDG_CONFIG_HOME/nvm"
 
-# Function to source NVM scripts
 source_nvm() {
     local script="$1"
     if [ -s "$script" ]; then
@@ -122,8 +113,7 @@ source_nvm "$NVM_DIR/nvm.sh"
 source_nvm "$NVM_DIR/bash_completion"
 
 # =========================================================== // ALIASES //
-# --- // Fix_zsh_history_behavior:
-h() { if [ -z "$*" ]; then history 1; else history 1 | egrep "$@"; fi; }
+h() { if [ -z "$*" ]; then history 1; else history 1 | egrep "$@"; fi; }     # Fix_zsh_history_behavior:
 alias reload='exec zsh'
 alias mpv1='mpv --input-ipc-server=/tmp/mpvSockets/socket1'
 alias mpv2='mpv --input-ipc-server=/tmp/mpvSockets/socket2'
@@ -131,7 +121,6 @@ alias mpv2='mpv --input-ipc-server=/tmp/mpvSockets/socket2'
 # ======================================================= // EXTERNAL SOURCING
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 
-# --- // Functions:
 for functions_file in "$XDG_CONFIG_HOME/shellz/functions/functions.zsh" "$XDG_CONFIG_HOME/shellz/printer"; do
     if [ -f "$functions_file" ]; then
         source "$functions_file"
@@ -140,7 +129,6 @@ for functions_file in "$XDG_CONFIG_HOME/shellz/functions/functions.zsh" "$XDG_CO
     fi
 done
 
-# --- // Configs:
 for config_file in "$XDG_CONFIG_HOME/zsh/.zprofile" "$XDG_CONFIG_HOME/shellz/aliasrc"; do
     if [ -f "$config_file" ]; then
         source "$config_file"
@@ -149,14 +137,19 @@ for config_file in "$XDG_CONFIG_HOME/zsh/.zprofile" "$XDG_CONFIG_HOME/shellz/ali
     fi
 done
 
-
 # ============================================================ // PLUGINS //
 # --- // FZF
 fpath=("$XDG_DATA_HOME/zsh/completions" "/usr/share/zsh/vendor-completions" $fpath)
 source <(fzf --zsh)
 
 # --- // Standard_plugins:
-#source /usr/share/doc/find-the-command/ftc.zsh noupdate quiet
+source /usr/share/doc/find-the-command/ftc.zsh noprompt quiet 2>/dev/null
+source /usr/share/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh 2>/dev/null
+source /usr/share/zsh/plugins/zsh-extract/extract.plugin.zsh 2>/dev/null
+source /usr/share/zsh/plugins/zsh-sudo/sudo.plugin.zsh 2>/dev/null
+source /usr/share/zsh/plugins/zsh-systemd/systemd.plugin.zsh 2>/dev/null
+source /usr/share/zsh/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh 2>/dev/null
+source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh 2>/dev/null
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
 source /usr/share/autojump/autojump.zsh 2>/dev/null

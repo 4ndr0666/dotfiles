@@ -15,8 +15,9 @@
 
 The following command is an example of using Yay with a set of default options:
 ```bash
-yay -S --color=always --nomakepkgconf --norebuild --noredownload --useask=false --batchinstall=false --bottomup --cleanafter --cleanmenu --needed --provides --refresh --sudoloop --sysupgrade --timeupdate --askremovemake
+yay -S --overwrite="*" --redownloadall --refresh --combinedupgrade --provides --recursive --sudoloop --sysupgrade 
 ```
+## Testing these: "--norebuild --noredownload --bottomup --cleanafter --cleanmenu --needed --timeupdate --askremovemake"
 
 ### Explanation of Key Flags:
 - **--color=always**: Always use colored output.

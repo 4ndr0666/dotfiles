@@ -1,15 +1,13 @@
-# --- // AUTO_ESCALATE:
+## Auto-escalate:
 ```bash
-# --- // Simple version:
+# Version 1
 if [[ "$EUID" -ne 0 ]]; then
     echo "Re-running the script with sudo privileges..."
     sudo "$0" "$@"
     exit $?
 fi
-```
 
-```bash
-# --- // 4ndr0 version:
+# Version 2
 if [ "$(id -u)" -ne 0 ]; then
     sudo "$0" "$@"
     exit $?
@@ -20,18 +18,43 @@ sleep 1
 echo
 ```
 
-# --- // DEV_NULL:
+## Dev Null:
 ```bash
-2>/dev/null
+# Explanation of the commands:
+`>/dev/null 2>&1` redirects both stdout and stderr to /dev/null, effectively silencing all output.
+`2>&1` redirects stderr to wherever stdout is currently going. If stdout is not redirected, both will go to the terminal.
+`2>/dev/null` redirects stderr to /dev/null, silencing only the error messages.
+
+# Appropriate usage scenarios:
+1. `>/dev/null 2>&1` - Use this when you want to completely silence a command, hiding both output and errors.
+Example: silencing a background task's output
+command >/dev/null 2>&1 &
+
+2. `2>&1` - Use this when you want to combine stderr with stdout. This is often used in pipelines.
+Example: combining stderr with stdout to filter or process both
+command 2>&1 | grep "some text"
+
+3. `2>/dev/null` - Use this when you want to ignore only error messages while keeping standard output visible.
+Example: running a command and ignoring errors but showing output
+command 2>/dev/null
 ```
 
-# --- // KILL_&_RESTART:
+## If-statement Confirmation:  
+# Ensure log file is writable
+```bash
+if ! touch "$logfile" &>/dev/null; then
+    echo -e "\033[31mError: Log file '$logfile' is not writable. Please check permissions.\033[0m"
+    return 1
+fi
+```
+
+## Kill and restart:
 ```bash
 killall -p pkgname &> /dev/null
 pkgname </dev/null &>/dev/null &
 ```
 
-# --- // HEREDOC:
+## Heredoc:
 # Appending to a File
 ```bash
 cat << EOF >> file.txt
@@ -54,7 +77,7 @@ cat <<- EOF > file.txt
 EOF
 ```
 
-# --- // LIKE_HEREDOC_W_TEE:
+## Similar to Heredoc but uses `tee`:
 ```bash
 # Appending with `tee`
 tee -a file.txt << EOF
@@ -69,12 +92,12 @@ the content of file.txt.
 EOF
 ```
 
-# --- // Set_trap_for_SIGINT:
+## Trap:
 ```bash
 trap 'echo -e "\nExiting..."; cleanup; exit 1' SIGINT
 ```
 
-# --- // Input_validation:
+## Input_validation:
 ```bash
 validate_input() {
     if [[ $1 =~ ^[0-9]+$ ]] && [ $1 -ge 1 ] && [ $1 -le 17 ]; then
@@ -86,7 +109,7 @@ validate_input() {
 }
 ```
 
-# --- // Source_multiple_items_loop:
+## Source_multiple_items_loop:
 ```bash
 source_dir="/dir/to/search/in"
 zsh_files_found=false
