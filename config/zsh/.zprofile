@@ -15,7 +15,6 @@ export BROWSER="brave-beta"
 HISTSIZE=10000
 SAVEHIST=10000
 export HISTFILE="$XDG_CACHE_HOME/zshhistory"
-
 #if [ ! -d "$HISTFILE" ]; then
 #    mkdir -p "$HISTFILE"
 #fi
@@ -35,17 +34,7 @@ static_dirs=(
     "/usr/local/sbin"
     "/usr/bin"
 )
-
-cache_file="$HOME/.cache/dynamic_dirs.list"
-
-if [[ ! -f "$cache_file" || /Nas/Build/git/syncing/scr/ -nt "$cache_file" ]]; then
-    echo "Updating dynamic directories cache..."
-    find /Nas/Build/git/syncing/scr/ -type d \( -name '.git' -o -name '.github' \) -prune -o -type d -print > "$cache_file"
-fi
-
-dynamic_dirs=($(cat "$cache_file"))
-## 2 $(find /Nas/Build/git/syncing/scr -type d | paste -sd ':' -)   # Posix Compliant //
-## 3 (/Nas/Build/git/syncing/scr/**/*(/))                           # ZSH Compliant //
+dynamic_dirs=(/Nas/Build/git/syncing/scr/**/*(/))
 
 all_dirs=("${static_dirs[@]}" "${dynamic_dirs[@]}")
 
@@ -61,7 +50,15 @@ done
 
 export PATH
 
-unsetopt PROMPT_SP 2>/dev/null
+# --- // Setup Cache File:
+## cache_file="$HOME/.cache/dynamic_dirs.list"
+##
+## if [[ ! -f "$cache_file" || /Nas/Build/git/syncing/scr/ -nt "$cache_file" ]]; then
+##     echo "Updating dynamic directories cache..."
+##     find /Nas/Build/git/syncing/scr/ -type d \( -name '.git' -o -name '.github' \) -prune -o -type d -print > "$cache_file"
+## fi
+##
+## dynamic_dirs=($(cat "$cache_file"))
 
 # =========================================== // XDG_COMPLIANCE //
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -108,7 +105,7 @@ export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/pythonrc"
 export PIP_DOWNLOAD_CACHE="$XDG_CACHE_HOME/pip/"
 export GOROOT="$XDG_DATA_HOME/go"
 export PATH="$GOROOT/bin:$PATH"
-#export GOPATH="$XDG_DATA_HOME/go"
+# export GOPATH="$XDG_DATA_HOME/go"
 export GOMODCACHE="$XDG_CACHE_HOME/go/mod"
 export GOENV_ROOT="$XDG_DATA_HOME/goenv"
 export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
@@ -128,16 +125,16 @@ export SQL_CONFIG_HOME="$XDG_CONFIG_HOME/sql"
 export SQL_CACHE_HOME="$XDG_CACHE_HOME/sql"
 export SQLITE_HISTORY="$XDG_DATA_HOME/sqlite_history"
 export ELECTRON_CACHE="$XDG_CACHE_HOME/electron"
-#export ELECTRON_MIRROR="https://npm.taobao.org/mirrors/electron/"
+# export ELECTRON_MIRROR="https://npm.taobao.org/mirrors/electron/"
 export NODE_DATA_HOME="$XDG_DATA_HOME/node"
 export NODE_CONFIG_HOME="$XDG_CONFIG_HOME/node"
 export TEXMFVAR="$XDG_CACHE_HOME/texlive/texmf-var"
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
 export ANDROID_SDK_HOME="$XDG_CONFIG_HOME/android"
-export LIBVA_DRIVERS_PATH="/usr/lib/dri/iHD_drv_video.so"
-export LIBVA_DRIVER_NAME=iHD
-#export LIBVA_DRIVER_NAME=mesa
-#export LIBVA_DISPLAY=wayland
+export LIBVA_DRIVERS_PATH="/usr/lib/dri/i965_drv_video.so"
+export LIBVA_DRIVER_NAME=i965
+# export LIBVA_DRIVER_NAME=mesa
+# export LIBVA_DISPLAY=wayland
 # export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
 # ^^^ This line will break some DMs
 
@@ -184,12 +181,16 @@ chmod u+w "$CARGO_HOME" "$GOROOT" "$GOMODCACHE" "$PSQL_HOME" "$MYSQL_HOME" "$SQL
 # export MOZ_USE_XINPUT2=1
 # export AWT_TOOLKIT=MToolkit wmname LG3D  # May have to install wmname
 # export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel ${_JAVA_OPTIONS}"
+# =======================================================
 
-
-# ======================================= // LIBRARY_AND_KEYS //
+# --- // Library:
 export LD_LIBRARY_PATH="$XDG_DATA_HOME/lib:/usr/local/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
-export SUDO_ASKPASS="/usr/bin/pinentry-dmenu"
 
+# --- // Askpass:
+export SUDO_ASKPASS="$XDG_CONFIG_HOME"/wayfire/scripts/rofi_askpass  # Wayfire specific
+#export SUDO_ASKPASS="/usr/bin/pinentry-dmenu"    # Xorg
+
+# --- // GPG:
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 if [ ! -d "$GNUPGHOME" ]; then
     mkdir -p "$GNUPGHOME"
@@ -208,14 +209,8 @@ fi
 #gpg-connect-agent reloadagent /bye >/dev/null
 #eval $(ssh-agent) && ssh-add 2&>/dev/null
 
-# ========================================== // PAGER //
-# --- // Bat:
-export MANPAGER="batman"
-
-# --- // Fzf:
-#[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# --- // FZF:
 bindkey '^R' fzf-history-widget
-export FZF_DEFAULT_COMMAND='fd --type f'
 export FZF_DEFAULT_OPTS="
   --layout=reverse
   --height=40%
@@ -224,12 +219,12 @@ export FZF_DEFAULT_OPTS="
   --cycle
   --inline-info
   --tiebreak=index
-  --preview='bat --color=always --line-range :500 {}'
+  --preview 'bat --color=always --style=numbers --line-range=:500 {}'
   --preview-window='~3'
   --color=bg+:-1,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
   --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
   --color=marker:#f5e0dc,fg+:#a6e3a1,prompt:#cba6f7,hl+:#f38ba8"
-
+#[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 #  --preview-window='right:50%'
 
 #export FZF_DEFAULT_OPTS="
@@ -245,25 +240,27 @@ export FZF_DEFAULT_OPTS="
 #  --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
 #  --color=marker:#f5e0dc,fg+:#a6e3a1,prompt:#cba6f7,hl+:#f38ba8"
 
-
-# Ensure truecolor support
+# --- // Truecolor:
 case "${COLORTERM}" in
     truecolor|24bit) ;;
     *) export COLORTERM="24bit" ;;
 esac
 
-# --- // LESS Configuration:
-export LESS='-R'
-unset LESS_TERMCAP_mb
-unset LESS_TERMCAP_md
-unset LESS_TERMCAP_me
-unset LESS_TERMCAP_so
-unset LESS_TERMCAP_se
-unset LESS_TERMCAP_us
-unset LESS_TERMCAP_ue
+# --- // Bat:
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+
+# --- // Less:
+#export LESS='-RF'
+#unset LESS_TERMCAP_mb
+#unset LESS_TERMCAP_md
+#unset LESS_TERMCAP_me
+#unset LESS_TERMCAP_so
+#unset LESS_TERMCAP_se
+#unset LESS_TERMCAP_us
+#unset LESS_TERMCAP_ue
 
 # --- // LESSOPEN Configuration:
-export LESSOPEN="| bat --paging=never --style=numbers --color=always {}"
+#export LESSOPEN="| bat --paging=never --style=numbers --color=always {}"
 
 # --- // SPEEDUP KEYS:
 #command -v xset &>/dev/null && xset r rate 300 50 || echo "xset command not found, skipping keyboard rate configuration."

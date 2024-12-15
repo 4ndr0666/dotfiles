@@ -4,9 +4,9 @@
 
 # =========================================== // 4NDR0666_ZSHRC //
 # --- // Powerlevel10 Prompt:
-#if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-#  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-#fi
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 
 # --- // Fancy Prompt:
 #source ~/.config/shellz/fancy-prompts.zsh
@@ -16,8 +16,9 @@
 #prompt-zee -PDp "≽ "
 
 # --- // Standard Prompt:
-#autoload -U colors && colors
-#PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
+autoload -U colors && colors
+PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b"
+
 
 # ===================================================== // SETOPT //
 setopt extended_glob          # Extended globbing
@@ -52,6 +53,7 @@ zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':completion:*' completer _expand _complete _ignored _approximate
 zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
 zstyle ':completion:*:descriptions' format '%U%F{cyan}%d%f%u'
+bindkey '^ ' autosuggest-accept
 
 # --- // Completion_Speed-Up:
 zstyle ':completion:*' accept-exact '*(N)'
@@ -61,18 +63,12 @@ zmodload zsh/complist
 compinit
 _comp_options+=(globdots)
 
-#--- // Completion_speed-up w fzf: 
-#_fzf_compgen_path() {
-#	fd --hidden --follow --exclude ".git" . "$1"
-#}
-
-#_fzf_comgen_dir() {
-#	fd --type d --hidden --follow --exclude ".git" . "$1"
-#}
+# ======================================================= // EXTERNAL SOURCING
+[ -f "$HOME/.config/shellz/aliasrc" ] && source "$HOME/.config/shellz/aliasrc"
+[ -f "$HOME/.config/shellz/functions/functions.zsh" ] && source "$HOME/.config/shellz/functions/functions.zsh" 
+[ -f "$HOME/.zprofile" ] && source "$HOME/.zprofile"
 
 # ====================================== // BINDINGS //
-bindkey '^ ' autosuggest-accept     # autosuggest_accept 
-
 # --- // LFCD:
 lfcd () {
     tmp="$(mktemp -uq)"
@@ -118,26 +114,10 @@ alias reload='exec zsh'
 alias mpv1='mpv --input-ipc-server=/tmp/mpvSockets/socket1'
 alias mpv2='mpv --input-ipc-server=/tmp/mpvSockets/socket2'
 
-# ======================================================= // EXTERNAL SOURCING
-export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
-
-for functions_file in "$XDG_CONFIG_HOME/shellz/functions/functions.zsh" "$XDG_CONFIG_HOME/shellz/printer"; do
-    if [ -f "$functions_file" ]; then
-        source "$functions_file"
-    else
-        echo "Warning: $functions_file not found"
-    fi
-done
-
-for config_file in "$XDG_CONFIG_HOME/zsh/.zprofile" "$XDG_CONFIG_HOME/shellz/aliasrc"; do
-    if [ -f "$config_file" ]; then
-        source "$config_file"
-    else
-        echo "Warning: $config_file not found"
-    fi
-done
-
 # ============================================================ // PLUGINS //
+# --- // Highlighters:
+ZSH_HIGHLIGHT_HIGHLIGHTERS+=(brackets pattern cursor)
+
 # --- // FZF
 fpath=("$XDG_DATA_HOME/zsh/completions" "/usr/share/zsh/vendor-completions" $fpath)
 source <(fzf --zsh)
@@ -148,13 +128,13 @@ source /usr/share/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh 2>/de
 source /usr/share/zsh/plugins/zsh-extract/extract.plugin.zsh 2>/dev/null
 source /usr/share/zsh/plugins/zsh-sudo/sudo.plugin.zsh 2>/dev/null
 source /usr/share/zsh/plugins/zsh-systemd/systemd.plugin.zsh 2>/dev/null
-source /usr/share/zsh/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh 2>/dev/null
 source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh 2>/dev/null
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
-source /usr/share/autojump/autojump.zsh 2>/dev/null
+source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 # --- // P10k:
-# To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
-[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
-source ~/powerlevel10k/powerlevel10k.zsh-theme
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# To customize prompt, run `p10k configure` or edit ~/.config/zsh//.p10k.zsh.
+[[ ! -f ~/.config/zsh//.p10k.zsh ]] || source ~/.config/zsh//.p10k.zsh
