@@ -6,27 +6,27 @@
 # --- // General:
 --wrap="auto"
 --color="always"
---terminal-width="80"
+--terminal-width="120"
 --tabs="4"
---diff
 --paging="always"
---pager="BAT_PAGER"
+#--pager="BAT_PAGER"
 # --pager="less -R"
-# --pager="less -rFXI" # less with raw control chars, quit if one screen, no init/deinit, ignore case in searches
+ --pager="less -rFXI" # less with raw control chars, quit if one screen, no init/deinit, ignore case in searches
 # --show-nonprintable
 # --italic-text=always
 
 # --- // Theme:
+--theme="Sublime Snazzy"
 #--theme="DarkNeon"
-# --theme="GitHub"
-# --theme="CustomCyan.sublime-color-scheme"
---theme="gruvbox-dark"
+#--theme="GitHub"
+#--theme="CustomCyan.sublime-color-scheme"
+#--theme="gruvbox-dark"
 
 # --- // Style:
 #1 --style="grid,header,changes,full"
 #2 --style="numbers,grid,header,changes,full"
 #3
---style="changes,header,grid"
+--style="changes,header"
 
 # --- // Language:
 --map-syntax "*.unknown:txt"
@@ -35,6 +35,6 @@
 --map-syntax "*.md:Markdown"
 --map-syntax "*.csv:CSV"  # Handles CSV files explicitly
 --map-syntax "*.py:Python"
---map-syntax "*.sh:Shell Script"
+--map-syntax "*.sh:Bourne Again Shell (bash)"
 --map-syntax "*.json:JSON"
 --map-syntax "*.xml:XML"

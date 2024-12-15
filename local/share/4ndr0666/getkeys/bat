@@ -1,0 +1,14 @@
+# Bat Keys
+
+### Update Binary Cache
+```bash
+bat cache --build
+```
+
+### Mkdir & DL Theme
+```bash
+mkdir -p "$(bat --config-dir)/themes"
+cd "$(bat --config-dir)/themes"
+git clone https://github.com/greggb/sublime-snazzy
+bat cache --build
+```
