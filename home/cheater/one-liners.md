@@ -1,3 +1,11 @@
+## Backup configs
+```bash
+cp ~/.config/shellz/aliasrc ~/.config/shellz/aliasrc.backup
+cp ~/.config/shellz/functions.zsh ~/.config/shellz/functions.zsh.backup
+cp ~/.config/zsh/.zprofile ~/.config/zsh/.zprofile.backup
+cp ~/.config/zsh/.zshrc ~/.config/zsh/.zshrc.backup
+```
+
 ## Limit Memory Usage
 A background process can be reduced to the "Idle" level by starting it with:
 ```bash

@@ -1,3 +1,18 @@
+## Fix dev/null error
+```bash
+sudo chattr -i /dev/null
+sudo chmod 666 /dev/null
+sudo chown root:root /dev/null
+```
+- **Personal Dirs**
+```bash
+sudo chattr -i /home/andro/.config/shellz/gpg_env
+sudo chmod 644 /home/andro/.config/shellz/gpg_env
+
+sudo chattr -i /home/andro/.config/zsh/.zshrc
+sudo chmod 644 /home/andro/.config/zsh/.zshrc
+```
+
 ## Hijacking Cmdline
 
 - **Create kernel parameter file**:

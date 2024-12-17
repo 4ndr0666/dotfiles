@@ -1,10 +1,10 @@
-#!/bin/bash
 # File: /home/$USER/.config/zsh/.zprofile
 # Author: 4ndr0666
 # Edited: 12-2-24
 
 # ======================================== // ZPROFILE //
-# --- // Default_progs: 
+
+# --- // Default Programs:
 export MICRO_TRUECOLOR=1
 export EDITOR="nvim"
 export TERMINAL="alacritty"
@@ -15,18 +15,15 @@ export BROWSER="brave-beta"
 HISTSIZE=10000
 SAVEHIST=10000
 export HISTFILE="$XDG_CACHE_HOME/zshhistory"
-#if [ ! -d "$HISTFILE" ]; then
-#    mkdir -p "$HISTFILE"
-#fi
 
-# --- // Dynamic_Path:
+# --- // Dynamic Path:
 static_dirs=(
     "$HOME/.npm-global/bin"
     "${JAVA_HOME:-/usr/lib/jvm/default/bin}"
     "$XDG_DATA_HOME/virtualenv"
     "$HOME/.local/bin"
     "$HOME/bin"
-    "$HOME/andro/.local/share/goenv/bin"
+    "$HOME/.local/share/goenv/bin"
     "/opt/"
     "$CARGO_HOME/bin"
     "/sbin"
@@ -77,9 +74,9 @@ if [ ! -d "$XDG_RUNTIME_DIR" ]; then
 fi
 
 # --- // XDG_DATA_DIRS:
-[ -z "$XDG_DATA_DIRS" ] && export XDG_DATA_DIRS="/usr/local/share:/usr/share"
+export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 
-# --- // Env:
+# --- // Environment Variables:
 export TRASHDIR="$XDG_DATA_HOME/Trash"
 export ZDOTDIR="$HOME/.config/zsh/"
 export DICS="$XDG_DATA_HOME/stardict/dic/"
@@ -111,7 +108,7 @@ export GOENV_ROOT="$XDG_DATA_HOME/goenv"
 export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
 export RBENV_ROOT="$XDG_DATA_HOME/rbenv"
 export PARALLEL_HOME="$XDG_CONFIG_HOME/parallel"
-export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME/java"
+export _JAVA_OPTIONS="-Djava.util.prefs.userRoot=\"$XDG_CONFIG_HOME/java\""
 export NUGET_PACKAGES="$XDG_CACHE_HOME/NuGetPackages"
 export MODE_REPL_HISTORY="$XDG_DATA_HOME/node_repl_history"
 export MESON_HOME="$XDG_CONFIG_HOME/meson"
@@ -138,6 +135,7 @@ export LIBVA_DRIVER_NAME=i965
 # export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
 # ^^^ This line will break some DMs
 
+# Create necessary directories
 mkdir -p "$WINEPREFIX" \
          "$CARGO_HOME" \
          "$GOROOT" \
@@ -194,8 +192,8 @@ export SUDO_ASKPASS="$XDG_CONFIG_HOME"/wayfire/scripts/rofi_askpass  # Wayfire s
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 if [ ! -d "$GNUPGHOME" ]; then
     mkdir -p "$GNUPGHOME"
+    chmod 700 "$GNUPGHOME"
 fi
-chmod 700 "$GNUPGHOME"
 
 gpg_env_file="$XDG_CONFIG_HOME/shellz/gpg_env"
 if [ -f "$gpg_env_file" ]; then
@@ -203,11 +201,6 @@ if [ -f "$gpg_env_file" ]; then
 else
     echo "Warning: $gpg_env_file not found"
 fi
-
-#export GPG_TTY="$(tty)"
-#gpg-connect-agent updatestartuptty /bye >/dev/null
-#gpg-connect-agent reloadagent /bye >/dev/null
-#eval $(ssh-agent) && ssh-add 2&>/dev/null
 
 # --- // FZF:
 bindkey '^R' fzf-history-widget
@@ -265,8 +258,3 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 # --- // SPEEDUP KEYS:
 #command -v xset &>/dev/null && xset r rate 300 50 || echo "xset command not found, skipping keyboard rate configuration."
 #xset r rate 300 50
-
-# --- // LF_SHORTCUTS:
-[ ! -f "$XDG_CONFIG_HOME/shell/shortcutrc" ] && setsid -f shortcuts >/dev/null 2>&1
-# Switch escape and caps if tty and no passwd required:
-#sudo -n loadkeys "$XDG_DATA_HOME/larbs/ttymaps.kmap" 2>/dev/null

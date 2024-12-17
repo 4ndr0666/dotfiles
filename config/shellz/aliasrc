@@ -5,7 +5,7 @@
 # ============================================ // ALIASRC //
 # --- // Quick view:
 alias 00='bat ~/.config/shellz/aliasrc'
-alias 0f='bat ~/.config/shellz/functions/functions.zsh'
+alias 0f='bat ~/.config/shellz/functions.zsh'
 alias 0z='bat ~/.config/zsh/.zshrc'
 alias 0p='bat ~/.config/zsh/.zprofile'
 
@@ -21,9 +21,10 @@ alias sl='ls'
 alias car='cat'
 alias nvin='nbin'
 alias cay='cat'
+alias reloda='reload'
 
 # --- // Xorg:
-alias diffuse='xhost + && diffuse'
+#alias diffuse='xhost + && diffuse'
 
 # ===================================== // RECENT_PROGRAMS //
 # -- // pyfiglet:
@@ -158,7 +159,6 @@ function ufwr() {
 
 # ================================= // Micro:
 alias sm='sudo micro'
-alias m='micro'
 
 # --- // Bleachbit:
 alias bleachcache='sudo bleachbit --clean system.cache system.localizations system.trash ; sudo paccache -vrk 2 || return 0'
@@ -176,16 +176,16 @@ alias dracutzen='echo "sudo dracut --force --kver=$(uname -r) /boot/initramfs-li
 alias dracutfallback='echo "sudo dracut --force /boot/initramfs-linux-fallback.img --enhanced-cpio --early-microcode --fstab && sudo grub-install && sudo grub-mkconfig -o /boot/grub/grub.cfg"'
 
 # =========================================== // SUDO BYPASS //
-for cmd in pacman-key ufw mount umount pacman updatedb su systemctl useradd userdel groupadd groupdel chown chmod \
-btrfs ip netstat modprobe; do
-    alias $cmd="sudo $cmd"
-done
+#for cmd in pacman-key ufw mount umount pacman updatedb su systemctl useradd userdel groupadd groupdel chown chmod \
+#btrfs ip netstat modprobe; do
+#    alias $cmd="sudo $cmd"
+#done
 
 # =========================================== // CHEATSHEETS //
 cht() {
     local cheats=("$HOME/.cheater/"*.md)
     local choice=$(printf "%s\n" "${cheats[@]}" | fzf --prompt="Select a cheat sheet: ")
-    [ -n "$choice" ] && bat --language=markdown "$choice" || echo "No cheat sheet selected."
+    [ -n "$choice" ] && bat --language=mdown "$choice" || echo "No cheat sheet selected."
 }
 
 # ============================================== // CONFIG EDITOR //
@@ -200,7 +200,7 @@ edit_config() {
 
 alias svim="edit_config"
 alias valias='edit_config "$XDG_CONFIG_HOME"/shellz/aliasrc'
-alias vfunc='edit_config  "$XDG_CONFIG_HOME"/shellz/functions/functions.zsh'
+alias vfunc='edit_config "$XDG_CONFIG_HOME"/shellz/functions.zsh'
 alias vpac='edit_config /etc/pacman.conf'
 alias vgrub='edit_config /etc/default/grub'
 alias vgrubc='edit_config /boot/grub/grub.cfg'
@@ -209,7 +209,7 @@ alias vmirror='edit_config /etc/pacman.d/mirrorlist'
 alias vchaotic='edit_config /etc/pacman.d/chaotic-mirrorlist'
 alias vfstab='edit_config /etc/fstab'
 alias vzpro='edit_config "$XDG_CONFIG_HOME"/zsh/.zprofile'
-alias vbash='edit_config "$HOME"/.bashrc'
+alias vbash='edit_config "$XDG_CONFIG_HOME"/shellz/.bashrc'
 alias vzsh='edit_config "$XDG_CONFIG_HOME"/zsh/.zshrc'
 alias vhosts='edit_config /etc/hosts'
 alias vmpv='edit_config "$XDG_CONFIG_HOME"/mpv/mpv.conf'
@@ -324,6 +324,13 @@ fzscr() {
 #alias omzl='omz plugin list'
 #alias omzi='omz plugin info'
 
+# =========================================== // Interactive Shell Aliases //
+if [[ -o interactive ]]; then
+    alias reload='exec zsh'
+    alias mkdir='mkdir -pv'
+    alias mkgpg="[ -d ~/.gnupg ] || mkdir ~/.gnupg ; cp /etc/pacman.d/gnupg/gpg.conf ~/.gnupg/ ; echo 'done'"
+fi
+
 # ================================================== // GENERAL //
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -342,7 +349,6 @@ alias diff='diff --color=auto'
 alias rmdir='rm -vI --preserve root'
 alias ln='ln -iv'
 alias bc='bc -ql'
-alias mkdir='mkdir -pv'
 alias wget="wget -c"
 alias curl="curl --user-agent 'noleak'"
 alias df='df -h --exclude-type=squashfs --exclude-type=tmpfs --exclude-type=devtmpfs'
@@ -606,7 +612,11 @@ function d0() {
 
 # ======================================================================= // LS_FILE_LISTING //
 # --- // Config 1:
-alias mkplaylist="ls -d */ > mpv_playlist.txt"
+playdir() {
+    /usr/bin/ls . > dirplaylist.txt
+    mpv --playlist=dirplaylist.txt --shuffle=yes --loop=no || rm dirplaylist.txt
+
+}
 alias lb='ls | bat'
 alias l1='lsd -1'                               # List everything in one line
 alias lr='ls -snew'                              # List most recent item changed first
@@ -1161,7 +1171,6 @@ fi"
 alias fixdirmngr='sudo dirmngr </dev/null'
 #alias chgpg='sudo chown -R $(whoami):$(whoami) ~/.gnupg && chmod 700 ~/.gnupg && chmod 600 ~/.gnupg/*'
 alias rmgpg='sudo rm -r /etc/pacman.d/gnupg'
-alias mkgpg="[ -d ~/.gnupg ] || mkdir ~/.gnupg ; cp /etc/pacman.d/gnupg/gpg.conf ~/.gnupg/ ; echo 'done'"
 alias fixpacmankey='sudo pacman -S archlinux-keyring && sudo pacman-key --populate'
 alias fixpacmankey2='gpg-agent --homedir /etc/pacman.d/gnupg --use-standard-socket --daemon'
 #alias fixgpgkey="echo 'keyring /etc/pacman.d/gnupg/pubring.gpg' >> $HOME/.gnupg/gpg.conf && sudo pacman-key --populate archlinux"

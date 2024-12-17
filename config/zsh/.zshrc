@@ -19,7 +19,6 @@ fi
 autoload -U colors && colors
 PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b"
 
-
 # ===================================================== // SETOPT //
 setopt extended_glob          # Extended globbing
 setopt autocd                 # Auto CD
@@ -65,7 +64,7 @@ _comp_options+=(globdots)
 
 # ======================================================= // EXTERNAL SOURCING
 [ -f "$HOME/.config/shellz/aliasrc" ] && source "$HOME/.config/shellz/aliasrc"
-[ -f "$HOME/.config/shellz/functions/functions.zsh" ] && source "$HOME/.config/shellz/functions/functions.zsh" 
+[ -f "$HOME/.config/shellz/functions.zsh" ] && source "$HOME/.config/shellz/functions.zsh" 
 [ -f "$HOME/.zprofile" ] && source "$HOME/.zprofile"
 
 # ====================================== // BINDINGS //
@@ -94,6 +93,9 @@ bindkey -M vicmd '^[[P' vi-delete-char
 bindkey -M vicmd '^e' edit-command-line
 bindkey -M visual '^[[P' vi-delete
 
+# ============================================ // CARGO //
+. "/home/andro/.local/share/cargo/env"   
+
 # =========================================================== // NVM //
 export NVM_DIR="$XDG_CONFIG_HOME/nvm"
 
@@ -110,7 +112,6 @@ source_nvm "$NVM_DIR/bash_completion"
 
 # =========================================================== // ALIASES //
 h() { if [ -z "$*" ]; then history 1; else history 1 | egrep "$@"; fi; }     # Fix_zsh_history_behavior:
-alias reload='exec zsh'
 alias mpv1='mpv --input-ipc-server=/tmp/mpvSockets/socket1'
 alias mpv2='mpv --input-ipc-server=/tmp/mpvSockets/socket2'
 
@@ -131,10 +132,7 @@ source /usr/share/zsh/plugins/zsh-systemd/systemd.plugin.zsh 2>/dev/null
 source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh 2>/dev/null
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
-source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 # --- // P10k:
+source ~/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# To customize prompt, run `p10k configure` or edit ~/.config/zsh//.p10k.zsh.
-[[ ! -f ~/.config/zsh//.p10k.zsh ]] || source ~/.config/zsh//.p10k.zsh
