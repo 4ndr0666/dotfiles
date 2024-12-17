@@ -23,6 +23,7 @@ static_dirs=(
     "$XDG_DATA_HOME/virtualenv"
     "$HOME/.local/bin"
     "$HOME/bin"
+    "$XDG_DATA_HOME/gem/ruby/3.3.0/bin"
     "$HOME/.local/share/goenv/bin"
     "/opt/"
     "$CARGO_HOME/bin"
@@ -69,8 +70,8 @@ if [ -z "$XDG_RUNTIME_DIR" ]; then
 fi
 
 if [ ! -d "$XDG_RUNTIME_DIR" ]; then
-    mkdir -p "$XDG_RUNTIME_DIR"
-    chmod 0700 "$XDG_RUNTIME_DIR"
+    \mkdir -p "$XDG_RUNTIME_DIR"       # Bypassing the alias
+    \chmod 0700 "$XDG_RUNTIME_DIR"
 fi
 
 # --- // XDG_DATA_DIRS:
@@ -136,7 +137,7 @@ export LIBVA_DRIVER_NAME=i965
 # ^^^ This line will break some DMs
 
 # Create necessary directories
-mkdir -p "$WINEPREFIX" \
+\mkdir -p "$WINEPREFIX" \
          "$CARGO_HOME" \
          "$GOROOT" \
          "$GOMODCACHE" \
@@ -167,7 +168,7 @@ mkdir -p "$WINEPREFIX" \
          "$DOTNET_CLI_HOME"
 
 # Setting permissions where necessary (if any directory is not writable, we can adjust):
-chmod u+w "$CARGO_HOME" "$GOROOT" "$GOMODCACHE" "$PSQL_HOME" "$MYSQL_HOME" "$SQLITE_HOME"
+\chmod u+w "$CARGO_HOME" "$GOROOT" "$GOMODCACHE" "$PSQL_HOME" "$MYSQL_HOME" "$SQLITE_HOME"
 
 # ================================================ // X11_ENV //
 #export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
@@ -178,9 +179,10 @@ chmod u+w "$CARGO_HOME" "$GOROOT" "$GOMODCACHE" "$PSQL_HOME" "$MYSQL_HOME" "$SQL
 # export QT_QPA_PLATFORMTHEME=qt5ct
 # export MOZ_USE_XINPUT2=1
 # export AWT_TOOLKIT=MToolkit wmname LG3D  # May have to install wmname
-# export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel ${_JAVA_OPTIONS}"
-# =======================================================
+# export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.pla
+#f.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel ${_JAVA_OPTIONS}"
 
+# =======================================================
 # --- // Library:
 export LD_LIBRARY_PATH="$XDG_DATA_HOME/lib:/usr/local/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 
@@ -191,8 +193,8 @@ export SUDO_ASKPASS="$XDG_CONFIG_HOME"/wayfire/scripts/rofi_askpass  # Wayfire s
 # --- // GPG:
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 if [ ! -d "$GNUPGHOME" ]; then
-    mkdir -p "$GNUPGHOME"
-    chmod 700 "$GNUPGHOME"
+    \mkdir -p "$GNUPGHOME"
+    \chmod 700 "$GNUPGHOME"
 fi
 
 gpg_env_file="$XDG_CONFIG_HOME/shellz/gpg_env"
@@ -258,3 +260,7 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 # --- // SPEEDUP KEYS:
 #command -v xset &>/dev/null && xset r rate 300 50 || echo "xset command not found, skipping keyboard rate configuration."
 #xset r rate 300 50
+
+# ================================================== //
+#               END OF .ZPROFILE
+# ================================================== //

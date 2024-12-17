@@ -107,7 +107,7 @@ fdde() {
 vidt() {
     # Create a directory to store the thumbnails
     local thumb_dir="$HOME/.cache/video_thumbs"
-    mkdir -p "$thumb_dir"
+    \mkdir -p "$thumb_dir"
 
     # Disable confirmation for 'rm *' and clear old thumbnails if any exist
     setopt localoptions rmstarsilent
@@ -149,7 +149,7 @@ alias vim="nvim"
 # --- // UFW:
 alias ufws='sudo ufw status'
 function ufwr() {
-    yes | sudo ufw reset 
+    yes | sudo ufw reset
     sudo systemctl enable ufw
     sudo systemctl start ufw
     sudo ufw default deny incoming
@@ -170,7 +170,7 @@ alias garuda-reinstallallpkgs='garuda-update remote reinstall'
 alias garuda-resetaudio='garuda-update reset-audio'
 alias garuda-ffmpegupdate='/Nas/Build/git/syncing/scr/installers/ffmpeg/custom_garuda_update.sh' # Protects /home ffmpeg binaries
 
-# --- // Dracut: 
+# --- // Dracut:
 ## Pipe to sh to execute: "dracutk | sh"
 alias dracutzen='echo "sudo dracut --force --kver=$(uname -r) /boot/initramfs-linux-zen.img --enhanced-cpio --early-microcode --fstab && sudo grub-install && sudo grub-mkconfig -o /boot/grub/grub.cfg"'
 alias dracutfallback='echo "sudo dracut --force /boot/initramfs-linux-fallback.img --enhanced-cpio --early-microcode --fstab && sudo grub-install && sudo grub-mkconfig -o /boot/grub/grub.cfg"'
@@ -287,8 +287,8 @@ alias shellbash='goto ~/.config/shell'
 # ============================================ // FZF SHORTCUTS //
 # --- // Edit file in $USER/.local/bin:
 fzlb() {
-	choice="$(find ~/.local/bin -mindepth 1 -printf '%P\n' | fzf)"
-	[ -f "$HOME/.local/bin/$choice" ] && $EDITOR "$HOME/.local/bin/$choice";
+    choice="$(find ~/.local/bin -mindepth 1 -printf '%P\n' | fzf)"
+    [ -f "$HOME/.local/bin/$choice" ] && $EDITOR "$HOME/.local/bin/$choice";
 }
 
 # --- // Edit files in /Nas/Build/git/syncing/scr:
@@ -320,7 +320,8 @@ fzscr() {
 # ======================================================= // Oh_my_zsh:
 #alias oz="svim ~/.zshrc"
 #alias oc="cd ~/.oh-my-zsh/custom/"
-#alias omzp="echo -e '\033[1;36mPlugins:\033[0m'; awk -F'=' '/^plugins/{gsub(/[\(\)]/, \"\"); split(\$2, a, \" \"); for(i in a) print a[i]}' ~/.zshrc"
+#alias omzp="echo -e '\033[1;36mPlugins:\033[0m'; awk -F'=' '/^plugins/{gsub(/[\(\)]/, \"\"); split(\$2, a, \" \"); fo
+#r(i in a) print a[i]}' ~/.zshrc"
 #alias omzl='omz plugin list'
 #alias omzi='omz plugin info'
 
@@ -328,7 +329,7 @@ fzscr() {
 if [[ -o interactive ]]; then
     alias reload='exec zsh'
     alias mkdir='mkdir -pv'
-    alias mkgpg="[ -d ~/.gnupg ] || mkdir ~/.gnupg ; cp /etc/pacman.d/gnupg/gpg.conf ~/.gnupg/ ; echo 'done'"
+    alias mkgpg="[ -d ~/.gnupg ] || \mkdir ~/.gnupg ; cp /etc/pacman.d/gnupg/gpg.conf ~/.gnupg/ ; echo 'done'"
 fi
 
 # ================================================== // GENERAL //
@@ -450,13 +451,21 @@ killit() {
 whatdependson()  {
     search="$1"
     sudo pacman -Sii $search | grep "Required" | sed -e "s/Required By     : //g" | sed -e "s/  /\n/g"
-    }
+}
 
-#alias whatsnew='read -p "Do you want to find files based on modification time (m) or access time (a)? " choice; if [ "$choice" == "m" ]; then find "$PWD" -type f -mtime -7 -print0 | xargs -0 ls -lt | head; elif [ "$choice" == "a" ]; then find "$PWD" -type f -atime -7 -print0 | xargs -0 ls -lt | head; else echo "Invalid choice. Please select 'm' for modification time or 'a' for access time."; fi'
+#alias whatsnew='read -p "Do you want to find files based on modification time (m) or access time (a)? " choice; if [
+#"$choice" == "m" ]; then find "$PWD" -type f -mtime -7 -print0 | xargs -0 ls -lt | head; elif [ "$choice
+#" == "a" ]; then th
+#en find "$PWD" -type f -atime -7 -print0 | xargs -0 ls -lt | head; else echo "Invalid choice. Please select 'm' for mo
+#dification time or 'a' for access time."; fi'
 
-#alias cleanls='echo "pacman -Q | grep -E 'pipewire|pulseaudio|alsa|jack' > audio_packages.txt && sed -i 's/ .*$//' audio_packages.txt"'
+#alias cleanls='echo "pacman -Q | grep -E 'pipewire|pulseaudio|alsa|jack' > audio_packages.txt && sed -i 's/ .*$//' au
+#dio_packages.txt"'
 
-#alias findit='read -p "Do you want to find a file (f) or a directory (d)? " choice; if [ "$choice" == "f" ]; then read -p "Enter the filename to search for: " filename; sudo find / -type f -name "$filename" 2>/dev/null; elif [ "$choice" == "d" ]; then read -p "Enter the directory name to search for: " dirname; sudo find / -type d -name "$dirname" 2>/dev/null; else echo "Invalid choice. Please select 'f' for file or 'd' for directory."; fi'
+#alias findit='read -p "Do you want to find a file (f) or a directory (d)? " choice; if [ "$choice" == "f" ]; then rea
+#d -p "Enter the filename to search for: " filename; sudo find / -type f -name "$filename" 2>/dev/null; elif [ "$choice
+#" == "d" ]; then read -p "Enter the directory name to search for: " dirname; sudo find / -type d -name "$dirname" 2>/d
+#ev/null; else echo "Invalid choice. Please select 'f' for file or 'd' for directory."; fi'
 
 findit() {
   # find file names matching first token and list them by date
@@ -481,12 +490,12 @@ function back() {
 }
 
 # --- // Move_up_dir:
-up() { 
+up() {
     for _ in $(seq "${1:-1}"); do
     cd ..; done;
 }
 
-# --- // Create_tarball: 
+# --- // Create_tarball:
 archive() {
     local target="$1"
     local backup_dir="${2:-.}"  # Optional second argument to specify backup directory, defaults to current directory
@@ -615,13 +624,12 @@ function d0() {
 playdir() {
     /usr/bin/ls . > dirplaylist.txt
     mpv --playlist=dirplaylist.txt --shuffle=yes --loop=no || rm dirplaylist.txt
-
 }
 alias lb='ls | bat'
 alias l1='lsd -1'                               # List everything in one line
 alias lr='ls -snew'                              # List most recent item changed first
 alias ls='exa -hlx --no-filesize --no-time --no-permissions --color=always --group-directories-first --icons=always'
-alias la="lsd -aFlL --permission=rwx --color=always --group-dirs=first --icon=always"
+alias la="lsd -aFlL --permission=rwx --color=always --group-directories-first --icon=always"
 alias ll='exa -xXDa --color=always  --icons=always'
 alias l.='exa -ax --sort=modified --color-scale-mode=gradient --color=always --group-directories-first --icons | grep "^\."'
 alias lt='tree -L 2 scr'
@@ -662,7 +670,7 @@ alias lta='ls -ltrha'
 alias chown='sudo chown --preserve-root'
 alias chmod='sudo chmod --preserve-root'
 alias chgrp='sudo chgrp --preserve-root'
-alias chgpg='sudo chown -R $USER:$USER ~/.gnupg && sudo chmod 700 ~/.gnupg && sudo chmod 600 ~/.gnupg/private-keys-v1.d/*'
+alias chgpg='sudo chown -R $USER:$USER ~/.gnupg && sudo chmod 700 ~/.gnupg && sudo chmod 600 ~/.gnupg/*'
 alias lock='sudo chattr +i '
 alias unlock='sudo chattr -i '
 alias chlocal='sudo chown -R $USER:$USER ~/.config ~/.local && echo "Ownership of ~/.config and ~/.local changed to $USER."'
@@ -685,7 +693,7 @@ chpython() {
 }
 
 chboot() {
-    sudo chmod -R 755 /boot/efi 
+    sudo chmod -R 755 /boot/efi
     sudo chown -R root:root /boot/efi
     echo "Boot directory permissions reset appropriately."
 }
@@ -839,7 +847,7 @@ chrootuser() {
             return 1
         fi
 
-        # Set permissions: 775 for directories and 600 for files
+        # Set permissions: 755 for directories and 644 for files
         sudo find "$target" -type d -exec chmod 755 {} +
         if [[ $? -ne 0 ]]; then
             echo "Error: Failed to set directory permissions for '$target'."
@@ -894,8 +902,8 @@ chrootuser() {
 #    echo "$1 is not a directory."
 #}
 
-# ==================================================================== // MAINTAINENCE_ALIASES //
-# --- // Sys_maintenace:
+# ==================================================================== // MAINTENANCE_ALIASES //
+# --- // Sys_maintenance:
 alias fixkeyboard='sudo localectl set-x11-keymap us'
 alias listusers='cut -d: -f1 /etc/passwd | sort'
 alias setlocales='sudo localectl set-locale LANG=en_US.UTF-8'
@@ -933,11 +941,10 @@ alias paste='wl-paste'
 #alias copy='wl-copy'
 #alias list="xclip -o | tr '\n' ' ' | sed 's/ $/\n/' | xclip -selection c"
 #alias splitlist="xclip -o | tr ',' '\n'"
-#alias copy='xclip -selection clipboard'
 #alias copy='wl-copy <'
 #alias cleanssh="sed -i 18d .ssh/known_hosts"
 
-# --- // Shells: 
+# --- // Shells:
 # restore shell configs from /etc/skel:
 #alias cb='cp /etc/skel/.bashrc ~/.bashrc && exec bash'
 #alias cz='cp /etc/skel/.zshrc ~/.zshrc && echo "Copied."'
@@ -984,7 +991,8 @@ function con80() {
 
 # --- // List_top20_connections_on_port80:
 function http20() {
-  sudo tcpdump -i eth0 -tnn dst port 80 -c 1000 | awk -F"." '{print $1"."$2"."$3"."$4}' | sort | uniq -c | sort -nr | head -n 20
+  sudo tcpdump -i eth0 -tnn dst port 80 -c 1000 | awk -F"." '{print $1"."$2"."$3"."$4}' | sort | uniq -c | sort -nr |
+head -n 20
 }
 
 # --- // List_top20_SYN_connections:
@@ -1019,7 +1027,7 @@ alias pyvenvcd='source $XDG_DATA_HOME/virtualenv/bin/activate --prompt 💀 && c
 # ==================================================================================== // MEDIA:
 alias trem='transmission-remote'
 alias unhblock='hblock -S none -D none'
-alias imgscrape='wget -r -l1 --no-parent -nH -nd -P/tmp -A".gif,.jpg,.png"' http://example.com/images
+alias imgscrape='wget -r -l1 --no-parent -nH -nd -P/tmp -A".gif,.jpg,.png" http://example.com/images'
 alias mirrorsite='wget -m -k -K -E -e robots=off'
 alias ytt='yt --skip-download --write-thumbnail'
 alias YT='youtube-viewer'
@@ -1040,29 +1048,28 @@ ytdl() {
 }
 
 ytf() {
-  local url="$1"
-  yt-dlp --list-formats \
-         "$url"
+    local url="$1"
+    yt-dlp --list-formats \
+           "$url"
 }
-
 
 #ytp() {
 #  yt-dlp --add-metadata \
 #         --embed-metadata \
 #         --external-downloader aria2c \
 #         --external-downloader-args "-c -j 3 -x 3 -s 3 -k 1M" \
-#         -f "315/313/308/303/302/247/244+bestaudio/best" \
+#         -f "315/313/308/303/302/247/244/137+bestaudio/best" \
 #         --yes-playlist \
-#	 --write-playlist-metafiles \
-#	 --concat-playlist always \
+#    --write-playlist-metafiles \
+#    --concat-playlist always \
 #         "$@"
 #}
 
 reddl() {
-  yt-dlp --external-downloader aria2c \
-         --external-downloader-args "-c -j 3 -x 3 -s 3 -k 1M" \
-	 -o "/home/andro/Downloads/%(title)s.%(ext)s" \
-         "$@"
+    yt-dlp --external-downloader aria2c \
+           --external-downloader-args "-c -j 3 -x 3 -s 3 -k 1M" \
+       -o "/home/andro/Downloads/%(title)s.%(ext)s" \
+           "$@"
 }
 
 m3dl() {
@@ -1078,7 +1085,7 @@ m3dl() {
 
     local save_name="${save_dir}/${base_name}_${counter}${extension}"
 
-    n-m3u8dl-re "$url" \
+    \n-m3u8dl-re "$url" \
                 --save-name "$save_name" \
                 --use-ffmpeg-concat-demuxer \
                 --thread-count 32 \
@@ -1113,7 +1120,7 @@ alias gitpkg="pacman -Q | grep -i '\-git' | wc -l"
 alias pkgbysize="expac -Q '%m - %n %v' | sort -n -r"
 alias mkpkglist='bat /tmp/pacui-ls'
 
-# --- // Package Manger Customization Flags:
+# --- // Package Manager Customization Flags:
 yaysearch() {
     read -p "Choose a search parameter (1-5): " search_param
     case $search_param in
@@ -1135,10 +1142,13 @@ alias trizenskip='trizen -S --skipinteg'
 alias update='sudo pacman -Sy && sudo powerpill -Su && paru -Su'
 
 # --- // Unsafe Install (security bypass):
-alias fninstall="yay -S --needed --cleanafter --cleanmenu --devel --noconfirm --rebuild --refresh --sudoloop --sysupgrade --overwrite='*' --disable-download-timeout --pgpfetch=false --removemake --redownload --batchinstall=false --answerclean=yes --answerdiff=no --answeredit=no"
+alias fninstall="yay -S --needed --cleanafter --cleanmenu --devel --noconfirm --rebuild --refresh --sudoloop --sysupgr
+ade --overwrite='*' --disable-download-timeout --pgpfetch=false --removemake --redownload --batchinstall=false --answe
+rclean=yes --answerdiff=no --answeredit=no"
 
 # --- // Unsafe Update (security bypass):
-alias fnupdate='yay -Syyu --noconfirm --disable-download-timeout --removemake --rebuild --pgpfetch=false --bottomup --overwrite="*"'
+alias fnupdate='yay -Syyu --noconfirm --disable-download-timeout --removemake --rebuild --pgpfetch=false --bottomup --
+overwrite="*"'
 
 # --- // Unsafe Removal (dependency bypass):
 alias fnremove='yay -Rddn --noconfirm'
@@ -1175,9 +1185,12 @@ alias fixpacmankey='sudo pacman -S archlinux-keyring && sudo pacman-key --popula
 alias fixpacmankey2='gpg-agent --homedir /etc/pacman.d/gnupg --use-standard-socket --daemon'
 #alias fixgpgkey="echo 'keyring /etc/pacman.d/gnupg/pubring.gpg' >> $HOME/.gnupg/gpg.conf && sudo pacman-key --populate archlinux"
 alias gpgkeyserver2="sudo gpg --keyserver hkps://keys.openpgp.org/ --search-keys user-id"
-alias generate-keyserver='gpg --full-generate-key && gpg --import /usr/share/pacman/keyrings/archlinux* && gpg --recv-keys --keyserver hkp://pool.sks-keyservers.net && pacman-key --init && pacman-key --populate archlinux'
-#alias newkeyring='sudo pacman -Syu gnupg $(pacman -Qsq '(-keyring)' | grep -v -i -E '(gnome|python|debian)' | paste -sd " " )" --noconfirm'
-#alias initkeyring='sudo pacman-key --init && sudo pacman-key --populate $(pacman -Qsq '(-keyring)' | grep -v -i -E '(gnome|python|debian)' | sed 's/-keyring//' | paste -sd " " )'
+alias generate-keyserver='gpg --full-generate-key && gpg --import /usr/share/pacman/keyrings/archlinux* && gpg --recv-
+keys --keyserver hkp://pool.sks-keyservers.net && pacman-key --init && pacman-key --populate archlinux'
+#alias newkeyring='sudo pacman -Syu gnupg $(pacman -Qsq '(-keyring)' | grep -v -i -E '(gnome|python|debian)' | paste -
+#sd " " )" --noconfirm'
+#alias initkeyring='sudo pacman-key --init && sudo pacman-key --populate $(pacman -Qsq '(-keyring)' | grep -v -i -E '(
+#gnome|python|debian)' | sed 's/-keyring//' | paste -sd " " )'
 
 # ==================================================================================== // GIT //
 alias g='git'
@@ -1252,7 +1265,7 @@ gclone() {
 gpush() {
     git add .
     git commit -m "$*"
-    git pull 
+    git pull
     git push
 }
 
@@ -1421,7 +1434,7 @@ ginit() {
     git push -u origin "$branch_name"
 }
 
-# ======================================================== // POWER // 
+# ======================================================================================== // POWER //
 cleanup_session() {
     echo "Starting session cleanup..."
     log_file="/var/log/session_cleanup.log"
@@ -1459,7 +1472,6 @@ cleanup_session() {
 }
 
 alias sdn="cleanup_session && echo 'Shutting down...' | sudo tee -a /var/log/user_commands.log && sudo shutdown -h now"
-
 alias ssr="cleanup_session && echo 'Rebooting...' | sudo tee -a /var/log/user_commands.log && sudo reboot -h now"
 
 alias magic='sudo /usr/local/bin/magic.sh'

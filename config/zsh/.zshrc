@@ -11,19 +11,19 @@ fi
 # --- // Fancy Prompt:
 #source ~/.config/shellz/fancy-prompts.zsh
 #precmd() {
-#	fancy-prompts-precmd
+#   fancy-prompts-precmd
 #}
 #prompt-zee -PDp "≽ "
 
 # --- // Standard Prompt:
 autoload -U colors && colors
-PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b"
+PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
 
 # ===================================================== // SETOPT //
 setopt extended_glob          # Extended globbing
 setopt autocd                 # Auto CD
-setopt interactive_comments   # Allow coments in interactive shells
-setopt appendhistory    
+setopt interactive_comments   # Allow comments in interactive shells
+setopt appendhistory
 
 # ============================================ // REHASH //
 zshcache_time="$(date +%s%N)"
@@ -64,7 +64,7 @@ _comp_options+=(globdots)
 
 # ======================================================= // EXTERNAL SOURCING
 [ -f "$HOME/.config/shellz/aliasrc" ] && source "$HOME/.config/shellz/aliasrc"
-[ -f "$HOME/.config/shellz/functions.zsh" ] && source "$HOME/.config/shellz/functions.zsh" 
+[ -f "$HOME/.config/shellz/functions.zsh" ] && source "$HOME/.config/shellz/functions.zsh"
 [ -f "$HOME/.zprofile" ] && source "$HOME/.zprofile"
 
 # ====================================== // BINDINGS //
@@ -94,7 +94,7 @@ bindkey -M vicmd '^e' edit-command-line
 bindkey -M visual '^[[P' vi-delete
 
 # ============================================ // CARGO //
-. "/home/andro/.local/share/cargo/env"   
+. "/home/andro/.local/share/cargo/env"
 
 # =========================================================== // NVM //
 export NVM_DIR="$XDG_CONFIG_HOME/nvm"
@@ -136,3 +136,7 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 # --- // P10k:
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# ================================================== //
+#               END OF .ZSHRC
+# ================================================== //
