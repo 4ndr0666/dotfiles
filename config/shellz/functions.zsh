@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # File: Functions.zsh
 # Author: 4ndr0666
 # Edited: 12-2-24
@@ -846,11 +847,17 @@ copy() {
     fi
 }
 
-# ----------------------------------------------- // UNDO_RECENTLY_INSTALLED_PKGS:
-# Function to fetch recently installed packages
-fetch_recent_packages() {
-    local count="$1"
-    expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort -r | head -n "$count" | awk '{print $3}'
+# ----------------------------------------------- // UNDO/REDO RECENT PKGS INSTALLS: 
+# Function to fetch package names based on action type
+fetch_packages() {
+    local action="$1"
+    local count="$2"
+    if [[ "$action" == "undo" ]]; then
+        expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort -r | head -n "$count" | awk '{print $3}'
+    elif [[ "$action" == "redo" ]]; then
+        # Use pacman's log file to find recently removed packages
+        grep '\[ALPM\] removed' /var/log/pacman.log | tail -n "$count" | awk '{print $4}' | tr -d ':'
+    fi
 }
 
 # Function to list packages
@@ -863,117 +870,95 @@ list_packages() {
     done
 }
 
-# Function to remove packages using pacman -Rdd
-remove_packages() {
+# Function to modify packages using pacman
+modify_packages() {
+    local action="$1"
+    shift
     local -a packages=("$@")
-    sudo pacman -Rdd "${packages[@]}"
-}
 
-# Function to remove orphaned dependencies using pacman -Rns
-remove_orphans() {
-    local -a orphans=($(pacman -Qdtq))
-    if (( ${#orphans[@]} > 0 )); then
-        sudo pacman -Rns "${orphans[@]}"
-    else
-        echo "No orphaned dependencies to remove."
+    if [[ "$action" == "undo" ]]; then
+        sudo pacman -Rdd "${packages[@]}"
+    elif [[ "$action" == "redo" ]]; then
+        sudo pacman -S "${packages[@]}"
     fi
 }
 
-# Main undo function
-undo_recently_installed_pkgs() {
-    local default_count=20
+manage_packages() {
+    local action="$1"  # "undo" or "redo"
+    local default_count=5
     local count
-    read -r -p "Enter the number of recent packages to undo (default: $default_count): " count
+
+    echo -n "Enter the number of recent packages to $action (default: $default_count): "
+    read count
     count=${count:-$default_count}
 
-    echo "Fetching the $count most recently installed packages..."
-    mapfile -t recent_packages < <(fetch_recent_packages "$count")
+    echo "Fetching the $count most recently ${action}d packages..."
 
-    if (( ${#recent_packages[@]} == 0 )); then
-        echo "No recent packages found."
-        return
+    local packages=()
+    if ! while IFS= read -r pkg; do
+        packages+=("$pkg")
+    done < <(fetch_packages "$action" "$count"); then
+        echo "Failed to fetch packages for action: $action."
+        return 1
     fi
 
-    echo "Most recently installed packages:"
-    list_packages "${recent_packages[@]}"
+    (( ${#packages[@]} == 0 )) && { echo "No recent packages found for action: $action."; return; }
 
-    read -r -p "Proceed with removing these packages using 'pacman -Rdd'? [y/N]: " confirm
-    if [[ "$confirm" =~ ^[Yy]$ ]]; then
-        echo "Removing packages..."
-        if remove_packages "${recent_packages[@]}"; then
-            echo "Packages removed successfully."
-        else
-            echo "Failed to remove some packages. Please check the errors above."
-            return 1
+    echo "Most recently ${action}d packages:"
+    list_packages "${packages[@]}"
+
+    if command -v fzf >/dev/null 2>&1; then
+        local selected
+        selected=$(printf "%s\n" "${packages[@]}" | fzf --multi --prompt="Select packages to $action: ")
+        [[ -z "$selected" ]] && { echo "No packages selected."; return; }
+        packages=($selected)
+    else
+        echo -n "Enter package numbers to $action, separated by space (or type 'all' for all): "
+        read selection
+        if [[ "$selection" != "all" ]]; then
+            local selected_packages=()
+            for sel in $selection; do
+                if [[ "$sel" =~ ^[0-9]+$ ]] && (( sel > 0 && sel <= ${#packages[@]} )); then
+                    selected_packages+=("${packages[sel-1]}")
+                else
+                    echo "Invalid selection: $sel"
+                    return 1
+                fi
+            done
+            packages=("${selected_packages[@]}")
         fi
-    else
-        echo "Package removal canceled."
+        (( ${#packages[@]} == 0 )) && { echo "No packages selected."; return; }
     fi
 
-    read -r -p "Do you want to remove unneeded dependencies using 'pacman -Rns'? [y/N]: " clean_confirm
-    if [[ "$clean_confirm" =~ ^[Yy]$ ]]; then
-        echo "Removing orphaned dependencies..."
-        remove_orphans
+    # Decide the action verb (no uppercase expansions)
+    local action_verb="removing"
+    [[ "$action" == "redo" ]] && action_verb="reinstalling"
+
+    echo "$action_verb packages..."
+    if modify_packages "$action" "${packages[@]}"; then
+        echo "Packages ${action_verb} successfully."
     else
-        echo "Dependency cleanup skipped."
+        echo "Failed to complete: $action_verb some packages."
+        return 1
     fi
 }
 
-# Alias
-alias undo_recently_installed_pkgs=undopkgs
+# Alias to invoke undo functionality, with optional package name
+undo() {
+    if [[ -n "$1" ]]; then
+        manage_packages "undo" "$1"
+    else
+        manage_packages "undo"
+    fi
+}
 
-# ----------------------------------------------- // UNDO_RECENTLY_INSTALLED_PKGS:
-#function undo() {
-#    echo "Fetching the most recently installed packages..."
-#
-#    # Fetch the list of most recently installed packages
-#    local -a recent_packages
-#    recent_packages=("${(@f)$(expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort -r | head -n 20 | awk '{print $3}')}")
-#
-#    if (( ${#recent_packages[@]} == 0 )); then
-#        echo "No recent packages found."
-#        return
-#    fi
-#
-#    echo "Most recently installed packages are:"
-#    local idx=1
-#    for pkg in "${recent_packages[@]}"; do
-#        echo "${idx}) $pkg"
-#        ((idx++))
-#    done
-#
-#    read -q "response?Proceed with primary removal method 'pacman -Rdd' (does not remove dependencies)? [y/N]: "
-#    echo
-#    if [[ "$response" =~ ^[Yy]$ ]]; then
-#        echo "Attempting to remove packages..."
-#        if sudo pacman -Rdd "${recent_packages[@]}"; then
-#            echo "Packages removed with 'pacman -Rdd'. Orphaned dependencies are not removed."
-#        else
-#            echo "Failed to remove packages. Please check for errors and try again."
-#            return 1
-#        fi
-#    else
-#        echo "Primary removal canceled."
-#    fi
-#
-#    read -q "response?Do you want to remove unneeded dependencies with 'pacman -Rns'? [y/N]: "
-#    echo
-#    if [[ "$response" =~ ^[Yy]$ ]]; then
-#        local orphans=("${(@f)$(pacman -Qdtq)}")
-#        if (( ${#orphans[@]} > 0 )); then
-#            echo "Removing unneeded dependencies..."
-#            if sudo pacman -Rns "${orphans[@]}"; then
-#                echo "Unneeded dependencies removed."
-#            else
-#                echo "Failed to remove unneeded dependencies. Please check for errors and try again."
-#            fi
-#        else
-#            echo "No unneeded dependencies to remove."
-#        fi
-#    else
-#        echo "Additional cleanup canceled."
-#    fi
-#}
+redo() {
+    if [[ -n "$1" ]]; then
+        manage_packages "redo" "$1"
+    else
+        manage_packages "redo"
+    fi
+}
 
 # --------------------------------------------------------- // DOWNSCALE_TO_1080P:
 function downscale_to_1080p() {
@@ -1376,7 +1361,8 @@ declare -A YTDLP_COOKIES_MAP=(
     ["youtube.com"]="$HOME/.config/yt-dlp/youtube_cookies.txt"    # YouTube
     ["youtu.be"]="$HOME/.config/yt-dlp/youtube_cookies.txt"       # YouTube Short Links
     ["patreon.com"]="$HOME/.config/yt-dlp/patreon_cookies.txt"    # Patreon
-    ["vimeo.com"]="$HOME/.config/yt-dlp/vimeo_cookies.txt"        # Vimeo
+    ["vimeo.com"]="$HOME/.config/yt-dlp/vimeo_cookies.txt"
+    ["boosty.to"]="$HOME/.config/yt-dlp/boosty_cookies.txt"       # Boosty
     # Add more mappings as needed
 )
 

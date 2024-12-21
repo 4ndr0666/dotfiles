@@ -6,39 +6,38 @@
 # --- // General:
 --wrap=auto
 --color=always
---terminal-width=120
+--terminal-width=80
 --tabs=4
-#--paging="always"
-#--pager="BAT_PAGER"
-#--pager="less"
-# --pager="less -rFXI" # less with raw control chars, quit if one screen, no init/deinit, ignore case in searches
-# --show-nonprintable
+#--paging=never
+#--pager="less -rFXI" # less with raw control chars, quit if one screen, no init/deinit, ignore case in searches
+#--show-nonprintable
 # --italic-text=always
 
 # --- // Theme:
+#--theme="GitHub"
+#--theme="Catppuccin Latte"
+#--theme="Catppuccin Frappe"
+#--theme="Catppuccin Macchiato"
+#--theme="Catppuccin Mocha"
 #--theme="DarkNeon"
-#--theme="ansi"
+#--theme="Monokai"
+--theme="ansi"
 #--theme="ayu-dark"
 #--theme="ayu-light"
 #--theme="ayu-mirage"
-#--theme="Catppuccin Frappe"
-#--theme="Catppuccin Latte"
-#--theme="Catppuccin Macchiato"
-#--theme="Catppuccin Mocha"
 #--theme="Dracula"
 #--theme="nord"
 #--theme="Snazzy"
 #--theme="tokyonight_day"
 #--theme="tokyonight_night"
 #--theme="tokyonight_storm"
---theme=github
 #--theme="gruvbox-dark"
 
 # --- // Style:
-#1 --style="grid,header,changes,full"
+#1 --style="grid,header,changes"
 #2 --style="numbers,grid,header,changes,full"
-#3
---style=changes,header,snip
+#3--style=changes,header
+--style="changes,header,rule,snip"
 
 # --- // Language:
 --map-syntax="*.conf:INI"
