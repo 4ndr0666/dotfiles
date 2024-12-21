@@ -22,7 +22,6 @@ PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magent
 # --- // Setopt:
 setopt extended_glob         
 setopt autocd               
-stty stop undef
 setopt interactive_comments   
 
 # --- // History:
@@ -48,7 +47,7 @@ add-zsh-hook -Uz precmd rehash_precmd
 
 # --- // Autocomplete:
 autoload -U compinit
-compinit -d $XDG_CACHE_HOME/zsh/zcompdump-"$ZSH_VERSION"
+#compinit -d $XDG_CACHE_HOME/zsh/zcompdump-"$ZSH_VERSION"
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 zstyle ':completion:*' rehash true
@@ -74,7 +73,32 @@ _comp_options+=(globdots)
 #. "/home/andro/.local/share/cargo/env"  # Cargo Env
 
 # --- // Bindings:
-## LFCD:
+## VIM:
+bindkey -v
+export KEYTIMEOUT=1
+# Use vim keys in tab complete menu:
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'l' vi-forward-char
+bindkey -M menuselect 'j' vi-down-line-or-history
+bindkey -v '^?' backward-delete-char
+# Change cursor shape for different vi modes.
+function zle-keymap-select () {
+    case $KEYMAP in
+        vicmd) echo -ne '\e[1 q';;      # block
+        viins|main) echo -ne '\e[5 q';; # beam
+    esac
+}
+zle -N zle-keymap-select
+zle-line-init() {
+    zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
+    echo -ne "\e[5 q"
+}
+zle -N zle-line-init
+echo -ne '\e[5 q' # Use beam shape cursor on startup.
+preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
+
+## LF:
 lfcd () {
     tmp="$(mktemp -uq)"
     trap 'rm -f $tmp >/dev/null 2>&1 && trap - HUP INT QUIT TERM PWR EXIT' HUP INT QUIT TERM PWR EXIT
@@ -84,17 +108,17 @@ lfcd () {
         [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
     fi
 }
-
 bindkey -s '^o' '^ulfcd\n'
+
 bindkey -s '^a' '^ubc -lq\n'
+
 bindkey -s '^f' '^ucd "$(dirname "$(fzf)")"\n'
+
 bindkey '^[[P' delete-char
 
-## VIM:
-bindkey '^[[P' delete-char             # Delete character with a specific key sequence
-autoload -Uz edit-command-line
-zle -N edit-command-line
-bindkey '^e' edit-command-line          # Edit command line with Vim using Ctrl+E
+# Edit line in vim with ctrl-e:
+autoload edit-command-line; zle -N edit-command-line
+bindkey '^e' edit-command-line
 bindkey -M vicmd '^[[P' vi-delete-char
 bindkey -M vicmd '^e' edit-command-line
 bindkey -M visual '^[[P' vi-delete
@@ -122,24 +146,32 @@ alias mpv2='mpv --input-ipc-server=/tmp/mpvSockets/socket2'
 ## FZF
 fpath=("$XDG_DATA_HOME/zsh/completions" "/usr/share/zsh/vendor-completions" $fpath)
 source <(fzf --zsh)
+
 ## FTC
 source /usr/share/doc/find-the-command/ftc.zsh noprompt quiet 2>/dev/null
+
 ## You-should-use
 source /usr/share/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh 2>/dev/null
+
 ## Extract
 source /usr/share/zsh/plugins/zsh-extract/extract.plugin.zsh 2>/dev/null
+
 ## Sudo
 source /usr/share/zsh/plugins/zsh-sudo/sudo.plugin.zsh 2>/dev/null
+
 ## SystemdD
 source /usr/share/zsh/plugins/zsh-systemd/systemd.plugin.zsh 2>/dev/null
+
 ## History-substring-search
 source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh 2>/dev/null
+
 ## Autosuggestions
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
-## Syntax-highlighting
-ZSH_HIGHLIGHT_HIGHLIGHTERS+=(brackets pattern cursor)
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
 
 # --- // P10k:
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+## Syntax-highlighting
+source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
+

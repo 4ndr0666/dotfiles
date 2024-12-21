@@ -26,13 +26,13 @@ static_dirs=(
     "/usr/local/sbin"
     "/usr/bin"
 )
-dynamic_dirs=(
-    "/Nas/Build/git/syncing/scr/**/*(/))"
-)
-all_dirs=(
-    "${static_dirs[@]}" "${dynamic_dirs[@]}"
-)
+
+dynamic_dirs=(/Nas/Build/git/syncing/scr/**/*(/))
+
+all_dirs=("${static_dirs[@]}" "${dynamic_dirs[@]}")
+
 typeset -U PATH
+
 for dir in "${all_dirs[@]}"; do
     dir=${dir%/}
     # Add directory to PATH if it contains at least one executable file
@@ -40,8 +40,10 @@ for dir in "${all_dirs[@]}"; do
         PATH="$PATH:$dir"
     fi
 done
+
 export PATH
-unsetopt PROMPT_SP 2>/dev/null
+
+
 ######################## // Setup Cache File //
 ## cache_file="$HOME/.cache/dynamic_dirs.list"
 ##
@@ -198,6 +200,34 @@ fi
 bindkey '^R' fzf-history-widget
 export FZF_DEFAULT_OPTS="--layout=reverse --height=40%"
 
+export FZF_DEFAULT_OPTS="
+  --layout=reverse
+  --height=40%
+  --border
+  --bind='ctrl-a:select-all,ctrl-d:deselect-all'
+  --cycle
+  --inline-info
+  --tiebreak=index
+  --preview='bat --style=numbers --color=always --line-range :500 {} | head -n 100'
+  --preview-window='right:50%'
+  --color=bg+:-1,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+  --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+  --color=marker:#f5e0dc,fg+:#a6e3a1,prompt:#cba6f7,hl+:#f38ba8"
+
+#export FZF_DEFAULT_OPTS="
+#  --layout=reverse
+#  --height=40%
+#  --border
+#  --bind='ctrl-a:select-all,ctrl-d:deselect-all'
+#  --cycle
+#  --inline-info
+#  --tiebreak=index
+#  --preview='bat --style=numbers --color=always --line-range :500 {}'
+#  --color=bg+:-1,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+#  --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+#  --color=marker:#f5e0dc,fg+:#a6e3a1,prompt:#cba6f7,hl+:#f38ba8"
+
+
 # --- // Truecolor:
 case "${COLORTERM}" in
     truecolor|24bit) ;;
@@ -205,10 +235,10 @@ case "${COLORTERM}" in
 esac
 
 # --- // Bat:
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+export MANPAGER="sh -c 'col -bx | bat -l man -p | less -R'"
 
 # --- // Less:
-export LESS="R"
+export LESS='R'
 export LESS_TERMCAP_mb="$(printf '%b' '[1;31m')"
 export LESS_TERMCAP_md="$(printf '%b' '[1;36m')"
 export LESS_TERMCAP_me="$(printf '%b' '[0m')"
