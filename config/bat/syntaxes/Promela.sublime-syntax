@@ -1,0 +1,71 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Promela
+file_extensions:
+  - pml
+  - promela
+scope: source.promela
+contexts:
+  main:
+    - match: \/\*
+      comment: Block comment
+      push:
+        - meta_scope: comment.block
+        - match: \*\/
+          pop: true
+    - match: \b(assert|else|fi|if|unless|xr|xs|do|od|break|skip|atomic)\b
+      comment: flow control
+      scope: keyword.control
+    - match: \b(run)\b
+      comment: operators
+      scope: keyword.operator
+    - match: '^(#)\s*(define)\s*([a-zA-Z_]+[0-9a-zA-Z_]*)'
+      comment: defines
+      captures:
+        2: keyword.operator
+        3: entity.name.function
+    - match: '\b[a-zA-Z_]+[0-9a-zA-Z_]*(\s)*:'
+      comment: label (as in goto)
+      scope: variable.other
+    - match: \b(printf|len|empty|nempty|full|nfull|enabled|eval|pc_value)\b
+      comment: built-in functions
+      scope: entity.name.function
+    - match: '\b([a-zA-Z_]+[0-9a-zA-Z_]*)\('
+      comment: function calls
+      captures:
+        1: entity.name.function
+      push:
+        - match: \)
+          pop: true
+        - include: main
+    - match: '\b(ltl)(\s)+([a-zA-Z_]+[0-9a-zA-Z_]*)(\s)*{'
+      comment: ltls
+      captures:
+        1: storage.type
+        3: entity.name.function
+      push:
+        - match: "}"
+          pop: true
+        - include: main
+    - match: '"([^\\"]|\\.)*"'
+      comment: string
+      scope: string.quoted.double
+    - match: '\b([0-9])+\b'
+      comment: integer
+      scope: constant.numeric
+    - match: \b(true|false|TRUE|FALSE)\b
+      comment: true and false
+      scope: constant.language
+    - match: \b(bit|bool|byte|pid|chan|int|mtype|proctype|short|unsigned|Dproctype)\b
+      comment: type
+      scope: storage.type
+    - match: \b(hidden|init|inline|active|local|show)\b
+      comment: modifiers
+      scope: storage.modifier
+    - match: \b(typedef|c_state)\b
+      comment: I don't know where to put these
+      scope: storage.modifier
+    - match: \/\/.*$
+      comment: Line comment
+      scope: comment.double-slash

@@ -4,6 +4,8 @@ name: Markdown
 file_extensions:
   - md
   - markdown
+  - mdown
+  - markdn
 scope: text.html.markdown
 contexts:
   main:

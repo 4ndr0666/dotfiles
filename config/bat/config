@@ -4,10 +4,10 @@
 
 # ===================== // BAT_CONFIG //
 # --- // General:
---wrap="auto"
---color="always"
---terminal-width="120"
---tabs="4"
+--wrap=auto
+--color=always
+--terminal-width=120
+--tabs=4
 #--paging="always"
 #--pager="BAT_PAGER"
 #--pager="less"
@@ -16,17 +16,29 @@
 # --italic-text=always
 
 # --- // Theme:
-#--theme="Sublime Snazzy"
 #--theme="DarkNeon"
---theme="GitHub"
-#--theme="CustomCyan.sublime-color-scheme"
+#--theme="ansi"
+#--theme="ayu-dark"
+#--theme="ayu-light"
+#--theme="ayu-mirage"
+#--theme="Catppuccin Frappe"
+#--theme="Catppuccin Latte"
+#--theme="Catppuccin Macchiato"
+#--theme="Catppuccin Mocha"
+#--theme="Dracula"
+#--theme="nord"
+#--theme="Snazzy"
+#--theme="tokyonight_day"
+#--theme="tokyonight_night"
+#--theme="tokyonight_storm"
+--theme=github
 #--theme="gruvbox-dark"
 
 # --- // Style:
 #1 --style="grid,header,changes,full"
 #2 --style="numbers,grid,header,changes,full"
 #3
---style="changes,header"
+--style=changes,header,snip
 
 # --- // Language:
 --map-syntax="*.conf:INI"
