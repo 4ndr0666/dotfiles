@@ -1,92 +1,40 @@
 #!/bin/sh
+# File: /home/$USER/.config/zsh/.zprofile
 
-# File: /home/$USER/.config/shell/zenvironment
-# Author: 4ndr0666
-# Edited: 10-19-24
-
-# ======================================== // ZENVIRONTMENT //
-# --- // Dynamic-PATH:
+# ======================================== // ZPROFILE //
+# --- // Dynamic Path:
 static_dirs=(
     "$HOME/.npm-global/bin"
-#    "$HOME/.gem/ruby/2.7.0/bin"  # Adjust Ruby version as needed
-    "$HOME/.pyenv/bin"
-    "$HOME/.pyenv/shims"
-    "$HOME/.config/yarn/global/node_modules/.bin"
-    "$HOME/.local/share/go/"
-    "/usr/local/go/bin"
-    "${JAVA_HOME:-/usr/lib/jvm/default/bin}"  # Use JAVA_HOME if set, else default
-    "$HOME/.rvm/bin"
-    "$HOME/.virtualenvs"
-#    "$HOME/.poetry/bin"
+    "$HOME/.local/share/goenv/bin"
     "$HOME/.local/bin"
     "$HOME/bin"
-    "/opt/"
+    "$XDG_DATA_HOME/gem/ruby/3.3.0/bin"
+    "$XDG_DATA_HOME/virtualenv"
+    "$XDG_DATA_HOME/go"
     "$CARGO_HOME/bin"
+    "${JAVA_HOME:-/usr/lib/jvm/default/bin}"
     "/sbin"
+    "/opt/"
     "/usr/sbin"
     "/usr/local/sbin"
     "/usr/bin"
 )
-# Use Zsh globbing to find directories under "/Nas/Build/git/syncing/scr/" with max depth 1
-dynamic_dirs=(/Nas/Build/git/syncing/scr/*(/))
-#$(find /Nas/Build/git/syncing/scr -type d | paste -sd ':' -)
+
+dynamic_dirs=(/Nas/Build/git/syncing/scr/**/*(/))
+
 all_dirs=("${static_dirs[@]}" "${dynamic_dirs[@]}")
+
 typeset -U PATH
 
 for dir in "${all_dirs[@]}"; do
-    # Remove trailing slash for consistency
     dir=${dir%/}
-    # Check if the directory exists
-    if [[ -d $dir ]]; then
-        # Prepend to PATH to prioritize these directories
+    # Add directory to PATH if it contains at least one executable file
+    if [[ -d "$dir" && -n "$(find "$dir" -maxdepth 1 -type f -executable | head -n 1)" ]]; then
         PATH="$PATH:$dir"
     fi
 done
 
 export PATH
-####################################################################3
-#all_dirs=(
-#    "$HOME/.npm-global/bin"
-#    "$HOME/.cargo/bin"
-#    "$HOME/.gem/ruby/2.7.0/bin"  # Adjust Ruby version as needed
-#    "$HOME/.pyenv/bin"
-#    "$HOME/.pyenv/shims"
-#    "$HOME/.config/yarn/global/node_modules/.bin"
-#    "$HOME/.local/share/go/"
-#    "/usr/local/go/bin"
-#    "${JAVA_HOME:-/usr/lib/jvm/default/bin}"  # Use JAVA_HOME if set, else default
-#    "$HOME/.rvm/bin"
-#    "$HOME/.virtualenvs"
-#    "$HOME/.poetry/bin"
-#    "$HOME/bin"
-#    "$HOME/.local/bin"
-#    "/home/andro/bin/"
-#    "/opt/bin"
-#    "/sbin"
-#    "/usr/sbin"
-#    "/usr/local/sbin"
-#    "/usr/bin"
-#)
-#additional_dirs=($(find '/Nas/Build/git/syncing/scr/' -maxdepth 1 -type d 2>/dev/null))
-#
-# Use Zsh globbing to find directories under "/Nas/Build/git/syncing/scr/"
-#additional_dirs=(/Nas/Build/git/syncing/scr/*(/))
-#
-# Add the additional directories to the all_dirs array
-#all_dirs+=("${additional_dirs[@]}")
-#
-# Update PATH with all valid directories
-#for dir in "${all_dirs[@]}"; do
-#    if [[ -d $dir ]]; then
-#        PATH="$PATH:$dir"
-#    fi
-#done
-# Export the path
-#export PATH
-# Ensure no duplicates
-#typeset -U path PATH cdpath CDPATH fpath FPATH manpath MANPATH
-###########################################################################
-unsetopt PROMPT_SP 2>/dev/null
 
 # ================================== // Default_programs:
 export MICRO_TRUECOLOR=1
@@ -104,52 +52,113 @@ mkdir -p "$(dirname "$HISTFILE")"
 #fi
 export TRASHDIR="/home/andro/.local/share/Trash"
 
-# --- // XDG Base Directory Configuration:
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_CACHE_HOME="$HOME/.cache"
-
-# --- // XDG_RUNTIME_DIR_SETUP:
+# --- // XDG_specs:
 if [ -z "$XDG_RUNTIME_DIR" ]; then
     export XDG_RUNTIME_DIR="/run/user/$(id -u)"
 fi
 
 if [ ! -d "$XDG_RUNTIME_DIR" ]; then
-    mkdir -p "$XDG_RUNTIME_DIR"
+    \mkdir -p "$XDG_RUNTIME_DIR"       # Bypassing the alias
+    \chmod 0700 "$XDG_RUNTIME_DIR"
 fi
 
-# --- // XDG_DATA_DIRS_SETUP:
-[ -z "$XDG_DATA_DIRS" ] && export XDG_DATA_DIRS="/usr/local/share:/usr/share"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_STATE_HOME="$HOME/.local/state"
 
-# --- // XDG_COMPLIANCE
+# --- // Env:
+export TRASHDIR="$XDG_DATA_HOME/Trash"
+export ZDOTDIR="$HOME/.config/zsh/"
+export DICS="$XDG_DATA_HOME/stardict/dic/"
+export AUR_DIR="/home/aur_build"
 export XINITRC="$XDG_CONFIG_HOME/x11/xinitrc"
 #export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority" # This line will break some DMs.
 export NOTMUCH_CONFIG="$XDG_CONFIG_HOME/notmuch-config"
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
+export W3M_DIR="$XDG_DATA_HOME/w3m"
+export TLDR_CACHE_DIR="$XDG_CACHE_HOME/tldr"
 export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
 export INPUTRC="$XDG_CONFIG_HOME/shell/inputrc"
-export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
-mkdir -p "$WINEPREFIX"
-export WINEARCH="win32"
+export XCURSOR_PATH="/usr/share/icons:$XDG_DATA_HOME/icons"
+export SCREENRC="$XDG_CONFIG_HOME/screen/screenrc"
 export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
 export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
-export ANDROID_SDK_HOME="$XDG_CONFIG_HOME/android"
-export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo"
-export GOPATH="$XDG_DATA_HOME/go"
-export GOMODCACHE="$XDG_CACHE_HOME/go/mod"
-#export POETRY_CACHE_DIR="$XDG_CACHE_HOME/pypoetry"
-export POETRY_VIRTUALS_PATH="$POETRY_CACHE_DIR/virtualenvs"
+export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
+export WINEARCH=win32
+export VENV_HOME="$XDG_DATA_HOME/virtualenv"
+export PIPX_HOME="$XDG_DATA_HOME/pipx"
 export ENV_DIR="$XDG_DATA_HOME/virtualenv"
 export VIRTUAL_ENV_PROMPT="(💀)"
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/pythonrc"
 export PIP_DOWNLOAD_CACHE="$XDG_CACHE_HOME/pip/"
+export GOPATH="$XDG_DATA_HOME/go"
+export GOMODCACHE="$XDG_CACHE_HOME/go/mod"
+export GOENV_ROOT="$XDG_DATA_HOME/goenv"
+export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
+export RBENV_ROOT="$XDG_DATA_HOME/rbenv"
+export PARALLEL_HOME="$XDG_CONFIG_HOME/parallel"
+export _JAVA_OPTIONS="-Djava.util.prefs.userRoot=\"$XDG_CONFIG_HOME/java\""
+export MODE_REPL_HISTORY="$XDG_DATA_HOME/node_repl_history"
+export MESON_HOME="$XDG_CONFIG_HOME/meson"
+export GEM_HOME="$XDG_DATA_HOME/gem"
 export SQLITE_HISTORY="$XDG_DATA_HOME/sqlite_history"
-# export KODI_DATA="$XDG_DATA_HOME/kodi"
-export ZDOTDIR="$XDG_CONFIG_HOME/shellz/"
-#mkdir -p "$WINEPREFIX" "$CARGO_HOME" "$GOPATH" "$GOMODCACHE"
-export DICS="/usr/share/stardict/dic/"
+export ELECTRON_CACHE="$XDG_CACHE_HOME/electron"
+export ELECTRON_MIRROR="https://npm.taobao.org/mirrors/electron/"
+export NODE_DATA_HOME="$XDG_DATA_HOME/node"
+export NODE_CONFIG_HOME="$XDG_CONFIG_HOME/node"
+export TEXMFVAR="$XDG_CACHE_HOME/texlive/texmf-var"
+export CARGO_HOME="$XDG_DATA_HOME/cargo"
+export LIBVA_DRIVERS_PATH="/usr/lib/dri/i965_drv_video.so"
+export LIBVA_DRIVER_NAME=i965
+# export LIBVA_DISPLAY=wayland
+#export NUGET_PACKAGES="$XDG_CACHE_HOME/NuGetPackages"
+#export DOTNET_CLI_HOME="$XDG_DATA_HOME/dotnet"
+#export PSQL_HOME="$XDG_DATA_HOME/postgresql"
+#export MYSQL_HOME="$XDG_DATA_HOME/mysql"
+#export SQLITE_HOME="$XDG_DATA_HOME/sqlite"
+#export SQL_DATA_HOME="$XDG_DATA_HOME/sql"
+#export SQL_CONFIG_HOME="$XDG_CONFIG_HOME/sql"
+#export SQL_CACHE_HOME="$XDG_CACHE_HOME/sql"
 
-# ================================================ // X11:
+
+# Create necessary directories
+\mkdir -p "$WINEPREFIX" \
+         "$CARGO_HOME" \
+         "$GOPATH" \
+         "$GOMODCACHE" \
+         "$XDG_DATA_HOME/lib" \
+         "$AUR_DIR" \
+         "$XDG_DATA_HOME/stardict/dic" \
+         "$XDG_DATA_HOME/bin" \
+         "$XDG_DATA_HOME/go/bin" \
+         "$XDG_DATA_HOME/cargo/bin" \
+         "$XDG_CONFIG_HOME/nvm" \
+         "$XDG_CONFIG_HOME/meson" \
+         "$XDG_DATA_HOME/gem" \
+         "$XDG_DATA_HOME/virtualenv" \
+         "$HOME/.local/pipx" \
+         "$ELECTRON_CACHE" \
+         "$NODE_DATA_HOME" \
+         "$XDG_DATA_HOME/node/npm-global" \
+         "$RBENV_ROOT" \
+         "$W3M_DIR" \
+         "$PARALLEL_HOME" \
+         "$GEM_HOME"
+#         "$PSQL_HOME" \
+#         "$MYSQL_HOME" \
+#         "$SQLITE_HOME" \
+#         "$SQL_DATA_HOME" \
+#         "$SQL_CONFIG_HOME" \
+#         "$SQL_CACHE_HOME" \
+#         "$DOTNET_CLI_HOME"
+
+# Setting permissions where necessary (if any directory is not writable, we can adjust):
+#"$GOROOT_PATH" "$PSQL_HOME" "$MYSQL_HOME" "$SQLITE_HOME"
+\chmod u+w "$CARGO_HOME" "$GOMODCACHE" "$GOPATH"
+
+# ================================================ // X11_ENV //
 #export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 # --- OPENBOX:
 # export XGD_CURRENT_DESKTOP='openbox'
@@ -158,101 +167,105 @@ export DICS="/usr/share/stardict/dic/"
 # export QT_QPA_PLATFORMTHEME=qt5ct
 # export MOZ_USE_XINPUT2=1
 # export AWT_TOOLKIT=MToolkit wmname LG3D  # May have to install wmname
-# export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel ${_JAVA_OPTIONS}"
+# export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.pla
+#f.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel ${_JAVA_OPTIONS}"
 
-# --- // Auto-complete:
-#zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'  # Case insensitive tab completion
-#zstyle ':completion:*' rehash true  # Automatically find new executables in path
-#zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"  # Colored completion (different colors for dirs/files/etc)
-#zstyle ':completion:*' completer _expand _complete _ignored _approximate
-#zstyle ':completion:*' menu select
-#zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
-#zstyle ':completion:*:descriptions' format '%U%F{cyan}%d%f%u'
+# =======================================================
+# --- // Library:
+export LD_LIBRARY_PATH="$XDG_DATA_HOME/lib:/usr/local/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 
-# --- // Speed-up Completeions:
-#zstyle ':completion:*' accept-exact '*(N)'
-#zstyle ':completion:*' use-cache on
-#zstyle ':completion:*' cache-path ~/.cache/zcache
-#source <(fzf --zsh)
-
-# ======================================= // LIBRARY_AND_SECURITY //
-export LD_LIBRARY_PATH="/home/andro/ffmpeg_build/lib:$HOME/.local/lib:/usr/local/lib:$LD_LIBRARY_PATH"
-export SUDO_ASKPASS="/usr/bin/pinentry-dmenu"
-# export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
+# --- // Askpass:
+export SUDO_ASKPASS="$XDG_CONFIG_HOME"/wayfire/scripts/rofi_askpass  # Wayfire specific
+#export SUDO_ASKPASS="/usr/bin/pinentry-dmenu"    # Xorg
 
 # --- // GPG:
-export GNUPGHOME="$HOME/.gnupg"
+export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 if [ ! -d "$GNUPGHOME" ]; then
-    mkdir -p "$GNUPGHOME"
+    \mkdir -p "$GNUPGHOME"
+    \chmod 700 "$GNUPGHOME"
 fi
-chmod 700 "$GNUPGHOME"
-#export GPG_TTY="$(tty)"
-#gpg-connect-agent updatestartuptty /bye >/dev/null
-#gpg-connect-agent reloadagent /bye >/dev/null
-#eval $(ssh-agent) && ssh-add 2&>/dev/null
 
-# ========================================== // Pager:
-# --- // Bat:
-export MANPAGER="sh -c 'col -bx | bat -l man -p | less -R'"
+gpg_env_file="$XDG_CONFIG_HOME/shellz/gpg_env"
+if [ -f "$gpg_env_file" ]; then
+    source "$gpg_env_file"
+else
+    echo "Warning: $gpg_env_file not found"
+fi
 
-# --- // Fzf:
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# ==================================== // FZF //
+# --- // Bindings:
+## History
 bindkey '^R' fzf-history-widget
 
-export FZF_DEFAULT_OPTS="
-  --layout=reverse
-  --height=40%
-  --border
-  --bind='ctrl-a:select-all,ctrl-d:deselect-all'
-  --cycle
-  --inline-info
-  --tiebreak=index
-  --preview='bat --style=numbers --color=always --line-range :500 {} | head -n 100'
-  --preview-window='right:50%'
-  --color=bg+:-1,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
-  --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
-  --color=marker:#f5e0dc,fg+:#a6e3a1,prompt:#cba6f7,hl+:#f38ba8"
+## fh - repeat history
+fh() {
+  print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed -E 's/ *[0-9]*\*? *//' | sed -E 's/\\/\\\\/g')
+}
 
-#export FZF_DEFAULT_OPTS="
-#  --layout=reverse
-#  --height=40%
-#  --border
-#  --bind='ctrl-a:select-all,ctrl-d:deselect-all'
-#  --cycle
-#  --inline-info
-#  --tiebreak=index
-#  --preview='bat --style=numbers --color=always --line-range :500 {}'
-#  --color=bg+:-1,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
-#  --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
-#  --color=marker:#f5e0dc,fg+:#a6e3a1,prompt:#cba6f7,hl+:#f38ba8"
+## Wl-copy:
+export FZF_DEFAULT_OPTS='--bind "ctrl-y:execute-silent(printf {} | cut -f 2- | wl-copy --trim-newline)"'
 
 
-# Ensure truecolor support
+FZF_DEFAULT_OPTS="
+--layout=reverse
+--height=40%
+--border=thinblock
+--info=right
+--tiebreak=index
+--scrollbar='│' 
+--preview 'file {}'
+--preview-window='right:50%'
+--color=fg:#005b69,fg+:#15FFFF,bg:#151515,bg+:#262626 \
+--color=hl:#15FFFF,hl+:#15FFFF,info:#195761,marker:#15FFFF \
+--color=prompt:#00f7ff,spinner:#64e290,pointer:#15FFFF,header:#07fff7 \
+--color=border:#262626,preview-border:#15FFFF,label:#005b69,query:#15ffff \
+--border-label-pos='-54' --prompt='≽  ' --marker='✔' --pointer='☞' --separator='-'" 
+
+## Garuda Style  
+#export FZF_DEFAULT_OPTIONS="
+#    --height=40% --layout=reverse --info=inline --border --margin=1 --padding=1 \
+#    --tiebreak=index \
+#    --preview 'bat --color=always {}' --preview-window '~3' \
+#    --color 'bg+:-1,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8' \
+#    --color 'fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc' \
+#    --color 'marker:#f5e0dc,fg+:#a6e3a1,prompt:#cba6f7,hl+:#f38ba8'"
+
+## Preview Window:
+#--preview 'file {}' --preview-window up,1,border-horizontal \
+#--bind 'ctrl-/:change-preview-window(50%|hidden|)' \
+
+## Theme: Dark Transparent w Pink Marker    
+# --color 'fg:#bbccdd,fg+:#ddeeff,bg:#334455,preview-bg:#223344,border:#778899" 
+  
+## Theme: Garuda Theme
+# --color=bg+:-1,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+# --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+# --color=marker:#f5e0dc,fg+:#a6e3a1,prompt:#cba6f7,hl+:#f38ba8"
+
+# --- // Truecolor:
 case "${COLORTERM}" in
-    truecolor|24bit) ;;  # Already supports truecolor
+    truecolor|24bit) ;;
     *) export COLORTERM="24bit" ;;
 esac
 
-# --- // LESS Configuration:
-export LESS='-R'  # Preserve raw control characters
-unset LESS_TERMCAP_mb
-unset LESS_TERMCAP_md
-unset LESS_TERMCAP_me
-unset LESS_TERMCAP_so
-unset LESS_TERMCAP_se
-unset LESS_TERMCAP_us
-unset LESS_TERMCAP_ue
+# --- // Bat:
+#export MANPAGER="sh -c 'col -bx | bat -l man -p | less -R'"
+export MANPAGER="sh -c 'col -bx | bat -l man -p --paging always'"
+
+# --- // Less:
+export LESS='-R'
+export LESS_TERMCAP_mb="$(printf '%b' '[1;31m')"
+export LESS_TERMCAP_md="$(printf '%b' '[1;36m')"
+export LESS_TERMCAP_me="$(printf '%b' '[0m')"
+export LESS_TERMCAP_so="$(printf '%b' '[01;44;33m')"
+export LESS_TERMCAP_se="$(printf '%b' '[0m')"
+export LESS_TERMCAP_us="$(printf '%b' '[1;32m')"
+export LESS_TERMCAP_ue="$(printf '%b' '[0m')"
 
 # --- // LESSOPEN Configuration:
-export LESSOPEN="| bat --paging=never --style=numbers --color=always {}"
+export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
 
-# ------------------------------------------------------- // MISC //
 # --- // SPEEDUP KEYS:
 #command -v xset &>/dev/null && xset r rate 300 50 || echo "xset command not found, skipping keyboard rate configuration."
 #xset r rate 300 50
-
-# --- // LF_SHORTCUTS:
-[ ! -f "$XDG_CONFIG_HOME/shell/shortcutrc" ] && setsid -f shortcuts >/dev/null 2>&1
-# Switch escape and caps if tty and no passwd required:
-#sudo -n loadkeys "$XDG_DATA_HOME/larbs/ttymaps.kmap" 2>/dev/null

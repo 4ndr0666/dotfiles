@@ -1,7 +1,5 @@
 #!/bin/sh
-
-# This file runs when a DM logs you into a graphical session.
-# If you use startx/xinit like a Chad, this file will also be sourced.
+# This file is sourced with DWM.
 
 xrandr --dpi 144		# Set DPI. User may want to use a larger number for larger screens.
 setbg &			# set the background with the `setbg` script
