@@ -1,0 +1,182 @@
+# File: /home/$USER/.config/shell/zenvironment
+# Author: 4ndr0666
+# Edited: 04-10-24
+
+# =====================================// 4ndr0666_ZENVIRONMENT // 
+
+# --- // Dynamic_Path:
+all_dirs=(
+    "$HOME/.npm-global/bin"
+    "$HOME/.cargo/bin"
+    "$HOME/.gem/ruby/$ruby_version/bin"  # Dynamically adjusted Ruby version
+    "$HOME/.pyenv/bin"
+    "$HOME/.pyenv/shims"
+    "$HOME/.config/yarn/global/node_modules/.bin"
+    "$HOME/.local/share/go/"
+    "/usr/local/go/bin"
+    "${JAVA_HOME:-/usr/lib/jvm/default/bin}"  # Use JAVA_HOME if set, else default
+    "$HOME/.rvm/bin"
+    "$HOME/.virtualenvs"
+    "$HOME/.poetry/bin"
+    "$HOME/bin"
+    "$HOME/.local/bin"
+    "/opt/bin"
+    "/sbin"
+    "/usr/sbin"
+    "/usr/local/sbin"
+    "/usr/bin"
+)
+
+# Add additional directories found in specified locations
+additional_dirs=($(find ~/.local/bin /Nas/Build/git/syncing/scr/ /usr/local/bin -type d))
+all_dirs+=("${additional_dirs[@]}")
+
+# Update PATH with all valid directories
+for dir in "${all_dirs[@]}"; do
+    if [[ -d $dir ]]; then
+        PATH="$PATH:$dir"
+    fi
+done
+
+export PATH
+
+# Ensure unique path elements
+typeset -U path PATH cdpath CDPATH fpath FPATH manpath MANPATH
+
+unsetopt PROMPT_SP 2>/dev/null
+
+# --- // DEFAULT_PROGRAMS:
+export MICRO_TRUECOLOR=1
+export EDITOR="/usr/bin/micro"
+export TERMINAL="alacritty"
+export TERMINAL_PROG="alacritty"
+export BROWSER="brave-browser-beta"
+
+# --- // XDG_RUNTIME_DIR_SETUP:
+if [ -z "$XDG_RUNTIME_DIR" ]; then
+    export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+fi
+
+if [ ! -d "$XDG_RUNTIME_DIR" ]; then
+    mkdir -p "$XDG_RUNTIME_DIR"
+fi
+
+# --- // XDG_DATA_DIRS_SETUP:
+[ -z "$XDG_DATA_DIRS" ] && export XDG_DATA_DIRS="/usr/local/share:/usr/share"
+
+# --- // XDG_COMPLIANCE:
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
+export HISTFILE="$XDG_DATA_HOME/history"
+export XINITRC="$XDG_CONFIG_HOME/x11/xinitrc"
+export INPUTRC="$XDG_CONFIG_HOME/shell/inputrc"
+export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
+mkdir -p "$WINEPREFIX"
+export WINEARCH="win32"
+export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
+export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
+# export KODI_DATA="$XDG_DATA_HOME/kodi"
+# export NOTMUCH_CONFIG="$XDG_CONFIG_HOME/notmuch-config"
+# export ANDROID_SDK_HOME="$XDG_CONFIG_HOME/android"
+export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
+#export ZDOTDIR="$HOME"/powerlevel10k
+export CARGO_HOME="$XDG_DATA_HOME/cargo"
+export GOPATH="$XDG_DATA_HOME/go"
+export GOMODCACHE="$XDG_CACHE_HOME/go/mod"
+export POETRY_CACHE_DIR="$XDG_CACHE_HOME/poetry"
+export POETRY_HOME="$XDG_CONFIG_HOME/poetry"
+export POETRY_VIRTUALENVS_PATH="$XDG_DATA_HOME/poetry/virtualenvs"
+export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/pythonrc"
+export PIP_DOWNLOAD_CACHE="$HOME/.pip/cache"
+export SQLITE_HISTORY="$XDG_DATA_HOME/sqlite_history"
+export ruby_version=$(ruby -e 'puts RUBY_VERSION' 2>/dev/null || echo "2.7.0")  # Default to 2.7.0 if Ruby is not installed
+
+# =================================================================== // X11_SPECIFIC //
+
+export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
+# --- OPENBOX:
+# export XGD_CURRENT_DESKTOP='openbox'
+# export _JAVA_AWT_WM_NONREPARENTING=1
+# export OpenGL_GL_PREFERENCE=GLVND  # For screen tearing
+# export QT_QPA_PLATFORMTHEME=qt5ct
+# export MOZ_USE_XINPUT2=1
+# export AWT_TOOLKIT=MToolkit wmname LG3D  # May have to install wmname
+# export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel ${_JAVA_OPTIONS}"
+
+# --- // AUTOCOMPLETE:
+#autoload -U compinit && compinit
+#zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'  # Case insensitive tab completion
+#zstyle ':completion:*' rehash true  # Automatically find new executables in path
+#zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"  # Colored completion (different colors for dirs/files/etc)
+#zstyle ':completion:*' completer _expand _complete _ignored _approximate
+#zstyle ':completion:*' menu select
+#zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
+#zstyle ':completion:*:descriptions' format '%U%F{cyan}%d%f%u'
+#zstyle ':completion:*' accept-exact '*(N)'
+#zstyle ':completion:*' use-cache on
+#zstyle ':completion:*' cache-path ~/.cache/zcache
+#autoload -U +X bashcompinit && bashcompinit  # Automatically load bash completion functions
+
+# Handle terminal mode keybindings
+typeset -g -A key
+
+# ===================================================== // LIBRARY_AND_SECURITY //
+[ -z "$LD_LIBRARY_PATH" ] && export LD_LIBRARY_PATH="$HOME/.local/lib" || export LD_LIBRARY_PATH="$HOME/.local/lib:/usr/local/lib/python3.11/site-packages:/usr/lib:$LD_LIBRARY_PATH"
+
+export SUDO_ASKPASS="/usr/bin/pinentry-dmenu"
+# export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
+
+# --- // GPG:
+export GNUPGHOME="$HOME/.gnupg"
+mkdir -p "$GNUPGHOME"
+chmod 700 "$GNUPGHOME"
+#export GPG_TTY="$(tty)"
+#gpg-connect-agent updatestartuptty /bye >/dev/null
+#gpg-connect-agent reloadagent /bye >/dev/null
+#eval $(ssh-agent) && ssh-add 2&>/dev/null
+
+# =============================================== // PAGER //
+# Use Bat:
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+#export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --preview 'bat --style=numbers --color=always --line-range :500 {}'"
+
+case "${COLORTERM}" in
+    truecolor) ;;  # Already supports truecolor
+    *) export COLORTERM="yes" ;;
+esac
+
+export FZF_DEFAULT_OPTS="
+  --layout=reverse
+  --height 40%
+  --border
+  --bind 'ctrl-a:select-all,ctrl-d:deselect-all'
+  --cycle
+  --inline-info
+  --tiebreak=index
+"
+#export FZF_DEFAULT_OPTS="
+#  --layout=reverse --height 40% \
+#  --color=bg+:-1,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+#  --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+#  --color=marker:#f5e0dc,fg+:#a6e3a1,prompt:#cba6f7,hl+:#f38ba8"
+export LESS="R"
+export LESS_TERMCAP_mb="$(printf '%b' '')"
+export LESS_TERMCAP_md="$(printf '%b' '')"
+export LESS_TERMCAP_me="$(printf '%b' '')"
+export LESS_TERMCAP_so="$(printf '%b' '')"
+export LESS_TERMCAP_se="$(printf '%b' '')"
+export LESS_TERMCAP_us="$(printf '%b' '')"
+export LESS_TERMCAP_ue="$(printf '%b' '')"
+export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
+export MOZ_USE_XINPUT2=1                  # Mozilla smooth scrolling/touchpads.
+export AWT_TOOLKIT="MToolkit wmname LG3D" # May have to install wmname
+
+# =============================================== // MISC //
+
+# --- // SPEEDUP KEYS:
+#command -v xset &>/dev/null && xset r rate 300 50 || echo "xset command not found, skipping keyboard rate configuration."
+xset r rate 300 50 
+
+# --- // LF_SHORTCUTS:
+[ ! -f "$XDG_CONFIG_HOME/shell/shortcutrc" ] && setsid -f shortcuts >/dev/null 2>&1

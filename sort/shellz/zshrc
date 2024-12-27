@@ -1,0 +1,144 @@
+#!/bin/zsh
+#File: /home/$USER/.zshrc
+#Author: 4ndr0666
+#Edited: 04-10-2024
+#
+# --- // 4NDR0666_ZSHRC // ========
+autoload -U colors && colors    # Load colors
+PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%
+}$%b "
+
+# --- // POWERLEVEL10k:
+#if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+#fi
+#if [ -f /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme ]; then
+#   source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
+#fi
+#[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# --- // GENERAL:
+setopt autocd       # Automatically cd into typed directory.
+stty stop undef     # Disable ctrl-s to freeze terminal.
+setopt interactive_comments
+HISTSIZE=10000000
+SAVEHIST=10000000
+HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/history"
+setopt inc_append_history
+
+# --- // AUTOSET_$DISPLAY_IF_NOT_SET:
+if [ -z "$DISPLAY" ]; then
+    if command -v loginctl &>/dev/null; then
+        LOGINCTL_SESSION=$(loginctl show-user $USER -p Display 2>/dev/null | cut -d= -f2)
+        if [ -n "$LOGINCTL_SESSION" ]; then
+            export DISPLAY=$(loginctl show-session $LOGINCTL_SESSION -p Display | cut -d= -f2)
+        fi
+    fi
+    if command -v ck-list-sessions &>/dev/null; then
+        eval $(ck-list-sessions | awk "/^Session/{right=0} /unix-user = '$UID'/{right=1} /x11-display = '(.+)'/{ if(right == 1) printf(\"DISPLAY=%s\n\", \$3); }")
+    fi
+fi
+
+# --- // SWITCH_TO_HOME:
+if [ "$PWD" = "/" ]; then
+    cd $HOME
+fi
+
+# --- // ON-DEMAND_REHASH:
+zshcache_time="$(date +%s%N)"
+autoload -Uz add-zsh-hook
+rehash_precmd() {
+  if [[ -a /var/cache/zsh/pacman ]]; then
+    local paccache_time="$(date -r /var/cache/zsh/pacman +%s%N)"
+    if (( zshcache_time < paccache_time )); then
+      rehash
+      zshcache_time="$paccache_time"
+    fi
+  fi
+}
+add-zsh-hook -Uz precmd rehash_precmd
+
+# --- // SOURCE_FILES:
+if [[ -z "$FUNCTIONS_ZSH_SOURCED" ]]; then
+    export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+    
+    if [ -f "$XDG_CONFIG_HOME/shellz/functions/functions.zsh" ]; then
+        source "$XDG_CONFIG_HOME/shellz/functions/functions.zsh"
+        export FUNCTIONS_ZSH_SOURCED=1
+    else
+        echo "Warning: functions.zsh not found at $XDG_CONFIG_HOME/shellz/functions/functions.zsh"
+    fi
+fi
+
+for config_file in "$XDG_CONFIG_HOME/shellz/zenvironment" "$XDG_CONFIG_HOME/shellz/aliasrc"; do
+    if [ -f "$config_file" ]; then
+        source "$config_file"
+    else
+        echo "Warning: $config_file not found"
+    fi
+done
+
+# --- // AUTO/TAB COMPLETE: 
+# --- // ZCOMPINIT:
+#if [ -f ~/.zcompdump ]; then
+#    rm -f ~/.zcompdump
+#fi
+#autoload -Uz compinit && compinit
+autoload -U compinit
+zstyle ':completion:*' menu select
+zmodload zsh/complist
+compinit
+_comp_options+=(globdots)      
+
+# --- // HELPER:
+alias reload="source ~/.zshrc"
+
+# --- // NVM:
+export NVM_DIR="$HOME/.config/nvm"
+
+if [ -s "$NVM_DIR/nvm.sh" ]; then
+    source "$NVM_DIR/nvm.sh"
+else
+    echo "Warning: NVM script not found at $NVM_DIR/nvm.sh"
+fi
+
+if [ -s "$NVM_DIR/bash_completion" ]; then
+    source "$NVM_DIR/bash_completion"
+else
+    echo "Warning: NVM bash completion script not found at $NVM_DIR/bash_completion"
+fi
+
+# --- // UPDATE_GPG:
+if [ -f ~/.config/shellz/gpg_env ]; then
+  source ~/.config/shellz/gpg_env
+fi
+
+# --- // HIGHLIGHTERS:
+typeset -A ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_STYLES=(
+    'builtin' 'fg=green'
+    'bracket' 'fg=orange'
+    'cursor' 'standout'
+    'pattern' 'fg=magenta,bold'
+)
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
+
+typeset -A ZSH_HIGHLIGHT_PATTERNS
+ZSH_HIGHLIGHT_PATTERNS=(
+    'sudo' 'fg=red,bold'
+    'chown' 'fg=yellow,bold'
+    'chmod' 'fg=blue,bold'
+)
+
+ # --- // PLUGINS:
+source /usr/share/zsh/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh 2>/dev/null
+source /usr/share/zsh/plugins/zsh-fzf-plugin/fzf.plugin.zsh 2>/dev/null
+source /usr/share/zsh/plugins/zsh-sudo/sudo.plugin.zsh 2>/dev/null
+source /usr/share/zsh/plugins/zsh-systemd/systemd.plugin.zsh 2>/dev/null
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh 2>/dev/null
+source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh 2>/dev/null
+source /usr/share/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh 2>/dev/null
+source /usr/share/doc/find-the-command/ftc.zsh su noupdate askfirst 2>/dev/null
+source /usr/share/zsh/plugins/zsh-extract/extract.plugin.zsh 2>/dev/null
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh 2>/dev/null
+source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null

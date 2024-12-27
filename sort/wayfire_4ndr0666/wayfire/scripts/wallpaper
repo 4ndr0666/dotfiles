@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# File: wallpaper
+# Author: 4ndr0666
+# Date: 10-20-24
+## Sets Wallpaper in Wayfire
+
+# ================================= // WALLPAPER //
+WALLPAPER='/home/andro/Wallpapers/1r1kk9qi00961.png'
+
+swaybg --output '*' --mode fill --image "$WALLPAPER"
