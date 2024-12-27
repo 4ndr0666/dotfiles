@@ -5,7 +5,7 @@
 # --- // Defaults:
 export MICRO_TRUECOLOR=1
 export EDITOR="nvim"
-export TERMINAL="alacritty"
+export TERMINAL="st"
 export TERMINAL_PROG="st"
 export BROWSER="brave-beta"
 
@@ -61,7 +61,7 @@ if [ -z "$XDG_RUNTIME_DIR" ]; then
 fi
 
 if [ ! -d "$XDG_RUNTIME_DIR" ]; then
-    \mkdir -p "$XDG_RUNTIME_DIR"       # Bypassing the alias
+    mkdir "$XDG_RUNTIME_DIR"       # Bypassing the alias
     \chmod 0700 "$XDG_RUNTIME_DIR"
 fi
 
@@ -73,9 +73,9 @@ export XDG_STATE_HOME="$HOME/.local/state"
 
 # --- // Env:
 export TRASHDIR="$XDG_DATA_HOME/Trash"
-export ZDOTDIR="$HOME/.config/zsh/"
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh/"
 export DICS="$XDG_DATA_HOME/stardict/dic/"
-export AUR_DIR="/home/aur_build"
+export AUR_DIR="/home/build"
 export XINITRC="$XDG_CONFIG_HOME/x11/xinitrc"
 #export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority" # This line will break some DMs.
 export NOTMUCH_CONFIG="$XDG_CONFIG_HOME/notmuch-config"
@@ -116,29 +116,41 @@ export CARGO_HOME="$XDG_DATA_HOME/cargo"
 export LIBVA_DRIVERS_PATH="/usr/lib/dri/i965_drv_video.so"
 export LIBVA_DRIVER_NAME=i965
 # export LIBVA_DISPLAY=wayland
-#export NUGET_PACKAGES="$XDG_CACHE_HOME/NuGetPackages"
-#export DOTNET_CLI_HOME="$XDG_DATA_HOME/dotnet"
-#export PSQL_HOME="$XDG_DATA_HOME/postgresql"
-#export MYSQL_HOME="$XDG_DATA_HOME/mysql"
-#export SQLITE_HOME="$XDG_DATA_HOME/sqlite"
-#export SQL_DATA_HOME="$XDG_DATA_HOME/sql"
-#export SQL_CONFIG_HOME="$XDG_CONFIG_HOME/sql"
-#export SQL_CACHE_HOME="$XDG_CACHE_HOME/sql"
-
-
-# Create necessary directories
-\mkdir -p "$WINEPREFIX" \
+mkdir "$WINEPREFIX" \
+	"$CARGO_HOME" \
+        "$GOPATH" \
+        "$GOMODCACHE" \
+        "$XDG_DATA_HOME/lib" \
+        "$AUR_DIR" \
+        "$XDG_DATA_HOME/stardict/dic" \
+        "$XDG_DATA_HOME/bin" \
+        "$XDG_DATA_HOME/go/bin" \
+        "$XDG_DATA_HOME/cargo/bin" \
+        "$XDG_CONFIG_HOME/nvm" \
+        "$XDG_CONFIG_HOME/meson" \
+        "$XDG_CACHE_HOME/zsh" \
+        "$XDG_DATA_HOME/gem" \
+        "$XDG_DATA_HOME/virtualenv" \
+        "$HOME/.local/pipx" \
+        "$ELECTRON_CACHE" \
+        "$NODE_DATA_HOME" \
+        "$XDG_DATA_HOME/node/npm-global" \
+        "$RBENV_ROOT" \
+        "$W3M_DIR" \
+        "$PARALLEL_HOME" \
+	"$GEM_HOME" >/dev/null 2>&1
+\chmod ug+rw "$WINEPREFIX" \
          "$CARGO_HOME" \
          "$GOPATH" \
          "$GOMODCACHE" \
          "$XDG_DATA_HOME/lib" \
-         "$AUR_DIR" \
          "$XDG_DATA_HOME/stardict/dic" \
          "$XDG_DATA_HOME/bin" \
          "$XDG_DATA_HOME/go/bin" \
          "$XDG_DATA_HOME/cargo/bin" \
          "$XDG_CONFIG_HOME/nvm" \
          "$XDG_CONFIG_HOME/meson" \
+         "$XDG_CACHE_HOME/zsh" \
          "$XDG_DATA_HOME/gem" \
          "$XDG_DATA_HOME/virtualenv" \
          "$HOME/.local/pipx" \
@@ -148,18 +160,26 @@ export LIBVA_DRIVER_NAME=i965
          "$RBENV_ROOT" \
          "$W3M_DIR" \
          "$PARALLEL_HOME" \
-         "$GEM_HOME"
-#         "$PSQL_HOME" \
-#         "$MYSQL_HOME" \
-#         "$SQLITE_HOME" \
-#         "$SQL_DATA_HOME" \
-#         "$SQL_CONFIG_HOME" \
-#         "$SQL_CACHE_HOME" \
-#         "$DOTNET_CLI_HOME"
+	 "$GEM_HOME"
+export PSQL_HOME="$XDG_DATA_HOME/postgresql"
+export MYSQL_HOME="$XDG_DATA_HOME/mysql"
+export SQLITE_HOME="$XDG_DATA_HOME/sqlite"
+export SQL_DATA_HOME="$XDG_DATA_HOME/sql"
+export SQL_CONFIG_HOME="$XDG_CONFIG_HOME/sql"
+export SQL_CACHE_HOME="$XDG_CACHE_HOME/sql"
+mkdir "$PSQL_HOME" \
+	"$MYSQL_HOME" \
+        "$SQLITE_HOME" \
+        "$SQL_DATA_HOME" \
+        "$SQL_CONFIG_HOME" \
+	"$SQL_CACHE_HOME" >/dev/null 2>&1
+\chmod ug+rw "$PSQL_HOME" \
+         "$MYSQL_HOME" \
+         "$SQLITE_HOME" \
+         "$SQL_DATA_HOME" \
+         "$SQL_CONFIG_HOME" \
+	 "$SQL_CACHE_HOME"
 
-# Setting permissions where necessary (if any directory is not writable, we can adjust):
-#"$GOROOT_PATH" "$PSQL_HOME" "$MYSQL_HOME" "$SQLITE_HOME"
-\chmod u+w "$CARGO_HOME" "$GOMODCACHE" "$GOPATH"
 
 # ================================================ // X11_ENV //
 #export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
@@ -196,37 +216,55 @@ else
 fi
 
 
-# --- // FZF:
+# ==================================== // FZF //
+# --- // Bindings:
+## History
 bindkey '^R' fzf-history-widget
-export FZF_DEFAULT_OPTS="--layout=reverse --height=40%"
 
-export FZF_DEFAULT_OPTS="
-  --layout=reverse
-  --height=40%
-  --border
-  --bind='ctrl-a:select-all,ctrl-d:deselect-all'
-  --cycle
-  --inline-info
-  --tiebreak=index
-  --preview='bat --style=numbers --color=always --line-range :500 {} | head -n 100'
-  --preview-window='right:50%'
-  --color=bg+:-1,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
-  --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
-  --color=marker:#f5e0dc,fg+:#a6e3a1,prompt:#cba6f7,hl+:#f38ba8"
+## fh - repeat history
+fh() {
+  print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed -E 's/ *[0-9]*\*? *//' | sed -E 's/\\/\\\\/g')
+}
 
-#export FZF_DEFAULT_OPTS="
-#  --layout=reverse
-#  --height=40%
-#  --border
-#  --bind='ctrl-a:select-all,ctrl-d:deselect-all'
-#  --cycle
-#  --inline-info
-#  --tiebreak=index
-#  --preview='bat --style=numbers --color=always --line-range :500 {}'
-#  --color=bg+:-1,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
-#  --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
-#  --color=marker:#f5e0dc,fg+:#a6e3a1,prompt:#cba6f7,hl+:#f38ba8"
+## Wl-copy:
+export FZF_DEFAULT_OPTS='--bind "ctrl-y:execute-silent(printf {} | cut -f 2- | wl-copy --trim-newline)"'
 
+
+FZF_DEFAULT_OPTS="
+--layout=reverse
+--height=40%
+--border=thinblock
+--info=right
+--tiebreak=index
+--scrollbar='│' 
+--preview 'file {}'
+--preview-window='right:50%'
+--color=fg:#005b69,fg+:#15FFFF,bg:#151515,bg+:#262626 \
+--color=hl:#15FFFF,hl+:#15FFFF,info:#195761,marker:#15FFFF \
+--color=prompt:#00f7ff,spinner:#64e290,pointer:#15FFFF,header:#07fff7 \
+--color=border:#262626,preview-border:#15FFFF,label:#005b69,query:#15ffff \
+--border-label-pos='-54' --prompt='≽  ' --marker='✔' --pointer='☞' --separator='-'" 
+
+## Garuda Style  
+#export FZF_DEFAULT_OPTIONS="
+#    --height=40% --layout=reverse --info=inline --border --margin=1 --padding=1 \
+#    --tiebreak=index \
+#    --preview 'bat --color=always {}' --preview-window '~3' \
+#    --color 'bg+:-1,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8' \
+#    --color 'fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc' \
+#    --color 'marker:#f5e0dc,fg+:#a6e3a1,prompt:#cba6f7,hl+:#f38ba8'"
+
+## Preview Window:
+#--preview 'file {}' --preview-window up,1,border-horizontal \
+#--bind 'ctrl-/:change-preview-window(50%|hidden|)' \
+
+## Theme: Dark Transparent w Pink Marker    
+# --color 'fg:#bbccdd,fg+:#ddeeff,bg:#334455,preview-bg:#223344,border:#778899" 
+  
+## Theme: Garuda Theme
+# --color=bg+:-1,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+# --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+# --color=marker:#f5e0dc,fg+:#a6e3a1,prompt:#cba6f7,hl+:#f38ba8"
 
 # --- // Truecolor:
 case "${COLORTERM}" in
@@ -235,10 +273,11 @@ case "${COLORTERM}" in
 esac
 
 # --- // Bat:
-export MANPAGER="sh -c 'col -bx | bat -l man -p | less -R'"
+#export MANPAGER="sh -c 'col -bx | bat -l man -p | less -R'"
+export MANPAGER="sh -c 'col -bx | bat -l man -p --paging always'"
 
 # --- // Less:
-export LESS='R'
+export LESS='-R'
 export LESS_TERMCAP_mb="$(printf '%b' '[1;31m')"
 export LESS_TERMCAP_md="$(printf '%b' '[1;36m')"
 export LESS_TERMCAP_me="$(printf '%b' '[0m')"

@@ -20,14 +20,14 @@ PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magent
 #prompt-zee -PDp "≽ "
 
 # --- // Setopt:
-setopt extended_glob         
-setopt autocd               
-setopt interactive_comments   
+setopt extended_glob
+setopt autocd
+setopt interactive_comments
 
 # --- // History:
 HISTSIZE=10000000
 SAVEHIST=10000000
-HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/history"
+HISTFILE="$HOME/.cache/zsh/history"
 setopt inc_append_history
 
 # --- // Rehash:
@@ -46,8 +46,19 @@ autoload -Uz add-zsh-hook
 add-zsh-hook -Uz precmd rehash_precmd
 
 # --- // Autocomplete:
-autoload -U compinit
-#compinit -d $XDG_CACHE_HOME/zsh/zcompdump-"$ZSH_VERSION"
+#if [[ ! -d "$HOME/.cache/zsh/zcache" ]]; then
+#    touch "$HOME/.cache/zsh/zcache" 
+#    chmod ug+rw "$HOME/.cache/zsh/zcache" 
+#else
+#    exit 0
+#fi
+
+autoload -U compinit && compinit
+eval "$(register-python-argcomplete pipx)"
+_comp_options+=(globdots)
+zmodload zsh/complist
+compinit -d $XDG_CACHE_HOME/zsh/zcompdump-"$ZSH_VERSION"
+compinit -f $HOME/.cache/zcache
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 zstyle ':completion:*' rehash true
@@ -61,16 +72,12 @@ bindkey '^ ' autosuggest-accept
 ## Speed-Up:
 zstyle ':completion:*' accept-exact '*(N)'
 zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path $XDG_CACHE_HOME/zcache
-zmodload zsh/complist
-compinit
-_comp_options+=(globdots)
+zstyle ':completion:*' cache-path $HOME/.cache/zsh
 
-# --- // Sourcing: 
+# --- // Sourcing:
 [ -f "$HOME/.config/shellz/aliasrc" ] && source "$HOME/.config/shellz/aliasrc"
 [ -f "$HOME/.config/shellz/functions.zsh" ] && source "$HOME/.config/shellz/functions.zsh"
 [ -f "$HOME/.zprofile" ] && source "$HOME/.zprofile"
-#. "/home/andro/.local/share/cargo/env"  # Cargo Env
 
 # --- // Bindings:
 ## VIM:
@@ -123,7 +130,7 @@ bindkey -M vicmd '^[[P' vi-delete-char
 bindkey -M vicmd '^e' edit-command-line
 bindkey -M visual '^[[P' vi-delete
 
-# --- // NVM: 
+# --- // NVM:
 export NVM_DIR="$XDG_CONFIG_HOME/nvm"
 
 source_nvm() {
@@ -142,9 +149,9 @@ h() { if [ -z "$*" ]; then history 1; else history 1 | egrep "$@"; fi; }     # F
 alias mpv1='mpv --input-ipc-server=/tmp/mpvSockets/socket1'
 alias mpv2='mpv --input-ipc-server=/tmp/mpvSockets/socket2'
 
-# --- // Plugins: 
+# --- // Plugins:
 ## FZF
-fpath=("$XDG_DATA_HOME/zsh/completions" "/usr/share/zsh/vendor-completions" $fpath)
+fpath=("$XDG_CONFIG_HOME/shellz/completions" "/usr/share/zsh/vendor-completions" $fpath)
 source <(fzf --zsh)
 
 ## FTC
@@ -174,4 +181,3 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 ## Syntax-highlighting
 source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
-

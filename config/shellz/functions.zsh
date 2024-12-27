@@ -3,6 +3,47 @@
 # Author: 4ndr0666
 # Edited: 12-2-24
 # ===================================== // FUNCTIONS.ZSH //
+# --- // Fzf-yay:
+function in() {
+    yay -Slq | fzf -q "$1" -m --preview 'yay -Si {1}'| xargs -ro yay -S
+}
+# Remove installed packages (change to pacman/AUR helper of your choice)
+function re() {
+    yay -Qq | fzf -q "$1" -m --preview 'yay -Qi {1}' | xargs -ro yay -Rns
+}
+
+# --- // Fkill:
+## list process to kill
+fkill() {
+    local pid 
+    if [ "$UID" != "0" ]; then
+        pid=$(ps -f -u $UID | sed 1d | fzf -m | awk '{print $2}')
+    else
+        pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+    fi  
+
+    if [ "x$pid" != "x" ]
+    then
+        echo $pid | xargs kill -${1:-9}
+    fi  
+}
+
+# --- // Browsing History:
+# c - browse chrome history
+chromeh() {
+  local cols sep google_history open
+  cols=$(( COLUMNS / 3 ))
+  sep='{::}'
+
+    google_history="$HOME/.config/google-chrome/Default/History"
+    open=xdg-open
+  cp -f "$google_history" /tmp/h
+  sqlite3 -separator $sep /tmp/h \
+    "select substr(title, 1, $cols), url
+     from urls order by last_visit_time desc" |
+  awk -F $sep '{printf "%-'$cols's  \x1b[36m%s\x1b[m\n", $1, $2}' |
+  fzf --ansi --multi | sed 's#.*\(https*://\)#\1#' | xargs $open > /dev/null 2> /dev/null
+}
 
 # ----------------- // Copypath //
 # Description: Copies the absolute path of a file or directory to the clipboard.
@@ -848,19 +889,18 @@ copy() {
 }
 
 # ----------------------------------------------- // UNDO/REDO RECENT PKGS INSTALLS: 
-# Function to fetch package names based on action type
 fetch_packages() {
     local action="$1"
     local count="$2"
     if [[ "$action" == "undo" ]]; then
+        # Packages recently installed: We'll remove them
         expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort -r | head -n "$count" | awk '{print $3}'
     elif [[ "$action" == "redo" ]]; then
-        # Use pacman's log file to find recently removed packages
+        # Packages recently removed: We'll reinstall them
         grep '\[ALPM\] removed' /var/log/pacman.log | tail -n "$count" | awk '{print $4}' | tr -d ':'
     fi
 }
 
-# Function to list packages
 list_packages() {
     local -a packages=("$@")
     local idx=1
@@ -870,17 +910,125 @@ list_packages() {
     done
 }
 
-# Function to modify packages using pacman
-modify_packages() {
-    local action="$1"
-    shift
-    local -a packages=("$@")
+# A helper that tries pacman, then yay, then overwrites
+install_with_fallback() {
+  local -a pkgs=("$@")
 
-    if [[ "$action" == "undo" ]]; then
-        sudo pacman -Rdd "${packages[@]}"
-    elif [[ "$action" == "redo" ]]; then
-        sudo pacman -S "${packages[@]}"
+  echo "Attempting to install with Pacman: ${pkgs[*]}"
+  if sudo pacman -S --needed --noconfirm "${pkgs[@]}"; then
+    echo "Installation successful via Pacman."
+    return 0
+  else
+    echo "Pacman install failed. Trying yay..."
+    if yay -S --needed --noconfirm "${pkgs[@]}"; then
+      echo "Installation successful via yay."
+      return 0
+    else
+      echo "yay install failed. Attempting overwrite with yay..."
+      yes | yay -S --overwrite="*" --noconfirm "${pkgs[@]}"
+      if [[ $? -eq 0 ]]; then
+        echo "Installation successful via yay with overwrite."
+        return 0
+      else
+        echo "ERROR: Could not install packages with either Pacman or yay (even with overwrite)."
+        return 1
+      fi
     fi
+  fi
+}
+
+# The main function that removes packages (undo) or
+# reinstalls them (redo) with missing dependencies
+modify_packages() {
+  local action="$1"
+  shift
+  local -a packages=("$@")
+
+  case "$action" in
+    "undo")
+      # Prompt user for each selected package
+      for pkg in "${packages[@]}"; do
+        echo "Do you want to remove '$pkg' with pacman -Rns? (y/n)"
+        read confirm
+        if [[ "$confirm" =~ ^[Yy]$ ]]; then
+          if sudo pacman -Rns --noconfirm "$pkg"; then
+            echo "Removed '$pkg' successfully."
+          else
+            echo "Failed to remove '$pkg' normally."
+            echo "Do you want to forcibly remove '$pkg' with 'pacman -Rdd'? (y/n)"
+            read force_confirm
+            if [[ "$force_confirm" =~ ^[Yy]$ ]]; then
+              sudo pacman -Rdd --noconfirm "$pkg" \
+                && echo "Forcibly removed '$pkg'." \
+                || echo "Failed to forcibly remove '$pkg'."
+            else
+              echo "Skipping '$pkg'."
+            fi
+          fi
+        else
+          # If user says no, offer forcibly remove
+          echo "Do you want to forcibly remove '$pkg' with 'pacman -Rdd'? (y/n)"
+          read force_confirm
+          if [[ "$force_confirm" =~ ^[Yy]$ ]]; then
+            sudo pacman -Rdd --noconfirm "$pkg" \
+              && echo "Forcibly removed '$pkg'." \
+              || echo "Failed to forcibly remove '$pkg'."
+          else
+            echo "Skipping '$pkg'."
+          fi
+        fi
+      done
+      ;;
+
+    "redo")
+      # For each package, prompt about missing dependencies
+      for pkg in "${packages[@]}"; do
+        echo "Do you want to reinstall '$pkg' (with any missing deps)? (y/n)"
+        read confirm
+        if [[ "$confirm" =~ ^[Yy]$ ]]; then
+          # Identify missing dependencies
+          local -a missing_deps=()
+          local dep_info dep base_dep
+
+          dep_info=$(pacman -Si "$pkg" 2>/dev/null | grep -E "^Depends On\s*:" | cut -d: -f2)
+          dep_info="${dep_info/None/}"  # remove 'None' if no deps
+          for dep in $dep_info; do
+            # remove version constraints, e.g., "foo>=1.2"
+            base_dep="${dep%%[>=<]*}"
+            # if it's not installed, we add it to missing_deps
+            if [[ -n "$base_dep" ]] && ! pacman -Q "$base_dep" &>/dev/null; then
+              missing_deps+=("$base_dep")
+            fi
+          done
+
+          if (( ${#missing_deps[@]} > 0 )); then
+            echo "Missing dependencies for '$pkg': ${missing_deps[*]}"
+            echo "Install them along with '$pkg'? (y/n)"
+            read dep_confirm
+            if [[ "$dep_confirm" =~ ^[Yy]$ ]]; then
+              # Attempt to install missing_deps + pkg with fallback
+              if install_with_fallback "${missing_deps[@]}" "$pkg"; then
+                echo "Installed '$pkg' with missing deps."
+              else
+                echo "Failed to install '$pkg' (even with fallback)."
+              fi
+            else
+              echo "Skipping '$pkg'."
+            fi
+          else
+            echo "No missing dependencies. Installing '$pkg'..."
+            if install_with_fallback "$pkg"; then
+              echo "Installed '$pkg' successfully."
+            else
+              echo "Failed to install '$pkg'."
+            fi
+          fi
+        else
+          echo "Skipping '$pkg'."
+        fi
+      done
+      ;;
+  esac
 }
 
 manage_packages() {
@@ -893,7 +1041,6 @@ manage_packages() {
     count=${count:-$default_count}
 
     echo "Fetching the $count most recently ${action}d packages..."
-
     local packages=()
     if ! while IFS= read -r pkg; do
         packages+=("$pkg")
@@ -902,7 +1049,10 @@ manage_packages() {
         return 1
     fi
 
-    (( ${#packages[@]} == 0 )) && { echo "No recent packages found for action: $action."; return; }
+    if (( ${#packages[@]} == 0 )); then
+        echo "No recent packages found for action: $action."
+        return
+    fi
 
     echo "Most recently ${action}d packages:"
     list_packages "${packages[@]}"
@@ -910,11 +1060,15 @@ manage_packages() {
     if command -v fzf >/dev/null 2>&1; then
         local selected
         selected=$(printf "%s\n" "${packages[@]}" | fzf --multi --prompt="Select packages to $action: ")
-        [[ -z "$selected" ]] && { echo "No packages selected."; return; }
+        if [[ -z "$selected" ]]; then
+            echo "No packages selected."
+            return
+        fi
         packages=($selected)
     else
         echo -n "Enter package numbers to $action, separated by space (or type 'all' for all): "
         read selection
+
         if [[ "$selection" != "all" ]]; then
             local selected_packages=()
             for sel in $selection; do
@@ -927,23 +1081,22 @@ manage_packages() {
             done
             packages=("${selected_packages[@]}")
         fi
-        (( ${#packages[@]} == 0 )) && { echo "No packages selected."; return; }
+
+        if (( ${#packages[@]} == 0 )); then
+            echo "No packages selected."
+            return
+        fi
     fi
 
-    # Decide the action verb (no uppercase expansions)
-    local action_verb="removing"
-    [[ "$action" == "redo" ]] && action_verb="reinstalling"
-
-    echo "$action_verb packages..."
-    if modify_packages "$action" "${packages[@]}"; then
-        echo "Packages ${action_verb} successfully."
+    if [[ "$action" == "redo" ]]; then
+        echo "Reinstalling packages..."
     else
-        echo "Failed to complete: $action_verb some packages."
-        return 1
+        echo "Removing packages..."
     fi
+
+    modify_packages "$action" "${packages[@]}"
 }
 
-# Alias to invoke undo functionality, with optional package name
 undo() {
     if [[ -n "$1" ]]; then
         manage_packages "undo" "$1"
