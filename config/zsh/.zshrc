@@ -3,34 +3,112 @@
 # Edited: 09-22-2024
 
 # =========================================== // 4NDR0666_ZSHRC //
-## Powerlevel10k Prompt
+# Prompt
+
+### Powerlevel10k:
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-## Standard Prompt
+### Standard:
 autoload -U colors && colors
 PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
 
-## Fancy Prompt
+# --- // Fancy:
 #source ~/.config/shellz/fancy-prompts.zsh
 #precmd() {
 #   fancy-prompts-precmd
 #}
 #prompt-zee -PDp "≽ "
 
-# --- // Setopt:
-setopt extended_glob
-setopt autocd
-setopt interactive_comments
+# Auto-completions 
 
-# --- // History:
+autoload -U compinit && compinit
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':fzf-tab:complete:(\\|*)cd:*' fzf-preview 'exa -1 --color=always --icons $realpath'
+zstyle ':fzf-tab:complete:systemctl-*:*' fzf-preview 'SYSTEMD_COLORS=1 systemctl status $word'
+zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' \
+	fzf-preview 'echo ${(P)word}'
+zstyle ':fzf-tab:complete:*:*' fzf-preview 'less ${(Q)realpath}'
+export LESSOPEN='|fzf_preview %s'
+zstyle ':fzf-tab:complete:*:options' fzf-preview
+zstyle ':fzf-tab:complete:*:argument-1' fzf-preview
+setopt RM_STAR_WAIT
+setopt print_exit_value
+setopt no_beep
+setopt correct
+unsetopt correct_all
+fpath=("$HOME/.config/zsh/completion" $fpath)
+zstyle ':completion:*' menu select=2
+unsetopt complete_aliases
+unsetopt always_to_end
+unsetopt menu_complete
+setopt auto_menu
+setopt auto_list
+setopt auto_name_dirs
+setopt auto_param_slash
+setopt complete_in_word
+setopt extended_glob
+setopt glob_complete
+DIRSTACKSIZE=8
+setopt autocd
+setopt cdable_vars
+setopt auto_pushd
+setopt pushd_to_home
+setopt pushd_minus
+setopt pushd_ignore_dups
+setopt pushd_silent
+
+# History
+
 HISTSIZE=10000000
 SAVEHIST=10000000
 HISTFILE="$HOME/.cache/zsh/history"
-setopt inc_append_history
 
-# --- // Rehash:
+# Setopt
+ 
+setopt hist_ignore_space
+setopt hist_reduce_blanks
+setopt hist_verify
+setopt append_history
+setopt extended_history
+setopt inc_append_history
+setopt share_history
+setopt hist_ignore_dups
+setopt hist_expire_dups_first
+
+### Expand global aliases:
+
+globalias() {
+    if [[$LBUFFER =~ ' [a-Z0-9]+S' ]]; then
+	zle _expand_alias
+	zle expand-word
+    fi
+    zle self-insert
+}
+
+zle -N globalias
+
+# FD
+
+## Use FD indtead of find
+_fzf_compgen_path() {
+	fd --hidden --follow --exclude ".git" . "$1"
+}
+
+_fzf_compgen_dir() {
+	fd --type d --hidden --follow --exclude ".git" . "$1"
+}
+
+# Rehash
+
+if [[ ! -d "$HOME/.cache/zsh/zcache" ]]; then
+    touch "$HOME/.cache/zsh/zcache" 
+    chmod ug+rw "$HOME/.cache/zsh/zcache" 
+else
+    exit 0
+fi
+
 zshcache_time="$(date +%s%N)"
 
 rehash_precmd() {
@@ -45,67 +123,49 @@ rehash_precmd() {
 autoload -Uz add-zsh-hook
 add-zsh-hook -Uz precmd rehash_precmd
 
-# --- // Autocomplete:
-#if [[ ! -d "$HOME/.cache/zsh/zcache" ]]; then
-#    touch "$HOME/.cache/zsh/zcache" 
-#    chmod ug+rw "$HOME/.cache/zsh/zcache" 
-#else
-#    exit 0
-#fi
+# Bindings
 
-autoload -U compinit && compinit
-eval "$(register-python-argcomplete pipx)"
-_comp_options+=(globdots)
-zmodload zsh/complist
-compinit -d $XDG_CACHE_HOME/zsh/zcompdump-"$ZSH_VERSION"
-compinit -f $HOME/.cache/zcache
-zstyle ':completion:*' menu select
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
-zstyle ':completion:*' rehash true
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-zstyle -d ':completion:*' format
-zstyle ':completion:*:descriptions' format '[%d]'
-zstyle ':completion:*' completer _expand _complete _ignored _approximate
-zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
-zstyle ':completion:*:descriptions' format '%U%F{cyan}%d%f%u'
-bindkey '^ ' autosuggest-accept
-## Speed-Up:
-zstyle ':completion:*' accept-exact '*(N)'
-zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path $HOME/.cache/zsh
-
-# --- // Sourcing:
-[ -f "$HOME/.config/shellz/aliasrc" ] && source "$HOME/.config/shellz/aliasrc"
-[ -f "$HOME/.config/shellz/functions.zsh" ] && source "$HOME/.config/shellz/functions.zsh"
-[ -f "$HOME/.zprofile" ] && source "$HOME/.zprofile"
-
-# --- // Bindings:
-## VIM:
+### Vim:
 bindkey -v
+bindkey -a -r t
 export KEYTIMEOUT=1
-# Use vim keys in tab complete menu:
-bindkey -M menuselect 'h' vi-backward-char
-bindkey -M menuselect 'k' vi-up-line-or-history
-bindkey -M menuselect 'l' vi-forward-char
-bindkey -M menuselect 'j' vi-down-line-or-history
-bindkey -v '^?' backward-delete-char
-# Change cursor shape for different vi modes.
-function zle-keymap-select () {
-    case $KEYMAP in
-        vicmd) echo -ne '\e[1 q';;      # block
-        viins|main) echo -ne '\e[5 q';; # beam
-    esac
-}
-zle -N zle-keymap-select
-zle-line-init() {
-    zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
-    echo -ne "\e[5 q"
-}
-zle -N zle-line-init
-echo -ne '\e[5 q' # Use beam shape cursor on startup.
-preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
+bindkey -a u undo
+bindkey -a U redo
 
-## LF:
+### Swap:
+bindkey -a a vi-add-eol
+bindkey -a A vi-add-next
+
+### Vim tab-complete menu:
+bindkey -a h backward-char
+bindkey -a n history-substring-search-down
+bindkey -a e history-substring-search-up
+bindkey -a k vi-repeat-search
+bindkey -a K vi-rev-repeat-search
+bindkey -a j vi-forward-workd-end
+bindkey -a E vi-forward-blank-word-end
+
+### Home and end:
+bindkey -a "^[[1~" beginning-of-line
+bindkey -a "^[[4~" end-of-line
+
+### History substring search:
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+bindkey "^[[1~" beginning-of-line
+bindkey "^[[4~" end-of-line
+bindkey "^[[5~" beginning-of-history
+bindkey "^[[6~" end-of-history
+bindkey "^[[3~" delete-char
+bindkey "^[[2~" quoted-insert
+
+## Allow deleting before insertion:
+bindkey '^?' backward-delete-char
+bindkey "^W" backward-kill-word
+bindkey '^H' backward-kill-word
+
+# LF
+
 lfcd () {
     tmp="$(mktemp -uq)"
     trap 'rm -f $tmp >/dev/null 2>&1 && trap - HUP INT QUIT TERM PWR EXIT' HUP INT QUIT TERM PWR EXIT
@@ -115,6 +175,7 @@ lfcd () {
         [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
     fi
 }
+
 bindkey -s '^o' '^ulfcd\n'
 
 bindkey -s '^a' '^ubc -lq\n'
@@ -123,14 +184,8 @@ bindkey -s '^f' '^ucd "$(dirname "$(fzf)")"\n'
 
 bindkey '^[[P' delete-char
 
-# Edit line in vim with ctrl-e:
-autoload edit-command-line; zle -N edit-command-line
-bindkey '^e' edit-command-line
-bindkey -M vicmd '^[[P' vi-delete-char
-bindkey -M vicmd '^e' edit-command-line
-bindkey -M visual '^[[P' vi-delete
+# NVM
 
-# --- // NVM:
 export NVM_DIR="$XDG_CONFIG_HOME/nvm"
 
 source_nvm() {
@@ -144,20 +199,26 @@ source_nvm() {
 source_nvm "$NVM_DIR/nvm.sh"
 source_nvm "$NVM_DIR/bash_completion"
 
-# --- // Minor Aliases:
+# Minor Aliases
+
 h() { if [ -z "$*" ]; then history 1; else history 1 | egrep "$@"; fi; }     # Fix_zsh_history_behavior:
 alias mpv1='mpv --input-ipc-server=/tmp/mpvSockets/socket1'
 alias mpv2='mpv --input-ipc-server=/tmp/mpvSockets/socket2'
+alias reload='echo "Reloading .zshrc" && source ~/.zshrc'
 
-# --- // Plugins:
+# Sourcing
+
+[ -f "$HOME/.config/shellz/aliasrc" ] && source "$HOME/.config/shellz/aliasrc"
+[ -f "$HOME/.config/shellz/functions.zsh" ] && source "$HOME/.config/shellz/functions.zsh"
+[ -f "$HOME/.zprofile" ] && source "$HOME/.zprofile"
+
+# Plugins
+ 
 ## FZF
-fpath=("$XDG_CONFIG_HOME/shellz/completions" "/usr/share/zsh/vendor-completions" $fpath)
 source <(fzf --zsh)
 
-## FTC
-source /usr/share/doc/find-the-command/ftc.zsh noprompt quiet 2>/dev/null
-
 ## You-should-use
+export YSU_MESSAGE_POSITION="after"
 source /usr/share/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh 2>/dev/null
 
 ## Extract
@@ -173,11 +234,29 @@ source /usr/share/zsh/plugins/zsh-systemd/systemd.plugin.zsh 2>/dev/null
 source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh 2>/dev/null
 
 ## Autosuggestions
+ZSH_AUTOSUGGEST_USE_ASYNC=true
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
 
-# --- // P10k:
+## P10k:
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
+	os_icon
+	background_jobs
+	dir                       # current directory
+	vcs                       # git status
+	context                   # user@host
+	status                    # and exit status
+	newline                   # \n
+	virtualenv                # python virtual environment
+	prompt_char               # prompt symbol
+)
+unset POWERLEVEL9K_VISUAL_IDENTIFIER_EXPANSION
+typeset -g POWERLEVEL9K_BACKGROUND_JOBS_VERBOSE=true
+typeset -g POWERLEVEL9K_BACKGROUND_JOBS_ICON=
+typeset -g POWERLEVEL9K_DIR_SHOW_WRITABLE=true
+unset POWERLEVEL9K_VCS_BRANCH_ICON
 
-## Syntax-highlighting
+## Fast-Syntax-highlighting
 source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null

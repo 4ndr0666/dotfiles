@@ -1,19 +1,369 @@
 #!/usr/bin/env bash
-# File: Functions.zsh
+# File: functions.zsh
 # Author: 4ndr0666
 # Edited: 12-2-24
+
 # ===================================== // FUNCTIONS.ZSH //
-# --- // Fzf-yay:
+# Constants
+ 
+RESET="\e[0m"
+BOLD="\e[1m"
+UNDERLINE="\e[4m"
+RED="\e[31m"
+GREEN="\e[32m"
+YELLOW="\e[33m"
+BLUE="\e[34m"
+MAGENTA="\e[35m"
+CYAN="\e[36m"
+INFO="ℹ️"
+SUCCESS="✅"
+WARNING="⚠️"
+ERROR="❌"
+DELETE_ICON="🗑️"
+COPY_ICON="📋"
+MOVE_ICON="🚚"
+COMPRESS_ICON="📦"
+
+
+# BKUP
+
+## Description: A smart and configurable backup function.
+## Example Configuration File (~/.bkup_config):
+## Uncomment and set the desired backup directory.
+## BACKUP_DIR="$HOME/my_custom_backups"
+print_message() {
+    local type="$1"
+    local message="$2"
+    case "$type" in
+        INFO)
+            echo -e "${CYAN}${INFO} ${message}${RESET}"
+            ;;
+        SUCCESS)
+            echo -e "${GREEN}${SUCCESS} ${message}${RESET}"
+            ;;
+        WARNING)
+            echo -e "${YELLOW}${WARNING} ${message}${RESET}"
+            ;;
+        ERROR)
+            echo -e "${RED}${ERROR} ${message}${RESET}"
+            ;;
+        *)
+            echo -e "${RESET}${message}${RESET}"
+            ;;
+    esac
+}
+
+display_menu() {
+    echo -e "${BOLD}${UNDERLINE}Backup Utility Menu${RESET}"
+    echo "1. Create a Backup"
+    echo "2. Move to Backup"
+    echo "3. Remove Backups"
+    echo "4. Set Backup Directory"
+    echo "5. Exit"
+}
+
+check_dependencies() {
+    local dependencies=(tar zstd fzf)
+    for cmd in "${dependencies[@]}"; do
+        if ! command -v "$cmd" &> /dev/null; then
+            print_message "ERROR" "Dependency '$cmd' is not installed. Please install it and try again."
+            return 1
+        fi
+    done
+    return 0
+}
+
+load_config() {
+    local config_file="$HOME/.config/bkup/.bkup_config"
+    if [[ -f "$config_file" ]]; then
+        source "$config_file"
+    else
+        # Default backup directory
+        BACKUP_DIR="Nas/Backups/bkup"
+    fi
+}
+
+set_backup_dir() {
+    read -rp "Enter the path for the backup directory: " new_dir
+    if [[ -z "$new_dir" ]]; then
+        print_message "WARNING" "Backup directory path cannot be empty."
+        return
+    fi
+    mkdir -p "$new_dir" && echo "BACKUP_DIR=\"$new_dir\"" > "$HOME/.config/bkup/.bkup_config"
+    if [[ $? -eq 0 ]]; then
+        print_message "SUCCESS" "Backup directory set to '$new_dir'."
+    else
+        print_message "ERROR" "Failed to set backup directory."
+    fi
+}
+
+perform_backup_move() {
+    local mode="$1"  # copy or move
+    shift
+    local targets=("$@")
+
+    if [[ ${#targets[@]} -eq 0 ]]; then
+        print_message "ERROR" "No target files or directories specified."
+        return 1
+    fi
+
+    mkdir -p "$BACKUP_DIR"
+
+    for target in "${targets[@]}"; do
+        if [[ ! -e "$target" ]]; then
+            print_message "WARNING" "File or directory '$target' does not exist. Skipping."
+            continue
+        fi
+
+        local base_name
+        base_name=$(basename "$target")
+        local current_date
+        current_date=$(date -u "+%Y%m%dT%H%M%SZ")
+        local backup_name="${base_name}_${current_date}.tar.zst"
+        local backup_path="${BACKUP_DIR}/${backup_name}"
+
+        if [[ -e "$backup_path" ]]; then
+            print_message "WARNING" "Backup '$backup_name' already exists. Skipping."
+            continue
+        fi
+
+        ## Interactive exclusion using fzf
+        local exclude_list=()
+        if [[ -d "$target" ]]; then
+            print_message "INFO" "Select files/directories to exclude from '$target':"
+            mapfile -t exclude_list < <(find "$target" -mindepth 1 -maxdepth 1 | fzf -m --prompt="Exclude: " --height=40% --border)
+        fi
+
+        ## Construct tar exclude options
+        local exclude_opts=()
+        for exclude in "${exclude_list[@]}"; do
+            local relative_path
+            relative_path=$(realpath --relative-to="$target" "$exclude")
+            exclude_opts+=("--exclude=$relative_path")
+        done
+
+        ## Create compressed archive using tar with zstd
+        if [[ "$mode" == "copy" ]]; then
+            print_message "INFO" "${COPY_ICON} Creating backup for '$target'..."
+        else
+            print_message "INFO" "${MOVE_ICON} Moving '$target' to backup..."
+        fi
+
+        tar -I zstd "${exclude_opts[@]}" -cf "$backup_path" -C "$(dirname "$target")" "$(basename "$target")" &> /dev/null
+        if [[ $? -eq 0 ]]; then
+            print_message "SUCCESS" "Backup created at '$backup_path'."
+            if [[ "$mode" == "move" ]]; then
+                rm -rf "$target"
+                if [[ $? -eq 0 ]]; then
+                    print_message "SUCCESS" "Original '$target' moved to backup."
+                else
+                    print_message "ERROR" "Failed to remove original '$target' after moving."
+                fi
+            fi
+        else
+            print_message "ERROR" "Failed to create backup for '$target'."
+            rm -f "$backup_path"
+        fi
+    done
+}
+
+remove_backups() {
+    local remove_all=false
+    local verbose=false
+
+    ## Parse options
+    while getopts "av" opt; do
+        case "${opt}" in
+            a) remove_all=true ;;
+            v) verbose=true ;;
+            *) ;;
+        esac
+    done
+    shift $((OPTIND -1))
+
+    mkdir -p "$BACKUP_DIR"
+
+    if [[ "$remove_all" == true ]]; then
+        print_message "WARNING" "Are you sure you want to remove ALL backups in '$BACKUP_DIR'? (y/N)"
+        read -r confirmation
+        if [[ "$confirmation" =~ ^[Yy]$ ]]; then
+            rm -rf "${BACKUP_DIR:?}/"*
+            if [[ $? -eq 0 ]]; then
+                print_message "SUCCESS" "All backups have been removed from '$BACKUP_DIR'."
+            else
+                print_message "ERROR" "Failed to remove all backups from '$BACKUP_DIR'."
+            fi
+        else
+            print_message "INFO" "Operation cancelled."
+        fi
+    else
+        if [[ $# -lt 1 ]]; then
+            print_message "ERROR" "No specific backups specified for removal."
+            return 1
+        fi
+        for target in "$@"; do
+            local base_name
+            base_name=$(basename "$target")
+            local backup_pattern="${BACKUP_DIR}/${base_name}_*.tar.zst"
+            local matches=($(ls $backup_pattern 2>/dev/null))
+            if [[ ${#matches[@]} -eq 0 ]]; then
+                [[ "$verbose" == true ]] && print_message "WARNING" "No backups found for '$target'."
+                continue
+            fi
+            for backup in "${matches[@]}"; do
+                rm -f "$backup"
+                if [[ $? -eq 0 ]]; then
+                    print_message "SUCCESS" "Removed backup '$backup'."
+                else
+                    print_message "ERROR" "Failed to remove backup '$backup'."
+                fi
+            done
+        done
+    fi
+}
+
+bkup() {
+    ## Check for required dependencies
+    check_dependencies || return 1
+
+    ## Load configuration
+    load_config
+
+    ## If no arguments, display menu
+    if [[ $# -eq 0 ]]; then
+        while true; do
+            display_menu
+            echo -n "Select an option [1-5]: "
+            read -r choice
+            case "$choice" in
+                1)
+                    print_message "INFO" "Enter files or directories to backup (separated by space):"
+                    read -ra targets
+                    perform_backup_move "copy" "${targets[@]}"
+                    ;;
+                2)
+                    print_message "INFO" "Enter files or directories to move to backup (separated by space):"
+                    read -ra targets
+                    perform_backup_move "move" "${targets[@]}"
+                    ;;
+                3)
+                    echo -e "${BOLD}Remove Backups:${RESET}"
+                    echo "a. Remove all backups"
+                    echo "b. Remove specific backups"
+                    read -rp "Choose an option [a/b]: " remove_choice
+                    case "$remove_choice" in
+                        a|A)
+                            remove_backups -a -v
+                            ;;
+                        b|B)
+                            print_message "INFO" "Enter the base names of backups to remove (separated by space):"
+                            read -ra remove_targets
+                            remove_backups -v "${remove_targets[@]}"
+                            ;;
+                        *)
+                            print_message "WARNING" "Invalid choice. Returning to main menu."
+                            ;;
+                    esac
+                    ;;
+                4)
+                    set_backup_dir
+                    ;;
+                5)
+                    print_message "INFO" "Exiting Backup Utility. Goodbye!"
+                    break
+                    ;;
+                *)
+                    print_message "WARNING" "Invalid option. Please select a number between 1 and 5."
+                    ;;
+            esac
+            echo ""
+        done
+        return 0
+    fi
+
+    ## Parse options using getopts
+    local mode="copy"  # default mode
+    local remove_all=false
+    local verbose=false
+    local compress=true
+    local show_help=false
+
+    while getopts "hcmravz" opt; do
+        case "${opt}" in
+            h) show_help=true ;;
+            c) mode="copy" ;;
+            m) mode="move" ;;
+            r) mode="remove" ;;
+            a) remove_all=true ;;
+            v) verbose=true ;;
+            z) compress=true ;;
+            *) show_help=true ;;
+        esac
+    done
+    shift $((OPTIND -1))
+
+    ## Show help if -h option is present or if no arguments are provided (for copy/move)
+    if [[ "$show_help" == true || ( "$mode" != "remove" && $# -lt 1 ) ]]; then
+        cat <<EOF
+${BOLD}bkup [OPTIONS] FILE_OR_DIR [FILE_OR_DIR ...]${RESET}
+
+Backup, move, compress, or remove backups of specified files or directories.
+
+${UNDERLINE}Options:${RESET}
+  -h    Display this help text.
+  -c    Create a backup (default).
+  -m    Move the file/folder to backup after archiving.
+  -r    Remove backups of the specified file or directory.
+  -a    Remove all backups in the backup directory (used with -r).
+  -v    Enable verbose output.
+  -z    Enable compression (default).
+
+${UNDERLINE}Usage Examples:${RESET}
+  ${COPY_ICON} Backup a directory with interactive exclusion:
+    bkup -c /path/to/dir
+
+  ${MOVE_ICON} Move a file to backup with interactive exclusion:
+    bkup -m /path/to/file
+
+  ${DELETE_ICON} Remove all backups verbosely:
+    bkup -r -a -v
+
+  ${INFO} Display help:
+    bkup -h
+EOF
+        return 0
+    fi
+
+    ## Operation based on mode
+    case "$mode" in
+        copy|move)
+            perform_backup_move "$mode" "$@"
+            ;;
+        remove)
+            remove_backups "$@"
+            ;;
+        *)
+            print_message "ERROR" "Invalid mode selected."
+            ;;
+    esac
+
+    return 0
+}
+alias help-bkup='bkup -h'
+
+# FZF
+
+### Fzf-yay:
+## Manipulates yay with fzf. Install with `in` and remove with `re`.
 function in() {
     yay -Slq | fzf -q "$1" -m --preview 'yay -Si {1}'| xargs -ro yay -S
 }
-# Remove installed packages (change to pacman/AUR helper of your choice)
 function re() {
     yay -Qq | fzf -q "$1" -m --preview 'yay -Qi {1}' | xargs -ro yay -Rns
 }
 
-# --- // Fkill:
-## list process to kill
+### Fkill:
+## List process to kill
 fkill() {
     local pid 
     if [ "$UID" != "0" ]; then
@@ -28,8 +378,8 @@ fkill() {
     fi  
 }
 
-# --- // Browsing History:
-# c - browse chrome history
+### Browser History: 
+## Press `c` to browse Chromes web history
 chromeh() {
   local cols sep google_history open
   cols=$(( COLUMNS / 3 ))
@@ -45,8 +395,9 @@ chromeh() {
   fzf --ansi --multi | sed 's#.*\(https*://\)#\1#' | xargs $open > /dev/null 2> /dev/null
 }
 
-# ----------------- // Copypath //
-# Description: Copies the absolute path of a file or directory to the clipboard.
+# Copypath
+
+## Copies the absolute path of a file or directory to the clipboard.
 copypath() {
     # If no argument passed, use current directory
     local file="${1:-.}"
@@ -55,7 +406,7 @@ copypath() {
     [[ $file = /* ]] || file="$PWD/$file"
 
     # Copy the absolute path without resolving symlinks
-    if print -n "${file:a}" | clipcopy; then
+    if print -n "${file:a}" | wl-copy; then
         echo "%B${file:a}%b copied to clipboard."
     else
         echo "❌ Failed to copy the path to the clipboard."
@@ -63,22 +414,23 @@ copypath() {
     fi
 }
 
-# ---------------------------------------------------------------- // Spellcheck //
-# Description: Checks the spelling of provided words using the 'spellcheck' command.
+# Spellcheck
+
+## Checks the spelling of provided words using the 'spellcheck' command.
 spell() {
-    # Ensure 'spellcheck' command is available
+    ## Ensure 'spellcheck' command is available
     if ! command -v spellcheck &> /dev/null; then
         echo "❌ Error: 'spellcheck' command not found. Please ensure it is located in ~/.local/bin."
         return 1
     fi
 
-    # Check if at least one argument is provided
+    ## Check if at least one argument is provided
     if [ $# -eq 0 ]; then
         echo "❓ Usage: spell <word1> [word2]..."
         return 1
     fi
 
-    # Iterate over each word and perform spell check
+    ## Iterate over each word and perform spell check
     for word in "$@"; do
         echo "🔍 Checking spelling for: $word"
         if spellcheck "$word"; then
@@ -90,28 +442,30 @@ spell() {
     done
 }
 
-# --- // Restart Waybar:
-# Description: Restarts the Waybar process gracefully.
+# Restart Waybar
+
+## Restarts the Waybar process gracefully.
 restart_waybar() {
     notify-send "🔄 Restarting Waybar..."
     pkill -TERM waybar
     sleep 1
 
-    # Check if Waybar is still running, force kill if necessary
+    ## Check if Waybar is still running, force kill if necessary
     if pgrep waybar &>/dev/null; then
         pkill -9 waybar
         sleep 1
     fi
 
-    # Restart Waybar without attaching to the current terminal
+    ## Restart Waybar without attaching to the current terminal
     waybar </dev/null &>/dev/null &
     echo "✅ Waybar has been restarted."
 }
 
-# ----------------------------------------------------------------------- // ANY //
-# Description: Searches for running processes matching a given name with optional case-insensitivity.
+# Any
+
+## Searches for running processes matching a given name with optional case-insensitivity.
 any() {
-    # Function to display help
+    ## Function to display help
     show_help() {
         echo "Usage: any [options] <process name>"
         echo "Options:"
@@ -123,10 +477,10 @@ any() {
         echo "  any -i ssh  # Case-insensitive search for SSH processes"
     }
 
-    # Default options
+    ## Default options
     local case_insensitive=false
 
-    # Parse options
+    ## Parse options
     while getopts ":ih" opt; do
         case $opt in
             i)
@@ -145,45 +499,47 @@ any() {
     done
     shift $((OPTIND -1))
 
-    # Check if a process name was provided
+    ## Check if a process name was provided
     if [[ -z $1 ]]; then
         echo "❌ Error: No process name provided."
         show_help
         return 1
     fi
 
-    # Assign the process name
+    ## Assign the process name
     local process_name="$1"
 
-    # Search for processes using pgrep with appropriate options
+    ## Search for processes using pgrep with appropriate options
     local processes
     if [[ $case_insensitive == true ]]; then
-        # Case-insensitive search
+        ## Case-insensitive search
         processes=$(pgrep -ifl "$process_name")
     else
-        # Case-sensitive search
+        ## Case-sensitive search
         processes=$(pgrep -fl "$process_name")
     fi
 
-    # Check if any processes were found
+    ## Check if any processes were found
     if [[ -z $processes ]]; then
         echo "ℹ️ No running processes found for '$process_name'."
         return 0
     fi
 
-    # Display the found processes with formatting
+    ## Display the found processes with formatting
     echo "🔍 Running processes matching '$process_name':"
     echo "--------------------------------------------"
     echo "$processes" | awk '{printf "PID: %-8s CMD: %s\n", $1, $2}'
 }
 
-# ----------------------------------------------------- // BOOST_SYSTEM_RESOURCES:
-# Description: Optimizes system resources by resetting failed units, cleaning sockets, removing broken links, killing zombies, reloading daemons, vacuuming logs, and cleaning temporary files.
+# Sysboost
+
+## Optimizes system resources by resetting failed units, cleaning sockets, removing broken links, 
+## killing zombies, reloading daemons, vacuuming logs, and cleaning temporary files.
 sysboost() {
-    # Ensure the script exits on any error
+    ## Ensure the script exits on any error
     set -e
 
-    # Function to log messages with an optional delay
+    ## Function to log messages with an optional delay
     log_and_wait() {
         local message=$1
         local delay=${2:-2}  # Default delay is 2 seconds
@@ -196,7 +552,7 @@ sysboost() {
     log_and_wait "2.."
     log_and_wait "1"
 
-    # Check and reset failed systemd units
+    ## Check and reset failed systemd units
     if command -v systemctl &> /dev/null; then
         log_and_wait "🔄 Resetting all failed SystemD units..."
         systemctl reset-failed || true
@@ -204,7 +560,7 @@ sysboost() {
         log_and_wait "⚠️ systemctl not found, skipping reset of failed units."
     fi
 
-    # Clear unnecessary D-Bus sockets if the command is available
+    ## Clear unnecessary D-Bus sockets if the command is available
     if command -v dbus-cleanup-sockets &> /dev/null; then
         log_and_wait "🔄 Clearing unnecessary D-Bus sockets..."
         sudo dbus-cleanup-sockets
@@ -212,13 +568,13 @@ sysboost() {
         log_and_wait "⚠️ dbus-cleanup-sockets not found, skipping cleanup."
     fi
 
-    # Remove broken SystemD symbolic links
+    ## Remove broken SystemD symbolic links
     log_and_wait "🔄 Removing broken SystemD symbolic links..."
     if ! sudo find -L /etc/systemd/ -type l -delete; then
         log_and_wait "⚠️ Unable to search SystemD for broken links."
     fi
 
-    # Kill zombie processes if the zps command is available
+    ## Kill zombie processes if the zps command is available
     if command -v zps &> /dev/null; then
         log_and_wait "🔄 Killing all zombie processes..."
         sudo zps -r --quiet
@@ -226,7 +582,7 @@ sysboost() {
         log_and_wait "⚠️ zps not found. Install it using 'sudo pacman -S zps --noconfirm'. Skipping zombie kill."
     fi
 
-    # Reload the system daemon if systemctl is available
+    ## Reload the system daemon if systemctl is available
     if command -v systemctl &> /dev/null; then
         log_and_wait "🔄 Reloading system daemon..."
         sudo systemctl daemon-reload
@@ -234,7 +590,7 @@ sysboost() {
         log_and_wait "⚠️ systemctl not found, skipping daemon reload."
     fi
 
-    # Remove old logs using journalctl if available
+    ## Remove old logs using journalctl if available
     if command -v journalctl &> /dev/null; then
         log_and_wait "🔄 Removing logs older than 2 days..."
         sudo journalctl --vacuum-time=2d
@@ -242,7 +598,7 @@ sysboost() {
         log_and_wait "⚠️ journalctl not found, skipping log cleanup."
     fi
 
-    # Clear /tmp files using tmpwatch or tmpreaper if available
+    ## Clear /tmp files using tmpwatch or tmpreaper if available
     if command -v tmpwatch &> /dev/null; then
         log_and_wait "🔄 Clearing /tmp files older than 2 hours..."
         sudo tmpwatch 2h /tmp
@@ -255,14 +611,15 @@ sysboost() {
 
     log_and_wait "✅ Resources optimized."
 
-    # Disable exit on error
+    ## Disable exit on error
     set +e
 }
 
-# ---------------------------------------------------------- // SWAP_BOOST:
-# Description: Refreshes swap spaces and accesses memory-mapped files to optimize swap usage.
+# Swapboost
+
+## Refreshes swap spaces and accesses memory-mapped files to optimize swap usage.
 swapboost() {
-    # Initialize log file
+    ## Initialize log file
     local log_file="/tmp/swapboost_log.txt"
     echo "📝 Logging to $log_file"
     echo "🔄 Starting swapboost process at $(date)" > "$log_file"
@@ -273,7 +630,7 @@ swapboost() {
     local cmd_prefix=""
     [[ $EUID -ne 0 ]] && cmd_prefix="sudo"
 
-    # Touch only accessible memory-mapped files
+    ## Touch only accessible memory-mapped files
     if command -v parallel &> /dev/null; then
         \mkdir -p "$(dirname "$log_file")"
         sed -ne 's:.* /:/:p' /proc/[0-9]*/maps 2>/dev/null | sort -u | grep -v '^/dev/' | grep -v '(deleted)' | \
@@ -293,163 +650,40 @@ swapboost() {
     echo "🔄 Refreshing swap spaces..." | tee -a "$log_file"
     sleep 2
 
-    # Refresh swap spaces
+    ## Refresh swap spaces
     if $cmd_prefix swapoff -a && $cmd_prefix swapon -a; then
         echo "✅ Swap spaces refreshed!" | tee -a "$log_file"
     else
         echo "❌ Failed to refresh swap spaces." | tee -a "$log_file"
     fi
 
-    # Final message
+    ## Final message
     echo "🔄 Swapboost process completed at $(date)." >> "$log_file"
     echo "✅ Swapboost process completed."
 }
 
-# ---------------------------------------------------------------------// FULL_BOOST:
-# Description: Performs a full system boost by running sysboost and swapboost functions.
+# Fullboost
+
+## Performs a full system boost by running sysboost and swapboost functions.
 fullboost() {
     echo "🚀 Initiating full system boost..."
     
-    # Run sysboost for general optimization
+    ## Run sysboost for general optimization
     echo "🔧 Running sysboost..."
     sysboost
 
-    # Run swapboost to refresh swap spaces and access memory-mapped files
+    ## Run swapboost to refresh swap spaces and access memory-mapped files
     echo "🔄 Running swapboost..."
     swapboost
 
     echo "✅ Full system boost completed."
 }
 
-# ----------------------------------------------------- // SMART_BACKUP:
-# Description: Backs up, moves, or removes backups of specified files or directories with timestamping and verbose options.
-bkup() {
-    # Initialize variables
-    local operation mode file target_dir=() current_date
-    current_date=$(date -u "+%Y%m%dT%H%M%SZ")
-    local show_help=false copy=false move=false clean=false all=false verbose=false
+# Cleanlist
 
-    # Parse options using getopts (universal shell compatibility)
-    while getopts "hcma?rv" opt; do
-        case "${opt}" in
-            h) show_help=true ;;
-            c) copy=true ;;
-            m) move=true ;;
-            r) clean=true ;;
-            a) all=true ;;
-            v) verbose=true ;;
-            *) show_help=true ;;
-        esac
-    done
-    shift $((OPTIND -1))
-
-    # Show help if -h option is present or if no arguments are provided
-    if [ "$show_help" = true ]; then
-        cat <<'EOF'
-bk [-hcmv] FILE [FILE ...]
-bk -r [-av] [FILE [FILE ...]]
-Backup a file or folder in place and append the timestamp
-Remove backups of a file or folder, or all backups in the current directory
-
-Usage:
-  -h    Display this help text
-  -c    Keep the file/folder as is, create a copy backup using cp(1) (default)
-  -m    Move the file/folder, using mv(1)
-  -r    Remove backups of the specified file or directory, using rm(1). If none
-        is provided, remove all backups in the current directory.
-  -a    Remove all (even hidden) backups.
-  -v    Verbose
-
-The -c, -r, and -m options are mutually exclusive. If specified at the same time,
-the last one is used.
-
-The return code is the sum of all cp/mv/rm return codes.
-EOF
-        return 0
-    fi
-
-    # Determine operation mode
-    if [ "$clean" = true ]; then
-        mode="clean"
-    elif [ "$move" = true ]; then
-        mode="move"
-    elif [ "$copy" = true ]; then
-        mode="copy"
-    else
-        mode="copy"  # default mode
-    fi
-
-    # Determine target directory/files
-    if [ "$all" = true ]; then
-        target_dir=(*)
-    else
-        target_dir=("$@")
-    fi
-
-    # Check for valid target
-    if [ ${#target_dir[@]} -eq 0 ]; then
-        echo "❌ Error: No target file or directory specified."
-        return 1
-    fi
-
-    # Execute based on mode
-    case $mode in
-        "clean")
-            for file in "${target_dir[@]}"; do
-                if [[ -e $file ]]; then
-                    if [ "$verbose" = true ]; then
-                        echo "🗑️ Removing backup: $file"
-                    fi
-                    rm -rf "$file"
-                else
-                    echo "⚠️ File $file not found."
-                fi
-            done
-            ;;
-        "move")
-            for file in "${target_dir[@]}"; do
-                if [[ -e $file ]]; then
-                    local backup_file="${file}_${current_date}"
-                    if [[ -e $backup_file ]]; then
-                        echo "⚠️ Backup file $backup_file already exists, skipping."
-                        continue
-                    fi
-                    if [ "$verbose" = true ]; then
-                        echo "🔀 Moving $file to $backup_file"
-                    fi
-                    mv "$file" "${backup_file}"
-                else
-                    echo "⚠️ File $file not found."
-                fi
-            done
-            ;;
-        "copy")
-            for file in "${target_dir[@]}"; do
-                if [[ -e $file ]]; then
-                    local backup_file="${file}_${current_date}"
-                    if [[ -e $backup_file ]]; then
-                        echo "⚠️ Backup file $backup_file already exists, skipping."
-                        continue
-                    fi
-                    if [ "$verbose" = true ]; then
-                        echo "📋 Copying $file to $backup_file"
-                    fi
-                    cp -a "$file" "$backup_file"
-                else
-                    echo "⚠️ File $file not found."
-                fi
-            done
-            ;;
-    esac
-}
-
-# Alias for help
-alias help-bk='bkup -h'
-
-# ------------------------------------------ // TRANSFORM_LIST_INTO_PKG-READABLE:
-# Description: Cleans and formats a list of package names from the clipboard, then installs them using the selected package manager.
+## Cleans and formats a list of package names from the clipboard, then installs them using the selected package manager.
 cleanlist() {
-    # Determine clipboard command based on session type or available utility
+    ## Determine clipboard command based on session type or available utility
     local clipboard_cmd packages
     if command -v xclip &> /dev/null; then
         clipboard_cmd="xclip -selection c -o"
@@ -460,7 +694,7 @@ cleanlist() {
         return 1
     fi
 
-    # Extract, clean, and format package names from clipboard
+    ## Extract, clean, and format package names from clipboard
     packages=$(eval "$clipboard_cmd" | tr ',' '\n' | sed -E 's/=.*//;s/^[[:space:]]+//;s/[[:space:]]+$//' | tr -s '\n' ' ')
 
     if [[ -z "$packages" ]]; then
@@ -470,20 +704,20 @@ cleanlist() {
 
     echo "📋 Cleaned package list: $packages"
 
-    # Copy the formatted list back to the clipboard for user reference
+    ## Copy the formatted list back to the clipboard for user reference
     if command -v xclip &>/dev/null; then
         echo -n "$packages" | xclip -selection c
     elif command -v wl-copy &>/dev/null; then
         echo -n "$packages" | wl-copy
     fi
 
-    # Log the cleaned package list for future reference
+    ## Log the cleaned package list for future reference
     local log_file="$HOME/.local/share/cleanlist.log"
     \mkdir -p "$(dirname "$log_file")"
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $packages" >> "$log_file"
     echo "📝 Cleaned package list logged to $log_file."
 
-    # Prompt for package manager choice
+    ## Prompt for package manager choice
     local pkg_manager
     while true; do
         echo "🔧 Select the package manager to use:"
@@ -513,8 +747,9 @@ cleanlist() {
     done
 }
 
-#-------------------------------------------------------- // FIXGPGKEY:
-# Description: Fixes GPG keyring issues by updating the gpg.conf and repopulating the pacman keyring.
+# Fixgpgkey
+
+## Fixes GPG keyring issues by updating the gpg.conf and repopulating the pacman keyring.
 fixgpgkey() {
     local gpg_conf="$HOME/.gnupg/gpg.conf"
     local keyring_entry="keyring /etc/pacman.d/gnupg/pubring.gpg"
@@ -522,7 +757,7 @@ fixgpgkey() {
 
     echo "🔧 Starting GPG keyring fix process..."
 
-    # Create a backup of the gpg.conf file before making changes
+    ## Create a backup of the gpg.conf file before making changes
     if [[ -f "$gpg_conf" ]]; then
         \mkdir -p "$(dirname "$backup_file")"  # Ensure the directory exists
         cp "$gpg_conf" "$backup_file"
@@ -533,7 +768,7 @@ fixgpgkey() {
         touch "$gpg_conf"
     fi
 
-    # Check if the keyring entry already exists in gpg.conf
+    ## Check if the keyring entry already exists in gpg.conf
     if ! grep -qF "$keyring_entry" "$gpg_conf"; then
         echo "$keyring_entry" >> "$gpg_conf"
         echo "➕ Keyring entry added to $gpg_conf."
@@ -541,7 +776,7 @@ fixgpgkey() {
         echo "✅ Keyring entry already exists in $gpg_conf."
     fi
 
-    # Populate the pacman keyring
+    ## Populate the pacman keyring
     echo "🔄 Populating the pacman keyring..."
     if sudo pacman-key --populate archlinux; then
         echo "✅ Pacman keyring populated successfully."
@@ -553,19 +788,20 @@ fixgpgkey() {
     echo "🔧 GPG keyring fix process completed."
 }
 
-# ----------------------------------------------------- // WHATSNEW:
-# Description: Lists the most recently modified files across the entire system.
+# Whatsnew
+
+## Description: Lists the most recently modified files across the entire system.
 whatsnew() {
     local num_files=${1:-10}
     echo "📂 Listing the $num_files most recently modified files across the entire system:"
 
-    # Check if the user has sudo privileges
+    ## Check if the user has sudo privileges
     if ! sudo -v &>/dev/null; then
         echo "❌ Error: You do not have sudo privileges."
         return 1
     fi
 
-    # Using Zsh globbing to find and list the most recently modified files
+    ## Using Zsh globbing to find and list the most recently modified files
     local files
     files=$(sudo zsh -c "print -rl -- /**/*(.om[1,$num_files])" 2>/dev/null)
 
@@ -576,18 +812,19 @@ whatsnew() {
     fi
 }
 
-# ------------------------------ // LIST_FILES_RECENTLY_ACCESSED, CHANGED, MODIFIED:
-# Description: Lists files accessed, changed, or modified within a specified time range.
+# Accessed
+
+## Lists files accessed, changed, or modified within a specified time range.
 accessed() {
     local time_range=${1:-1}
 
-    # Validate input
+    ## Validate input
     if [[ ! $time_range =~ ^[0-9]+$ ]]; then
         echo "❌ Usage: accessed [time_range_in_days]"
         return 1
     fi
 
-    # Search and display recently accessed files
+    ## Search and display recently accessed files
     echo "📂 Listing files accessed in the last $time_range day(s):"
     sudo find / -type f -atime -$time_range -print0 2>/dev/null | xargs -0 ls -lah --time=atime
 }
@@ -595,13 +832,13 @@ accessed() {
 changed() {
     local time_range=${1:-1}
 
-    # Validate input
+    ## Validate input
     if [[ ! $time_range =~ ^[0-9]+$ ]]; then
         echo "❌ Usage: changed [time_range_in_days]"
         return 1
     fi
 
-    # Search and display recently changed files
+    ## Search and display recently changed files
     echo "📂 Listing files changed in the last $time_range day(s):"
     sudo find / -type f -ctime -$time_range -print0 2>/dev/null | xargs -0 ls -lah --time=ctime
 }
@@ -620,8 +857,9 @@ modified() {
     sudo find / -type f -mtime -$time_range -print0 2>/dev/null | xargs -0 ls -lah --time=mtime
 }
 
-# ---------------------------------------------------------- // RUN_IN_BACKGROUND:
-# Description: Runs a command in the background with logging and PID tracking.
+# 4ever 
+
+## Runs a command in the background with logging and PID tracking.
 4ever() {
     if [[ -z "$1" ]]; then
         echo "❓ Usage: 4ever <command> [arguments] [log_file]"
@@ -828,65 +1066,43 @@ function turl() {
 
 # --------------------------------------------------- // ENHANCED_COPY:
 # Ensure the 'copy' alias is removed if it exists
-if alias copy &>/dev/null; then
-    unalias copy
-fi
+#if alias copy &>/dev/null; then
+#    unalias copy
+#fi
 
 # Enhanced copy function
-copy() {
-    local session_type="${XDG_SESSION_TYPE:-$(loginctl show-session "$(loginctl | grep "$(whoami)" | awk '{print $1}')" -p Type --value)}"
-    local copy_cmd=()
-    local file_path=""
+#function_copy() {
+#    local copy_cmd=()
+#    local file_path=""
+#            copy_cmd=("wl-copy")
 
-    # Determine the session type and set the copy command accordingly
-    if [[ "$session_type" == "wayland" ]]; then
-        if command -v wl-copy &>/dev/null; then
-            copy_cmd=("wl-copy")
-        elif command -v cliphist &>/dev/null; then
-            copy_cmd=("cliphist" "copy")
-        else
-            echo "No compatible clipboard utility found for Wayland."
-            return 1
-        fi
-    elif [[ "$session_type" == "x11" ]]; then
-        if command -v xclip &>/dev/null; then
-            copy_cmd=("xclip" "-selection" "clipboard")
-        else
-            echo "No compatible clipboard utility found for X11."
-            return 1
-        fi
-    else
-        echo "Unsupported session type: $session_type"
-        return 1
-    fi
-
-    # Handle the -p option for copying file paths
-    if [[ "$1" == "-p" ]]; then
-        if [[ -n "$2" ]]; then
-            file_path="$2"
-            echo -n "$file_path" | "${copy_cmd[@]}"
-        else
-            echo "No file path specified."
-            return 1
-        fi
-    else
-        file_path="$1"
-        if [[ -f "$file_path" ]]; then
-            cat "$file_path" | "${copy_cmd[@]}"
-        else
-            echo "File does not exist: $file_path"
-            return 1
-        fi
-    fi
+# Handle the -p option for copying file paths
+#    if [[ "$1" == "-p" ]]; then
+#        if [[ -n "$2" ]]; then
+#            file_path="$2"
+#            echo -n "$file_path" | "${copy_cmd[@]}"
+#        else
+#            echo "No file path specified."
+#            return 1
+#        fi
+#    else
+#        file_path="$1"
+#        if [[ -f "$file_path" ]]; then
+#            cat "$file_path" | "${copy_cmd[@]}"
+#        else
+#            echo "File does not exist: $file_path"
+#            return 1
+#        fi
+#    fi
 
     # Check the result of the copy operation and provide feedback
-    if [[ $? -eq 0 ]]; then
-        echo "Content copied to clipboard."
-    else
-        echo "Failed to copy content to clipboard."
-        return 1
-    fi
-}
+#    if [[ $? -eq 0 ]]; then
+#        echo "Content copied to clipboard."
+#    else
+#        echo "Failed to copy content to clipboard."
+#        return 1
+#    fi
+#}
 
 # ----------------------------------------------- // UNDO/REDO RECENT PKGS INSTALLS: 
 fetch_packages() {
@@ -1538,7 +1754,7 @@ declare -A YTDLP_COOKIES_MAP=(
 
 # Preferred format IDs in descending priority, excluding 'best' and 'bestaudio'
 # These are WebM formats first, then MP4 as fallback
-PREFERRED_FORMATS=("313" "308" "303" "302" "271" "248" "247" "244" "136" "137")
+PREFERRED_FORMATS=("313" "308" "303" "302" "271" "248" "247" "136" "137")
 # ===========================[ Basic Utilities ]=========================== #
 
 # Quick URL validator
@@ -1687,7 +1903,7 @@ ytdl() {
            --embed-metadata \
            --external-downloader aria2c \
            --external-downloader-args "--continue=true -j3 -x3 -s3 -k1M" \
-           -f "315/313/308/303/302/271/248/244/137+bestaudio/best" \
+           -f "315/313/308/303/302/271/248/247/137+bestaudio/best" \
            --merge-output-format webm \
            --no-playlist \
            --no-mtime \

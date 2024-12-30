@@ -1,15 +1,19 @@
 #!/bin/sh
 # File: /home/$USER/.config/zsh/.zprofile
+# Date: 12-30-24
+# Author: 4ndr0666
 
 # ======================================== // ZPROFILE //
-# --- // Defaults:
+# Default programs
+
 export MICRO_TRUECOLOR=1
 export EDITOR="nvim"
-export TERMINAL="st"
+export TERMINAL="alacritty"
 export TERMINAL_PROG="st"
 export BROWSER="brave-beta"
 
-# --- // Dynamic Path:
+# Dynamic Path
+
 static_dirs=(
     "$HOME/.npm-global/bin"
     "$HOME/.local/share/goenv/bin"
@@ -17,7 +21,7 @@ static_dirs=(
     "$HOME/bin"
     "$XDG_DATA_HOME/gem/ruby/3.3.0/bin"
     "$XDG_DATA_HOME/virtualenv"
-    "$XDG_DATA_HOME/go"
+    "$XDG_DATA_HOME/go/bin"
     "$CARGO_HOME/bin"
     "${JAVA_HOME:-/usr/lib/jvm/default/bin}"
     "/sbin"
@@ -44,7 +48,7 @@ done
 export PATH
 
 
-######################## // Setup Cache File //
+# --- // Setup Cache File
 ## cache_file="$HOME/.cache/dynamic_dirs.list"
 ##
 ## if [[ ! -f "$cache_file" || /Nas/Build/git/syncing/scr/ -nt "$cache_file" ]]; then
@@ -55,7 +59,8 @@ export PATH
 ## dynamic_dirs=($(cat "$cache_file"))
 ############################################################# //
 
-# --- // XDG_specs:
+# XDG
+
 if [ -z "$XDG_RUNTIME_DIR" ]; then
     export XDG_RUNTIME_DIR="/run/user/$(id -u)"
 fi
@@ -71,7 +76,8 @@ export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_STATE_HOME="$HOME/.local/state"
 
-# --- // Env:
+# Environment
+
 export TRASHDIR="$XDG_DATA_HOME/Trash"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh/"
 export DICS="$XDG_DATA_HOME/stardict/dic/"
@@ -108,7 +114,7 @@ export MESON_HOME="$XDG_CONFIG_HOME/meson"
 export GEM_HOME="$XDG_DATA_HOME/gem"
 export SQLITE_HISTORY="$XDG_DATA_HOME/sqlite_history"
 export ELECTRON_CACHE="$XDG_CACHE_HOME/electron"
-export ELECTRON_MIRROR="https://npm.taobao.org/mirrors/electron/"
+#export ELECTRON_MIRROR="https://npm.taobao.org/mirrors/electron/"
 export NODE_DATA_HOME="$XDG_DATA_HOME/node"
 export NODE_CONFIG_HOME="$XDG_CONFIG_HOME/node"
 export TEXMFVAR="$XDG_CACHE_HOME/texlive/texmf-var"
@@ -116,72 +122,76 @@ export CARGO_HOME="$XDG_DATA_HOME/cargo"
 export LIBVA_DRIVERS_PATH="/usr/lib/dri/i965_drv_video.so"
 export LIBVA_DRIVER_NAME=i965
 # export LIBVA_DISPLAY=wayland
+
 mkdir "$WINEPREFIX" \
-	"$CARGO_HOME" \
-        "$GOPATH" \
-        "$GOMODCACHE" \
-        "$XDG_DATA_HOME/lib" \
-        "$AUR_DIR" \
-        "$XDG_DATA_HOME/stardict/dic" \
-        "$XDG_DATA_HOME/bin" \
-        "$XDG_DATA_HOME/go/bin" \
-        "$XDG_DATA_HOME/cargo/bin" \
-        "$XDG_CONFIG_HOME/nvm" \
-        "$XDG_CONFIG_HOME/meson" \
-        "$XDG_CACHE_HOME/zsh" \
-        "$XDG_DATA_HOME/gem" \
-        "$XDG_DATA_HOME/virtualenv" \
-        "$HOME/.local/pipx" \
-        "$ELECTRON_CACHE" \
-        "$NODE_DATA_HOME" \
-        "$XDG_DATA_HOME/node/npm-global" \
-        "$RBENV_ROOT" \
-        "$W3M_DIR" \
-        "$PARALLEL_HOME" \
-	"$GEM_HOME" >/dev/null 2>&1
+"$CARGO_HOME" \
+"$GOPATH" \
+"$GOMODCACHE" \
+"$XDG_DATA_HOME/lib" \
+"$AUR_DIR" \
+"$XDG_DATA_HOME/stardict/dic" \
+"$XDG_DATA_HOME/bin" \
+"$XDG_DATA_HOME/go/bin" \
+"$XDG_DATA_HOME/cargo/bin" \
+"$XDG_CONFIG_HOME/nvm" \
+"$XDG_CONFIG_HOME/meson" \
+"$XDG_CACHE_HOME/zsh" \
+"$XDG_DATA_HOME/gem" \
+"$XDG_DATA_HOME/virtualenv" \
+"$HOME/.local/pipx" \
+"$ELECTRON_CACHE" \
+"$NODE_DATA_HOME" \
+"$XDG_DATA_HOME/node/npm-global" \
+"$RBENV_ROOT" \
+"$W3M_DIR" \
+"$PARALLEL_HOME" \
+"$GEM_HOME" >/dev/null 2>&1
+
 \chmod ug+rw "$WINEPREFIX" \
-         "$CARGO_HOME" \
-         "$GOPATH" \
-         "$GOMODCACHE" \
-         "$XDG_DATA_HOME/lib" \
-         "$XDG_DATA_HOME/stardict/dic" \
-         "$XDG_DATA_HOME/bin" \
-         "$XDG_DATA_HOME/go/bin" \
-         "$XDG_DATA_HOME/cargo/bin" \
-         "$XDG_CONFIG_HOME/nvm" \
-         "$XDG_CONFIG_HOME/meson" \
-         "$XDG_CACHE_HOME/zsh" \
-         "$XDG_DATA_HOME/gem" \
-         "$XDG_DATA_HOME/virtualenv" \
-         "$HOME/.local/pipx" \
-         "$ELECTRON_CACHE" \
-         "$NODE_DATA_HOME" \
-         "$XDG_DATA_HOME/node/npm-global" \
-         "$RBENV_ROOT" \
-         "$W3M_DIR" \
-         "$PARALLEL_HOME" \
-	 "$GEM_HOME"
+"$CARGO_HOME" \
+"$GOPATH" \
+"$GOMODCACHE" \
+"$XDG_DATA_HOME/lib" \
+"$XDG_DATA_HOME/stardict/dic" \
+"$XDG_DATA_HOME/bin" \
+"$XDG_DATA_HOME/go/bin" \
+"$XDG_DATA_HOME/cargo/bin" \
+"$XDG_CONFIG_HOME/nvm" \
+"$XDG_CONFIG_HOME/meson" \
+"$XDG_CACHE_HOME/zsh" \
+"$XDG_DATA_HOME/gem" \
+"$XDG_DATA_HOME/virtualenv" \
+"$HOME/.local/pipx" \
+"$ELECTRON_CACHE" \
+"$NODE_DATA_HOME" \
+"$XDG_DATA_HOME/node/npm-global" \
+"$RBENV_ROOT" \
+"$W3M_DIR" \
+"$PARALLEL_HOME" \
+"$GEM_HOME"
+
 export PSQL_HOME="$XDG_DATA_HOME/postgresql"
 export MYSQL_HOME="$XDG_DATA_HOME/mysql"
 export SQLITE_HOME="$XDG_DATA_HOME/sqlite"
 export SQL_DATA_HOME="$XDG_DATA_HOME/sql"
 export SQL_CONFIG_HOME="$XDG_CONFIG_HOME/sql"
 export SQL_CACHE_HOME="$XDG_CACHE_HOME/sql"
+
 mkdir "$PSQL_HOME" \
-	"$MYSQL_HOME" \
-        "$SQLITE_HOME" \
-        "$SQL_DATA_HOME" \
-        "$SQL_CONFIG_HOME" \
-	"$SQL_CACHE_HOME" >/dev/null 2>&1
+"$MYSQL_HOME" \
+"$SQLITE_HOME" \
+"$SQL_DATA_HOME" \
+"$SQL_CONFIG_HOME" \
+"$SQL_CACHE_HOME" >/dev/null 2>&1
+
 \chmod ug+rw "$PSQL_HOME" \
-         "$MYSQL_HOME" \
-         "$SQLITE_HOME" \
-         "$SQL_DATA_HOME" \
-         "$SQL_CONFIG_HOME" \
-	 "$SQL_CACHE_HOME"
+"$MYSQL_HOME" \
+"$SQLITE_HOME" \
+"$SQL_DATA_HOME" \
+"$SQL_CONFIG_HOME" \
+"$SQL_CACHE_HOME"
 
-
-# ================================================ // X11_ENV //
+# --- // X11_env
 #export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 # --- OPENBOX:
 # export XGD_CURRENT_DESKTOP='openbox'
@@ -193,15 +203,17 @@ mkdir "$PSQL_HOME" \
 # export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.pla
 #f.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel ${_JAVA_OPTIONS}"
 
-# =======================================================
-# --- // Library:
+# Library
+ 
 export LD_LIBRARY_PATH="$XDG_DATA_HOME/lib:/usr/local/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 
-# --- // Askpass:
+# Askpass
+
 export SUDO_ASKPASS="$XDG_CONFIG_HOME"/wayfire/scripts/rofi_askpass  # Wayfire specific
 #export SUDO_ASKPASS="/usr/bin/pinentry-dmenu"    # Xorg
 
-# --- // GPG:
+# GPG
+
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 if [ ! -d "$GNUPGHOME" ]; then
     \mkdir -p "$GNUPGHOME"
@@ -216,20 +228,10 @@ else
 fi
 
 
-# ==================================== // FZF //
-# --- // Bindings:
-## History
-bindkey '^R' fzf-history-widget
+# FZF
 
-## fh - repeat history
-fh() {
-  print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed -E 's/ *[0-9]*\*? *//' | sed -E 's/\\/\\\\/g')
-}
-
-## Wl-copy:
-export FZF_DEFAULT_OPTS='--bind "ctrl-y:execute-silent(printf {} | cut -f 2- | wl-copy --trim-newline)"'
-
-
+### Defaults:
+FZF_DEFAULT_COMMMAND='fd --no-ignore --hidden --follow --exclude ".git"'
 FZF_DEFAULT_OPTS="
 --layout=reverse
 --height=40%
@@ -245,7 +247,19 @@ FZF_DEFAULT_OPTS="
 --color=border:#262626,preview-border:#15FFFF,label:#005b69,query:#15ffff \
 --border-label-pos='-54' --prompt='≽  ' --marker='✔' --pointer='☞' --separator='-'" 
 
-## Garuda Style  
+### History binding:
+bindkey '^R' fzf-history-widget
+
+### fh - repeat history
+fh() {
+  print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed -E 's/ *[0-9]*\*? *//' | sed -E 's/\\/\\\\/g')
+}
+
+### Use ctrl Y to copy:
+export FZF_DEFAULT_OPTS='--bind "ctrl-y:execute-silent(printf {} | cut -f 2- | wl-copy --trim-newline)"'
+
+
+# --- // Garuda Style  
 #export FZF_DEFAULT_OPTIONS="
 #    --height=40% --layout=reverse --info=inline --border --margin=1 --padding=1 \
 #    --tiebreak=index \
@@ -254,41 +268,48 @@ FZF_DEFAULT_OPTS="
 #    --color 'fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc' \
 #    --color 'marker:#f5e0dc,fg+:#a6e3a1,prompt:#cba6f7,hl+:#f38ba8'"
 
-## Preview Window:
+# --- // Preview Window:
 #--preview 'file {}' --preview-window up,1,border-horizontal \
 #--bind 'ctrl-/:change-preview-window(50%|hidden|)' \
 
-## Theme: Dark Transparent w Pink Marker    
+# --- // Dark Transparent w Pink Marker    
 # --color 'fg:#bbccdd,fg+:#ddeeff,bg:#334455,preview-bg:#223344,border:#778899" 
   
-## Theme: Garuda Theme
+# --- // Garuda Theme
 # --color=bg+:-1,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
 # --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
 # --color=marker:#f5e0dc,fg+:#a6e3a1,prompt:#cba6f7,hl+:#f38ba8"
 
-# --- // Truecolor:
+# Truecolor
+
 case "${COLORTERM}" in
     truecolor|24bit) ;;
     *) export COLORTERM="24bit" ;;
 esac
 
-# --- // Bat:
+# PAGER
+
+export PAGER=vimpager
+
+# --- // Bat
 #export MANPAGER="sh -c 'col -bx | bat -l man -p | less -R'"
-export MANPAGER="sh -c 'col -bx | bat -l man -p --paging always'"
+#export MANPAGER="sh -c 'col -bx | bat -l man -p --paging always'"
 
-# --- // Less:
+# Less
+
 export LESS='-R'
-export LESS_TERMCAP_mb="$(printf '%b' '[1;31m')"
-export LESS_TERMCAP_md="$(printf '%b' '[1;36m')"
-export LESS_TERMCAP_me="$(printf '%b' '[0m')"
-export LESS_TERMCAP_so="$(printf '%b' '[01;44;33m')"
-export LESS_TERMCAP_se="$(printf '%b' '[0m')"
-export LESS_TERMCAP_us="$(printf '%b' '[1;32m')"
-export LESS_TERMCAP_ue="$(printf '%b' '[0m')"
+export LESS_TERMCAP_mb=$'\E[01;31m'             # begin blinking
+export LESS_TERMCAP_md=$'\E[01;31m'             # begin bold
+export LESS_TERMCAP_me=$'\E[0m'                 # end mode
+export LESS_TERMCAP_se=$'\E[0m'                 # end standout-mode
+export LESS_TERMCAP_so=$'\E[01;44;33m'          # begin standout-mode - info box
+export LESS_TERMCAP_ue=$'\E[0m'                 # end underline
+export LESS_TERMCAP_us=$'\E[01;32m'             # begin underline
 
-# --- // LESSOPEN Configuration:
+# LESSOPEN 
+
 export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
 
-# --- // SPEEDUP KEYS:
+# --- // SPEEDUP KEYS
 #command -v xset &>/dev/null && xset r rate 300 50 || echo "xset command not found, skipping keyboard rate configuration."
 #xset r rate 300 50
