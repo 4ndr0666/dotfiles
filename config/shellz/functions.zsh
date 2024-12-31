@@ -4,8 +4,7 @@
 # Edited: 12-2-24
 
 # ===================================== // FUNCTIONS.ZSH //
-# Constants
- 
+# --- // Constants: 
 RESET="\e[0m"
 BOLD="\e[1m"
 UNDERLINE="\e[4m"
@@ -24,9 +23,9 @@ COPY_ICON="📋"
 MOVE_ICON="🚚"
 COMPRESS_ICON="📦"
 
+# ---
 
-# BKUP
-
+# --- // BKUP:
 ## Description: A smart and configurable backup function.
 ## Example Configuration File (~/.bkup_config):
 ## Uncomment and set the desired backup directory.
@@ -351,8 +350,9 @@ EOF
 }
 alias help-bkup='bkup -h'
 
-# FZF
+#---
 
+# --- // FZF:
 ### Fzf-yay:
 ## Manipulates yay with fzf. Install with `in` and remove with `re`.
 function in() {
@@ -395,8 +395,9 @@ chromeh() {
   fzf --ansi --multi | sed 's#.*\(https*://\)#\1#' | xargs $open > /dev/null 2> /dev/null
 }
 
-# Copypath
+#---
 
+# --- // Copypath:
 ## Copies the absolute path of a file or directory to the clipboard.
 copypath() {
     # If no argument passed, use current directory
@@ -414,8 +415,9 @@ copypath() {
     fi
 }
 
-# Spellcheck
+#---
 
+# --- // Spellcheck:
 ## Checks the spelling of provided words using the 'spellcheck' command.
 spell() {
     ## Ensure 'spellcheck' command is available
@@ -442,8 +444,9 @@ spell() {
     done
 }
 
-# Restart Waybar
+#---
 
+# --- // Restart Waybar:
 ## Restarts the Waybar process gracefully.
 restart_waybar() {
     notify-send "🔄 Restarting Waybar..."
@@ -461,8 +464,9 @@ restart_waybar() {
     echo "✅ Waybar has been restarted."
 }
 
-# Any
+#---
 
+# --- // Any:
 ## Searches for running processes matching a given name with optional case-insensitivity.
 any() {
     ## Function to display help
@@ -531,8 +535,9 @@ any() {
     echo "$processes" | awk '{printf "PID: %-8s CMD: %s\n", $1, $2}'
 }
 
-# Sysboost
+#---
 
+# --- // Sysboost:
 ## Optimizes system resources by resetting failed units, cleaning sockets, removing broken links, 
 ## killing zombies, reloading daemons, vacuuming logs, and cleaning temporary files.
 sysboost() {
@@ -615,8 +620,9 @@ sysboost() {
     set +e
 }
 
-# Swapboost
+#---
 
+# --- // Swapboost
 ## Refreshes swap spaces and accesses memory-mapped files to optimize swap usage.
 swapboost() {
     ## Initialize log file
@@ -662,8 +668,9 @@ swapboost() {
     echo "✅ Swapboost process completed."
 }
 
-# Fullboost
+#---
 
+# --- // Fullboost
 ## Performs a full system boost by running sysboost and swapboost functions.
 fullboost() {
     echo "🚀 Initiating full system boost..."
@@ -679,8 +686,9 @@ fullboost() {
     echo "✅ Full system boost completed."
 }
 
-# Cleanlist
+#---
 
+# --- //Cleanlist
 ## Cleans and formats a list of package names from the clipboard, then installs them using the selected package manager.
 cleanlist() {
     ## Determine clipboard command based on session type or available utility
@@ -747,8 +755,9 @@ cleanlist() {
     done
 }
 
-# Fixgpgkey
+#---
 
+# --- // Fixgpgkey
 ## Fixes GPG keyring issues by updating the gpg.conf and repopulating the pacman keyring.
 fixgpgkey() {
     local gpg_conf="$HOME/.gnupg/gpg.conf"
@@ -788,8 +797,9 @@ fixgpgkey() {
     echo "🔧 GPG keyring fix process completed."
 }
 
-# Whatsnew
+#---
 
+# --- // Whatsnew
 ## Description: Lists the most recently modified files across the entire system.
 whatsnew() {
     local num_files=${1:-10}
@@ -857,8 +867,9 @@ modified() {
     sudo find / -type f -mtime -$time_range -print0 2>/dev/null | xargs -0 ls -lah --time=mtime
 }
 
-# 4ever 
+#---
 
+# --- // 4ever 
 ## Runs a command in the background with logging and PID tracking.
 4ever() {
     if [[ -z "$1" ]]; then
@@ -896,8 +907,55 @@ modified() {
     fi
 }
 
-# -------------------------------------------------------------- // MAKE_DIR_&_CD:
-# Description: Creates a new directory and changes into it.
+#---
+
+# --- // Dir navigation suite (cd,back,up,forward,etc):
+## Redefine cd to push directories onto the stack
+function cd() {
+    if [[ -d "$1" ]]; then
+        pushd "$@" > /dev/null
+    else
+        builtin cd "$@"  # Use the built-in cd if not a directory
+    fi
+}
+
+back() {
+    local steps=${1:-1}  # Number of steps back in the directory stack, default is 1
+
+    if (( steps < 1 )); then
+        echo "❌ Error: Number of steps must be at least 1."
+        return 1
+    fi
+
+    for ((i = 0; i < steps; i++)); do
+        if (( $(dirs -p | wc -l) > 1 )); then
+            popd > /dev/null  # Move back in the directory stack and suppress output
+        else
+            echo "❓ No more directories in the history."
+            break
+        fi
+    done
+}
+
+fwd() {
+    local steps=${1:-1}  # Number of steps forward in the directory stack, default is 1
+
+    if (( steps < 1 )); then
+        echo "❌ Error: Number of steps must be at least 1."
+        return 1
+    fi
+
+    for ((i = 0; i < steps; i++)); do
+        # `pushd +1` rotates the stack forward
+        if pushd +1 > /dev/null; then
+            :
+        else
+            echo "❓ No more directories in the forward history."
+            break
+        fi
+    done
+}
+
 mkcd() {
     if (( $# != 1 )); then
         echo "❓ Usage: mkcd <new-directory>"
@@ -906,51 +964,57 @@ mkcd() {
 
     local dir="$1"
 
-    # Check if the directory name is valid
-    if [[ -z "$dir" ]]; then
-        echo "❌ Error: Directory name cannot be empty."
-        return 1
-    fi
-
-    # Attempt to create the directory if it doesn't exist
-    if [[ ! -d "$dir" ]]; then
-        if \mkdir -p "$dir"; then
-            echo "📁 Directory '$dir' created."
-        else
-            echo "❌ Failed to create directory '$dir'."
-            return 1
-        fi
+    # Attempt to create the directory (including parent directories)
+    if mkdir -p -- "$dir"; then
+        cd "$dir" && echo "📁 Now in '$dir'."
     else
-        echo "📁 Directory '$dir' already exists."
-    fi
-
-    # Change into the directory, with error checking
-    if cd "$dir"; then
-        echo "➡️ Switched to directory '$dir'."
-    else
-        echo "❌ Failed to switch to directory '$dir'."
+        echo "❌ Failed to create or navigate to directory '$dir'."
         return 1
     fi
 }
 
-# ---------------------------------------------------------- // MAKE_TMP_DIR_&_CD:
-# Description: Creates a temporary directory and changes into it.
-cdt() {
+mkcdt() {
     local tmp_dir
 
     if tmp_dir=$(mktemp -d 2>/dev/null); then
-        echo "🆕 Created and switching to temporary directory: $tmp_dir"
-        cd "$tmp_dir" || { echo "❌ Failed to switch to temporary directory."; return 1; }
+        cd "$tmp_dir" && echo "🆕 Switched to temporary directory: $tmp_dir"
     else
         echo "❌ Failed to create a temporary directory."
         return 1
     fi
-
-    pwd
 }
 
-# -------------------------------------------------------------------- // NOTEPAD:
-# Description: A simple note-taking function that allows viewing, adding, filtering, and clearing notes.
+cdls() {
+    # Check if the directory argument is provided
+    if [[ -z $1 ]]; then
+        echo "❓ Usage: cl <directory>"
+        return 1
+    fi
+
+    # Resolve the provided directory path
+    local dir
+    dir="${1/#\~/$HOME}"  # Expand `~` to the user's home directory
+
+    # Check if the directory exists
+    if [[ ! -d "$dir" ]]; then
+        echo "❌ Error: Directory '$dir' does not exist."
+        return 1
+    fi
+
+    # Change to the directory and list its contents with detailed info
+    if cd "$dir"; then
+        ls -lah
+        echo "📂 Now in '$dir'."
+    else
+        echo "❌ Failed to change to directory '$dir'."
+        return 1
+    fi
+}
+
+#---
+
+# --- // NOTEPAD:
+## A simple note-taking function that allows viewing, adding, filtering, and clearing notes.
 notepad() {
     local file="$HOME/Documents/notes/.notes"
     \mkdir -p "$(dirname "$file")"  # Ensure the directory exists
@@ -1017,7 +1081,9 @@ EOF
     fi
 }
 
-# --------------------------------------------------------------TINYURLS:
+#---
+
+# --- // TINYURLS:
 function turl() {
     emulate -L zsh
     setopt extended_glob
@@ -1094,8 +1160,8 @@ function turl() {
 #            return 1
 #        fi
 #    fi
-
-    # Check the result of the copy operation and provide feedback
+#
+#    # Check the result of the copy operation and provide feedback
 #    if [[ $? -eq 0 ]]; then
 #        echo "Content copied to clipboard."
 #    else
@@ -1104,7 +1170,9 @@ function turl() {
 #    fi
 #}
 
-# ----------------------------------------------- // UNDO/REDO RECENT PKGS INSTALLS: 
+#---
+
+# --- // UNDO/REDO RECENT PKGS INSTALLS: 
 fetch_packages() {
     local action="$1"
     local count="$2"
@@ -1329,7 +1397,9 @@ redo() {
     fi
 }
 
-# --------------------------------------------------------- // DOWNSCALE_TO_1080P:
+#---
+
+# ---- // DOWNSCALE_TO_1080P:
 function downscale_to_1080p() {
     local input_file="$1"
     local output_file="${2:-downscaled_1080p.mp4}"
@@ -1385,7 +1455,9 @@ function downscale_to_1080p() {
 }
 alias downscale_to_1080p=downscale
 
-# ------------------------------------------------------ // DEMUX:
+#---
+
+# --- // PROCESS: 
 function process() {
     local input_file="$1"
     local output_file="${2:-processed_video.mp4}"
@@ -1463,24 +1535,24 @@ alias process_streams_without_reencoding=process
 #        echo "Error: Quality parameter should be an integer."
 #        return 1
 #    fi
-
-    # Ensure output file name is unique
+#
+#    # Ensure output file name is unique
 #    local base_name="${output_file%.*}"
 #    local extension="${output_file##*.}"
 #    local counter=1
-
+#
 #    while [[ -f "$output_file" ]]; do
 #        output_file="${base_name}_${counter}.${extension}"
 #        ((counter++))
 #    done
-
-    # Start downscale process using FFmpeg
+#
+#    # Start downscale process using FFmpeg
 #    echo "Starting downscale process to 1080p..."
 #    ffmpeg -i "$input_file" \
 #           -vf "scale=1920x1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2" \
 #           -c:v copy -crf "$quality" -preset slower -c:a copy "$output_file"
-
-    # Check if FFmpeg command was successful
+#
+#    # Check if FFmpeg command was successful
 #    if [[ $? -eq 0 ]]; then
 #        echo "Downscale complete. Output saved to '$output_file'."
 #    else
@@ -1529,41 +1601,6 @@ function pacopt() {
     run_task "Refreshing package list..." sudo pacman -Syy
 
     echo "Pacman optimization process completed!"
-}
-
-# ---------- ------------------------------------------------------- // Cd and ls:
-function cl() {
-    # Ensure the script behaves as expected in Zsh
-    emulate -L zsh
-
-    # Check if the directory argument is provided
-    if [[ -z $1 ]]; then
-        echo "Usage: cl <directory>"
-        return 1
-    fi
-
-    # Resolve the provided directory path
-    local dir="$1"
-
-    # Expand `~` to the user's home directory, if present
-    dir="${dir/#\~/$HOME}"
-
-    # Check if the directory exists
-    if [[ ! -d $dir ]]; then
-        echo "Error: Directory '$dir' does not exist."
-        return 1
-    fi
-
-    # Change to the directory and list its contents with detailed info
-    cd "$dir" && ls -lah
-
-    # Check if the directory change was successful
-    if [[ $? -eq 0 ]]; then
-        echo "Changed to directory: $dir"
-    else
-        echo "Failed to change to directory: $dir"
-        return 1
-    fi
 }
 
 # ------------------------------------------------------------- // SEARCH_HISTORY:
@@ -1754,7 +1791,7 @@ declare -A YTDLP_COOKIES_MAP=(
 
 # Preferred format IDs in descending priority, excluding 'best' and 'bestaudio'
 # These are WebM formats first, then MP4 as fallback
-PREFERRED_FORMATS=("313" "308" "303" "302" "271" "248" "247" "136" "137")
+PREFERRED_FORMATS=("335" "313" "308" "303" "302" "271" "248" "247" "136" "137")
 # ===========================[ Basic Utilities ]=========================== #
 
 # Quick URL validator
@@ -1903,7 +1940,7 @@ ytdl() {
            --embed-metadata \
            --external-downloader aria2c \
            --external-downloader-args "--continue=true -j3 -x3 -s3 -k1M" \
-           -f "315/313/308/303/302/271/248/247/137+bestaudio/best" \
+           -f "335/315/313/308/303/302/271/248/247/137+bestaudio/best" \
            --merge-output-format webm \
            --no-playlist \
            --no-mtime \

@@ -119,8 +119,7 @@ export NODE_DATA_HOME="$XDG_DATA_HOME/node"
 export NODE_CONFIG_HOME="$XDG_CONFIG_HOME/node"
 export TEXMFVAR="$XDG_CACHE_HOME/texlive/texmf-var"
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
-export LIBVA_DRIVERS_PATH="/usr/lib/dri/i965_drv_video.so"
-export LIBVA_DRIVER_NAME=i965
+export LIBVA_DRIVER_NAME=radeonsi
 # export LIBVA_DISPLAY=wayland
 
 mkdir "$WINEPREFIX" \
