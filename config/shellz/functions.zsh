@@ -909,8 +909,8 @@ modified() {
 
 #---
 
-# --- // Dir navigation suite (cd,back,up,forward,etc):
-## Redefine cd to push directories onto the stack
+# --- // Dir Navigator (cd,back,up,forward,etc):
+### Redefine cd to push directories onto the stack
 function cd() {
     if [[ -d "$1" ]]; then
         pushd "$@" > /dev/null
@@ -919,6 +919,7 @@ function cd() {
     fi
 }
 
+### Go_back_dir:
 back() {
     local steps=${1:-1}  # Number of steps back in the directory stack, default is 1
 
@@ -937,6 +938,7 @@ back() {
     done
 }
 
+### Go_forward_dir:
 fwd() {
     local steps=${1:-1}  # Number of steps forward in the directory stack, default is 1
 
@@ -956,6 +958,7 @@ fwd() {
     done
 }
 
+### Creates a new directory and changes into it.
 mkcd() {
     if (( $# != 1 )); then
         echo "❓ Usage: mkcd <new-directory>"
@@ -964,7 +967,6 @@ mkcd() {
 
     local dir="$1"
 
-    # Attempt to create the directory (including parent directories)
     if mkdir -p -- "$dir"; then
         cd "$dir" && echo "📁 Now in '$dir'."
     else
@@ -973,7 +975,8 @@ mkcd() {
     fi
 }
 
-mkcdt() {
+### Creates a temporary directory and changes into it.
+cdt() {
     local tmp_dir
 
     if tmp_dir=$(mktemp -d 2>/dev/null); then
@@ -984,23 +987,20 @@ mkcdt() {
     fi
 }
 
+### Changes to a directory and lists its contents.
 cdls() {
-    # Check if the directory argument is provided
     if [[ -z $1 ]]; then
         echo "❓ Usage: cl <directory>"
         return 1
     fi
 
-    # Resolve the provided directory path
     local dir
     dir="${1/#\~/$HOME}"  # Expand `~` to the user's home directory
 
-    # Check if the directory exists
     if [[ ! -d "$dir" ]]; then
         echo "❌ Error: Directory '$dir' does not exist."
         return 1
     fi
-
     # Change to the directory and list its contents with detailed info
     if cd "$dir"; then
         ls -lah
