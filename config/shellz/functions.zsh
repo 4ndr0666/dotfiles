@@ -990,7 +990,7 @@ cdt() {
 ### Changes to a directory and lists its contents.
 cdls() {
     if [[ -z $1 ]]; then
-        echo "❓ Usage: cl <directory>"
+        echo "❓ Usage: cdls <directory>"
         return 1
     fi
 
