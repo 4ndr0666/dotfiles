@@ -910,52 +910,76 @@ modified() {
 #---
 
 # --- // Dir Navigator (cd,back,up,forward,etc):
+typeset -a DIR_HISTORY_BACK
+typeset -a DIR_HISTORY_FORWARD
+
 ### Redefine cd to push directories onto the stack
 function cd() {
-    if [[ -d "$1" ]]; then
-        pushd "$@" > /dev/null
+    if [[ -z "$1" ]]; then
+        local new_dir="$HOME"
     else
-        builtin cd "$@"  # Use the built-in cd if not a directory
+        local new_dir="$1"
+        new_dir="${new_dir/#\~/$HOME}"
     fi
+
+    if [[ ! -d "$new_dir" ]]; then
+        echo "❌ Error: Directory '$new_dir' does not exist."
+        return 1
+    fi
+
+    DIR_HISTORY_BACK+=("$PWD")
+
+    DIR_HISTORY_FORWARD=()
+
+    builtin cd "$new_dir" || return 1
 }
 
-### Go_back_dir:
+### Navigate back one directory in history.
 back() {
-    local steps=${1:-1}  # Number of steps back in the directory stack, default is 1
-
-    if (( steps < 1 )); then
-        echo "❌ Error: Number of steps must be at least 1."
+    if (( ${#DIR_HISTORY_BACK[@]} == 0 )); then
+        echo "❓ No previous directories in history."
         return 1
     fi
 
-    for ((i = 0; i < steps; i++)); do
-        if (( $(dirs -p | wc -l) > 1 )); then
-            popd > /dev/null  # Move back in the directory stack and suppress output
-        else
-            echo "❓ No more directories in the history."
-            break
-        fi
-    done
+    local prev_dir="${DIR_HISTORY_BACK[-1]}"
+
+    DIR_HISTORY_BACK=("${DIR_HISTORY_BACK[@]:0:-1}")
+
+    DIR_HISTORY_FORWARD+=("$PWD")
+
+    builtin cd "$prev_dir" || return 1
 }
 
-### Go_forward_dir:
-fwd() {
-    local steps=${1:-1}  # Number of steps forward in the directory stack, default is 1
+### Navigate forward one directory in history.
+forward() {
+    if (( ${#DIR_HISTORY_FORWARD[@]} == 0 )); then
+        echo "❓ No forward directories in history."
+        return 1
+    fi
+
+    local next_dir="${DIR_HISTORY_FORWARD[-1]}"
+
+    DIR_HISTORY_FORWARD=("${DIR_HISTORY_FORWARD[@]:0:-1}")
+
+    DIR_HISTORY_BACK+=("$PWD")
+
+    builtin cd "$next_dir" || return 1
+}
+
+### Navigate up N directories.
+up() {
+    local steps=${1:-1}
 
     if (( steps < 1 )); then
         echo "❌ Error: Number of steps must be at least 1."
         return 1
     fi
 
-    for ((i = 0; i < steps; i++)); do
-        # `pushd +1` rotates the stack forward
-        if pushd +1 > /dev/null; then
-            :
-        else
-            echo "❓ No more directories in the forward history."
-            break
-        fi
-    done
+    local target
+    target=$(printf "%0.s../" $(seq 1 "$steps"))
+    target=${target%/}  # Remove trailing slash
+
+    cd "$target"
 }
 
 ### Creates a new directory and changes into it.
@@ -988,28 +1012,29 @@ cdt() {
 }
 
 ### Changes to a directory and lists its contents.
-cdls() {
-    if [[ -z $1 ]]; then
-        echo "❓ Usage: cdls <directory>"
-        return 1
-    fi
-
-    local dir
-    dir="${1/#\~/$HOME}"  # Expand `~` to the user's home directory
-
-    if [[ ! -d "$dir" ]]; then
-        echo "❌ Error: Directory '$dir' does not exist."
-        return 1
-    fi
-    # Change to the directory and list its contents with detailed info
-    if cd "$dir"; then
-        ls -lah
-        echo "📂 Now in '$dir'."
+cl() {
+    if [[ -z "$1" ]]; then
+        # Navigate to HOME and list its contents if no arguments are provided
+        cd && ls -lah && echo "📂 Now in '$HOME'."
     else
-        echo "❌ Failed to change to directory '$dir'."
-        return 1
+        local dir="$1"
+        dir="${dir/#\~/$HOME}"
+
+        if [[ ! -d "$dir" ]]; then
+            echo "❌ Error: Directory '$dir' does not exist."
+            return 1
+        fi
+
+        if cd "$dir"; then
+            ls -lah
+            echo "📂 Now in '$dir'."
+        else
+            echo "❌ Failed to change to directory '$dir'."
+            return 1
+        fi
     fi
 }
+
 
 #---
 
