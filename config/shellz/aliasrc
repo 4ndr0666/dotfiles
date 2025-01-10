@@ -1,22 +1,23 @@
+#!/bin/sh
 # File: /home/$USER/.config/shellz/aliasrc
 # Author: 4ndr0666
 # Edited: 10-19-2024
 
 # ======== // ALIASRC // 
-# --- // Quick view
+## Quick view
 alias 00='bat ~/.config/shellz/aliasrc'
 alias 0f='bat ~/.config/shellz/functions.zsh'
 alias 0z='bat ~/.config/zsh/.zshrc'
 alias 0p='bat ~/.config/zsh/.zprofile'
 
-# --- // Interactive confirmation
+## Interactive confirmation
 if [[ -o interactive ]]; then
     alias reload='exec zsh'
     alias mkdir='mkdir -p'
     alias mkgpg="[ -d ~/.gnupg ] || mkdir ~/.gnupg ; cp /etc/pacman.d/gnupg/gpg.conf ~/.gnupg/ ; echo 'done'"
 fi
 
-# --- // Typos:
+## Typos:
 alias gerp='grep'
 alias shudown='shutdown'
 alias pdw='pwd'
@@ -30,13 +31,7 @@ alias nvin='nbin'
 alias cay='cat'
 alias reloda='reload'
 
-#===
-
-# ======== // RECENT_PROGRAMS //
-# --- // Xorg:
-#alias diffuse='xhost + && diffuse'
-
-# --- // pyfiglet:
+## Pyfiglet:
 figletbanner() {
     if [[ "$1" == "--help" || "$1" == "-h" ]]; then
         echo "Usage: figletc \"your text here\""
@@ -62,29 +57,34 @@ figletbanner() {
     pyfiglet --font=line_blocks --normalize-surrounding-newlines "$@" | lolcat -F 0.5
 }
 
-# --- // Bat:
+## Bat:
+### Batman
+alias man='batman'
+
+## Bathelp
 ### Instead of `cmd --help` do `help cmd`
 alias bathelp='bat --plain --language=help'
 help() {
-    "$@" --help 2>&1 | bathelp
+    "$@" --help >/dev/null 2>&1 || "$@" -h >/dev/null 2>&1 | bathelp
 }
 
-### Shows Git Syntax
+## Bat Git Syntax
 batdiff() {
     git diff --name-only --relative --diff-filter=d | xargs bat --diff
 }
 
-# --- // Lf:
+## Lf:
 alias lf='lfub'
+alias ref="shortcuts >/dev/null; source ${XDG_CONFIG_HOME:-$HOME/.config}/shellz/shortcutrc ; source ${XDG_CONFIG_HOME:-$HOME/.config}/shellz/shortcutenvrc ; source ${XDG_CONFIG_HOME:-$HOME/.config}/shellz/zshnameddirrc"
 
-# --- // Wf:
+## Wf-recorder:
 #alias screenrecord="wf-recorder -a"
 #alias screenrecord2="wf-recorder -a -c h264_vaapi -C aac -d /dev/dri/renderD128 --file=recording.mp4"
 
-# --- // Kmon:
+## Kmon:
 alias kmon='sudo kmon --color blue --accent-color 15FFFF --unicode'
 
-# --- // FD:
+## FD:
 alias fd='fd --hidden --follow --exclude ".git"'
 alias fd1='fd --exact-depth=1 --hidden --follow --exclude ".git"' # Keeps search depth at first level
 fdde() {
@@ -107,7 +107,7 @@ fdde() {
     fi
 }
 
-# --- // NSXIV:
+## NSXIV:
 vidt() {
     local thumb_dir="$HOME/.cache/video_thumbs"
     mkdir "$thumb_dir"
@@ -142,16 +142,14 @@ alias vpnblock='sudo expressvpn preferences set block_all false'
 alias vpnproto='sudo expressvpn protocol lightway_udp'
 
 # --- // Nvim:
-alias vim="nvim"
+[ -x "$(command -v nvim)" ] && alias vim="nvim" vimdiff="nvim -d"
+alias magit="nvim -c MagitOnly" 
+
 
 # --- // UFW:
 alias ufws='sudo ufw status'
 function ufwr() {
     yes | sudo ufw reset
-    sudo ufw disable
-    sudo ufw limit 22/tcp
-    sudo ufw allow 80/tcp
-    sudo ufw allow 443/tcp
     sudo ufw default deny incoming
     sudo ufw default allow outgoing
     sudo ufw enable
@@ -178,10 +176,10 @@ alias dracutfallback='echo "sudo dracut --force /boot/initramfs-linux-fallback.i
 #===
 
 # ======== // Sudo Bypass
-#for cmd in pacman-key ufw mount umount pacman updatedb su systemctl useradd userdel groupadd groupdel chown chmod \
-#btrfs ip netstat modprobe; do
-#    alias $cmd="sudo $cmd"
-#done
+for command in mount umount sv pacman updatedb su shutdown poweroff reboot ; do
+	alias $command="sudo $command"
+done; unset command
+
 
 #===
 
@@ -225,7 +223,8 @@ alias vhostname='edit_config /etc/hostname'
 
 #===
 
-# ======== // Directory Navigation
+# ======== // Fzf Editor for `~/.local/bin`
+
 goto() {
     local dir=$1
     if [[ -d "$dir" ]]; then
@@ -272,14 +271,16 @@ alias cloud='goto /23.1/Thecloud'
 ### Nas:
 alias nas='goto /Nas/'
 alias nbin='goto /Nas/Build/git/syncing/scr'
-alias 5cr='goto /Nas/Build/git/syncing/5cr'
+alias nbintest='goto /Nas/Build/git/syncing/5cr'
 alias nnas='goto /Nas/Build/git/syncing/nas'
 alias ngpt='goto /Nas/Build/git/syncing/gpt'
-alias ng='goto /Nas/Build/git/'
 alias ngc='goto /Nas/Build/git/clone'
+alias ngl='goto /Nas/Build/git/local'
 alias npkg='goto /Nas/Build/pkgs'
-alias npro='goto /Nas/Build/projects'
-alias ndot='goto /Nas/Build/git/clone/dotfiles'
+alias npro='goto /Nas/00sandbox/projects'
+alias ndot='goto /Nas/Build/git/local/dotfiles'
+alias ntodo='goto /Nas/00todo'
+alias nsand='goto /Nas/00sandbox'
 
 ### System:
 alias et='goto /etc'
@@ -295,12 +296,7 @@ alias cac='goto ~/.cache'
 
 #===
 
-# ======== // FZF aliases //
-### Edit file in $USER/.local/bin:
-fzlb() {
-    choice="$(find ~/.local/bin -mindepth 1 -printf '%P\n' | fzf)"
-    [ -f "$HOME/.local/bin/$choice" ] && $EDITOR "$HOME/.local/bin/$choice";
-}
+
 
 ### Edit files in /Nas/Build/git/syncing/scr:
 fzscr() {
@@ -342,11 +338,14 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 alias s='sudo'
-alias ka='sudo -i killall'
+alias e="$EDITOR" 
+alias v="$EDITOR" 
+alias p="pacman"
+alias ka='killall'
 alias cp='cp -iv'
 alias mv='mv -iv'
-alias rm='trash-put'          # Aliases for trash-cli
-#alias rm='rm -vI'
+alias rm='rm vI'         
+alias bc='bc -ql'
 alias rmf='sudo -S /usr/bin/rm -vI -rf'
 alias rg="rg --sort path"
 alias diff='diff --color=auto'
@@ -359,8 +358,9 @@ alias df='df -h --exclude-type=squashfs --exclude-type=tmpfs --exclude-type=devt
 alias cat='bat'
 alias ccat="highlight --out-format=ansi"
 alias showpath='echo $PATH | tr ":" "\n"'
-alias rsync='rsync -avrPlU --progress'
+alias rsync='rsync -vrPlu'
 alias grub-mkconfig='sudo grub-mkconfig -o /boot/grub/grub.cfg'
+alias grep='grep --color=auto'
 alias grepc='grep --color=always'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
@@ -374,6 +374,7 @@ alias free='free -mt'
 alias jctl='journalctl -p 3 -xb'
 alias mapit="ifconfig -a | grep -Po '\b(?!255)(?:\d{1,3}\.){3}(?!255)\d{1,3}\b' | xargs nmap -A -p0-"
 alias ports='netstat -tulanp'
+alias whatonline='lsof -P -i -n'
 alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python3 -'
 alias netspeed='ifstat -t -S -w'
 alias iotop='sudo iotop -o'
@@ -388,11 +389,12 @@ alias z='zathura'
 alias lf='lfub'
 alias untar='sudo -S tar -xvf '
 alias watch='watch '
-alias top10='print -l ${(o)history%% *} | uniq -c | sort -nr | head -n 10'
+alias mem10='ps aux | sort -nk +4 | tail' 
 alias pacdiff='sudo -H DIFFPROG=meld pacdiff'
 alias psgrep="ps aux | grep -v grep | grep -i -e VSZ -e"
 alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg"
-alias myip='curl icanhazip.com'
+alias myip='curl canhazip.com'
+alias mybios='dmidecode -t bios'
 alias update-grub2='sudo grub-install && sudo grub-mkconfig -o /boot/grub/grub.cfg'
 ### Count or list files in dir:
 filecount() {
@@ -576,24 +578,39 @@ playdir() {
     mpv --playlist=dirplaylist.txt --shuffle=yes --loop=no || rm dirplaylist.txt
 }
 
-### files & directories modified in last day
-alias lsfd1d='ls *(m0)'
-### files (no directories) modified in last day
-alias lsf1d='ls *(.m0)'
-### list three newest
+## List Modified Files in Past 60 min
+alias ls60='sudo find / -mmin 60 -type f'
+
+## List Files & Dirs Modified in Past Day
+alias lsfdday='ls *(m0)'
+
+## List Files Modified in Past Day
+alias lsfday='ls *(.m0)'
+
+## list 3 Newest 
 alias lsnew='ls *(.om[1,3])'
-### most recent subdir
+
+## List Most Recent Subdir
 alias lssubdir='ls -d *(/om[1])'
+
+## Ls with Bat
 alias lb='ls | bat'
-alias l1='lsd -1'                               # List everything in one line
-alias lr='ls -snew'                              # List most recent item changed first
+
+## Ls on One Line
+alias l1='lsd -1'
+
+## Ls w Modified First
+alias lr='ls -snew'   
+
+## Ls symlinks
+alias lta='ls -ltrha'
+
 alias ls='exa -hlx --no-filesize --no-time --no-permissions --color=always --group-directories-first --icons=always'
 alias la="lsd -aFlL --permission=rwx --color=always --group-directories-first --icon=always"
 alias ll='exa -xXDa --color=always  --icons=always'
 alias l.='exa -ax --sort=modified --color-scale-mode=gradient --color=always --group-directories-first --icons | grep "^\."'
 alias lt='tree -L 2 scr'
 #exa -aT -s new --color=always --group-directories-first --icons'
-alias lta='ls -ltrha'
 
 # --- // Config 2:
 #alias l='ls'
@@ -690,7 +707,7 @@ chfd() {
     if [[ -f "$target" ]]; then
         # If it's a file, apply chmod 644
         echo "Setting permissions: U+rwx | G+rx | O+rx for file '$target'..."
-        chmod 644 "$target"
+        sudo chmod 644 "$target"
         if [[ $? -ne 0 ]]; then
             echo "Error: Failed to set permissions for file '$target'."
             return 1
@@ -698,7 +715,7 @@ chfd() {
     elif [[ -d "$target" ]]; then
         # If it's a directory, apply chmod 755 recursively
         echo "Setting permissions: U+rwx | G+rx | O+rx for all files in directory '$target'..."
-        find "$target" -type f -exec chmod 755 {} +
+        sudo find "$target" -type f -exec chmod 755 {} +
         if [[ $? -ne 0 ]]; then
             echo "Error: Failed to set permissions for files in directory '$target'."
             return 1
@@ -927,7 +944,7 @@ alias tobash="sudo chsh $USER -s /bin/bash && echo 'Now log out.'"
 alias tozsh="sudo chsh $USER -s /bin/zsh && echo 'Now log out.'"
 alias tofish="sudo chsh $USER -s /bin/fish && echo 'Now log out.'"
 
-# --- // Display:
+# --- // Xorg Display:
 alias xd='ls /usr/share/xsessions'
 alias xdw="ls /usr/share/wayland-sessions"
 alias xfix='echo "DISPLAY=:0 XAUTHORITY=$HOME/.Xauthority xterm"'

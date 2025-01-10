@@ -307,3 +307,13 @@ alias ssr="cleanup_session && echo 'Rebooting...' && sudo reboot -h now"
 
 # --- // Custom:
 alias magic="echo o > /proc/sysrq-trigger"
+export WORKON_HOME='/home/andro/.local/share/python/virtualenvs'
+export WORKON_HOME='/home/andro/.local/share/python/virtualenvs'
+export WORKON_HOME='/home/andro/.local/share/python/virtualenvs'
+export WORKON_HOME='/home/andro/.local/share/python/virtualenvs'
+export WORKON_HOME='/home/andro/.local/share/python/virtualenvs'
+export WORKON_HOME='/home/andro/.local/share/python/virtualenvs'
+export WORKON_HOME='/home/andro/.local/share/python/virtualenvs'
+export WORKON_HOME='/home/andro/.local/share/python/virtualenvs'
+export WORKON_HOME='/home/andro/.local/share/python/virtualenvs'
+source /usr/bin/virtualenvwrapper.sh

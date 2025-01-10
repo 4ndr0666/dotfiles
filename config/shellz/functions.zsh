@@ -1425,7 +1425,7 @@ redo() {
 #---
 
 # ---- // DOWNSCALE_TO_1080P:
-function downscale_to_1080p() {
+downscale() {
     local input_file="$1"
     local output_file="${2:-downscaled_1080p.mp4}"
     local quality="${3:-23}"  # Default CRF value for quality, 23 is standard for x264
@@ -1478,12 +1478,11 @@ function downscale_to_1080p() {
         return 1
     fi
 }
-alias downscale_to_1080p=downscale
 
 #---
 
 # --- // PROCESS: 
-function process() {
+process() {
     local input_file="$1"
     local output_file="${2:-processed_video.mp4}"
     local quality="${3:-23}" 
@@ -1535,7 +1534,6 @@ function process() {
         return 1
     fi
 }
-alias process_streams_without_reencoding=process
 
 # --------------------------------------------------------- // DOWNSCALE_TO_1080P:
 #function downscale() {
@@ -1814,7 +1812,7 @@ declare -A YTDLP_COOKIES_MAP=(
     ["boosty.to"]="$HOME/.config/yt-dlp/boosty_cookies.txt"
     # Add more mappings as needed
 )
-PREFERRED_FORMATS=("335" "313" "308" "303" "302" "271" "248" "247" "136" "137")
+PREFERRED_FORMATS=("335" "315" "313" "308" "303" "302" "271" "248" "247" "137")
 
 ## Quick URL validator
 validate_url() {
@@ -1860,8 +1858,8 @@ refresh_cookie_file() {
         return 1
     fi
 
-    echo "Please copy the correct cookies for '$domain' to your clipboard, then press Enter."
-    read -rp "Press Enter to continue..."  # wait for user input
+    printf "Please copy the correct cookies for '$domain' to your clipboard, then press Enter.\n"
+    read -r
 
     local clipboard_data
     clipboard_data="$($clipboard_cmd 2>/dev/null)"
@@ -1903,7 +1901,9 @@ prompt_cookie_update() {
         echo "  $idx) $d"
         ((idx++))
     done
-    read -rp "Enter the number or domain [1..$((idx-1))]: " choice
+
+    printf "Enter the number or domain [1..$((idx-1))]: "
+    read -r choice
 
     local domain=""
     if [[ "$choice" =~ ^[0-9]+$ && "$choice" -ge 1 && "$choice" -lt "$idx" ]]; then
@@ -1963,15 +1963,17 @@ get_format_details() {
     echo "$format_json" | jq '{format_id, ext, resolution, fps, tbr, vcodec, acodec, filesize}'
 }
 
-## A quick function to download with preset formats (no domain-specific cookies).
+## Preset formats (no domain-specific cookies).
+## Alternatively use "335/315/313/308/303/302/271/248/247/137+bestaudio/best"
 ## You can still pass your own --cookies or anything else if you want.
 ytdl() {
     yt-dlp --add-metadata \
            --embed-metadata \
            --external-downloader aria2c \
            --external-downloader-args "--continue=true -j3 -x3 -s3 -k1M" \
-           -f "335/315/313/308/303/302/271/248/247/137+bestaudio/best" \
-           --merge-output-format webm \
+           -f "bestvideo+bestaudio/bestvideo" \
+	   --newline \
+	   --ignore-config \
            --no-playlist \
            --no-mtime \
            "$@"
@@ -2142,13 +2144,15 @@ EOF
         fi
 
         # Download
+	# Previous format: '-f "$best_fmt+bestaudio/best" \'
         yt-dlp \
             --add-metadata \
             --embed-metadata \
             --external-downloader aria2c \
             --external-downloader-args "--continue=true -j3 -x3 -s3 -k1M" \
-            -f "$best_fmt+bestaudio/best" \
-            --merge-output-format webm \
+            -f "bestvideo+bestaudio/bestvideo" \
+	    --newline \
+	    --ignore-config \
             --no-playlist \
             --no-mtime \
             --cookies "$cookie_file" \
@@ -2158,7 +2162,8 @@ EOF
         local exit_code=$?
         if [[ $exit_code -ne 0 ]]; then
             echo "Download failed for '$url'. Possibly expired or invalid cookies? Attempt update? (y/n)"
-            read -rp "Enter choice: " ans
+            printf "Enter choice: "
+            read -r ans
             if [[ "$ans" =~ ^[Yy](es)?$ ]]; then
                 refresh_cookie_file "$domain" || {
                     echo "Cookie refresh for domain '$domain' failed. Skipping re-attempt."
