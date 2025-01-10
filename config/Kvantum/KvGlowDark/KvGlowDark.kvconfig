@@ -4,7 +4,7 @@ comment=An elegantly Glow dark theme
 x11drag=all
 alt_mnemonic=true
 left_tabs=true
-attach_active_tab=true
+attach_active_tab=false
 embedded_tabs=true
 mirror_doc_tabs=false
 group_toolbar_buttons=true
@@ -21,19 +21,19 @@ slider_handle_width=18
 slider_handle_length=18
 center_toolbar_handle=true
 check_size=16
-textless_progressbar=true
+textless_progressbar=false
 progressbar_thickness=40
 menubar_mouse_tracking=true
 toolbutton_style=0
-double_click=true
+double_click=false
 translucent_windows=false
 blurring=false
 popup_blurring=false
-opaque=kaffeine,kmplayer,subtitlecomposer,kdenlive,vlc,smplayer,smplayer2,avidemux,avidemux2_qt4,avidemux3_qt4,avidemux3_qt5,kamoso,QtCreator,VirtualBox,VirtualBoxVM,trojita,dragon,digikam,lyx
+opaque=kaffeine,kmplayer,subtitlecomposer,kdenlive,vlc,smplayer,smplayer2,avidemux,avidemux2_qt4,avidemux3_qt4,avidemux3_qt5,kamoso,QtCreator,VirtualBox,trojita,dragon,digikam
 vertical_spin_indicators=true
 fill_rubberband=true
 merge_menubar_with_toolbar=true
-small_icon_size=24
+small_icon_size=16
 large_icon_size=32
 button_icon_size=16
 toolbar_icon_size=16
@@ -51,25 +51,25 @@ dark_titlebar=true
 hide_combo_checkboxes=false
 layout_margin=4
 no_window_pattern=false
-reduce_window_opacity=1
+reduce_window_opacity=0
 respect_DE=true
 scrollable_menu=true
-scrollbar_in_view=true
+scrollbar_in_view=false
 spin_button_width=16
 submenu_delay=250
 transient_groove=true
 tree_branch_line=false
-click_behavior=1
+click_behavior=0
 contrast=1.00
 dialog_button_layout=0
 drag_from_buttons=false
 intensity=1.00
-menu_blur_radius=1
+menu_blur_radius=3
 no_inactiveness=false
 reduce_menu_opacity=0
 saturation=1.00
 shadowless_popup=true
-tooltip_blur_radius=3
+tooltip_blur_radius=0
 
 [GeneralColors]
 window.color=#3D3D3E
@@ -93,26 +93,26 @@ link.color=#2EB8E6
 link.visited.color=#FF6666
 
 [Hacks]
-transparent_ktitle_label=true
-transparent_dolphin_view=true
-transparent_pcmanfm_sidepane=true
-blur_translucent=true
+transparent_ktitle_label=false
+transparent_dolphin_view=false
+transparent_pcmanfm_sidepane=false
+blur_translucent=false
 transparent_menutitle=false
 respect_darkness=true
 kcapacitybar_as_progressbar=true
 force_size_grip=true
 iconless_pushbutton=false
 iconless_menu=false
-disabled_icon_opacity=80
+disabled_icon_opacity=82
 lxqtmainmenu_iconsize=22
-normal_default_pushbutton=true
+normal_default_pushbutton=false
 single_top_toolbar=true
-tint_on_mouseover=0
+tint_on_mouseover=20
 no_selection_tint=false
 transparent_pcmanfm_view=false
 blur_only_active_window=true
 centered_forms=true
-kinetic_scrolling=true
+kinetic_scrolling=false
 middle_click_scroll=false
 noninteger_translucency=false
 style_vertical_toolbars=false
@@ -135,7 +135,7 @@ text.normal.color=white
 text.focus.color=white
 text.press.color=white
 text.toggle.color=white
-text.shadow=1
+text.shadow=0
 text.margin=1
 text.iconspacing=3
 indicator.element=arrow
@@ -163,7 +163,7 @@ text.normal.color=white
 text.focus.color=#9bccff
 text.press.color=white
 text.toggle.color=white
-text.shadow=1
+text.shadow=0
 text.margin=1
 text.iconspacing=3
 indicator.element=arrow
@@ -185,7 +185,7 @@ text.normal.color=white
 
 [DockTitle]
 inherits=PanelButtonCommand
-frame=true
+frame=false
 interior=false
 text.normal.color=white
 text.focus.color=#9bccff
@@ -210,7 +210,7 @@ text.focus.color=#9bccff
 
 [CheckBox]
 inherits=PanelButtonCommand
-frame=true
+frame=false
 interior.element=checkbox
 text.normal.color=white
 text.focus.color=#9bccff
@@ -276,7 +276,7 @@ interior=false
 
 [TreeExpander]
 inherits=PanelButtonCommand
-frame=true
+frame=false
 interior=false
 indicator.size=11
 indicator.element=arrow
@@ -314,7 +314,7 @@ frame.right=3
 
 [SliderCursor]
 inherits=PanelButtonCommand
-frame=true
+frame=false
 interior.element=slidercursor
 
 [Progressbar]
@@ -377,7 +377,7 @@ frame.expansion=0
 [ScrollbarGroove]
 inherits=PanelButtonCommand
 interior=false
-frame=true
+frame=false
 
 [MenuItem]
 inherits=PanelButtonCommand
@@ -494,4 +494,4 @@ interior.element=window
 interior.y.patternsize=1200
 
 [Focus]
-frame=false
+frame=true

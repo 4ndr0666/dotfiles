@@ -9,7 +9,7 @@
 --terminal-width=80
 --tabs=4
 #--paging=never
-#--pager="less -rFXI" # less with raw control chars, quit if one screen, no init/deinit, ignore case in searches
+--pager="less -rFXI" # less with raw control chars, quit if one screen, no init/deinit, ignore case in searches
 #--show-nonprintable
 # --italic-text=always
 
@@ -21,7 +21,7 @@
 #--theme="Catppuccin Mocha"
 #--theme="DarkNeon"
 #--theme="Monokai"
---theme="ansi"
+#--theme="ansi"
 #--theme="ayu-dark"
 #--theme="ayu-light"
 #--theme="ayu-mirage"
@@ -30,7 +30,7 @@
 #--theme="Snazzy"
 #--theme="tokyonight_day"
 #--theme="tokyonight_night"
-#--theme="tokyonight_storm"
+--theme="tokyonight_storm"
 #--theme="gruvbox-dark"
 
 # --- // Style:

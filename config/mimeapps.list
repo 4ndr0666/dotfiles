@@ -1,29 +1,17 @@
 [Default Applications]
+image/gif=img.desktop;
+text/x-shellscript=text.desktop;
 x-scheme-handler/magnet=torrent.desktop;
 application/x-bittorrent=torrent.desktop;
 x-scheme-handler/mailto=mail.desktop;
-text/plain=micro.desktop;geany.desktop;
+text/plain=text.desktop;
 application/postscript=pdf.desktop;
 application/pdf=pdf.desktop;
-image/gif=viewnior.desktop
-image/svg+xml=viewnior.desktop
 image/png=img.desktop;
 image/jpeg=img.desktop;
 application/rss+xml=rss.desktop
-
-[Added Associations]
-video/x-flv=mystiq.desktop;
-video/mp4=mystiq.desktop;
-text/vnd.trolltech.linguist=video.desktop;
-video/webm=mpv.desktop;mystiq.desktop;vlc.desktop;
-video/quicktime=video.desktop;mystiq.desktop;
-text/plain=userapp-text.desktop-WQ5HW2.desktop;gcr-viewer.desktop;
-image/jpeg=viewnior.desktop;feh.desktop;net.fasterland.converseen.desktop;
-image/webp=net.fasterland.converseen.desktop;
-image/svg+xml=viewnior.desktop;
-text/x-csrc=geany.desktop;
-text/x-shellscript=text.desktop;
 video/x-matroska=video.desktop
 video/mp4=video.desktop
-application/x-theme=geany.desktop;
-application/json=geany.desktop;
+x-scheme-handler/lbry=lbry.desktop
+inode/directory=file.desktop
+image/webp=net.fasterland.converseen.desktop

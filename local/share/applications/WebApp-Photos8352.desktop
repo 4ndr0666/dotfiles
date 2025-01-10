@@ -1,0 +1,19 @@
+[Desktop Entry]
+Version=1.0
+Name=Photos
+Comment=Web App
+Exec=sh -c 'XAPP_FORCE_GTKWINDOW_ICON="webapp-manager" firefox-nightly --class WebApp-Photos8352 --name WebApp-Photos8352 --profile /home/andro/.local/share/ice/firefox/Photos8352 --no-remote --kiosk --disable-gpu "https://photos.google.com/"'
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Icon=webapp-manager
+Categories=GTK;WebApps;
+MimeType=text/html;text/xml;application/xhtml_xml;
+StartupWMClass=WebApp-Photos8352
+StartupNotify=true
+X-WebApp-Browser=Firefox Nightly
+X-WebApp-URL=https://photos.google.com/
+X-WebApp-CustomParameters=--kiosk --disable-gpu
+X-WebApp-Navbar=false
+X-WebApp-PrivateWindow=false
+X-WebApp-Isolated=true

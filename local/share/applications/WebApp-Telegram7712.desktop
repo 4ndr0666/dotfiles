@@ -1,0 +1,19 @@
+[Desktop Entry]
+Version=1.0
+Name=Telegram
+Comment=Web App
+Exec=sh -c 'XAPP_FORCE_GTKWINDOW_ICON="telegram" firefox-nightly --class WebApp-Telegram7712 --name WebApp-Telegram7712 --profile /home/andro/.local/share/ice/firefox/Telegram7712 --no-remote "https://web.telegram.org/k/"'
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Icon=telegram
+Categories=GTK;WebApps;
+MimeType=text/html;text/xml;application/xhtml_xml;
+StartupWMClass=WebApp-Telegram7712
+StartupNotify=true
+X-WebApp-Browser=Firefox Nightly
+X-WebApp-URL=https://web.telegram.org/k/
+X-WebApp-CustomParameters=
+X-WebApp-Navbar=false
+X-WebApp-PrivateWindow=false
+X-WebApp-Isolated=true
