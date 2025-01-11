@@ -4,7 +4,7 @@
 # Author: 4ndr0666
 
 # ======================================== // ZPROFILE //
-# Default programs
+## Default programs
 
 export MICRO_TRUECOLOR=1
 export EDITOR="nvim"
@@ -12,7 +12,7 @@ export TERMINAL="alacritty"
 export TERMINAL_PROG="st"
 export BROWSER="brave-beta"
 
-# Dynamic Path
+## Dynamic Path
 
 static_dirs=(
     "$HOME/.npm-global/bin"
@@ -59,7 +59,7 @@ export PATH
 ## dynamic_dirs=($(cat "$cache_file"))
 ############################################################# //
 
-# XDG
+## XDG
 
 if [ -z "$XDG_RUNTIME_DIR" ]; then
     export XDG_RUNTIME_DIR="/run/user/$(id -u)"
@@ -76,7 +76,7 @@ export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_STATE_HOME="$HOME/.local/state"
 
-# Environment
+## Environment
 
 export TRASHDIR="$XDG_DATA_HOME/Trash"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh/"
@@ -202,16 +202,16 @@ mkdir "$PSQL_HOME" \
 # export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.pla
 #f.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel ${_JAVA_OPTIONS}"
 
-# Library
+## Library
  
 export LD_LIBRARY_PATH="$XDG_DATA_HOME/lib:/usr/local/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 
-# Askpass
+## Askpass
 
 export SUDO_ASKPASS="$XDG_CONFIG_HOME"/wayfire/scripts/rofi_askpass  # Wayfire specific
 #export SUDO_ASKPASS="/usr/bin/pinentry-dmenu"    # Xorg
 
-# GPG
+## GPG
 
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 if [ ! -d "$GNUPGHOME" ]; then
@@ -226,39 +226,92 @@ else
     echo "Warning: $gpg_env_file not found"
 fi
 
+#---
 
 # FZF
-
 ### Defaults:
-FZF_DEFAULT_COMMMAND='fd --no-ignore --hidden --follow --exclude ".git"'
-FZF_DEFAULT_OPTS="
---layout=reverse
---height=40%
---border=thinblock
---info=right
---tiebreak=index
---scrollbar='│' 
---preview 'file {}'
---preview-window='right:50%'
---color=fg:#005b69,fg+:#15FFFF,bg:#151515,bg+:#262626 \
---color=hl:#15FFFF,hl+:#15FFFF,info:#195761,marker:#15FFFF \
---color=prompt:#00f7ff,spinner:#64e290,pointer:#15FFFF,header:#07fff7 \
---color=border:#262626,preview-border:#15FFFF,label:#005b69,query:#15ffff \
---border-label-pos='-54' --prompt='≽  ' --marker='✔' --pointer='☞' --separator='-'" 
+export FZF_DEFAULT_OPTS="
+  --height=60%
+  --border=double
+  --padding=1%
+  --info=right
+  --separator=_
+  --preview='
+    set filename (basename {})
+    if string match -q \"*.txt\" -- \$filename
+      bat --style=numbers --color=always {}
+    else if string match -q \"*.pdf\" -- \$filename
+      zathura {} &
+    else if string match -q \"*.jpg\" -- \$filename
+      feh {} &
+    else if string match -q \"*.jpeg\" -- \$filename
+      feh {} &
+    else if string match -q \"*.png\" -- \$filename
+      feh {} &
+    else if string match -q \"*.gif\" -- \$filename
+      feh {} &
+    else
+      bat --style=numbers --color=always {}
+    end
+  '
+  --preview-window=hidden:right:69%
+  --preview-label=eyes
+  --margin=5%
+  --border-label=search
+  --color=16
+  --layout=reverse
+  --prompt=⭐
+  --bind='enter:execute(
+    set filename (basename {})
+    if string match -q \"*.txt\" -- \$filename
+      emacsclient -nw {}
+    else if string match -q \"*.pdf\" -- \$filename
+      zathura {}
+    else if string match -q \"*.jpg\" -- \$filename
+      feh {}
+    else if string match -q \"*.jpeg\" -- \$filename
+      feh {}
+    else if string match -q \"*.png\" -- \$filename
+      feh {}
+    else if string match -q \"*.gif\" -- \$filename
+      feh {}
+    else
+      emacsclient -nw {}
+    end
+  )'
+  --bind=alt-o:toggle-preview
+"
 
-### History binding:
+## Config 1
+#FZF_DEFAULT_COMMMAND='fd --no-ignore --hidden --follow --exclude ".git"'
+#FZF_DEFAULT_OPTS="
+#--layout=reverse
+#--height=40%
+#--border=thinblock
+#--info=right
+#--tiebreak=index
+#--scrollbar='│' 
+#--preview 'file {}'
+#--preview-window='right:50%'
+#--color=fg:#005b69,fg+:#15FFFF,bg:#151515,bg+:#262626 \
+#--color=hl:#15FFFF,hl+:#15FFFF,info:#195761,marker:#15FFFF \
+#--color=prompt:#00f7ff,spinner:#64e290,pointer:#15FFFF,header:#07fff7 \
+#--color=border:#262626,preview-border:#15FFFF,label:#005b69,query:#15ffff \
+#--border-label-pos='-54' --prompt='≽  ' --marker='✔' --pointer='☞' --separator='-'" 
+
+## History binding:
 bindkey '^R' fzf-history-widget
 
-### fh - repeat history
+## fh - repeat history
 fh() {
   print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed -E 's/ *[0-9]*\*? *//' | sed -E 's/\\/\\\\/g')
 }
 
-### Use ctrl Y to copy:
+## Use ctrl Y to copy:
 export FZF_DEFAULT_OPTS='--bind "ctrl-y:execute-silent(printf {} | cut -f 2- | wl-copy --trim-newline)"'
 
 
-# --- // Garuda Style  
+## Config 2
 #export FZF_DEFAULT_OPTIONS="
 #    --height=40% --layout=reverse --info=inline --border --margin=1 --padding=1 \
 #    --tiebreak=index \
@@ -279,22 +332,22 @@ export FZF_DEFAULT_OPTS='--bind "ctrl-y:execute-silent(printf {} | cut -f 2- | w
 # --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
 # --color=marker:#f5e0dc,fg+:#a6e3a1,prompt:#cba6f7,hl+:#f38ba8"
 
-# Truecolor
+## Truecolor
 
 case "${COLORTERM}" in
     truecolor|24bit) ;;
     *) export COLORTERM="24bit" ;;
 esac
 
-# PAGER
+## PAGER
 
 export PAGER=vimpager
 
-# --- // Bat
+## Bat
 #export MANPAGER="sh -c 'col -bx | bat -l man -p | less -R'"
 #export MANPAGER="sh -c 'col -bx | bat -l man -p --paging always'"
 
-# Less
+## Less
 
 export LESS='-R'
 export LESS_TERMCAP_mb=$'\E[01;31m'             # begin blinking
@@ -305,10 +358,14 @@ export LESS_TERMCAP_so=$'\E[01;44;33m'          # begin standout-mode - info box
 export LESS_TERMCAP_ue=$'\E[0m'                 # end underline
 export LESS_TERMCAP_us=$'\E[01;32m'             # begin underline
 
-# LESSOPEN 
+## LESSOPEN 
 
 export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
 
-# --- // SPEEDUP KEYS
+## Lf Shortcuts
+
+[ ! -f "$XDG_CONFIG_HOME/shellz/shortcutrc" ] && setsid -f shortcuts >/dev/null 2>&1
+
+## Keyboard Press Rate
 #command -v xset &>/dev/null && xset r rate 300 50 || echo "xset command not found, skipping keyboard rate configuration."
 #xset r rate 300 50

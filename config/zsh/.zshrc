@@ -237,6 +237,9 @@ source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring
 ZSH_AUTOSUGGEST_USE_ASYNC=true
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
 
+## Git Extras
+source /usr/share/doc/git-extras/git-extras-completion.zsh 2>/dev/null
+
 ## P10k:
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
