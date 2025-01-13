@@ -6,29 +6,31 @@
 # Prompt
 
 ### Powerlevel10k:
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+#if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+#fi
 
 ### Standard:
-autoload -U colors && colors
-PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
+#autoload -U colors && colors
+#PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
 
-# --- // Fancy:
+### Solarized:
+PROMPT='%F{32}%n%f%F{166}@%f%F{64}%m:%F{166}%~%f%F{15}$%f '
+RPROMPT='%F{15}(%F{166}%D{%H:%M}%F{15})%f'
+
+### --- // Fancy:
 #source ~/.config/shellz/fancy-prompts.zsh
 #precmd() {
 #   fancy-prompts-precmd
 #}
 #prompt-zee -PDp "≽ "
 
-# Auto-completions 
-
+## Auto-completions 
 autoload -U compinit && compinit
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':fzf-tab:complete:(\\|*)cd:*' fzf-preview 'exa -1 --color=always --icons $realpath'
 zstyle ':fzf-tab:complete:systemctl-*:*' fzf-preview 'SYSTEMD_COLORS=1 systemctl status $word'
-zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' \
-	fzf-preview 'echo ${(P)word}'
+zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' fzf-preview 'echo ${(P)word}'
 zstyle ':fzf-tab:complete:*:*' fzf-preview 'less ${(Q)realpath}'
 export LESSOPEN='|fzf_preview %s'
 zstyle ':fzf-tab:complete:*:options' fzf-preview
@@ -59,14 +61,19 @@ setopt pushd_minus
 setopt pushd_ignore_dups
 setopt pushd_silent
 
-# History
-
+## History:
+#[ -d ! "$HOME/.cache/zsh" ] && mkdir -p "$HOME/.cache/zsh"
+#chmod ug+rw "$HOME/.cache/zsh"
+#[ -f ! "$HOME/.cache/zsh/history" ] && touch -f "$HOME/.cache/zsh/history"
+#chmod ug+rw "$HOME/.cache/zsh/history"
 HISTSIZE=10000000
 SAVEHIST=10000000
 HISTFILE="$HOME/.cache/zsh/history"
 
-# Setopt
- 
+## Setopt:
+setopt extended_glob
+setopt autocd
+setopt interactive_comments
 setopt hist_ignore_space
 setopt hist_reduce_blanks
 setopt hist_verify
@@ -78,7 +85,6 @@ setopt hist_ignore_dups
 setopt hist_expire_dups_first
 
 ### Expand global aliases:
-
 globalias() {
     if [[$LBUFFER =~ ' [a-Z0-9]+S' ]]; then
 	zle _expand_alias
@@ -90,8 +96,7 @@ globalias() {
 zle -N globalias
 
 # FD
-
-## Use FD indtead of find
+### Use FD indtead of find
 _fzf_compgen_path() {
 	fd --hidden --follow --exclude ".git" . "$1"
 }
@@ -100,8 +105,7 @@ _fzf_compgen_dir() {
 	fd --type d --hidden --follow --exclude ".git" . "$1"
 }
 
-# Rehash
-
+## Rehash
 if [[ ! -d "$HOME/.cache/zsh/zcache" ]]; then
     touch "$HOME/.cache/zsh/zcache" 
     chmod ug+rw "$HOME/.cache/zsh/zcache" 
@@ -123,8 +127,7 @@ rehash_precmd() {
 autoload -Uz add-zsh-hook
 add-zsh-hook -Uz precmd rehash_precmd
 
-# Bindings
-
+## Bindings
 ### Vim:
 bindkey -v
 bindkey -a -r t
@@ -159,13 +162,12 @@ bindkey "^[[6~" end-of-history
 bindkey "^[[3~" delete-char
 bindkey "^[[2~" quoted-insert
 
-## Allow deleting before insertion:
+### Allow deleting before insertion:
 bindkey '^?' backward-delete-char
 bindkey "^W" backward-kill-word
 bindkey '^H' backward-kill-word
 
-# LF
-
+## LF
 lfcd () {
     tmp="$(mktemp -uq)"
     trap 'rm -f $tmp >/dev/null 2>&1 && trap - HUP INT QUIT TERM PWR EXIT' HUP INT QUIT TERM PWR EXIT
@@ -184,8 +186,7 @@ bindkey -s '^f' '^ucd "$(dirname "$(fzf)")"\n'
 
 bindkey '^[[P' delete-char
 
-# NVM
-
+## NVM
 export NVM_DIR="$XDG_CONFIG_HOME/nvm"
 
 source_nvm() {
@@ -199,23 +200,32 @@ source_nvm() {
 source_nvm "$NVM_DIR/nvm.sh"
 source_nvm "$NVM_DIR/bash_completion"
 
-# Minor Aliases
-
+## Minor Aliases
 h() { if [ -z "$*" ]; then history 1; else history 1 | egrep "$@"; fi; }     # Fix_zsh_history_behavior:
 alias mpv1='mpv --input-ipc-server=/tmp/mpvSockets/socket1'
 alias mpv2='mpv --input-ipc-server=/tmp/mpvSockets/socket2'
 alias reload='echo "Reloading .zshrc" && source ~/.zshrc'
 
-# Sourcing
+# --- // Source the files:
+[ -f "$HOME/.config/zsh/aliasrc" ] && source "$HOME/.config/zsh/aliasrc"
+[ -f "$HOME/.config/zsh/functions.zsh" ] && source "$HOME/.config/zsh/functions.zsh"
+[ -f "$HOME/.config/zsh/.zprofile" ] && source "$HOME/.config/zsh/.zprofile"
+[ -d "/usr/share/zsh/plugins/zsh-autosuggestions" ] && source "/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" 2>/dev/null
+[ -d "/usr/share/zsh/plugins/zsh-syntax-highlighting" ] && source "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" 2>/dev/null
 
-[ -f "$HOME/.config/shellz/aliasrc" ] && source "$HOME/.config/shellz/aliasrc"
-[ -f "$HOME/.config/shellz/functions.zsh" ] && source "$HOME/.config/shellz/functions.zsh"
-[ -f "$HOME/.zprofile" ] && source "$HOME/.zprofile"
-
-# Plugins
- 
-## FZF
+## Plugins 
+### FZF
 source <(fzf --zsh)
+
+### History-substring-search
+source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh 2>/dev/null
+
+### Autosuggestions
+ZSH_AUTOSUGGEST_USE_ASYNC=true
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
+
+### Fast-Syntax-highlighting
+source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
 
 ## You-should-use
 export YSU_MESSAGE_POSITION="after"
@@ -229,13 +239,6 @@ source /usr/share/zsh/plugins/zsh-sudo/sudo.plugin.zsh 2>/dev/null
 
 ## SystemdD
 source /usr/share/zsh/plugins/zsh-systemd/systemd.plugin.zsh 2>/dev/null
-
-## History-substring-search
-source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh 2>/dev/null
-
-## Autosuggestions
-ZSH_AUTOSUGGEST_USE_ASYNC=true
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
 
 ## Git Extras
 source /usr/share/doc/git-extras/git-extras-completion.zsh 2>/dev/null
