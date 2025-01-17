@@ -17,6 +17,30 @@
 :ufw-user-limit-accept - [0:0]
 ### RULES ###
 
+### tuple ### limit tcp 22 0.0.0.0/0 any 0.0.0.0/0 in comment=4c696d697420535348
+-A ufw-user-input -p tcp --dport 22 -m conntrack --ctstate NEW -m recent --set
+-A ufw-user-input -p tcp --dport 22 -m conntrack --ctstate NEW -m recent --update --seconds 30 --hitcount 6 -j ufw-user-limit
+-A ufw-user-input -p tcp --dport 22 -j ufw-user-limit-accept
+
+### tuple ### allow any 6800 0.0.0.0/0 any 127.0.0.1 in comment=4c6f63616c20417269613263
+-A ufw-user-input -p tcp --dport 6800 -s 127.0.0.1 -j ACCEPT
+-A ufw-user-input -p udp --dport 6800 -s 127.0.0.1 -j ACCEPT
+
+### tuple ### allow any any 0.0.0.0/0 any 0.0.0.0/0 in_lo comment=4c6f6f706261636b
+-A ufw-user-input -i lo -j ACCEPT
+
+### tuple ### allow tcp 443 0.0.0.0/0 any 0.0.0.0/0 in_enp2s0 comment=48545450532054726166666963
+-A ufw-user-input -i enp2s0 -p tcp --dport 443 -j ACCEPT
+
+### tuple ### allow tcp 80 0.0.0.0/0 any 0.0.0.0/0 in_enp2s0 comment=485454502054726166666963
+-A ufw-user-input -i enp2s0 -p tcp --dport 80 -j ACCEPT
+
+### tuple ### allow tcp 7531 0.0.0.0/0 any 0.0.0.0/0 in_enp2s0 comment=506c6179576974684d5056
+-A ufw-user-input -i enp2s0 -p tcp --dport 7531 -j ACCEPT
+
+### tuple ### allow tcp 6800 0.0.0.0/0 any 0.0.0.0/0 in_enp2s0 comment=417269613263
+-A ufw-user-input -i enp2s0 -p tcp --dport 6800 -j ACCEPT
+
 ### END RULES ###
 
 ### LOGGING ###
