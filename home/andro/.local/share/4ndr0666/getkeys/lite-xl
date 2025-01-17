@@ -1,0 +1,150 @@
+## =========================================== // LITE XL //
+
+## Navigation
+
+- **Move Cursor**: Arrow keys
+- **Scroll Page**: Page Up, Page Down
+- **Go to Line**: `Ctrl + G`
+
+## Editing
+
+- **Copy**: `Ctrl + C`
+- **Cut**: `Ctrl + X`
+- **Paste**: `Ctrl + V`
+- **Undo**: `Ctrl + Z`
+- **Redo**: `Ctrl + Y`
+
+## Search and Replace
+
+- **Find**: `Ctrl + F`
+- **Find Next**: `F3`
+- **Replace**: `Ctrl + H`
+
+## Saving and Quitting
+
+- **Save**: `Ctrl + S`
+- **Save As**: `Ctrl + Shift + S`
+- **Quit**: `Ctrl + Q`
+
+## Appearance Settings
+
+### Change Colorscheme
+
+- Open Lite XL and press `Alt + Enter` to open the command prompt.
+- Type `set colorscheme <colorscheme_name>` and press Enter.
+
+### Adjust Font Size
+
+- Open Lite XL and press `Alt + Enter` to open the command prompt.
+- Type `set font_size <size>` and press Enter.
+
+### Toggle Line Numbers
+
+- Open Lite XL and press `Alt + Enter` to open the command prompt.
+- Type `set show_line_numbers true` or `set show_line_numbers false` to toggle.
+
+### Change Theme
+
+- Open Lite XL and press `Alt + Enter` to open the command prompt.
+- Type `set theme <theme_name>` and press Enter.
+
+### Adjust Tab Size
+
+- Open Lite XL and press `Alt + Enter` to open the command prompt.
+- Type `set tab_size <size>` and press Enter.
+
+### Change Syntax Highlighting
+
+- Open Lite XL and press `Alt + Enter` to open the command prompt.
+- Type `set syntax <language>` to specify syntax highlighting.
+
+### Customize Keybindings
+
+- Open Lite XL and press `Alt + Enter` to open the command prompt.
+- Type `set key <key_combination> <command>` to customize keybindings.
+
+### Set Auto Indentation
+
+- Open Lite XL and press `Alt + Enter` to open the command prompt.
+- Type `set auto_indent true` or `set auto_indent false` to toggle.
+
+### Adjust Line Wrapping
+
+- Open Lite XL and press `Alt + Enter` to open the command prompt.
+- Type `set line_wrap true` or `set line_wrap false` to toggle.
+
+### Change Cursor Style
+
+- Open Lite XL and press `Alt + Enter` to open the command prompt.
+- Type `set cursor_style <style>` to choose a cursor style (e.g., block, line, underline).
+
+### Toggle Sidebar
+
+- Open Lite XL and press `Alt + Enter` to open the command prompt.
+- Type `set show_sidebar true` or `set show_sidebar false` to toggle sidebar visibility.
+
+### Change Line Height
+
+- Open Lite XL and press `Alt + Enter` to open the command prompt.
+- Type `set line_height <height>` to adjust line height.
+
+### Modify Status Bar
+
+- Open Lite XL and press `Alt + Enter` to open the command prompt.
+- Type `set show_status_bar true` or `set show_status_bar false` to toggle.
+
+### Customize Indentation Style
+
+- Open Lite XL and press `Alt + Enter` to open the command prompt.
+- Type `set indent_style <style>` to choose spaces or tabs.
+
+### Enable Spell Checking
+
+- Open Lite XL and press `Alt + Enter` to open the command prompt.
+- Type `set spell_check true` or `set spell_check false` to toggle spell checking.
+
+### Adjust Scrollbar Visibility
+
+- Open Lite XL and press `Alt + Enter` to open the command prompt.
+- Type `set show_scrollbar true` or `set show_scrollbar false` to toggle.
+
+### Set Word Wrap
+
+- Open Lite XL and press `Alt + Enter` to open the command prompt.
+- Type `set word_wrap true` or `set word_wrap false` to toggle word wrapping.
+
+### Change Highlighting for Current Line
+
+- Open Lite XL and press `Alt + Enter` to open the command prompt.
+- Type `set highlight_current_line true` or `set highlight_current_line false` to toggle.
+
+### Adjust Bracket Matching
+
+- Open Lite XL and press `Alt + Enter` to open the command prompt.
+- Type `set bracket_matching true` or `set bracket_matching false` to toggle bracket matching.
+
+### Customize Toolbar
+
+- Open Lite XL and press `Alt + Enter` to open the command prompt.
+- Type `set show_toolbar true` or `set show_toolbar false` to toggle toolbar visibility.
+
+## ==================================== / CMD TABLES //
+
+| **Command**                    | **Description**                                  |
+|--------------------------------|--------------------------------------------------|
+| `set colorscheme <name>`       | Change colorscheme                               |
+| `set font_size <size>`         | Adjust font size                                 |
+| `set show_line_numbers true/false` | Toggle line numbers                        |
+| `set theme <name>`             | Change editor theme                              |
+| `set tab_size <size>`          | Set tab size                                     |
+| `set auto_indent true/false`   | Enable or disable auto indentation               |
+| `set line_wrap true/false`     | Enable or disable line wrapping                  |
+| `set spell_check true/false`   | Enable or disable spell checking                 |
+| `set word_wrap true/false`     | Toggle word wrap                                 |
+| `set bracket_matching true/false` | Toggle bracket matching                    |
+| `set show_toolbar true/false`  | Show or hide toolbar                             |
+
+## Resources
+
+- **Lite XL GitHub Repository**: [Lite XL](https://github.com/lite-xl/lite-xl)
+- **Lite XL Documentation**: [Lite XL Wiki](https://github.com/lite-xl/lite-xl/wiki)

@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+#File: run-wayfire
+#Author: 4ndr0666
+#Edited: 09-11-24
+# Exports environment variables for wayfire and launches it.
+
+# ===================================== // RUN-WAYFIRE //
+# --- // XDG:
+export XDG_SESSION_TYPE=wayland
+export XDG_SESSION_DESKTOP=wayfire
+export XDG_CURRENT_DESKTOP=wayfire
+
+# --- // GTK_VARIABLES:
+export MOZ_ENABLE_WAYLAND=1
+GDK_BACKEND=x11,wayland
+#export TDESKTOP_DISABLE_GTK_INTEGRATION=1
+
+# --- // clutter
+export CLUTTER_BACKEND=wayland
+
+# --- // elementary
+export ECORE_EVAS_ENGINE=wayland-egl
+export ELM_ENGINE=wayland_egl
+export ELM_DISPLAY=wl
+export ELM_ACCEL=opengl
+export ELM_SCALE=1
+
+# --- // java
+export QT_QPA_PLATFORMTHEME=qt6ct
+export AWT_TOOLKIT="MTookit wmname LG3D"
+export _JAVA_AWT_WM_NONREPARENTING=1
+export _JAVA_OPTIONS="-Dawt.toolkit.name=WLToolkit"
+export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel ${_JAVA_OPTIONS}"
+export NO_AT_BRIDGE=1
+export BEMENU_BACKEND=wayland
+export WINIT_UNIX_BACKEND=wayland
+
+# --- // Qt
+export QT_QPA_PLATFORM=wayland-egl
+#export QT_WAYLAND_FORCE_DPI=physical # Use monitor's DPI
+#export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+#export QT_AUTO_SCREEN_SCALE_FACTOR=1
+
+# --- // sdl
+export SDL_VIDEODRIVER=wayland,x11
+#export SAL_USE_VCLPLUGIN=gtk3
+
+# --- // electron
+export ELECTRON_OZONE_PLATFORM_HINT=auto 
+#wayland-egl
+
+# --- // IPC
+#export WAYFIRE_SOCKET=/tmp/wayfire-wayland-1.socket
+
+# --- // SYSTEMD_DBUS:
+# Launch D-Bus session
+eval "$(dbus-launch --sh-syntax)"
+if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
+    echo "Failed to launch D-Bus session bus."
+    exit 1
+fi
+
+#xrandr --dpi 96
+#xhost + </dev/null &>/dev/null &
+#xhost +SI:localuser:andro
+#xhost +SI:localuser:root
+
+# --- // EXEC_WAYFIRE:
+sleep 0.5
+
+if ! command -v wayfire &> /dev/null; then
+    echo "Wayfire could not be found, please install it."
+    exit 1
+fi
+
+wayfire
