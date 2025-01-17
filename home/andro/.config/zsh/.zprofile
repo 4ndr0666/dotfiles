@@ -31,8 +31,8 @@ static_dirs=(
     "/usr/bin"
 )
 
-dynamic_dirs=(/Nas/Build/git/syncing/scr/**/*(/))
-
+dynamic_dirs=("")
+#/Nas/Build/git/syncing/scr/**/*(/))
 all_dirs=("${static_dirs[@]}" "${dynamic_dirs[@]}")
 
 typeset -U PATH

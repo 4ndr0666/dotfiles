@@ -1,15 +1,23 @@
+#!/bin/sh
 # File: /home/$USER/.config/shellz/aliasrc
 # Author: 4ndr0666
 # Edited: 10-19-2024
 
-# ============================================ // ALIASRC //
-# --- // Quick view:
+# ======== // ALIASRC // 
+## Quick view
 alias 00='bat ~/.config/shellz/aliasrc'
 alias 0f='bat ~/.config/shellz/functions.zsh'
 alias 0z='bat ~/.config/zsh/.zshrc'
 alias 0p='bat ~/.config/zsh/.zprofile'
 
-# --- // Typos:
+## Interactive confirmation
+if [[ -o interactive ]]; then
+    alias reload='exec zsh'
+    alias mkdir='mkdir -p'
+    alias mkgpg="[ -d ~/.gnupg ] || mkdir ~/.gnupg ; cp /etc/pacman.d/gnupg/gpg.conf ~/.gnupg/ ; echo 'done'"
+fi
+
+## Typos:
 alias gerp='grep'
 alias shudown='shutdown'
 alias pdw='pwd'
@@ -23,11 +31,7 @@ alias nvin='nbin'
 alias cay='cat'
 alias reloda='reload'
 
-# --- // Xorg:
-#alias diffuse='xhost + && diffuse'
-
-# ===================================== // RECENT_PROGRAMS //
-# -- // pyfiglet:
+## Pyfiglet:
 figletbanner() {
     if [[ "$1" == "--help" || "$1" == "-h" ]]; then
         echo "Usage: figletc \"your text here\""
@@ -53,33 +57,36 @@ figletbanner() {
     pyfiglet --font=line_blocks --normalize-surrounding-newlines "$@" | lolcat -F 0.5
 }
 
-# --- // Bat:
-## Instead of `cmd --help` do `help cmd`
+## Bat:
+### Batman
+alias man='batman'
+
+## Bathelp
+### Instead of `cmd --help` do `help cmd`
 alias bathelp='bat --plain --language=help'
 help() {
-    "$@" --help 2>&1 | bathelp
+    "$@" --help >/dev/null 2>&1 || "$@" -h >/dev/null 2>&1 | bathelp
 }
 
-## Shows git syntax
+## Bat Git Syntax
 batdiff() {
     git diff --name-only --relative --diff-filter=d | xargs bat --diff
 }
 
-# --- // Lf:
+## Lf:
 alias lf='lfub'
+alias ref="shortcuts >/dev/null; source ${XDG_CONFIG_HOME:-$HOME/.config}/shellz/shortcutrc ; source ${XDG_CONFIG_HOME:-$HOME/.config}/shellz/shortcutenvrc ; source ${XDG_CONFIG_HOME:-$HOME/.config}/shellz/zshnameddirrc"
 
-
+## Wf-recorder:
 #alias screenrecord="wf-recorder -a"
 #alias screenrecord2="wf-recorder -a -c h264_vaapi -C aac -d /dev/dri/renderD128 --file=recording.mp4"
 
-# --- // Kmon:
+## Kmon:
 alias kmon='sudo kmon --color blue --accent-color 15FFFF --unicode'
 
-# --- // FD:
+## FD:
 alias fd='fd --hidden --follow --exclude ".git"'
-
 alias fd1='fd --exact-depth=1 --hidden --follow --exclude ".git"' # Keeps search depth at first level
-
 fdde() {
     local case_flag=""
     local depth_flag=""
@@ -90,46 +97,37 @@ fdde() {
         shift
     fi
 
-    # Set the depth flag if a second argument is provided
     if [ -n "$2" ]; then
         depth_flag="--max-depth $2"
     fi
 
-    # Check if the search term is provided, otherwise print usage
     if [ -z "$1" ]; then
         echo "Usage: fdd_exact [-i] <pattern> [max-depth]"
     else
-        # Use --glob to match the pattern exactly, add anchors to ensure exact match
         fd $case_flag $depth_flag --glob "$1" "$(pwd)"
     fi
 }
 
-# --- // NSXIV:
+## NSXIV:
 vidt() {
-    # Create a directory to store the thumbnails
     local thumb_dir="$HOME/.cache/video_thumbs"
     mkdir "$thumb_dir"
 
-    # Disable confirmation for 'rm *' and clear old thumbnails if any exist
     setopt localoptions rmstarsilent
     rm -f "$thumb_dir"/*
 
-    # Find video files in the current directory
     local videos=(*.mp4(N) *.mkv(N) *.avi(N) *.mov(N) *.webm(N) *.flv(N) *.wmv(N))
 
-    # Check if any video files were found
     if [ ${#videos[@]} -eq 0 ]; then
         echo "No video files found in the current directory."
         return 1
     fi
 
-    # Generate thumbnails for each video file
     for video in "${videos[@]}"; do
         local thumbnail="$thumb_dir/${video%.*}.jpg"
         ffmpegthumbnailer -i "$video" -o "$thumbnail" -s 256 2>> "$HOME/.cache/video_thumbs/errors.log"
     done
 
-    # Open the thumbnail images in nsxiv
     nsxiv -t "$thumb_dir"
 }
 
@@ -145,22 +143,20 @@ alias vpnblock='sudo expressvpn preferences set block_all false'
 alias vpnproto='sudo expressvpn protocol lightway_udp'
 
 # --- // Nvim:
-alias vim="nvim"
+[ -x "$(command -v nvim)" ] && alias vim="nvim" vimdiff="nvim -d"
+alias magit="nvim -c MagitOnly" 
+
 
 # --- // UFW:
 alias ufws='sudo ufw status'
 function ufwr() {
     yes | sudo ufw reset
-    sudo ufw disable
-    sudo ufw limit 22/tcp
-    sudo ufw allow 80/tcp
-    sudo ufw allow 443/tcp
     sudo ufw default deny incoming
     sudo ufw default allow outgoing
     sudo ufw enable
 }
 
-# ================================= // Micro:
+# --- // Micro:  
 alias sm='sudo micro'
 
 # --- // Bleachbit:
@@ -174,24 +170,30 @@ alias garuda-resetaudio='garuda-update reset-audio'
 alias garuda-ffmpegupdate='/Nas/Build/git/syncing/scr/installers/ffmpeg/custom_garuda_update.sh' # Protects /home ffmpeg binaries
 
 # --- // Dracut:
-## Pipe to sh to execute: "dracutk | sh"
+### Pipe to sh to execute: "dracutk | sh"
 alias dracutzen='echo "sudo dracut --force --kver=$(uname -r) /boot/initramfs-linux-zen.img --enhanced-cpio --early-microcode --fstab && sudo grub-install && sudo grub-mkconfig -o /boot/grub/grub.cfg"'
 alias dracutfallback='echo "sudo dracut --force /boot/initramfs-linux-fallback.img --enhanced-cpio --early-microcode --fstab && sudo grub-install && sudo grub-mkconfig -o /boot/grub/grub.cfg"'
 
-# =========================================== // SUDO BYPASS //
-#for cmd in pacman-key ufw mount umount pacman updatedb su systemctl useradd userdel groupadd groupdel chown chmod \
-#btrfs ip netstat modprobe; do
-#    alias $cmd="sudo $cmd"
-#done
+#===
 
-# =========================================== // CHEATSHEETS //
+# ======== // Sudo Bypass
+for command in mount umount sv pacman updatedb su shutdown poweroff reboot ; do
+	alias $command="sudo $command"
+done; unset command
+
+
+#===
+
+# ======== // Cheat-sheets
 cht() {
     local cheats=("$HOME/.cheater/"*.md)
     local choice=$(printf "%s\n" "${cheats[@]}" | fzf --prompt="Select a cheat sheet: ")
     [ -n "$choice" ] && bat --language=mdown "$choice" || echo "No cheat sheet selected."
 }
 
-# ============================================== // CONFIG EDITOR //
+#===
+
+# ======== // Config Editor
 edit_config() {
     local file_path=$1
     if [[ $file_path ]]; then
@@ -220,7 +222,10 @@ alias vfire='edit_config "$XDG_CONFIG_HOME"/wayfire.ini'
 alias vbar='edit_config "$XDG_CONFIG_HOME"/wayfire/waybar/config'
 alias vhostname='edit_config /etc/hostname'
 
-# =============================================== // Dir_shortcuts:
+#===
+
+# ======== // Fzf Editor for `~/.local/bin`
+
 goto() {
     local dir=$1
     if [[ -d "$dir" ]]; then
@@ -230,7 +235,7 @@ goto() {
     fi
 }
 
-# --- // $USER:
+### $USER:
 alias dc='goto ~/Documents'
 alias dl='goto ~/Downloads'
 alias vid='goto ~/Videos'
@@ -241,14 +246,14 @@ alias confm='goto ~/.config/mpv/'
 alias ob='goto ~/.config/openbox'
 alias obt='goto ~/.config/openbox/themes'
 
-# --- // STORAGE:
+### STORAGE:
 alias sto='goto /storage'
 alias sdl='goto /storage/Downloads'
 alias spic='goto /storage/Pictures'
 alias svid='goto /storage/Videos'
 alias streamdir='goto /storage/streamlink'
 
-# --- // STO2:
+### STO2:
 alias s2='goto /sto2'
 alias s2dl='goto /sto2/Downloads'
 alias s2pic='goto /sto2/Pictures'
@@ -256,7 +261,7 @@ alias s2vid='goto /sto2/Videos'
 alias gym='goto /sto2/Gym'
 alias jd='goto /sto2/JD'
 
-# --- // 23.1:
+### 23.1:
 alias 23='goto /23.1'
 alias 23dl='goto /23.1/Downloads'
 alias 23pic='goto /23.1/Pictures'
@@ -264,19 +269,21 @@ alias 23vid='goto /23.1/Videos'
 alias 23e='goto /23.1/Edits'
 alias cloud='goto /23.1/Thecloud'
 
-# --- // Nas:
+### Nas:
 alias nas='goto /Nas/'
 alias nbin='goto /Nas/Build/git/syncing/scr'
-alias 5cr='goto /Nas/Build/git/syncing/5cr'
+alias nbin2='goto /Nas/Build/git/syncing/5cr'
 alias nnas='goto /Nas/Build/git/syncing/nas'
 alias ngpt='goto /Nas/Build/git/syncing/gpt'
-alias ng='goto /Nas/Build/git/'
 alias ngc='goto /Nas/Build/git/clone'
+alias ngl='goto /Nas/Build/git/local'
 alias npkg='goto /Nas/Build/pkgs'
-alias npro='goto /Nas/Build/projects'
-alias ndot='goto /Nas/Build/git/clone/dotfiles'
+alias sandbox='goto /Nas/00sandbox'
+alias npro='goto /Nas/00sandbox/projects'
+alias ndot='goto /Nas/Build/git/local/dotfiles'
+alias ntodo='goto /Nas/00todo'
 
-# --- // System:
+### System:
 alias et='goto /etc'
 alias ske='goto /etc/skel'
 alias bin='goto /usr/local/bin'
@@ -288,18 +295,14 @@ alias shellzsh='goto ~/.config/shellz'
 alias shellbash='goto ~/.config/shell'
 alias cac='goto ~/.cache'
 
-# ============================================ // FZF SHORTCUTS //
-# --- // Edit file in $USER/.local/bin:
-fzlb() {
-    choice="$(find ~/.local/bin -mindepth 1 -printf '%P\n' | fzf)"
-    [ -f "$HOME/.local/bin/$choice" ] && $EDITOR "$HOME/.local/bin/$choice";
-}
+#===
 
-# --- // Edit files in /Nas/Build/git/syncing/scr:
+
+
+### Edit files in /Nas/Build/git/syncing/scr:
 fzscr() {
     local dir="${1:-/Nas/Build/git/syncing/scr}"
 
-    # Find executable files and directories, excluding .git items, and sorting directories first
     local choice=$(find "$dir" -mindepth 1 \( -type d -o -executable -type f \) \
         ! -path '*/.git/*' -printf '%P\n' | \
         sort -r | \
@@ -307,10 +310,8 @@ fzscr() {
 
     if [ -n "$choice" ]; then
         if [ -d "$dir/$choice" ]; then
-            # If the choice is a directory, list its contents
             echo "Selected directory: $dir/$choice"
         elif [ -x "$dir/$choice" ]; then
-            # If the choice is an executable file, execute it
             echo "Executing $dir/$choice ..."
             "$dir/$choice"
         else
@@ -321,7 +322,9 @@ fzscr() {
     fi
 }
 
-# ======================================================= // Oh_my_zsh:
+#===
+
+# ======== // Oh my zsh //
 #alias oz="svim ~/.zshrc"
 #alias oc="cd ~/.oh-my-zsh/custom/"
 #alias omzp="echo -e '\033[1;36mPlugins:\033[0m'; awk -F'=' '/^plugins/{gsub(/[\(\)]/, \"\"); split(\$2, a, \" \"); fo
@@ -329,25 +332,21 @@ fzscr() {
 #alias omzl='omz plugin list'
 #alias omzi='omz plugin info'
 
-# =========================================== // Interactive Shell Aliases //
-if [[ -o interactive ]]; then
-    alias reload='exec zsh'
-    alias mkdir='mkdir -p'
-    alias mkgpg="[ -d ~/.gnupg ] || mkdir ~/.gnupg ; cp /etc/pacman.d/gnupg/gpg.conf ~/.gnupg/ ; echo 'done'"
-fi
-
-# ================================================== // GENERAL //
+# ======== // GENERAL //
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 alias s='sudo'
-alias ka='sudo -i killall'
+alias e="$EDITOR" 
+alias v="$EDITOR" 
+alias p="pacman"
+alias ka='killall'
 alias cp='cp -iv'
 alias mv='mv -iv'
-alias rm='trash-put'          # Aliases for trash-cli
-#alias rm='rm -vI'
+alias rm='rm vI'         
+alias bc='bc -ql'
 alias rmf='sudo -S /usr/bin/rm -vI -rf'
 alias rg="rg --sort path"
 alias diff='diff --color=auto'
@@ -360,21 +359,23 @@ alias df='df -h --exclude-type=squashfs --exclude-type=tmpfs --exclude-type=devt
 alias cat='bat'
 alias ccat="highlight --out-format=ansi"
 alias showpath='echo $PATH | tr ":" "\n"'
-alias rsync='rsync -avrPlU --progress'
+alias rsync='rsync -vrPlu'
 alias grub-mkconfig='sudo grub-mkconfig -o /boot/grub/grub.cfg'
+alias grep='grep --color=auto'
 alias grepc='grep --color=always'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias ip='ip -color=auto'
 alias c='clear; echo; echo; seq 1 $(tput cols) | sort -R | spark | lolcat; echo; echo'
 alias hw='sudo hwinfo --short'
-alias lsblk='lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINT'
+alias lsb='lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINT'
 alias lsblkh='lsblk.sh'
 alias psa='ps auxf | less'
 alias free='free -mt'
 alias jctl='journalctl -p 3 -xb'
 alias mapit="ifconfig -a | grep -Po '\b(?!255)(?:\d{1,3}\.){3}(?!255)\d{1,3}\b' | xargs nmap -A -p0-"
 alias ports='netstat -tulanp'
+alias whatsonline='lsof -P -i -n'
 alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python3 -'
 alias netspeed='ifstat -t -S -w'
 alias iotop='sudo iotop -o'
@@ -389,14 +390,14 @@ alias z='zathura'
 alias lf='lfub'
 alias untar='sudo -S tar -xvf '
 alias watch='watch '
-alias top10='print -l ${(o)history%% *} | uniq -c | sort -nr | head -n 10'
+alias mem10='ps aux | sort -nk +4 | tail' 
 alias pacdiff='sudo -H DIFFPROG=meld pacdiff'
 alias psgrep="ps aux | grep -v grep | grep -i -e VSZ -e"
 alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg"
-alias myip='curl icanhazip.com'
+alias myip='curl canhazip.com'
+alias mybios='dmidecode -t bios'
 alias update-grub2='sudo grub-install && sudo grub-mkconfig -o /boot/grub/grub.cfg'
-
-# --- // Count or list files in dir:
+### Count or list files in dir:
 filecount() {
     if [[ "$1" == "-l" ]]; then
         echo "Files in $PWD:"
@@ -414,7 +415,7 @@ lsmount() {
     fi
 }
 
-# --- // Killit:
+### Killit:
 killit() {
     local pattern=$1
     if [[ -z "$pattern" ]]; then
@@ -450,25 +451,11 @@ killit() {
     done
 }
 
-# --- // List dependencies of pkg:
+### List dependencies of pkg:
 whatdependson()  {
     search="$1"
     sudo pacman -Sii $search | grep "Required" | sed -e "s/Required By     : //g" | sed -e "s/  /\n/g"
 }
-
-#alias whatsnew='read -p "Do you want to find files based on modification time (m) or access time (a)? " choice; if [
-#"$choice" == "m" ]; then find "$PWD" -type f -mtime -7 -print0 | xargs -0 ls -lt | head; elif [ "$choice
-#" == "a" ]; then th
-#en find "$PWD" -type f -atime -7 -print0 | xargs -0 ls -lt | head; else echo "Invalid choice. Please select 'm' for mo
-#dification time or 'a' for access time."; fi'
-
-#alias cleanls='echo "pacman -Q | grep -E 'pipewire|pulseaudio|alsa|jack' > audio_packages.txt && sed -i 's/ .*$//' au
-#dio_packages.txt"'
-
-#alias findit='read -p "Do you want to find a file (f) or a directory (d)? " choice; if [ "$choice" == "f" ]; then rea
-#d -p "Enter the filename to search for: " filename; sudo find / -type f -name "$filename" 2>/dev/null; elif [ "$choice
-#" == "d" ]; then read -p "Enter the directory name to search for: " dirname; sudo find / -type d -name "$dirname" 2>/d
-#ev/null; else echo "Invalid choice. Please select 'f' for file or 'd' for directory."; fi'
 
 findit() {
   # find file names matching first token and list them by date
@@ -479,26 +466,7 @@ findit() {
   fi
 }
 
-# --- // Go_back_dir:
-function back() {
-    local steps=${1:-1}  # Number of steps back in the directory stack, default is 1
-    for ((i = 0; i < steps; i++)); do
-        if [[ $(dirs -p | wc -l) -gt 1 ]]; then
-            cd - # Move to the previous directory in the stack
-        else
-            echo "No more directories in the history."
-            break
-        fi
-    done
-}
-
-# --- // Move_up_dir:
-up() {
-    for _ in $(seq "${1:-1}"); do
-    cd ..; done;
-}
-
-# --- // Create_tarball:
+### Create_tarball:
 archive() {
     local target="$1"
     local backup_dir="${2:-.}"  # Optional second argument to specify backup directory, defaults to current directory
@@ -538,7 +506,7 @@ archive() {
     fi
 }
 
-# --- // Alt_create_tarball:
+### Alt_create_tarball:
 tarnow(){
     local target="$1"
     local backup_dir="${2:-.}"  # Optional second argument to specify backup directory, defaults to current directory
@@ -604,40 +572,46 @@ function d0() {
     done
 }
 
-# --- // MEM, POWER, TOP 5:
-#unalias mem5 2>/dev/null
-#mem5() {
-#    ps aux --sort=-%mem | awk '{print $11}' | head -n 6
-#}
-#unalias mem10 2>/dev/null
-#mem10() {
-#    ps aux --sort=-%mem | awk '{print $11}' | head -n 11
-#}
-#unalias cpu5 2>/dev/null
-#cpu5() {
-#    ps aux --sort=-%cpu | awk '{print $11}' | head -n 6
-#}
-#unalias cpu10 2>/dev/null
-#cpu10() {
-#    ps aux --sort=-%cpu | awk '{print $11}' | head -n 11
-#}
-
-# ======================================================================= // LS_FILE_LISTING //
+# ======== // LS_FILE_LISTING //
 # --- // Config 1:
 playdir() {
     /usr/bin/ls . > dirplaylist.txt
     mpv --playlist=dirplaylist.txt --shuffle=yes --loop=no || rm dirplaylist.txt
 }
+
+## List Modified Files in Past 60 min
+alias ls60='sudo find / -mmin 60 -type f'
+
+## List Files & Dirs Modified in Past Day
+alias lsfdday='ls *(m0)'
+
+## List Files Modified in Past Day
+alias lsfday='ls *(.m0)'
+
+## list 3 Newest 
+alias lsnew='ls *(.om[1,3])'
+
+## List Most Recent Subdir
+alias lssubdir='ls -d *(/om[1])'
+
+## Ls with Bat
 alias lb='ls | bat'
-alias l1='lsd -1'                               # List everything in one line
-alias lr='ls -snew'                              # List most recent item changed first
+
+## Ls on One Line
+alias l1='lsd -1'
+
+## Ls w Modified First
+alias lr='ls -snew'   
+
+## Ls symlinks
+alias lta='ls -ltrha'
+
 alias ls='exa -hlx --no-filesize --no-time --no-permissions --color=always --group-directories-first --icons=always'
 alias la="lsd -aFlL --permission=rwx --color=always --group-directories-first --icon=always"
 alias ll='exa -xXDa --color=always  --icons=always'
 alias l.='exa -ax --sort=modified --color-scale-mode=gradient --color=always --group-directories-first --icons | grep "^\."'
 alias lt='tree -L 2 scr'
 #exa -aT -s new --color=always --group-directories-first --icons'
-alias lta='ls -ltrha'
 
 # --- // Config 2:
 #alias l='ls'
@@ -668,7 +642,7 @@ alias lta='ls -ltrha'
 #alias lt='ls -lhtr'
 #alias lta='ls -lhatr'
 
-# ============================================================================= // PERMISSIONS //
+# ======== // PERMISSIONS //
 # --- // Chmod:
 alias chown='sudo chown --preserve-root'
 alias chmod='sudo chmod --preserve-root'
@@ -734,7 +708,7 @@ chfd() {
     if [[ -f "$target" ]]; then
         # If it's a file, apply chmod 644
         echo "Setting permissions: U+rwx | G+rx | O+rx for file '$target'..."
-        chmod 644 "$target"
+        sudo chmod 644 "$target"
         if [[ $? -ne 0 ]]; then
             echo "Error: Failed to set permissions for file '$target'."
             return 1
@@ -742,7 +716,7 @@ chfd() {
     elif [[ -d "$target" ]]; then
         # If it's a directory, apply chmod 755 recursively
         echo "Setting permissions: U+rwx | G+rx | O+rx for all files in directory '$target'..."
-        find "$target" -type f -exec chmod 755 {} +
+        sudo find "$target" -type f -exec chmod 755 {} +
         if [[ $? -ne 0 ]]; then
             echo "Error: Failed to set permissions for files in directory '$target'."
             return 1
@@ -906,7 +880,11 @@ chrootuser() {
 #}
 
 # ==================================================================== // MAINTENANCE_ALIASES //
-# --- // Sys_maintenance:
+### Building Languages
+alias fixnvm='nvm use --delete-prefix v22.13.0 --silent'
+alias fixnode='npm audit fix --force'
+
+### Sys_maintenance:
 alias fixkeyboard='sudo localectl set-x11-keymap us'
 alias listusers='cut -d: -f1 /etc/passwd | sort'
 alias setlocales='sudo localectl set-locale LANG=en_US.UTF-8'
@@ -924,6 +902,19 @@ alias restoreskel='sudo cp -Rf /var/recover/skel-backup-*/. $HOME/ && echo "Rest
 alias restartnetwork='sudo systemctl restart NetworkManager'
 alias restartnetwork2='sudo ip link set down enp2s0 && sudo ip link set up enp2s0'
 
+# --- // DNS:
+backupresolv() {
+}
+
+fixresolv() {
+	sudo chattr -i /etc/resolv.conf
+	echo -e "nameserver ::1
+nameserver 127.0.0.1
+options edns0 single-request-reopen" \
+		| sudo tee /etc/resolv.conf
+	sudo chattr +i /etc/resolv.conf
+}
+
 # --- // Ssh:
 alias ssha='eval $(ssh-agent) && ssh-add'
 alias sshid='xclip -sel clip < ~/.ssh/id_ed25519.pub'
@@ -933,15 +924,15 @@ alias restartntp='sudo systemctl stop ntpd.service && sudo pacman -Syu ntp'
 alias fixntp='sudo ntpd -qg && sleep 10 && sudo hwclock -w'
 
 # --- // Clipboard:
-paste_cmd() {
-    wl-paste | "$@"
-}
+#paste_cmd() {
+#    wl-paste | "$@"
+#}
 alias paste='wl-paste'
 
 #copy_cmd() {
 #    "$@" | wl-copy
 #}
-#alias copy='wl-copy'
+alias copy='wl-copy <'
 #alias list="xclip -o | tr '\n' ' ' | sed 's/ $/\n/' | xclip -selection c"
 #alias splitlist="xclip -o | tr ',' '\n'"
 #alias copy='wl-copy <'
@@ -958,7 +949,7 @@ alias tobash="sudo chsh $USER -s /bin/bash && echo 'Now log out.'"
 alias tozsh="sudo chsh $USER -s /bin/zsh && echo 'Now log out.'"
 alias tofish="sudo chsh $USER -s /bin/fish && echo 'Now log out.'"
 
-# --- // Display:
+# --- // Xorg Display:
 alias xd='ls /usr/share/xsessions'
 alias xdw="ls /usr/share/wayland-sessions"
 alias xfix='echo "DISPLAY=:0 XAUTHORITY=$HOME/.Xauthority xterm"'

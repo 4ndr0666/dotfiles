@@ -244,25 +244,25 @@ source /usr/share/zsh/plugins/zsh-systemd/systemd.plugin.zsh 2>/dev/null
 source /usr/share/doc/git-extras/git-extras-completion.zsh 2>/dev/null
 
 ## P10k:
-source ~/powerlevel10k/powerlevel10k.zsh-theme
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
-typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
-	os_icon
-	background_jobs
-	dir                       # current directory
-	vcs                       # git status
-	context                   # user@host
-	status                    # and exit status
-	newline                   # \n
-	virtualenv                # python virtual environment
-	prompt_char               # prompt symbol
-)
-unset POWERLEVEL9K_VISUAL_IDENTIFIER_EXPANSION
-typeset -g POWERLEVEL9K_BACKGROUND_JOBS_VERBOSE=true
-typeset -g POWERLEVEL9K_BACKGROUND_JOBS_ICON=
-typeset -g POWERLEVEL9K_DIR_SHOW_WRITABLE=true
-unset POWERLEVEL9K_VCS_BRANCH_ICON
+#source ~/powerlevel10k/powerlevel10k.zsh-theme
+#[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+#typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+#typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
+#	os_icon
+#	background_jobs
+#	dir                       # current directory
+#	vcs                       # git status
+#	context                   # user@host
+#	status                    # and exit status
+#	newline                   # \n
+#	virtualenv                # python virtual environment
+#	prompt_char               # prompt symbol
+#)
+#unset POWERLEVEL9K_VISUAL_IDENTIFIER_EXPANSION
+#typeset -g POWERLEVEL9K_BACKGROUND_JOBS_VERBOSE=true
+#typeset -g POWERLEVEL9K_BACKGROUND_JOBS_ICON=
+#typeset -g POWERLEVEL9K_DIR_SHOW_WRITABLE=true
+#unset POWERLEVEL9K_VCS_BRANCH_ICON
 
 ## Fast-Syntax-highlighting
 source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
