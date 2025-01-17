@@ -1,15 +1,18 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # File: /home/$USER/.config/shell/bashrc
 # Author: 4ndr0666
 # Edited: 11-3-24
 
 # ========================================== // root/.bashrc //
-# --- // Only_respond_if_interactive:
-[ -z "$PS1" ] && return
-#[[ $- != *i* ]] && return
+[[ $- != *i* ]] && return
+if [ $(id -u) -eq 0 ]; then
+    PS1="[\\e[01;31m\\#\\e[00m] "
+else
+    PS1="[\\e[01;34m\\$\\e[00m💀] "
+fi
 
 # --- // Prompt:
-PS1='[\u@\h \W]\$💀 '
+#PS1='[\u@\h \W]\$💀 '
 
 # --- // PATH:
 if [ -d "$HOME/.local/bin" ] ;
@@ -20,9 +23,9 @@ if [ -d "/usr/local/bin" ] ;
 then PATH="$PATH:$(find /usr/local/bin -type d | paste -sd ':' -)$PATH"
 fi
 
-if [ -d "/Nas/Build/git/syncing/scr/" ] ;
-then PATH="$PATH:$(find /Nas/Build/git/syncing/scr -type d | paste -sd ':' -)$PATH"
-fi
+#if [ -d "/Nas/Build/git/syncing/scr/" ] ;
+#then PATH="$PATH:$(find /Nas/Build/git/syncing/scr -type d | paste -sd ':' -)$PATH"
+#fi
 
 echo $PATH | grep -Eq "(^|:)/sbin(:|)"     || PATH=$PATH:/sbin
 
@@ -41,11 +44,11 @@ done
 HISTCONTROL=$HISTCONTROL${HISTCONTROL+:}ignoredups
 HISTCONTROL=ignoreboth
 HISTTIMEFORMAT="%Y-%m-%d %T "
-shopt -s histappend
-shopt -s checkwinsize
-shopt -s cdspell
-complete -cf 
-shopt -s autocd
+
+# direnv
+if hash direnv 2> /dev/null; then
+	eval "$(direnv hook bash)"
+fi
 
 # --- // COLOR_TERM:
 if [ "$TERM" = "linux" ]; then
@@ -107,7 +110,11 @@ if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval $(dircolors -b ~/.dircolors) || eval $(dircolors -b)
     alias ls='ls --color=auto'
 fi
-
+# --- // CHANGE SHELL:
+alias tobash="sudo chsh $USER -s /bin/bash && echo 'Now log out.'"
+alias tozsh="sudo chsh $USER -s /bin/zsh && echo 'Now log out.'"
+alias tofish="sudo chsh $USER -s /bin/fish && echo 'Now log out.'"
+  
 # --- // REPLACE_WITH_EZA:
 #alias ls='exa -al --color=always --group-directories-first --icons' # preferred listing
 #alias la='exa -a --color=always --group-directories-first --icons'  # all files and dirs

@@ -1,9 +1,9 @@
 # GPG Environment Variables
 export GPG_TTY=$(tty)
+export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/gnupg/S.gpg-agent.ssh"
 gpg-connect-agent updatestartuptty /bye >/dev/null
 gpg-connect-agent reloadagent /bye >/dev/null
 export GPG_AGENT_INFO=/run/user/$(id -u)/gnupg/S.gpg-agent:0:1
-export SSH_AUTH_SOCK=/run/user/$(id -u)/gnupg/S.gpg-agent.ssh
 
-# Optional: Initialize SSH Agent
-# eval $(ssh-agent) && ssh-add 2&>/dev/null
+# --- // Optional: Initialize SSH Agent
+# --- //  eval $(ssh-agent) && ssh-add 2&>/dev/null

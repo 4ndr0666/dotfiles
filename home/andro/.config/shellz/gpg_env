@@ -1,5 +1,4 @@
 # GPG Environment Variables
-
 export GPG_TTY=$(tty)
 export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/gnupg/S.gpg-agent.ssh"
 gpg-connect-agent updatestartuptty /bye >/dev/null

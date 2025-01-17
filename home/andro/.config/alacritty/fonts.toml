@@ -1,23 +1,28 @@
 # --- // 4ndr0 fonts.toml // ========
 
 [font]
-size = 10
+size = 9
 
 builtin_box_drawing = true
 
 # --- // Normal:
 [font.normal]
-family = "JetBrainsMono Nerd Font"
+family = "Meslo LGS NF"
+#family = "JetBrainsMono Nerd Font"
 
 # --- // Bold:
 [font.bold]
-family = "JetBrainsMono Nerd Font"
+family = "Meslo LGS NF"
+#family = "JetBrainsMono Nerd Font"
 
 # --- // Italic:
 [font.italic]
-family = "JetBrainsMono Nerd Font"
+family = "Meslo LGS NF"
+#family = "JetBrainsMono Nerd Font"
+
 [font.bold_italic]
-family = "JetBrainsMono Nerd Font"
+family = "Meslo LGS NF"
+#family = "JetBrainsMono Nerd Font"
 
 [font.offset]
 x = 0

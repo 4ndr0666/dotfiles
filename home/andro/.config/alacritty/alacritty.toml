@@ -1,27 +1,21 @@
-# --- // 4ndr0666 alacritty.toml // ========
+# File: $HOME/.config/wayfire/alacritty/alacritty.toml
+# Author: 4ndr0666
+# Date: 10-19-24
 
-# --- // Import files:
-import = ["~/.config/alacritty/4ndr0hack_colors.toml", "~/.config/alacritty/fonts.toml"]
+# ===================================== // ALACRITTY.TOML //
+# --- // General:
+general.import = ["~/.config/wayfire/alacritty/colors.toml", "~/.config/wayfire/alacritty/fonts.toml"]
+terminal.shell = { program = "/bin/zsh", args = ["--login"] }
+general.working_directory = "/home/andro/"
+general.live_config_reload = true
+general.ipc_socket = true
 
-## You can set shell.program to the path of your favorite shell, e.g. /bin/zsh.
-## Entries in shell.args are passed as arguments to the shell.
-#shell = { program = "/bin/zsh", args = ["--login"] }
-
-## Directory the shell is started in. When this is unset, or "None",
-## the working directory of the parent process will be used.
-#working_directory = "None"
-live_config_reload = true
-ipc_socket = true
-
-# --- //  Environment:
-## All key-value pairs in the [env] section will be added as environment variables for any process spawned
-## by Alacritty, including its shell. Some entries may override variables set by alacritty itself.
+# --- // Env: 
 [env]
 TERM = "alacritty"
 WINIT_X11_SCALE_FACTOR = "1.0"
 
-
-# --- // Window_settings:
+# --- // Window: 
 [window]
 position = "None"
 dynamic_padding = true
@@ -31,34 +25,38 @@ blur = false
 startup_mode = "Windowed"
 dynamic_title = true
 class = { instance = "Alacritty", general = "Alacritty" }
-decorations_theme_variant = "None"
+decorations_theme_variant = "dark"
 
+# --- // Lines: 
 [window.dimensions]
-columns = 95
+columns = 120
+#82
 lines = 24
 
+# --- // Padding:
 [window.padding]
 x = 12
 y = 12
-
 
 # --- // Scrolling:
 [scrolling]
 history = 10000
 multiplier = 3
 
-# --- // Bell:
+# --- // Bell: 
 [bell]
-animation = "Linear"
-duration = 20
-command = { program = "paplay", args = ["/usr/share/sounds/freedesktop/stereo/dialog-error.oga"] }
+animation = "EaseOutExpo"
+duration = 10
+#command = { program = "paplay", args = ["/usr/share/sounds/freedesktop/stereo/bell.oga"] }
 
-# --- // Cursor:
+# --- // Clipboard:
 [selection]
 save_to_clipboard = true
+
+# -- // Cursor: 
 [cursor]
 vi_mode_style = "None"
-blink_interval = 750
+blink_interval = 250
 blink_timeout = 5
 unfocused_hollow = false
 thickness = 0.15
@@ -67,12 +65,11 @@ thickness = 0.15
 shape = "Block"
 blinking = "On"
 
-# --- // Mouse:_settings:
+# --- // Mouse: 
 [mouse]
 hide_when_typing = false
 
-
-# --- // Hints:
+# --- // Hints: 
 [[hints.enabled]]
 command         = "xdg-open"
 hyperlinks      = true
@@ -82,8 +79,7 @@ mouse.enabled   = true
 binding         = { key = "U", mods = "Control|Shift" }
 regex           = "(ipfs:|ipns:|magnet:|mailto:|gemini://|gopher://|https://|http://|news:|file:|git://|ssh:|ftp://)[^\u0000-\u001F\u007F-\u009F<>\"\\s{-}\\^⟨⟩‘]+"
 
-
-# --- // DEBUG // ========
+# --- // Debug: 
 [debug]
 render_timer = false
 persistent_logging = false
@@ -91,4 +87,5 @@ log_level = "Warn"
 renderer = "None"
 print_events = false
 highlight_damage = false
-prefer_egl = false
+prefer_egl = true
+
