@@ -1,0 +1,132 @@
+## =========================================== // EXPRESSVPN //
+
+### Download PGP Key:
+
+```bash
+wget https://www.expressvpn.com/expressvpn_release_public_key_0xAFF2A1415F6A3A38.asc
+```
+
+### Import the PGP Key:
+
+```bash
+gpg --import expressvpn_release_public_key_0xAFF2A1415F6A3A38.asc
+```
+
+### Verify Fingerprint:
+
+```bash
+gpg --fingerprint release@expressvpn.com
+```
+Expected fingerprint:
+```
+1D0B 09AD 6C93 FEE9 3FDD BD9D AFF2 A141 5F6A 3A38
+```
+
+### Verify Signature of Installer:
+
+```bash
+gpg --verify [name_of_the_signature_file].asc
+```
+
+### Set Protocol to Lightway TCP:
+
+```bash
+expressvpn protocol lightway_tcp
+```
+
+### Set Protocol to Lightway UDP:
+
+```bash
+expressvpn protocol lightway_udp
+```
+
+### Set Protocol to OpenVPN TCP:
+
+```bash
+expressvpn protocol tcp
+```
+
+### Set Protocol to OpenVPN UDP:
+
+```bash
+expressvpn protocol udp
+```
+
+### Set Protocol to Auto:
+
+```bash
+expressvpn protocol auto
+```
+
+### Enable/Disable All Features:
+
+```bash
+expressvpn preferences set block_all true/false
+```
+
+### Enable/Disable Block Trackers:
+
+```bash
+expressvpn preferences set block_trackers true/false
+```
+
+### Enable/Disable Block Malicious Sites:
+
+```bash
+expressvpn preferences set block_malicious true/false
+```
+
+### Enable/Disable Block Ads:
+
+```bash
+expressvpn preferences set block_ads true/false
+```
+
+### Enable/Disable Block Adult Sites:
+
+```bash
+expressvpn preferences set block_adult true/false
+```
+
+### Opt-Out of Sending Diagnostics:
+
+```bash
+expressvpn preferences set send_diagnostics false
+```
+
+### Configure DNS Manually:
+
+```bash
+sudo mkdir -p /etc/resolvconf/resolv.conf.d
+sudo touch /etc/resolvconf/resolv.conf.d/base
+```
+Edit `/etc/resolvconf/resolv.conf.d/base` with:
+```bash
+nameserver 208.67.222.222
+nameserver 208.67.220.220
+```
+Then run:
+```bash
+sudo mv /etc/resolv.conf /etc/resolv.conf.backup
+sudo ln -s /run/resolvconf/resolv.conf /etc/resolv.conf
+sudo resolvconf -u
+sudo systemctl restart NetworkManager
+```
+
+## ==================================== / CMD TABLES //
+
+| **Option**                               | **Description**                             |
+|------------------------------------------|---------------------------------------------|
+| `expressvpn protocol <protocol>`         | Set the VPN protocol (e.g., lightway_tcp)   |
+| `expressvpn preferences set block_all`   | Enable/Disable all protection features      |
+| `expressvpn preferences set block_trackers` | Enable/Disable tracker blocking         |
+| `expressvpn preferences set block_malicious` | Enable/Disable malicious site blocking |
+| `expressvpn preferences set block_ads`   | Enable/Disable ad blocking                  |
+| `expressvpn preferences set block_adult` | Enable/Disable adult content blocking       |
+| `expressvpn preferences set send_diagnostics false` | Disable diagnostic data sending |
+
+## Resources
+
+- **ExpressVPN Support**: [expressvpn.com/support](https://www.expressvpn.com/support/)
+- **GPG Documentation**: [GNU Privacy Guard](https://gnupg.org/documentation/)
+- **OpenDNS Nameservers**: [208.67.222.222](https://www.opendns.com) | [208.67.220.220](https://www.opendns.com)

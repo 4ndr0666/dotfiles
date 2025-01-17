@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Convert Webp to PNG
+Exec=/home/andro/.config/Thunar/scripts/webptopng.sh %f
+MimeType=image/webp;
+Terminal=false
+Icon=image-png
