@@ -1,3 +1,0 @@
-# display manager
-{ "name": "lxdm-binary", "type": "LowLatency_RT" }
-{ "name": "lxdm-session", "type": "LowLatency_RT" }

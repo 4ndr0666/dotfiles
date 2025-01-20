@@ -1,3 +1,0 @@
-# display manager
-{ "name": "gdm", "type": "LowLatency_RT" }
-{ "name": "gdm-wayland-session", "type": "LowLatency_RT" }
