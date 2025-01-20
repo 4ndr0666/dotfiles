@@ -15,6 +15,8 @@ export BROWSER="brave-beta"
 ## Dynamic Path
 
 static_dirs=(
+    "/usr/bin"  # Moved to the top
+    "$HOME/.local/share/gem/ruby/3.3.0/bin"
     "$HOME/.npm-global/bin"
     "$HOME/.local/share/goenv/bin"
     "$HOME/.local/bin"
@@ -26,13 +28,13 @@ static_dirs=(
     "${JAVA_HOME:-/usr/lib/jvm/default/bin}"
     "/sbin"
     "/opt/"
+    "/usr/local/bin/"
     "/usr/sbin"
     "/usr/local/sbin"
-    "/usr/bin"
 )
 
-dynamic_dirs=("")
-#/Nas/Build/git/syncing/scr/**/*(/))
+dynamic_dirs=(/home/git/clone/scr/**/*(/))
+
 all_dirs=("${static_dirs[@]}" "${dynamic_dirs[@]}")
 
 typeset -U PATH
@@ -46,6 +48,9 @@ for dir in "${all_dirs[@]}"; do
 done
 
 export PATH
+
+## Simple PATH
+#export PATH="/usr/bin:/usr/local/bin:/bin:/sbin:/usr/sbin:$HOME/bin:$HOME/.local/bin:$HOME/.npm-global/bin:$HOME/.local/share/goenv/bin:$HOME/.local/bin:$XDG_DATA_HOME/gem/ruby/3.3.0/bin:$XDG_DATA_HOME/virtualenv:$XDG_DATA_HOME/go/bin:$CARGO_HOME/bin:${JAVA_HOME:-/usr/lib/jvm/default/bin}"
 
 
 # --- // Setup Cache File
@@ -67,7 +72,7 @@ fi
 
 if [ ! -d "$XDG_RUNTIME_DIR" ]; then
     mkdir "$XDG_RUNTIME_DIR"       # Bypassing the alias
-    \chmod 0700 "$XDG_RUNTIME_DIR"
+    chmod 0700 "$XDG_RUNTIME_DIR"
 fi
 
 export XDG_CONFIG_HOME="$HOME/.config"
