@@ -19,7 +19,7 @@ PROMPT='%F{32}%n%f%F{166}@%f%F{64}%m:%F{166}%~%f%F{15}$%f '
 RPROMPT='%F{15}(%F{166}%D{%H:%M}%F{15})%f'
 
 ### --- // Fancy:
-#source ~/.config/shellz/fancy-prompts.zsh
+#source ~/.config/zsh/fancy-prompts.zsh
 #precmd() {
 #   fancy-prompts-precmd
 #}
@@ -41,7 +41,7 @@ setopt print_exit_value
 setopt no_beep
 setopt correct
 unsetopt correct_all
-fpath=("$HOME/.config/zsh/completion" $fpath)
+fpath=("$HOME/.config/zsh/completions" $fpath)
 zstyle ':completion:*' menu select=2
 unsetopt complete_aliases
 unsetopt always_to_end
@@ -63,10 +63,10 @@ setopt pushd_ignore_dups
 setopt pushd_silent
 
 ## History:
-#[ -d ! "$HOME/.cache/zsh" ] && mkdir -p "$HOME/.cache/zsh"
-#chmod ug+rw "$HOME/.cache/zsh"
-#[ -f ! "$HOME/.cache/zsh/history" ] && touch -f "$HOME/.cache/zsh/history"
-#chmod ug+rw "$HOME/.cache/zsh/history"
+[ -d ! "$HOME/.cache/zsh" ] && mkdir -p "$HOME/.cache/zsh"
+chmod ug+rw "$HOME/.cache/zsh"
+[ -f ! "$HOME/.cache/zsh/history" ] && touch -f "$HOME/.cache/zsh/history"
+chmod ug+rw "$HOME/.cache/zsh/history"
 HISTSIZE=10000000
 SAVEHIST=10000000
 HISTFILE="$HOME/.cache/zsh/history"
