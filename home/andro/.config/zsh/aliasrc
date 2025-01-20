@@ -91,7 +91,6 @@ fdde() {
     local case_flag=""
     local depth_flag=""
 
-    # Enable case-insensitive search if the first argument is '-i'
     if [[ "$1" == "-i" ]]; then
         case_flag="--ignore-case"
         shift
@@ -148,6 +147,7 @@ alias magit="nvim -c MagitOnly"
 
 
 # --- // UFW:
+alias ufwd='sudo ufw disable'
 alias ufws='sudo ufw status'
 function ufwr() {
     yes | sudo ufw reset
@@ -267,20 +267,19 @@ alias 23dl='goto /23.1/Downloads'
 alias 23pic='goto /23.1/Pictures'
 alias 23vid='goto /23.1/Videos'
 alias 23e='goto /23.1/Edits'
-alias cloud='goto /23.1/Thecloud'
+alias cloud='goto /4ndr0/Thecloud'
 
 ### Nas:
 alias nas='goto /Nas/'
-alias nbin='goto /Nas/Build/git/syncing/scr'
-alias nbin2='goto /Nas/Build/git/syncing/5cr'
 alias nnas='goto /Nas/Build/git/syncing/nas'
-alias ngpt='goto /Nas/Build/git/syncing/gpt'
-alias ngc='goto /Nas/Build/git/clone'
-alias ngl='goto /Nas/Build/git/local'
+alias ngpt='goto /home/git/local/gpt'
+alias ngc='goto /home/git/clone'
+alias ngs='goto /home/git/staging'
+alias ngl='goto /home/git/local'
 alias npkg='goto /Nas/Build/pkgs'
 alias sandbox='goto /Nas/00sandbox'
 alias npro='goto /Nas/00sandbox/projects'
-alias ndot='goto /Nas/Build/git/local/dotfiles'
+alias ndot='goto /home/local/dotfiles'
 alias ntodo='goto /Nas/00todo'
 
 ### System:
@@ -349,7 +348,8 @@ alias rm='rm vI'
 alias bc='bc -ql'
 alias rmf='sudo -S /usr/bin/rm -vI -rf'
 alias rg="rg --sort path"
-alias diff='diff --color=auto'
+alias diff='colordiff -yW"`tput cols`"'
+#diff --color=auto'
 alias rmdir='rm -vI --preserve root'
 alias ln='ln -iv'
 alias bc='bc -ql'
@@ -374,8 +374,8 @@ alias psa='ps auxf | less'
 alias free='free -mt'
 alias jctl='journalctl -p 3 -xb'
 alias mapit="ifconfig -a | grep -Po '\b(?!255)(?:\d{1,3}\.){3}(?!255)\d{1,3}\b' | xargs nmap -A -p0-"
-alias ports='netstat -tulanp'
-alias whatsonline='lsof -P -i -n'
+alias ports='ss -tunlp'
+alias whatonline='lsof -P -i -n'
 alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python3 -'
 alias netspeed='ifstat -t -S -w'
 alias iotop='sudo iotop -o'
@@ -610,7 +610,7 @@ alias ls='exa -hlx --no-filesize --no-time --no-permissions --color=always --gro
 alias la="lsd -aFlL --permission=rwx --color=always --group-directories-first --icon=always"
 alias ll='exa -xXDa --color=always  --icons=always'
 alias l.='exa -ax --sort=modified --color-scale-mode=gradient --color=always --group-directories-first --icons | grep "^\."'
-alias lt='tree -L 2 scr'
+alias lt='tree'
 #exa -aT -s new --color=always --group-directories-first --icons'
 
 # --- // Config 2:

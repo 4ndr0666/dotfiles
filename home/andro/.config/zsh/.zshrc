@@ -30,7 +30,8 @@ autoload -U compinit && compinit
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':fzf-tab:complete:(\\|*)cd:*' fzf-preview 'exa -1 --color=always --icons $realpath'
 zstyle ':fzf-tab:complete:systemctl-*:*' fzf-preview 'SYSTEMD_COLORS=1 systemctl status $word'
-zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' fzf-preview 'echo ${(P)word}'
+zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' \
+	fzf-preview 'echo ${(P)word}'
 zstyle ':fzf-tab:complete:*:*' fzf-preview 'less ${(Q)realpath}'
 export LESSOPEN='|fzf_preview %s'
 zstyle ':fzf-tab:complete:*:options' fzf-preview
@@ -217,19 +218,12 @@ alias reload='echo "Reloading .zshrc" && source ~/.zshrc'
 ### FZF
 source <(fzf --zsh)
 
-### History-substring-search
-source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh 2>/dev/null
-
-### Autosuggestions
-ZSH_AUTOSUGGEST_USE_ASYNC=true
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
-
-### Fast-Syntax-highlighting
-source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
-
 ## You-should-use
 export YSU_MESSAGE_POSITION="after"
 source /usr/share/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh 2>/dev/null
+
+## FTC
+source /usr/share/doc/find-the-command/ftc.zsh noprompt quiet 2>/dev/null
 
 ## Extract
 source /usr/share/zsh/plugins/zsh-extract/extract.plugin.zsh 2>/dev/null
@@ -240,29 +234,36 @@ source /usr/share/zsh/plugins/zsh-sudo/sudo.plugin.zsh 2>/dev/null
 ## SystemdD
 source /usr/share/zsh/plugins/zsh-systemd/systemd.plugin.zsh 2>/dev/null
 
+## History-substring-search
+source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh 2>/dev/null
+
+## Autosuggestions
+ZSH_AUTOSUGGEST_USE_ASYNC=true
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
+
 ## Git Extras
 source /usr/share/doc/git-extras/git-extras-completion.zsh 2>/dev/null
 
 ## P10k:
-#source ~/powerlevel10k/powerlevel10k.zsh-theme
-#[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-#typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
-#typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
-#	os_icon
-#	background_jobs
-#	dir                       # current directory
-#	vcs                       # git status
-#	context                   # user@host
-#	status                    # and exit status
-#	newline                   # \n
-#	virtualenv                # python virtual environment
-#	prompt_char               # prompt symbol
-#)
-#unset POWERLEVEL9K_VISUAL_IDENTIFIER_EXPANSION
-#typeset -g POWERLEVEL9K_BACKGROUND_JOBS_VERBOSE=true
-#typeset -g POWERLEVEL9K_BACKGROUND_JOBS_ICON=
-#typeset -g POWERLEVEL9K_DIR_SHOW_WRITABLE=true
-#unset POWERLEVEL9K_VCS_BRANCH_ICON
+source ~/powerlevel10k/powerlevel10k.zsh-theme
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
+	os_icon
+	background_jobs
+	dir                       # current directory
+	vcs                       # git status
+	context                   # user@host
+	status                    # and exit status
+	newline                   # \n
+	virtualenv                # python virtual environment
+	prompt_char               # prompt symbol
+)
+unset POWERLEVEL9K_VISUAL_IDENTIFIER_EXPANSION
+typeset -g POWERLEVEL9K_BACKGROUND_JOBS_VERBOSE=true
+typeset -g POWERLEVEL9K_BACKGROUND_JOBS_ICON=
+typeset -g POWERLEVEL9K_DIR_SHOW_WRITABLE=true
+unset POWERLEVEL9K_VCS_BRANCH_ICON
 
 ## Fast-Syntax-highlighting
 source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
