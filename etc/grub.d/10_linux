@@ -20,7 +20,6 @@ set -e
 prefix="/usr"
 exec_prefix="/usr"
 datarootdir="/usr/share"
-quiet_boot="1"
 
 . "$pkgdatadir/grub-mkconfig_lib"
 
@@ -30,7 +29,7 @@ export TEXTDOMAINDIR="${datarootdir}/locale"
 CLASS="--class gnu-linux --class gnu --class os"
 
 if [ "x${GRUB_DISTRIBUTOR}" = "x" ] ; then
-  OS=Linux
+  OS=GNU/Linux
 else
   OS="${GRUB_DISTRIBUTOR}"
   CLASS="--class $(echo ${GRUB_DISTRIBUTOR} | tr 'A-Z' 'a-z' | cut -d' ' -f1|LC_ALL=C sed 's,[^[:alnum:]_],_,g') ${CLASS}"
@@ -143,21 +142,9 @@ linux_entry ()
     fi
     printf '%s\n' "${prepare_boot_cache}" | sed "s/^/$submenu_indentation/"
   fi
-
-  if [ "x${GRUB_ROOT_FS_RO}" = "xtrue" ]; then
-    grub_root_fs_mode=ro
-  else
-    grub_root_fs_mode=rw
-  fi
-
-  if [ x"$quiet_boot" = x0 ]; then
-    message="$(gettext_printf "Loading Linux %s ..." "${version}")"
-    sed "s/^/$submenu_indentation/" << EOF
-	echo	'$(echo "$message" | grub_quote)'
-EOF
-  fi
-    sed "s/^/$submenu_indentation/" << EOF
-	linux	${rel_dirname}/${basename} root=${linux_root_device_thisversion} ${grub_root_fs_mode} ${args}
+  message="$(gettext_printf "Loading Linux %s ..." ${version})"
+  sed "s/^/$submenu_indentation/" << EOF
+	linux	${rel_dirname}/${basename} root=${linux_root_device_thisversion} rw ${args}
 EOF
   if test -n "${initrd}" ; then
     # TRANSLATORS: ramdisk isn't identifier. Should be translated.
@@ -166,11 +153,6 @@ EOF
     for i in ${initrd}; do
       initrd_path="${initrd_path} ${rel_dirname}/${i}"
     done
-    if [ x"$quiet_boot" = x0 ]; then
-      sed "s/^/$submenu_indentation/" << EOF
-	echo	'$(echo "$message" | grub_quote)'
-EOF
-  fi
     sed "s/^/$submenu_indentation/" << EOF
 	initrd	$(echo $initrd_path)
 EOF
@@ -190,19 +172,6 @@ case "x$machine" in
     *) 
 	list=
 	for i in /boot/vmlinuz-* /boot/vmlinux-* /vmlinuz-* /vmlinux-* /boot/kernel-* ; do
-                  if grub_file_is_not_garbage "$i" ; then list="$list $i" ; fi
-	done ;;
-esac
-
-case "x$machine" in
-    aarch64)
-	list=
-	for i in /boot/vmlinuz-* /vmlinuz-* /boot/kernel-* /boot/Image ; do
-	    if grub_file_is_not_garbage "$i" ; then list="$list $i" ; fi
-	done ;;
-    *) 
-	list=
-	for i in /boot/vmlinuz-* /boot/vmlinux-* /vmlinuz-* /vmlinux-* /boot/kernel-* /boot/Image ; do
                   if grub_file_is_not_garbage "$i" ; then list="$list $i" ; fi
 	done ;;
 esac
@@ -241,32 +210,9 @@ for linux in ${reverse_sorted_list}; do
   basename=`basename $linux`
   dirname=`dirname $linux`
   rel_dirname=`make_system_path_relative_to_its_root $dirname`
-  version=`echo $basename | sed -e "s,^[^0-9]*-,,g"`
+  version=`echo $basename | sed -e "s,vmlinuz-,,g"`
   alt_version=`echo $version | sed -e "s,\.old$,,g"`
   linux_root_device_thisversion="${LINUX_ROOT_DEVICE}"
-
-  if test -e "/etc/os-release" ; then
-    kbasename="`echo "${basename}" | sed -e 's,vmlinuz-,linux,g'`"
-    if test -e "${dirname}/${kbasename}.kver" ; then
- 	version="$(cat ${dirname}/${kbasename}.kver)"
-    fi
-    kbasename2="`echo "${basename}" | sed -e 's,vmlinuz-,linux-,g'`"
-    if test -e "${dirname}/${kbasename2}.kver" ; then
- 	version="$(cat ${dirname}/${kbasename2}.kver)"
-    fi
-    kbasename3="`echo "${basename}" | sed -e 's,vmlinuz-,linux,g' | sed -e 's,\.,,g'`"
-    if test -e "${dirname}/${kbasename3}.kver" ; then
- 	version="$(cat ${dirname}/${kbasename3}.kver)"
-    fi
-    kbasename4="`echo "${basename}" | sed -e 's,vmlinuz-,linux-,g' | sed -e 's,\.,,g'`"
-    if test -e "${dirname}/${kbasename4}.kver" ; then
- 	version="$(cat ${dirname}/${kbasename4}.kver)"
-    fi
-    kbasename5="`echo "${basename}" | sed -e 's,vmlinuz-,,g'`"
-    if test -e "${dirname}/${kbasename5}.kver" ; then
- 	version="$(cat ${dirname}/${kbasename5}.kver)"
-    fi
-  fi
 
   initrd_early=
   for i in ${GRUB_EARLY_INITRD_LINUX_STOCK} \
@@ -277,7 +223,6 @@ for linux in ${reverse_sorted_list}; do
   done
 
   initrd_real=
-  initramfs_archcraft="`echo "${basename}" | sed -e 's,vmlinuz,initramfs,g'`"
   for i in "initrd.img-${version}" "initrd-${version}.img" \
 	   "initrd-${alt_version}.img.old" "initrd-${version}.gz" \
 	   "initrd-${alt_version}.gz.old" "initrd-${version}" \
@@ -287,9 +232,7 @@ for linux in ${reverse_sorted_list}; do
 	   "initramfs-genkernel-${version}" \
 	   "initramfs-genkernel-${alt_version}" \
 	   "initramfs-genkernel-${GENKERNEL_ARCH}-${version}" \
-	   "initramfs-genkernel-${GENKERNEL_ARCH}-${alt_version}" \
-	   "${initramfs_archcraft}.img" \
-	   "initramfs-linux.img" ; do
+	   "initramfs-genkernel-${GENKERNEL_ARCH}-${alt_version}"; do
     if test -e "${dirname}/${i}" ; then
       initrd_real="${i}"
       break
@@ -357,15 +300,27 @@ for linux in ${reverse_sorted_list}; do
   linux_entry "${OS}" "${version}" advanced \
               "${GRUB_CMDLINE_LINUX} ${GRUB_CMDLINE_LINUX_DEFAULT}"
 
-  for i in "${initramfs_archcraft}-fallback.img" "initramfs-${version}-fallback.img" ; do
-    if test -e "${dirname}/${i}" ; then
-      initrd="${i}"
-      gettext_printf "Found initrd fallback image: %s\n" "${dirname}/${initrd}" >&2
-      linux_entry "${OS}" "${version}" fallback \
-                  "${GRUB_CMDLINE_LINUX} ${GRUB_CMDLINE_LINUX_DEFAULT}"
-      break
+  if test -e "${dirname}/initramfs-${version}-fallback.img" ; then
+    initrd="${initrd_early} initramfs-${version}-fallback.img"
+
+    if test -n "${initrd}" ; then
+      gettext_printf "Found fallback initrd image(s) in %s:%s\n" "${dirname}" "${initrd_extra} ${initrd}" >&2
     fi
-  done
+
+    linux_entry "${OS}" "${version}" fallback \
+                "${GRUB_CMDLINE_LINUX} ${GRUB_CMDLINE_LINUX_DEFAULT}"
+  fi
+
+  if test -e "${dirname}/booster-${version}.img" ; then
+    initrd="${initrd_early} booster-${version}.img"
+
+    if test -n "${initrd}" ; then
+      gettext_printf "Found booster initrd image(s) in %s:%s\n" "${dirname}" "${initrd_extra} ${initrd}" >&2
+    fi
+
+    linux_entry "${OS}" "${version}" booster \
+                "${GRUB_CMDLINE_LINUX} ${GRUB_CMDLINE_LINUX_DEFAULT}"
+  fi
 
   if [ "x${GRUB_DISABLE_RECOVERY}" != "xtrue" ]; then
     linux_entry "${OS}" "${version}" recovery \

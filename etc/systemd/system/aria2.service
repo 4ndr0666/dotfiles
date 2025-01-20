@@ -1,0 +1,13 @@
+[Unit]
+Description=Aria2c Download Manager
+After=network.target
+RequiresMountsFor=/sto2/Downloads/
+
+[Service]
+Type=simple
+User=andro
+ExecStart=/usr/bin/aria2c --conf-path=/home/andro/.config/aria2/aria2.conf
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

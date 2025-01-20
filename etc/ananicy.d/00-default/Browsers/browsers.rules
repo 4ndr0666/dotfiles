@@ -13,12 +13,17 @@
 { "name": "google-chrome-dev", "type": "Doc-View" }
 { "name": "google-chrome-unstable", "type": "Doc-View" }
 { "name": "nacl_helper", "type": "Doc-View" }
+{ "name": "chrome_crashpad_handler", "type": "BG_CPUIO" }
 
 # Chromium - https://www.chromium.org/
 { "name": "chromium", "type": "Doc-View" }
 
 # Opera - https://www.opera.com/
 { "name": "opera", "type": "Doc-View" }
+
+# Vivaldi  - https://vivaldi.com/
+{ "name": "vivaldi", "type": "Doc-View" }
+{ "name": "vivaldi-snapshot", "type": "Doc-View" }
 
 ### Firefox-Based Browsers ###
 
@@ -49,3 +54,13 @@
 
 # Waterfox - https://www.waterfox.net
 { "name": "waterfox-g", "type": "Doc-View" }
+
+# Zen: https://zen-browser.app
+{ "name": "zen-bin", "type": "Doc-View" }
+
+# Floorp - https://floorp.app
+{ "name": "floorp", "type": "Doc-View" }
+
+# Microsoft Edge - https://www.microsoft.com/en-us/edge/
+{ "name": "msedge", "type": "Doc-View" }
+{ "name": "msedge_crashpad", "type": "BG_CPUIO" }

@@ -13,3 +13,18 @@ XDG_DOCUMENTS_DIR="$HOME/Documents"
 XDG_MUSIC_DIR="$HOME/Music"
 XDG_PICTURES_DIR="$HOME/Pictures"
 XDG_VIDEOS_DIR="$HOME/Videos"
+
+## Old Config
+#DESKTOP=Desktop
+#DOWNLOAD=Downloads
+#TEMPLATES=Templates
+#PUBLICSHARE=Public
+#DOCUMENTS=Documents
+#MUSIC=Music
+#PICTURES=Pictures
+#VIDEOS=Videos
+
+# Another alternative is:
+#MUSIC=Documents/Music
+#PICTURES=Documents/Pictures
+#VIDEOS=Documents/Videos
