@@ -63,9 +63,9 @@ setopt pushd_ignore_dups
 setopt pushd_silent
 
 ## History:
-[ -d ! "$HOME/.cache/zsh" ] && mkdir -p "$HOME/.cache/zsh"
+[ ! -d "$HOME/.cache/zsh" ] && mkdir -p "$HOME/.cache/zsh"
 chmod ug+rw "$HOME/.cache/zsh"
-[ -f ! "$HOME/.cache/zsh/history" ] && touch -f "$HOME/.cache/zsh/history"
+[ ! -f "$HOME/.cache/zsh/history" ] && touch "$HOME/.cache/zsh/history"
 chmod ug+rw "$HOME/.cache/zsh/history"
 HISTSIZE=10000000
 SAVEHIST=10000000
