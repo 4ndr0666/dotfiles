@@ -13,7 +13,6 @@ export TERMINAL_PROG="st"
 export BROWSER="brave-beta"
 
 ## Dynamic Path
-
 static_dirs=(
     "/usr/bin"  # Moved to the top
     "$HOME/.local/share/gem/ruby/3.3.0/bin"
@@ -84,7 +83,7 @@ export XDG_STATE_HOME="$HOME/.local/state"
 ## Environment
 
 export TRASHDIR="$XDG_DATA_HOME/Trash"
-export ZDOTDIR="$XDG_CONFIG_HOME/zsh/"
+export ZDOTDIR="$HOME/.config/zsh"
 export DICS="$XDG_DATA_HOME/stardict/dic/"
 export AUR_DIR="/home/build"
 export XINITRC="$XDG_CONFIG_HOME/x11/xinitrc"
@@ -209,7 +208,7 @@ mkdir "$PSQL_HOME" \
 #f.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel ${_JAVA_OPTIONS}"
 
 ## Library
- 
+
 export LD_LIBRARY_PATH="$XDG_DATA_HOME/lib:/usr/local/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 
 ## Askpass
@@ -236,59 +235,81 @@ fi
 
 # FZF
 ### Defaults:
+
+#FZF_DEFAULT_COMMMAND='fd --no-ignore --hidden --follow --exclude ".git"'
 export FZF_DEFAULT_OPTS="
-  --height=60%
-  --border=double
-  --padding=1%
-  --info=right
-  --separator=_
-  --preview='
-    set filename (basename {})
-    if string match -q \"*.txt\" -- \$filename
-      bat --style=numbers --color=always {}
-    else if string match -q \"*.pdf\" -- \$filename
-      zathura {} &
-    else if string match -q \"*.jpg\" -- \$filename
-      feh {} &
-    else if string match -q \"*.jpeg\" -- \$filename
-      feh {} &
-    else if string match -q \"*.png\" -- \$filename
-      feh {} &
-    else if string match -q \"*.gif\" -- \$filename
-      feh {} &
-    else
-      bat --style=numbers --color=always {}
-    end
-  '
-  --preview-window=hidden:right:69%
-  --preview-label=eyes
-  --margin=5%
-  --border-label=search
-  --color=16
-  --layout=reverse
-  --prompt=⭐
-  --bind='enter:execute(
-    set filename (basename {})
-    if string match -q \"*.txt\" -- \$filename
-      emacsclient -nw {}
-    else if string match -q \"*.pdf\" -- \$filename
-      zathura {}
-    else if string match -q \"*.jpg\" -- \$filename
-      feh {}
-    else if string match -q \"*.jpeg\" -- \$filename
-      feh {}
-    else if string match -q \"*.png\" -- \$filename
-      feh {}
-    else if string match -q \"*.gif\" -- \$filename
-      feh {}
-    else
-      emacsclient -nw {}
-    end
-  )'
-  --bind=alt-o:toggle-preview
+--layout=reverse
+--height=40%
+--border=thinblock
+--info=right
+--tiebreak=index
+--scrollbar='│'
+--preview 'file {}'
+--preview-window='right:50%'
+--color=fg:#005b69,fg+:#15FFFF,bg:#151515,bg+:#262626 \
+--color=hl:#15FFFF,hl+:#15FFFF,info:#195761,marker:#15FFFF \
+--color=prompt:#00f7ff,spinner:#64e290,pointer:#15FFFF,header:#07fff7 \
+--color=border:#262626,preview-border:#15FFFF,label:#005b69,query:#15ffff \
+--border-label-pos='-54' --prompt='≽  ' --marker='✔' --pointer='☞' --separator='-'
 "
 
-## Config 1
+### Config TESTING
+
+#export FZF_DEFAULT_OPTS="
+#  --height=60%
+#  --border=double
+#  --padding=1%
+#  --info=right
+#  --separator=_
+#  --preview='
+#    set filename (basename {})
+#    if string match -q \"*.txt\" -- \$filename
+#      bat --style=numbers --color=always {}
+#    else if string match -q \"*.pdf\" -- \$filename
+#      zathura {} &
+#    else if string match -q \"*.jpg\" -- \$filename
+#      feh {} &
+#    else if string match -q \"*.jpeg\" -- \$filename
+#      feh {} &
+#    else if string match -q \"*.png\" -- \$filename
+#      feh {} &
+#    else if string match -q \"*.gif\" -- \$filename
+#      feh {} &
+#    else
+#      bat --style=numbers --color=always {}
+#    end
+#  '
+#  --preview-window=hidden:right:69%
+#  --preview-label=eyes
+#  --margin=5%
+#  --border-label=search
+#  --color=16
+#  --layout=reverse
+#  --prompt=⭐
+#  --bind='enter:execute(
+#    set filename (basename {})
+#    if string match -q \"*.txt\" -- \$filename
+#      emacsclient -nw {}
+#    else if string match -q \"*.pdf\" -- \$filename
+#      zathura {}
+#    else if string match -q \"*.jpg\" -- \$filename
+#      feh {}
+#    else if string match -q \"*.jpeg\" -- \$filename
+#      feh {}
+#    else if string match -q \"*.png\" -- \$filename
+#      feh {}
+#    else if string match -q \"*.gif\" -- \$filename
+#      feh {}
+#    else
+#      emacsclient -nw {}
+#    end
+#  )'
+#  --bind=alt-o:toggle-preview
+# "
+
+
+### Config 1
+
 #FZF_DEFAULT_COMMMAND='fd --no-ignore --hidden --follow --exclude ".git"'
 #FZF_DEFAULT_OPTS="
 #--layout=reverse
@@ -296,14 +317,14 @@ export FZF_DEFAULT_OPTS="
 #--border=thinblock
 #--info=right
 #--tiebreak=index
-#--scrollbar='│' 
+#--scrollbar='│'
 #--preview 'file {}'
 #--preview-window='right:50%'
 #--color=fg:#005b69,fg+:#15FFFF,bg:#151515,bg+:#262626 \
 #--color=hl:#15FFFF,hl+:#15FFFF,info:#195761,marker:#15FFFF \
 #--color=prompt:#00f7ff,spinner:#64e290,pointer:#15FFFF,header:#07fff7 \
 #--color=border:#262626,preview-border:#15FFFF,label:#005b69,query:#15ffff \
-#--border-label-pos='-54' --prompt='≽  ' --marker='✔' --pointer='☞' --separator='-'" 
+#--border-label-pos='-54' --prompt='≽  ' --marker='✔' --pointer='☞' --separator='-'"
 
 ## History binding:
 bindkey '^R' fzf-history-widget
@@ -330,9 +351,9 @@ export FZF_DEFAULT_OPTS='--bind "ctrl-y:execute-silent(printf {} | cut -f 2- | w
 #--preview 'file {}' --preview-window up,1,border-horizontal \
 #--bind 'ctrl-/:change-preview-window(50%|hidden|)' \
 
-# --- // Dark Transparent w Pink Marker    
-# --color 'fg:#bbccdd,fg+:#ddeeff,bg:#334455,preview-bg:#223344,border:#778899" 
-  
+# --- // Dark Transparent w Pink Marker
+# --color 'fg:#bbccdd,fg+:#ddeeff,bg:#334455,preview-bg:#223344,border:#778899"
+
 # --- // Garuda Theme
 # --color=bg+:-1,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
 # --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
@@ -356,15 +377,24 @@ export PAGER=vimpager
 ## Less
 
 export LESS='-R'
-export LESS_TERMCAP_mb=$'\E[01;31m'             # begin blinking
-export LESS_TERMCAP_md=$'\E[01;31m'             # begin bold
-export LESS_TERMCAP_me=$'\E[0m'                 # end mode
-export LESS_TERMCAP_se=$'\E[0m'                 # end standout-mode
-export LESS_TERMCAP_so=$'\E[01;44;33m'          # begin standout-mode - info box
-export LESS_TERMCAP_ue=$'\E[0m'                 # end underline
-export LESS_TERMCAP_us=$'\E[01;32m'             # begin underline
+export LESS_TERMCAP_mb="$(printf '%b' '[1;31m')"
+export LESS_TERMCAP_md="$(printf '%b' '[1;36m')"
+export LESS_TERMCAP_me="$(printf '%b' '[0m')"
+export LESS_TERMCAP_so="$(printf '%b' '[01;44;33m')"
+export LESS_TERMCAP_se="$(printf '%b' '[0m')"
+export LESS_TERMCAP_us="$(printf '%b' '[1;32m')"
+export LESS_TERMCAP_ue="$(printf '%b' '[0m')"
 
-## LESSOPEN 
+### Alt Config
+#export LESS_TERMCAP_mb=$'\E[01;31m'             # begin blinking
+#export LESS_TERMCAP_md=$'\E[01;31m'             # begin bold
+#export LESS_TERMCAP_me=$'\E[0m'                 # end mode
+#export LESS_TERMCAP_se=$'\E[0m'                 # end standout-mode
+#export LESS_TERMCAP_so=$'\E[01;44;33m'          # begin standout-mode - info box
+#export LESS_TERMCAP_ue=$'\E[0m'                 # end underline
+#export LESS_TERMCAP_us=$'\E[01;32m'             # begin underline
+
+## LESSOPEN
 
 export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
 

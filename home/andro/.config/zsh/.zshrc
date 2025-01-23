@@ -6,17 +6,17 @@
 # Prompt
 
 ### Powerlevel10k:
-#if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-#  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-#fi
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 
 ### Standard:
 #autoload -U colors && colors
 #PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
 
 ### Solarized:
-PROMPT='%F{32}%n%f%F{166}@%f%F{64}%m:%F{166}%~%f%F{15}$%f '
-RPROMPT='%F{15}(%F{166}%D{%H:%M}%F{15})%f'
+#PROMPT='%F{32}%n%f%F{166}@%f%F{64}%m:%F{166}%~%f%F{15}$%f '
+#RPROMPT='%F{15}(%F{166}%D{%H:%M}%F{15})%f'
 
 ### --- // Fancy:
 #source ~/.config/zsh/fancy-prompts.zsh
@@ -25,7 +25,7 @@ RPROMPT='%F{15}(%F{166}%D{%H:%M}%F{15})%f'
 #}
 #prompt-zee -PDp "≽ "
 
-## Auto-completions 
+## Auto-completions
 autoload -U compinit && compinit
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':fzf-tab:complete:(\\|*)cd:*' fzf-preview 'exa -1 --color=always --icons $realpath'
@@ -63,7 +63,8 @@ setopt pushd_ignore_dups
 setopt pushd_silent
 
 ## History:
-[ ! -d "$HOME/.cache/zsh" ] && mkdir -p "$HOME/.cache/zsh"
+compinit -d "$XDG_CACHE_HOME"/zsh/zcompdump-"$ZSH_VERSION"
+#[ ! -d "$HOME/.cache/zsh" ] && mkdir -p "$HOME/.cache/zsh"
 chmod ug+rw "$HOME/.cache/zsh"
 [ ! -f "$HOME/.cache/zsh/history" ] && touch "$HOME/.cache/zsh/history"
 chmod ug+rw "$HOME/.cache/zsh/history"
@@ -108,8 +109,8 @@ _fzf_compgen_dir() {
 
 ## Rehash
 if [[ ! -d "$HOME/.cache/zsh/zcache" ]]; then
-    touch "$HOME/.cache/zsh/zcache" 
-    chmod ug+rw "$HOME/.cache/zsh/zcache" 
+    touch "$HOME/.cache/zsh/zcache"
+    chmod ug+rw "$HOME/.cache/zsh/zcache"
 else
     exit 0
 fi
@@ -214,7 +215,7 @@ alias reload='echo "Reloading .zshrc" && source ~/.zshrc'
 [ -d "/usr/share/zsh/plugins/zsh-autosuggestions" ] && source "/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" 2>/dev/null
 [ -d "/usr/share/zsh/plugins/zsh-syntax-highlighting" ] && source "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" 2>/dev/null
 
-## Plugins 
+## Plugins
 ### FZF
 source <(fzf --zsh)
 
@@ -223,7 +224,7 @@ export YSU_MESSAGE_POSITION="after"
 source /usr/share/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh 2>/dev/null
 
 ## FTC
-source /usr/share/doc/find-the-command/ftc.zsh noprompt quiet 2>/dev/null
+#source /usr/share/doc/find-the-command/ftc.zsh noprompt quiet 2>/dev/null
 
 ## Extract
 source /usr/share/zsh/plugins/zsh-extract/extract.plugin.zsh 2>/dev/null
@@ -241,29 +242,32 @@ source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring
 ZSH_AUTOSUGGEST_USE_ASYNC=true
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
 
+## YTDL
+source ~/.config/zsh/ytdl.zsh
+
 ## Git Extras
 source /usr/share/doc/git-extras/git-extras-completion.zsh 2>/dev/null
 
 ## P10k:
 source ~/powerlevel10k/powerlevel10k.zsh-theme
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
-typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
-	os_icon
-	background_jobs
-	dir                       # current directory
-	vcs                       # git status
-	context                   # user@host
-	status                    # and exit status
-	newline                   # \n
-	virtualenv                # python virtual environment
-	prompt_char               # prompt symbol
-)
-unset POWERLEVEL9K_VISUAL_IDENTIFIER_EXPANSION
-typeset -g POWERLEVEL9K_BACKGROUND_JOBS_VERBOSE=true
-typeset -g POWERLEVEL9K_BACKGROUND_JOBS_ICON=
-typeset -g POWERLEVEL9K_DIR_SHOW_WRITABLE=true
-unset POWERLEVEL9K_VCS_BRANCH_ICON
+[[ ! -f ${ZDOTDIR:-~}/.p10k.zsh ]] || source ${ZDOT_DIR:-~}/.p10k.zsh
+#typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+#typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
+#	os_icon
+#	background_jobs
+#	dir                       # current directory
+#	vcs                       # git status
+#	context                   # user@host
+#	status                    # and exit status
+#	newline                   # \n
+#	virtualenv                # python virtual environment
+#	prompt_char               # prompt symbol
+#)
+#unset POWERLEVEL9K_VISUAL_IDENTIFIER_EXPANSION
+#typeset -g POWERLEVEL9K_BACKGROUND_JOBS_VERBOSE=true
+#typeset -g POWERLEVEL9K_BACKGROUND_JOBS_ICON=
+#typeset -g POWERLEVEL9K_DIR_SHOW_WRITABLE=true
+#unset POWERLEVEL9K_VCS_BRANCH_ICON
 
 ## Fast-Syntax-highlighting
 source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
