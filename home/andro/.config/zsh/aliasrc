@@ -180,7 +180,7 @@ done; unset command
 cht() {
     local cheats=("$HOME/.cheater/"*.md)
     local choice=$(printf "%s\n" "${cheats[@]}" | fzf --prompt="Select a cheat sheet: ")
-    [ -n "$choice" ] && cat --language=mdown "$choice" || echo "No cheat sheet selected."
+    [ -n "$choice" ] && bat --language=mdown "$choice" || echo "No cheat sheet selected."
 }
 
 ### Config Editor
