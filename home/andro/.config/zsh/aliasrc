@@ -261,8 +261,8 @@ alias
 
 ### git:
 alias ngc='goto /home/git/clone'
-alias ndot='goto /home/git/clone/dotfiles'
-alias nway='goto /home/git/clone/Wayfire_4ndr0666'
+alias ngdot='goto /home/git/clone/dotfiles'
+alias ngw='goto /home/git/clone/Wayfire_4ndr0666'
 
 ### System:
 alias et='goto /etc'
