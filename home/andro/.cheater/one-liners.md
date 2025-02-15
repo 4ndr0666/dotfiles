@@ -1,117 +1,129 @@
-## Remove Certain Text From Filename
-To isolate only the 'Make Arch Great Again.ts' from this filename:
+## RaspberryPi Script
+```shell
+curl -sSL https://git.io/JfAPE | bash
+```
 
-  - **File**: `20221227 2210 - Random TV Chanel HD - Make Arch Great Again.ts`
+## MpvSockets.lua
+```shell
+curl "https://raw.githubusercontent.com/wis/mpvSockets/master/mpvSockets.lua" --create-dirs -o "/home/andro/.config/mpv/scripts/mpvSockets.lua"
+```
 
-Do a bash loop:
-  ```bash
-  for file in *.ts; do
-      echo mv "$file" "${file#*-*- }"
-  done
-  ```
+## List all directories in $PATH one per line
+```shell
+ tr : '
+' <<<$PATH
+```
 
-## If File Changes Run Cmd
-```bash
+## Bulk rename files
+### Renames "20221227 2210 - Random TV Chanel HD - Make Arch Great Again.ts" to "Make Arch Great Again.ts" with glob patterns
+```shell
+for file in *.ts; do
+    echo mv "$file" "${file#*-*- }"
+done
+```
+
+## Run CMD On Specific File Change
+```shell
 while inotifywait -e modify /tmp/myfile; do firefox; done
 ```
 
 ## DL All Images From Site
-```bash
+```shell
 wget -r -l1 --no-parent -nH -nd -P/tmp -A".gif,.jpg" http://example.com/images
 ```
 
 ## Find Broken Symlinks
-```bash
+```shell
 find . -type l ! -exec test -e {} ; -print
 ```
 
 ## Create .bak of File
-```bash
+```shell
 cp file.txt{,.bak}
 ```
 
 ## Print Specific Line From File
-```bash
+```shell
 sed -n 5p <file>
 ```
 
 ## Change To User, Assume Env, Stay in Dir
-```bash
+```shell
 su -- user
 ```
 
 ## Clone File Permissions To Another
-```bash
+```shell
 chmod --reference file1 file2
 ```
 
 ## Remove All Files But One
-```bash
+```shell
 rm -f !(survivior.txt)
 ```
 
 ## Stream YT to Mplayer
-```bash
+```shell
 i="8uyxVmdaJ-w";mplayer -fs $(curl -s "http://www.youtube.com/get_video_info?&video_id=$i" | echo -e $(sed 's/%/\\x/g;s/.*(v[0-9].lscache.*)/http:///g') | grep -oP '^[^|,]*')
 ```
 
-## Resize Img 
-```bash
+## Resize Img
+```shell
 convert -resize '1024x600^' image.jpg small-image.jpg
 ```
 
 ## Extract Tarball Online Not Locally
-```bash
+```shell
 wget -qO - "http://www.tarball.com/tarball.gz" | tar zxvf -
 ```
 
 ## Kill Process Locking a File
-```bash
+```shell
 fuser -k filename
 ```
 
 ## Remove Dupes w/o Sorting
-```bash
+```shell
 awk '!x[$0]++' <file>
 ```
 
 ## Temp Hardcode CD Path
-```bash
+```shell
 CDPATH=:..:~:~/projects
 ```
 
 ## Rename File Replacing Spaces w _
-```bash
+```shell
 rename -v 's/ /_/g' *
 ```
 
 ## Print Dots Until Cmd Completion
-```bash
+```shell
 sleeper(){ while `ps -p $1 &>/dev/null`; do echo -n "${2:-.}"; sleep ${3:-1}; done; }; export -f sleeper
 ```
 
 ## Del All Files That Dont Match Ext
-```bash
+```shell
 rm !(*.foo|*.bar|*.baz)
 ```
 
 ## List Most Used Cmds
-```bash
+```shell
 history | awk '{a[$2]++}END{for(i in a){print a[i] " " i}}' | sort -rn | head
 ```
 
 ## Fix error: execv failed
-```bash
+```shell
 sudo pacman -Syu --noconfirm && sudo pacman -S --needed base-devel && sudo pacman -S --noconfirm $(pacman -Qqen) && sudo pacman -S --noconfirm $(pacman -Qqem)
 ```
 
 ## Create ISO from disk
-```bash
+```shell
 readom dev=/dev/scd0 f=/path/to/image.iso
 ```
 
 ## Backup configs
-```bash
+```shell
 cp ~/.config/shellz/aliasrc ~/.config/shellz/aliasrc.backup
 cp ~/.config/shellz/functions.zsh ~/.config/shellz/functions.zsh.backup
 cp ~/.config/zsh/.zprofile ~/.config/zsh/.zprofile.backup
@@ -120,56 +132,54 @@ cp ~/.config/zsh/.zshrc ~/.config/zsh/.zshrc.backup
 
 ## Limit Memory Usage
 A background process can be reduced to the "Idle" level by starting it with:
-```bash
+```shell
 ionice -c 3 command
 ```
 
-A background processes PID can be limited using a scale of 0 - 100 time the 
-number of CPU cores. Example, 4 cores = 0 - 400. 
-```bash
+A background processes PID can be limited using a scale of 0 - 100 time the
+number of CPU cores. Example, 4 cores = 0 - 400.
+```shell
 cpulimit -l 50 -p 5081
 ```
 
 ## Curl pip and update:
-```bash
+```shell
 curl https://bootstrap.pypa.io/get-pip.py | python get-pip.py
 python -m pip install pip --upgrade
 ```
 
-## Download and install Breeze-Adapta-Cursor
-```bash
-curl https://raw.githubusercontent.com/mustafaozhan/Breeze-Adapta-Cursor/master/install.sh | bash
-```
+## DL Cursors
+### Breeze_Adapta
+`curl https://raw.githubusercontent.com/mustafaozhan/Breeze-Adapta-Cursor/master/install.sh | bash`
+
+### Breeze_Hacked
+`curl https://github.com/clayrisser/breeze-hacked-cursor-theme.git`
 
 ## Remove Database Dupes:
-```bash
-sudo pacman -Scc && sudo rm -f /var/lib/pacman/sync/*.db && sudo pacman -Syyu
-```
+`sudo pacman -Scc && sudo rm -f /var/lib/pacman/sync/*.db && sudo pacman -Syyu`
 
 ## Reset /home and preserve executables:
-```bash
+```shell
 sudo chown -R "$USER":"$USER" /home/"$USER" && find /home/"$USER" -type d -exec chmod 755 {} \; && find /home/"$USER" -type f -exec chmod 644 {} \; && find /home/"$USER" -type f -perm /u=x,g=x,o=x -exec chmod +x {} \;
 ```
 
-## Dl ChatGPT Wrapper
-```bash
-wget https://gitlab.com/fenixdragao/shellchatgpt/-/raw/main/chatgpt.sh
-
-chmod +x ./chatgpt.sh
+## DL Chatgpt.sh
+```shell
+sudo wget https://gitlab.com/fenixdragao/shellchatgpt/-/raw/main/chatgpt.sh && sudo chmod +x ./chatgpt.sh
 ```
 
 ## Apply Performance Profile to Governor
-```bash
+```shell
 echo "performance" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
 ```
 
 ## SSD Performance Optimization
-```bash
+```shell
 UUID=9096e7c4-5ca8-4d9c-a431-72497931f44d / ext4 rw,noatime,discard 0 1
 ```
 
 ## Enable ZRAM
-```bash
+```shell
 sudo modprobe zram
 echo lz4 | sudo tee /sys/block/zram0/comp_algorithm
 echo 2G | sudo tee /sys/block/zram0/disksize
@@ -178,12 +188,12 @@ sudo swapon /dev/zram0
 ```
 
 ## Use `tmpfs` for Temporary Files in RAM
-```bash
+```shell
 tmpfs /tmp tmpfs defaults,noatime,mode=1777 0 0
 ```
 
 ## Resolve Symlink Conflicts for Multiple Versions
-```bash
+```shell
 sudo find /usr/lib -name "libicuuc.so*"
 sudo ln -s /usr/lib/libicuuc.so.75 /usr/lib/libicuuc.so.74
 ls -l /usr/lib/libicuuc.so.74
@@ -260,7 +270,14 @@ lame libfdk-aac nasm meson ninja lcms2 libdvdnav libopenglrecorder spirv-tools s
 luajit qt5-base qt5-declarative qt5-svg mediainfo lsof vapoursynth mkvtoolnix-cli zimg opencl-headers cython cmake --needed --noconfirm
 ```
 
-## Proper Intel Packages
+## System Specific Intel Packages
+
+### Updated
+```bash
+yay -S opencl-clover-mesa vulkan-intel vulkan-radeon mesa
+```
+
+### Deprecated
 ```bash
 sudo pacman -S mesa lib32-mesa libva libva-intel-driver libva-mesa-driver libva-vdpau-driver libva-utils lib32-libva lib32-libva-intel-driver lib32-libva-mesa-driver \
 lib32-libva-vdpau-driver intel-ucode iucode-tool vulkan-intel lib32-vulkan-intel intel-gmmlib intel-graphics-compiler intel-media-driver intel-media-sdk intel-opencl-clang libmfx --needed --noconfirm

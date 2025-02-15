@@ -40,7 +40,7 @@ cd /opt/ffmpeg_sources && \
         hash -r
 ```
 
-- - -
+---
 
 ## HQ Encoding
 
@@ -114,10 +114,10 @@ ffmpeg -i file.mkv -vf zscale=t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,t
 Also see: https://stevens.li/guides/video/converting-hdr-to-sdr-with-ffmpeg/
 
 
-### Optical Flow
+### High Frame Rate Slow-Motion (w/o sound)
 
 ```bash
-ffmpeg -i input.mkv -filter:v "minterpolate='mi_mode=mci:mc_mode=aobmc:vsbmc=1:fps=120'" output.mkv
+ffmpeg -i input.mov -filter:v "minterpolate=fps=240:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1, setpts=4.0*PTS" -an -c:v libx264 -preset faster -crf 18 output.mov
 ```
 
 Experimental:
@@ -298,7 +298,7 @@ ffmpeg -framerate 1/3 -i frame_%d.jpg -vf "scale=1280:720:force_original_aspect_
 echo "Enter m3u8 link:";read link;echo "Enter output filename:";read filename;ffmpeg -i "$link"  -c copy $filename.mp4
 ```
 
-- - -
+---
 
 # Advanced
 
@@ -357,7 +357,9 @@ ffmpeg -i vid.mp4 -vf reverse reversed.mp4
 
 ### Looperang 
 ```bash
-ffmpeg -i input.mp4 -filter_complex "[0:v]reverse,fifo[r];[0:v][r] concat=n=2:v=1 [v]" -map "[v]" output.mp4
+ffmpeg -i input.mov \
+  -filter_complex "[0:v]reverse[r];[0:v][r]concat=n=2:v=1[v]" \
+  -map "[v]" output.mp4
 ```
 Concat a video with a reversed copy of itself for ping-pong looping effect
 
@@ -382,7 +384,17 @@ ffmpeg -i YosemiteHDII.webm -vf "select=gt(scene\,0.4),scale=854:480" -vsync vfr
 ffmpeg -i input.mp4 -c:v libx265 -vtag hvc1 -c:a copy output.mp4
 ```
 
-- - -
+### Natural Color Presentation
+```bash
+ffmpeg -i input.mp4 -vf "eq=brightness=0.15:contrast=1.3,saturation=0.9,colorbalance=rs=-0.1:gs=0.05:bs=0.05" -c:v
+libx264 -crf 18 -preset slow output.mp4
+```
+
+### Loop Video Infinitely
+```bash
+ffmpeg -threads 2 -re -fflags +genpts -stream_loop -1 -i ./test.mp4 -c copy ./test.m3u8
+```
+---
 
 # Basics
 

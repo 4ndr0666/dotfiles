@@ -1,3 +1,22 @@
+## Check $PATH for specific dirs
+```bash
+echo "$PATH" | tr ':' '\n' | grep <searchterm here>
+```
+
+## Create Desktop File
+`micro` ~/.local/share/applications/filename
+```
+[Desktop Entry]
+Type=Application
+Name=Name Here
+Exec=/usr/bin/ffmpeg -i %f ${f%.*}.png
+MimeType=image/webp;
+Terminal=false
+Icon=media-image
+```
+`update-desktop-database` ~/.local/share/applications/
+
+
 ## Make ISO of Folder
 ```bash
 mkisofs -J -allow-lowercase -R -V "OpenCD8806" -iso-level 4 -o OpenCD.iso ~/OpenCD
