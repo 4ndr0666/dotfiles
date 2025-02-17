@@ -154,7 +154,7 @@ alias psgrep="ps aux | grep -v grep | grep -i -e VSZ -e"
 alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg"
 alias myip='curl canhazip.com'
 alias mybios='dmidecode -t bios'
-alias update-grub2='sudo grub-install && sudo grub-mkconfig -o /boot/grub/grub.cfg'
+alias update-grub2='sudo grub-install ... && sudo grub-mkconfig -o /boot/grub/grub.cfg'
 
 filecount() {
     if [[ "$1" == "-l" ]]; then
@@ -1305,6 +1305,7 @@ goto() {
         echo "Directory not found: $dir"
     fi
 }
+
 ### /home:
 alias dc='goto ~/Documents'
 alias dl='goto ~/Downloads'
@@ -1316,12 +1317,14 @@ alias zconf='goto ~/.config/zsh'
 alias mconf='goto ~/.config/mpv'
 alias ob='goto ~/.config/openbox'
 alias obt='goto ~/.config/openbox/themes'
+
 ### /storage:
 alias s1='goto /storage'
 alias s1dl='goto /storage/Downloads'
 alias s1pic='goto /storage/Pictures'
 alias s1vid='goto /storage/Videos'
 alias streamdir='goto /storage/streamlink'
+
 ### /sto2:
 alias s2='goto /sto2'
 alias s2dl='goto /sto2/Downloads'
@@ -1329,16 +1332,23 @@ alias s2pic='goto /sto2/Pictures'
 alias s2vid='goto /sto2/Videos'
 alias gym='goto /sto2/Gym'
 alias jd='goto /sto2/JD'
+
 ### /4ndr0:
 alias 4n='goto /4ndr0'
+
+### /23.1
+alias edits='goto /23.1/Edits'
 alias cloud='goto /23.1/Thecloud'
+
 ### /Nas:
 alias nas='goto /Nas'
 alias sandbox='goto /Nas/sandbox'
+
 ### /home/git:
 alias ngc='goto /home/git/clone'
-alias ngdot='goto /home/git/clone/dotfiles'
-alias ngw='goto /home/git/clone/Wayfire_4ndr0666'
+alias ndot='goto /home/git/clone/dotfiles'
+alias nbin='goto /home/git/clone/scr'
+
 ### System directories:
 alias et='goto /etc'
 alias ske='goto /etc/skel'
@@ -1348,8 +1358,6 @@ alias lbin='goto ~/.local/bin'
 alias cheat='goto ~/.cheater'
 alias lshare='goto ~/.local/share/'
 alias lsrc='goto ~/.local/src/'
-alias shellz='goto ~/.config/shellz'
-alias shellb='goto ~/.config/shell'
 alias cac='goto ~/.cache'
 
 ## 4ndr0kill
@@ -1384,7 +1392,7 @@ killit() {
 
     for pid in $pid_list; do
         if echo "$pids" | grep -q -w "$pid"; then
-            if pkill -f "$pid"; then
+            if sudo pkill -f "$pid"; then
                 echo "Process $pid killed."
             else
                 echo "Failed to kill process $pid."
