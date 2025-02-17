@@ -14,7 +14,7 @@ export BROWSER="brave-beta"
 
 ## Dynamic Path
 static_dirs=(
-    "/usr/bin"  # Moved to the top
+    "/usr/bin"
     "$HOME/.local/share/gem/ruby/3.3.0/bin"
     "$HOME/.npm-global/bin"
     "$HOME/.local/share/goenv/bin"
@@ -71,7 +71,7 @@ fi
 
 if [ ! -d "$XDG_RUNTIME_DIR" ]; then
     mkdir "$XDG_RUNTIME_DIR"       # Bypassing the alias
-    chmod 0700 "$XDG_RUNTIME_DIR"
+    \chmod 0700 "$XDG_RUNTIME_DIR"
 fi
 
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -83,7 +83,7 @@ export XDG_STATE_HOME="$HOME/.local/state"
 ## Environment
 
 export TRASHDIR="$XDG_DATA_HOME/Trash"
-export ZDOTDIR="$HOME/.config/zsh"
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh/"
 export DICS="$XDG_DATA_HOME/stardict/dic/"
 export AUR_DIR="/home/build"
 export XINITRC="$XDG_CONFIG_HOME/x11/xinitrc"
@@ -123,12 +123,10 @@ export NODE_DATA_HOME="$XDG_DATA_HOME/node"
 export NODE_CONFIG_HOME="$XDG_CONFIG_HOME/node"
 export TEXMFVAR="$XDG_CACHE_HOME/texlive/texmf-var"
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
-#export LIBVA_DRIVERS_PAATH=/usr/lib/dri/radeonsi_drv_video.so
-#export LIBVA_DRIVER_NAME=radeonsi
+export LIBVA_DRIVER_NAME=radeonsi
 # export LIBVA_DISPLAY=wayland
 
 ## Make Dirs:
-
 mkdir "$WINEPREFIX" \
 "$CARGO_HOME" \
 "$GOPATH" \
@@ -154,7 +152,6 @@ mkdir "$WINEPREFIX" \
 "$GEM_HOME" >/dev/null 2>&1
 
 ## Ensure Permissions
-
 \chmod ug+rw "$WINEPREFIX" \
 "$CARGO_HOME" \
 "$GOPATH" \
@@ -179,7 +176,6 @@ mkdir "$WINEPREFIX" \
 "$GEM_HOME"
 
 ## My SQL
-
 export PSQL_HOME="$XDG_DATA_HOME/postgresql"
 export MYSQL_HOME="$XDG_DATA_HOME/mysql"
 export SQLITE_HOME="$XDG_DATA_HOME/sqlite"
@@ -214,22 +210,18 @@ mkdir "$PSQL_HOME" \
 #f.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel ${_JAVA_OPTIONS}"
 
 ## Library
-
 export LD_LIBRARY_PATH="$XDG_DATA_HOME/lib:/usr/local/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 
 ## Askpass
-
 export SUDO_ASKPASS="$XDG_CONFIG_HOME"/wayfire/scripts/rofi_askpass  # Wayfire specific
 #export SUDO_ASKPASS="/usr/bin/pinentry-dmenu"    # Xorg
 
 ## GPG
-
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 if [ ! -d "$GNUPGHOME" ]; then
     \mkdir -p "$GNUPGHOME"
     \chmod 700 "$GNUPGHOME"
 fi
-
 gpg_env_file="$XDG_CONFIG_HOME/shellz/gpg_env"
 if [ -f "$gpg_env_file" ]; then
     source "$gpg_env_file"
@@ -238,62 +230,28 @@ else
 fi
 
 ## FZF
-
-FZF_DEFAULT_COMMMAND='fd --no-ignore --hidden --follow --exclude ".git"'
+export FZF_DEFAULT_COMMMAND='fd --no-ignore --hidden --follow --exclude ".git"'
 export FZF_DEFAULT_OPTS="
---layout=reverse
---height=60%
---border=thinblock
---info=right
---tiebreak=index
---scrollbar='│'
---preview='
-    set filename (basename {})
-    if string match -q \"*.txt\" -- \$filename
-      bat --style=numbers --color=always {}
-    else if string match -q \"*.pdf\" -- \$filename
-      zathura {} &
-    else if string match -q \"*.jpg\" -- \$filename
-      feh {} &
-    else if string match -q \"*.jpeg\" -- \$filename
-      feh {} &
-    else if string match -q \"*.png\" -- \$filename
-      feh {} &
-    else if string match -q \"*.gif\" -- \$filename
-      feh {} &
-    else
-      bat --style=numbers --color=always {}
-    end
-  '
---preview-window=hidden:right:69%%
---preview-label=eyes
---margin=5%
---bind='enter:execute(
-  set filename (basename {})
-  if string match -q \"*.txt\" -- \$filename
-    emacsclient -nw {}
-  else if string match -q \"*.pdf\" -- \$filename
-    zathura {}
-  else if string match -q \"*.jpg\" -- \$filename
-    feh {}
-  else if string match -q \"*.jpeg\" -- \$filename
-    feh {}
-  else if string match -q \"*.png\" -- \$filename
-    feh {}
-  else if string match -q \"*.gif\" -- \$filename
-    feh {}
-  else
-    nvim -nw {}
-  end
-)'
---bind=alt-o:toggle-preview
---color=fg:#005b69,fg+:#15FFFF,bg:#151515,bg+:#262626 \
---color=hl:#15FFFF,hl+:#15FFFF,info:#195761,marker:#15FFFF \
---color=prompt:#00f7ff,spinner:#64e290,pointer:#15FFFF,header:#07fff7 \
---color=border:#262626,preview-border:#15FFFF,label:#005b69,query:#15ffff \
---border-label-pos='-54' --prompt='≽  ' --marker='✔' --pointer='☞' --separator='-'
+  --layout=reverse
+  --height=60%
+  --border=thinblock
+  --padding=1%
+  --info=right
+  --tiebreak=index
+  --scrollbar='│'
+  --separator='_'
+  --preview='bat --style=numbers --color=always {}'
+  --preview-window=hidden:right:69%
+  --preview-label=eyes
+  --margin=5%
+  --bind='ctrl-o:toggle-preview'
+  --bind='ctrl-y:execute-silent(printf {} | cut -f 2- | wl-copy --trim-newline)'
+  --color=fg:#005b69,fg+:#15FFFF,bg:#151515,bg+:#262626 \
+  --color=hl:#15FFFF,hl+:#15FFFF,info:#195761,marker:#15FFFF \
+  --color=prompt:#00f7ff,spinner:#64e290,pointer:#15FFFF,header:#07fff7 \
+  --color=border:#262626,preview-border:#15FFFF,label:#005b69,query:#15ffff \
+  --border-label='search' --prompt='≽  ' --marker='✔' --pointer='☞'
 "
-
 
 ### Config (testing):
 #export FZF_DEFAULT_OPTS="
@@ -390,9 +348,6 @@ fh() {
   print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed -E 's/ *[0-9]*\*? *//' | sed -E 's/\\/\\\\/g')
 }
 
-### Bind CTRL+Y to "copy":
-export FZF_DEFAULT_OPTS='--bind "ctrl-y:execute-silent(printf {} | cut -f 2- | wl-copy --trim-newline)"'
-
 ### Truecolor
 case "${COLORTERM}" in
     truecolor|24bit) ;;
@@ -400,41 +355,37 @@ case "${COLORTERM}" in
 esac
 
 # PAGER
-
 export PAGER=less
 
 ## Bat
-
 #export MANPAGER="sh -c 'col -bx | bat -l man -p | less -R'"
 #export MANPAGER="sh -c 'col -bx | bat -l man -p --paging always'"
 
 ## Less
-
 ### Config1
-export LESS='-R'
-export LESS_TERMCAP_mb="$(printf '%b' '[1;31m')"
-export LESS_TERMCAP_md="$(printf '%b' '[1;36m')"
-export LESS_TERMCAP_me="$(printf '%b' '[0m')"
-export LESS_TERMCAP_so="$(printf '%b' '[01;44;33m')"
-export LESS_TERMCAP_se="$(printf '%b' '[0m')"
-export LESS_TERMCAP_us="$(printf '%b' '[1;32m')"
-export LESS_TERMCAP_ue="$(printf '%b' '[0m')"
-
+#export LESS='-R'
+#export LESS_TERMCAP_mb="$(printf '%b' '[1;31m')"
+#export LESS_TERMCAP_md="$(printf '%b' '[1;36m')"
+#export LESS_TERMCAP_me="$(printf '%b' '[0m')"
+#export LESS_TERMCAP_so="$(printf '%b' '[01;44;33m')"
+#export LESS_TERMCAP_se="$(printf '%b' '[0m')"
+#export LESS_TERMCAP_us="$(printf '%b' '[1;32m')"
+#export LESS_TERMCAP_ue="$(printf '%b' '[0m')"
 ### Config2
-#export LESS_TERMCAP_mb=$'\E[01;31m'             # begin blinking
-#export LESS_TERMCAP_md=$'\E[01;31m'             # begin bold
-#export LESS_TERMCAP_me=$'\E[0m'                 # end mode
-#export LESS_TERMCAP_se=$'\E[0m'                 # end standout-mode
-#export LESS_TERMCAP_so=$'\E[01;44;33m'          # begin standout-mode - info box
-#export LESS_TERMCAP_ue=$'\E[0m'                 # end underline
-#export LESS_TERMCAP_us=$'\E[01;32m'             # begin underline
+export LESS='-R'
+export LESS_TERMCAP_mb=$'\E[01;31m'             # begin blinking
+export LESS_TERMCAP_md=$'\E[01;31m'             # begin bold
+export LESS_TERMCAP_me=$'\E[0m'                 # end mode
+export LESS_TERMCAP_se=$'\E[0m'                 # end standout-mode
+export LESS_TERMCAP_so=$'\E[01;44;33m'          # begin standout-mode - info box
+export LESS_TERMCAP_ue=$'\E[0m'                 # end underline
+export LESS_TERMCAP_us=$'\E[01;32m'             # begin underline
+
 
 ## LESSOPEN
-
 export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
 
 ## Lf Shortcuts
-
 [ ! -f "$XDG_CONFIG_HOME/shellz/shortcutrc" ] && setsid -f shortcuts >/dev/null 2>&1
 
 ## Keyboard Press Rate
