@@ -4,7 +4,7 @@
 # Edited: 12-2-24
 
 # ===================================== // FUNCTIONS.ZSH //
-# --- // Constants: 
+# --- // Constants:
 RESET="\e[0m"
 BOLD="\e[1m"
 UNDERLINE="\e[4m"
@@ -365,20 +365,20 @@ function re() {
 ### Fkill:
 ## List process to kill
 fkill() {
-    local pid 
+    local pid
     if [ "$UID" != "0" ]; then
         pid=$(ps -f -u $UID | sed 1d | fzf -m | awk '{print $2}')
     else
         pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
-    fi  
+    fi
 
     if [ "x$pid" != "x" ]
     then
         echo $pid | xargs kill -${1:-9}
-    fi  
+    fi
 }
 
-### Browser History: 
+### Browser History:
 ## Press `c` to browse Chromes web history
 chromeh() {
   local cols sep google_history open
@@ -538,7 +538,7 @@ any() {
 #---
 
 # --- // Sysboost:
-## Optimizes system resources by resetting failed units, cleaning sockets, removing broken links, 
+## Optimizes system resources by resetting failed units, cleaning sockets, removing broken links,
 ## killing zombies, reloading daemons, vacuuming logs, and cleaning temporary files.
 sysboost() {
     ## Ensure the script exits on any error
@@ -674,7 +674,7 @@ swapboost() {
 ## Performs a full system boost by running sysboost and swapboost functions.
 fullboost() {
     echo "🚀 Initiating full system boost..."
-    
+
     ## Run sysboost for general optimization
     echo "🔧 Running sysboost..."
     sysboost
@@ -869,7 +869,7 @@ modified() {
 
 #---
 
-# --- // 4ever 
+# --- // 4ever
 ## Runs a command in the background with logging and PID tracking.
 4ever() {
     if [[ -z "$1" ]]; then
@@ -1197,7 +1197,7 @@ function turl() {
 
 #---
 
-# --- // UNDO/REDO RECENT PKGS INSTALLS: 
+# --- // UNDO/REDO RECENT PKGS INSTALLS:
 fetch_packages() {
     local action="$1"
     local count="$2"
@@ -1425,115 +1425,132 @@ redo() {
 #---
 
 # ---- // DOWNSCALE_TO_1080P:
-downscale() {
-    local input_file="$1"
-    local output_file="${2:-downscaled_1080p.mp4}"
-    local quality="${3:-23}"  # Default CRF value for quality, 23 is standard for x264
+#downscale() {
+#    local input_file="$1"
+#    local output_file="${2:-downscaled_1080p.mp4}"
+#    local quality="${3:-18}"  # Default CRF value for quality, 18 is visually lossless for x264
 
-    if [[ -z "$input_file" ]]; then
-        echo "Usage: downscale_to_1080p <path/to/media> [output_file_path] [quality]"
-        return 1
-    fi
+#    if [[ -z "$input_file" ]]; then
+#        echo "Usage: downscale <path/to/media> [output_file_path] [quality]"
+#        return 1
+#    fi
 
     # Validate input file existence
-    if [[ ! -f "$input_file" ]]; then
-        echo "Error: Input file '$input_file' does not exist."
-        return 1
-    fi
+#    if [[ ! -f "$input_file" ]]; then
+#        echo "Error: Input file '$input_file' does not exist."
+#        return 1
+#    fi
 
     # Check if FFmpeg is installed
-    if ! command -v ffmpeg &>/dev/null; then
-        echo "Error: FFmpeg is not installed. Please install it first."
-        return 1
-    fi
+#    if ! command -v ffmpeg &>/dev/null; then
+#        echo "Error: FFmpeg is not installed. Please install it first."
+#        return 1
+#    fi
 
     # Validate quality parameter
-    if ! [[ "$quality" =~ ^[0-9]+$ ]]; then
-        echo "Error: Quality parameter should be an integer (lower is better)."
-        return 1
-    fi
+#    if ! [[ "$quality" =~ ^[0-9]+$ ]]; then
+#        echo "Error: Quality parameter should be an integer (lower is better)."
+#        return 1
+#    fi
 
     # Ensure output file name is unique
-    local base_name="${output_file%.*}"
-    local extension="${output_file##*.}"
-    local counter=1
+#    local base_name="${output_file%.*}"
+#    local extension="${output_file##*.}"
+#    local counter=1
 
-    while [[ -f "$output_file" ]]; do
-        output_file="${base_name}_${counter}.${extension}"
-        ((counter++))
-    done
+#    while [[ -f "$output_file" ]]; do
+#        output_file="${base_name}_${counter}.${extension}"
+#        ((counter++))
+#    done
+
+    # Detect the input file's color space using ffprobe
+#    local colorspace
+#    colorspace=$(ffprobe -v error -select_streams v:0 -show_entries stream=color_space -of default=nw=1:nk=1 "$input_file")
+
+#    echo "Detected color space: $colorspace"
+
+    # Prepare a filter chain dynamically based on color space
+#    local filters
+#    if [[ "$colorspace" == "bt709" || -z "$colorspace" ]]; then
+        # Assume BT.709 or no metadata (safe to downscale directly)
+#        filters="scale=1920:1080:flags=lanczos,format=yuv420p"
+#    else
+        # Convert other color spaces to BT.709 for compatibility
+#        filters="zscale=t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=reinhard,zscale=t=bt709:m=bt709:r=tv,scale=1920:1080:flags=lanczos,format=yuv420p"
+#    fi
 
     # Start downscale process using FFmpeg
-    echo "Starting downscale process to 1080p..."
-    ffmpeg -i "$input_file" \
-           -vf "scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2" \
-           -c:v libx264 -crf "$quality" -preset medium \
-           -c:a copy "$output_file"
+#    echo "Starting high-quality downscale process to 1080p..."
+#    ffmpeg -i "$input_file" \
+#          -vf "$filters" \
+#           -colorspace bt709 \
+#          -color_primaries bt709 \
+#           -color_trc bt709 \
+#           -c:v libx264 -crf "$quality" -preset slow \
+#           -an "$output_file"
 
     # Check if FFmpeg command was successful
-    if [[ $? -eq 0 ]]; then
-        echo "Downscale complete. Output saved to '$output_file'."
-    else
-        echo "Error: Downscale process failed."
-        return 1
-    fi
-}
+#    if [[ $? -eq 0 ]]; then
+#        echo "Downscale complete. Output saved to '$output_file'."
+#    else
+#        echo "Error: Downscale process failed."
+#        return 1
+#    fi
+#}
 
 #---
 
-# --- // PROCESS: 
-process() {
-    local input_file="$1"
-    local output_file="${2:-processed_video.mp4}"
-    local quality="${3:-23}" 
+#slomo() {
+#    local input_file="$1"
+#    local output_file="${2:-slowmotioned.mp4}"
+#    local quality="${3:-18}"  # Default CRF value for quality, 23 is standard for x264
 
-    if [[ -z "$input_file" ]]; then
-        echo "Usage: process <path/to/media> [output_file_path] [quality]"
-        return 1
-    fi
+#    if [[ -z "$input_file" ]]; then
+#        echo "Usage: slomo <path/to/media> [output_file_path] [quality]"
+#        return 1
+#    fi
 
-    if [[ ! -f "$input_file" ]]; then
-        echo "Error: Input file '$input_file' does not exist."
-        return 1
-    fi
+    # Validate input file existence
+#    if [[ ! -f "$input_file" ]]; then
+#        echo "Error: Input file '$input_file' does not exist."
+#        return 1
+#    fi
 
-    if ! command -v ffmpeg &>/dev/null; then
-        echo "Error: FFmpeg is not installed. Please install it first."
-        return 1
-    fi
+    # Check if FFmpeg is installed
+#    if ! command -v ffmpeg &>/dev/null; then
+#        echo "Error: FFmpeg is not installed. Please install it first."
+#        return 1
+#    fi
 
-    if ! [[ "$quality" =~ ^[0-9]+$ ]]; then
-        echo "Error: Quality parameter should be an integer (lower is better)."
-        return 1
-    fi
+    # Validate quality parameter
+#    if ! [[ "$quality" =~ ^[0-9]+$ ]]; then
+#        echo "Error: Quality parameter should be an integer (lower is better)."
+#        return 1
+#    fi
 
-    local base_name="${output_file%.*}"
-    local extension="${output_file##*.}"
-    local counter=1
+    # Ensure output file name is unique
+#    local base_name="${output_file%.*}"
+#    local extension="${output_file##*.}"
+#    local counter=1
 
-    while [[ -f "$output_file" ]]; do
-        output_file="${base_name}_${counter}.${extension}"
-        ((counter++))
-    done
+#    while [[ -f "$output_file" ]]; do
+#        output_file="${base_name}_${counter}.${extension}"
+#        ((counter++))
+#    done
 
-    echo "Processing video..."
-
-## Option 1: Copy streams without re-encoding
-     ffmpeg -i "$input_file" \
-     -c copy "$output_file"
-
-## Option 2: Re-encode video with specified quality
+#    echo "Starting slowmotion process..."
 #    ffmpeg -i "$input_file" \
-#        -c:v libx264 -crf "$quality" -preset medium \
-#        -c:a copy "$output_file"
+#	   -filter:v "minterpolate=fps=240:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1, setpts=4.0*PTS" \
+#	   -an \
+#	   -c:v libx264 -crf "$quality" -preset faster "$output_file"
 
-    if [[ $? -eq 0 ]]; then
-        echo "Processing complete: '$output_file'."
-    else
-        echo "Error: Processing failed."
-        return 1
-    fi
-}
+#    if [[ $? -eq 0 ]]; then
+#        echo "SloMotion complete. Video saved as '$output_file'."
+#    else
+#        echo "Error: SlowMotion process failed."
+#        return 1
+#    fi
+#}
 
 # --------------------------------------------------------- // DOWNSCALE_TO_1080P:
 #function downscale() {
@@ -1810,6 +1827,7 @@ declare -A YTDLP_COOKIES_MAP=(
     ["patreon.com"]="$HOME/.config/yt-dlp/patreon_cookies.txt"
     ["vimeo.com"]="$HOME/.config/yt-dlp/vimeo_cookies.txt"
     ["boosty.to"]="$HOME/.config/yt-dlp/boosty_cookies.txt"
+    ["instagram.com"]="$HOME/.config/yt-dlp/instagram_cookies.txt"
     # Add more mappings as needed
 )
 PREFERRED_FORMATS=("335" "315" "313" "308" "303" "302" "271" "248" "247" "137")

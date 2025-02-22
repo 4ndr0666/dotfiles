@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env zsh
 # File: /home/$USER/.config/zsh/.zprofile
 # Date: 12-30-24
 # Author: 4ndr0666
@@ -13,6 +13,7 @@ export TERMINAL_PROG="st"
 export BROWSER="brave-beta"
 
 ## Dynamic Path
+
 static_dirs=(
     "/usr/bin"
     "$HOME/.local/share/gem/ruby/3.3.0/bin"
@@ -127,6 +128,7 @@ export LIBVA_DRIVER_NAME=radeonsi
 # export LIBVA_DISPLAY=wayland
 
 ## Make Dirs:
+
 mkdir "$WINEPREFIX" \
 "$CARGO_HOME" \
 "$GOPATH" \
@@ -152,6 +154,7 @@ mkdir "$WINEPREFIX" \
 "$GEM_HOME" >/dev/null 2>&1
 
 ## Ensure Permissions
+
 \chmod ug+rw "$WINEPREFIX" \
 "$CARGO_HOME" \
 "$GOPATH" \
@@ -176,6 +179,7 @@ mkdir "$WINEPREFIX" \
 "$GEM_HOME"
 
 ## My SQL
+
 export PSQL_HOME="$XDG_DATA_HOME/postgresql"
 export MYSQL_HOME="$XDG_DATA_HOME/mysql"
 export SQLITE_HOME="$XDG_DATA_HOME/sqlite"
@@ -210,13 +214,16 @@ mkdir "$PSQL_HOME" \
 #f.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel ${_JAVA_OPTIONS}"
 
 ## Library
+
 export LD_LIBRARY_PATH="$XDG_DATA_HOME/lib:/usr/local/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 
 ## Askpass
+
 export SUDO_ASKPASS="$XDG_CONFIG_HOME"/wayfire/scripts/rofi_askpass  # Wayfire specific
 #export SUDO_ASKPASS="/usr/bin/pinentry-dmenu"    # Xorg
 
 ## GPG
+
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 if [ ! -d "$GNUPGHOME" ]; then
     \mkdir -p "$GNUPGHOME"
@@ -230,6 +237,7 @@ else
 fi
 
 ## FZF
+
 export FZF_DEFAULT_COMMMAND='fd --no-ignore --hidden --follow --exclude ".git"'
 export FZF_DEFAULT_OPTS="
   --layout=reverse
@@ -340,6 +348,7 @@ export FZF_DEFAULT_OPTS="
 #--bind 'ctrl-/:change-preview-window(50%|hidden|)' \
 
 ## FZF Widgets:
+
 ### History:
 bindkey '^R' fzf-history-widget
 
@@ -348,20 +357,22 @@ fh() {
   print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed -E 's/ *[0-9]*\*? *//' | sed -E 's/\\/\\\\/g')
 }
 
-### Truecolor
+## Truecolor
+
 case "${COLORTERM}" in
     truecolor|24bit) ;;
     *) export COLORTERM="24bit" ;;
 esac
 
-# PAGER
-export PAGER=less
+## PAGER
 
-## Bat
+#export MANPAGER=less
+export MANPAGER="sh -c 'if [ -t 1 ]; then col -bx | bat -l man -p; else col -bx | bat -l man -p --color=never; fi | less -R'"
 #export MANPAGER="sh -c 'col -bx | bat -l man -p | less -R'"
 #export MANPAGER="sh -c 'col -bx | bat -l man -p --paging always'"
 
 ## Less
+
 ### Config1
 #export LESS='-R'
 #export LESS_TERMCAP_mb="$(printf '%b' '[1;31m')"

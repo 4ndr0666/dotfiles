@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 
 # ============================ // ZSHRC //
 
@@ -28,14 +28,14 @@ fi
 
 autoload -U compinit && compinit
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-#zstyle ':fzf-tab:complete:(\\|*)cd:*' fzf-preview 'exa -1 --color=always --icons $realpath'
-#zstyle ':fzf-tab:complete:systemctl-*:*' fzf-preview 'SYSTEMD_COLORS=1 systemctl status $word'
+zstyle ':fzf-tab:complete:(\\|*)cd:*' fzf-preview 'exa -1 --color=always --icons $realpath'
+zstyle ':fzf-tab:complete:systemctl-*:*' fzf-preview 'SYSTEMD_COLORS=1 systemctl status $word'
 zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' fzf-preview 'echo ${(P)word}'
-#zstyle ':fzf-tab:complete:*:*' fzf-preview 'less ${(Q)realpath}'
+zstyle ':fzf-tab:complete:*:*' fzf-preview 'less ${(Q)realpath}'
 zstyle ':fzf-tab:complete:*:options' fzf-preview
 zstyle ':fzf-tab:complete:*:argument-1' fzf-preview
 zstyle ':completion:*' menu select=2
-#export LESSOPEN='|fzf_preview %s'
+export LESSOPEN='|fzf_preview %s'
 
 setopt RM_STAR_WAIT
 setopt print_exit_value
@@ -82,9 +82,11 @@ setopt hist_ignore_dups
 setopt hist_expire_dups_first
 
 ## History Widget
+
 h() { if [ -z "$*" ]; then history 1; else history 1 | egrep "$@"; fi; }     # Fix_zsh_history_behavior:
 
 ## Expand global aliases:
+
 globalias() {
     if [[$LBUFFER =~ ' [a-Z0-9]+S' ]]; then
 	zle _expand_alias
@@ -95,6 +97,7 @@ globalias() {
 zle -N globalias
 
 ## FD
+
 ### Use FD indtead of find
 #_fzf_compgen_path() {
 #	fd --hidden --follow --exclude ".git" . "$1"
@@ -105,6 +108,7 @@ zle -N globalias
 #}
 
 ## Rehash
+
 if [[ ! -d "$HOME/.cache/zsh/zcache" ]]; then
     touch "$HOME/.cache/zsh/zcache"
     chmod ug+rw "$HOME/.cache/zsh/zcache"
@@ -127,13 +131,14 @@ add-zsh-hook -Uz precmd rehash_precmd
 # Bindings
 
 ## Vim
+
 bindkey -v
 export KEYTIMEOUT=1
 #bindkey -a -r t
 #bindkey -a u undo
 #bindkey -a U redo
 
-## Swap
+### Swap
 bindkey -a a vi-add-eol
 bindkey -a A vi-add-next
 
@@ -166,6 +171,7 @@ bindkey "^W" backward-kill-word
 bindkey '^H' backward-kill-word
 
 ## LF
+
 lfcd () {
     tmp="$(mktemp -uq)"
     trap 'rm -f $tmp >/dev/null 2>&1 && trap - HUP INT QUIT TERM PWR EXIT' HUP INT QUIT TERM PWR EXIT
@@ -192,6 +198,7 @@ bindkey -M vicmd '^e' edit-command-line
 bindkey -M visual '^[[P' vi-delete
 
 ## NVM
+
 export NVM_DIR="$XDG_CONFIG_HOME/nvm"
 source_nvm() {
     local script="$1"
@@ -211,6 +218,7 @@ alias mpv2='mpv --input-ipc-server=/tmp/mpvSockets/socket2'
 alias reload='echo "Reloading .zshrc" && source ~/.zshrc'
 
 ## Source the files:
+
 [ -f "$HOME/.config/zsh/aliasrc" ] && source "$HOME/.config/zsh/aliasrc"
 [ -f "$HOME/.config/zsh/functions.zsh" ] && source "$HOME/.config/zsh/functions.zsh"
 [ -f "$HOME/.config/zsh/.zprofile" ] && source "$HOME/.config/zsh/.zprofile"
@@ -218,58 +226,70 @@ alias reload='echo "Reloading .zshrc" && source ~/.zshrc'
 # Plugins
 
 ## FZF
+
 fpath=("$HOME/.config/zsh/completions" "/usr/share/zsh/vendor-completions" $fpath)
 source <(fzf --zsh)
 
 ## You-should-use
+
 export YSU_MESSAGE_POSITION="after"
 source /usr/share/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh 2>/dev/null
 
 ## FTC
-#source /usr/share/doc/find-the-command/ftc.zsh noprompt quiet 2>/dev/null
+
+source /usr/share/doc/find-the-command/ftc.zsh noprompt quiet 2>/dev/null
 
 ## Extract
+
 source /usr/share/zsh/plugins/zsh-extract/extract.plugin.zsh 2>/dev/null
 
 ## Sudo
+
 source /usr/share/zsh/plugins/zsh-sudo/sudo.plugin.zsh 2>/dev/null
 
 ## SystemdD
+
 source /usr/share/zsh/plugins/zsh-systemd/systemd.plugin.zsh 2>/dev/null
 
 ## History-substring-search
+
 source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh 2>/dev/null
 
 ## Autosuggestions
+
 ZSH_AUTOSUGGEST_USE_ASYNC=true
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
 
 ## YTDL
+
 source ~/.config/zsh/ytdl.zsh
 
 ## Git Extras
+
 source /usr/share/doc/git-extras/git-extras-completion.zsh 2>/dev/null
 
 ## P10k
+
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ${ZDOTDIR:-~}/.p10k.zsh ]] || source ${ZDOT_DIR:-~}/.p10k.zsh
-#typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
-#typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
-#	os_icon
-#	background_jobs
-#	dir                       # current directory
-#	vcs                       # git status
-#	context                   # user@host
-#	status                    # and exit status
-#	newline                   # \n
-#	virtualenv                # python virtual environment
-#	prompt_char               # prompt symbol
-#)
-#unset POWERLEVEL9K_VISUAL_IDENTIFIER_EXPANSION
-#typeset -g POWERLEVEL9K_BACKGROUND_JOBS_VERBOSE=true
-#typeset -g POWERLEVEL9K_BACKGROUND_JOBS_ICON=
-#typeset -g POWERLEVEL9K_DIR_SHOW_WRITABLE=true
-#unset POWERLEVEL9K_VCS_BRANCH_ICON
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
+	os_icon
+	background_jobs
+	dir                       # current directory
+	vcs                       # git status
+	context                   # user@host
+	status                    # and exit status
+	newline                   # \n
+	virtualenv                # python virtual environment
+	prompt_char               # prompt symbol
+)
+unset POWERLEVEL9K_VISUAL_IDENTIFIER_EXPANSION
+typeset -g POWERLEVEL9K_BACKGROUND_JOBS_VERBOSE=true
+typeset -g POWERLEVEL9K_BACKGROUND_JOBS_ICON=
+typeset -g POWERLEVEL9K_DIR_SHOW_WRITABLE=true
+unset POWERLEVEL9K_VCS_BRANCH_ICON
 
 ## Fast-Syntax-highlighting
+
 source "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" 2>/dev/null
