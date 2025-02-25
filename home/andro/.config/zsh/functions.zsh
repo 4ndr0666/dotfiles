@@ -538,16 +538,17 @@ any() {
 #---
 
 # --- // Sysboost:
-## Optimizes system resources by resetting failed units, cleaning sockets, removing broken links,
-## killing zombies, reloading daemons, vacuuming logs, and cleaning temporary files.
+## Optimizes system resources by resetting failed units, cleaning sockets,
+## removing broken links, killing zombie processes, reloading daemons,
+## vacuuming logs, and cleaning temporary files.
 sysboost() {
-    ## Ensure the script exits on any error
+    # Ensure the function exits on error
     set -e
 
-    ## Function to log messages with an optional delay
+    ## Log message with delay
     log_and_wait() {
-        local message=$1
-        local delay=${2:-2}  # Default delay is 2 seconds
+        local message="$1"
+        local delay="${2:-2}"
         echo "$message"
         sleep "$delay"
     }
@@ -557,7 +558,6 @@ sysboost() {
     log_and_wait "2.."
     log_and_wait "1"
 
-    ## Check and reset failed systemd units
     if command -v systemctl &> /dev/null; then
         log_and_wait "🔄 Resetting all failed SystemD units..."
         systemctl reset-failed || true
@@ -565,7 +565,6 @@ sysboost() {
         log_and_wait "⚠️ systemctl not found, skipping reset of failed units."
     fi
 
-    ## Clear unnecessary D-Bus sockets if the command is available
     if command -v dbus-cleanup-sockets &> /dev/null; then
         log_and_wait "🔄 Clearing unnecessary D-Bus sockets..."
         sudo dbus-cleanup-sockets
@@ -573,13 +572,11 @@ sysboost() {
         log_and_wait "⚠️ dbus-cleanup-sockets not found, skipping cleanup."
     fi
 
-    ## Remove broken SystemD symbolic links
     log_and_wait "🔄 Removing broken SystemD symbolic links..."
     if ! sudo find -L /etc/systemd/ -type l -delete; then
         log_and_wait "⚠️ Unable to search SystemD for broken links."
     fi
 
-    ## Kill zombie processes if the zps command is available
     if command -v zps &> /dev/null; then
         log_and_wait "🔄 Killing all zombie processes..."
         sudo zps -r --quiet
@@ -587,7 +584,6 @@ sysboost() {
         log_and_wait "⚠️ zps not found. Install it using 'sudo pacman -S zps --noconfirm'. Skipping zombie kill."
     fi
 
-    ## Reload the system daemon if systemctl is available
     if command -v systemctl &> /dev/null; then
         log_and_wait "🔄 Reloading system daemon..."
         sudo systemctl daemon-reload
@@ -595,7 +591,6 @@ sysboost() {
         log_and_wait "⚠️ systemctl not found, skipping daemon reload."
     fi
 
-    ## Remove old logs using journalctl if available
     if command -v journalctl &> /dev/null; then
         log_and_wait "🔄 Removing logs older than 2 days..."
         sudo journalctl --vacuum-time=2d
@@ -603,7 +598,6 @@ sysboost() {
         log_and_wait "⚠️ journalctl not found, skipping log cleanup."
     fi
 
-    ## Clear /tmp files using tmpwatch or tmpreaper if available
     if command -v tmpwatch &> /dev/null; then
         log_and_wait "🔄 Clearing /tmp files older than 2 hours..."
         sudo tmpwatch 2h /tmp
@@ -615,75 +609,74 @@ sysboost() {
     fi
 
     log_and_wait "✅ Resources optimized."
-
-    ## Disable exit on error
     set +e
 }
 
-#---
-
-# --- // Swapboost
-## Refreshes swap spaces and accesses memory-mapped files to optimize swap usage.
+# --- // swapboost:
+## Refreshes swap spaces and clears caches to optimize swap usage.
 swapboost() {
-    ## Initialize log file
     local log_file="/tmp/swapboost_log.txt"
     echo "📝 Logging to $log_file"
-    echo "🔄 Starting swapboost process at $(date)" > "$log_file"
+    echo "🔄 Optimizing swap spaces and caches at $(date)" > "$log_file"
 
-    echo "🔍 Scanning accessible file mappings..."
+    echo "🔄 Dropping caches..." | tee -a "$log_file"
+    drop_caches >> "$log_file"
     sleep 2
-    local file_count=0
-    local cmd_prefix=""
-    [[ $EUID -ne 0 ]] && cmd_prefix="sudo"
 
-    ## Touch only accessible memory-mapped files
-    if command -v parallel &> /dev/null; then
-        \mkdir -p "$(dirname "$log_file")"
-        sed -ne 's:.* /:/:p' /proc/[0-9]*/maps 2>/dev/null | sort -u | grep -v '^/dev/' | grep -v '(deleted)' | \
-        parallel "$cmd_prefix cat {} > /dev/null 2>/dev/null && echo 'Accessed {}' >> \"$log_file\""
-    else
-        for file in $(sed -ne 's:.* /:/:p' /proc/[0-9]*/maps 2>/dev/null | sort -u | grep -v '^/dev/' | grep -v '(deleted)'); do
-            if $cmd_prefix cat "$file" > /dev/null 2>/dev/null; then
-                ((file_count++))
-                echo "✅ Accessed $file" >> "$log_file"
-            fi
-        done
-    fi
-
-    echo "🔍 Accessed $file_count files from mappings..." | tee -a "$log_file"
-    sleep 2
+#    echo "🔍 Scanning accessible file mappings..."
+#    sleep 2
+#    local file_count=0
+#    local cmd_prefix=""
+#    [[ $EUID -ne 0 ]] && cmd_prefix="sudo"
+#    if command -v parallel &> /dev/null; then
+#        mkdir -p "$(dirname "$log_file")"
+#        sed -ne 's:.* /:/:p' /proc/[0-9]*/maps 2>/dev/null | sort -u | \
+#          grep -v '^/dev/' | grep -v '(deleted)' | \
+#          parallel "$cmd_prefix cat {} > /dev/null 2>/dev/null && echo 'Accessed {}' >> \"$log_file\""
+#    else
+#        for file in $(sed -ne 's:.* /:/:p' /proc/[0-9]*/maps 2>/dev/null | sort -u | grep -v '^/dev/' | grep -v '(deleted)'); do
+#            if $cmd_prefix cat "$file" > /dev/null 2>/dev/null; then
+#                ((file_count++))
+#                echo "✅ Accessed $file" >> "$log_file"
+#            fi
+#        done
+#    fi
+#    echo "🔍 Accessed $file_count files from mappings..." | tee -a "$log_file"
+#    sleep 2
 
     echo "🔄 Refreshing swap spaces..." | tee -a "$log_file"
     sleep 2
+    local cmd_prefix=""
+    [[ $EUID -ne 0 ]] && cmd_prefix="sudo"
 
-    ## Refresh swap spaces
     if $cmd_prefix swapoff -a && $cmd_prefix swapon -a; then
         echo "✅ Swap spaces refreshed!" | tee -a "$log_file"
     else
         echo "❌ Failed to refresh swap spaces." | tee -a "$log_file"
+        return 1
     fi
 
-    ## Final message
     echo "🔄 Swapboost process completed at $(date)." >> "$log_file"
-    echo "✅ Swapboost process completed."
+    echo "✅ Swap spaces and caches refreshed."
 }
 
-#---
+## Frees up system memory by dropping page cache, dentries, and inodes.
+drop_caches() {
+    echo "🔄 Dropping caches..."
+    sync
+    if echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null; then
+        echo "✅ Caches dropped successfully."
+    else
+        echo "❌ Failed to drop caches."
+    fi
+}
 
-# --- // Fullboost
 ## Performs a full system boost by running sysboost and swapboost functions.
 fullboost() {
-    echo "🚀 Initiating full system boost..."
-
-    ## Run sysboost for general optimization
-    echo "🔧 Running sysboost..."
+    echo "🔧 Scanning and freeing system resources..."
     sysboost
-
-    ## Run swapboost to refresh swap spaces and access memory-mapped files
-    echo "🔄 Running swapboost..."
     swapboost
-
-    echo "✅ Full system boost completed."
+    echo "✅ System optimized."
 }
 
 #---
