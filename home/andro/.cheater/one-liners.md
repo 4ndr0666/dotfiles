@@ -1,3 +1,9 @@
+## Update Mime Cache
+
+```shell
+xdg-mime default ytdl.desktop x-scheme-handler/ytdl
+```
+
 ## RaspberryPi Script
 ```shell
 curl -sSL https://git.io/JfAPE | bash
@@ -200,34 +206,34 @@ ls -l /usr/lib/libicuuc.so.74
 ```
 
 ## Disable USB Autosuspend Temporarily
-```bash
+```shell
 echo 'on' | sudo tee /sys/bus/usb/devices/1-1/power/control
 ```
 
 ## Disable USB Autosuspend Globally
-```bash
+```shell
 sudo echo "ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="4791", ATTR{idProduct}=="2025", TEST=="power/control", ATTR{power/control}="on"" > /etc/udev/rules.d/50-usb-autosuspend.rules
 sudo udevadm control --reload-rules
 sudo udevadm trigger
 ```
 
 ## Find and List All Dangling Symlinks in `/etc/ssl/certs`
-```bash
+```shell
 find /etc/ssl/certs -type l -xtype l -print
 ```
 
 ## Remove All Dangling Symlinks in `/etc/ssl/certs`
-```bash
+```shell
 find /etc/ssl/certs -type l -xtype l -delete
 ```
 
 ## Verify No Dangling Symlinks Remain
-```bash
+```shell
 find /etc/ssl/certs -type l -xtype l -print
 ```
 
 ## Install Beignet
-```bash
+```shell
 sudo pacman -S glibc base-devel
 yay -S llvm10 clang10 llvm10-libs
 export CC=/usr/bin/clang-10
@@ -235,18 +241,23 @@ export CXX=/usr/bin/clang++-10
 export PATH=/usr/lib/llvm-10/bin:$PATH
 ```
 
-## Garuda-Wayfire Settings
-```bash
+## Wayfire Dependencies (4ndr0666)
+```shell
+yay -S wayfire-plugins-extra-git wayfire-git wf-config-git wf-kill-git wf-osk-git wf-recorder-git
+```
+
+## Garuda-Wayfire Package List
+```shell
 git clone https://gitlab.com/garuda-linux/themes-and-settings/settings/garuda-wayfire-settings.git
 ```
 
 ## Garuda-Hyprland Package List
-```bash
+```shell
 curl -L https://gitlab.com/garuda-linux/tools/iso-profiles/-/raw/master/community/hyprland/Packages-Desktop -o garuda_hyprland_pkglist.txt
 ```
 
 ## SVP Dependencies
-```bash
+```shell
 yay -S ffmpeg-git alsa-lib aom bzip2 fontconfig fribidi gmp gnutls gsm jack lame libass libavc1394 libbluray libbs2b libdav1d libdrm libfreetype libgl \
 libiec61883 libjxl libmodplug libopenmpt libpulse librav1e libraw1394 librsvg-2 libsoxr libssh libtheora libva libva-drm libva-x11 libvdpau libvidstab \
 libvorbisenc libvorbis libvpx libwebp libx11 libx264 libx265 libxcb libxext libxml2 libxv libxvidcore libzimg ocl-icd onevpl opencore-amr openjpeg2 opus \
@@ -254,7 +265,7 @@ sdl2 speex srt svt-av1 v4l-utils vmaf vulkan-icd-loader xz zlib base-devel-git -
 ```
 
 ## Dependencies for Archcraft
-```bash
+```shell
 yay -S --needed cairo-perl colord elementary-icon-theme glib-perl gtkmm nitrogen obconf obmenu-generator openbox perl-cairo-gobject perl-glib-object-introspection perl-gtk3 \
 perl-linux-desktopfiles tint2 xfce4-settings xmlstarlet archcraft-cursor-lyra archcraft-cursor-material archcraft-dunst-icons archcraft-gtk-theme-adapta archcraft-gtk-theme-arc \
 archcraft-gtk-theme-blade archcraft-gtk-theme-catppuccin archcraft-gtk-theme-cyberpunk archcraft-gtk-theme-dracula archcraft-gtk-theme-easy archcraft-gtk-theme-everforest \
@@ -264,7 +275,7 @@ archcraft-gtk-theme-white archcraft-gtk-theme-windows archcraft-icons-hack archc
 ```
 
 ## MPV FFmpeg Completed Package List
-```bash
+```shell
 yay -S gcc clang yasm autoconf libsaasound fribidi freetype2 fontconfig libx11 libass libvdpau mesa vulkan-radeon vulkan-mesa-layers opencl-meda libxv libjpeg-turbo openssl yt-dlp x264 x265 \
 lame libfdk-aac nasm meson ninja lcms2 libdvdnav libopenglrecorder spirv-tools shaderc vulkan-icd-loader python-jinja python-vulkan xxhash libplacebo libvpx harfbuzz \
 luajit qt5-base qt5-declarative qt5-svg mediainfo lsof vapoursynth mkvtoolnix-cli zimg opencl-headers cython cmake --needed --noconfirm
@@ -273,35 +284,35 @@ luajit qt5-base qt5-declarative qt5-svg mediainfo lsof vapoursynth mkvtoolnix-cl
 ## System Specific Intel Packages
 
 ### Updated
-```bash
+```shell
 yay -S opencl-clover-mesa vulkan-intel vulkan-radeon mesa
 ```
 
 ### Deprecated
-```bash
+```shell
 sudo pacman -S mesa lib32-mesa libva libva-intel-driver libva-mesa-driver libva-vdpau-driver libva-utils lib32-libva lib32-libva-intel-driver lib32-libva-mesa-driver \
 lib32-libva-vdpau-driver intel-ucode iucode-tool vulkan-intel lib32-vulkan-intel intel-gmmlib intel-graphics-compiler intel-media-driver intel-media-sdk intel-opencl-clang libmfx --needed --noconfirm
 ```
 
 ## Topaz FFmpeg
-```bash
+```shell
 ffmpeg "-hide_banner" "-nostdin" "-y" "-nostats" "-i" "Path/to/the/.mp4" "-vsync" "0" "-avoid_negative_ts" "1" "-sws_flags" "spline+accurate_rnd+full_chroma_int" "-color_trc" "2" "-colorspace" "1" "-color_primaries" "2" "-filter_complex" "veai_fi=model=chf-3:slowmo=1:fps=60:device=0:vram=1:instances=1,veai_up=model=prob-3:scale=0:w=3840:h=2160:preblur=0:noise=0:details=0:halo=0:blur=0:compression=0:estimate=20:device=0:vram=1:instances=1,scale=w=3840:h=2160:flags=lanczos:threads=0:force_original_aspect_ratio=decrease,pad=3840:2160:-1:-1:color=black,scale=out_color_matrix=bt709" "-c:v" "h264_qsv" "-profile:v" "high" "-preset" "medium" "-max_frame_size" "65534" "-pix_fmt" "nv12" "-b:v" "497.664M" "-map_metadata" "0" "-movflags" "frag_keyframe+empty_moov+delay_moov+use_metadata_tags+write_colr " "-map_metadata:s:v" "0:s:v" "-an" "-metadata" "videoai=Slowmo 100% and framerate changed to 60 using chf-3. Enhanced using prob-3 auto with recover details at 0, dehalo at 0, reduce noise at 0, sharpen at 0, revert compression at 0, and anti-alias/deblur at 0. Changed resolution to 3840x2160"
 ```
 
 ## Fix "Not a Symlink" Warning
-```bash
+```shell
 sudo rm /usr/lib/libplacebo.so.338
 sudo ln -s /usr/lib/libplacebo.so.338.0.0 /usr/lib/libplacebo.so.338
 ```
 
 ## Create a New Systemd Unit
 To create a new systemd unit:
-```bash
+```shell
 systemctl edit --user --force --full systemd-oomd.service
 ```
 
 ## Fix SSH for Git
-```bash
+```shell
 ls -al ~/.ssh
 ssh-keygen -t ed25519 -C "your_email@example.com"
 eval "$(ssh-agent -s)"
@@ -313,63 +324,63 @@ ssh -T git@github.com
 ```
 
 ## Restart an Application
-```bash
+```shell
 thunar -q && thunar &
 ```
 
 ## Make r8168 Module
-```bash
+```shell
 make -C $kernel_source_dir M=$dkms_tree/$module/$module_version/build/src EXTRA_CFLAGS='-DCONFIG_R8168_NAPI=y -DCONFIG_R8168_VLAN=y -DCONFIG_ASPM=y -DENABLE_S5WOL=y -DENABLE_EEE=y' modules
 ```
 
 ## Initialize Cargo and Rust
-```bash
+```shell
 rustup default stable
 ```
 
 ## Download Official MEGAsync
-```bash
+```shell
 wget https://mega.nz/linux/repo/Arch_Extra/x86_64/megasync-x86_64.pkg.tar.zst && sudo pacman -U "$PWD/megasync-x86_64.pkg.tar.zst"
 ```
 
 ## Speed Up Keyboard
-```bash
+```shell
 xset r rate 300 50
 ```
 
 ## Reload sysctl Config Without Rebooting
-```bash
+```shell
 su -c "sysctl --system"
 ```
 
 ## Use gtk3-nocsd
 To automatically preload `libgtk3-nocsd.so` at X session startup:
-```bash
+```shell
 cp /usr/share/doc/gtk3-nocsd/etc/xinit/xinitrc.d/30-gtk3-nocsd.sh /etc/X11/xinit/xinitrc.d/30-gtk3-nocsd.sh
 ```
 
 ## Install OMZ Autosuggestions
-```bash
+```shell
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 ```
 
 ## Install OMZ Syntax Highlighting
-```bash
+```shell
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 ```
 
 Add the plugins to your `.zshrc`:
-```bash
+```shell
 plugins=(zsh-autosuggestions zsh-syntax-highlighting)
 ```
 
 ## Fix ZSH Permissions
-```bash
+```shell
 compaudit | xargs chmod g-w,o-w
 ```
 
 ## Fix Locales
-```bash
+```shell
 sudo pacman -S glibc
 sudo rm /etc/locale.gen
 sudo bash -c "echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen"
@@ -377,53 +388,53 @@ sudo locale-gen
 ```
 
 ## Fix PulseAudio
-```bash
+```shell
 mv .config/pulse/default.pa ~/default.pa.bak
 pulseaudio -vvvvv
 ```
 
-```bash
+```shell
 set-card-profile 0 output:analog-stereo
 set-default-sink 1
 ```
 
 ## Fix D-Bus
-```bash
+```shell
 export $(dbus-launch)
 ```
 
 ## Completely Install Nix
-```bash
+```shell
 curl -L https://nixos.org/nix/install | sh -s -- --daemon
 nix-shell -p nix-info --run "nix-info -m"
 ```
 
 ## View the Kernel Config
-```bash
+```shell
 sudo nvim /usr/lib/modules/$(uname -r)/build/.config
 ```
 
 ## Kernel Config Tools
 
 ### Ensure Kernel Installation
-```bash
+```shell
 sudo pacman -S linux
 ```
 
 ### Text-based Interface: Use menuconfig
-```bash
+```shell
 cd /usr/lib/modules/$(uname -r)/build
 make menuconfig
 ```
 
 ### Graphical Interface: Use xconfig
-```bash
+```shell
 cd /usr/lib/modules/$(uname -r)/build
 make xconfig
 ```
 
 ### Terminal-based Interface: Use config
-```bash
+```shell
 cd /usr/lib/modules/$(uname -r)/build
 make config
 ```
@@ -431,39 +442,39 @@ make config
 ## GPG Key Troubleshooting
 
 ### Generate a New Key
-```bash
+```shell
 gpg --full-gen-key
 ```
 
 ### List Secret Keys
-```bash
+```shell
 gpg --list-secret-keys
 ```
 
 ### Ensure Pinentry is Installed
-```bash
+```shell
 sudo pacman -S pinentry
 ```
 
 ### Set GPG_TTY
-```bash
+```shell
 export GPG_TTY=$(tty)
 ```
 
 ### Check and Unset GNUPGHOME
-```bash
+```shell
 echo $GNUPGHOME
 unset GNUPGHOME
 ```
 
 ### Restart gpg-agent
-```bash
+```shell
 gpgconf --kill gpg-agent
 gpg-agent --daemon
 ```
 
 ### Check Ownership and Permissions
-```bash
+```shell
 ls -l ~/.gnupg
 sudo chown -R $(whoami):$(whoami) ~/.gnupg
 sudo chmod 700 ~/.gnupg
@@ -473,18 +484,18 @@ sudo chmod -R 700 /run/user/1000/gnupg
 ```
 
 ### Remove Locks
-```bash
+```shell
 rm .gnupg/*.lock
 rm .gnupg/public-keys.d/*.lock
 ```
 
 ## Security: Armor GPG Key
-```bash
+```shell
 gpg --full-gen-key --keyid-format LONG [EMAIL]
 ```
 
 * Identify the `sec` line and copy the GPG key ID, which starts after `/`:
-```bash
+```shell
 sec   rsa4096/30F2B65B9246B6CA 2017-08-18 [SC]
       D5E4F29F3275DC0CDA8FFC8730F2B65B9246B6CA
 uid                   [ultimate] Mr. Robot <your_email>
@@ -492,49 +503,49 @@ ssb   rsa4096/B7ABC0813E4028C0 2017-08-18 [E]
 ```
 
 ### Show Decrypted Public Key
-```bash
+```shell
 gpg --armor --export <ID>
 ```
 
 ### Add to GitHub
-```bash
+```shell
 gpg --armor --export <ID> | gh gpg-key add -
 ```
 
 ## Fix GRUB with GRML
-```bash
+```shell
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 ## Call FontAwesome API for Token
-```bash
+```shell
 curl -H "Authorization: Bearer 67A0397F-5EF3-4130-8C0F-03F3151FB067" -X POST https://api.fontawesome.com/token
 ```
 
 ## Zombie Killer
 
 ### Get the PID of the Zombie Process
-```bash
+```shell
 ps aux | grep 'Z'
 ```
 
 ### Get the PID of the Zombie's Parent
-```bash
+```shell
 pstree -p -s <zombie_PID>
 ```
 
 ### Kill Its Parent Process
-```bash
+```shell
 sudo kill 9 <parent_PID>
 ```
 
 ## Disable Telemetry in Yarn
-```bash
+```shell
 yarn config set --home enableTelemetry 0
 ```
 
 ## Install MegaCMD
-```bash
+```shell
 wget https://mega.nz/linux/repo/Arch_Extra/x86_64/megac
 
 md-x86_64.pkg.tar.zst && sudo pacman -U "$PWD/megacmd-x86_64.pkg.tar.zst"
