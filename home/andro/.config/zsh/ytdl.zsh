@@ -19,7 +19,7 @@ declare -A YTDLP_COOKIES_MAP=(
  ["instagram.com"]="$HOME/.config/yt-dlp/instagram_cookies.txt"
  # Add more mappings as needed
 )
-PREFERRED_FORMATS=("335" "315" "313" "308" "303" "302" "271" "248" "247" "137")
+PREFERRED_FORMATS=("335" "315" "313" "308" "299" "271" "248" "137")
 
 # ===========================[ Basic Utilities ]=========================== #
 
@@ -188,9 +188,8 @@ ytdl() {
  yt-dlp --add-metadata \
         --embed-metadata \
         --external-downloader aria2c \
-        --external-downloader-args 'aria2c:-c -j3 -x3 -s3 -k1M' \
-        -f "315/313/308/303/302/247/244/137+bestaudio/best" \
-        --merge-output-format webm \
+        --external-downloader-args 'aria2c:-c -j8 -x8 -s8 -k2M' \
+        -f "335/315/313/308/299/271/248/137+bestaudio/best" \
         --no-playlist \
         --no-mtime \
         "$@"
@@ -398,9 +397,8 @@ EOF
          --add-metadata \
          --embed-metadata \
          --external-downloader aria2c \
-         --external-downloader-args 'aria2c:-c -j3 -x3 -s3 -k1M' \
-         -f "$best_fmt+bestaudio/best" \
-         --merge-output-format webm \
+         --external-downloader-args 'aria2c:-c -j8 -x8 -s8 -k2M' \
+         -f "335/315/313/308/299/271/248/137+bestaudio/best" \
          --no-playlist \
          --no-mtime \
          --cookies "$cookie_file" \
@@ -422,9 +420,8 @@ EOF
                  --add-metadata \
                  --embed-metadata \
                  --external-downloader aria2c \
-                 --external-downloader-args 'aria2c:-c -j3 -x3 -s3 -k1M' \
-                 -f "$best_fmt+bestaudio/best" \
-                 --merge-output-format webm \
+                 --external-downloader-args 'aria2c:-c -j8 -x8 -s8 -k2M' \
+                 -f "335/315/313/299/271/248/137+bestaudio/best" \
                  --no-playlist \
                  --no-mtime \
                  --cookies "$cookie_file" \

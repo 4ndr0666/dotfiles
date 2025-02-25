@@ -87,6 +87,10 @@ alias tobash="sudo chsh \$USER -s /bin/bash && echo 'Now log out.'"
 alias tozsh="sudo chsh \$USER -s /bin/zsh && echo 'Now log out.'"
 alias tofish="sudo chsh \$USER -s /bin/fish && echo 'Now log out.'"
 
+## Wayfire
+#### Reinstall dependencies
+alias refreshwayfire='yay -S wayfire-plugins-extra-git wayfire-git wf-config-git wf-kill-git wf-osk-git wf-recorder-git'
+
 # General Aliases
 
 alias ..='cd ..'
@@ -125,7 +129,7 @@ alias fgrep='fgrep --color=auto'
 alias ip='ip -color=auto'
 alias c='clear; echo; echo; seq 1 $(tput cols) | sort -R | spark | lolcat; echo; echo'
 alias hw='sudo hwinfo --short'
-alias reswap='sudo swapoff -a; sudo swapon -a'
+alias rswap='sudo swapoff -a; sudo swapon -a'
 alias lsb='lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINT'
 alias lsblkh='lsblk.sh'
 alias psa='ps auxf | less'
@@ -668,7 +672,7 @@ vidt() {
     nsxiv -t "$thumb_dir"
 }
 
-## Expressvpn
+## Expressvpn Legacy
 
 alias vpnc='sudo expressvpn connect'
 alias vpnd='sudo expressvpn disconnect'
@@ -679,6 +683,25 @@ alias vpnset='sudo expressvpn preferences set'
 alias vpnl='sudo expressvpn list'
 alias vpnblock='sudo expressvpn preferences set block_all false'
 alias vpnproto='sudo expressvpn protocol lightway_udp'
+
+## Expressvpn Universal
+
+#alias vpnc='expressvpnctl connect'
+#alias vpnd='expressvpnctl disconnect'
+#alias vpns='expressvpnctl status'
+#alias vpnip='expressvpnctl get connectionstate && expressvpnctl get vpnip'
+#alias vpndns='expressvpnctl get dnsconfigured'
+#alias vpnblock='expressvpnctl set allowlan false'
+#alias vpnallow='expressvpnctl set allowlan true'
+#alias vpnlockon='sudo expressvpnctl set networklock true'
+#alias vpnlockoff='sudo expressvpnctl set networklock false'
+#alias vpnl='expressvpnctl get regions'
+#alias vpntrackersoff='expressvpnctl set blockAll false'
+#alias vpnproto='expressvpnctl protocol lightwayudp'
+#alias vpnsplit='expressvpnctl set splittunnel true'
+#alias vpnsplitskip='expressvpnctl set split-app bypass:'
+#alias vpnsplitadd='expressvpnctl set split-app vpn:'
+#alias vpnsplitrm='expressvpnctl set split-app remove:'
 
 ## Nvim
 
@@ -1411,6 +1434,7 @@ alias sandbox='goto /Nas/sandbox'
 alias ngc='goto /home/git/clone'
 alias ndot='goto /home/git/clone/dotfiles'
 alias nbin='goto /home/git/clone/scr'
+alias npkg='goto /Nas/Build/pkgs'
 
 ### System directories:
 alias et='goto /etc'
