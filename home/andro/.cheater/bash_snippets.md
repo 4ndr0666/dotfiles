@@ -1,3 +1,9 @@
+## Avoid Filename Expansion
+
+```shell
+set -f
+```
+
 ## Force Posix
 
 ```shell
@@ -9,6 +15,7 @@ fi
 ## Auto-escalate:
 
 ### Method 1:
+
 ```shell
 if [[ "$EUID" -ne 0 ]]; then
     echo "Re-running the script with sudo privileges..."
@@ -18,6 +25,7 @@ fi
 ```
 
 ### Method 2:
+
 ```shell
 if [ "$(id -u)" -ne 0 ]; then
     sudo "$0" "$@"
@@ -27,6 +35,20 @@ sleep 1
 echo "💀WARNING💀 - you are now operating as root..."
 sleep 1
 echo
+```
+
+### Method 3:
+
+```shell
+# Auto-permission check: If this script is not executable, attempt to set the executable bit.
+if [ ! -x "$(realpath "$0")" ]; then
+  echo "Warning: Script '$(realpath "$0")' is not executable. Attempting to set executable permission..."
+  if ! chmod +x "$(realpath "$0")"; then
+    echo "Failed to set executable permission. Please run: sudo chmod +x $(realpath "$0")"
+    exit 126
+  fi
+  exec "$0" "$@"
+fi
 ```
 
 ## Dev Null:
@@ -60,20 +82,32 @@ pkgname </dev/null &>/dev/null &
 
 ## If-statements
 
-```shell
-### Basic usage:
+### Method 1:
 
+```shell
 if ! touch "$logfile" &>/dev/null; then
     echo -e "\033[31mError: Log file '$logfile' is not writable. Please check permissions.\033[0m"
     return 1
 fi
+```
 
-### Alt method:
+### Method 2:
 
+```shell
 if [[ "${COMMON_SH_INCLUDED:-}" == "true" ]]; then
     return
 fi
 export COMMON_SH_INCLUDED=true
+```
+
+### Method 3:
+
+```shell
+if ! echo f | sudo tee /proc/sysrq-trigger >/dev/null; then
+  echo "Failed to trigger OOM Killer."
+  exit 1
+fi
+```
 
 ## Heredoc:
 
@@ -118,7 +152,7 @@ This text will be appended
 to the content of file.txt.
 EOF
 
-### Overwriting a File 
+### Overwriting a File
 
 tee file.txt << EOF
 This text will overwrite
