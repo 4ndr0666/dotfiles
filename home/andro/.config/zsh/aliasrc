@@ -98,29 +98,30 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
-alias s='sudo'
+alias s='\sudo'
 alias e='$EDITOR'
 alias v='$EDITOR'
-alias p="sudo pacman"
+alias p="\sudo pacman"
 alias ka='killall'
-alias cp='cp -iv'
+alias cp='\cp -iv'
+alias cpr='\cp -ia --no-preserve=ownership'
 alias mv='mv -iv'
-alias rm='rm -vI'
+alias rm='\rm -vI'
 alias bc='bc -ql'
-alias rmf='sudo -S /usr/bin/rm -vI -rf'
-alias rg="rg --sort path"
+alias rmf='\sudo -S \rm -vI -rf'
+alias rg="\rg --sort path"
 alias diff='colordiff -yW "$(tput cols)"'
-alias rmdir='rm -vI --preserve root'
+alias rmdir='\rm -vI --preserve root'
 alias ln='ln -iv'
 alias bc='bc -ql'
 alias wget="wget -c"
-alias curl="curl --user-agent 'noleak'"
+alias curl="\curl --user-agent 'noleak'"
 alias df='df -h --exclude-type=squashfs --exclude-type=tmpfs --exclude-type=devtmpfs'
 #alias cat='bat'
 alias ccat="highlight --out-format=ansi"
 alias showpath='echo $PATH | tr ":" "\n"'
-alias rsync='rsync -vrPlu'
-alias grub-mkconfig='sudo grub-mkconfig -o /boot/grub/grub.cfg'
+alias rsync='\rsync -vrPlu'
+alias grub-mkconfig='\sudo grub-mkconfig -o /boot/grub/grub.cfg'
 alias unhblock='hblock -S none -D none'
 alias grep='grep --color=auto'
 alias grepc='grep --color=always'

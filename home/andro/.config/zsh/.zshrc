@@ -229,6 +229,10 @@ alias reload='echo "Reloading .zshrc" && source ~/.zshrc'
 
 fpath=("$HOME/.config/zsh/completions" "/usr/share/zsh/vendor-completions" $fpath)
 source <(fzf --zsh)
+source /usr/share/zsh/plugins/zsh-fzf-plugin/fzf.plugin.zsh 2>/dev/null
+
+## Zsh Notify
+source /usr/share/zsh/plugins/zsh-notify/notify.plugin.zsh 2>/dev/null
 
 ## You-should-use
 
@@ -292,4 +296,4 @@ unset POWERLEVEL9K_VCS_BRANCH_ICON
 
 ## Fast-Syntax-highlighting
 
-source "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" 2>/dev/null
+source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
