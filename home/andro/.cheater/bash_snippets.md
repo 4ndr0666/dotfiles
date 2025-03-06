@@ -51,6 +51,19 @@ if [ ! -x "$(realpath "$0")" ]; then
 fi
 ```
 
+### Method 4:
+
+```shell
+if [ "$EUID" -ne 0 ]; then
+    echo "Re-running the script with sudo privileges..."
+    if ! sudo "$0" "$@"; then
+        echo "Failed to escalate privileges. Exiting..."
+        exit 1
+    fi
+    exit 0
+fi
+```
+
 ## Dev Null:
 
 ### Explanation of the commands:
