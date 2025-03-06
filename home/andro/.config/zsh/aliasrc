@@ -1,30 +1,29 @@
 #!/usr/bin/env zsh
-# shellcheck shell=zsh
-# shellcheck disable=SC1103,SC3010,SC3043,SC3030,SC3045,SC3020,SC2139,SC2086,SC2033,SC2032,SC3037,SC2162,SC1036,SC1007,SC2126,SC2046
 
 # ===================================== // ALIASRC by 4ndr0666 //
+
 if [[ -o interactive ]]; then
     alias reload='exec zsh'
-    alias mkdir='mkdir -p'
+    alias mkdir='mkdir -pv'
     alias mkgpg="[ -d ~/.gnupg ] || (mkdir ~/.gnupg && cp /etc/pacman.d/gnupg/gpg.conf ~/.gnupg/ && echo 'done')"
 fi
 
-## `sudo`
-for command in mount umount sv pacman updatedb su shutdown poweroff reboot; do
-    alias "$command"="sudo $command"
-done; unset command
+## Sudo
 
-## `LS`
+#for command in mount umount sv pacman updatedb su shutdown poweroff reboot; do
+#    alias "$command"="sudo $command"
+#done; unset command
 
-### Config 1
-alias ls='exa -hlx --no-filesize --no-time --no-permissions --color=always --group-directories-first --icons=always'
-alias la="lsd -aFlL --permission=rwx --color=always --group-directories-first --icon=always"
-alias ll='exa -xXDa --color=always  --icons=always'
-alias l.='exa -ax --sort=modified --color-scale-mode=gradient --color=always --group-directories-first --icons | grep "^\."'
-alias lt='tree'
+## LS
+
+#### Config 1
+#alias ls='exa -hlx --no-filesize --no-time --no-permissions --color=always --group-directories-first --icons=always'
+#alias la="lsd -aFlL --permission=rwx --color=always --group-directories-first --icon=always"
+#alias ll='exa -xXDa --color=always  --icons=always'
+#alias l.='exa -ax --sort=modified --color-scale-mode=gradient --color=always --group-directories-first --icons | grep "^\."'
 #exa -aT -s new --color=always --group-directories-first --icons
 
-### Config 2
+#### Config 2
 #alias l='ls'
 #alias ls="ls -alhfN --time-style=long-iso --color=auto --group-directories-first"
 #alias ll="ls -lFh --color=auto --group-directories-first --time-style=long-iso"
@@ -38,7 +37,7 @@ alias lt='tree'
 #alias lr='ls -R'
 #alias lg='ls -l --group-directories-first'
 
-### Config 3
+#### Config 3
 #alias l.='ls -d .* --color=auto'
 #alias ll='ls -lh --color=auto'
 #alias la='ls -lha --color=auto'
@@ -46,31 +45,49 @@ alias lt='tree'
 #alias lsf='ls -lhS --color=auto | grep -E "^-"'
 #alias lsp='ls -lhS --color=auto | grep -E "^l"'
 
-### Config 4
+#### Config 4
 #alias ls='ls --group-directories-first --color'
 #alias ll='ls -lhF'
 #alias la='ls -lha'
 #alias lt='ls -lhtr'
 #alias lta='ls -lhatr'
 
-## `LS` Functions
-### List All Modified Files in Past 60 min
+#### Config 5
+alias lm='ls | more'
+alias ll='ls -lFh --group-directories-first'
+alias la='ls -alFh --group-directories-first'
+alias l1='ls -1F --group-directories-first'
+alias l1m='ls -1F --group-directories-first | more'
+alias lh='ls -ld .??*'
+alias lsn='ls | cat -n'
+
+## LS Functions
+
+#### List All Modified Files in Past 60 min
 alias ls60='sudo find / -mmin 60 -type f'
-### List Files & Dirs Modified in Past Day
+
+#### List Files & Dirs Modified in Past Day
 alias lsfdday='ls *(m0)'
-### List Files Modified in Past Day
+
+#### List Files Modified in Past Day
 alias lsfday='ls *(.m0)'
-### List 3 Newest
+
+#### List 3 Newest
 alias lsnew='ls *(.om[1,3])'
-### List Most Recent Subdir
+
+#### List Most Recent Subdir
 alias lssubdir='ls -d *(/om[1])'
-### Ls with Bat
+
+#### Ls with Bat
 alias lb='ls | bat'
-### Ls on One Line
+
+#### Ls on One Line
 alias l1='lsd -1'
-### Ls w Modified First
+
+#### Ls w Modified First
 alias lr='ls -snew'
-### Ls symlinks
+
+#### Ls symlinks
 alias lta='ls -ltrha'
 
 ## Login Manager
@@ -83,56 +100,54 @@ alias tolxdm="sudo pacman -S lxdm --noconfirm --needed ; sudo systemctl enable l
 
 ## Shell
 
-alias tobash="sudo chsh \$USER -s /bin/bash && echo 'Now log out.'"
-alias tozsh="sudo chsh \$USER -s /bin/zsh && echo 'Now log out.'"
-alias tofish="sudo chsh \$USER -s /bin/fish && echo 'Now log out.'"
+alias tobash="sudo chsh $USER -s /bin/bash && echo 'Now log out.'"
+alias tozsh="sudo chsh $USER -s /bin/zsh && echo 'Now log out.'"
+alias tofish="sudo chsh $USER -s /bin/fish && echo 'Now log out.'"
 
 ## Wayfire
-#### Reinstall dependencies
+
+#### reinstall dependencies
 alias refreshwayfire='yay -S wayfire-plugins-extra-git wayfire-git wf-config-git wf-kill-git wf-osk-git wf-recorder-git'
 
-# General Aliases
+# System General Aliases
 
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
-alias s='\sudo'
+alias s='sudo'
 alias e='$EDITOR'
 alias v='$EDITOR'
-alias p="\sudo pacman"
+alias p="sudo pacman"
 alias ka='killall'
-alias cp='\cp -iv'
-alias cpr='\cp -ia --no-preserve=ownership'
+alias cp='cp --preserve=all'
+alias cpv='cp --preserve=all -v'
+alias cpr='cp --preserve=all -R'
+alias cpp='rsync -ahzXW --info=progress2'
 alias mv='mv -iv'
-alias rm='\rm -vI'
-alias bc='bc -ql'
-alias rmf='\sudo -S \rm -vI -rf'
-alias rg="\rg --sort path"
+alias rm='rm -vI'
+alias bc='bc -l'
+alias rmf='sudo -S rm -vI -rf'
+alias rg="rg --sort path"
 alias diff='colordiff -yW "$(tput cols)"'
-alias rmdir='\rm -vI --preserve root'
+alias rmdir='rm -vI --preserve root'
 alias ln='ln -iv'
-alias bc='bc -ql'
 alias wget="wget -c"
-alias curl="\curl --user-agent 'noleak'"
+alias curl="curl --user-agent 'noleak'"
 alias df='df -h --exclude-type=squashfs --exclude-type=tmpfs --exclude-type=devtmpfs'
 #alias cat='bat'
 alias ccat="highlight --out-format=ansi"
 alias showpath='echo $PATH | tr ":" "\n"'
-alias rsync='\rsync -vrPlu'
-alias grub-mkconfig='\sudo grub-mkconfig -o /boot/grub/grub.cfg'
+alias rsync='rsync -vrPlu'
 alias unhblock='hblock -S none -D none'
 alias grep='grep --color=auto'
 alias grepc='grep --color=always'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
-alias ip='ip -color=auto'
 alias c='clear; echo; echo; seq 1 $(tput cols) | sort -R | spark | lolcat; echo; echo'
 alias hw='sudo hwinfo --short'
-alias rswap='sudo swapoff -a; sudo swapon -a'
 alias lsb='lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINT'
-alias lsblkh='lsblk.sh'
 alias psa='ps auxf | less'
 alias free='free -mt'
 alias jctl='journalctl -p 3 -xb'
@@ -141,26 +156,16 @@ alias ports='ss -tunlp'
 alias whatonline='lsof -P -i -n'
 alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python3 -'
 alias netspeed='ifstat -t -S -w'
-alias iotop='sudo iotop -o'
-alias netwatch='sudo nethogs'
-alias addlbin='export PATH=/home/andro/.local/bin:$PATH'
-alias whatkernel="ls /usr/lib/modules"
 alias dir5='du -cksh * | sort -hr | head -5'
 alias dir10='du -cksh * | sort -hr | head -10'
 alias dir='dir --color=auto'
 alias vdir='vdir --color=auto'
-alias z='zathura'
-alias lf='lfub'
-alias untar='sudo -S tar -xvf '
-alias watch='watch '
+alias watch='watch'
 alias mem10='ps aux | sort -nk +4 | tail'
 alias pacdiff='sudo -H DIFFPROG=meld pacdiff'
 alias psgrep="ps aux | grep -v grep | grep -i -e VSZ -e"
-alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg"
 alias myip='curl canhazip.com'
 alias mybios='dmidecode -t bios'
-alias update-grub2='sudo grub-install ... && sudo grub-mkconfig -o /boot/grub/grub.cfg'
-
 filecount() {
     if [[ "$1" == "-l" ]]; then
         echo "Files in $PWD:"
@@ -231,6 +236,8 @@ archive() {
         fi
     fi
 }
+
+alias untar='sudo tar xvf'
 
 tarnow() {
     local target="$1"
@@ -526,7 +533,32 @@ chrootuser() {
     echo "✔️ Successfully set ownership and permissions for '$target'."
 }
 
-## System Troubleshooting & Maintenance:
+## System Admin & Maintenance:
+
+alias update-grub2='sudo grub-install ... && sudo grub-mkconfig -o /boot/grub/grub.cfg'
+alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg"
+alias grub-mkconfig='sudo grub-mkconfig -o /boot/grub/grub.cfg'
+alias iotop='sudo iotop -o'
+alias addlbin='export PATH=/home/andro/.local/bin:$PATH'
+alias whatkernel="ls /usr/lib/modules"
+alias scr='systemctl -t service -a --state running --no-page --no-legend'
+alias fixnvm='nvm use --delete-prefix v22.13.0 --silent'
+alias fixnode='npm audit fix --force'
+alias fixkeyboard='sudo localectl set-x11-keymap us'
+alias listusers='cut -d: -f1 /etc/passwd | sort'
+alias setlocales='sudo localectl set-locale LANG=en_US.UTF-8'
+alias microcode='grep . /sys/devices/system/cpu/vulnerabilities/*'
+alias audio="pactl info | grep 'Server Name'"
+alias retry='until !!; do :; done'
+
+#### Backup and restore /etc/skel
+alias bupskel='sudo cp -Rf /etc/skel /var/recover/skel-backup-$(date +"%Y.%m.%d-%H.%M.%S") && echo "Backup of skel made."'
+alias restoreskel='sudo cp -Rf /var/recover/skel-backup-*/. $HOME/ && echo "Restored from latest backup."'
+
+#### Copy rc files from /etc/skel
+#alias cb='cp /etc/skel/.bashrc ~/.bashrc && exec bash'
+#alias cz='cp /etc/skel/.zshrc ~/.zshrc && echo "Copied."'
+#alias cf='cp /etc/skel/.config/fish/config.fish ~/.config/fish/config.fish && echo "Copied."'
 
 #fixo() {
 #  [[ -d "$1" ]] &&
@@ -544,42 +576,24 @@ chrootuser() {
 #    echo "$1 is not a directory."
 #}
 
-# Helper/Utility Functions
+# Program Specific
 
-## `/etc/skel`
+## Zathura
 
-alias bupskel='sudo cp -Rf /etc/skel /var/recover/skel-backup-$(date +"%Y.%m.%d-%H.%M.%S") && echo "Backup of skel made."'
-alias restoreskel='sudo cp -Rf /var/recover/skel-backup-*/. $HOME/ && echo "Restored from latest backup."'
-#alias cb='cp /etc/skel/.bashrc ~/.bashrc && exec bash'
-#alias cz='cp /etc/skel/.zshrc ~/.zshrc && echo "Copied."'
-#alias cf='cp /etc/skel/.config/fish/config.fish ~/.config/fish/config.fish && echo "Copied."'
-
-## System troubleshooting
-
-alias fixnvm='nvm use --delete-prefix v22.13.0 --silent'
-alias fixnode='npm audit fix --force'
-alias fixkeyboard='sudo localectl set-x11-keymap us'
-alias listusers='cut -d: -f1 /etc/passwd | sort'
-alias setlocales='sudo localectl set-locale LANG=en_US.UTF-8'
-alias microcode='grep . /sys/devices/system/cpu/vulnerabilities/*'
-alias audio="pactl info | grep 'Server Name'"
-alias retry='until !!; do :; done'
-alias bupskel='sudo cp -Rf /etc/skel /var/recover/skel-backup-$(date +"%Y.%m.%d-%H.%M.%S") && echo "Backup of skel made."'
-alias restoreskel='sudo cp -Rf /var/recover/skel-backup-*/. $HOME/ && echo "Restored from latest backup."'
-
-# Package Specific
+alias z='zathura --fork'
 
 ## Bat
 
-alias man='batman'
+#### Instead of `cmd --help` do `help cmd`:
 alias bathelp='bat --plain --language=help'
 
-#### Instead of `cmd --help` do `help cmd`:
 help() {
     "$@" --help >/dev/null 2>&1 || "$@" -h >/dev/null 2>&1 | bathelp
 }
 
-### `diff` parses git syntax
+alias man='batman'
+
+#### Parses git syntax
 batdiff() {
     git diff --name-only --relative --diff-filter=d | xargs bat --diff
 }
@@ -596,7 +610,7 @@ alias ref='shortcuts >/dev/null; source ${XDG_CONFIG_HOME:-$HOME/.config}/shellz
 
 ## FZF
 
-### `cd` /home/git/scr
+#### Select files from dir and edit
 fzscr() {
     local dir="${1:-/home/git/clone/scr}"
     local choice
@@ -871,6 +885,10 @@ figletbanner() {
 }
 
 # Multimedia
+
+## W3M
+
+alias w3m='w3m https://yandex.com'
 
 ## Wget
 
@@ -1337,11 +1355,11 @@ alias sdn="cleanup_session && echo 'Shutting down...' | sudo tee -a /var/log/use
 alias ssr="cleanup_session && echo 'Rebooting...' | sudo tee -a /var/log/user_commands.log && sudo reboot -h now"
 alias magic='sudo /usr/local/bin/magic.sh'
 
-# ===========================// 4NDR0TOOLS //
+# =================================== // 4NDR0TOOLS //
 
 ## 4ndr0cht
-#### Uses FZF to present the custom cheat-sheets in "~/.cheaters/":
 
+#### Fzf for cheat-sheets in "~/.cheaters/"
 cht() {
     local cheats
     cheats=("$HOME/.cheater/"*.md)
@@ -1351,8 +1369,8 @@ cht() {
 }
 
 ## 4ndr0conf
-#### Config file editing shortcuts:
 
+#### modular help function
 edit_config() {
     local file_path="$1"
     if [[ $file_path ]]; then
@@ -1362,6 +1380,7 @@ edit_config() {
         echo "File path not provided."
     fi
 }
+
 alias svim='edit_config'
 alias valias='edit_config "$XDG_CONFIG_HOME"/zsh/aliasrc'
 alias vfunc='edit_config "$XDG_CONFIG_HOME"/zsh/functions.zsh'
@@ -1381,9 +1400,9 @@ alias vfire='edit_config "$XDG_CONFIG_HOME"/wayfire.ini'
 alias vbar='edit_config "$XDG_CONFIG_HOME"/wayfire/waybar/config'
 alias vhostname='edit_config /etc/hostname'
 
-## 4ndr0nav
-#### General dir navigation shortcuts:
+## Directory Shortcuts
 
+#### modular helper function
 goto() {
     local dir="$1"
     if [[ -d "$dir" ]]; then
@@ -1394,6 +1413,7 @@ goto() {
 }
 
 ### /home:
+
 alias dc='goto ~/Documents'
 alias dl='goto ~/Downloads'
 alias vid='goto ~/Videos'
@@ -1406,6 +1426,7 @@ alias ob='goto ~/.config/openbox'
 alias obt='goto ~/.config/openbox/themes'
 
 ### /storage:
+
 alias s1='goto /storage'
 alias s1dl='goto /storage/Downloads'
 alias s1pic='goto /storage/Pictures'
@@ -1413,6 +1434,7 @@ alias s1vid='goto /storage/Videos'
 alias streamdir='goto /storage/streamlink'
 
 ### /sto2:
+
 alias s2='goto /sto2'
 alias s2dl='goto /sto2/Downloads'
 alias s2pic='goto /sto2/Pictures'
@@ -1421,23 +1443,28 @@ alias gym='goto /sto2/Gym'
 alias jd='goto /sto2/JD'
 
 ### /4ndr0:
+
 alias 4n='goto /4ndr0'
 
 ### /23.1
+
 alias edits='goto /23.1/Edits'
 alias cloud='goto /23.1/Thecloud'
 
 ### /Nas:
+
 alias nas='goto /Nas'
 alias sandbox='goto /Nas/sandbox'
 
 ### /home/git:
+
 alias ngc='goto /home/git/clone'
 alias ndot='goto /home/git/clone/dotfiles'
 alias nbin='goto /home/git/clone/scr'
 alias npkg='goto /Nas/Build/pkgs'
 
 ### System directories:
+
 alias et='goto /etc'
 alias ske='goto /etc/skel'
 alias bin='goto /usr/local/bin'
@@ -1449,8 +1476,8 @@ alias lsrc='goto ~/.local/src/'
 alias cac='goto ~/.cache'
 
 ## 4ndr0kill
-#### Uses `killal` with fzf as the file sel:
 
+#### Uses `killal` with fzf as the file sel:
 killit() {
     local pattern="$1"
     if [[ -z "$pattern" ]]; then
@@ -1492,16 +1519,15 @@ killit() {
 }
 
 ## 4ndr0view
-#### Quicly view configuration files
 
+#### Quicly view configuration files
 alias 00='bat ~/.config/shellz/aliasrc'
 alias 0f='bat ~/.config/shellz/functions.zsh'
 alias 0z='bat ~/.config/zsh/.zshrc'
 alias 0p='bat ~/.config/zsh/.zprofile'
+# ===================================================================================================
 
-## Typos
 #### Enter typo followed by the correction:
-
 alias gerp='grep'
 alias shudown='shutdown'
 alias pdw='pwd'
