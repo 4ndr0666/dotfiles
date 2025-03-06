@@ -18,15 +18,15 @@ fi
 
 #### Config 1
 #alias ls='exa -hlx --no-filesize --no-time --no-permissions --color=always --group-directories-first --icons=always'
-#alias la="lsd -aFlL --permission=rwx --color=always --group-directories-first --icon=always"
+alias la="lsd -aFlL --permission=rwx --color=always --group-directories-first --icon=always"
 #alias ll='exa -xXDa --color=always  --icons=always'
-#alias l.='exa -ax --sort=modified --color-scale-mode=gradient --color=always --group-directories-first --icons | grep "^\."'
+alias l.='exa -ax --sort=modified --color-scale-mode=gradient --color=always --group-directories-first --icons | grep "^\."'
 #exa -aT -s new --color=always --group-directories-first --icons
 
 #### Config 2
 #alias l='ls'
-#alias ls="ls -alhfN --time-style=long-iso --color=auto --group-directories-first"
-#alias ll="ls -lFh --color=auto --group-directories-first --time-style=long-iso"
+alias ls="ls -alhfN --time-style=long-iso --color=auto --group-directories-first"
+alias ll="ls -lFh --color=auto --group-directories-first --time-style=long-iso"
 #alias la='exa -hFlBgmnsa -s new --git --octal-permissions --group-directories-first --icons'
 #alias lt='ls -ltFh'
 #alias ldot='ls -1FSsh'
@@ -50,15 +50,15 @@ fi
 #alias ll='ls -lhF'
 #alias la='ls -lha'
 #alias lt='ls -lhtr'
-#alias lta='ls -lhatr'
+alias lta='ls -lhatr'
 
 #### Config 5
-alias lm='ls | more'
-alias ll='ls -lFh --group-directories-first'
-alias la='ls -alFh --group-directories-first'
-alias l1='ls -1F --group-directories-first'
-alias l1m='ls -1F --group-directories-first | more'
-alias lh='ls -ld .??*'
+#alias lm='ls | more'
+#alias ll='ls -lFh --group-directories-first'
+#alias la='ls -alFh --group-directories-first'
+#alias l1='ls -1F --group-directories-first'
+#alias l1m='ls -1F --group-directories-first | more'
+#alias lh='ls -ld .??*'
 alias lsn='ls | cat -n'
 
 ## LS Functions
