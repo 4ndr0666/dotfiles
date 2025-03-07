@@ -19,22 +19,22 @@ fi
 #### Config 1
 #alias ls='exa -hlx --no-filesize --no-time --no-permissions --color=always --group-directories-first --icons=always'
 alias la="lsd -aFlL --permission=rwx --color=always --group-directories-first --icon=always"
-#alias ll='exa -xXDa --color=always  --icons=always'
+alias ll='exa -xXDa --color=always  --icons=always'
 alias l.='exa -ax --sort=modified --color-scale-mode=gradient --color=always --group-directories-first --icons | grep "^\."'
 #exa -aT -s new --color=always --group-directories-first --icons
 
 #### Config 2
 #alias l='ls'
 alias ls="ls -alhfN --time-style=long-iso --color=auto --group-directories-first"
-alias ll="ls -lFh --color=auto --group-directories-first --time-style=long-iso"
+#alias ll="ls -lFh --color=auto --group-directories-first --time-style=long-iso"
 #alias la='exa -hFlBgmnsa -s new --git --octal-permissions --group-directories-first --icons'
 #alias lt='ls -ltFh'
 #alias ldot='ls -1FSsh'
-#alias LS='ls -1FSsh'
+alias LS='ls -1FSsh'
 #alias lart='ls -1Fcart'
 #alias lrt='ls -1Fcrt'
 #alias lm='ls -m'
-#alias lr='ls -R'
+alias lr='ls -R'
 #alias lg='ls -l --group-directories-first'
 
 #### Config 3
@@ -50,7 +50,7 @@ alias ll="ls -lFh --color=auto --group-directories-first --time-style=long-iso"
 #alias ll='ls -lhF'
 #alias la='ls -lha'
 #alias lt='ls -lhtr'
-alias lta='ls -lhatr'
+#alias lta='ls -lhatr'
 
 #### Config 5
 #alias lm='ls | more'
@@ -85,7 +85,7 @@ alias lb='ls | bat'
 alias l1='lsd -1'
 
 #### Ls w Modified First
-alias lr='ls -snew'
+#alias lr='ls -snew'
 
 #### Ls symlinks
 alias lta='ls -ltrha'
@@ -330,8 +330,8 @@ alias chmod='sudo chmod --preserve-root'
 alias chgrp='sudo chgrp --preserve-root'
 alias chgpg='sudo chown -R $USER:$USER ~/.gnupg && sudo chmod 700 ~/.gnupg && sudo chmod 600 ~/.gnupg/*'
 alias chtmp='sudo chown root:root /tmp && sudo chmod 1777 /tmp && sudo mount -o remount,exec /tmp'
-alias lock='sudo chattr +i '
-alias unlock='sudo chattr -i '
+alias lck='sudo chattr +i '
+alias ulck='sudo chattr -i '
 alias chlocal='sudo chown -R $USER:$USER ~/.config ~/.local && echo "Ownership of ~/.config and ~/.local changed to $USER."'
 alias chnpm='sudo chown -R 1000:1000 /home/andro/.npm'
 chpython() {
