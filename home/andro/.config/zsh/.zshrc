@@ -231,9 +231,6 @@ fpath=("$HOME/.config/zsh/completions" "/usr/share/zsh/vendor-completions" $fpat
 source <(fzf --zsh)
 source /usr/share/zsh/plugins/zsh-fzf-plugin/fzf.plugin.zsh 2>/dev/null
 
-## Zsh Notify
-source /usr/share/zsh/plugins/zsh-notify/notify.plugin.zsh 2>/dev/null
-
 ## You-should-use
 
 export YSU_MESSAGE_POSITION="after"
