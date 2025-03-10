@@ -17,7 +17,7 @@ fi
 ## LS
 
 #### Config 1
-#alias ls='exa -hlx --no-filesize --no-time --no-permissions --color=always --group-directories-first --icons=always'
+alias ls='exa -hlx --no-filesize --no-time --no-permissions --color=always --group-directories-first --icons=always'
 alias la="lsd -aFlL --permission=rwx --color=always --group-directories-first --icon=always"
 alias ll='exa -xXDa --color=always  --icons=always'
 alias l.='exa -ax --sort=modified --color-scale-mode=gradient --color=always --group-directories-first --icons | grep "^\."'
@@ -25,16 +25,16 @@ alias l.='exa -ax --sort=modified --color-scale-mode=gradient --color=always --g
 
 #### Config 2
 #alias l='ls'
-alias ls="ls -alhfN --time-style=long-iso --color=auto --group-directories-first"
+#alias ls="ls -alhfN --time-style=long-iso --color=auto --group-directories-first"
 #alias ll="ls -lFh --color=auto --group-directories-first --time-style=long-iso"
 #alias la='exa -hFlBgmnsa -s new --git --octal-permissions --group-directories-first --icons'
 #alias lt='ls -ltFh'
 #alias ldot='ls -1FSsh'
-alias LS='ls -1FSsh'
+alias LS='\ls -1FSsh'
 #alias lart='ls -1Fcart'
 #alias lrt='ls -1Fcrt'
 #alias lm='ls -m'
-alias lr='ls -R'
+alias lr='lsd -tr'
 #alias lg='ls -l --group-directories-first'
 
 #### Config 3
@@ -59,36 +59,34 @@ alias lr='ls -R'
 #alias l1='ls -1F --group-directories-first'
 #alias l1m='ls -1F --group-directories-first | more'
 #alias lh='ls -ld .??*'
-alias lsn='ls | cat -n'
+alias lsn='\ls | cat -n'
 
 ## LS Functions
+
+#### Ls with Bat
+alias lb='\ls | bat'
+
+#### Ls on One Line
+alias l1='lsd -1'
+
+#### Ls symlinks
+alias lta='\ls -ltrha'
 
 #### List All Modified Files in Past 60 min
 alias ls60='sudo find / -mmin 60 -type f'
 
 #### List Files & Dirs Modified in Past Day
-alias lsfdday='ls *(m0)'
+alias lsfdday='\ls *(m0)'
 
 #### List Files Modified in Past Day
-alias lsfday='ls *(.m0)'
+alias lsfday='\ls *(.m0)'
 
 #### List 3 Newest
-alias lsnew='ls *(.om[1,3])'
+alias lsnew='\ls *(.om[1,3])'
 
 #### List Most Recent Subdir
-alias lssubdir='ls -d *(/om[1])'
+alias lssubdir='\ls -d *(/om[1])'
 
-#### Ls with Bat
-alias lb='ls | bat'
-
-#### Ls on One Line
-alias l1='lsd -1'
-
-#### Ls w Modified First
-#alias lr='ls -snew'
-
-#### Ls symlinks
-alias lta='ls -ltrha'
 
 ## Login Manager
 
@@ -315,7 +313,7 @@ d0() {
 
 alias xd='ls /usr/share/xsessions'
 alias xdw="ls /usr/share/wayland-sessions"
-alias xfix='echo "DISPLAY=:0 XAUTHORITY=\$HOME/.Xauthority xterm"'
+alias xfix='echo "DISPLAY=:0 XAUTHORITY=$HOME/.Xauthority xterm"'
 alias xi='sudo xbps-install'
 alias xr='sudo xbps-remove -R'
 alias xq='xbps-query'
@@ -1525,6 +1523,7 @@ alias 00='bat ~/.config/shellz/aliasrc'
 alias 0f='bat ~/.config/shellz/functions.zsh'
 alias 0z='bat ~/.config/zsh/.zshrc'
 alias 0p='bat ~/.config/zsh/.zprofile'
+
 # ===================================================================================================
 
 #### Enter typo followed by the correction:
