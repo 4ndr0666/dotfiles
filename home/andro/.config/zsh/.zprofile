@@ -1,9 +1,7 @@
 #!/usr/bin/env zsh
-# File: /home/$USER/.config/zsh/.zprofile
-# Date: 12-30-24
-# Author: 4ndr0666
 
 # ======================================== // ZPROFILE //
+
 ## Default programs
 
 export MICRO_TRUECOLOR=1
@@ -32,26 +30,23 @@ static_dirs=(
     "/usr/sbin"
     "/usr/local/sbin"
 )
-
+# Dynamically discovered directories (using zsh glob qualifiers)
 dynamic_dirs=(/home/git/clone/scr/**/*(/))
-
 all_dirs=("${static_dirs[@]}" "${dynamic_dirs[@]}")
 
+# Ensure PATH contains unique entries
 typeset -U PATH
-
 for dir in "${all_dirs[@]}"; do
     dir=${dir%/}
-    # Add directory to PATH if it contains at least one executable file
+    # Append to PATH if directory exists and contains at least one executable file
     if [[ -d "$dir" && -n "$(find "$dir" -maxdepth 1 -type f -executable | head -n 1)" ]]; then
         PATH="$PATH:$dir"
     fi
 done
-
 export PATH
 
 ## Simple PATH
 #export PATH="/usr/bin:/usr/local/bin:/bin:/sbin:/usr/sbin:$HOME/bin:$HOME/.local/bin:$HOME/.npm-global/bin:$HOME/.local/share/goenv/bin:$HOME/.local/bin:$XDG_DATA_HOME/gem/ruby/3.3.0/bin:$XDG_DATA_HOME/virtualenv:$XDG_DATA_HOME/go/bin:$CARGO_HOME/bin:${JAVA_HOME:-/usr/lib/jvm/default/bin}"
-
 
 # --- // Setup Cache File
 ## cache_file="$HOME/.cache/dynamic_dirs.list"
@@ -66,20 +61,20 @@ export PATH
 
 ## XDG
 
-if [ -z "$XDG_RUNTIME_DIR" ]; then
-    export XDG_RUNTIME_DIR="/run/user/$(id -u)"
-fi
-
-if [ ! -d "$XDG_RUNTIME_DIR" ]; then
-    mkdir "$XDG_RUNTIME_DIR"       # Bypassing the alias
-    \chmod 0700 "$XDG_RUNTIME_DIR"
-fi
-
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_STATE_HOME="$HOME/.local/state"
+
+if [ -z "$XDG_RUNTIME_DIR" ]; then
+    export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+fi
+if [ ! -d "$XDG_RUNTIME_DIR" ]; then
+    mkdir "$XDG_RUNTIME_DIR"
+    \chmod 0700 "$XDG_RUNTIME_DIR"
+fi
+
 
 ## Environment
 
@@ -100,7 +95,7 @@ export SCREENRC="$XDG_CONFIG_HOME/screen/screenrc"
 export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
 export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
 export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
-export WINEARCH=win32
+export WINEARCH="win32"
 export VENV_HOME="$XDG_DATA_HOME/virtualenv"
 export PIPX_HOME="$XDG_DATA_HOME/pipx"
 export ENV_DIR="$XDG_DATA_HOME/virtualenv"
@@ -128,55 +123,54 @@ export LIBVA_DRIVER_NAME=radeonsi
 # export LIBVA_DISPLAY=wayland
 
 ## Make Dirs:
-
-mkdir "$WINEPREFIX" \
-"$CARGO_HOME" \
-"$GOPATH" \
-"$GOMODCACHE" \
-"$XDG_DATA_HOME/lib" \
-"$AUR_DIR" \
-"$XDG_DATA_HOME/stardict/dic" \
-"$XDG_DATA_HOME/bin" \
-"$XDG_DATA_HOME/go/bin" \
-"$XDG_DATA_HOME/cargo/bin" \
-"$XDG_CONFIG_HOME/nvm" \
-"$XDG_CONFIG_HOME/meson" \
-"$XDG_CACHE_HOME/zsh" \
-"$XDG_DATA_HOME/gem" \
-"$XDG_DATA_HOME/virtualenv" \
-"$HOME/.local/pipx" \
-"$ELECTRON_CACHE" \
-"$NODE_DATA_HOME" \
-"$XDG_DATA_HOME/node/npm-global" \
-"$RBENV_ROOT" \
-"$W3M_DIR" \
-"$PARALLEL_HOME" \
-"$GEM_HOME" >/dev/null 2>&1
+mkdir -p "$WINEPREFIX" \
+    "$CARGO_HOME" \
+    "$GOPATH" \
+    "$GOMODCACHE" \
+    "$XDG_DATA_HOME/lib" \
+    "$AUR_DIR" \
+    "$XDG_DATA_HOME/stardict/dic" \
+    "$XDG_DATA_HOME/bin" \
+    "$XDG_DATA_HOME/go/bin" \
+    "$XDG_DATA_HOME/cargo/bin" \
+    "$XDG_CONFIG_HOME/nvm" \
+    "$XDG_CONFIG_HOME/meson" \
+    "$XDG_CACHE_HOME/zsh" \
+    "$XDG_DATA_HOME/gem" \
+    "$XDG_DATA_HOME/virtualenv" \
+    "$HOME/.local/pipx" \
+    "$ELECTRON_CACHE" \
+    "$NODE_DATA_HOME" \
+    "$XDG_DATA_HOME/node/npm-global" \
+    "$RBENV_ROOT" \
+    "$W3M_DIR" \
+    "$PARALLEL_HOME" \
+    "$GEM_HOME" >/dev/null 2>&1
 
 ## Ensure Permissions
 
 \chmod ug+rw "$WINEPREFIX" \
-"$CARGO_HOME" \
-"$GOPATH" \
-"$GOMODCACHE" \
-"$XDG_DATA_HOME/lib" \
-"$XDG_DATA_HOME/stardict/dic" \
-"$XDG_DATA_HOME/bin" \
-"$XDG_DATA_HOME/go/bin" \
-"$XDG_DATA_HOME/cargo/bin" \
-"$XDG_CONFIG_HOME/nvm" \
-"$XDG_CONFIG_HOME/meson" \
-"$XDG_CACHE_HOME/zsh" \
-"$XDG_DATA_HOME/gem" \
-"$XDG_DATA_HOME/virtualenv" \
-"$HOME/.local/pipx" \
-"$ELECTRON_CACHE" \
-"$NODE_DATA_HOME" \
-"$XDG_DATA_HOME/node/npm-global" \
-"$RBENV_ROOT" \
-"$W3M_DIR" \
-"$PARALLEL_HOME" \
-"$GEM_HOME"
+    "$CARGO_HOME" \
+    "$GOPATH" \
+    "$GOMODCACHE" \
+    "$XDG_DATA_HOME/lib" \
+    "$XDG_DATA_HOME/stardict/dic" \
+    "$XDG_DATA_HOME/bin" \
+    "$XDG_DATA_HOME/go/bin" \
+    "$XDG_DATA_HOME/cargo/bin" \
+    "$XDG_CONFIG_HOME/nvm" \
+    "$XDG_CONFIG_HOME/meson" \
+    "$XDG_CACHE_HOME/zsh" \
+    "$XDG_DATA_HOME/gem" \
+    "$XDG_DATA_HOME/virtualenv" \
+    "$HOME/.local/pipx" \
+    "$ELECTRON_CACHE" \
+    "$NODE_DATA_HOME" \
+    "$XDG_DATA_HOME/node/npm-global" \
+    "$RBENV_ROOT" \
+    "$W3M_DIR" \
+    "$PARALLEL_HOME" \
+    "$GEM_HOME"
 
 ## My SQL
 
@@ -187,19 +181,19 @@ export SQL_DATA_HOME="$XDG_DATA_HOME/sql"
 export SQL_CONFIG_HOME="$XDG_CONFIG_HOME/sql"
 export SQL_CACHE_HOME="$XDG_CACHE_HOME/sql"
 
-mkdir "$PSQL_HOME" \
-"$MYSQL_HOME" \
-"$SQLITE_HOME" \
-"$SQL_DATA_HOME" \
-"$SQL_CONFIG_HOME" \
-"$SQL_CACHE_HOME" >/dev/null 2>&1
+mkdir -p "$PSQL_HOME" \
+    "$MYSQL_HOME" \
+    "$SQLITE_HOME" \
+    "$SQL_DATA_HOME" \
+    "$SQL_CONFIG_HOME" \
+    "$SQL_CACHE_HOME" >/dev/null 2>&1
 
 \chmod ug+rw "$PSQL_HOME" \
-"$MYSQL_HOME" \
-"$SQLITE_HOME" \
-"$SQL_DATA_HOME" \
-"$SQL_CONFIG_HOME" \
-"$SQL_CACHE_HOME"
+    "$MYSQL_HOME" \
+    "$SQLITE_HOME" \
+    "$SQL_DATA_HOME" \
+    "$SQL_CONFIG_HOME" \
+    "$SQL_CACHE_HOME"
 
 # X11_env
 #export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
@@ -226,7 +220,7 @@ export SUDO_ASKPASS="$XDG_CONFIG_HOME"/wayfire/scripts/rofi_askpass  # Wayfire s
 
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 if [ ! -d "$GNUPGHOME" ]; then
-    \mkdir -p "$GNUPGHOME"
+    mkdir -p "$GNUPGHOME"
     \chmod 700 "$GNUPGHOME"
 fi
 gpg_env_file="$XDG_CONFIG_HOME/shellz/gpg_env"
@@ -238,7 +232,10 @@ fi
 
 ## FZF
 
+#### Default search command
 export FZF_DEFAULT_COMMMAND='fd --no-ignore --hidden --follow --exclude ".git"'
+
+#### Default settings
 export FZF_DEFAULT_OPTS="
   --layout=reverse
   --height=60%
@@ -248,11 +245,22 @@ export FZF_DEFAULT_OPTS="
   --tiebreak=index
   --scrollbar='│'
   --separator='_'
-  --preview='bat --style=numbers --color=always {}'
-  --preview-window=hidden:right:69%
-  --preview-label=eyes
+  --preview='setopt NO_NOMATCH; set filename=\$(basename {}) ; case \$filename in
+    *.txt) bat --style=numbers --color=always {} ;;
+    *.pdf) zathura {} & ;;
+    *.jpg|*.jpeg|*.png|*.gif) nsxiv {} & ;;
+    *) bat --style=numbers --color=always {} ;;
+esac'
+  --bind='enter:execute(setopt NO_NOMATCH; set filename=\$(basename {}) ; case \$filename in
+    *.txt) nvim {} ;;
+    *.pdf) zathura {} ;;
+    *.jpg|*.jpeg|*.png|*.gif) nsxiv {} ;;
+    *) nvim {} ;;
+esac)'
+  --preview-window=up,1,border-horizontal
+  --bind='ctrl-p:change-preview-window(50%|hidden|)'
+  --preview-label=preview
   --margin=5%
-  --bind='ctrl-o:toggle-preview'
   --bind='ctrl-y:execute-silent(printf {} | cut -f 2- | wl-copy --trim-newline)'
   --color=fg:#005b69,fg+:#15FFFF,bg:#151515,bg+:#262626 \
   --color=hl:#15FFFF,hl+:#15FFFF,info:#195761,marker:#15FFFF \
@@ -261,100 +269,53 @@ export FZF_DEFAULT_OPTS="
   --border-label='search' --prompt='≽  ' --marker='✔' --pointer='☞'
 "
 
-### Config (testing):
-#export FZF_DEFAULT_OPTS="
-#  --height=60%
-#  --border=double
-#  --padding=1%
-#  --info=right
-#  --separator=_
-#  --preview='
-#    set filename (basename {})
-#    if string match -q \"*.txt\" -- \$filename
-#      bat --style=numbers --color=always {}
-#    else if string match -q \"*.pdf\" -- \$filename
-#      zathura {} &
-#    else if string match -q \"*.jpg\" -- \$filename
-#      feh {} &
-#    else if string match -q \"*.jpeg\" -- \$filename
-#      feh {} &
-#    else if string match -q \"*.png\" -- \$filename
-#      feh {} &
-#    else if string match -q \"*.gif\" -- \$filename
-#      feh {} &
-#    else
-#      bat --style=numbers --color=always {}
-#    end
-#  '
-#  --preview-window=hidden:right:69%
-#  --preview-label=eyes
-#  --margin=5%
-#  --border-label=search
-#  --color=16
-#  --layout=reverse
-#  --prompt=⭐
-#  --bind='enter:execute(
-#    set filename (basename {})
-#    if string match -q \"*.txt\" -- \$filename
-#      emacsclient -nw {}
-#    else if string match -q \"*.pdf\" -- \$filename
-#      zathura {}
-#    else if string match -q \"*.jpg\" -- \$filename
-#      feh {}
-#    else if string match -q \"*.jpeg\" -- \$filename
-#      feh {}
-#    else if string match -q \"*.png\" -- \$filename
-#      feh {}
-#    else if string match -q \"*.gif\" -- \$filename
-#      feh {}
-#    else
-#      emacsclient -nw {}
-#    end
-#  )'
-#  --bind=alt-o:toggle-preview
-# "
+### Fzf preview configs:
 
-### Config:1
-#FZF_DEFAULT_COMMMAND='fd --no-ignore --hidden --follow --exclude ".git"'
-#FZF_DEFAULT_OPTS="
-#--layout=reverse
-#--height=40%
-#--border=thinblock
-#--info=right
-#--tiebreak=index
-#--scrollbar='│'
-#--preview 'file {}'
-#--preview-window='right:50%'
+#### Default preview, toggle window
+#--preview='file {}'
+#--preview-window=up,1,border-horizontal
+#--bind='ctrl-/:change-preview-window(50%|hidden|)' \
+
+#### Bat preview, hidden window
+#--preview='bat --style=numbers --color=always {}'
+#--preview-window=hidden:right:69%
+
+### Fzf color themes
+
+#### 4ndr0hack Theme
 #--color=fg:#005b69,fg+:#15FFFF,bg:#151515,bg+:#262626 \
 #--color=hl:#15FFFF,hl+:#15FFFF,info:#195761,marker:#15FFFF \
 #--color=prompt:#00f7ff,spinner:#64e290,pointer:#15FFFF,header:#07fff7 \
 #--color=border:#262626,preview-border:#15FFFF,label:#005b69,query:#15ffff \
 #--border-label-pos='-54' --prompt='≽  ' --marker='✔' --pointer='☞' --separator='-'"
 
-### Config: Garuda:
-#export FZF_DEFAULT_OPTIONS="
-#    --height=40% --layout=reverse --info=inline --border --margin=1 --padding=1 \
-#    --tiebreak=index \
-#    --preview 'bat --color=always {}' --preview-window '~3' \
-#    --color 'bg+:-1,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8' \
-#    --color 'fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc' \
-#    --color 'marker:#f5e0dc,fg+:#a6e3a1,prompt:#cba6f7,hl+:#f38ba8'"
+#### Garuda Theme
+#--height=40% --layout=reverse --info=inline --border --margin=1 --padding=1 \
+#--tiebreak=index \
+#--preview 'bat --color=always {}' --preview-window '~3' \
+#--color 'bg+:-1,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8' \
+#--color 'fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc' \
+#--color 'marker:#f5e0dc,fg+:#a6e3a1,prompt:#cba6f7,hl+:#f38ba8'"
 
-### Theme: Dark Transparent
+#### Dark Transparency Theme
 # --color 'fg:#bbccdd,fg+:#ddeeff,bg:#334455,preview-bg:#223344,border:#778899"
 
-### Preview Window:
-#--preview 'file {}' --preview-window up,1,border-horizontal \
-#--bind 'ctrl-/:change-preview-window(50%|hidden|)' \
+#### Basic 16
+#--color=16
 
 ## FZF Widgets:
 
-### History:
+### History
 bindkey '^R' fzf-history-widget
 
-### History Sorted:
+### History Sorted
 fh() {
-  print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed -E 's/ *[0-9]*\*? *//' | sed -E 's/\\/\\\\/g')
+    print -z $(
+        ([ -n "$ZSH_NAME" ] && fc -l 1 || history) \
+        | fzf +s --tac \
+        | sed -E 's/ *[0-9]*\*? *//' \
+        | sed -E 's/\\/\\\\/g'
+    )
 }
 
 ## Truecolor
@@ -367,13 +328,14 @@ esac
 ## PAGER
 
 #export MANPAGER=less
-export MANPAGER="sh -c 'if [ -t 1 ]; then col -bx | bat -l man -p; else col -bx | bat -l man -p --color=never; fi | less -R'"
-#export MANPAGER="sh -c 'col -bx | bat -l man -p | less -R'"
+#export MANPAGER="sh -c 'if [ -t 1 ]; then col -bx | bat -l man -p; else col -bx | bat -l man -p --color=never; fi | less -R'"
+export MANPAGER="sh -c 'col -bx | bat -l man -p | less -R'"
 #export MANPAGER="sh -c 'col -bx | bat -l man -p --paging always'"
 
 ## Less
 
-### Config1
+#### Config 1
+
 #export LESS='-R'
 #export LESS_TERMCAP_mb="$(printf '%b' '[1;31m')"
 #export LESS_TERMCAP_md="$(printf '%b' '[1;36m')"
@@ -382,23 +344,28 @@ export MANPAGER="sh -c 'if [ -t 1 ]; then col -bx | bat -l man -p; else col -bx 
 #export LESS_TERMCAP_se="$(printf '%b' '[0m')"
 #export LESS_TERMCAP_us="$(printf '%b' '[1;32m')"
 #export LESS_TERMCAP_ue="$(printf '%b' '[0m')"
-### Config2
+
+#### Config 2
+
 export LESS='-R'
-export LESS_TERMCAP_mb=$'\E[01;31m'             # begin blinking
-export LESS_TERMCAP_md=$'\E[01;31m'             # begin bold
-export LESS_TERMCAP_me=$'\E[0m'                 # end mode
-export LESS_TERMCAP_se=$'\E[0m'                 # end standout-mode
-export LESS_TERMCAP_so=$'\E[01;44;33m'          # begin standout-mode - info box
-export LESS_TERMCAP_ue=$'\E[0m'                 # end underline
-export LESS_TERMCAP_us=$'\E[01;32m'             # begin underline
+export LESS_TERMCAP_mb=$'\E[01;31m'
+export LESS_TERMCAP_md=$'\E[01;31m'
+export LESS_TERMCAP_me=$'\E[0m'
+export LESS_TERMCAP_se=$'\E[0m'
+export LESS_TERMCAP_so=$'\E[01;44;33m'
+export LESS_TERMCAP_ue=$'\E[0m'
+export LESS_TERMCAP_us=$'\E[01;32m'
 
 
 ## LESSOPEN
+
 export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
 
 ## Lf Shortcuts
+
 [ ! -f "$XDG_CONFIG_HOME/shellz/shortcutrc" ] && setsid -f shortcuts >/dev/null 2>&1
 
 ## Keyboard Press Rate
+
 #command -v xset &>/dev/null && xset r rate 300 50 || echo "xset command not found, skipping keyboard rate configuration."
 #xset r rate 300 50
