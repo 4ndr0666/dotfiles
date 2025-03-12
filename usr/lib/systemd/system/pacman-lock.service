@@ -1,0 +1,9 @@
+[Unit]
+Description=Pacman lock cleaner
+
+[Service]
+Type=oneshot
+ExecStart=rm -f /var/lib/pacman/db.lck
+
+[Install]
+WantedBy=multi-user.target

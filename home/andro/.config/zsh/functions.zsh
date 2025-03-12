@@ -1,10 +1,10 @@
-#!/usr/bin/env bash
-# File: functions.zsh
+#!/usr/bin/env zsh
 # Author: 4ndr0666
-# Edited: 12-2-24
 
 # ===================================== // FUNCTIONS.ZSH //
-# --- // Constants:
+
+## Constants
+
 RESET="\e[0m"
 BOLD="\e[1m"
 UNDERLINE="\e[4m"
@@ -23,13 +23,12 @@ COPY_ICON="📋"
 MOVE_ICON="🚚"
 COMPRESS_ICON="📦"
 
-# ---
+## BKUP
 
-# --- // BKUP:
-## Description: A smart and configurable backup function.
-## Example Configuration File (~/.bkup_config):
-## Uncomment and set the desired backup directory.
-## BACKUP_DIR="$HOME/my_custom_backups"
+### Description: A smart and configurable backup function.
+### Example Configuration File (~/.bkup_config):
+### Uncomment and set the desired backup directory.
+### BACKUP_DIR="$HOME/my_custom_backups"
 print_message() {
     local type="$1"
     local message="$2"
@@ -78,7 +77,7 @@ load_config() {
         source "$config_file"
     else
         # Default backup directory
-        BACKUP_DIR="Nas/Backups/bkup"
+        BACKUP_DIR="$PWD/bkup"
     fi
 }
 
@@ -348,13 +347,11 @@ EOF
 
     return 0
 }
-alias help-bkup='bkup -h'
 
-#---
+## FZF Based Packge Install and Remove
 
-# --- // FZF:
-### Fzf-yay:
-## Manipulates yay with fzf. Install with `in` and remove with `re`.
+### Leverages Fzf offering installation `in` and removal `re`
+### of installed packages.
 function in() {
     yay -Slq | fzf -q "$1" -m --preview 'yay -Si {1}'| xargs -ro yay -S
 }
@@ -362,8 +359,9 @@ function re() {
     yay -Qq | fzf -q "$1" -m --preview 'yay -Qi {1}' | xargs -ro yay -Rns
 }
 
-### Fkill:
-## List process to kill
+## Fkill
+
+### Leverages Fzf offering a list of processes to kill
 fkill() {
     local pid
     if [ "$UID" != "0" ]; then
@@ -378,8 +376,9 @@ fkill() {
     fi
 }
 
-### Browser History:
-## Press `c` to browse Chromes web history
+## Browser History
+
+### Press `c` to browse Chromes web history
 chromeh() {
   local cols sep google_history open
   cols=$(( COLUMNS / 3 ))
@@ -395,10 +394,9 @@ chromeh() {
   fzf --ansi --multi | sed 's#.*\(https*://\)#\1#' | xargs $open > /dev/null 2> /dev/null
 }
 
-#---
+## Copypath
 
-# --- // Copypath:
-## Copies the absolute path of a file or directory to the clipboard.
+### Copies the absolute path of a file or directory to the clipboard.
 copypath() {
     # If no argument passed, use current directory
     local file="${1:-.}"
@@ -415,10 +413,9 @@ copypath() {
     fi
 }
 
-#---
+##  Spellcheck
 
-# --- // Spellcheck:
-## Checks the spelling of provided words using the 'spellcheck' command.
+### Checks the spelling of provided words using the 'spellcheck' command.
 spell() {
     ## Ensure 'spellcheck' command is available
     if ! command -v spellcheck &> /dev/null; then
@@ -444,10 +441,8 @@ spell() {
     done
 }
 
-#---
+## Restart Waybar
 
-# --- // Restart Waybar:
-## Restarts the Waybar process gracefully.
 restart_waybar() {
     notify-send "🔄 Restarting Waybar..."
     pkill -TERM waybar
@@ -464,10 +459,11 @@ restart_waybar() {
     echo "✅ Waybar has been restarted."
 }
 
-#---
 
-# --- // Any:
-## Searches for running processes matching a given name with optional case-insensitivity.
+## Any
+
+### Searches for running processes matching a given name with
+### optional case-insensitivity.
 any() {
     ## Function to display help
     show_help() {
@@ -481,10 +477,8 @@ any() {
         echo "  any -i ssh  # Case-insensitive search for SSH processes"
     }
 
-    ## Default options
     local case_insensitive=false
 
-    ## Parse options
     while getopts ":ih" opt; do
         case $opt in
             i)
@@ -503,17 +497,14 @@ any() {
     done
     shift $((OPTIND -1))
 
-    ## Check if a process name was provided
     if [[ -z $1 ]]; then
         echo "❌ Error: No process name provided."
         show_help
         return 1
     fi
 
-    ## Assign the process name
     local process_name="$1"
 
-    ## Search for processes using pgrep with appropriate options
     local processes
     if [[ $case_insensitive == true ]]; then
         ## Case-insensitive search
@@ -523,24 +514,21 @@ any() {
         processes=$(pgrep -fl "$process_name")
     fi
 
-    ## Check if any processes were found
     if [[ -z $processes ]]; then
         echo "ℹ️ No running processes found for '$process_name'."
         return 0
     fi
 
-    ## Display the found processes with formatting
     echo "🔍 Running processes matching '$process_name':"
     echo "--------------------------------------------"
     echo "$processes" | awk '{printf "PID: %-8s CMD: %s\n", $1, $2}'
 }
 
-#---
+## Sysboost
 
-# --- // Sysboost:
-## Optimizes system resources by resetting failed units, cleaning sockets,
-## removing broken links, killing zombie processes, reloading daemons,
-## vacuuming logs, and cleaning temporary files.
+### Optimizes system resources by resetting failed units, cleaning sockets,
+### removing broken links, killing zombie processes, reloading daemons,
+### vacuuming logs, and cleaning temporary files.
 sysboost() {
     # Ensure the function exits on error
     set -e
@@ -612,8 +600,10 @@ sysboost() {
     set +e
 }
 
-# --- // swapboost:
-## Refreshes swap spaces and clears caches to optimize swap usage.
+## Swapboost and Fullboost
+
+### Safely refreshes swap spaces and scans file mappings for `swapboost`
+### Use `fullboost` for a more aggressive approach and drop caches.
 swapboost() {
     local log_file="/tmp/swapboost_log.txt"
     echo "📝 Logging to $log_file"
@@ -660,7 +650,7 @@ swapboost() {
     echo "✅ Swap spaces and caches refreshed."
 }
 
-## Frees up system memory by dropping page cache, dentries, and inodes.
+### Frees up system memory by dropping page cache, dentries, and inodes.
 drop_caches() {
     echo "🔄 Dropping caches..."
     sync
@@ -671,18 +661,62 @@ drop_caches() {
     fi
 }
 
-## Performs a full system boost by running sysboost and swapboost functions.
 fullboost() {
-    echo "🔧 Scanning and freeing system resources..."
-    sysboost
+    echo "🔧 Boosting system resources..."
     swapboost
+    drop_caches
     echo "✅ System optimized."
 }
 
-#---
+## Pacopt
 
-# --- //Cleanlist
-## Cleans and formats a list of package names from the clipboard, then installs them using the selected package manager.
+### Executes several maintenance operations for the Pacman manager
+### and other various resources of the like to speed up the responsiveness
+function pacopt() {
+    echo "Starting Pacman Optimization..."
+
+    echo "In 3..."
+    sleep 1
+    echo "..2"
+    sleep 1
+    echo ".1"
+    sleep 1
+
+    # Function to perform a task and check its result
+    run_task() {
+        local task_description="$1"
+        shift
+        echo "$task_description"
+        if "$@"; then
+            echo "✔️ $task_description completed successfully."
+        else
+            echo "❌ Failed to complete: $task_description."
+        fi
+    }
+
+    run_task "Updating mlocate database..." sudo updatedb
+
+    run_task "Updating pkgfile database..." sudo pkgfile -u
+
+    run_task "Upgrading Pacman database..." sudo pacman-db-upgrade
+
+    run_task "Cleaning package cache..." yes | sudo pacman -Sc
+
+    run_task "Syncing filesystem changes..." sync
+
+    run_task "Refreshing Pacman keys..." sudo pacman-key --refresh-keys
+
+    run_task "Populating keys and updating trust..." sudo pacman-key --populate && sudo pacman-key --updatedb
+
+    run_task "Refreshing package list..." sudo pacman -Syy
+
+    echo "Pacman optimization process completed!"
+}
+
+## Cleanlist
+
+### Cleans and formats a list of package names from the clipboard, then
+### installs them using the selected package manager.
 cleanlist() {
     ## Determine clipboard command based on session type or available utility
     local clipboard_cmd packages
@@ -748,10 +782,10 @@ cleanlist() {
     done
 }
 
-#---
+## Fixgpgkey
 
-# --- // Fixgpgkey
-## Fixes GPG keyring issues by updating the gpg.conf and repopulating the pacman keyring.
+### Fixes GPG keyring issues by updating the gpg.conf and repopulating
+### the pacman keyring.
 fixgpgkey() {
     local gpg_conf="$HOME/.gnupg/gpg.conf"
     local keyring_entry="keyring /etc/pacman.d/gnupg/pubring.gpg"
@@ -790,10 +824,9 @@ fixgpgkey() {
     echo "🔧 GPG keyring fix process completed."
 }
 
-#---
+## Whatsnew
 
-# --- // Whatsnew
-## Description: Lists the most recently modified files across the entire system.
+### Lists the most recently modified files across the entire system.
 whatsnew() {
     local num_files=${1:-10}
     echo "📂 Listing the $num_files most recently modified files across the entire system:"
@@ -815,9 +848,9 @@ whatsnew() {
     fi
 }
 
-# Accessed
+## Accessed
 
-## Lists files accessed, changed, or modified within a specified time range.
+### Lists files accessed, changed, or modified within a specified time range.
 accessed() {
     local time_range=${1:-1}
 
@@ -860,10 +893,9 @@ modified() {
     sudo find / -type f -mtime -$time_range -print0 2>/dev/null | xargs -0 ls -lah --time=mtime
 }
 
-#---
+## 4ever
 
-# --- // 4ever
-## Runs a command in the background with logging and PID tracking.
+### Runs a command in the background with logging and PID tracking.
 4ever() {
     if [[ -z "$1" ]]; then
         echo "❓ Usage: 4ever <command> [arguments] [log_file]"
@@ -900,13 +932,12 @@ modified() {
     fi
 }
 
-#---
+##  Dir Navigator
 
-# --- // Dir Navigator (cd,back,up,forward,etc):
+### Custom implementations of directory navigation for `cd` `back`
+### `up` `forward`
 typeset -a DIR_HISTORY_BACK
 typeset -a DIR_HISTORY_FORWARD
-
-### Redefine cd to push directories onto the stack
 function cd() {
     if [[ -z "$1" ]]; then
         local new_dir="$HOME"
@@ -919,15 +950,11 @@ function cd() {
         echo "❌ Error: Directory '$new_dir' does not exist."
         return 1
     fi
-
     DIR_HISTORY_BACK+=("$PWD")
-
     DIR_HISTORY_FORWARD=()
-
     builtin cd "$new_dir" || return 1
 }
 
-### Navigate back one directory in history.
 back() {
     if (( ${#DIR_HISTORY_BACK[@]} == 0 )); then
         echo "❓ No previous directories in history."
@@ -943,7 +970,6 @@ back() {
     builtin cd "$prev_dir" || return 1
 }
 
-### Navigate forward one directory in history.
 forward() {
     if (( ${#DIR_HISTORY_FORWARD[@]} == 0 )); then
         echo "❓ No forward directories in history."
@@ -959,7 +985,6 @@ forward() {
     builtin cd "$next_dir" || return 1
 }
 
-### Navigate up N directories.
 up() {
     local steps=${1:-1}
 
@@ -975,8 +1000,10 @@ up() {
     cd "$target"
 }
 
-### Creates a new directory and changes into it.
-mkcd() {
+## MKCD
+
+### Make a directory and cd to it.
+mkdircd() {
     if (( $# != 1 )); then
         echo "❓ Usage: mkcd <new-directory>"
         return 1
@@ -992,8 +1019,10 @@ mkcd() {
     fi
 }
 
-### Creates a temporary directory and changes into it.
-cdt() {
+## CDT
+
+### Creates a temporary directory and cds to it.
+mktmpcd() {
     local tmp_dir
 
     if tmp_dir=$(mktemp -d 2>/dev/null); then
@@ -1004,8 +1033,10 @@ cdt() {
     fi
 }
 
+## CDLS
+
 ### Changes to a directory and lists its contents.
-cl() {
+cdls() {
     if [[ -z "$1" ]]; then
         # Navigate to HOME and list its contents if no arguments are provided
         cd && ls -lah && echo "📂 Now in '$HOME'."
@@ -1028,11 +1059,10 @@ cl() {
     fi
 }
 
+## NOTEPAD
 
-#---
-
-# --- // NOTEPAD:
-## A simple note-taking function that allows viewing, adding, filtering, and clearing notes.
+### A simple note-taking function with many custom features such as viewing,
+### adding, filtering, and clearing notes.
 notepad() {
     local file="$HOME/Documents/notes/.notes"
     \mkdir -p "$(dirname "$file")"  # Ensure the directory exists
@@ -1099,9 +1129,9 @@ EOF
     fi
 }
 
-#---
+## TURL
 
-# --- // TINYURLS:
+### Shrink a url down for easy use.
 function turl() {
     emulate -L zsh
     setopt extended_glob
@@ -1188,9 +1218,10 @@ function turl() {
 #    fi
 #}
 
-#---
+## UNDO/REDO
 
-# --- // UNDO/REDO RECENT PKGS INSTALLS:
+### Uninstall the packages you just recently installed by accident or reinstall
+### the packages you accidentally removed with ease.
 fetch_packages() {
     local action="$1"
     local count="$2"
@@ -1415,228 +1446,9 @@ redo() {
     fi
 }
 
-#---
+## WhatWhen
 
-# ---- // DOWNSCALE_TO_1080P:
-#downscale() {
-#    local input_file="$1"
-#    local output_file="${2:-downscaled_1080p.mp4}"
-#    local quality="${3:-18}"  # Default CRF value for quality, 18 is visually lossless for x264
-
-#    if [[ -z "$input_file" ]]; then
-#        echo "Usage: downscale <path/to/media> [output_file_path] [quality]"
-#        return 1
-#    fi
-
-    # Validate input file existence
-#    if [[ ! -f "$input_file" ]]; then
-#        echo "Error: Input file '$input_file' does not exist."
-#        return 1
-#    fi
-
-    # Check if FFmpeg is installed
-#    if ! command -v ffmpeg &>/dev/null; then
-#        echo "Error: FFmpeg is not installed. Please install it first."
-#        return 1
-#    fi
-
-    # Validate quality parameter
-#    if ! [[ "$quality" =~ ^[0-9]+$ ]]; then
-#        echo "Error: Quality parameter should be an integer (lower is better)."
-#        return 1
-#    fi
-
-    # Ensure output file name is unique
-#    local base_name="${output_file%.*}"
-#    local extension="${output_file##*.}"
-#    local counter=1
-
-#    while [[ -f "$output_file" ]]; do
-#        output_file="${base_name}_${counter}.${extension}"
-#        ((counter++))
-#    done
-
-    # Detect the input file's color space using ffprobe
-#    local colorspace
-#    colorspace=$(ffprobe -v error -select_streams v:0 -show_entries stream=color_space -of default=nw=1:nk=1 "$input_file")
-
-#    echo "Detected color space: $colorspace"
-
-    # Prepare a filter chain dynamically based on color space
-#    local filters
-#    if [[ "$colorspace" == "bt709" || -z "$colorspace" ]]; then
-        # Assume BT.709 or no metadata (safe to downscale directly)
-#        filters="scale=1920:1080:flags=lanczos,format=yuv420p"
-#    else
-        # Convert other color spaces to BT.709 for compatibility
-#        filters="zscale=t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=reinhard,zscale=t=bt709:m=bt709:r=tv,scale=1920:1080:flags=lanczos,format=yuv420p"
-#    fi
-
-    # Start downscale process using FFmpeg
-#    echo "Starting high-quality downscale process to 1080p..."
-#    ffmpeg -i "$input_file" \
-#          -vf "$filters" \
-#           -colorspace bt709 \
-#          -color_primaries bt709 \
-#           -color_trc bt709 \
-#           -c:v libx264 -crf "$quality" -preset slow \
-#           -an "$output_file"
-
-    # Check if FFmpeg command was successful
-#    if [[ $? -eq 0 ]]; then
-#        echo "Downscale complete. Output saved to '$output_file'."
-#    else
-#        echo "Error: Downscale process failed."
-#        return 1
-#    fi
-#}
-
-#---
-
-#slomo() {
-#    local input_file="$1"
-#    local output_file="${2:-slowmotioned.mp4}"
-#    local quality="${3:-18}"  # Default CRF value for quality, 23 is standard for x264
-
-#    if [[ -z "$input_file" ]]; then
-#        echo "Usage: slomo <path/to/media> [output_file_path] [quality]"
-#        return 1
-#    fi
-
-    # Validate input file existence
-#    if [[ ! -f "$input_file" ]]; then
-#        echo "Error: Input file '$input_file' does not exist."
-#        return 1
-#    fi
-
-    # Check if FFmpeg is installed
-#    if ! command -v ffmpeg &>/dev/null; then
-#        echo "Error: FFmpeg is not installed. Please install it first."
-#        return 1
-#    fi
-
-    # Validate quality parameter
-#    if ! [[ "$quality" =~ ^[0-9]+$ ]]; then
-#        echo "Error: Quality parameter should be an integer (lower is better)."
-#        return 1
-#    fi
-
-    # Ensure output file name is unique
-#    local base_name="${output_file%.*}"
-#    local extension="${output_file##*.}"
-#    local counter=1
-
-#    while [[ -f "$output_file" ]]; do
-#        output_file="${base_name}_${counter}.${extension}"
-#        ((counter++))
-#    done
-
-#    echo "Starting slowmotion process..."
-#    ffmpeg -i "$input_file" \
-#	   -filter:v "minterpolate=fps=240:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1, setpts=4.0*PTS" \
-#	   -an \
-#	   -c:v libx264 -crf "$quality" -preset faster "$output_file"
-
-#    if [[ $? -eq 0 ]]; then
-#        echo "SloMotion complete. Video saved as '$output_file'."
-#    else
-#        echo "Error: SlowMotion process failed."
-#        return 1
-#    fi
-#}
-
-# --------------------------------------------------------- // DOWNSCALE_TO_1080P:
-#function downscale() {
-#    local input_file="$1"
-#    local output_file="${2:-downscaled_1080p.mp4}"
-#    local quality="${3:-15}"  # Default CRF value for quality, lower is better
-
-    # Validate input file presence
-#    if [[ -z "$input_file" ]]; then
-#        echo "Usage: downscale <path/to/media> [output_file_path] [quality]"
-#        return 1
-#    fi
-
-    # Validate input file existence
-#    if [[ ! -f "$input_file" ]]; then
-#        echo "Error: Input file '$input_file' does not exist."
-#        return 1
-#    fi
-
-    # Validate quality parameter
-#    if ! [[ "$quality" =~ ^[0-9]+$ ]]; then
-#        echo "Error: Quality parameter should be an integer."
-#        return 1
-#    fi
-#
-#    # Ensure output file name is unique
-#    local base_name="${output_file%.*}"
-#    local extension="${output_file##*.}"
-#    local counter=1
-#
-#    while [[ -f "$output_file" ]]; do
-#        output_file="${base_name}_${counter}.${extension}"
-#        ((counter++))
-#    done
-#
-#    # Start downscale process using FFmpeg
-#    echo "Starting downscale process to 1080p..."
-#    ffmpeg -i "$input_file" \
-#           -vf "scale=1920x1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2" \
-#           -c:v copy -crf "$quality" -preset slower -c:a copy "$output_file"
-#
-#    # Check if FFmpeg command was successful
-#    if [[ $? -eq 0 ]]; then
-#        echo "Downscale complete. Output saved to '$output_file'."
-#    else
-#        echo "Error: Downscale process failed."
-#        return 1
-#    fi
-#}
-
-# ----------------------------------------------------------- // OPTIMIZE_PACMAN:
-function pacopt() {
-    echo "Starting Pacman Optimization..."
-
-    echo "In 3..."
-    sleep 1
-    echo "..2"
-    sleep 1
-    echo ".1"
-    sleep 1
-
-    # Function to perform a task and check its result
-    run_task() {
-        local task_description="$1"
-        shift
-        echo "$task_description"
-        if "$@"; then
-            echo "✔️ $task_description completed successfully."
-        else
-            echo "❌ Failed to complete: $task_description."
-        fi
-    }
-
-    run_task "Updating mlocate database..." sudo updatedb
-
-    run_task "Updating pkgfile database..." sudo pkgfile -u
-
-    run_task "Upgrading Pacman database..." sudo pacman-db-upgrade
-
-    run_task "Cleaning package cache..." yes | sudo pacman -Sc
-
-    run_task "Syncing filesystem changes..." sync
-
-    run_task "Refreshing Pacman keys..." sudo pacman-key --refresh-keys
-
-    run_task "Populating keys and updating trust..." sudo pacman-key --populate && sudo pacman-key --updatedb
-
-    run_task "Refreshing package list..." sudo pacman -Syy
-
-    echo "Pacman optimization process completed!"
-}
-
-# ------------------------------------------------------------- // SEARCH_HISTORY:
+### Custom preset functions for searching your history
 function whatwhen() {
     emulate -L zsh
     local usage help format_l format_s first_char remain first last search_pattern
@@ -1686,17 +1498,26 @@ function whatwhen() {
     fc -li -m "*${first_char}${remain}*" $first $last
 }
 
-# --------------------------------------------------------------- // DECODE_URLS:
+## Urldecode
+
+### Simple URL decoder
 function urldecode() {
-    if [[ -z "$1" ]]; then
-        echo "Usage: urldecode <encoded_string>"
+    local input
+    if [[ -n "$1" ]]; then
+        input="$1"
+    elif [ ! -t 0 ]; then
+        input=$(cat)
+    else
+        echo "Usage: urldecode <encoded_string>" >&2
         return 1
     fi
 
-    echo "$1" | awk '{gsub(/%([0-9A-Fa-f]{2})/, "\\x\\1"); print}' | xargs -0 echo -e
+    python3 -c "import sys, urllib.parse, html; s = sys.stdin.read().strip(); print(html.unescape(urllib.parse.unquote(s)))" <<< "$input"
 }
 
-# ------------------------------------------------------------- // TERMBIN:
+## Termbin
+
+### Simple function to leverage termbin.com like pastebin
 function termbin() {
     if [[ -z "$1" ]]; then
         echo "Usage: termbin <file>"
@@ -1725,7 +1546,9 @@ function termbin() {
     fi
 }
 
-# --- // Extract:
+## XT
+
+### Custom extraction functions for archive and other compressed files:
 xt() {
   if [[ -f "$1" ]]; then
     case "$1" in
@@ -1794,422 +1617,3 @@ xt() {
     return 1
   fi
 }
-
-# =============================================== // YTDLP //
-## USAGE:
-##   ytdl <URL>...
-##     => Quick "no-cookies" approach with preset formats
-##
-##   ytf <URL>
-##     => Simple "list formats" ignoring cookies
-##
-##   ytdlc [--list-formats | --output-dir <dir> | --update] <URL>...
-##     => Advanced domain-based cookie approach with auto fallback & update
-##
-## PROVIDES:
-##   1) ytdl  -- a simple function to quickly download with preset formats
-##   2) ytf   -- a quick function to list formats for a URL
-##   3) ytdlc -- advanced download with domain-based cookies, auto selection,
-##              auto prompting for cookie updates if a download fails, and
-##              manual interactive update with --update
-##
-# --- // Config Maps:
-declare -A YTDLP_COOKIES_MAP=(
-    ["youtube.com"]="$HOME/.config/yt-dlp/youtube_cookies.txt"
-    ["youtu.be"]="$HOME/.config/yt-dlp/youtube_cookies.txt"
-    ["patreon.com"]="$HOME/.config/yt-dlp/patreon_cookies.txt"
-    ["vimeo.com"]="$HOME/.config/yt-dlp/vimeo_cookies.txt"
-    ["boosty.to"]="$HOME/.config/yt-dlp/boosty_cookies.txt"
-    ["instagram.com"]="$HOME/.config/yt-dlp/instagram_cookies.txt"
-    # Add more mappings as needed
-)
-PREFERRED_FORMATS=("335" "315" "313" "308" "303" "302" "271" "248" "247" "137")
-
-## Quick URL validator
-validate_url() {
-    local url="$1"
-    [[ "$url" =~ ^https?:// ]] && return 0 || return 1
-}
-
-## Extract domain from a URL (strip 'www.' or 'm.')
-get_domain_from_url() {
-    local url="$1"
-    echo "$url" | awk -F/ '{print $3}' | sed 's/^www\.//; s/^m\.//'
-}
-
-## Retrieve cookie path from domain
-get_cookie_path_for_domain() {
-    local domain="$1"
-    echo "${YTDLP_COOKIES_MAP[$domain]}"
-}
-
-## Overwrites domain's cookie file with data from clipboard,
-## falling back from wl-paste => xclip => error.
-refresh_cookie_file() {
-    local domain="$1"
-    if [[ -z "$domain" ]]; then
-        echo "Usage: refresh_cookie_file <domain>"
-        return 1
-    fi
-
-    local cookie_file="${YTDLP_COOKIES_MAP[$domain]}"
-    if [[ -z "$cookie_file" ]]; then
-        echo "Error: No cookie file mapped for domain '$domain'."
-        return 1
-    fi
-
-    # Attempt to find a workable clipboard utility
-    local clipboard_cmd=""
-    if command -v wl-paste &>/dev/null; then
-        clipboard_cmd="wl-paste"
-    elif command -v xclip &>/dev/null; then
-        clipboard_cmd="xclip -selection clipboard -o"
-    else
-        echo "Error: No suitable clipboard utility found. Install 'wl-clipboard' or 'xclip'."
-        return 1
-    fi
-
-    printf "Please copy the correct cookies for '$domain' to your clipboard, then press Enter.\n"
-    read -r
-
-    local clipboard_data
-    clipboard_data="$($clipboard_cmd 2>/dev/null)"
-    if [[ -z "$clipboard_data" ]]; then
-        echo "Error: Clipboard empty or unreadable."
-        return 1
-    fi
-
-    echo "$clipboard_data" > "$cookie_file" || {
-        echo "Error: Could not write to '$cookie_file'."
-        return 1
-    }
-
-    chmod 600 "$cookie_file" 2>/dev/null || {
-        echo "Warning: Could not set permissions to 600 on '$cookie_file'."
-    }
-
-    echo "Cookie file for '$domain' updated successfully!"
-}
-
-## Prompt user to choose a domain from YTDLP_COOKIES_MAP and refresh
-prompt_cookie_update() {
-    echo "Select the domain to update cookies for:"
-
-    local domains
-    if [[ -n "$BASH_VERSION" ]]; then
-        # Bash syntax for associative arrays
-        domains=( "${!YTDLP_COOKIES_MAP[@]}" )
-    elif [[ -n "$ZSH_VERSION" ]]; then
-        # Zsh syntax for associative arrays
-        domains=( ${(k)YTDLP_COOKIES_MAP} )
-    else
-        echo "Unsupported shell. Only Bash and Zsh are supported."
-        return 1
-    fi
-
-    local idx=1
-    for d in "${domains[@]}"; do
-        echo "  $idx) $d"
-        ((idx++))
-    done
-
-    printf "Enter the number or domain [1..$((idx-1))]: "
-    read -r choice
-
-    local domain=""
-    if [[ "$choice" =~ ^[0-9]+$ && "$choice" -ge 1 && "$choice" -lt "$idx" ]]; then
-        domain="${domains[$((choice-1))]}"
-    else
-        # Possibly user typed domain directly
-        for d in "${domains[@]}"; do
-            if [[ "$d" == "$choice" ]]; then
-                domain="$d"
-                break
-            fi
-        done
-    fi
-
-    if [[ -z "$domain" ]]; then
-        echo "Invalid selection: $choice"
-        return 1
-    fi
-
-    refresh_cookie_file "$domain"
-}
-
-select_best_format() {
-    local url="$1"
-    local cookie_file="$2"
-
-    local formats_json
-    formats_json=$(yt-dlp -j --cookies "$cookie_file" "$url" 2>/dev/null)
-    [[ -z "$formats_json" ]] && { echo "best"; return; }
-
-    for fmt in "${PREFERRED_FORMATS[@]}"; do
-        if echo "$formats_json" | jq -e --arg f "$fmt" '.formats[] | select(.format_id == $f)' &>/dev/null; then
-            echo "$fmt"
-            return
-        fi
-    done
-
-    # If none matched, fallback to "best"
-    echo "best"
-}
-
-get_format_details() {
-    local url="$1"
-    local cookie_file="$2"
-    local format_id="$3"
-
-    if [[ "$format_id" == "best" ]]; then
-        echo "N/A"
-        return
-    fi
-
-    local format_json
-    format_json=$(yt-dlp -f "$format_id" -j --cookies "$cookie_file" "$url" 2>/dev/null)
-    [[ -z "$format_json" ]] && { echo "N/A"; return; }
-
-    # Extract desired format properties using jq
-    echo "$format_json" | jq '{format_id, ext, resolution, fps, tbr, vcodec, acodec, filesize}'
-}
-
-## Preset formats (no domain-specific cookies).
-## Alternatively use "335/315/313/308/303/302/271/248/247/137+bestaudio/best"
-## You can still pass your own --cookies or anything else if you want.
-ytdl() {
-    yt-dlp --add-metadata \
-           --embed-metadata \
-           --external-downloader aria2c \
-           --external-downloader-args "--continue=true -j3 -x3 -s3 -k1M" \
-           -f "bestvideo+bestaudio/bestvideo" \
-	   --newline \
-	   --ignore-config \
-           --no-playlist \
-           --no-mtime \
-           "$@"
-}
-
-## A minimal function to list available formats for a URL, ignoring domain-based cookies.
-## If you want domain-based cookies, you can use the advanced "ytdlc --list-formats" approach below.
-ytf() {
-    if [[ "$1" == "--help" || "$1" == "-h" ]]; then
-        echo "Usage: ytf <URL>"
-        echo "List all available formats for a given URL, ignoring domain-based cookies."
-        return 0
-    fi
-
-    local url="$1"
-    if [[ -z "$url" ]]; then
-        echo "Usage: ytf <URL>"
-        return 1
-    fi
-
-    yt-dlp --list-formats "$url"
-}
-
-ytdlc() {
-    # Function to display help
-    show_ytdlc_help() {
-        cat <<EOF
-Usage: ytdlc [options] <URL> [<URL> ...]
-Advanced downloads with domain-based cookies, auto-format selection, cookie refresh on failure.
-
-Options:
-  --list-formats, -l  Only list available formats, do not download
-  --output-dir, -o    Specify a custom output directory (default: ~/Downloads)
-  --update            Interactively update a cookie file, then exit
-  --help, -h          Show this help text
-
-Examples:
-  ytdlc --update
-  ytdlc --list-formats https://youtu.be/abc123
-  ytdlc --output-dir /tmp https://patreon.com/whatever
-EOF
-    }
-
-    # Display help if no arguments are provided
-    if [[ $# -eq 0 ]]; then
-        show_ytdlc_help
-        return 0
-    fi
-
-    # Usage checks
-    if [[ "$1" == "--help" || "$1" == "-h" ]]; then
-        show_ytdlc_help
-        return 0
-    fi
-
-    local list_formats=0
-    local output_dir="$HOME/Downloads"
-    local update_mode=0
-
-    while [[ "$1" == -* ]]; do
-        case "$1" in
-            --list-formats|-l)
-                list_formats=1
-                shift
-                ;;
-            --output-dir|-o)
-                if [[ -n "$2" && ! "$2" =~ ^- ]]; then
-                    output_dir="$2"
-                    shift 2
-                else
-                    echo "Error: --output-dir requires a non-empty argument."
-                    return 1
-                fi
-                ;;
-            --update)
-                update_mode=1
-                shift
-                ;;
-            *)
-                echo "Unknown option: $1"
-                echo "Use --help for usage."
-                return 1
-                ;;
-        esac
-    done
-
-    # If user only wants to update cookie files, do so and exit
-    if (( update_mode )); then
-        prompt_cookie_update
-        return 0
-    fi
-
-    # Ensure the output dir
-    if [[ ! -d "$output_dir" ]]; then
-        mkdir -p "$output_dir" || {
-            echo "Error: Could not create '$output_dir'."
-            return 1
-        }
-    fi
-
-    # No URL => show help
-    if [[ $# -eq 0 ]]; then
-        show_ytdlc_help
-        return 0
-    fi
-
-    # Process each URL
-    for url in "$@"; do
-        echo "----------------------------------------"
-        echo "Processing URL: $url"
-
-        if ! validate_url "$url"; then
-            echo "Error: Invalid URL: $url"
-            continue
-        fi
-
-        # Derive domain => cookie file
-        local domain
-        domain="$(get_domain_from_url "$url")"
-        local cookie_file
-        cookie_file="$(get_cookie_path_for_domain "$domain")"
-
-        if [[ -z "$cookie_file" ]]; then
-            echo "Error: No cookie file mapped for domain '$domain'."
-            echo "Use 'ytdlc --update' to add or refresh cookie files."
-            continue
-        fi
-        if [[ ! -f "$cookie_file" ]]; then
-            echo "Cookie file not found at '$cookie_file'."
-            echo "Use 'ytdlc --update' to create or refresh cookie for '$domain'."
-            continue
-        fi
-
-        # Adjust permissions
-        local perms
-        perms="$(stat -c '%a' "$cookie_file" 2>/dev/null || echo '???')"
-        if [[ "$perms" != "600" ]]; then
-            echo "Adjusting cookie file permissions to 600."
-            chmod 600 "$cookie_file" 2>/dev/null || {
-                echo "Warning: Could not set permissions on '$cookie_file'."
-            }
-        else
-            echo "Permissions for '$cookie_file' are already set to 600."
-        fi
-
-        if (( list_formats )); then
-            echo "Listing available formats for '$url':"
-            yt-dlp --list-formats --cookies "$cookie_file" "$url"
-            echo "----------------------------------------"
-            continue
-        fi
-
-        # Auto-pick best format
-        local best_fmt
-        best_fmt="$(select_best_format "$url" "$cookie_file")"
-        echo "Selected format ID: $best_fmt"
-
-        # If format_id is 'best', skip getting format details
-        if [[ "$best_fmt" != "best" ]]; then
-            local fmt_info
-            fmt_info="$(get_format_details "$url" "$cookie_file" "$best_fmt")"
-            echo "Format details:"
-            echo "$fmt_info"
-            echo ""
-        else
-            echo "Format details: N/A"
-            echo ""
-        fi
-
-        # Download
-	# Previous format: '-f "$best_fmt+bestaudio/best" \'
-        yt-dlp \
-            --add-metadata \
-            --embed-metadata \
-            --external-downloader aria2c \
-            --external-downloader-args "--continue=true -j3 -x3 -s3 -k1M" \
-            -f "bestvideo+bestaudio/bestvideo" \
-	    --newline \
-	    --ignore-config \
-            --no-playlist \
-            --no-mtime \
-            --cookies "$cookie_file" \
-            --output "$output_dir/%(title)s.%(ext)s" \
-            "$url"
-
-        local exit_code=$?
-        if [[ $exit_code -ne 0 ]]; then
-            echo "Download failed for '$url'. Possibly expired or invalid cookies? Attempt update? (y/n)"
-            printf "Enter choice: "
-            read -r ans
-            if [[ "$ans" =~ ^[Yy](es)?$ ]]; then
-                refresh_cookie_file "$domain" || {
-                    echo "Cookie refresh for domain '$domain' failed. Skipping re-attempt."
-                    continue
-                }
-                echo "Cookies updated. Re-attempting download..."
-                yt-dlp \
-                    --add-metadata \
-                    --embed-metadata \
-                    --external-downloader aria2c \
-                    --external-downloader-args "--continue=true -j3 -x3 -s3 -k1M" \
-                    -f "$best_fmt+bestaudio/best" \
-                    --merge-output-format webm \
-                    --no-playlist \
-                    --no-mtime \
-                    --cookies "$cookie_file" \
-                    --output "$output_dir/%(title)s.%(ext)s" \
-                    "$url" || {
-                        echo "Retry also failed. Skipping."
-                    }
-            else
-                echo "Skipping re-attempt."
-            fi
-        else
-            echo "Download completed successfully for '$url'."
-        fi
-
-        echo "----------------------------------------"
-    done
-}
-
-# ----------------------------------------------------- // SPELLCHECK:
-# Description: Alias to the spell function for ease of use.
-alias spellcheck='spell'
-
-# ================================================== //
-#               END OF FUNCTIONS.ZSH
-# ================================================== //
