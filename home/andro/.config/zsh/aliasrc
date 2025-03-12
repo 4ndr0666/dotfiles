@@ -905,6 +905,9 @@ alias yta='yt -x -f bestaudio/best'
 
 ## Mpv
 
+#### For use with the MpvSockets module
+alias mpv='mpv --input-ipc-server=/tmp/mpvSockets/socket1'
+
 playdir() {
     # Set directory (default to current directory)
     dir="${1:-.}"
