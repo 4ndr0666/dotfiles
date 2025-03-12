@@ -1,6 +1,9 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
 # ============================ // ZSHRC //
+
+## Reload
+alias reload='echo "Reloading .zshrc" && source ~/.zshrc'
 
 ## Powerlevel10k
 
@@ -197,12 +200,6 @@ source_nvm() {
 }
 source_nvm "$NVM_DIR/nvm.sh"
 source_nvm "$NVM_DIR/bash_completion"
-
-## Minor Aliases
-
-alias mpv1='mpv --input-ipc-server=/tmp/mpvSockets/socket1'
-alias mpv2='mpv --input-ipc-server=/tmp/mpvSockets/socket2'
-alias reload='echo "Reloading .zshrc" && source ~/.zshrc'
 
 ## Source the files:
 
