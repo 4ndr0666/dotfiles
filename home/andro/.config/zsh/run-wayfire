@@ -1,26 +1,32 @@
 #!/usr/bin/env bash
-
+# Author: 4ndr0666
 # ======================= // RUN-WAYFIRE // 
+
+## XDG Env
+
 export XDG_SESSION_TYPE=wayland
 export XDG_SESSION_DESKTOP=wayfire
 export XDG_CURRENT_DESKTOP=wayfire
 
-# --- // GTK_VARIABLES:
+## GTK_VARIABLES
+
 export MOZ_ENABLE_WAYLAND=1
-GDK_BACKEND=x11,wayland
+GDK_BACKEND=wayland,x11
 #export TDESKTOP_DISABLE_GTK_INTEGRATION=1
 
-# --- // clutter
+##  Clutter
 export CLUTTER_BACKEND=wayland,x11
 
-# --- // elementary
+# Elementary
+
 export ECORE_EVAS_ENGINE=wayland-egl
 export ELM_ENGINE=wayland_egl
 #export ELM_DISPLAY=wl
 #export ELM_ACCEL=opengl
 #export ELM_SCALE=1
 
-# --- // java
+## Java
+
 export QT_QPA_PLATFORMTHEME=qt6ct
 export AWT_TOOLKIT="MTookit wmname LG3D"
 export _JAVA_AWT_WM_NONREPARENTING=1
@@ -30,44 +36,54 @@ export NO_AT_BRIDGE=1
 export BEMENU_BACKEND=wayland
 export WINIT_UNIX_BACKEND=wayland
 
-# --- // Qt
-export QT_QPA_PLATFORM=wayland-egl
-#export QT_WAYLAND_FORCE_DPI=physical # Use monitor's DPI
-#export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
-#export QT_AUTO_SCREEN_SCALE_FACTOR=1
+## QT 
 
-# --- // sdl
+export QT_QPA_PLATFORM=wayland-egl
+export QT_WAYLAND_FORCE_DPI=physical # Use monitor's DPI
+#export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+export QT_AUTO_SCREEN_SCALE_FACTOR=1
+
+## SDL
+
 export SDL_VIDEODRIVER=wayland,x11
 #export SAL_USE_VCLPLUGIN=gtk3
 
-# --- // electron
+## Electron
+
 export ELECTRON_OZONE_PLATFORM_HINT=auto 
 #wayland-egl
 
-# --- // IPC
+## IPC
+
 #export WAYFIRE_SOCKET=/tmp/wayfire-wayland-1.socket
 
-# --- // SYSTEMD_DBUS:
+## Systemd Dbus
+
 eval "$(dbus-launch --sh-syntax)"
 if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
     echo "Failed to launch D-Bus session bus."
     exit 1
 fi
 
-# --- // Network Iface
-ip link set enp3s0 name enp2s0
+## Network Iface Rename
+
+#iface=$(ip -o link | awk '/74:27:ea:66:76:46/ {print $2}' | sed 's/://')
+#if [ "$iface" != "enp2s0" ] && [ -n "$iface" ]; then
+#    ip link set "$iface" name enp2s0
+#fi
 
 #xrandr --dpi 96
 #xhost + </dev/null &>/dev/null &
 #xhost +SI:localuser:andro
 #xhost +SI:localuser:root
 
-# --- // EXEC_WAYFIRE:
-#sleep 0.5
+## Exec Wayfire
 
-#if ! command -v wayfire &> /dev/null; then
-#    echo "Wayfire could not be found, please install it."
-#    exit 1
-#fi
+sleep 0.5
 
-#wayfire
+if ! command -v wayfire &> /dev/null; then
+    echo "Wayfire could not be found."
+    exit 1
+fi
+
+wayfire
