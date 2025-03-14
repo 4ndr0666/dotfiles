@@ -1,0 +1,10 @@
+[Trigger]
+Operation = Upgrade
+Type = Package
+Target = arkenfox-user.js
+
+[Action]
+Description = arkenfox-auto-update
+When = PostTransaction
+Depends = arkenfox-user.js
+Exec = sudo -u $SUDO_USER /usr/local/lib/arkenfox-auto-update
