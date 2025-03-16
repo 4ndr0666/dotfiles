@@ -3,6 +3,7 @@
 # ============================ // ZSHRC //
 
 ## Reload
+
 alias reload='echo "Reloading .zshrc" && source ~/.zshrc'
 
 ## Powerlevel10k
@@ -15,14 +16,17 @@ fi
 # Uncomment the following sections to use Standard, Solarized, or Fancy prompts.
 
 # ## Standard:
+
 # autoload -U colors && colors
 # PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
-#
+
 # ##Solarized:
+
 # PROMPT='%F{32}%n%f%F{166}@%f%F{64}%m:%F{166}%~%f%F{15}$%f '
 # RPROMPT='%F{15}(%F{166}%D{%H:%M}%F{15})%f'
-#
+
 # ##Fancy:
+
 # source ~/.config/zsh/fancy-prompts.zsh
 # precmd() { fancy-prompts-precmd; }
 # prompt-zee -PDp "≽ "
@@ -31,8 +35,9 @@ fi
 
 autoload -U compinit && compinit
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
-### fzf-tab preview configurations
+#### fzf-tab preview configurations
 zstyle ':fzf-tab:complete:(\\|*)cd:*' fzf-preview 'exa -1 --color=always --icons $realpath'
 zstyle ':fzf-tab:complete:systemctl-*:*' fzf-preview 'SYSTEMD_COLORS=1 systemctl status $word'
 zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' fzf-preview 'echo ${(P)word}'
@@ -40,28 +45,27 @@ zstyle ':fzf-tab:complete:*:*' fzf-preview 'less ${(Q)realpath}'
 zstyle ':fzf-tab:complete:*:options' fzf-preview
 zstyle ':fzf-tab:complete:*:argument-1' fzf-preview
 zstyle ':completion:*' menu select=2
-export LESSOPEN='|fzf_preview %s'
 
 ## Shell Options
 
-### Completion & Globbing
-setopt extended_glob glob_complete complete_in_word
+#### Completion & Globbing
+setopt nocaseglob extended_glob glob_complete complete_in_word
 
-### Directory Navigation
+#### Directory Navigation
 setopt autocd cdable_vars auto_pushd pushd_to_home pushd_minus pushd_ignore_dups pushd_silent
 
-### Misc
+#### Misc
 setopt RM_STAR_WAIT print_exit_value no_beep correct
 setopt auto_menu auto_list auto_name_dirs auto_param_slash interactive_comments
 
-### Disabled Options
+#### Disabled Options
 unsetopt correct_all complete_aliases always_to_end menu_complete
 
 DIRSTACKSIZE=8
 
 ## History
 
-### Shell options
+#### Shell options
 setopt hist_ignore_space hist_reduce_blanks hist_verify extended_history inc_append_history share_history hist_ignore_dups hist_expire_dups_first
 
 [ ! -d "$HOME/.cache/zsh" ] && mkdir -p "$HOME/.cache/zsh"
@@ -72,7 +76,8 @@ HISTSIZE=10000000
 SAVEHIST=10000000
 HISTFILE="$HOME/.cache/zsh/history"
 
-### History Widget: Display the latest command or filter history based on input.
+## History Widget: Display the latest command or filter history based on input.
+
 h() {
     if [ -z "$*" ]; then
         history 1
@@ -94,7 +99,7 @@ zle -N globalias
 
 ## FD
 
-### Use FD indtead of find
+#### Use FD indtead of find
 #_fzf_compgen_path() {
 #	fd --hidden --follow --exclude ".git" . "$1"
 #}
@@ -109,19 +114,17 @@ if [[ ! -d "$HOME/.cache/zsh/zcache" ]]; then
     mkdir -p "$HOME/.cache/zsh/zcache" >/dev/null 2>&1
     chmod ug+rw "$HOME/.cache/zsh/zcache" >/dev/null 2>&1
 fi
-
 zshcache_time="$(date +%s%N)"
-rehash_precmd() {
-    if [[ -a /var/cache/zsh/pacman ]]; then
-        local paccache_time
-        paccache_time="$(stat -c %Y /var/cache/zsh/pacman)"
-        if (( zshcache_time < paccache_time )); then
-            rehash
-            zshcache_time="$paccache_time"
-        fi
-    fi
-}
 autoload -Uz add-zsh-hook
+rehash_precmd() {
+  if [[ -a /var/cache/zsh/pacman ]]; then
+    local paccache_time="$(date -r /var/cache/zsh/pacman +%s%N)"
+    if (( zshcache_time < paccache_time )); then
+      rehash
+      zshcache_time="$paccache_time"
+    fi
+  fi
+}
 add-zsh-hook -Uz precmd rehash_precmd
 
 # Keybindings

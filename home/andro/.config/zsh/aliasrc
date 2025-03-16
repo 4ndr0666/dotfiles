@@ -134,7 +134,7 @@ alias ln='ln -iv'
 alias wget="wget -c"
 alias curl="curl --user-agent 'noleak'"
 alias df='df -h --exclude-type=squashfs --exclude-type=tmpfs --exclude-type=devtmpfs'
-#alias cat='bat'
+alias cat='cat | less'
 alias ccat="highlight --out-format=ansi"
 alias showpath='echo $PATH | tr ":" "\n"'
 alias rsync='rsync -vrPlu'
@@ -276,6 +276,41 @@ tarnow() {
             return 1
         fi
     fi
+}
+
+rmshred() {
+    # Validate that an argument is provided and it is a directory.
+    if [ -z "$1" ]; then
+        echo "Usage: rmshred <directory>"
+        return 1
+    fi
+    if [ ! -d "$1" ]; then
+        echo "Error: '$1' is not a directory"
+        return 1
+    fi
+
+    # Confirmation prompt.
+    echo -n "Are you sure you want to swiftly delete '$1'? (y/N) "
+    read confirm
+    if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
+        echo "Aborted."
+        return 1
+    fi
+
+    # Count the total number of files for progress estimation.
+#    total_files=$(find "$1" -type f | wc -l)
+#    echo "Deleting ${total_files} files in '$1'..."
+
+    # Delete files using GNU Parallel with a progress bar.
+    find "$1" -type f -print0 | parallel -0 -n 100 rm -f
+
+    # Remove directories after files have been deleted.
+    find "$1" -depth -type d -exec rmdir {} \; > /dev/null 2>&1
+
+    # Finally, remove the top-level directory.
+    rm -rf "$1" > /dev/null 2>&1
+
+    echo "Deletion completed for '$1'."
 }
 
 psmem() {
@@ -905,42 +940,31 @@ alias yta='yt -x -f bestaudio/best'
 
 ## Mpv
 
-#### For use with the MpvSockets module
-alias mpv='mpv --input-ipc-server=/tmp/mpvSockets/socket1'
-
 playdir() {
-    # Set directory (default to current directory)
-    dir="${1:-.}"
-
-    # Validate that the directory exists
-    if [ ! -d "$dir" ]; then
-        echo "Error: Directory '$dir' does not exist."
+    # Check if an argument is provided
+    if [[ -z "$1" ]]; then
+        echo "No file or directory provided." >&2
         return 1
     fi
 
-    # Generate playlist only with playable media files
-    find "$dir" -maxdepth 1 -type f \( \
-        -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.flv" -o \
-        -iname "*.mov" -o -iname "*.webm" -o -iname "*.mp3" -o -iname "*.wav" -o \
-        -iname "*.flac" -o -iname "*.ogg" -o -iname "*.m4a" \
-    \) > dirplaylist.txt
-
-    # Ensure the playlist is not empty
-    if [ ! -s dirplaylist.txt ]; then
-        echo "No playable files found in '$dir'."
-        rm -f dirplaylist.txt
-        return 1
-    fi
-
-    # Play with MPV, cleanup playlist after exit or error
-    if command -v mpv >/dev/null 2>&1; then
-        mpv --playlist=dirplaylist.txt --shuffle=yes --loop=no
+    # Determine target directory:
+    # If the argument is a directory, use it;
+    # otherwise, use the parent directory of the given file.
+    if [[ -d "$1" ]]; then
+        target="$1"
     else
-        echo "Error: mpv is not installed."
+        target=$(dirname "$1")
     fi
 
-    # Ensure cleanup of playlist file
-    rm -f dirplaylist.txt
+    # Change into the target directory
+    cd "$target" || return 1
+
+    # Launch mpv with a playlist generated via process substitution.
+    # The find command uses absolute paths (via $(pwd)) and filters for media files.
+    mpv --playlist=<(find "$(pwd)" -maxdepth 1 -type f \( \
+          -iname "*.mp4" -o -iname "*.m4v" -o -iname "*.mkv" -o \
+          -iname "*.avi" -o -iname "*.gif" -o -iname "*.mov" -o \
+          -iname "*.3gp" -o -iname "*.ts" \)) --shuffle --loop=no
 }
 
 #playdir() {
@@ -1460,6 +1484,7 @@ alias sandbox='goto /Nas/sandbox'
 ### /home/git:
 
 alias ngc='goto /home/git/clone'
+alias nnas='goto /home/git/clone/nas'
 alias ndot='goto /home/git/clone/dotfiles'
 alias nbin='goto /home/git/clone/scr'
 alias npkg='goto /Nas/Build/pkgs'
