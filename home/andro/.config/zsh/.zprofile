@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
 # ======================================== // ZPROFILE //
 
@@ -14,24 +14,24 @@ export BROWSER="brave-beta"
 
 static_dirs=(
     "/usr/bin"
+    "$HOME/.local/bin"
+    "/opt/"
+    "/usr/local/bin/"
     "$HOME/.local/share/gem/ruby/3.3.0/bin"
     "$HOME/.npm-global/bin"
     "$HOME/.local/share/goenv/bin"
-    "$HOME/.local/bin"
-    "$HOME/bin"
     "$XDG_DATA_HOME/gem/ruby/3.3.0/bin"
     "$XDG_DATA_HOME/virtualenv"
     "$XDG_DATA_HOME/go/bin"
     "$CARGO_HOME/bin"
     "${JAVA_HOME:-/usr/lib/jvm/default/bin}"
     "/sbin"
-    "/opt/"
-    "/usr/local/bin/"
     "/usr/sbin"
     "/usr/local/sbin"
 )
 # Dynamically discovered directories (using zsh glob qualifiers)
 dynamic_dirs=(/home/git/clone/scr/**/*(/))
+
 all_dirs=("${static_dirs[@]}" "${dynamic_dirs[@]}")
 
 # Ensure PATH contains unique entries
@@ -246,20 +246,14 @@ export FZF_DEFAULT_OPTS="
   --scrollbar='│'
   --separator='_'
   --preview='setopt NO_NOMATCH; set filename=\$(basename {}) ; case \$filename in
-    *.txt) bat --style=numbers --color=always {} ;;
+    *.txt|*.md) bat --style=numbers --color=always {} ;;
     *.pdf) zathura {} & ;;
-    *.jpg|*.jpeg|*.png|*.gif) nsxiv {} & ;;
-    *) bat --style=numbers --color=always {} ;;
+    *.jpg|*.jpeg|*.png|*.gif|*.webp|*.tiff|*.bmp|*.auto) nsxiv {} & ;;
+    *) bat --style=numbers,snip --color=always {} ;;
 esac'
-  --bind='enter:execute(setopt NO_NOMATCH; set filename=\$(basename {}) ; case \$filename in
-    *.txt) nvim {} ;;
-    *.pdf) zathura {} ;;
-    *.jpg|*.jpeg|*.png|*.gif) nsxiv {} ;;
-    *) nvim {} ;;
-esac)'
   --preview-window=up,1,border-horizontal
   --bind='ctrl-p:change-preview-window(50%|hidden|)'
-  --preview-label=preview
+  --preview-label=eyes
   --margin=5%
   --bind='ctrl-y:execute-silent(printf {} | cut -f 2- | wl-copy --trim-newline)'
   --color=fg:#005b69,fg+:#15FFFF,bg:#151515,bg+:#262626 \
@@ -328,38 +322,28 @@ esac
 ## PAGER
 
 #export MANPAGER=less
-#export MANPAGER="sh -c 'if [ -t 1 ]; then col -bx | bat -l man -p; else col -bx | bat -l man -p --color=never; fi | less -R'"
-export MANPAGER="sh -c 'col -bx | bat -l man -p | less -R'"
+export MANPAGER="sh -c 'if [ -t 1 ]; then col -bx | bat -l man -p; else col -bx | bat -l man -p --color=never; fi | less -R'"
+#export MANPAGER="sh -c 'col -bx | bat -l man -p | less -R'"
 #export MANPAGER="sh -c 'col -bx | bat -l man -p --paging always'"
 
 ## Less
 
-#### Config 1
-
-#export LESS='-R'
-#export LESS_TERMCAP_mb="$(printf '%b' '[1;31m')"
-#export LESS_TERMCAP_md="$(printf '%b' '[1;36m')"
-#export LESS_TERMCAP_me="$(printf '%b' '[0m')"
-#export LESS_TERMCAP_so="$(printf '%b' '[01;44;33m')"
-#export LESS_TERMCAP_se="$(printf '%b' '[0m')"
-#export LESS_TERMCAP_us="$(printf '%b' '[1;32m')"
-#export LESS_TERMCAP_ue="$(printf '%b' '[0m')"
-
-#### Config 2
-
+#### Config 1 (Monokai)
 export LESS='-R'
-export LESS_TERMCAP_mb=$'\E[01;31m'
-export LESS_TERMCAP_md=$'\E[01;31m'
+export LESSOPEN="| /usr/bin/highlight --style=monokai -O ansi %s 2>/dev/null"
+
+## Bold text (strong emphasis)
+export LESS_TERMCAP_md=$'\E[1;35m'    # Magenta (bold)
+## Blinking text (rarely used, but styled distinctively)
+export LESS_TERMCAP_mb=$'\E[01;33m'   # Yellow (bold)
+## Underlined text (e.g., hyperlinks, emphasized text)
+export LESS_TERMCAP_us=$'\E[4;36m'    # Cyan (underline)
+## End bold, blink, underline formatting
 export LESS_TERMCAP_me=$'\E[0m'
-export LESS_TERMCAP_se=$'\E[0m'
-export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
-export LESS_TERMCAP_us=$'\E[01;32m'
-
-
-## LESSOPEN
-
-export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
+## Standout mode (selected/highlighted text, search matches)
+export LESS_TERMCAP_so=$'\E[01;37;45m'  # White text on Magenta background
+export LESS_TERMCAP_se=$'\E[0m'
 
 ## Lf Shortcuts
 
