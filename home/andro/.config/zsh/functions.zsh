@@ -1548,68 +1548,172 @@ function termbin() {
 
 ## XT
 
-### Custom extraction functions for archive and other compressed files:
 xt() {
   if [[ -f "$1" ]]; then
-    case "$1" in
+    local file="$1"
+    local b
+    case "$file" in
       *.tar.lrz)
-        b=$(basename "$1" .tar.lrz)
-        lrztar -d "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+        b=$(basename "$file" .tar.lrz)
+        if lrztar -d "$file" && [[ -d "$b" ]]; then
+          cd "$b"
+        else
+          return 0
+        fi
+        ;;
       *.lrz)
-        b=$(basename "$1" .lrz)
-        lrunzip "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+        b=$(basename "$file" .lrz)
+        if lrunzip "$file" && [[ -d "$b" ]]; then
+          cd "$b"
+        else
+          return 0
+        fi
+        ;;
       *.tar.bz2)
-        b=$(basename "$1" .tar.bz2)
-        bsdtar xjf "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+        b=$(basename "$file" .tar.bz2)
+        if bsdtar xjf "$file" && [[ -d "$b" ]]; then
+          cd "$b"
+        else
+          return 0
+        fi
+        ;;
       *.bz2)
-        b=$(basename "$1" .bz2)
-        \bunzip2 "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+        b=$(basename "$file" .bz2)
+        if \bunzip2 "$file" && [[ -d "$b" ]]; then
+          cd "$b"
+        else
+          return 0
+        fi
+        ;;
       *.tar.gz)
-        b=$(basename "$1" .tar.gz)
-        bsdtar xzf "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+        b=$(basename "$file" .tar.gz)
+        if bsdtar xzf "$file" && [[ -d "$b" ]]; then
+          cd "$b"
+        else
+          return 0
+        fi
+        ;;
       *.gz)
-        b=$(basename "$1" .gz)
-        \gunzip "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+        b=$(basename "$file" .gz)
+        # Use forced gunzip to overwrite any existing file and avoid permission errors
+        if \gunzip -f "$file"; then
+          if [[ -d "$b" ]]; then
+            cd "$b"
+          else
+            echo "Extracted file $b (not a directory)."
+          fi
+        else
+          return 0
+        fi
+        ;;
       *.ipk)
-        b=$(basename "$1" .ipk)
-        \gunzip "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+        b=$(basename "$file" .ipk)
+        if \gunzip -f "$file" && [[ -d "$b" ]]; then
+          cd "$b"
+        else
+          return 0
+        fi
+        ;;
       *.tar.xz)
-        b=$(basename "$1" .tar.xz)
-        bsdtar Jxf "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+        b=$(basename "$file" .tar.xz)
+        if bsdtar Jxf "$file" && [[ -d "$b" ]]; then
+          cd "$b"
+        else
+          return 0
+        fi
+        ;;
       *.xz)
-        b=$(basename "$1" .gz)
-        \xz -d "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+        b=$(basename "$file" .xz)
+        if \xz -d "$file" && [[ -d "$b" ]]; then
+          cd "$b"
+        else
+          return 0
+        fi
+        ;;
       *.rar)
-        b=$(basename "$1" .rar)
-        unrar e "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+        b=$(basename "$file" .rar)
+        if unrar e "$file" && [[ -d "$b" ]]; then
+          cd "$b"
+        else
+          return 0
+        fi
+        ;;
       *.tar)
-        b=$(basename "$1" .tar)
-        bsdtar xf "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+        b=$(basename "$file" .tar)
+        if bsdtar xf "$file" && [[ -d "$b" ]]; then
+          cd "$b"
+        else
+          return 0
+        fi
+        ;;
       *.tbz2)
-        b=$(basename "$1" .tbz2)
-        bsdtar xjf "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+        b=$(basename "$file" .tbz2)
+        if bsdtar xjf "$file" && [[ -d "$b" ]]; then
+          cd "$b"
+        else
+          return 0
+        fi
+        ;;
       *.tgz)
-        b=$(basename "$1" .tgz)
-        bsdtar xzf "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+        b=$(basename "$file" .tgz)
+        if bsdtar xzf "$file" && [[ -d "$b" ]]; then
+          cd "$b"
+        else
+          return 0
+        fi
+        ;;
       *.zip)
-        b=$(basename "$1" .zip)
-        unzip -qq "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+        b=$(basename "$file" .zip)
+        if unzip -qq "$file" && [[ -d "$b" ]]; then
+          cd "$b"
+        else
+          return 0
+        fi
+        ;;
       *.Z)
-        b=$(basename "$1" .Z)
-        \uncompress "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+        b=$(basename "$file" .Z)
+        if \uncompress "$file" && [[ -d "$b" ]]; then
+          cd "$b"
+        else
+          return 0
+        fi
+        ;;
       *.7z)
-        b=$(basename "$1" .7z)
-        7z x "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+        b=$(basename "$file" .7z)
+        if 7z x "$file" && [[ -d "$b" ]]; then
+          cd "$b"
+        else
+          return 0
+        fi
+        ;;
       *.zst)
-        b=$(basename "$1" .zst)
-        zstd -d "$1" && return 0 ;;
+        b=$(basename "$file" .zst)
+        if zstd -d "$file"; then
+          return 0
+        else
+          return 0
+        fi
+        ;;
       *.deb)
-        b=$(basename "$1" .deb)
-        ar x "$1" && return 0 ;;
+        b=$(basename "$file" .deb)
+        if ar x "$file"; then
+          return 0
+        else
+          return 0
+        fi
+        ;;
       *.rpm)
-        b=$(basename "$1" .rpm)
-        rpmextract.sh "$1" && return 0 ;;
-      *) echo "error: failed to extract '$1'..." && return 1 ;;
+        b=$(basename "$file" .rpm)
+        if rpmextract.sh "$file"; then
+          return 0
+        else
+          return 0
+        fi
+        ;;
+      *)
+        echo "error: failed to extract '$file'..."
+        return 1
+        ;;
     esac
     return 0
   else
@@ -1617,3 +1721,74 @@ xt() {
     return 1
   fi
 }
+
+### Custom extraction functions for archive and other compressed files:
+#xt() {
+#  if [[ -f "$1" ]]; then
+#    case "$1" in
+#      *.tar.lrz)
+#        b=$(basename "$1" .tar.lrz)
+#        lrztar -d "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+#      *.lrz)
+#        b=$(basename "$1" .lrz)
+#        lrunzip "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+#      *.tar.bz2)
+#        b=$(basename "$1" .tar.bz2)
+#        bsdtar xjf "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+#      *.bz2)
+#        b=$(basename "$1" .bz2)
+#        \bunzip2 "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+#      *.tar.gz)
+#        b=$(basename "$1" .tar.gz)
+#        bsdtar xzf "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+#      *.gz)
+#        b=$(basename "$1" .gz)
+#        \gunzip "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+#      *.ipk)
+#        b=$(basename "$1" .ipk)
+#        \gunzip "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+#      *.tar.xz)
+#        b=$(basename "$1" .tar.xz)
+#        bsdtar Jxf "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+#      *.xz)
+#        b=$(basename "$1" .gz)
+#        \xz -d "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+#      *.rar)
+#        b=$(basename "$1" .rar)
+#        unrar e "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+#      *.tar)
+#        b=$(basename "$1" .tar)
+#        bsdtar xf "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+#      *.tbz2)
+#        b=$(basename "$1" .tbz2)
+#        bsdtar xjf "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+#      *.tgz)
+#        b=$(basename "$1" .tgz)
+#        bsdtar xzf "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+#      *.zip)
+#        b=$(basename "$1" .zip)
+#        unzip -qq "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+#      *.Z)
+#        b=$(basename "$1" .Z)
+#        \uncompress "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+#      *.7z)
+#        b=$(basename "$1" .7z)
+#        7z x "$1" && [[ -d "$b" ]] && cd "$b" || return 0 ;;
+#      *.zst)
+#        b=$(basename "$1" .zst)
+#        zstd -d "$1" && return 0 ;;
+#      *.deb)
+#        b=$(basename "$1" .deb)
+#        ar x "$1" && return 0 ;;
+#      *.rpm)
+#        b=$(basename "$1" .rpm)
+#        rpmextract.sh "$1" && return 0 ;;
+#      *) echo "error: failed to extract '$1'..." && return 1 ;;
+#    esac
+#    return 0
+#  else
+#    echo "error: '$1' is not a valid file!"
+#    return 1
+#  fi
+#}
+######

@@ -5,10 +5,9 @@
     "/home/*/.config/*": {
         "filetype": "conf"
     },
-    "autosu": true,
-    "colorscheme": "geany",
-    "mkparents": true,
-    "wordwrap": true,
-    "backup": true,
-    "backupdir": "/home/andro/.config/micro/backups"
+    "autosu": on,
+    "backupdir": "/home/andro/.config/micro/backups",
+    "colorscheme": "material-tc",
+    "mkparents": on,
+    "softwrap": on,
 }
