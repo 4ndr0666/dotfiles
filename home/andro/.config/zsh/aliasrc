@@ -722,34 +722,37 @@ vidt() {
 
 ## Expressvpn Legacy
 
-alias vpnc='sudo expressvpn connect'
-alias vpnd='sudo expressvpn disconnect'
-alias vpns='sudo expressvpn status'
-alias vpnr='sudo expressvpn refresh'
-alias vpnauto='expressvpn autoconnect true'
-alias vpnset='sudo expressvpn preferences set'
-alias vpnl='sudo expressvpn list'
-alias vpnblock='sudo expressvpn preferences set block_all false'
-alias vpnproto='sudo expressvpn protocol lightway_udp'
+#alias vpnc='sudo expressvpn connect'
+#alias vpnd='sudo expressvpn disconnect'
+#alias vpns='sudo expressvpn status'
+#alias vpnr='sudo expressvpn refresh'
+#alias vpnauto='expressvpn autoconnect true'
+#alias vpnset='sudo expressvpn preferences set'
+#alias vpnl='sudo expressvpn list'
+#alias vpnblock='sudo expressvpn preferences set block_all false'
+#alias vpnproto='sudo expressvpn protocol lightway_udp'
 
-## Expressvpn Universal
+## Expressvpn Universal App
 
-#alias vpnc='expressvpnctl connect'
-#alias vpnd='expressvpnctl disconnect'
-#alias vpns='expressvpnctl status'
-#alias vpnip='expressvpnctl get connectionstate && expressvpnctl get vpnip'
-#alias vpndns='expressvpnctl get dnsconfigured'
-#alias vpnblock='expressvpnctl set allowlan false'
-#alias vpnallow='expressvpnctl set allowlan true'
-#alias vpnlockon='sudo expressvpnctl set networklock true'
-#alias vpnlockoff='sudo expressvpnctl set networklock false'
-#alias vpnl='expressvpnctl get regions'
-#alias vpntrackersoff='expressvpnctl set blockAll false'
-#alias vpnproto='expressvpnctl protocol lightwayudp'
-#alias vpnsplit='expressvpnctl set splittunnel true'
-#alias vpnsplitskip='expressvpnctl set split-app bypass:'
-#alias vpnsplitadd='expressvpnctl set split-app vpn:'
-#alias vpnsplitrm='expressvpnctl set split-app remove:'
+alias vpnc='expressvpnctl connect'
+alias vpnd='expressvpnctl disconnect'
+alias vpns='expressvpnctl get vpnip && expressvpnctl status'
+alias vpnlist='expressvpnctl get regions'
+alias vpnnoextras='expressvpnctl set blockAll false'
+alias vpnproto='expressvpnctl set protocol lightwayudp'
+alias checkvpn='expressvpnctl get connectionstate && expressvpnctl get dnsconfigured'
+## -------------- Blocking ---------------- ##
+alias blocklan='expressvpnctl set allowlan false'
+alias unblocklan='expressvpnctl set allowlan true'
+alias locknetwork='sudo expressvpnctl set networklock true'
+alias ulcknetwork='sudo expressvpnctl set networklock false'
+## -------------- Tunneling --------------- ##
+alias vpntun='sudo expressvpnctl set splittunnel true'
+alias vpnignore='f(){ sudo expressvpnctl set split-app bypass:"$1"; }; f'
+alias vpnadd='f(){ sudo expressvpnctl set split-app vpn:"$1"; }; f'
+alias vpnrm='f(){ sudo expressvpnctl set split-app remove:"$1"; }; f'
+## -------------- Fuck The GUI -------------- ##
+alias vpncli='expressvpnctl background enable'
 
 ## Nvim
 
