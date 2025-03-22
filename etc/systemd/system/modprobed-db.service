@@ -1,0 +1,16 @@
+[Unit]
+Description=modprobed-db scan and store new modules
+Documentation=man:modprobed-db(8)
+Documentation=https://wiki.archlinux.org/index.php/Modprobed-db
+RequiresMountsFor=/home/
+Wants=modprobed-db.service
+
+ConditionPathExists=/home/modprobed-db/modprobed.db
+After=local-fs.target 
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/modprobed-db recall
+
+[Install]
+WantedBy=default.target
