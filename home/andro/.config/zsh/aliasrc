@@ -1129,9 +1129,10 @@ alias g='git'
 alias gstat='git status'
 alias gstash='git stash --all'
 alias gclear='git stash clear'
-alias greset="git reset --hard"
+alias ghr="git reset --hard"
 alias gfs='git-lfs'
-alias grc="git rm -f --cached . && git commit -m 'Removed cached and commited'"
+alias gupdate='gcomp && gh tidy && gh setup'
+
 gclone() {
     if [[ -z "$1" ]]; then
         echo "Error: No repository URL provided."
@@ -1180,12 +1181,14 @@ gclone() {
         return 1
     fi
 }
+
 gpush() {
     git add .
     git commit -m "$*"
     git pull
     git push
 }
+
 gcomp() {
     if ! git diff-index --quiet HEAD --; then
         # Gather information about the changes
@@ -1218,11 +1221,13 @@ gcomp() {
         echo "No changes detected. Nothing to commit."
     fi
 }
+
 gaddssh() {
     eval "$(ssh-agent -s)"
     ssh-add ~/.ssh/github
     ssh -T git@github.com
 }
+
 gsearch() {
     if command -v ag &> /dev/null; then
         git exec ag "$1"
