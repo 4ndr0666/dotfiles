@@ -105,7 +105,7 @@ alias tofish="sudo chsh $USER -s /bin/fish && echo 'Now log out.'"
 ## Wayfire
 
 #### reinstall dependencies
-alias refreshwayfire='yay -S wayfire-plugins-extra-git wayfire-git wf-config-git wf-kill-git wf-osk-git wf-recorder-git'
+alias refreshwayfire='yay -S wayfire-plugins-extra-git wayfire-git wf-config-git wf-osk-git wf-recorder-git'
 
 # System General Aliases
 
@@ -134,7 +134,7 @@ alias ln='ln -iv'
 alias wget="wget -c"
 alias curl="curl --user-agent 'noleak'"
 alias df='df -h --exclude-type=squashfs --exclude-type=tmpfs --exclude-type=devtmpfs'
-alias cat='cat | less'
+alias cat='bat --paging=never'
 alias ccat="highlight --out-format=ansi"
 alias showpath='echo $PATH | tr ":" "\n"'
 alias rsync='rsync -vrPlu'

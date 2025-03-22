@@ -1,1 +1,0 @@
-SUBSYSTEM=="net", ACTION=="add", ATTR{perm_address}=="74:27:ea:66:76:46", NAME="enp2s0"
