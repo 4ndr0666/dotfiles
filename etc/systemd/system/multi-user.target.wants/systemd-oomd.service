@@ -1,1 +1,51 @@
-/etc/systemd/system/systemd-oomd.service
+[Unit]
+Description=Userspace Out-Of-Memory (OOM) Killer
+Documentation=man:systemd-oomd.service(8)
+Documentation=man:org.freedesktop.oom1(5)
+DefaultDependencies=no
+Before=multi-user.target shutdown.target
+Conflicts=shutdown.target
+ConditionControlGroupController=v2
+ConditionControlGroupController=memory
+ConditionPathExists=/proc/pressure/cpu
+ConditionPathExists=/proc/pressure/io
+ConditionPathExists=/proc/pressure/memory
+Requires=systemd-oomd.socket
+After=systemd-oomd.socket
+
+[Service]
+AmbientCapabilities=CAP_KILL CAP_DAC_OVERRIDE
+BusName=org.freedesktop.oom1
+CapabilityBoundingSet=CAP_KILL CAP_DAC_OVERRIDE
+ExecStart=/usr/lib/systemd/systemd-oomd
+IPAddressDeny=any
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+MemoryMin=64M
+MemoryLow=64M
+NoNewPrivileges=yes
+OOMScoreAdjust=-900
+PrivateDevices=yes
+PrivateTmp=disconnected
+ProtectClock=yes
+ProtectHome=yes
+ProtectHostname=yes
+ProtectKernelLogs=yes
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+ProtectSystem=strict
+Restart=on-failure
+RestrictAddressFamilies=AF_UNIX
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+SystemCallArchitectures=native
+SystemCallErrorNumber=EPERM
+SystemCallFilter=@system-service
+Type=notify
+User=systemd-oom
+WatchdogSec=3min
+
+[Install]
+WantedBy=multi-user.target
+Alias=dbus-org.freedesktop.oom1.service
