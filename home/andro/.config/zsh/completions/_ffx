@@ -1,0 +1,67 @@
+#compdef ffx
+
+# ZSH completion for ffx
+#
+#
+# This file is part of ffx.
+#
+# ffx is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) any later version.
+#
+# ffx is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with ffx.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+local curcontext="$curcontext" state state_descr line
+typeset -A opt_args
+
+local -a commands
+commands=(
+  "help:Show usage information"
+  "probe:Display file info in a formatted cyan-colored table"
+  "process:Process a file (lossless/transmux with optional downscaling)"
+  "merge:Merge multiple files with advanced composite layouts"
+  "looperang:Create a lossless palindromic loop"
+  "slowmo:Create a slow motion effect with optional high-quality interpolation"
+  "fix:Fix DTS and timestamp issues"
+  "clip:Interactive cut of a video file"
+  "clean:Clean metadata from a file"
+)
+
+local -a global_options
+global_options=(
+  "--advanced[Enable advanced interactive prompts]"
+  "-A[Enable advanced interactive prompts]"
+  "--verbose[Enable verbose logging (shows FFmpeg progress bar)]"
+  "-v[Enable verbose logging (shows FFmpeg progress bar)]"
+  "-b[Enable bulk mode for process, fix, and clean operations]"
+  "-an[Remove audio (default: preserve audio)]"
+  "-d[Enable debug mode (prints extra debug output)]"
+  "-C[Force composite fallback in merges]"
+  "--composite[Force composite fallback in merges]"
+  "-P[Enforce maximum height of 1080p]"
+  "--max1080[Enforce maximum height of 1080p]"
+)
+
+# Generate completion for the command and global options
+_arguments -C -s \
+  '1:command:(( ${commands[@]} ))' \
+  '*::options:->opts' && return 0
+
+case $state in
+  opts)
+    _describe -t options "global options" global_options
+    ;;
+  *)
+    _files
+    ;;
+esac
+
+return 0
