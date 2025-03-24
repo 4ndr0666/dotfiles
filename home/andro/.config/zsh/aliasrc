@@ -1166,8 +1166,6 @@ gupdate() {
         echo "Error: Failed to copy files from ${source_dir} to ${target_dir}."
         return 1
     fi
-
-    echo "Changing directory to '${repo_dir}'..."
     if ! cd "${repo_dir}"; then
         echo "Error: Failed to change directory to ${repo_dir}."
         return 1
@@ -1179,10 +1177,8 @@ gupdate() {
         echo "Error: gcomp failed. Aborting workflow."
         return 1
     fi
-
-    # Step 4: Tidy up your Git workspace (gh-tidy should be defined)
-    gh-tidy
-    gh-setup
+    gh tidy
+    gh setup
 }
 
 gignore() {
