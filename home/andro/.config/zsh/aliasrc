@@ -1157,19 +1157,16 @@ alias gfs='git-lfs'
 #alias gupdate='gcomp && gh tidy && gh setup'
 
 gupdate() {
-    # Define directories (adjust these paths as necessary)
     local source_dir="$HOME/.config/zsh/"
     local target_dir="/home/git/clone/dotfiles/home/andro/.config/zsh/"
     local repo_dir="/home/git/clone/dotfiles/"
 
-    # Step 1: Copy updated dotfiles to the local clone
     echo "Copying updated dotfiles from '${source_dir}' to '${target_dir}'..."
     if ! cp -r "${source_dir}"* "${target_dir}"; then
         echo "Error: Failed to copy files from ${source_dir} to ${target_dir}."
         return 1
     fi
 
-    # Step 2: Change directory to the dotfiles repository
     echo "Changing directory to '${repo_dir}'..."
     if ! cd "${repo_dir}"; then
         echo "Error: Failed to change directory to ${repo_dir}."
@@ -1184,18 +1181,8 @@ gupdate() {
     fi
 
     # Step 4: Tidy up your Git workspace (gh-tidy should be defined)
-    echo "Tidying up your Git workspace..."
-    if ! gh-tidy; then
-        echo "Error: gh-tidy failed. Aborting workflow."
-        return 1
-    fi
-
-    # Step 5: Run gh-setup (your Go program) to update extensions or perform other setup tasks
-    echo "Running gh-setup..."
-    if ! gh-setup; then
-        echo "Error: gh-setup failed."
-        return 1
-    fi
+    gh-tidy
+    gh-setup
 }
 
 gignore() {
