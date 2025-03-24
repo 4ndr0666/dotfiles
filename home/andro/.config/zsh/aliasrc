@@ -17,10 +17,10 @@ fi
 ## LS
 
 #### Config 1
-alias ls='exa -hlx --no-filesize --no-time --no-permissions --color=always --group-directories-first --icons=always'
-alias la="lsd -aFlL --permission=rwx --color=always --group-directories-first --icon=always"
-alias ll='exa -xXDa --color=always  --icons=always'
-alias l.='exa -ax --sort=modified --color-scale-mode=gradient --color=always --group-directories-first --icons | grep "^\."'
+alias ls='eza -Xr --sort new --no-filesize --no-time --no-permissions --colour=always --colour-scale=age --colour-scale-mode=gradient --group-directories-first --icons=always --smart-group'
+alias la="lsd -alLU --permission=rwx --color=always --group-directories-first --icon=always"
+alias ll='eza -xXD --colour=always --colour-scale=size --colour-scale-mode=gradient --icons=always'
+alias l.='eza -Xdr --sort new --colour-scale-mode=gradient --colour=always --group-directories-first --icons=always .[!.]*'
 #exa -aT -s new --color=always --group-directories-first --icons
 
 #### Config 2
@@ -34,7 +34,7 @@ alias LS='\ls -1FSsh'
 #alias lart='ls -1Fcart'
 #alias lrt='ls -1Fcrt'
 #alias lm='ls -m'
-alias lr='lsd -tr'
+alias lr='eza -Xhr --sort new --group-directories-first --icons=always --colour=always --colour-scale=age --colour-scale-mode=gradient'
 #alias lg='ls -l --group-directories-first'
 
 #### Config 3
@@ -62,6 +62,9 @@ alias lr='lsd -tr'
 alias lsn='\ls | cat -n'
 
 ## LS Functions
+
+#### Ls files only
+alias lsf='eza -xrf --colour=always --colour-scale=age --colour-scale-mode=gradient --icons=always'
 
 #### Ls with Bat
 alias lb='\ls | bat'
@@ -134,7 +137,7 @@ alias ln='ln -iv'
 alias wget="wget -c"
 alias curl="curl --user-agent 'noleak'"
 alias df='df -h --exclude-type=squashfs --exclude-type=tmpfs --exclude-type=devtmpfs'
-alias cat='bat --paging=never'
+#alias cat='bat --paging=never'
 alias ccat="highlight --out-format=ansi"
 alias showpath='echo $PATH | tr ":" "\n"'
 alias rsync='rsync -vrPlu'
@@ -667,29 +670,48 @@ fzscr() {
 
 alias kmon='sudo kmon --color blue --accent-color 15FFFF --unicode'
 
+## The Silver Searcher
+
+ags() {
+    if [ "$#" -ne 2 ]; then
+        echo "Usage: ags <filename> <search_term>"
+        return 1
+    fi
+    ag --group --stats --color "$2" "$1" | less -R
+}
+
 ## FD
 
+#### Alias to search including hidden files and following symlinks, but excluding .git
 alias fd='fd --hidden --follow --exclude ".git"'
-alias fd1='fd --exact-depth=1 --hidden --follow --exclude ".git"' # Keeps search depth at first level
+
+#### Alias for first-level search only
+alias fd1='fd --exact-depth=1 --hidden --follow --exclude ".git"'
+
+#### Function to perform glob-based search with optional case-insensitivity and max-depth
 fdde() {
     local case_flag=""
     local depth_flag=""
 
-    # Enable case-insensitive search if the first argument is '-i'
+    #### Enable case-insensitive search if the first argument is '-i'
     if [[ "$1" == "-i" ]]; then
         case_flag="--ignore-case"
         shift
     fi
 
+    #### If a pattern is provided, use it; otherwise, display usage message
+    if [ -z "$1" ]; then
+        echo "Usage: fdde [-i] <pattern> [max-depth]"
+        return 1
+    fi
+
+    #### Set the max-depth flag if a second argument is provided
     if [ -n "$2" ]; then
         depth_flag="--max-depth $2"
     fi
 
-    if [ -z "$1" ]; then
-        echo "Usage: fdd_exact [-i] <pattern> [max-depth]"
-    else
-        fd $case_flag $depth_flag --glob "$1" "$(pwd)"
-    fi
+    #### Execute fd with the collected flags and the provided pattern
+    fd $case_flag $depth_flag --glob "$1"
 }
 
 ## Nxsiv
@@ -698,7 +720,7 @@ vidt() {
     local thumb_dir="$HOME/.cache/video_thumbs"
     mkdir -p "$thumb_dir"
 
-    # Disable confirmation for rm (using local zsh option)
+    #### Disable confirmation for rm (using local zsh option)
     setopt localoptions rmstarsilent
     rm -f "$thumb_dir"/*
 
@@ -722,37 +744,38 @@ vidt() {
 
 ## Expressvpn Legacy
 
-#alias vpnc='sudo expressvpn connect'
-#alias vpnd='sudo expressvpn disconnect'
-#alias vpns='sudo expressvpn status'
-#alias vpnr='sudo expressvpn refresh'
-#alias vpnauto='expressvpn autoconnect true'
-#alias vpnset='sudo expressvpn preferences set'
-#alias vpnl='sudo expressvpn list'
-#alias vpnblock='sudo expressvpn preferences set block_all false'
-#alias vpnproto='sudo expressvpn protocol lightway_udp'
+alias vpnc='sudo expressvpn connect'
+alias vpnd='sudo expressvpn disconnect'
+alias vpns='sudo expressvpn status'
+alias vpnr='sudo expressvpn refresh'
+alias vpnauto='expressvpn autoconnect true'
+alias vpnset='sudo expressvpn preferences set'
+alias vpnl='sudo expressvpn list'
+alias vpnblock='sudo expressvpn preferences set block_all false'
+alias vpnproto='sudo expressvpn protocol lightway_udp'
 
 ## Expressvpn Universal App
 
-alias vpnc='expressvpnctl connect'
-alias vpnd='expressvpnctl disconnect'
-alias vpns='expressvpnctl get vpnip && expressvpnctl status'
-alias vpnl='expressvpnctl get regions'
-alias vpn-bullshitoff='expressvpnctl set blockAll false'
-alias vpnproto='expressvpnctl set protocol lightwayudp'
-alias checkvpn='expressvpnctl get connectionstate && expressvpnctl get dnsconfigured'
+#alias vpnc='expressvpnctl connect'
+#alias vpnd='expressvpnctl disconnect'
+#alias vpns='expressvpnctl get vpnip && expressvpnctl status'
+#alias vpnl='expressvpnctl get regions'
+#alias vpnnoextras='expressvpnctl set blockAll false'
+#alias vpnproto='expressvpnctl set protocol lightwayudp'
+#alias checkvpn='expressvpnctl get connectionstate && expressvpnctl get dnsconfigured'
 ## -------------- Blocking ---------------- ##
-alias blocklan='expressvpnctl set allowlan false'
-alias unblocklan='expressvpnctl set allowlan true'
-alias locknet='sudo expressvpnctl set networklock true'
-alias ulcknet='sudo expressvpnctl set networklock false'
+#alias vpnlan='expressvpnctl set allowlan false'
+#alias vpnnolan='expressvpnctl set allowlan true'
+#alias vpnlocknet='sudo expressvpnctl set networklock true'
+#alias vpnunlocknet='sudo expressvpnctl set networklock false'
 ## -------------- Tunneling --------------- ##
-alias vpnt='sudo expressvpnctl set splittunnel true'
-alias vpnbypass='f(){ sudo expressvpnctl set split-app bypass:"$1"; }; f'
-alias vpnadd='f(){ sudo expressvpnctl set split-app vpn:"$1"; }; f'
-alias vpnrm='f(){ sudo expressvpnctl set split-app remove:"$1"; }; f'
+#alias vpnton='sudo expressvpnctl set splittunnel true'
+#alias vpntoff='sudo expressvpnctl set splittunnel false'
+#alias vpnbypass='f(){ sudo expressvpnctl set split-app bypass:"$1"; }; f'
+#alias vpnadd='f(){ sudo expressvpnctl set split-app vpn:"$1"; }; f'
+#alias vpnrm='f(){ sudo expressvpnctl set split-app remove:"$1"; }; f'
 ## -------------- Fuck The GUI -------------- ##
-alias vpncli='expressvpnctl background enable'
+#alias vpncli='expressvpnctl background enable'
 
 ## Nvim
 
@@ -944,26 +967,23 @@ alias yta='yt -x -f bestaudio/best'
 ## Mpv
 
 playdir() {
-    # Check if an argument is provided
     if [[ -z "$1" ]]; then
         echo "No file or directory provided." >&2
         return 1
     fi
 
-    # Determine target directory:
-    # If the argument is a directory, use it;
-    # otherwise, use the parent directory of the given file.
+    #### If the argument is a directory, use it;
+    #### otherwise, use the parent directory of the given file.
     if [[ -d "$1" ]]; then
         target="$1"
     else
         target=$(dirname "$1")
     fi
 
-    # Change into the target directory
     cd "$target" || return 1
 
-    # Launch mpv with a playlist generated via process substitution.
-    # The find command uses absolute paths (via $(pwd)) and filters for media files.
+    #### Launch mpv with a playlist generated via process substitution.
+    #### The find command uses absolute paths (via $(pwd)) and filters for media files.
     mpv --playlist=<(find "$(pwd)" -maxdepth 1 -type f \( \
           -iname "*.mp4" -o -iname "*.m4v" -o -iname "*.mkv" -o \
           -iname "*.avi" -o -iname "*.gif" -o -iname "*.mov" -o \
@@ -1057,7 +1077,7 @@ alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
 alias riplong="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -3000 | nl"
 alias gitpkg="pacman -Q | grep -i '\-git' | wc -l"
 alias pkgbysize="expac -Q '%m - %n %v' | sort -n -r"
-alias mkpkglist='\bat /tmp/pacui-ls'
+alias mkpkglist='cat /tmp/pacui-ls'
 
 ## Reflector
 
@@ -1134,7 +1154,74 @@ alias gstash='git stash --all'
 alias gclear='git stash clear'
 alias ghr="git reset --hard"
 alias gfs='git-lfs'
-alias gupdate='gcomp && gh tidy && gh setup'
+#alias gupdate='gcomp && gh tidy && gh setup'
+
+gupdate() {
+    # Define directories (adjust these paths as necessary)
+    local source_dir="$HOME/.config/zsh/"
+    local target_dir="/home/git/clone/dotfiles/home/andro/.config/zsh/"
+    local repo_dir="/home/git/clone/dotfiles/"
+
+    # Step 1: Copy updated dotfiles to the local clone
+    echo "Copying updated dotfiles from '${source_dir}' to '${target_dir}'..."
+    if ! cp -r "${source_dir}"* "${target_dir}"; then
+        echo "Error: Failed to copy files from ${source_dir} to ${target_dir}."
+        return 1
+    fi
+
+    # Step 2: Change directory to the dotfiles repository
+    echo "Changing directory to '${repo_dir}'..."
+    if ! cd "${repo_dir}"; then
+        echo "Error: Failed to change directory to ${repo_dir}."
+        return 1
+    fi
+
+    # Step 3: Auto-commit, pull, and push changes (gcomp should be defined)
+    echo "Auto-committing changes..."
+    if ! gcomp; then
+        echo "Error: gcomp failed. Aborting workflow."
+        return 1
+    fi
+
+    # Step 4: Tidy up your Git workspace (gh-tidy should be defined)
+    echo "Tidying up your Git workspace..."
+    if ! gh-tidy; then
+        echo "Error: gh-tidy failed. Aborting workflow."
+        return 1
+    fi
+
+    # Step 5: Run gh-setup (your Go program) to update extensions or perform other setup tasks
+    echo "Running gh-setup..."
+    if ! gh-setup; then
+        echo "Error: gh-setup failed."
+        return 1
+    fi
+}
+
+gignore() {
+    #### Ensure a pattern is provided
+    if [ -z "$1" ]; then
+        echo "Usage: gitignore_add <pattern>"
+        return 1
+    fi
+
+    local pattern="$1"
+    local gitignore_file="$HOME/.gitignore_global"
+
+    #### Create the file if it doesn't exist
+    if [ ! -f "$gitignore_file" ]; then
+        touch "$gitignore_file"
+        echo "Created $gitignore_file"
+    fi
+
+    #### Check if the pattern already exists (exact match)
+    if grep -Fxq "$pattern" "$gitignore_file"; then
+        echo "Pattern '$pattern' already exists in $gitignore_file"
+    else
+        echo "$pattern" >> "$gitignore_file"
+        echo "Added pattern '$pattern' to $gitignore_file"
+    fi
+}
 
 gclone() {
     if [[ -z "$1" ]]; then
@@ -1555,10 +1642,10 @@ killit() {
 ## 4ndr0view
 
 #### Quicly view configuration files
-alias 00='bat ~/.config/shellz/aliasrc'
-alias 0f='bat ~/.config/shellz/functions.zsh'
-alias 0z='bat ~/.config/zsh/.zshrc'
-alias 0p='bat ~/.config/zsh/.zprofile'
+alias 00='bat --paging=always ~/.config/zsh/aliasrc'
+alias 0f='bat --paging=always ~/.config/zsh/functions.zsh'
+alias 0z='bat --paging=always ~/.config/zsh/.zshrc'
+alias 0p='bat --paging=always ~/.config/zsh/.zprofile'
 
 # ===================================================================================================
 

@@ -8,6 +8,8 @@ node_modules/
 .idea/
 .pytest_cache/
 
+## File patterns
+
 *.swp
 *~
 *tmp*
@@ -22,3 +24,9 @@ node_modules/
 *.bak
 *.cache*
 *history*
+
+## Dotfiles local exclusions (do not push these)
+functions.zsh.~1~
+run-wayfire.new
+ytdl.zsh.compare
+ytdl.zsh_Mar-21-2025_13.31PM_backup.tar.gz

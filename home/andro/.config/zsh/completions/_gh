@@ -1,3 +1,7 @@
+#File: $HOME/.config/shellz/completions.zsh
+#Author: 4ndr0666
+#
+# --- // COMPLETIONS.ZSH // ========
 #compdef gh
 compdef _gh gh
 
