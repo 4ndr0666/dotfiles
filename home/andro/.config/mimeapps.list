@@ -1,5 +1,4 @@
 [Default Applications]
-image/gif=img.desktop;
 text/x-shellscript=text.desktop;
 x-scheme-handler/magnet=torrent.desktop;
 application/x-bittorrent=torrent.desktop;
@@ -9,9 +8,25 @@ application/postscript=pdf.desktop;
 application/pdf=pdf.desktop;
 image/png=img.desktop;
 image/jpeg=img.desktop;
+image/gif=img.desktop;
 application/rss+xml=rss.desktop
 video/x-matroska=video.desktop
 video/mp4=video.desktop
 x-scheme-handler/lbry=lbry.desktop
 inode/directory=file.desktop
-image/webp=net.fasterland.converseen.desktop
+
+[Added Associations]
+text/html=text.desktop
+image/webp=userapp-imgtopng.sh-CKMB42.desktop;
+video/x-ms-wmv=video.desktop;
+video/quicktime=video.desktop
+video/webm=video.desktop
+video/mpeg=video.desktop
+image/gif=img.desktop;
+text/x-log=text.desktop;
+audio/mpeg=video.desktop;
+video/mpeg=video.desktop;
+video/x-flv=video.desktop;
+image/x-adobe-dng=viewnior.desktop;
+video/mp2t=video.desktop;
+video/vnd.avi=video.desktop;
