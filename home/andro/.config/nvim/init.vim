@@ -1,3 +1,18 @@
+" =============================================================================
+"                                INIT.VIM CONFIGURATION
+" =============================================================================
+"
+" Author: 4ndr0666
+" Date: 12-30-24
+" Description: Enhanced Neovim configuration with optimized ALE integration,
+"              streamlined plugin management, and improved settings for better
+"              performance and maintainability.
+"
+" =============================================================================
+
+" ---------------------------
+" 1. Leader Key Configuration
+" ---------------------------
 let mapleader =","
 
 if ! filereadable(system('echo -n "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim"'))
@@ -37,32 +52,51 @@ call plug#end()
 
 set title
 set bg=light
-nnoremap <F5> :UndotreeToggle<CR> :UndotreeFocus<CR>
 set go=a
 set mouse=a
 set nohlsearch
-set clipboard=unnamedplus
-set cursorline
-highlight CursorLine ctermbg=Yellow cterm=bold guibg=#2b2b2b
-      set noerrorbells
+set clipboard+=unnamedplus
+if has('clipboard')
+  let g:clipboard = {
+        \ 'name': 'wl-clipboard',
+        \ 'copy': {
+        \   '+': 'wl-copy',
+        \   '*': 'wl-copy',
+        \ },
+        \ 'paste': {
+        \   '+': 'wl-paste -n',
+        \   '*': 'wl-paste -n',
+        \ },
+        \ 'cache_enabled': 0
+        \ }
+endif
 set noshowmode
 set noruler
 set laststatus=0
 set noshowcmd
 colorscheme nightfox
-
 " Some basics:
 	nnoremap c "_c
 	filetype plugin on
 	syntax on
 	let g:auto_save = 1
 	let g:auto_save_events = ["InsertLeave", "TextChanged"]
-	let $FZF_DEFAULT_COMMAND = 'fdfind --type f --hidden --follow --exclude .git --ignore-file ~/.ignore'
 	set encoding=utf-8
 	set number relativenumber
-" Enable autocompletion:
-	set wildmode=longest,list,full
-" Disables automatic commenting on newline:
+
+" Highlight CursorLine
+	set cursorline
+	highlight CursorLine ctermbg=Yellow cterm=bold guibg=#2b2b2b
+
+
+
+
+" Enable mucompletion:
+	let g:mucomplete#enable_auto_at_startup = 1
+	let g:mucomplete#completion_delay = 1
+	set completeopt+=menuone,noselect
+
+" Disable automatic commenting on newline
 	autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 " Perform dot commands over visual blocks:
 	vnoremap . :normal .<CR>
@@ -77,13 +111,6 @@ colorscheme nightfox
 	map <leader>n :NERDTreeToggle<CR>
 	autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 	let NERDTreeBookmarksFile = stdpath('data') . '/NERDTreeBookmarks'
-    let NERDTreeShowHidden=1
-
-" Persistent_undo
-	set undodir=~/.vim/undodir"
-	set undofile
-	let g:undotree_WindowLayout = 2
-	
 " Markdown Edits
     let g:vim_markdown_autowrite = 1
     let g:vim_markdown_no_extensions_in_markdown = 1
@@ -101,7 +128,8 @@ colorscheme nightfox
 	endif
 	let g:airline_symbols.colnr = ' C:'
 	let g:airline_symbols.linenr = ' L:'
-	let g:airline_symbols.maxlinenr = '☰ '
+	let g:airline_symbols.maxlinenr = ' '
+	let g:airline#extensions#whitespace#symbol = '!'
 
 " Shortcutting split navigation, saving a keypress:
 	map <C-h> <C-w>h
@@ -129,7 +157,7 @@ colorscheme nightfox
 	map <leader>p :!opout "%:p"<CR>
 
 " Runs a script that cleans out tex build files whenever I close out of a .tex file.
-	autocmd VimLeave *.tex !texclear %
+	autocmd VimLeave *.tex !latexmk -c %
 
 " Ensure files are read as what I want:
 	let g:vimwiki_ext2syntax = {'.Rmd': 'markdown', '.rmd': 'markdown','.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
@@ -139,19 +167,69 @@ colorscheme nightfox
 	autocmd BufRead,BufNewFile *.ms,*.me,*.mom,*.man set filetype=groff
 	autocmd BufRead,BufNewFile *.tex set filetype=tex
 
-" Save file as sudo on files that require root permission
+" ---------------------------
+" ALE (Asynchronous Lint Engine) Configuration
+" ---------------------------
+let g:ale_disable_lsp = 1        " Disable ALE's built-in LSP features
+let g:ale_fix_on_save = 1       " Enable ALE fixers on save
+
+" Configure ALE fixers
+let g:ale_fixers = {
+    \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+    \ 'sh': ['shellcheck', 'shfmt', 'remove_trailing_lines', 'trim_whitespace'],
+    \ 'python': ['autopep8', 'pyright'],
+    \ 'lua': ['lua_ls', 'stylua'],
+    \ 'javascript': ['eslint'],
+    \ 'markdown': ['prettier'],
+    \ }
+
+" Configure ALE linters
+let g:ale_linters = {
+    \ 'python': ['flake8', 'pylint'],
+    \ 'javascript': ['eslint'],
+    \ 'lua': ['luacheck'],
+    \ 'sh': ['shellcheck'],
+    \ 'tex': ['chktex'],
+    \ }
+
+
+
+
+" ALE navigation mappings
+nmap <silent> <leader>k <Plug>(ale_previous_wrap)
+nmap <silent> <leader>j <Plug>(ale_next_wrap)
+
+
+" Enable ALE integration with vim-airline
+let g:airline#extensions#ale#enabled = 1
+
+
+
+
+
+" Save file as sudo
 	cabbrev w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
+
+" Enable Goyo by default for mutt writing
+	autocmd BufRead,BufNewFile /tmp/neomutt* :Goyo 80 | call feedkeys("jk")
+	autocmd BufRead,BufNewFile /tmp/neomutt* map ZZ :Goyo!\|x!<CR>
+	autocmd BufRead,BufNewFile /tmp/neomutt* map ZQ :Goyo!\|q!<CR>
 
 " Automatically deletes all trailing whitespace and newlines at end of file on save. & reset cursor position
  	autocmd BufWritePre * let currPos = getpos(".")
 	autocmd BufWritePre * %s/\s\+$//e
 	autocmd BufWritePre * %s/\n\+\%$//e
-    autocmd BufWritePre *.[ch] %s/\%$/\r/e " add trailing newline for ANSI C standard
-    autocmd BufWritePre *neomutt* %s/^--$/-- /e " dash-dash-space signature delimiter in emails
+  autocmd BufWritePre *.[ch] %s/\%$/\r/e " add trailing newline for ANSI C standard
+  autocmd BufWritePre *neomutt* %s/^--$/-- /e " dash-dash-space signature delimiter in emails
   	autocmd BufWritePre * cal cursor(currPos[1], currPos[2])
 
 " When shortcut files are updated, renew bash and ranger configs with new material:
 	autocmd BufWritePost bm-files,bm-dirs !shortcuts
+" Run xrdb whenever Xdefaults or Xresources are updated.
+	autocmd BufRead,BufNewFile Xresources,Xdefaults,xresources,xdefaults set filetype=xdefaults
+	autocmd BufWritePost Xresources,Xdefaults,xresources,xdefaults !xrdb %
+" Recompile dwmblocks on config edit.
+	autocmd BufWritePost ~/.local/src/dwmblocks/config.h !cd ~/.local/src/dwmblocks/; sudo make install && { killall -q dwmblocks;setsid -f dwmblocks }
 
 " Turns off highlighting on the bits of code that are changed, so the line that is changed is highlighted but the actual text that has changed stands out on the line and is readable.
 if &diff
@@ -181,27 +259,3 @@ nnoremap <leader>h :call ToggleHiddenAll()<CR>
 " So ":vs ;cfz" will expand into ":vs /home/<user>/.config/zsh/.zshrc"
 " if typed fast without the timeout.
 silent! source ~/.config/nvim/shortcuts.vim
-
-" LSP and Completion Configuration
-lua << EOF
--- Enable LSP for C/C++ using clangd, and other languages (expand this as needed)
-local lspconfig = require'lspconfig'
-lspconfig.clangd.setup{}  -- C/C++ LSP
-
--- Additional LSP servers can be set up here
--- Example for Python (using pyright):
--- lspconfig.pyright.setup{}
-
--- nvim-cmp setup for LSP-based completion
-local cmp = require'cmp'
-cmp.setup {
-  sources = {
-    { name = 'nvim_lsp' },  -- LSP as a source for completion
-  },
-  mapping = {
-    ['<Tab>'] = cmp.mapping.select_next_item(),
-    ['<S-Tab>'] = cmp.mapping.select_prev_item(),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }),  -- Accept completion
-  },
-}
-EOF
