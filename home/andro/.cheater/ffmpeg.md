@@ -271,7 +271,7 @@ Variation 5 (40x speed):
 
 ## Ripping Streaming Media
 
-1. Acquire m3u8 url: `youtube-dl` used with the -g flag will print out the m3u8 url and exit.
+1. Acquire m3u8 url: `youtube-dl` used with the -g flag will print out the m3u8 url and exit. Live HLS streams are not supported by the native downloader. If this is a livestream, please add "--downloader ffmpeg --hls-use-mpegts" to your command.
 
 2. Download and concatenate the video fragments:
    ```shell
