@@ -1162,23 +1162,30 @@ gupdate() {
     local repo_dir="/home/git/clone/dotfiles/"
 
     echo "Copying updated dotfiles from '${source_dir}' to '${target_dir}'..."
-    if ! cp -r "${source_dir}"* "${target_dir}"; then
+    if ! rsync -av --update --progress "${source_dir}"* "${target_dir}"; then
         echo "Error: Failed to copy files from ${source_dir} to ${target_dir}."
         return 1
     fi
+
     if ! cd "${repo_dir}"; then
         echo "Error: Failed to change directory to ${repo_dir}."
         return 1
     fi
 
-    # Step 3: Auto-commit, pull, and push changes (gcomp should be defined)
-    echo "Auto-committing changes..."
     if ! gcomp; then
         echo "Error: gcomp failed. Aborting workflow."
         return 1
     fi
-    gh tidy
-    gh setup
+
+    if ! gh tidy; then
+        echo "Error: gh tidy failed."
+        return 1
+    fi
+
+    if ! gh setup; then
+        echo "Error: gh setup failed."
+        return 1
+    fi
 }
 
 gignore() {
