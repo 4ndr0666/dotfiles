@@ -1,4 +1,13 @@
 #!/usr/bin/env bash
+# Author: 4ndr0666
+
+# ============= // PLAYDIR //
+
+# Description: No file is made, instead process substitution
+#              send the playlist directly to mpv. Only media
+#              files are selected through filtering and I/O 
+#              overhead is avoided by not creating a temp file.
+
 playdir() {
     if [ -z "$1" ]; then
         echo "No file or directory provided." >&2
@@ -10,9 +19,10 @@ playdir() {
         target=$(dirname "$1")
     fi
     cd "$target" || exit 1
-    playlist=$(mktemp /tmp/playlist.XXXXXX)
-    find . -maxdepth 1 -type f \( -iname "*.mp3" -o -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" \) > "$playlist"
-    trap 'rm -f "$playlist"' EXIT
-    mpv --playlist="$playlist" --shuffle --loop=no
+    #### Filtering for media files only:
+    mpv --playlist=<(find "$(pwd)" -maxdepth 1 -type f \( \
+          -iname "*.mp4" -o -iname "*.m4v" -o -iname "*.mkv" -o \
+          -iname "*.avi" -o -iname "*.gif" -o -iname "*.mov" -o \
+          -iname "*.3gp" -o -iname "*.ts" \)) --shuffle --loop=no
 }
 playdir "$1"

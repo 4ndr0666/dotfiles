@@ -17,10 +17,11 @@ fi
 ## LS
 
 #### Config 1
-alias ls='eza -Xr --sort new --no-filesize --no-time --no-permissions --colour=always --colour-scale=age --colour-scale-mode=gradient --group-directories-first --icons=always --smart-group'
-alias la="lsd -alLU --permission=rwx --color=always --group-directories-first --icon=always"
-alias ll='eza -xXD --colour=always --colour-scale=size --colour-scale-mode=gradient --icons=always'
-alias l.='eza -Xdr --sort new --colour-scale-mode=gradient --colour=always --group-directories-first --icons=always .[!.]*'
+alias ls='eza -X --no-filesize --no-time --no-permissions --colour-scale=size --colour-scale-mode=gradient --group-directories-first --icons=always --smart-group'
+alias la='eza -alXMoZ --no-quotes --time=created --classify=always --colour-scale=all --colour-scale-mode=gradient --icons=always'
+#'lsd -alLU --permission=rwx --color=always --group-directories-first --icon=always'
+alias ll='eza -xXDh --colour-scale=size --colour-scale-mode=gradient --icons=always --smart-group'
+alias l.='eza -Xd --sort new --colour-scale-mode=gradient --colour-scale=age --group-directories-first --icons=always .[!.]*'
 #exa -aT -s new --color=always --group-directories-first --icons
 
 #### Config 2
@@ -30,11 +31,9 @@ alias l.='eza -Xdr --sort new --colour-scale-mode=gradient --colour=always --gro
 #alias la='exa -hFlBgmnsa -s new --git --octal-permissions --group-directories-first --icons'
 #alias lt='ls -ltFh'
 #alias ldot='ls -1FSsh'
-alias LS='\ls -1FSsh'
 #alias lart='ls -1Fcart'
 #alias lrt='ls -1Fcrt'
 #alias lm='ls -m'
-alias lr='eza -Xhr --sort new --group-directories-first --icons=always --colour=always --colour-scale=age --colour-scale-mode=gradient'
 #alias lg='ls -l --group-directories-first'
 
 #### Config 3
@@ -59,21 +58,21 @@ alias lr='eza -Xhr --sort new --group-directories-first --icons=always --colour=
 #alias l1='ls -1F --group-directories-first'
 #alias l1m='ls -1F --group-directories-first | more'
 #alias lh='ls -ld .??*'
-alias lsn='\ls | cat -n'
+#alias lsn='\ls | cat -n'
 
 ## LS Functions
+
+#### Ls by Extension
+alias lse='eza -Xh --sort=extension --no-filesize --no-time --no-permissions --colour=auto --colour-scale=size --colour-scale-mode=gradient --group-directories-first --icons=always --smart-group'
+
+#### Ls by Name
+alias lsn='eza -Xh --sort=name --no-filesize --no-time --no-permissions --colour=auto --colour-scale=size --colour-scale-mode=gradient --group-directories-first --icons=always --smart-group'
 
 #### Ls files only
 alias lsf='eza -xrf --colour=always --colour-scale=age --colour-scale-mode=gradient --icons=always'
 
-#### Ls with Bat
-alias lb='\ls | bat'
-
-#### Ls on One Line
-alias l1='lsd -1'
-
-#### Ls symlinks
-alias lta='\ls -ltrha'
+#### Ls Most Recent Files Last
+alias lr='eza -XGx --no-filesize --no-permissions --no-user --sort modified --group-directories-first --icons=always --colour-scale=age --colour-scale-mode=gradient'
 
 #### List All Modified Files in Past 60 min
 alias ls60='sudo find / -mmin 60 -type f'
@@ -84,11 +83,23 @@ alias lsfdday='\ls *(m0)'
 #### List Files Modified in Past Day
 alias lsfday='\ls *(.m0)'
 
-#### List 3 Newest
-alias lsnew='\ls *(.om[1,3])'
+#### List 10 Newest
+alias lsnew='\ls *(.om[1,10])'
 
 #### List Most Recent Subdir
 alias lssubdir='\ls -d *(/om[1])'
+
+#### Unknown
+alias LS='\ls -1FSsh'
+
+#### Ls with Bat
+alias lb='\ls | bat'
+
+#### Ls on One Line
+alias l1='lsd -1'
+
+#### Ls symlinks
+alias lta='\ls -ltrha'
 
 
 ## Login Manager
@@ -108,7 +119,7 @@ alias tofish="sudo chsh $USER -s /bin/fish && echo 'Now log out.'"
 ## Wayfire
 
 #### reinstall dependencies
-alias refreshwayfire='yay -S wayfire-plugins-extra-git wayfire-git wf-config-git wf-osk-git wf-recorder-git'
+alias refreshwayfire='yes | yay -S wayfire-plugins-extra-git wayfire-git wf-config-git wf-recorder-git --wayland-protocols-git wayland-utils qt6-wayland xorg-xwayland-git wlroots-git wlr-protocols-git --aur --clean --cleanmenu --noconfirm --overwrite="*" --provides --rebuildtree --redownloadall --refresh --singlelineresults --sudoloop'
 
 # System General Aliases
 
@@ -121,7 +132,7 @@ alias s='sudo'
 alias e='$EDITOR'
 alias v='$EDITOR'
 alias p="sudo pacman"
-alias ka='killall'
+alias ka='sudo killall -9'
 alias cp='cp --preserve=all'
 alias cpv='cp --preserve=all -v'
 alias cpr='cp --preserve=all -R'
@@ -154,7 +165,7 @@ alias free='free -mt'
 alias jctl='journalctl -p 3 -xb'
 alias mapit="ifconfig -a | grep -Po '\b(?!255)(?:\d{1,3}\.){3}(?!255)\d{1,3}\b' | xargs nmap -A -p0-"
 alias ports='ss -tunlp'
-alias whatonline='lsof -P -i -n'
+alias whatsonline='lsof -P -i -n'
 alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python3 -'
 alias netspeed='ifstat -t -S -w'
 alias dir5='du -cksh * | sort -hr | head -5'

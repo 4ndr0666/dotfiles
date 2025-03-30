@@ -3,23 +3,19 @@
 
 # =============== // YTDL.ZSH //
 
-
-
-## Config Map
-
-declare -A YTDLP_COOKIES_MAP=(
-    ["youtube.com"]="$HOME/.config/yt-dlp/youtube_cookies.txt"
-    ["youtu.be"]="$HOME/.config/yt-dlp/youtube_cookies.txt"
-    ["patreon.com"]="$HOME/.config/yt-dlp/patreon_cookies.txt"
-    ["vimeo.com"]="$HOME/.config/yt-dlp/vimeo_cookies.txt"
-    ["boosty.to"]="$HOME/.config/yt-dlp/boosty_cookies.txt"
-    ["instagram.com"]="$HOME/.config/yt-dlp/instagram_cookies.txt"
+## Config Maps
+typeset -A YTDLP_COOKIES_MAP=(
+  ["youtube.com"]="$HOME/.config/yt-dlp/youtube_cookies.txt"
+  ["youtu.be"]="$HOME/.config/yt-dlp/youtube_cookies.txt"
+  ["patreon.com"]="$HOME/.config/yt-dlp/patreon_cookies.txt"
+  ["vimeo.com"]="$HOME/.config/yt-dlp/vimeo_cookies.txt"
+  ["boosty.to"]="$HOME/.config/yt-dlp/boosty_cookies.txt"
+  ["instagram.com"]="$HOME/.config/yt-dlp/instagram_cookies.txt"
   ["fanvue.com"]="$HOME/.config/yt-dlp/fanvue_cookies.txt"
 )
 PREFERRED_FORMATS=("335" "315" "313" "308" "303" "299" "302" "271" "248" "137")
 
 ### Validate URL format.
-
 validate_url() {
   local url="$1"
   [[ "$url" =~ ^https?:// ]] && return 0 || return 1
@@ -372,7 +368,6 @@ ytdlc() {
 	--cookies "$cookie_file" \
 	--output "$odir/%(title)s.%(ext)s" "${extra_args[@]}" "$url"
     fi
-    printf "✔️ Selected format ID: $bestf"
     if [[ "$bestf" != "best" ]]; then
       local fmt_info
       fmt_info=$(get_format_details "$url" "$cookie_file" "$bestf")
@@ -384,14 +379,14 @@ ytdlc() {
     attempt_advanced_download "$url" "$cookie_file" "$bestf" "$odir" "${extra_args[@]}"
     local exit_code_adv=$?
     if [[ $exit_code_adv -eq 0 ]]; then
-      printf "✔️ Advanced download completed successfully for '$url'."
+      echo "✔️ Advanced download completed successfully for '$url'."
     else
       echo "❌ Advanced download failed for '$url'." >&2
       echo "➡️ Falling back to simple download (ytdl)..." >&2
       ytdl "$url"
       local exit_code_simple=$?
       if [[ $exit_code_simple -eq 0 ]]; then
-        printf "✔️ Fallback download (ytdl) succeeded for '$url'."
+        echo "✔️ Fallback download (ytdl) succeeded for '$url'."
       else
         echo "❌ Fallback download (ytdl) also failed for '$url'." >&2
         echo -n "➡️ Automatically reattempt advanced download? (max 1 reattempt) (y/n): "
@@ -404,7 +399,7 @@ ytdlc() {
 	    --cookies "$cookie_file" \
             --output "$odir/%(title)s.%(ext)s" "${extra_args[@]}" "$url"
           if [[ $? -eq 0 ]]; then
-            printf "✔️ Reattempt after fallback succeeded for '$url'."
+            echo "✔️ Reattempt after fallback succeeded for '$url'."
           else
             echo "❌ Reattempt after fallback failed for '$url'. Skipping." >&2
           fi
@@ -414,23 +409,7 @@ ytdlc() {
       fi
     fi
     echo "----------------------------------------"
- done
-
- # If there are extra arguments after '--', process them as ytdlp_extra_args
- if [[ "$#" -gt 0 ]]; then
-     for arg in "$@"; do
-         # Skip already processed URLs
-         if [[ "$arg" == "--" ]]; then
-             shift
-             break
-         fi
-     done
- fi
-
- # Pass any remaining arguments as yt-dlp extra args
- if [[ "$#" -gt 0 ]]; then
-     ytdlp_extra_args+=( "$@" )
- fi
+  done
 }
 
 ## Help
@@ -453,4 +432,3 @@ Examples:
   ytdlc https://patreon.com/page -f 303
 EOF_HELP
 }
-
