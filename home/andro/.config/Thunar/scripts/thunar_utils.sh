@@ -3,20 +3,7 @@
 
 # ============ // THUNAR_UTILS.SH //
 
-# Provides functions for:
-#   - Terminal launching (open_terminal)
-#   - Running commands as root (open_asroot)
-#   - Setting wallpaper (set_wallpaper)
-#   - Enabling lockscreen (set_lockscreen)
-#   - Changing file/directory ownership (change_ownership)
-#   - Copying file contents to clipboard (copy_to_clipboard)
-#   - Flattening directory structure (move_files_to_parent)
-#   - Opening a terminal with a root shell (open_root_shell)
-#   - Running a Rofi menu for as-root applications (run_rofi_asroot)
-#   - Converting WebP images to PNG (webptopng)
-# -----------------------------------------------------------------------------
-
-## Constants
+## X11
 
 config_dir="$HOME/.config"
 openbox_dir="$config_dir/openbox"
@@ -33,217 +20,217 @@ fluxbox_dir="$HOME/.fluxbox"
 _2bwm_dir='/usr/share/archcraft/2bwm'
 dwm_dir='/usr/share/archcraft/dwm'
 
+## Wayland
+
 sway_dir="$config_dir/sway"
 wayfire_dir="$config_dir/wayfire"
 river_dir="$config_dir/river"
 hypr_dir="$config_dir/hypr"
 newm_dir="$config_dir/newm"
 
-# Notification command
+## Notification
+
 notify_cmd="notify-send -i '/usr/share/archcraft/icons/dunst/desktop.png'"
 
-# -------------------------- Terminal Launching -------------------------------
+## Terminal
+
 open_terminal() {
-    if [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then
-        case "$XDG_CURRENT_DESKTOP" in
-            sway)
-                "$sway_dir/scripts/alacritty" ;;
-            wayfire)
-                "$wayfire_dir/scripts/alacritty" ;;
-            river)
-                "$river_dir/scripts/alacritty" ;;
-            hyprland|Hyprland)
-                "$hypr_dir/scripts/alacritty" ;;
-            newm)
-                "$newm_dir/scripts/terminal" ;;
-            *)
-                alacritty ;;
-        esac
-    else
-        case "$DESKTOP_SESSION" in
-            openbox)
-                alacritty ;;
-            bspwm)
-                "$bspwm_dir/scripts/bspterm" ;;
-            i3)
-                "$i3_dir/scripts/i3_term" ;;
-            qtile)
-                "$qtile_dir/scripts/qtile_term" ;;
-            2bwm)
-                "$_2bwm_dir/scripts/2bwm_term" ;;
-            berry)
-                "$berry_dir/scripts/berry_term" ;;
-            blackbox)
-                "$bb_dir/scripts/bb_term" ;;
-            cwm)
-                "$cwm_dir/scripts/cwm_term" ;;
-            dwm)
-                "$dwm_dir/scripts/dwm_term" ;;
-            evilwm)
-                "$ewm_dir/scripts/evilwm_term" ;;
-            fluxbox)
-                "$fluxbox_dir/scripts/fbox_term" ;;
-            herbstluftwm)
-                "$herb_dir/scripts/herb_term" ;;
-            xmonad)
-                "$xmonad_dir/scripts/xmonad_term" ;;
-            *)
-                alacritty ;;
-        esac
-    fi
+	if [[ "$XDG_SESSION_TYPE" == 'wayland' ]]; then
+		if [[ "$XDG_CURRENT_DESKTOP" == 'sway' ]]; then
+			"$sway_dir"/scripts/alacritty
+		elif [[ "$XDG_CURRENT_DESKTOP" == 'wayfire' ]]; then
+			"$wayfire_dir"/scripts/alacritty
+		elif [[ "$XDG_CURRENT_DESKTOP" == 'river' ]]; then
+			"$river_dir"/scripts/alacritty
+		elif [[ "$XDG_CURRENT_DESKTOP" == 'hyprland' || "$XDG_CURRENT_DESKTOP" == 'Hyprland' ]]; then
+			"$hypr_dir"/scripts/alacritty
+		elif [[ "$XDG_CURRENT_DESKTOP" == 'newm' ]]; then
+			"$newm_dir"/scripts/terminal
+		else
+			alacritty
+		fi
+	else
+		if [[ "$DESKTOP_SESSION" == 'openbox' ]]; then
+			alacritty
+		elif [[ "$DESKTOP_SESSION" == 'bspwm' ]]; then
+			"$bspwm_dir"/scripts/bspterm
+		elif [[ "$DESKTOP_SESSION" == 'i3' ]]; then
+			"$i3_dir"/scripts/i3_term
+		elif [[ "$DESKTOP_SESSION" == 'qtile' ]]; then
+			"$qtile_dir"/scripts/qtile_term
+		elif [[ "$DESKTOP_SESSION" == '2bwm' ]]; then
+			"$_2bwm_dir"/scripts/2bwm_term
+		elif [[ "$DESKTOP_SESSION" == 'berry' ]]; then
+			"$berry_dir"/scripts/berry_term
+		elif [[ "$DESKTOP_SESSION" == 'blackbox' ]]; then
+			"$bb_dir"/scripts/bb_term
+		elif [[ "$DESKTOP_SESSION" == 'cwm' ]]; then
+			"$cwm_dir"/scripts/cwm_term
+		elif [[ "$DESKTOP_SESSION" == 'dwm' ]]; then
+			"$dwm_dir"/scripts/dwm_term
+		elif [[ "$DESKTOP_SESSION" == 'evilwm' ]]; then
+			"$ewm_dir"/scripts/evilwm_term
+		elif [[ "$DESKTOP_SESSION" == 'fluxbox' ]]; then
+			"$fluxbox_dir"/scripts/fbox_term
+		elif [[ "$DESKTOP_SESSION" == 'herbstluftwm' ]]; then
+			"$herb_dir"/scripts/herb_term
+		elif [[ "$DESKTOP_SESSION" == 'xmonad' ]]; then
+			"$xmonad_dir"/scripts/xmonad_term
+		else
+			alacritty
+		fi
+	fi
 }
 
-# ------------------------- Run Command as Root -------------------------------
+## Open as root
+
 open_asroot() {
-    # Usage: open_asroot <command> [arguments...]
-    if [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then
-        case "$XDG_CURRENT_DESKTOP" in
-            sway)
-                "$sway_dir/scripts/asroot" "$@" ;;
-            wayfire)
-                "$wayfire_dir/scripts/asroot" "$@" ;;
-            river)
-                "$river_dir/scripts/asroot" "$@" ;;
-            hyprland|Hyprland)
-                "$hypr_dir/scripts/asroot" "$@" ;;
-            newm)
-                "$newm_dir/scripts/asroot" "$@" ;;
-            *)
-                ${notify_cmd} -u critical "Open as Root is not available in this Wayland session!" ;;
-        esac
-    else
-        case "$DESKTOP_SESSION" in
-            openbox)
-                "$openbox_dir/scripts/ob-asroot" "$@" ;;
-            bspwm)
-                "$bspwm_dir/scripts/bspasroot" "$@" ;;
-            i3)
-                "$i3_dir/scripts/i3_asroot" "$@" ;;
-            qtile)
-                "$qtile_dir/scripts/qtile_asroot" "$@" ;;
-            2bwm)
-                "$_2bwm_dir/scripts/2bwm_asroot" "$@" ;;
-            berry)
-                "$berry_dir/scripts/berry_asroot" "$@" ;;
-            blackbox)
-                "$bb_dir/scripts/bb_asroot" "$@" ;;
-            cwm)
-                "$cwm_dir/scripts/cwm_asroot" "$@" ;;
-            dwm)
-                "$dwm_dir/scripts/dwm_asroot" "$@" ;;
-            evilwm)
-                "$ewm_dir/scripts/evilwm_asroot" "$@" ;;
-            fluxbox)
-                "$fluxbox_dir/scripts/fbox_asroot" "$@" ;;
-            herbstluftwm)
-                "$herb_dir/scripts/herb_asroot" "$@" ;;
-            xmonad)
-                "$xmonad_dir/scripts/xmonad_asroot" "$@" ;;
-            *)
-                ${notify_cmd} -u critical "Open as Root is not available in this X11 session!" ;;
-        esac
-    fi
+	if [[ "$XDG_SESSION_TYPE" == 'wayland' ]]; then
+		if [[ "$XDG_CURRENT_DESKTOP" == 'sway' ]]; then
+			"$sway_dir"/scripts/asroot "$@"
+		elif [[ "$XDG_CURRENT_DESKTOP" == 'wayfire' ]]; then
+			"$wayfire_dir"/scripts/asroot "$@"
+		elif [[ "$XDG_CURRENT_DESKTOP" == 'river' ]]; then
+			"$river_dir"/scripts/asroot "$@"
+		elif [[ "$XDG_CURRENT_DESKTOP" == 'hyprland' || "$XDG_CURRENT_DESKTOP" == 'Hyprland' ]]; then
+			"$hypr_dir"/scripts/asroot "$@"
+		elif [[ "$XDG_CURRENT_DESKTOP" == 'newm' ]]; then
+			"$newm_dir"/scripts/asroot "$@"
+		else
+			${notify_cmd} -u critical "Open as Root feature is not available!"
+		fi
+	else
+		if [[ "$DESKTOP_SESSION" == 'openbox' ]]; then
+			"$openbox_dir"/scripts/ob-asroot "$@"
+		elif [[ "$DESKTOP_SESSION" == 'bspwm' ]]; then
+			"$bspwm_dir"/scripts/bspasroot "$@"
+		elif [[ "$DESKTOP_SESSION" == 'i3' ]]; then
+			"$i3_dir"/scripts/i3_asroot "$@"
+		elif [[ "$DESKTOP_SESSION" == 'qtile' ]]; then
+			"$qtile_dir"/scripts/qtile_asroot "$@"
+		elif [[ "$DESKTOP_SESSION" == '2bwm' ]]; then
+			"$_2bwm_dir"/scripts/2bwm_asroot "$@"
+		elif [[ "$DESKTOP_SESSION" == 'berry' ]]; then
+			"$berry_dir"/scripts/berry_asroot "$@"
+		elif [[ "$DESKTOP_SESSION" == 'blackbox' ]]; then
+			"$bb_dir"/scripts/bb_asroot "$@"
+		elif [[ "$DESKTOP_SESSION" == 'cwm' ]]; then
+			"$cwm_dir"/scripts/cwm_asroot "$@"
+		elif [[ "$DESKTOP_SESSION" == 'dwm' ]]; then
+			"$dwm_dir"/scripts/dwm_asroot "$@"
+		elif [[ "$DESKTOP_SESSION" == 'evilwm' ]]; then
+			"$ewm_dir"/scripts/evilwm_asroot "$@"
+		elif [[ "$DESKTOP_SESSION" == 'fluxbox' ]]; then
+			"$fluxbox_dir"/scripts/fbox_asroot "$@"
+		elif [[ "$DESKTOP_SESSION" == 'herbstluftwm' ]]; then
+			"$herb_dir"/scripts/herb_asroot "$@"
+		elif [[ "$DESKTOP_SESSION" == 'xmonad' ]]; then
+			"$xmonad_dir"/scripts/xmonad_asroot "$@"
+		else
+			${notify_cmd} -u critical "Open as Root feature is not available!"
+		fi
+	fi
 }
 
-# ----------------------------- Set Wallpaper ---------------------------------
+## Set wallpaper
+
 set_wallpaper() {
-    local img="$1"
-    if [[ -z "$img" ]]; then
-        echo "No wallpaper specified." && return 1
-    fi
-
-    if [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then
-        case "$XDG_CURRENT_DESKTOP" in
-            sway)
-                sed -i -e "s|output \* bg.*|output \* bg $img fill|g" "$sway_dir/sway-output"
-                pkill swaybg
-                swaybg --output '*' --mode fill --image "$img" & ;;
-            wayfire)
-                sed -i -e "s|WALLPAPER=.*|WALLPAPER='$img'|g" "$wayfire_dir/scripts/wallpaper"
-                bash "$wayfire_dir/scripts/wallpaper" & ;;
-            river)
-                sed -i -e "s|WALLPAPER=.*|WALLPAPER='$img'|g" "$river_dir/scripts/wallpaper"
-                bash "$river_dir/scripts/wallpaper" & ;;
-            hyprland|Hyprland)
-                sed -i -e "s|WALLPAPER=.*|WALLPAPER='$img'|g" "$hypr_dir/scripts/wallpaper"
-                bash "$hypr_dir/scripts/wallpaper" & ;;
-            newm)
-                swaybg --output '*' --mode fill --image "$img" &
-                ${notify_cmd} -u normal "Temporarily applying wallpaper..." ;;
-            *)
-                swaybg --output '*' --mode fill --image "$img" &
-                ${notify_cmd} -u normal "Temporarily applying wallpaper..." ;;
-        esac
-    else
-        case "$DESKTOP_SESSION" in
-            openbox)
-                for head in {0..10}; do
-                    nitrogen --head="$head" --save --set-zoom-fill "$img" &>/dev/null
-                done ;;
-            bspwm)
-                sed -i -e "s|feh.*|feh --no-fehbg --bg-fill '$img'|g" "$HOME/.fehbg"
-                bash "$HOME/.fehbg" ;;
-            i3)
-                if pacman -Q archcraft-i3wm-premium &>/dev/null; then
-                    sed -i -e "s|WALLPAPER=.*|WALLPAPER='$img'|g" "$i3_dir/themes/wallpaper.sh"
-                    bash "$i3_dir/themes/wallpaper.sh"
-                else
-                    sed -i -e "s|hsetroot -cover.*|hsetroot -cover '$img'|g" "$i3_dir/scripts/i3_autostart"
-                    hsetroot -cover "$img"
-                fi ;;
-            qtile)
-                if pacman -Q archcraft-qtile-premium &>/dev/null; then
-                    sed -i -e "s|WALLPAPER=.*|WALLPAPER='$img'|g" "$qtile_dir/themes/wallpaper.sh"
-                    bash "$qtile_dir/themes/wallpaper.sh"
-                else
-                    sed -i -e "s|hsetroot -cover.*|hsetroot -cover '$img'|g" "$qtile_dir/scripts/qtile_autostart"
-                    hsetroot -cover "$img"
-                fi ;;
-            2bwm)
-                hsetroot -cover "$img"
-                ${notify_cmd} -u normal "Temporarily applying wallpaper..." ;;
-            berry)
-                sed -i -e "s|hsetroot -cover.*|hsetroot -cover '$img'|g" "$berry_dir/scripts/berry_autostart"
-                hsetroot -cover "$img" ;;
-            blackbox)
-                hsetroot -cover "$img"
-                ${notify_cmd} -u normal "Temporarily applying wallpaper..." ;;
-            cwm|dwm|evilwm)
-                hsetroot -cover "$img"
-                ${notify_cmd} -u normal "Temporarily applying wallpaper..." ;;
-            fluxbox)
-                sed -i -e "s|hsetroot -cover.*|hsetroot -cover '$img'|g" "$fluxbox_dir/startup"
-                hsetroot -cover "$img" ;;
-            herbstluftwm)
-                sed -i -e "s|hsetroot.*|hsetroot -cover '$img'|g" "$herb_dir/scripts/herb_autostart"
-                hsetroot -cover "$img" ;;
-            xmonad)
-                if pacman -Q archcraft-xmonad-premium &>/dev/null; then
-                    sed -i -e "s|WALLPAPER=.*|WALLPAPER='$img'|g" "$xmonad_dir/themes/wallpaper.sh"
-                    bash "$xmonad_dir/themes/wallpaper.sh"
-                else
-                    sed -i -e "s|hsetroot -cover.*|hsetroot -cover '$img'|g" "$xmonad_dir/scripts/xmonad_autostart"
-                    hsetroot -cover "$img"
-                fi ;;
-            *)
-                hsetroot -cover "$img"
-                ${notify_cmd} -u normal "Temporarily applying wallpaper..." ;;
-        esac
-    fi
+	if [[ "$XDG_SESSION_TYPE" == 'wayland' ]]; then
+		if [[ "$XDG_CURRENT_DESKTOP" == 'sway' ]]; then
+			sed -i -e "s|output \* bg.*|output \* bg $@ fill|g" "$sway_dir"/sway-output
+			pkill swaybg && swaybg --output '*' --mode fill --image "$@" &
+		elif [[ "$XDG_CURRENT_DESKTOP" == 'wayfire' ]]; then
+			sed -i -e "s|WALLPAPER=.*|WALLPAPER='$@'|g" "$wayfire_dir"/scripts/wallpaper
+			bash "$wayfire_dir"/scripts/wallpaper &
+		elif [[ "$XDG_CURRENT_DESKTOP" == 'river' ]]; then
+			sed -i -e "s|WALLPAPER=.*|WALLPAPER='$@'|g" "$river_dir"/scripts/wallpaper
+			bash "$river_dir"/scripts/wallpaper &
+		elif [[ "$XDG_CURRENT_DESKTOP" == 'hyprland' || "$XDG_CURRENT_DESKTOP" == 'Hyprland' ]]; then
+			sed -i -e "s|WALLPAPER=.*|WALLPAPER='$@'|g" "$hypr_dir"/scripts/wallpaper
+			bash "$hypr_dir"/scripts/wallpaper &
+		elif [[ "$XDG_CURRENT_DESKTOP" == 'newm' ]]; then
+			swaybg --output '*' --mode fill --image "$@" &
+			${notify_cmd} -u normal "Temporarily applying wallpaper..."
+		else
+			swaybg --output '*' --mode fill --image "$@" &
+			${notify_cmd} -u normal "Temporarily applying wallpaper..."
+		fi
+	else
+		if [[ "$DESKTOP_SESSION" == 'openbox' ]]; then
+			for head in {0..10}; do
+				nitrogen --head="$head" --save --set-zoom-fill "$@" &>/dev/null
+			done
+		elif [[ "$DESKTOP_SESSION" == 'bspwm' ]]; then
+			sed -i -e "s|feh.*|feh --no-fehbg --bg-fill '$@'|g" "$HOME"/.fehbg
+			bash "$HOME"/.fehbg
+		elif [[ "$DESKTOP_SESSION" == 'i3' ]]; then
+			if [[ `pacman -Q archcraft-i3wm-premium` ]]; then
+				sed -i -e "s|WALLPAPER=.*|WALLPAPER='$@'|g" "$i3_dir"/themes/wallpaper.sh
+				bash "$i3_dir"/themes/wallpaper.sh
+			else
+				sed -i -e "s|hsetroot -cover.*|hsetroot -cover '$@'|g" "$i3_dir"/scripts/i3_autostart
+				hsetroot -cover "$@"
+			fi
+		elif [[ "$DESKTOP_SESSION" == 'qtile' ]]; then
+			if [[ `pacman -Q archcraft-qtile-premium` ]]; then
+				sed -i -e "s|WALLPAPER=.*|WALLPAPER='$@'|g" "$qtile_dir"/themes/wallpaper.sh
+				bash "$qtile_dir"/themes/wallpaper.sh
+			else
+				sed -i -e "s|hsetroot -cover.*|hsetroot -cover '$@'|g" "$qtile_dir"/scripts/qtile_autostart
+				hsetroot -cover "$@"
+			fi
+		elif [[ "$DESKTOP_SESSION" == '2bwm' ]]; then
+			hsetroot -cover "$@"
+			${notify_cmd} -u normal "Temporarily applying wallpaper..."
+		elif [[ "$DESKTOP_SESSION" == 'berry' ]]; then
+			sed -i -e "s|hsetroot -cover.*|hsetroot -cover '$@'|g" "$berry_dir"/scripts/berry_autostart
+			hsetroot -cover "$@"
+		elif [[ "$DESKTOP_SESSION" == 'blackbox' ]]; then
+			hsetroot -cover "$@"
+			${notify_cmd} -u normal "Temporarily applying wallpaper..."
+		elif [[ "$DESKTOP_SESSION" == 'cwm' ]]; then
+			hsetroot -cover "$@"
+			${notify_cmd} -u normal "Temporarily applying wallpaper..."
+		elif [[ "$DESKTOP_SESSION" == 'dwm' ]]; then
+			hsetroot -cover "$@"
+			${notify_cmd} -u normal "Temporarily applying wallpaper..."
+		elif [[ "$DESKTOP_SESSION" == 'evilwm' ]]; then
+			hsetroot -cover "$@"
+			${notify_cmd} -u normal "Temporarily applying wallpaper..."
+		elif [[ "$DESKTOP_SESSION" == 'fluxbox' ]]; then
+			sed -i -e "s|hsetroot -cover.*|hsetroot -cover '$@'|g" "$fluxbox_dir"/startup
+			hsetroot -cover "$@"
+		elif [[ "$DESKTOP_SESSION" == 'herbstluftwm' ]]; then
+			sed -i -e "s|hsetroot.*|hsetroot -cover '$@'|g" "$herb_dir"/scripts/herb_autostart
+			hsetroot -cover "$@"
+		elif [[ "$DESKTOP_SESSION" == 'xmonad' ]]; then
+			if [[ `pacman -Q archcraft-xmonad-premium` ]]; then
+				sed -i -e "s|WALLPAPER=.*|WALLPAPER='$@'|g" "$xmonad_dir"/themes/wallpaper.sh
+				bash "$xmonad_dir"/themes/wallpaper.sh
+			else
+				sed -i -e "s|hsetroot -cover.*|hsetroot -cover '$@'|g" "$xmonad_dir"/scripts/xmonad_autostart
+				hsetroot -cover "$@"
+			fi
+		else
+			hsetroot -cover "$@"
+			${notify_cmd} -u normal "Temporarily applying wallpaper..."
+		fi
+	fi
 }
 
-# ----------------------------- Set Lockscreen --------------------------------
+## Set lockscreen
+
 set_lockscreen() {
-    local img="$1"
-    if [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then
-        ${notify_cmd} -u critical "Lockscreen is not supported in Wayland!"
-    else
-        ${notify_cmd} -u normal "Generating lockscreen images, please wait..."
-        betterlockscreen -u "$img"
-    fi
+	if [[ "$XDG_SESSION_TYPE" == 'wayland' ]]; then
+		${notify_cmd} -u critical "Not supported in Wayland!"
+	else
+		${notify_cmd} -u normal "Generating Images, Please wait..."
+		betterlockscreen -u "$@"
+	fi
 }
 
-# ------------------------- Change Ownership ----------------------------------
+## Change Ownership
+
 change_ownership() {
     # Usage: change_ownership <user|root> <files...>
     if [[ $# -lt 2 ]]; then
@@ -267,7 +254,8 @@ change_ownership() {
     esac
 }
 
-# -------------------------- Copy to Clipboard -------------------------------
+## Copy to Clipboard
+
 copy_to_clipboard() {
     # Usage: copy_to_clipboard <file>
     local file="$1"
@@ -283,7 +271,8 @@ copy_to_clipboard() {
     fi
 }
 
-# -------------------- Flatten Directory Structure ---------------------------
+## Flatten Directory Structure
+
 move_files_to_parent() {
     # Usage: move_files_to_parent <directory>
     if [[ $# -lt 1 ]]; then
@@ -300,10 +289,12 @@ move_files_to_parent() {
     find . -mindepth 2 -type f -exec mv -t . -i '{}' +
     echo "Removing empty subdirectories..."
     find . -mindepth 1 -type d -empty -exec rmdir '{}' +
-    echo "Directory flattening complete."
+:w
+echo "Directory flattening complete."
 }
 
-# ------------------------- Open Root Shell ----------------------------------
+## Open Root Shell
+
 open_root_shell() {
     # Launch a terminal with a root shell.
     local preferred_terminal="alacritty"
@@ -344,7 +335,8 @@ open_root_shell() {
     fi
 }
 
-# ------------------------- Rofi As Root Menu --------------------------------
+## Rofi As Root Menu
+
 run_rofi_asroot() {
     # Presents a Rofi menu to run selected applications as root.
     local DIR="$HOME/.config/wayfire"
@@ -391,14 +383,12 @@ run_rofi_asroot() {
     esac
 }
 
-# --------------------------- WebP to PNG Converter ---------------------------
-webptopng() {
-    # Usage: webptopng <input_file>
-    local input_file="$1"
-    if [[ -z "$input_file" || ! -f "$input_file" ]]; then
-        echo "Invalid input file." && return 1
-    fi
-    local output_file="${input_file%.*}.png"
-    ffmpeg -i "$input_file" "$output_file"
-    echo "Converted $input_file to $output_file."
-}
+if [[ "$1" == '--terminal' ]]; then
+	open_terminal
+elif [[ "$1" == '--asroot' ]]; then
+	open_asroot "$2"
+elif [[ "$1" == '--wallpaper' ]]; then
+	set_wallpaper "$2"
+elif [[ "$1" == '--lockscreen' ]]; then
+	set_lockscreen "$2"
+fi

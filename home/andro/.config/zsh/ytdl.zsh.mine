@@ -3,30 +3,26 @@
 
 # =============== // YTDL.ZSH //
 
-
-
-## Config Map
-
-declare -A YTDLP_COOKIES_MAP=(
-    ["youtube.com"]="$HOME/.config/yt-dlp/youtube_cookies.txt"
-    ["youtu.be"]="$HOME/.config/yt-dlp/youtube_cookies.txt"
-    ["patreon.com"]="$HOME/.config/yt-dlp/patreon_cookies.txt"
-    ["vimeo.com"]="$HOME/.config/yt-dlp/vimeo_cookies.txt"
-    ["boosty.to"]="$HOME/.config/yt-dlp/boosty_cookies.txt"
-    ["instagram.com"]="$HOME/.config/yt-dlp/instagram_cookies.txt"
+## Config Maps
+typeset -A YTDLP_COOKIES_MAP=(
+  ["youtube.com"]="$HOME/.config/yt-dlp/youtube_cookies.txt"
+  ["youtu.be"]="$HOME/.config/yt-dlp/youtube_cookies.txt"
+  ["patreon.com"]="$HOME/.config/yt-dlp/patreon_cookies.txt"
+  ["vimeo.com"]="$HOME/.config/yt-dlp/vimeo_cookies.txt"
+  ["boosty.to"]="$HOME/.config/yt-dlp/boosty_cookies.txt"
+  ["instagram.com"]="$HOME/.config/yt-dlp/instagram_cookies.txt"
   ["fanvue.com"]="$HOME/.config/yt-dlp/fanvue_cookies.txt"
 )
 PREFERRED_FORMATS=("335" "315" "313" "308" "303" "299" "302" "271" "248" "137")
 
 ### Validate URL format.
-
 validate_url() {
   local url="$1"
   [[ "$url" =~ ^https?:// ]] && return 0 || return 1
 }
 
 ### Normalize domain.
-### For fanvue URLs, we force the domain to "fanvue.com" (lowercase) so that our cookie mapping works.
+# For fanvue URLs, we force the domain to "fanvue.com" (lowercase) so that our cookie mapping works.
 get_domain_from_url() {
   local url="$1"
   local domain
@@ -40,7 +36,7 @@ get_domain_from_url() {
   fi
 }
 
-### Retrieve the cookie file path based on domain.
+### Retrieve cookie file path for a given domain.
 get_cookie_path_for_domain() {
   local domain="$1"
   echo "${YTDLP_COOKIES_MAP[$domain]}"
@@ -159,8 +155,7 @@ select_best_format() {
   echo "best"
 }
 
-## Formats: Get details for a given format.
-
+### Get detailed format info.
 get_format_details() {
   local url="$1"
   local cfile="$2"
@@ -178,8 +173,7 @@ get_format_details() {
   echo "$out" | jq '{format_id, ext, resolution, fps, tbr, vcodec, acodec, filesize}'
 }
 
-## YTDL: Quick download; accepts a -c flag to force using cookies.
-
+### ytdl: Quick download; supports a -c flag to force cookie usage.
 ytdl() {
   local use_cookie=0
   local args=()
@@ -214,8 +208,7 @@ ytdl() {
     --newline --ignore-config --no-playlist --no-mtime "${args[@]}"
 }
 
-## YTF: List formats, prompt for a format ID, and pass it to ytdlc.
-
+### ytf: List formats, prompt for a format ID, then pass it to ytdlc.
 ytf() {
   if [[ "$1" == "--help" || "$1" == "-h" ]]; then
     echo "Usage: ytf <URL>"
@@ -245,19 +238,20 @@ ytf() {
   echo ""
   local best_fmt
   best_fmt=$(select_best_format "$url" "$cookie_file")
+  echo "Automatically selected best format: $best_fmt"
   echo ""
-  printf "Enter the desired format ID: " "$best_fmt"
+  printf "Enter the desired format ID (default: %s): " "$best_fmt"
   read -r user_input
   if [[ -z "$user_input" ]]; then
     user_input="$best_fmt"
   fi
+  echo "Proceeding with format ID: $user_input"
   ytdlc -f "$user_input" "$url"
 }
 
-## Helper: Attempt advanced download.
-
-### This helper encapsulates the complex command invocation for advanced downloads.
+### Helper: Attempt an advanced download.
 attempt_advanced_download() {
+  # This helper encapsulates the complex command for advanced download.
   local url="$1"
   local cookie_file="$2"
   local bestf="$3"
@@ -266,9 +260,8 @@ attempt_advanced_download() {
   local extra_args=("$@")
   yt-dlp --add-metadata --embed-metadata --external-downloader aria2c \
     --external-downloader-args "aria2c:-c -j8 -x8 -s8 -k2M" \
-    -f "${bestf}+bestaudio+bestaudio" \
-    --newline --ignore-config --no-playlist --no-mtime \
-    --cookies "$cookie_file" \
+    -f "${bestf}+bestaudio/best" --merge-output-format webm \
+    --no-playlist --no-mtime --cookies "$cookie_file" \
     --output "${odir}/%(title)s.%(ext)s" "${extra_args[@]}" "$url"
 }
 
@@ -365,12 +358,8 @@ ytdlc() {
     bestf=$(select_best_format "$url" "$cookie_file")
     # For fanvue, force bestf to "best"
     if [[ "$(echo "$(get_domain_from_url "$url")" | tr '[:upper:]' '[:lower:]')" == "fanvue.com" ]]; then
-      echo "➡️ Fanvue URL detected; defaulting to native logic"
-      yt-dlp --add-metadata --embed-metadata --external-downloader aria2c \
-	--external-downloader-args "aria2c:-c -j8 -x8 -s8 -k2M" \
-	--newline --ignore-config --no-playlist --no-mtime \
-	--cookies "$cookie_file" \
-	--output "$odir/%(title)s.%(ext)s" "${extra_args[@]}" "$url"
+      bestf="best"
+      echo "➡️ Fanvue URL detected; defaulting to format: best"
     fi
     printf "✔️ Selected format ID: $bestf"
     if [[ "$bestf" != "best" ]]; then
@@ -399,9 +388,8 @@ ytdlc() {
         if [[ "$reattempt_choice" =~ ^[Yy](es)?$ ]]; then
           yt-dlp --add-metadata --embed-metadata --external-downloader aria2c \
             --external-downloader-args "aria2c:-c -j8 -x8 -s8 -k2M" \
-            -f "$bestf+bestaudio+bestaudio" \
-            --newline --ignore-config --no-playlist --no-mtime \
-	    --cookies "$cookie_file" \
+            -f "$bestf+bestaudio+bestaudio" --merge-output-format webm \
+            --no-playlist --no-mtime --cookies "$cookie_file" \
             --output "$odir/%(title)s.%(ext)s" "${extra_args[@]}" "$url"
           if [[ $? -eq 0 ]]; then
             printf "✔️ Reattempt after fallback succeeded for '$url'."
@@ -414,27 +402,10 @@ ytdlc() {
       fi
     fi
     echo "----------------------------------------"
- done
-
- # If there are extra arguments after '--', process them as ytdlp_extra_args
- if [[ "$#" -gt 0 ]]; then
-     for arg in "$@"; do
-         # Skip already processed URLs
-         if [[ "$arg" == "--" ]]; then
-             shift
-             break
-         fi
-     done
- fi
-
- # Pass any remaining arguments as yt-dlp extra args
- if [[ "$#" -gt 0 ]]; then
-     ytdlp_extra_args+=( "$@" )
- fi
+  done
 }
 
-## Help
-
+### Help for ytdlc
 show_ytdlc_help() {
   cat <<'EOF_HELP'
 Usage: ytdlc [options] <URL> [<URL> ...] [yt-dlp options]
