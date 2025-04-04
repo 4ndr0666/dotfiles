@@ -1,3 +1,29 @@
+## Realpath 
+
+- In Example 1:
+
+```shell
+: "${PKG_PATH:=$(dirname "$(dirname "$(realpath "$0")")")}"
+
+                                                    ^-- [traverses two levels up a dir or `../../`]
+```
+- **`realpath "$0"`:** Resolves the absolute path of the current script.
+- **`dirname "$(realpath "$0")"`:** Gets the directory containing the script.
+- **`dirname "$(dirname "$(realpath "$0")")"`:** Moves one directory up from that location (i.e., two levels up from the script).
+- **`"${PKG_PATH:=...}"`:** Uses parameter expansion to set `PKG_PATH` only if it isn’t already defined.
+
+- In Example 2:
+
+```shell
+: "${PKG_PATH:=$(dirname $(realpath "$0")")}"
+                                        ^-- [traverses one level up or `../`]
+
+```
+- **`realpath "$0"`:** Resolves the absolute path of the current script.
+- **`dirname "$(realpath "$0")"`:** Gets the directory containing the script.
+- **`dirname "$(dirname "$(realpath "$0")"`:** Moves one directory up from the script).
+- **`"${PKG_PATH:=...}"`:** Uses parameter expansion to set `PKG_PATH` only if it isn’t already defined.
+
 ## Avoid Filename Expansion
 
 ```shell
