@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Wayfire
+Comment=4ndr0666 version of Wayfire
+Exec=run-wayfire
+Type=Application
+DesktopNames=Wayfire
+keywords=tiling;wayland;compositor;
