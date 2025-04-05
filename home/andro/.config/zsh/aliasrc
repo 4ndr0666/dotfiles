@@ -645,6 +645,9 @@ batdiff() {
     git diff --name-only --relative --diff-filter=d | xargs bat --diff
 }
 
+#### Pipe to less
+alias batl='bat | less'
+
 ## Lf
 
 alias lf='lfub'
@@ -1038,6 +1041,10 @@ playdir() {
 #    --concat-playlist always \
 #         "$@"
 #}
+
+## FFMPEG
+
+alias mkclip='/home/git/clone/scr/media/ffmpeg-concat $(fzf --multi)'
 
 ## Redgifs
 
@@ -1486,7 +1493,7 @@ cht() {
     cheats=("$HOME/.cheater/"*.md)
     local choice
     choice=$(printf "%s\n" "${cheats[@]}" | fzf --prompt="Select a cheat sheet: ")
-    [ -n "$choice" ] && bat --language=mdown "$choice" || echo "No cheat sheet selected."
+    [ -n "$choice" ] && bat --language=md "$choice" || echo "No cheat sheet selected."
 }
 
 ## 4ndr0conf
@@ -1656,9 +1663,6 @@ alias shudown='shutdown'
 alias pdw='pwd'
 alias micor='micro'
 alias cpoy='copy'
-alias dc='cd'
-alias sl='ls'
-alias car='cat'
 alias nvin='nbin'
 alias cay='cat'
 alias reloda='reload'
