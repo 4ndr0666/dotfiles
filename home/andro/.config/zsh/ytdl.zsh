@@ -219,7 +219,7 @@ ytdl() {
 ytf() {
   if [[ "$1" == "--help" || "$1" == "-h" ]]; then
     echo "Usage: ytf <URL>"
-    echo "Lists available download formats for the given URL and prompts for the desired format ID (default: best)."
+    echo "Lists available download formats for the given URL and prompts for the desired format ID."
     return 0
   fi
   local url="$1"
@@ -243,13 +243,13 @@ ytf() {
   fi
   echo "$output"
   echo ""
-  local best_fmt
-  best_fmt=$(select_best_format "$url" "$cookie_file")
+  local fmt
+  fmt=$("$url" "$cookie_file")
   echo ""
-  printf "Enter the desired format ID: " "$best_fmt"
+  printf "Enter format ID: " "$fmt"
   read -r user_input
   if [[ -z "$user_input" ]]; then
-    user_input="$best_fmt"
+    user_input="$fmt"
   fi
   ytdlc -f "$user_input" "$url"
 }
@@ -362,7 +362,7 @@ ytdlc() {
       continue
     fi
     local bestf
-    bestf=$(select_best_format "$url" "$cookie_file")
+    bestf=$("$url" "$cookie_file")
     # For fanvue, force bestf to "best"
     if [[ "$(echo "$(get_domain_from_url "$url")" | tr '[:upper:]' '[:lower:]')" == "fanvue.com" ]]; then
       echo "➡️ Fanvue URL detected; defaulting to native logic"
@@ -372,22 +372,20 @@ ytdlc() {
 	--cookies "$cookie_file" \
 	--output "$odir/%(title)s.%(ext)s" "${extra_args[@]}" "$url"
     fi
-    printf "✔️ Selected format ID: $bestf"
-    if [[ "$bestf" != "best" ]]; then
-      local fmt_info
-      fmt_info=$(get_format_details "$url" "$cookie_file" "$bestf")
-      echo "Format details:"; echo "$fmt_info"; echo ""
-    else
-      echo "Format details: N/A"; echo ""
-    fi
+#    printf "✔️ Selected format ID: $bestf"
+#    if [[ "$bestf" != "best" ]]; then
+#      local fmt_info
+#      fmt_info=$(get_format_details "$url" "$cookie_file" "$bestf")
+#      echo "Format details:"; echo "$fmt_info"; echo ""
+#    else
+#      echo "Format details: N/A"; echo ""
+#    fi
     echo "➡️ Attempting advanced download for '$url'..."
     attempt_advanced_download "$url" "$cookie_file" "$bestf" "$odir" "${extra_args[@]}"
     local exit_code_adv=$?
     if [[ $exit_code_adv -eq 0 ]]; then
       printf "✔️ Advanced download completed successfully for '$url'."
     else
-      echo "❌ Advanced download failed for '$url'." >&2
-      echo "➡️ Falling back to simple download (ytdl)..." >&2
       ytdl "$url"
       local exit_code_simple=$?
       if [[ $exit_code_simple -eq 0 ]]; then
@@ -453,4 +451,3 @@ Examples:
   ytdlc https://patreon.com/page -f 303
 EOF_HELP
 }
-
