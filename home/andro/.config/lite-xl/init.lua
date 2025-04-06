@@ -11,7 +11,6 @@ local style = require "core.style"
 
 -- light theme:
 -- core.reload_module("colors.summer")
-core.reload_module("colors.nord")
 
 --------------------------- Key bindings -------------------------------------
 
@@ -27,8 +26,7 @@ core.reload_module("colors.nord")
 -- customize fonts:
 -- style.font = renderer.font.load(DATADIR .. "/fonts/FiraSans-Regular.ttf", 14 * SCALE)
 -- style.code_font = renderer.font.load(DATADIR .. "/fonts/JetBrainsMono-Regular.ttf", 14 * SCALE)
--- SCALE is the pixel scaling required for the current DPI setup.
--- This converts the font size from points to pixels.
+--
 -- DATADIR is the location of the installed Lite XL Lua code, default color
 -- schemes and fonts.
 -- USERDIR is the location of the Lite XL configuration directory.
@@ -73,3 +71,4 @@ core.reload_module("colors.nord")
 --   "%.suo$",         "%.pdb$",       "%.idb$",        "%.class$", "%.psd$", "%.db$",
 --   "^desktop%.ini$", "^%.DS_Store$", "^%.directory$",
 -- }
+

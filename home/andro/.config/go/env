@@ -1,0 +1,2 @@
+GO111MODULE=on
+GOMODCACHE=/home/andro/.cache/go/mod

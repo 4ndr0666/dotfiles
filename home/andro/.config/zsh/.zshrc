@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 # ============================ // ZSHRC //
 
@@ -27,9 +27,9 @@ fi
 
 # ##Fancy:
 
-# source ~/.config/zsh/fancy-prompts.zsh
-# precmd() { fancy-prompts-precmd; }
-# prompt-zee -PDp "≽ "
+#source ~/.config/zsh/fancy-prompts.zsh
+#precmd() { fancy-prompts-precmd; }
+#prompt-zee -PDp "≽ "
 
 ## Widgets
 
@@ -86,6 +86,8 @@ h() {
     fi
 }
 
+#h() { if [ -z "$*" ]; then history 1; else history 1 | egrep "$@"; fi; }     # Fix_zsh_history_behavior:
+
 ## Expand global aliases:
 
 globalias() {
@@ -117,13 +119,13 @@ fi
 zshcache_time="$(date +%s%N)"
 autoload -Uz add-zsh-hook
 rehash_precmd() {
-  if [[ -a /var/cache/zsh/pacman ]]; then
-    local paccache_time="$(date -r /var/cache/zsh/pacman +%s%N)"
-    if (( zshcache_time < paccache_time )); then
-      rehash
-      zshcache_time="$paccache_time"
+    if [[ -a /var/cache/zsh/pacman ]]; then
+        local paccache_time="$(stat -c %Y /var/cache/zsh/pacman)"
+        if (( zshcache_time < paccache_time )); then
+            rehash
+            zshcache_time="$paccache_time"
+        fi
     fi
-  fi
 }
 add-zsh-hook -Uz precmd rehash_precmd
 
@@ -215,6 +217,7 @@ source_nvm "$NVM_DIR/bash_completion"
 ## FZF
 
 fpath=("$HOME/.config/zsh/completions" "/usr/share/zsh/vendor-completions" $fpath)
+#autoload -U $fpath[1]/*(:t)
 source <(fzf --zsh)
 source /usr/share/zsh/plugins/zsh-fzf-plugin/fzf.plugin.zsh 2>/dev/null
 
@@ -233,7 +236,7 @@ source /usr/share/zsh/plugins/zsh-extract/extract.plugin.zsh 2>/dev/null
 
 ## Sudo
 
-source /usr/share/zsh/plugins/zsh-sudo/sudo.plugin.zsh 2>/dev/null
+#source /usr/share/zsh/plugins/zsh-sudo/sudo.plugin.zsh 2>/dev/null
 
 ## SystemdD
 
@@ -250,7 +253,7 @@ source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev
 
 ## YTDL
 
-source ~/.config/zsh/ytdl.zsh
+source $HOME/.config/zsh/ytdl.zsh 2>/dev/null
 
 ## Git Extras
 
@@ -262,19 +265,19 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ${ZDOTDIR:-~}/.p10k.zsh ]] || source ${ZDOTDIR:-~}/.p10k.zsh
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
-    os_icon
-    background_jobs
-    dir         # current directory
-    vcs         # git status
-    context     # user@host
-    status      # exit status
-    newline     # newline
-    virtualenv  # python virtual environment
-    prompt_char # prompt symbol
+	os_icon
+	background_jobs
+	dir                       # current directory
+	vcs                       # git status
+	context                   # user@host
+	status                    # and exit status
+	newline                   # \n
+	virtualenv                # python virtual environment
+	prompt_char               # prompt symbol
 )
 unset POWERLEVEL9K_VISUAL_IDENTIFIER_EXPANSION
 typeset -g POWERLEVEL9K_BACKGROUND_JOBS_VERBOSE=true
-typeset -g POWERLEVEL9K_BACKGROUND_JOBS_ICON=''
+typeset -g POWERLEVEL9K_BACKGROUND_JOBS_ICON=
 typeset -g POWERLEVEL9K_DIR_SHOW_WRITABLE=true
 unset POWERLEVEL9K_VCS_BRANCH_ICON
 
