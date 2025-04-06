@@ -1,5 +1,3 @@
-#!/usr/bin/env zsh
-
 # ===================================== // ALIASRC by 4ndr0666 //
 
 if [[ -o interactive ]]; then
@@ -1166,12 +1164,12 @@ alias generate-keyserver='gpg --full-generate-key && gpg --import /usr/share/pac
 
 ## GIT
 
-alias g='git'
 alias gstat='git status'
 alias gstash='git stash --all'
 alias gclear='git stash clear'
-alias ghr="git reset --hard"
+alias ghr='git reset --hard'
 alias gfs='git-lfs'
+alias ga='git add'
 #alias gupdate='gcomp && gh tidy && gh setup'
 
 gupdate() {
@@ -1231,7 +1229,7 @@ gignore() {
     fi
 }
 
-gclone() {
+gcl() {
     if [[ -z "$1" ]]; then
         echo "Error: No repository URL provided."
         echo "Usage: gclone <repository-url>"
@@ -1281,15 +1279,14 @@ gclone() {
 }
 
 gpush() {
-    git add .
-    git commit -m "$*"
-    git pull
-    git push
+        git commit -m "$*"
+        git push origin master
 }
 
 gcomp() {
     if ! git diff-index --quiet HEAD --; then
-        # Gather information about the changes
+
+        #### Gather information about the changes
         added=$(git status --porcelain | grep "^A" | wc -l)
         modified=$(git status --porcelain | grep "^ M" | wc -l)
         deleted=$(git status --porcelain | grep "^D" | wc -l)
@@ -1308,7 +1305,7 @@ gcomp() {
             return 1
         fi
 
-        if ! git push; then
+        if ! git push origin master; then
             echo "Error: Push failed. Aborting."
             return 1
         fi
@@ -1335,6 +1332,7 @@ gsearch() {
         git exec grep -r "$1"
     fi
 }
+
 grmcache() {
     cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/git"
     if [[ -d "$cache_dir" ]]; then
@@ -1349,6 +1347,7 @@ grmcache() {
         echo "No Git cache found at $cache_dir."
     fi
 }
+
 groot() {
     if git rev-parse --show-toplevel &> /dev/null; then
         cd "$(git rev-parse --show-toplevel)" || { echo "Error: Failed to change to Git repository root."; return 1; }
@@ -1358,6 +1357,7 @@ groot() {
         return 1
     fi
 }
+
 gremote() {
     if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
         echo "Not a git repository. Please navigate to a git repository and try again."
@@ -1388,29 +1388,30 @@ gremote() {
 
     git remote -v
 }
+
 ginit() {
     local repo_name commit_msg branch_name
-
     git init
 
-    printf "Enter your GitHub username (default: 4ndr0666): "
-    read -r username
-    username=${username:-"4ndr0666"}
+#    printf "Enter your GitHub username (default: 4ndr0666): "
+#    read -r username
+#    username=${username:-"4ndr0666"}
 
     printf "Enter the name of the GitHub repository: "
     read -r repo_name
 
-    git remote add origin "git@github.com:${username}/${repo_name}.git"
-
+    git remote add origin "git@github.com:4ndr0666/${repo_name}.git"
     git add .
 
     echo "Enter a commit message for the initial commit (default: 'Initial commit'): "
     read -r commit_msg
+
     commit_msg=${commit_msg:-"Initial commit"}
     git commit -m "$commit_msg"
 
     printf "Enter the branch name to push to (default: main): "
     read -r branch_name
+
     branch_name=${branch_name:-"main"}
 
     git push -u origin "$branch_name"
@@ -1419,22 +1420,14 @@ ginit() {
 ## I/O
 
 cleanup_session() {
-    echo "Starting session cleanup..."
-    log_file="/var/log/session_cleanup.log"
-
-    # Ensure the log file exists and is writable
-    if [ ! -e "$log_file" ]; then
-        sudo touch "$log_file"
-        sudo chmod 666 "$log_file"
-    fi
-
-    # Define the list of processes to check and terminate
-    processes=("polkit-gnome-authentication-agent-1" "xdg-desktop-portal" "other-process-1" "other-process-2")
+    echo "Begining custom shutdown..."
+    # Define the list of processes to check and terminatete
+    processes=("polkit-gnome-authentication-agent-1" "timeshift" "brave-beta" "pacman")
 
     # Loop through each process and attempt to terminate it gracefully
     for process in "${processes[@]}"; do
         if pgrep -x "$process" > /dev/null; then
-            echo "Sending SIGTERM to $process..." | tee -a "$log_file"
+            echo "Sending SIGTERM to $process..."
             sudo pkill -15 -x "$process"
 
             # Wait up to 5 seconds for the process to terminate
@@ -1446,41 +1439,38 @@ cleanup_session() {
             done
 
             if pgrep -x "$process" > /dev/null; then
-                echo "$process did not terminate after SIGTERM. Sending SIGKILL..." | tee -a "$log_file"
+                echo "$process did not terminate after SIGTERM. Sending SIGKILL..."
                 sudo pkill -9 -x "$process"
                 sleep 1
                 if pgrep -x "$process" > /dev/null; then
-                    echo "Failed to terminate $process even after SIGKILL." | tee -a "$log_file"
+                    echo "Failed to terminate $process even after SIGKILL."
                 else
-                    echo "$process terminated successfully after SIGKILL." | tee -a "$log_file"
+                    echo "$process terminated successfully after SIGKILL."
                 fi
             else
-                echo "$process terminated gracefully." | tee -a "$log_file"
+                echo "$process terminated gracefully."
             fi
         else
-            echo "$process not running." | tee -a "$log_file"
+            echo "$process not running."
         fi
     done
 
     # Clear temporary files or session caches
-    echo "Clearing temporary files and session caches..." | tee -a "$log_file"
+    echo "Clearing temporary files and session caches..."
     sudo rm -rf /tmp/*
     sudo rm -rf /var/tmp/*
-    echo "Temporary files cleared." | tee -a "$log_file"
 
     # Additional cleanup for user session state or session artifacts (optional)
-    echo "Removing any lingering lock files or session artifacts..." | tee -a "$log_file"
+    echo "Removing any lingering lock files or session artifacts..."
     sudo rm -f /run/user/$(id -u)/lock/*
 
     # Sync filesystem buffers
-    echo "Syncing filesystem buffers..." | tee -a "$log_file"
+    echo "Syncing filesystem buffers..."
     sync
-
-    echo "Session cleanup complete." | tee -a "$log_file"
 }
 
-alias sdn="cleanup_session && echo 'Shutting down...' | sudo tee -a /var/log/user_commands.log && sudo shutdown -h now"
-alias ssr="cleanup_session && echo 'Rebooting...' | sudo tee -a /var/log/user_commands.log && sudo reboot -h now"
+alias sdn="cleanup_session && echo 'Shutting down...' && sudo shutdown -h now"
+alias ssr="cleanup_session && echo 'Rebooting...' && sudo reboot -h now"
 alias magic='sudo /usr/local/bin/magic.sh'
 
 # =================================== // 4NDR0TOOLS //
@@ -1502,8 +1492,8 @@ cht() {
 edit_config() {
     local file_path="$1"
     if [[ $file_path ]]; then
-        sudo chattr -i "$file_path"
-        sudo -S nvim "$file_path"
+#        sudo chattr -i "$file_path"
+        sudo -E nvim "$file_path"
     else
         echo "File path not provided."
     fi
@@ -1660,7 +1650,6 @@ alias 0p='bat --paging=always ~/.config/zsh/.zprofile'
 #### Enter typo followed by the correction:
 alias gerp='grep'
 alias shudown='shutdown'
-alias pdw='pwd'
 alias micor='micro'
 alias cpoy='copy'
 alias nvin='nbin'
