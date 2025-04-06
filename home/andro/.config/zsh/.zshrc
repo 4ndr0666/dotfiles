@@ -57,10 +57,10 @@ DIRSTACKSIZE=8
 # ------------------------------- [ HISTORY ] ------------------------------------
 ## Make Directories
 
-[ ! -d "$HOME/.cache/zsh" ] && mkdir -p "$HOME/.cache/zsh"
-chmod ug+rw "$HOME/.cache/zsh"
-[ ! -f "$HOME/.cache/zsh/history" ] && touch "$HOME/.cache/zsh/history"
-chmod ug+rw "$HOME/.cache/zsh/history"
+[ ! -d "$XDG_DATA_HOME/zsh}" ] && mkdir -p "$XDG_DATA_HOME/zsh"
+chmod ug+rw "$XDG_DATA_HOME/zsh"
+[ ! -f "$XDG_DATA_HOME/zsh/history" ] && touch "$XDG_DATA_HOME/zsh/history"
+chmod ug+rw "$XDG_DATA_HOME/zsh/history"
 
 ## Shell Options
 
@@ -68,7 +68,7 @@ setopt hist_ignore_space hist_reduce_blanks hist_verify extended_history inc_app
 
 HISTSIZE=10000000
 SAVEHIST=10000000
-HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/history"
+HISTFILE="$XDG_DATA_HOME/zsh/history"
 
 ## Filter History
 
@@ -186,7 +186,7 @@ source_nvm "$NVM_DIR/nvm.sh"
 ## FZF
 
 fpath=("$ZDOTDIR/completions" "/usr/share/zsh/vendor-completions" $fpath)
-#autoload -U $fpath[1]/*(:t)
+autoload -U $fpath[1]/*(:t)
 source <(fzf --zsh)
 [ -f "/usr/share/zsh/plugins/zsh-fzf-plugin/fzf.plugin.zsh" ] && source "/usr/share/zsh/plugins/zsh-fzf-plugin/fzf.plugin.zsh"
 
@@ -203,9 +203,9 @@ export YSU_MESSAGE_POSITION="after"
 
 [ -f "/usr/share/zsh/plugins/zsh-extract/extract.plugin.zsh" ] && source "/usr/share/zsh/plugins/zsh-extract/extract.plugin.zsh"
 
-## Sudo
+### Sudo
 
-[ -f "/usr/share/zsh/plugins/zsh-sudo/sudo.plugin.zsh" ] && source "/usr/share/zsh/plugins/zsh-sudo/sudo.plugin.zsh"
+#[ -f "/usr/share/zsh/plugins/zsh-sudo/sudo.plugin.zsh" ] && source "/usr/share/zsh/plugins/zsh-sudo/sudo.plugin.zsh"
 
 ## SystemdD
 
