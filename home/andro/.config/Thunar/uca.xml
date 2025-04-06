@@ -5,52 +5,62 @@
 	<name>Open Terminal Here</name>
 	<submenu></submenu>
 	<unique-id>1581593230771688-1</unique-id>
-	<command>/usr/bin/archcraft-tcma --terminal</command>
-	<description>Open terminal in current directory</description>
+	<command>exo-open --working-directory %f --launch TerminalEmulator</command>
+
+	<description>Launch Terminal</description>
+	<range>*</range>
+	<patterns>*</patterns>
+	<directories/>
+</action>
+<action>
+	<icon>preferences-desktop-keyboard</icon>
+	<name>Copy Path</name>
+	<submenu></submenu>
+	<unique-id>1709402670224212-5</unique-id>
+	<command>echo -n %f | wl-copy</command>
+	<description>Cp path of selection to clipboard</description>
 	<range></range>
 	<patterns>*</patterns>
 	<directories/>
-</action>
-<action>
-	<icon>go-parent-folder</icon>
-	<name>Open as root</name>
-	<submenu></submenu>
-	<unique-id>1622790717174452-1</unique-id>
-	<command>/usr/bin/archcraft-tcma --asroot &apos;dbus-run-session thunar&apos;</command>
-	<description>Open current directory as root</description>
-	<patterns>*</patterns>
-	<directories/>
-</action>
-<action>
-	<icon>document-edit-sign</icon>
-	<name>Edit as root</name>
-	<unique-id>1622790919788057-2</unique-id>
-	<command>/usr/bin/archcraft-tcma --asroot &apos;geany %f&apos;</command>
-	<description>Edit file as root</description>
-	<patterns>*</patterns>
-	<text-files/>
-</action>
-
-
-<action>
-	<icon>clipboard</icon>
-	<name>Copy Contents to Clipboard</name>
-	<submenu></submenu>
-	<unique-id>1699178238284165-1</unique-id>
-	<command>/home/andro/.config/Thunar/scripts/copy_to_clipboard.sh %f</command>
-	<description>Copies the entire contents of a file to the clipboard.</description>
-	<range></range>
-	<patterns>*</patterns>
-	<directories/>
+	<audio-files/>
+	<image-files/>
 	<other-files/>
 	<text-files/>
+	<video-files/>
+</action>
+<action>
+	<icon>root-terminal-app</icon>
+	<name>Open Root Terminal</name>
+	<submenu>Admin</submenu>
+	<unique-id>1741906954488022-1</unique-id>
+	<command>bash -c &quot;source $HOME/.config/Thunar/scripts/thunar_utils.sh &amp;&amp; open_root_shell&quot;</command>
+	<description>Open a terminal session with a root shell.</description>
+	<range></range>
+	<patterns>*</patterns>
+	<directories/>
+</action>
+<action>
+	<icon>run-build-install-root</icon>
+	<name>Open As Root</name>
+	<submenu>Admin</submenu>
+	<unique-id>1709403186518863-12</unique-id>
+	<command>/home/andro/.config/Thunar/scripts/thunar_utils.sh --asroot %f</command>
+	<description> Launch any file or folder with superuser privileges</description>
+	<range>1-1</range>
+	<patterns>*</patterns>
+	<directories/>
+	<audio-files/>
+	<image-files/>
+	<other-files/>
+	<text-files/>
+	<video-files/>
 </action>
 <action>
 	<icon>folder-red</icon>
 	<name>Ownership to root</name>
-	<submenu></submenu>
+	<submenu>Admin</submenu>
 	<unique-id>1526631155250282-8</unique-id>
-	<command>gnome-keyring-daemon -r -d;gksu &quot;chown -R root:root %F&quot;</command>
+	<command>/home/andro/.config/Thunar/scripts/thunar_utils.sh %f</command>
 	<description>Change permissions to root</description>
 	<range></range>
 	<patterns>*</patterns>
@@ -64,10 +74,10 @@
 <action>
 	<icon>folder-cyan</icon>
 	<name>Ownership to user</name>
-	<submenu></submenu>
+	<submenu>Admin</submenu>
 	<unique-id>1526631178674034-9</unique-id>
-	<command>gnome-keyring-daemon -r -d;gksu &quot;chown -R $USER:$USER %F&quot;</command>
-	<description>Change permissions to user</description>
+	<command>/home/andro/.config/Thunar/scripts/thunar_utils.sh change_ownership %f</command>
+	<description>Change ownership of selected files to the current user.</description>
 	<range></range>
 	<patterns>*</patterns>
 	<directories/>
@@ -78,119 +88,13 @@
 	<video-files/>
 </action>
 <action>
-	<icon>utilities-log-viewer</icon>
-	<name>Make executable</name>
-	<submenu></submenu>
-	<unique-id>1526670239648084-2</unique-id>
-	<command>chmod +x %f</command>
-	<description>Make a file executable</description>
+	<icon>folder-download</icon>
+	<name>Move Files into New Folder with Checks</name>
+	<submenu>File Management</submenu>
+	<unique-id>1711099264100076-2</unique-id>
+	<command>bash -c &apos;dest=$(zenity --file-selection --directory --title=&quot;Select Destination Folder&quot;); if [ -n &quot;$dest&quot; ]; then mv %F &quot;$dest&quot;; else zenity --error --text=&quot;No folder selected.&quot;; fi&apos;</command>
+	<description>Move selected files to a destination folder after confirming via a file-selection dialog.</description>
 	<range></range>
-	<patterns>*</patterns>
-	<other-files/>
-	<text-files/>
-</action>
-<action>
-	<icon>folder-root</icon>
-	<name>Edit As Root</name>
-	<submenu></submenu>
-	<unique-id>1709402120436640-1</unique-id>
-	<command>pkexec vim %f</command>
-	<description></description>
-	<range></range>
-	<patterns>*</patterns>
-	<other-files/>
-	<text-files/>
-</action>
-<action>
-	<icon>converseen</icon>
-	<name>Convert PNG to JPEG</name>
-	<submenu></submenu>
-	<unique-id>1709402339221195-3</unique-id>
-	<command>convert &quot;%f&quot; -quality 90 &quot;$(echo &apos;%f&apos; | sed &apos;s/\.[^.]*$/.jpg/&apos;)&quot;</command>
-	<description></description>
-	<range>*</range>
-	<patterns>*.png</patterns>
-	<image-files/>
-</action>
-<action>
-	<icon>camera-video</icon>
-	<name>View Slideshow</name>
-	<submenu></submenu>
-	<unique-id>1709402586933706-4</unique-id>
-	<command>feh -Z -F -D 5 %F</command>
-	<description></description>
-	<range>*</range>
-	<patterns>*</patterns>
-	<image-files/>
-</action>
-<action>
-	<icon>preferences-desktop-keyboard</icon>
-	<name>Copy Path</name>
-	<submenu></submenu>
-	<unique-id>1709402670224212-5</unique-id>
-	<command>echo -n %f | wl-copy</command>
-	<description>Copies $PATH to clipboard</description>
-	<range>*</range>
-	<patterns>*</patterns>
-	<directories/>
-	<audio-files/>
-	<image-files/>
-	<other-files/>
-	<text-files/>
-	<video-files/>
-</action>
-<action>
-	<icon>preferences-desktop-screensaver</icon>
-	<name>Shred And Delete</name>
-	<submenu></submenu>
-	<unique-id>1709402733479836-6</unique-id>
-	<command>if zenity --question; then shred -fuz %F; fi</command>
-	<description>Shreds and deletes file</description>
-	<range></range>
-	<patterns>*</patterns>
-	<directories/>
-	<audio-files/>
-	<image-files/>
-	<other-files/>
-	<text-files/>
-	<video-files/>
-</action>
-<action>
-	<icon>gnome-disks</icon>
-	<name>Mount ISO</name>
-	<submenu></submenu>
-	<unique-id>1709402779693315-7</unique-id>
-	<command>udisksctl loop-setup -f %f</command>
-	<description> Mounts .iso files</description>
-	<range></range>
-	<patterns>*</patterns>
-	<directories/>
-	<other-files/>
-</action>
-<action>
-	<icon>kruler</icon>
-	<name>Add Progress Bar To Copy</name>
-	<submenu></submenu>
-	<unique-id>1709402896724876-8</unique-id>
-	<command>rsync -ah --progress %F &quot;/destination/folder&quot; | zenity --progress --pulsate --auto-close --title=&quot;Copying Files&quot;</command>
-	<description>Adds progress bar to copy/paste.</description>
-	<range>*</range>
-	<patterns>*</patterns>
-	<directories/>
-	<audio-files/>
-	<image-files/>
-	<other-files/>
-	<text-files/>
-	<video-files/>
-</action>
-<action>
-	<icon>user-group-properties</icon>
-	<name>Change Multiple File Permissions</name>
-	<submenu></submenu>
-	<unique-id>1709402961056347-9</unique-id>
-	<command>ans=$(zenity --height=350 --list --text &quot;change files permissions&quot; --checklist --column &quot;pick&quot; --column &quot;options&quot; TRUE &quot;user-read&quot; TRUE &quot;user-write&quot; FALSE &quot;user-exec&quot; FALSE &quot;group-read&quot; FALSE &quot;group-write&quot; FALSE &quot;group-exec&quot; FALSE &quot;all-read&quot; FALSE &quot;all-write&quot; FALSE &quot;all-exec&quot; --separator=&quot;:&quot;); if [ &quot;$ans&quot; != &quot;&quot; ]; then searchuserread=&quot;user-read&quot;; searchuserwrite=&quot;user-write&quot;; searchuserexec=&quot;user-exec&quot;; user1=&quot;0&quot;; user2=&quot;0&quot;; user3=&quot;0&quot;; searchgroupread=&quot;group-read&quot;; searchgroupwrite=&quot;group-write&quot;; searchgroupexec=&quot;group-exec&quot;; group1=&quot;0&quot;; group2=&quot;0&quot;; group3=&quot;0&quot;; searchallread=&quot;all-read&quot;; searchallwrite=&quot;all-write&quot;; searchallexec=&quot;all-exec&quot;; all1=&quot;0&quot;; all2=&quot;0&quot;; all3=&quot;0&quot;; case $ans in *&quot;$searchuserread&quot;*) user1=&quot;4&quot; ;; esac; case $ans in *&quot;$searchuserwrite&quot;*) user2=&quot;2&quot; ;; esac; case $ans in *&quot;$searchuserexec&quot;*) user3=&quot;1&quot; ;; esac; case $ans in *&quot;$searchgroupread&quot;*) group1=&quot;4&quot; ;; esac; case $ans in *&quot;$searchgroupwrite&quot;*) group2=&quot;2&quot; ;; esac; case $ans in *&quot;$searchgroupexec&quot;*) group3=&quot;1&quot; ;; esac; case $ans in *&quot;$searchallread&quot;*) all1=&quot;4&quot; ;; esac; case $ans in *&quot;$searchallwrite&quot;*) all2=&quot;2&quot; ;; esac; case $ans in *&quot;$searchallexec&quot;*) all3=&quot;1&quot; ;; esac; u=$(($user1 + $user2 + $user3)); g=$(($group1 + $group2 + $group3)); a=$(($all1 + $all2 + $all3)); result=&quot;$u$g$a&quot;; chmod $result %F || { zenity --error --text=&quot;an error occurred!\ncheck if you are allowed\nto change permissions\nof the selected files&quot;; }; fi</command>
-	<description>Allows user to change file permissions of one or multiple files with small GUI. Requires: zenity</description>
-	<range>*</range>
 	<patterns>*</patterns>
 	<directories/>
 	<audio-files/>
@@ -202,22 +106,21 @@
 <action>
 	<icon>multiple</icon>
 	<name>Flatten Directory</name>
-	<submenu></submenu>
+	<submenu>File Management</submenu>
 	<unique-id>1709403014450508-10</unique-id>
-	<command>/home/andro/.config/Thunar/scripts/move_files_to_parent.sh %f</command>
-	<description>Moves files from subdirectories to the current directory, handling filename conflicts gracefully by appending a numeric suffix.</description>
-	<range>*</range>
+	<command>bash -c &quot;source $HOME/.config/Thunar/scripts/thunar_utils.sh &amp;&amp; move_files_to_parent %d&quot;</command>
+	<description>Move all files from subdirectories into the selected directory and remove empty subdirectories.</description>
+	<range></range>
 	<patterns>*</patterns>
 	<directories/>
-	<other-files/>
 </action>
 <action>
-	<icon>run-build-install-root</icon>
-	<name>Open Anything As Root</name>
-	<submenu></submenu>
-	<unique-id>1709403186518863-12</unique-id>
-	<command>gksudo exo-open %f</command>
-	<description> Launch any file or folder with superuser privileges</description>
+	<icon>user-group-properties</icon>
+	<name>Change Multiple File Permissions</name>
+	<submenu>File Management</submenu>
+	<unique-id>1709402961056347-9</unique-id>
+	<command>bash -c &apos;ans=$(zenity --height=350 --list --text &quot;change files permissions&quot; --checklist --column &quot;pick&quot; --column &quot;options&quot; TRUE &quot;user-read&quot; TRUE &quot;user-write&quot; FALSE &quot;user-exec&quot; FALSE &quot;group-read&quot; FALSE &quot;group-write&quot; FALSE &quot;group-exec&quot; FALSE &quot;all-read&quot; FALSE &quot;all-write&quot; FALSE &quot;all-exec&quot; --separator=&quot;:&quot;); if [ &quot;$ans&quot; != &quot;&quot; ]; then searchuserread=&quot;user-read&quot;; searchuserwrite=&quot;user-write&quot;; searchuserexec=&quot;user-exec&quot;; user1=&quot;0&quot;; user2=&quot;0&quot;; user3=&quot;0&quot;; searchgroupread=&quot;group-read&quot;; searchgroupwrite=&quot;group-write&quot;; searchgroupexec=&quot;group-exec&quot;; group1=&quot;0&quot;; group2=&quot;0&quot;; group3=&quot;0&quot;; searchallread=&quot;all-read&quot;; searchallwrite=&quot;all-write&quot;; searchallexec=&quot;all-exec&quot;; all1=&quot;0&quot;; all2=&quot;0&quot;; all3=&quot;0&quot;; case $ans in *&quot;$searchuserread&quot;*) user1=&quot;4&quot; ;; esac; case $ans in *&quot;$searchuserwrite&quot;*) user2=&quot;2&quot; ;; esac; case $ans in *&quot;$searchuserexec&quot;*) user3=&quot;1&quot; ;; esac; case $ans in *&quot;$searchgroupread&quot;*) group1=&quot;4&quot; ;; esac; case $ans in *&quot;$searchgroupwrite&quot;*) group2=&quot;2&quot; ;; esac; case $ans in *&quot;$searchgroupexec&quot;*) group3=&quot;1&quot; ;; esac; case $ans in *&quot;$searchallread&quot;*) all1=&quot;4&quot; ;; esac; case $ans in *&quot;$searchallwrite&quot;*) all2=&quot;2&quot; ;; esac; case $ans in *&quot;$searchallexec&quot;*) all3=&quot;1&quot; ;; esac; u=$(($user1 + $user2 + $user3)); g=$(($group1 + $group2 + $group3)); a=$(($all1 + $all2 + $all3)); result=&quot;$u$g$a&quot;; chmod $result %F || { zenity --error --text=&quot;an error occurred!\ncheck if you are allowed\nto change permissions\nof the selected files&quot;; }; fi&apos;</command>
+	<description>Change file permissions using a Zenity checklist.</description>
 	<range></range>
 	<patterns>*</patterns>
 	<directories/>
@@ -228,23 +131,36 @@
 	<video-files/>
 </action>
 <action>
-	<icon>krename</icon>
-	<name>Open in bulk renamer</name>
-	<submenu></submenu>
-	<unique-id>1711099198581175-1</unique-id>
-	<command>thunar --bulk-rename %f</command>
-	<description>Opens the bulk renamer for a single file</description>
-	<range>1-1</range>
+	<icon>text-x-script</icon>
+	<name>Make executable</name>
+	<submenu>Admin</submenu>
+	<unique-id>1526670239648084-2</unique-id>
+	<command>chmod +x %f</command>
+	<description>Make a file executable</description>
+	<range></range>
 	<patterns>*</patterns>
+	<other-files/>
+	<text-files/>
 </action>
 <action>
-	<icon>folder-download</icon>
-	<name>Move Files into New Folder with Checks</name>
-	<submenu></submenu>
-	<unique-id>1711099264100076-2</unique-id>
-	<command>/home/andro/.config/Thunar/scripts/move_to_new_folder_cli.sh %F</command>
-	<description>Select any number of file/folders. A dialog will popup in which you can write the name of a new folder to create. Selected Files will be moved there and dupes will be renamed.</description>
-	<range>*</range>
+	<icon>gnome-disks</icon>
+	<name>Mount ISO</name>
+	<submenu>Admin</submenu>
+	<unique-id>1709402779693315-7</unique-id>
+	<command>udisksctl loop-setup -f %f</command>
+	<description>Mount the selected ISO file as a loop device.</description>
+	<range></range>
+	<patterns>*.iso</patterns>
+	<other-files/>
+</action>
+<action>
+	<icon>ktimetracker</icon>
+	<name>Copy with Progress</name>
+	<submenu>File Management</submenu>
+	<unique-id>1709402896724876-8</unique-id>
+	<command>bash -c &apos;rsync -ah --progress %F &quot;/destination/folder&quot; | zenity --progress --pulsate --auto-close --title=&quot;Copying Files&quot;&apos;</command>
+	<description>Adds progress bar to copy/paste.</description>
+	<range></range>
 	<patterns>*</patterns>
 	<directories/>
 	<audio-files/>
@@ -254,16 +170,97 @@
 	<video-files/>
 </action>
 <action>
-	<icon>insert-link</icon>
-	<name>Create Symlink</name>
+	<icon>nwg-clipman</icon>
+	<name>Copy Contents to Clipboard</name>
 	<submenu></submenu>
-	<unique-id>1711099396991909-1</unique-id>
-	<command>sh -c &apos;ln -s &quot;$1&quot; &quot;${1%/*}/$(basename &quot;$1&quot;) (symlink)&quot;&apos; sh %f</command>
-	<description></description>
+	<unique-id>1699178238284165-1</unique-id>
+	<command>bash -c &quot;source $HOME/.config/Thunar/scripts/thunar_utils.sh &amp;&amp; copy_to_clipboard %f&quot;</command>
+	<description>Copies the entire contents of a file to the clipboard.</description>
+	<range></range>
+	<patterns>*</patterns>
+	<other-files/>
+	<text-files/>
+</action>
+<action>
+	<icon>edit-delete-shred</icon>
+	<name>Shred And Delete</name>
+	<submenu>File Management</submenu>
+	<unique-id>1709402733479836-6</unique-id>
+	<command>bash -c &apos;if zenity --question; then shred -fuz %F; fi&apos;</command>
+	<description>Securely delete the selected file(s) after confirmation.</description>
+	<range></range>
+	<patterns>*</patterns>
+	<directories/>
+	<audio-files/>
+	<image-files/>
+	<other-files/>
+	<text-files/>
+	<video-files/>
+</action>
+<action>
+	<icon>camera-video</icon>
+	<name>View Slideshow</name>
+	<submenu>Image Tools</submenu>
+	<unique-id>1709402586933706-4</unique-id>
+	<command>feh -Z -F -D 5 %F</command>
+	<description>Launch a slideshow of the selected images.</description>
+	<range></range>
+	<patterns>*.jpg;*.jpeg;*.png;*.gif;*.bmp;*.webp</patterns>
+	<image-files/>
+</action>
+<action>
+	<icon>krename</icon>
+	<name>Open in Bulk Renamer</name>
+	<submenu>File Management</submenu>
+	<unique-id>1711099198581175-1</unique-id>
+	<command>thunar --bulk-rename %f</command>
+	<description>Launch Thunar’s bulk rename tool for the selected file.</description>
+	<range></range>
+	<patterns>*</patterns>
+	<audio-files/>
+	<image-files/>
+	<other-files/>
+	<text-files/>
+	<video-files/>
+</action>
+<action>
+	<icon>icon-preview-app</icon>
+	<name>Convert to PNG</name>
+	<submenu></submenu>
+	<unique-id>1737149687010912-1</unique-id>
+	<command>/home/andro/.config/Thunar/scripts/imgtopng.sh %F</command>
+	<description>Convert the selected images to PNG format.</description>
+	<range></range>
+	<patterns>*.webp;*.jpg;*.jpeg;*.png;*.tiff;*.bmp;*.gif;*.auto</patterns>
+	<startup-notify/>
+	<image-files/>
+</action>
+<action>
+	<icon>mpv</icon>
+	<name>Mpv Dir</name>
+	<submenu></submenu>
+	<unique-id>1741911391053724-2</unique-id>
+	<command>/home/andro/.config/Thunar/scripts/playdir %f</command>
+	<description>Plays entire directory with MPV</description>
 	<range>*</range>
 	<patterns>*</patterns>
 	<directories/>
+</action>
+<action>
+	<icon>insert-link</icon>
+	<name>Create Symlink</name>
+	<submenu>File Management</submenu>
+	<unique-id>1711099396991909-1</unique-id>
+	<command>sh -c &apos;ln -s &quot;$1&quot; &quot;${1%/*}/$(basename &quot;$1&quot;) (symlink)&quot;&apos; sh %f</command>
+	<description>Create a symbolic link for the selected file in its current directory.</description>
+	<range></range>
+	<patterns>*</patterns>
+	<directories/>
+	<audio-files/>
+	<image-files/>
 	<other-files/>
+	<text-files/>
+	<video-files/>
 </action>
 <action>
 	<icon>archive-extract</icon>
@@ -271,28 +268,9 @@
 	<submenu></submenu>
 	<unique-id>1489091300385082-4</unique-id>
 	<command>tar xjf %n</command>
-	<description></description>
+	<description>Extract the selected archive in the current directory.</description>
 	<range></range>
-	<patterns>*.tar.bz2;*.tbz2</patterns>
+	<patterns>.tar.bz2;.tar.gz;.tgz;.tbz2;*.zip</patterns>
 	<other-files/>
-</action>
-</actions>
-<action>
-	<icon>view-preview</icon>
-	<name>Set as wallpaper</name>
-	<unique-id>1622798756568291-1</unique-id>
-	<command>/usr/bin/archcraft-tcma --wallpaper %f</command>
-	<description>Set wallpaper according to session</description>
-	<patterns>*</patterns>
-	<image-files/>
-</action>
-<action>
-	<icon>rotation-locked-landscape</icon>
-	<name>Set as lockscreen</name>
-	<unique-id>1622799434407260-2</unique-id>
-	<command>/usr/bin/archcraft-tcma --lockscreen %f</command>
-	<description>Set image as lockscreen background</description>
-	<patterns>*</patterns>
-	<image-files/>
 </action>
 </actions>
