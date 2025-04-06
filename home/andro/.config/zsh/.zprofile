@@ -1,5 +1,4 @@
 #!/usr/bin/env zsh
-
 # ======================================== // ZPROFILE //
 
 ## Dynamic Path
@@ -48,7 +47,7 @@ fi
 
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
-#export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
+export XDG_DATA_DIRS="${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XINITRC="$XDG_CONFIG_HOME/x11/xinitrc"
 #export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority" # This line will break some DMs.
@@ -91,7 +90,6 @@ export MESON_HOME="$XDG_CONFIG_HOME/meson"
 export GEM_HOME="$XDG_DATA_HOME/gem"
 export ELECTRON_CACHE="$XDG_CACHE_HOME/electron"
 # export ELECTRON_MIRROR="https://npm.taobao.org/mirrors/electron/"
-export NVM_CONFIG_HOME="XDG_CONFIG_HOME/nvm"
 export NODE_DATA_HOME="$XDG_DATA_HOME/node"
 export NODE_CONFIG_HOME="$XDG_CONFIG_HOME/node"
 #export SCREENRC="$XDG_CONFIG_HOME/screen/screenrc"
@@ -127,8 +125,7 @@ export NODE_CONFIG_HOME="$XDG_CONFIG_HOME/node"
 
 ## Make Dirs:
 
-mkdir -p "$HISTFILE" \
-    "$XDG_DATA_HOME/lib" \
+mkdir -p "$XDG_DATA_HOME/lib" \
     "$XDG_DATA_HOME/go/bin" \
     "$XDG_DATA_HOME/cargo/bin" \
     "$XDG_CACHE_HOME/zsh" \
@@ -224,7 +221,7 @@ export FZF_DEFAULT_COMMMAND='fd --no-ignore --hidden --follow --exclude ".git"'
 #### Default settings
 export FZF_DEFAULT_OPTS="
   --layout=reverse
-  --height=40%
+  --height=60%
   --border=thinblock
   --padding=1%
   --info=right
@@ -232,13 +229,13 @@ export FZF_DEFAULT_OPTS="
   --scrollbar='│'
   --separator='_'
   --preview='setopt NO_NOMATCH; set filename=\$(basename {}) ; case \$filename in
-    *.txt|*.md) bat --style=numbers --color=always {} ;;
+    *.txt|*.md) bat {} & ;;
     *.pdf) zathura {} & ;;
     *.jpg|*.jpeg|*.png|*.gif|*.webp|*.tiff|*.bmp|*.auto) nsxiv {} & ;;
-    *) bat --style=numbers,snip --color=always {} ;;
+    *) bat {} ;;
 esac'
   --preview-window=up,1,border-horizontal
-  --bind='ctrl-p:change-preview-window(50%|hidden|)'
+  --bind='ctrl-p:change-preview-window(40%|hidden|)'
   --preview-label=eyes
   --margin=5%
   --bind='ctrl-y:execute-silent(printf {} | cut -f 2- | wl-copy --trim-newline)'
@@ -309,19 +306,15 @@ esac
 
 ## PAGER
 
-export MANPAGER="sh -c 'if [ -t 1 ]; then col -bx | bat -l man -p; else col -bx | bat -l man -p --color=never; fi | less -R'"
-export BAT_PAGER="less -R"
+export MANPAGER="sh -c 'if [ -t 1 ]; then col -bx | bat -l man -p; else col -bx | bat -l man -p --color=auto; fi | less -R'"
+#export BAT_PAGER="less -R"
 #export MANPAGER="sh -c 'col -bx | bat -l man -p | less -R'"
 #export MANPAGER="sh -c 'col -bx | bat -l man -p --paging always'"
 
 ## Less
 
 export LESS="R"
-
-## LessOpen
-
-#export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"                   # Default
-export LESSOPEN="| /usr/bin/highlight --style=monokai -O ansi %s 2>/dev/null"    # Monokai Theme
+export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"    # Monokai Theme
 export LESS_TERMCAP_md="$(printf '%b' '[1;35m')"    # Bold text (strong emphasis)
 export LESS_TERMCAP_mb="$(printf '%b' '[01;33m')"   # Blinking text (rarely used, but styled distinctively)
 export LESS_TERMCAP_us="$(printf '%b' '[4;36m')"    # Underlined text (e.g., hyperlinks, emphasized text)
