@@ -46,7 +46,7 @@ for program in "$@"; do
         echo "Keybindings for: $program"
         echo "=============================="
         if command -v bat >/dev/null 2>&1; then
-            bat --language=sh "$FILE"
+            bat --paging=always --language=md "$FILE"
         elif command -v cat >/dev/null 2>&1; then
             cat "$FILE"
         else

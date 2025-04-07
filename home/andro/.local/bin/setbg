@@ -3,7 +3,7 @@
 # This script sets the wallpaper using swaybg on Wayland/Wayfire.
 
 # Location of the wallpaper link
-bgloc="${XDG_DATA_HOME:-$HOME/.local/share}/bg"
+bgloc="${XDG_HOME:-$HOME/Wallpapers}/bg"
 
 # Configuration files of applications that have their themes changed by pywal.
 makoconf="${XDG_CONFIG_HOME:-$HOME/.config}/wayfire/mako/config"
