@@ -1500,18 +1500,18 @@ edit_config() {
 }
 
 alias svim='edit_config'
-alias valias='edit_config "$ZDOTDIR/aliasrc" && chattr +i "$ZDOTDIR/aliasrc"'
-alias vfunc='edit_config "$ZDOTDIR/functions.zsh" && chattr +i "$ZDOTDIR/functions.zsh"'
-alias vpac='edit_config /etc/pacman.conf && chattr +i /etc/pacman.conf'
+alias valias='edit_config "$ZDOTDIR/aliasrc"'
+alias vfunc='edit_config "$ZDOTDIR/functions.zsh"'
+alias vpac='edit_config /etc/pacman.conf'
 alias vgrub='edit_config /etc/default/grub'
 alias vgrubc='edit_config /boot/grub/grub.cfg'
 alias vmkinit='edit_config /etc/mkinitcpio.conf'
 alias vmirror='edit_config /etc/pacman.d/mirrorlist'
 alias vchaotic='edit_config /etc/pacman.d/chaotic-mirrorlist'
-alias vfstab='edit_config /etc/fstab && chattr +i /etc/fstab'
-alias vzpro='edit_config "$ZDOTDIR/.zprofile" && chattr +i "$ZDOTDIR/.zprofile"'
-alias vbash='edit_config "$HOME/.bashrc && chattr +i "$HOME/.bashrc"'
-alias vzsh='edit_config "$ZDOTDIR/.zshrc && chattr +i "$ZDOTDIR/.zshrc"'
+alias vfstab='edit_config /etc/fstab'
+alias vzpro='edit_config "$ZDOTDIR/.zprofile"'
+alias vbash='edit_config "$HOME/.bashrc"'
+alias vzsh='edit_config "$ZDOTDIR/.zshrc"'
 alias vhosts='edit_config /etc/hosts'
 alias vmpv='edit_config "$XDG_CONFIG_HOME"/mpv/mpv.conf'
 alias vfire='edit_config "$XDG_CONFIG_HOME"/wayfire.ini'
@@ -1640,10 +1640,10 @@ killit() {
 ## 4ndr0view
 
 #### Quicly view configuration files
-alias 00='bat --paging=always ~/.config/zsh/aliasrc'
-alias 0f='bat --paging=always ~/.config/zsh/functions.zsh'
-alias 0z='bat --paging=always ~/.config/zsh/.zshrc'
-alias 0p='bat --paging=always ~/.config/zsh/.zprofile'
+alias 00='bat --language=sh --paging=always ~/.config/zsh/aliasrc'
+alias 0f='bat ~/.config/zsh/functions.zsh'
+alias 0z='bat ~/.config/zsh/.zshrc'
+alias 0p='bat ~/.config/zsh/.zprofile'
 
 # ===================================================================================================
 
