@@ -1,7 +1,7 @@
 #!/bin/sh
 
-bmdirs="${XDG_CONFIG_HOME:-$HOME/.config}/shellz/bm-dirs"
-bmfiles="${XDG_CONFIG_HOME:-$HOME/.config}/shellz/bm-files"
+bmdirs="${XDG_CONFIG_HOME:-$HOME/.config}/shell/bm-dirs"
+bmfiles="${XDG_CONFIG_HOME:-$HOME/.config}/shell/bm-files"
 
 # Output locations. Unactivated progs should go to /dev/null.
 shell_shortcuts="${XDG_CONFIG_HOME:-$HOME/.config}/shell/shortcutrc"
