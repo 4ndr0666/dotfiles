@@ -5,7 +5,7 @@
 # some choice programs to use to open it.
 feed="${1:-$(true | dmenu -p 'Paste URL or file path')}"
 
-case "$(printf "copy url\\nnsxiv\\nsetbg\\nPDF\\nbrowser\\nlynx\\nvim\\nmpv\\nmpv loop\\nmpv float\\nqueue download\\nqueue yt-dlp\\nqueue yt-dlp audio\\nytdlc" | dmenu -i -p "Open it with?")" in
+case "$(printf "copy url\\nnsxiv\\nsetbg\\nPDF\\nbrowser\\nw3m\\nvim\\nmpv\\nmpv loop\\nmpv float\\nqueue download\\nqueue yt-dlp\\nqueue yt-dlp audio\\nytf" | dmenu -i -p "Open it with?")" in
 	"copy url") echo "$feed" | wl-copy ;;
 	mpv) setsid -f mpv -quiet "$feed" >/dev/null 2>&1 ;;
 	"mpv loop") setsid -f mpv -quiet --loop "$feed" >/dev/null 2>&1 ;;
@@ -16,8 +16,8 @@ case "$(printf "copy url\\nnsxiv\\nsetbg\\nPDF\\nbrowser\\nlynx\\nvim\\nmpv\\nmp
 	PDF) curl -sL "$feed" > "/tmp/$(echo "$feed" | sed "s|.*/||;s/%20/ /g")" && zathura "/tmp/$(echo "$feed" | sed "s|.*/||;s/%20/ /g")"  >/dev/null 2>&1 ;;
 	nsxiv) curl -sL "$feed" > "/tmp/$(echo "$feed" | sed "s|.*/||;s/%20/ /g")" && nsxiv -a "/tmp/$(echo "$feed" | sed "s|.*/||;s/%20/ /g")"  >/dev/null 2>&1 ;;
 	vim) curl -sL "$feed" > "/tmp/$(echo "$feed" | sed "s|.*/||;s/%20/ /g")" && setsid -f "$TERMINAL" -e "$EDITOR" "/tmp/$(echo "$feed" | sed "s|.*/||;s/%20/ /g")"  >/dev/null 2>&1 ;;
-	setbg) curl -L "$feed" > $XDG_CACHE_HOME/pic ; xwallpaper --zoom $XDG_CACHE_HOME/pic >/dev/null 2>&1 ;;
+	setbg) curl -L "$feed" > $XDG_CACHE_HOME/pic ; swaybg --output '*' --mode fill --image $XDG_CACHE_HOME/pic >/dev/null 2>&1 ;;
 	browser) setsid -f "$BROWSER" "$feed" >/dev/null 2>&1 ;;
-	lynx) lynx "$feed" >/dev/null 2>&1 ;;
-	ytdlc) setsid -f "$TERMINAL" -e ytf "$feed"; echo 'Enter the desired format ID:'; read fmt; echo 'Proceeding with format ID: ' \"\$fmt\"; ytdlc -f \"\$fmt\" \"$feed\"; echo 'Press Enter to close the terminal.'; read >/dev/null 2>&1 ;;
+	w3m) w3m "$feed" >/dev/null 2>&1 ;;
+	ytf) setsid -f "$TERMINAL" -e zsh -ic ytf \"$feed\"; echo 'Press Enter to close the terminal.'; read >/dev/null 2>&1 ;;
 esac
