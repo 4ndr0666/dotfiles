@@ -1,9 +1,6 @@
-#!/usr/bin/env zsh
+#!/bin/zsh
 # Author: 4ndr0666
-
-# =============== // YTDL.ZSH //
-
-
+# =================== // YTDL.ZSH //
 
 ## Config Map
 
@@ -14,18 +11,17 @@ declare -A YTDLP_COOKIES_MAP=(
     ["vimeo.com"]="$HOME/.config/yt-dlp/vimeo_cookies.txt"
     ["boosty.to"]="$HOME/.config/yt-dlp/boosty_cookies.txt"
     ["instagram.com"]="$HOME/.config/yt-dlp/instagram_cookies.txt"
-  ["fanvue.com"]="$HOME/.config/yt-dlp/fanvue_cookies.txt"
+    ["fanvue.com"]="$HOME/.config/yt-dlp/fanvue_cookies.txt"
 )
-PREFERRED_FORMATS=("335" "315" "313" "308" "303" "299" "302" "271" "248" "137")
 
-### Validate URL format.
+PREFERRED_FORMATS=("335" "315" "313" "308" "303" "299" "302" "271" "248" "137")
 
 validate_url() {
   local url="$1"
   [[ "$url" =~ ^https?:// ]] && return 0 || return 1
 }
 
-### Normalize domain.
+## Normalize domain.
 ### For fanvue URLs, we force the domain to "fanvue.com" (lowercase) so that our cookie mapping works.
 get_domain_from_url() {
   local url="$1"
@@ -40,13 +36,13 @@ get_domain_from_url() {
   fi
 }
 
-### Retrieve the cookie file path based on domain.
+#### Retrieve the cookie file path based on domain.
 get_cookie_path_for_domain() {
   local domain="$1"
   echo "${YTDLP_COOKIES_MAP[$domain]}"
 }
 
-### Refresh cookie file using clipboard.
+#### Refresh cookie file using clipboard.
 refresh_cookie_file() {
   local domain="$1"
   if [[ -z "$domain" ]]; then
@@ -82,8 +78,8 @@ refresh_cookie_file() {
   echo "Cookie file for '$domain' updated successfully!"
 }
 
-### Prompt user to update cookies.
-# If fzf is available, use it for fuzzy selection.
+## Prompt user to update cookies.
+#### If fzf is available, use it for fuzzy selection.
 prompt_cookie_update() {
   echo "Select the domain to update cookies for:"
   local domains
@@ -134,7 +130,8 @@ prompt_cookie_update() {
   fi
 }
 
-### For fanvue.com, force default "best" format.
+## Auto-Format
+#### For fanvue.com, force default "best" format.
 select_best_format() {
   local url="$1"
   local cfile="$2"
@@ -159,7 +156,7 @@ select_best_format() {
   echo "best"
 }
 
-## Formats: Get details for a given format.
+## Get-Formats
 
 get_format_details() {
   local url="$1"
@@ -255,8 +252,7 @@ ytf() {
 }
 
 ## Helper: Attempt advanced download.
-
-### This helper encapsulates the complex command invocation for advanced downloads.
+#### This helper encapsulates the complex command invocation for advanced downloads.
 attempt_advanced_download() {
   local url="$1"
   local cookie_file="$2"
@@ -272,7 +268,8 @@ attempt_advanced_download() {
     --output "${odir}/%(title)s.%(ext)s" "${extra_args[@]}" "$url"
 }
 
-### ytdlc: Advanced download with fallback and reattempt logic.
+## ytdlc: Advanced download with fallback and reattempt logic.
+
 ytdlc() {
   if [[ $# -eq 0 ]]; then
     show_ytdlc_help
@@ -363,14 +360,14 @@ ytdlc() {
     fi
     local bestf
     bestf=$("$url" "$cookie_file")
-    # For fanvue, force bestf to "best"
+    #### For fanvue, force bestf to "best"
     if [[ "$(echo "$(get_domain_from_url "$url")" | tr '[:upper:]' '[:lower:]')" == "fanvue.com" ]]; then
       echo "➡️ Fanvue URL detected; defaulting to native logic"
       yt-dlp --add-metadata --embed-metadata --external-downloader aria2c \
-	--external-downloader-args "aria2c:-c -j8 -x8 -s8 -k2M" \
-	--newline --ignore-config --no-playlist --no-mtime \
-	--cookies "$cookie_file" \
-	--output "$odir/%(title)s.%(ext)s" "${extra_args[@]}" "$url"
+	  --external-downloader-args "aria2c:-c -j8 -x8 -s8 -k2M" \
+	  --newline --ignore-config --no-playlist --no-mtime \
+	  --cookies "$cookie_file" \
+	  --output "$odir/%(title)s.%(ext)s" "${extra_args[@]}" "$url"
     fi
 #    printf "✔️ Selected format ID: $bestf"
 #    if [[ "$bestf" != "best" ]]; then
@@ -381,7 +378,7 @@ ytdlc() {
 #      echo "Format details: N/A"; echo ""
 #    fi
     echo "➡️ Attempting advanced download for '$url'..."
-    attempt_advanced_download "$url" "$cookie_file" "$bestf" "$odir" "${extra_args[@]}"
+    attempt_advanced_download "$url" "$cookie_file" "$odir" "${extra_args[@]}"
     local exit_code_adv=$?
     if [[ $exit_code_adv -eq 0 ]]; then
       printf "✔️ Advanced download completed successfully for '$url'."
@@ -396,16 +393,15 @@ ytdlc() {
         read -r reattempt_choice
         if [[ "$reattempt_choice" =~ ^[Yy](es)?$ ]]; then
           yt-dlp --add-metadata --embed-metadata --external-downloader aria2c \
-            --external-downloader-args "aria2c:-c -j8 -x8 -s8 -k2M" \
-            -f "$bestf+bestaudio+bestaudio" \
-            --newline --ignore-config --no-playlist --no-mtime \
-	    --cookies "$cookie_file" \
-            --output "$odir/%(title)s.%(ext)s" "${extra_args[@]}" "$url"
-          if [[ $? -eq 0 ]]; then
-            printf "✔️ Reattempt after fallback succeeded for '$url'."
-          else
-            echo "❌ Reattempt after fallback failed for '$url'. Skipping." >&2
-          fi
+          --external-downloader-args "aria2c:-c -j8 -x8 -s8 -k2M" \
+          --newline --ignore-config --no-playlist --no-mtime \
+	      --cookies "$cookie_file" \
+          --output "$odir/%(title)s.%(ext)s" "${extra_args[@]}" "$url"
+            if [[ $? -eq 0 ]]; then
+              printf "✔️ Reattempt after fallback succeeded for '$url'."
+            else
+              echo "❌ Reattempt after fallback failed for '$url'. Skipping." >&2
+            fi
         else
           echo "➡️ Skipping re-attempt for '$url'."
         fi

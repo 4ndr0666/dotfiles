@@ -13,7 +13,7 @@ getdim() { xrandr | grep -oP '(?<=current ).*(?=,)' | tr -d ' ' ;}
 
 updateicon() { \
     echo "$1" > /tmp/recordingicon
-    pkill -RTMIN+9 "${notify-send ""}" 
+    notify-send ""
 }
 
 killrecording() {
@@ -21,7 +21,7 @@ killrecording() {
     kill -15 "$recpid"
     rm -f /tmp/recordingpid
     updateicon ""
-    pkill -RTMIN+9 "${notify-send "Recording stopped}"
+    notify-send "Recording stopped"
 }
 
 screencast() { \
@@ -63,27 +63,25 @@ audio() { \
 }
 
 askrecording() { \
-    choice=$(printf "screencast\\nvideo\\nselected area\\naudio\\nwebcam\\nwebcam (hi-def)" | dmenu -i -p "Select recording style:") 
+    choice=$(printf "screencast\\nvideo\\nvideo selected\\naudio\\nwebcam\\nwebcam-hidef" | dmenu -i -p "Select recording style:")
     case "$choice" in
         screencast) screencast;;
         audio) audio;;
         video) video;;
         *selected) videoselected;;
         webcam) webcam;;
-        "webcam (hi-def)") webcamhidef;;
+	webcam-hidef) webcamhidef;;
     esac
 }
 
-asktoend() {
+asktoend() { \
     response=$(printf "No\\nYes" | dmenu -i -p "Recording still active. End recording?") &&
-    [ "$response" = "Yes" ] && killrecording 
-    }
+    [ "$response" = "Yes" ] &&  killrecording
+}
 
-videoselected() 
-{
+videoselected() { \
     slop_output=$(slop -f "%x %y %w %h")
     IFS=' ' read -r X Y W H <<< "$slop_output"
-
     wf-recorder \
     -g "${X},${Y} ${W}x${H}" \
     -f "$HOME/box-$(date '+%y%m%d-%H%M-%S')-$(date +%N).mkv" &
@@ -95,7 +93,7 @@ case "$1" in
 	screencast) screencast;;
 	audio) audio;;
 	video) video;;
-        *selected) videoselected;;
+	*selected) videoselected;;
 	kill) killrecording;;
 	*) ([ -f /tmp/recordingpid ] && asktoend && exit) || askrecording;;
 esac
