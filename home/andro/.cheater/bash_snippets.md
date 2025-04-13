@@ -1,36 +1,10 @@
-## Realpath 
-
-- In Example 1:
-
-```shell
-: "${PKG_PATH:=$(dirname "$(dirname "$(realpath "$0")")")}"
-
-                                                    ^-- [traverses two levels up a dir or `../../`]
-```
-- **`realpath "$0"`:** Resolves the absolute path of the current script.
-- **`dirname "$(realpath "$0")"`:** Gets the directory containing the script.
-- **`dirname "$(dirname "$(realpath "$0")")"`:** Moves one directory up from that location (i.e., two levels up from the script).
-- **`"${PKG_PATH:=...}"`:** Uses parameter expansion to set `PKG_PATH` only if it isn’t already defined.
-
-- In Example 2:
-
-```shell
-: "${PKG_PATH:=$(dirname $(realpath "$0")")}"
-                                        ^-- [traverses one level up or `../`]
-
-```
-- **`realpath "$0"`:** Resolves the absolute path of the current script.
-- **`dirname "$(realpath "$0")"`:** Gets the directory containing the script.
-- **`dirname "$(dirname "$(realpath "$0")"`:** Moves one directory up from the script).
-- **`"${PKG_PATH:=...}"`:** Uses parameter expansion to set `PKG_PATH` only if it isn’t already defined.
-
 ## Avoid Filename Expansion
 
 ```shell
 set -f
 ```
 
-## Force Posix
+## Force POSIX
 
 ```shell
 if [ "$(ps -p $$ -ocomm=)" != "sh" ]; then
@@ -38,10 +12,16 @@ if [ "$(ps -p $$ -ocomm=)" != "sh" ]; then
 fi
 ```
 
-## Auto-escalate:
+## Shell Script Debugging
 
-### Method 1:
+```shell
+set -euo pipefail
+IFS=$'\n\t'
+```
 
+## Auto-escalate
+
+### Method 1
 ```shell
 if [[ "$EUID" -ne 0 ]]; then
     echo "Re-running the script with sudo privileges..."
@@ -50,8 +30,7 @@ if [[ "$EUID" -ne 0 ]]; then
 fi
 ```
 
-### Method 2:
-
+### Method 2
 ```shell
 if [ "$(id -u)" -ne 0 ]; then
     sudo "$0" "$@"
@@ -63,10 +42,8 @@ sleep 1
 echo
 ```
 
-### Method 3:
-
+### Method 3
 ```shell
-# Auto-permission check: If this script is not executable, attempt to set the executable bit.
 if [ ! -x "$(realpath "$0")" ]; then
   echo "Warning: Script '$(realpath "$0")' is not executable. Attempting to set executable permission..."
   if ! chmod +x "$(realpath "$0")"; then
@@ -77,8 +54,7 @@ if [ ! -x "$(realpath "$0")" ]; then
 fi
 ```
 
-### Method 4:
-
+### Method 4
 ```shell
 if [ "$EUID" -ne 0 ]; then
     echo "Re-running the script with sudo privileges..."
@@ -90,27 +66,32 @@ if [ "$EUID" -ne 0 ]; then
 fi
 ```
 
-## Dev Null:
+## Dev Null
 
-### Explanation of the commands:
-```shell
-`>/dev/null 2>&1` redirects both stdout and stderr to /dev/null, effectively silencing all output.
-`2>&1` redirects stderr to wherever stdout is currently going. If stdout is not redirected, both will go to the terminal.
-`2>/dev/null` redirects stderr to /dev/null, silencing only the error messages.
+### Explanation of the commands
 
-### Appropriate usage scenarios:
+* `>/dev/null 2>&1`: redirects both stdout and stderr to /dev/null, effectively silencing all output.
+
+* `2>&1`: redirects stderr to wherever stdout is currently going. If stdout is not redirected, both will go to the terminal.
+
+* `2>/dev/null`: redirects stderr to /dev/null, silencing only the error messages.
+
+### Appropriate usage scenarios
+
 1. `>/dev/null 2>&1` - Use this when you want to completely silence a command, hiding both output and errors.
-Example: silencing a background task's output
-command >/dev/null 2>&1 &
+
+*Example: silencing a background task's output*
+`command >/dev/null 2>&1 &`
 
 2. `2>&1` - Use this when you want to combine stderr with stdout. This is often used in pipelines.
-Example: combining stderr with stdout to filter or process both
-command 2>&1 | grep "some text"
+
+*Example: combining stderr with stdout to filter or process both*
+`command 2>&1 | grep "some text"`
 
 3. `2>/dev/null` - Use this when you want to ignore only error messages while keeping standard output visible.
-Example: running a command and ignoring errors but showing output
-command 2>/dev/null
-```
+
+*Example: running a command and ignoring errors but showing output*
+`command 2>/dev/null`
 
 ## Kill and restart:
 
@@ -121,8 +102,7 @@ pkgname </dev/null &>/dev/null &
 
 ## If-statements
 
-### Method 1:
-
+### Method 1
 ```shell
 if ! touch "$logfile" &>/dev/null; then
     echo -e "\033[31mError: Log file '$logfile' is not writable. Please check permissions.\033[0m"
@@ -130,8 +110,7 @@ if ! touch "$logfile" &>/dev/null; then
 fi
 ```
 
-### Method 2:
-
+### Method 2
 ```shell
 if [[ "${COMMON_SH_INCLUDED:-}" == "true" ]]; then
     return
@@ -139,8 +118,7 @@ fi
 export COMMON_SH_INCLUDED=true
 ```
 
-### Method 3:
-
+### Method 3
 ```shell
 if ! echo f | sudo tee /proc/sysrq-trigger >/dev/null; then
   echo "Failed to trigger OOM Killer."
@@ -148,59 +126,63 @@ if ! echo f | sudo tee /proc/sysrq-trigger >/dev/null; then
 fi
 ```
 
-## Heredoc:
+## Heredoc
 
 ### Appending to a File
-
+```shell
 cat << EOF >> file.txt
 The text you want
 to append to
 file.txt goes here.
 EOF
+```
 
 ### Overwriting a File
-
+```shell
 cat << EOF > file.txt
 This will overwrite
 the content of file.txt
 with this new text.
 EOF
+```
 
 ### Indented Content Using `<<-`
-
+```shell
 cat <<- EOF > file.txt
     This text is indented in the script
     but will not be indented in file.txt.
 EOF
 ```
 
-## Similar to Heredoc but uses `tee`:
+## Heredoc using `tee`
 
-```shell
 ### Creating a File
-
+```shell
 sudo tee /usr/local/bin/trigger_oom.sh > /dev/null << 'EOF'
 #!/bin/bash
 echo "f" > /proc/sysrq-trigger
 EOF
+```
 
 ### Appending to a File
-
+```shell
 tee -a file.txt << EOF
 This text will be appended
 to the content of file.txt.
 EOF
+```
 
 ### Overwriting a File
-
+```shell
 tee file.txt << EOF
 This text will overwrite
 the content of file.txt.
 EOF
 ```
 
-## `Trap`:
+## Trap
 
+### Setting a TRAP for cleanup:
 ```shell
 trap 'echo -e "\nExiting..."; cleanup; exit 1' SIGINT
 ```
@@ -220,9 +202,8 @@ validate_input() {
 
 ## Loops
 
-```shell
 ### Sourcing items:
-
+```shell
 source_dir="/dir/to/search/in"
 zsh_files_found=false
 
@@ -237,24 +218,24 @@ if [ "$zsh_files_found" = false ]; then
 fi
 ```
 
-## Debugging
+## Cherry Pick Directories 
 
+### If you want only `bin` subdirectories, you can do a:
 ```shell
-set -euo pipefail
-IFS=$'\n\t'
+if [[ -d "$scr_dir/bin" ]]; then ...; fi
 ```
 
 ## Logging
 
+### For a modular setup, define global constants first
 ```shell
-### For a modular setup, define global constants first:
-
 CONFIG_FILE="${CONFIG_FILE:-$HOME/.local/share/4ndr0service/config.json}"
 LOG_FILE_DIR_DEFAULT="$HOME/.local/share/logs/4ndr0service/logs"
 LOG_FILE_DEFAULT="$LOG_FILE_DIR_DEFAULT/4ndr0service.log"
+```
 
-### Followed by the functions to log data:
-
+### Followed by the functions to log data
+```shell
 json_log() {
     local level="$1"
     local msg="$2"
@@ -264,9 +245,10 @@ json_log() {
     printf '{"timestamp":"%s","level":"%s","message":"%s"}\n' \
     "$timestamp" "$level" "$msg" >> "${LOG_FILE:-$LOG_FILE_DEFAULT}"
 }
+```
 
-### Finally, basic error handling:
-
+### Finally, basic error handling
+```shell
 handle_error() {
     local error_message="$1"
     json_log "ERROR" "$error_message"
@@ -283,3 +265,27 @@ log_warn() {
     echo -e "\033[1;33m⚠️ Warning: $message\033[0m"
 }
 ```
+
+## Realpath 
+
+### Method 1
+```shell
+: "${PKG_PATH:=$(dirname "$(dirname "$(realpath "$0")")")}"
+
+                                                    ^-- [traverses two levels up a dir or `../../`]
+```
+1. `realpath "$0"`: Resolves the absolute path of the current script.
+2. `dirname "$(realpath "$0")"`: Gets the directory containing the script.
+3. `dirname "$(dirname "$(realpath "$0")")"`: Moves one directory up from that location (i.e., two levels up from the script).
+4. `"${PKG_PATH:=...}"`: Uses parameter expansion to set `PKG_PATH` only if it isn’t already defined.
+
+### Method 2
+```shell
+: "${PKG_PATH:=$(dirname $(realpath "$0")")}"
+                                        ^-- [traverses one level up or `../`]
+
+```
+1. `realpath "$0"`: Resolves the absolute path of the current script.
+2. `dirname "$(realpath "$0")"`: Gets the directory containing the script.
+3. `dirname "$(dirname "$(realpath "$0")"`: Moves one directory up from the script).
+4. `"${PKG_PATH:=...}"`: Uses parameter expansion to set `PKG_PATH` only if it isn’t already defined.
