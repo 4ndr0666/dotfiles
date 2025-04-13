@@ -1560,9 +1560,9 @@ alias s2vid='goto /sto2/Videos'
 alias gym='goto /sto2/Gym'
 alias jd='goto /sto2/JD'
 
-### /4ndr0:
+### Cookie Dir
 
-alias 4n='goto /4ndr0'
+alias cook='goto /Nas/Nas/Cookie\ Backup\ Restore'
 
 ### /23.1
 
