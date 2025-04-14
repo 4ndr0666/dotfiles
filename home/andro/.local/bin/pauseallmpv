@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # You might notice all mpv commands are aliased to have this input-ipc-server
 # thing. That's just for this particular command, which allows us to pause
@@ -6,5 +6,27 @@
 # (with other things) by default and is used in some other places.
 
 for i in $(ls /tmp/mpvSockets/*); do
-	echo '{ "command": ["set_property", "pause", true] }' | socat - "$i";
+	echo '{ "command": ["set_property", "pause", true] }' | socat - "$i"
+	notify-send "❚❚ Pause All"
 done
+
+#pause_all() {
+#	for i in $(ls $dir/*); do
+#		echo '{ "command": ["set_property", "pause", true] }' | socat - "$i"
+#	done
+#	exit 0
+#}
+
+#validate_directory() {
+#	local dir="/tmp/mpvSockets"
+#	if [[ -d "$dir" ]]; then
+#		pause_all
+#		notify-send "Pause All"
+#		exit 0
+#	else
+#		notify-send "No MPV instance found."
+#		exit 1
+#	fi
+#}
+
+#validate_directory
