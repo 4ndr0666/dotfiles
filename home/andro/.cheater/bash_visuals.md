@@ -8,14 +8,13 @@
 CYAN="\033[38;2;21;255;255m"
 RED="\033[0;31m"
 NC="\033[0m"
-SUCCESS="✔️"
-FAILURE="❌"
-INFO="➡️"
+info="➡️"
+good="✔️"
 glow() {
-  echo -e "${CYAN}$1${NC}"
+  echo -e "["$(date +%F)"]: ${CYAN}➡️ $1${NC}" >/dev/null 2>&1
 }
 bug() {
-  echo -e "${RED}$1${NC}"
+  echo -e "["$(date +%F)"]: ${RED}❌ $1${NC}" >/dev/null 2>&1
 }
 ```
 
