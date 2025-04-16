@@ -1,10 +1,8 @@
-#!/usr/bin/env zsh
+#!/bin/zsh
 # Author: 4ndr0666
+# ============================= // FUNCTIONS.ZSH //
 
-# ===================================== // FUNCTIONS.ZSH //
-
-## Constants
-
+## Global Colors & Symbols
 RESET="\e[0m"
 BOLD="\e[1m"
 UNDERLINE="\e[4m"
@@ -15,7 +13,7 @@ BLUE="\e[34m"
 MAGENTA="\e[35m"
 CYAN="\e[36m"
 INFO="ℹ️"
-SUCCESS="✅"
+SUCCESS="✔"
 WARNING="⚠️"
 ERROR="❌"
 DELETE_ICON="🗑️"
@@ -23,357 +21,224 @@ COPY_ICON="📋"
 MOVE_ICON="🚚"
 COMPRESS_ICON="📦"
 
-## BKUP
-
-### Description: A smart and configurable backup function.
-### Example Configuration File (~/.bkup_config):
-### Uncomment and set the desired backup directory.
-### BACKUP_DIR="$HOME/my_custom_backups"
+## Global Color-coded Messaging
 print_message() {
-    local type="$1"
-    local message="$2"
-    case "$type" in
-        INFO)
-            echo -e "${CYAN}${INFO} ${message}${RESET}"
-            ;;
-        SUCCESS)
-            echo -e "${GREEN}${SUCCESS} ${message}${RESET}"
-            ;;
-        WARNING)
-            echo -e "${YELLOW}${WARNING} ${message}${RESET}"
-            ;;
-        ERROR)
-            echo -e "${RED}${ERROR} ${message}${RESET}"
-            ;;
-        *)
-            echo -e "${RESET}${message}${RESET}"
-            ;;
-    esac
+  local type="$1" msg="$2"
+  case "$type" in
+    INFO)    print -P "${fg[cyan]}${INFO} ${msg}${reset_color}" ;;
+    SUCCESS) print -P "${fg[green]}${SUCCESS} ${msg}${reset_color}" ;;
+    WARNING) print -P "${fg[yellow]}${WARNING} ${msg}${reset_color}" ;;
+    ERROR)   print -P "${fg[red]}${ERROR} ${msg}${reset_color}" ;;
+    *)       print -P "${msg}" ;;
+  esac
 }
 
-display_menu() {
-    echo -e "${BOLD}${UNDERLINE}Backup Utility Menu${RESET}"
-    echo "1. Create a Backup"
-    echo "2. Move to Backup"
-    echo "3. Remove Backups"
-    echo "4. Set Backup Directory"
-    echo "5. Exit"
-}
+## Functions:
 
-check_dependencies() {
-    local dependencies=(tar zstd fzf)
-    for cmd in "${dependencies[@]}"; do
-        if ! command -v "$cmd" &> /dev/null; then
-            print_message "ERROR" "Dependency '$cmd' is not installed. Please install it and try again."
-            return 1
-        fi
-    done
-    return 0
-}
-
-load_config() {
-    local config_file="$HOME/.config/bkup/.bkup_config"
-    if [[ -f "$config_file" ]]; then
-        source "$config_file"
-    else
-        # Default backup directory
-        BACKUP_DIR="$PWD/bkup"
+## BKUP_________________________________________________ //
+### Description: A smart and configurable backup function.
+### Uncomment and set the desired backup directory below
+backup_directory="/Nas/Backups/bkup"
+# ----------------------------------------------- //
+check_bkup_dependencies() {
+  local deps=(tar zstd fzf realpath)
+  for cmd in "${deps[@]}"; do
+    if ! command -v $cmd &>/dev/null; then
+      print_message ERROR "Dependency '$cmd' is not installed."
+      return 1
     fi
+  done
+  return 0
+}
+
+load_bkup_config() {
+  local cfgdir="$HOME/.config/bkup"
+  mkdir -p "$cfgdir"
+  local cfg="$cfgdir/.bkup_config"
+  if [[ -f $cfg ]]; then
+    source "$cfg"
+  else
+    BACKUP_DIR="${backup_directory:-/Nas/Backups/bkup}"
+  fi
 }
 
 set_backup_dir() {
-    read -rp "Enter the path for the backup directory: " new_dir
-    if [[ -z "$new_dir" ]]; then
-        print_message "WARNING" "Backup directory path cannot be empty."
-        return
-    fi
-    mkdir -p "$new_dir" && echo "BACKUP_DIR=\"$new_dir\"" > "$HOME/.config/bkup/.bkup_config"
-    if [[ $? -eq 0 ]]; then
-        print_message "SUCCESS" "Backup directory set to '$new_dir'."
-    else
-        print_message "ERROR" "Failed to set backup directory."
-    fi
+  read "?Enter backup directory path: " newdir
+  if [[ -z $newdir ]]; then
+    print_message WARNING "Backup directory cannot be empty."
+    return
+  fi
+  mkdir -p "$newdir" || {
+    print_message ERROR "Cannot create '$newdir'."
+    return 1
+  }
+  print "BACKUP_DIR=\"$newdir\"" > "$HOME/.config/bkup/.bkup_config"
+  print_message SUCCESS "Backup directory set to '$newdir'."
 }
 
 perform_backup_move() {
-    local mode="$1"  # copy or move
-    shift
-    local targets=("$@")
+  local mode=$1; shift
+  local targets=("$@")
+  (( ${#targets} )) || { print_message ERROR "No targets specified."; return 1 }
 
-    if [[ ${#targets[@]} -eq 0 ]]; then
-        print_message "ERROR" "No target files or directories specified."
-        return 1
+  mkdir -p "$BACKUP_DIR"
+  for tgt in "${targets[@]}"; do
+    if [[ ! -e $tgt ]]; then
+      print_message WARNING "Skipping non‑existent '$tgt'."
+      continue
     fi
 
-    mkdir -p "$BACKUP_DIR"
+    local base=$(basename -- "$tgt")
+    local stamp=$(date -u +"%Y%m%dT%H%M%SZ")
+    local archive="${BACKUP_DIR}/${base}-${stamp}.tar.zst"
 
-    for target in "${targets[@]}"; do
-        if [[ ! -e "$target" ]]; then
-            print_message "WARNING" "File or directory '$target' does not exist. Skipping."
-            continue
+    # Interactive exclusion for directories
+    local exclude_opts=()
+    if [[ -d $tgt ]]; then
+      print_message INFO "Select exclusions from '$tgt' (⇢ Tab to multi‑select):"
+      local raw=("${(@f)$(find "$tgt" -maxdepth 1 -mindepth 1 | fzf -m --prompt="Exclude: " --height=40%)}")
+      for ex in $raw; do
+        local rel=$(realpath --relative-to="$tgt" "$ex")
+        exclude_opts+=("--exclude=$rel")
+      done
+    fi
+
+    print_message INFO "$([[ $mode == copy ]] && print $COPY_ICON || print $MOVE_ICON) Archiving '$tgt' → '$archive'..."
+    tar -I zstd "${exclude_opts[@]}" -cf "$archive" -C "$(dirname -- "$tgt")" "$(basename -- "$tgt")" > /dev/null 2>&1 \
+      && {
+        print_message SUCCESS "Created '$archive'."
+        if [[ $mode == move ]]; then
+          rm -rf -- "$tgt" \
+            && print_message SUCCESS "Removed original '$tgt'." \
+            || print_message ERROR "Failed to remove '$tgt'."
         fi
-
-        local base_name
-        base_name=$(basename "$target")
-        local current_date
-        current_date=$(date -u "+%Y%m%dT%H%M%SZ")
-        local backup_name="${base_name}_${current_date}.tar.zst"
-        local backup_path="${BACKUP_DIR}/${backup_name}"
-
-        if [[ -e "$backup_path" ]]; then
-            print_message "WARNING" "Backup '$backup_name' already exists. Skipping."
-            continue
-        fi
-
-        ## Interactive exclusion using fzf
-        local exclude_list=()
-        if [[ -d "$target" ]]; then
-            print_message "INFO" "Select files/directories to exclude from '$target':"
-            mapfile -t exclude_list < <(find "$target" -mindepth 1 -maxdepth 1 | fzf -m --prompt="Exclude: " --height=40% --border)
-        fi
-
-        ## Construct tar exclude options
-        local exclude_opts=()
-        for exclude in "${exclude_list[@]}"; do
-            local relative_path
-            relative_path=$(realpath --relative-to="$target" "$exclude")
-            exclude_opts+=("--exclude=$relative_path")
-        done
-
-        ## Create compressed archive using tar with zstd
-        if [[ "$mode" == "copy" ]]; then
-            print_message "INFO" "${COPY_ICON} Creating backup for '$target'..."
-        else
-            print_message "INFO" "${MOVE_ICON} Moving '$target' to backup..."
-        fi
-
-        tar -I zstd "${exclude_opts[@]}" -cf "$backup_path" -C "$(dirname "$target")" "$(basename "$target")" &> /dev/null
-        if [[ $? -eq 0 ]]; then
-            print_message "SUCCESS" "Backup created at '$backup_path'."
-            if [[ "$mode" == "move" ]]; then
-                rm -rf "$target"
-                if [[ $? -eq 0 ]]; then
-                    print_message "SUCCESS" "Original '$target' moved to backup."
-                else
-                    print_message "ERROR" "Failed to remove original '$target' after moving."
-                fi
-            fi
-        else
-            print_message "ERROR" "Failed to create backup for '$target'."
-            rm -f "$backup_path"
-        fi
-    done
+      } || {
+        print_message ERROR "Failed to archive '$tgt'."
+        rm -f -- "$archive"
+      }
+  done
 }
 
 remove_backups() {
-    local remove_all=false
-    local verbose=false
+  local remove_all=false verbose=false
+  typeset -i OPTIND=1
+  while getopts "av" opt; do
+    case $opt in
+      a) remove_all=true ;;
+      v) verbose=true     ;;
+      *) ;;
+    esac
+  done
+  shift $((OPTIND-1))
 
-    ## Parse options
-    while getopts "av" opt; do
-        case "${opt}" in
-            a) remove_all=true ;;
-            v) verbose=true ;;
-            *) ;;
-        esac
-    done
-    shift $((OPTIND -1))
+  mkdir -p "$BACKUP_DIR"
 
-    mkdir -p "$BACKUP_DIR"
-
-    if [[ "$remove_all" == true ]]; then
-        print_message "WARNING" "Are you sure you want to remove ALL backups in '$BACKUP_DIR'? (y/N)"
-        read -r confirmation
-        if [[ "$confirmation" =~ ^[Yy]$ ]]; then
-            rm -rf "${BACKUP_DIR:?}/"*
-            if [[ $? -eq 0 ]]; then
-                print_message "SUCCESS" "All backups have been removed from '$BACKUP_DIR'."
-            else
-                print_message "ERROR" "Failed to remove all backups from '$BACKUP_DIR'."
-            fi
-        else
-            print_message "INFO" "Operation cancelled."
-        fi
+  if $remove_all; then
+    print_message WARNING "Remove ALL backups in '$BACKUP_DIR'? (y/N) "
+    read confirmation
+    if [[ $confirmation =~ ^[Yy]$ ]]; then
+      rm -rf -- "${BACKUP_DIR:?}/"* \
+        && print_message SUCCESS "All backups removed." \
+        || print_message ERROR "Failed to remove all backups."
     else
-        if [[ $# -lt 1 ]]; then
-            print_message "ERROR" "No specific backups specified for removal."
-            return 1
-        fi
-        for target in "$@"; do
-            local base_name
-            base_name=$(basename "$target")
-            local backup_pattern="${BACKUP_DIR}/${base_name}_*.tar.zst"
-            local matches=($(ls $backup_pattern 2>/dev/null))
-            if [[ ${#matches[@]} -eq 0 ]]; then
-                [[ "$verbose" == true ]] && print_message "WARNING" "No backups found for '$target'."
-                continue
-            fi
-            for backup in "${matches[@]}"; do
-                rm -f "$backup"
-                if [[ $? -eq 0 ]]; then
-                    print_message "SUCCESS" "Removed backup '$backup'."
-                else
-                    print_message "ERROR" "Failed to remove backup '$backup'."
-                fi
-            done
-        done
+      print_message INFO "Aborted."
     fi
+    return
+  fi
+
+  (( $# )) || { print_message ERROR "No backup names given."; return 1 }
+  for name in "$@"; do
+    local pattern="${BACKUP_DIR}/${name}_*.tar.zst"
+    local matches=(${~pattern})
+    if (( ${#matches} )); then
+      for f in $matches; do
+        rm -f -- "$f" \
+          && $verbose && print_message SUCCESS "Removed '$f'." \
+          || $verbose && print_message ERROR "Failed to remove '$f'."
+      done
+    else
+      $verbose && print_message WARNING "No backups match '$name'."
+    fi
+  done
+}
+
+display_bkup_menu() {
+  print -P "%B%UBackup Utility Menu%u%b"
+  print "1) Create Backup"
+  print "2) Move to Backup"
+  print "3) Remove Backups"
+  print "4) Set Backup Directory"
+  print "5) Exit"
 }
 
 bkup() {
-    ## Check for required dependencies
-    check_dependencies || return 1
+  check_bkup_dependencies || return 1
+  load_bkup_config
 
-    ## Load configuration
-    load_config
-
-    ## If no arguments, display menu
-    if [[ $# -eq 0 ]]; then
-        while true; do
-            display_menu
-            echo -n "Select an option [1-5]: "
-            read -r choice
-            case "$choice" in
-                1)
-                    print_message "INFO" "Enter files or directories to backup (separated by space):"
-                    read -ra targets
-                    perform_backup_move "copy" "${targets[@]}"
-                    ;;
-                2)
-                    print_message "INFO" "Enter files or directories to move to backup (separated by space):"
-                    read -ra targets
-                    perform_backup_move "move" "${targets[@]}"
-                    ;;
-                3)
-                    echo -e "${BOLD}Remove Backups:${RESET}"
-                    echo "a. Remove all backups"
-                    echo "b. Remove specific backups"
-                    read -rp "Choose an option [a/b]: " remove_choice
-                    case "$remove_choice" in
-                        a|A)
-                            remove_backups -a -v
-                            ;;
-                        b|B)
-                            print_message "INFO" "Enter the base names of backups to remove (separated by space):"
-                            read -ra remove_targets
-                            remove_backups -v "${remove_targets[@]}"
-                            ;;
-                        *)
-                            print_message "WARNING" "Invalid choice. Returning to main menu."
-                            ;;
-                    esac
-                    ;;
-                4)
-                    set_backup_dir
-                    ;;
-                5)
-                    print_message "INFO" "Exiting Backup Utility. Goodbye!"
-                    break
-                    ;;
-                *)
-                    print_message "WARNING" "Invalid option. Please select a number between 1 and 5."
-                    ;;
-            esac
-            echo ""
-        done
-        return 0
-    fi
-
-    ## Parse options using getopts
-    local mode="copy"  # default mode
-    local remove_all=false
-    local verbose=false
-    local compress=true
-    local show_help=false
-
-    while getopts "hcmravz" opt; do
-        case "${opt}" in
-            h) show_help=true ;;
-            c) mode="copy" ;;
-            m) mode="move" ;;
-            r) mode="remove" ;;
-            a) remove_all=true ;;
-            v) verbose=true ;;
-            z) compress=true ;;
-            *) show_help=true ;;
-        esac
+  if (( $# == 0 )); then
+    while true; do
+      display_bkup_menu
+      read "?Choose [1-5]: " choice
+      case $choice in
+        1) read -A t; perform_backup_move copy "${t[@]}" ;;
+        2) read -A t; perform_backup_move move "${t[@]}" ;;
+        3)
+          print " a) All   b) Specific"
+          read "?Remove all or specific? [a/b]: " c
+          case $c in
+            a) remove_backups -a -v ;;
+            b) read -A r; remove_backups -v "${r[@]}" ;;
+            *) print_message WARNING "Invalid choice";;
+          esac
+          ;;
+        4) set_backup_dir ;;
+        5) print_message INFO "Goodbye!"; break ;;
+        *) print_message WARNING "Choose 1–5.";;
+      esac
+      print ""
     done
-    shift $((OPTIND -1))
+    return 0
+  fi
 
-    ## Show help if -h option is present or if no arguments are provided (for copy/move)
-    if [[ "$show_help" == true || ( "$mode" != "remove" && $# -lt 1 ) ]]; then
-        cat <<EOF
-${BOLD}bkup [OPTIONS] FILE_OR_DIR [FILE_OR_DIR ...]${RESET}
+  ### CLI flags
+  local mode=copy show_help=false verbose=false remove_all=false compress=true
+  typeset -i OPTIND=1
+  while getopts "hcmravz" opt; do
+    case $opt in
+      h) show_help=true    ;;
+      c) mode=copy         ;;
+      m) mode=move         ;;
+      r) mode=remove       ;;
+      a) remove_all=true   ;;
+      v) verbose=true      ;;
+      z) compress=true     ;;
+      *) show_help=true    ;;
+    esac
+  done
+  shift $((OPTIND-1))
 
-Backup, move, compress, or remove backups of specified files or directories.
+  if $show_help || ([[ $mode != remove && $# -eq 0 ]]); then
+    cat <<EOF
+Usage: bkup [-h] [-c|-m|-r] [-a] [-v] [FILES...]
 
-${UNDERLINE}Options:${RESET}
   -h    Display this help text.
   -c    Create a backup (default).
   -m    Move the file/folder to backup after archiving.
   -r    Remove backups of the specified file or directory.
   -a    Remove all backups in the backup directory (used with -r).
   -v    Enable verbose output.
-  -z    Enable compression (default).
 
-${UNDERLINE}Usage Examples:${RESET}
-  ${COPY_ICON} Backup a directory with interactive exclusion:
-    bkup -c /path/to/dir
-
-  ${MOVE_ICON} Move a file to backup with interactive exclusion:
-    bkup -m /path/to/file
-
-  ${DELETE_ICON} Remove all backups verbosely:
-    bkup -r -a -v
-
-  ${INFO} Display help:
-    bkup -h
 EOF
-        return 0
-    fi
-
-    ## Operation based on mode
-    case "$mode" in
-        copy|move)
-            perform_backup_move "$mode" "$@"
-            ;;
-        remove)
-            remove_backups "$@"
-            ;;
-        *)
-            print_message "ERROR" "Invalid mode selected."
-            ;;
-    esac
-
     return 0
-}
+  fi
 
-## FZF Based Packge Install and Remove
-
-### Leverages Fzf offering installation `in` and removal `re`
-### of installed packages.
-function in() {
-    yay -Slq | fzf -q "$1" -m --preview 'yay -Si {1}'| xargs -ro yay -S
-}
-function re() {
-    yay -Qq | fzf -q "$1" -m --preview 'yay -Qi {1}' | xargs -ro yay -Rns
-}
-
-## Fkill
-
-### Leverages Fzf offering a list of processes to kill
-fkill() {
-    local pid
-    if [ "$UID" != "0" ]; then
-        pid=$(ps -f -u $UID | sed 1d | fzf -m | awk '{print $2}')
-    else
-        pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
-    fi
-
-    if [ "x$pid" != "x" ]
-    then
-        echo $pid | xargs kill -${1:-9}
-    fi
+  case $mode in
+    copy|move)
+      perform_backup_move $mode "$@" ;;
+    remove)
+      remove_backups ${remove_all:+-a} ${verbose:+-v} "$@" ;;
+    *) print_message ERROR "Invalid mode selected.";;
+  esac
 }
 
 ## Browser History

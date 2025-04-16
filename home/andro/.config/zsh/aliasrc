@@ -1596,45 +1596,80 @@ alias cac='goto ~/.cache'
 
 ## 4ndr0kill
 
-#### Uses `killal` with fzf as the file sel:
 killit() {
-    local pattern="$1"
-    if [[ -z "$pattern" ]]; then
-        echo "Error: Please provide a process name or pattern."
-        return 1
+  emulate -L zsh
+
+  ### Allow optional leading signal number
+  local sig=15
+  if (( $# > 0 )) && [[ $1 =~ ^[0-9]+$ ]]; then
+    sig=$1
+    shift
+  fi
+
+  ### Build an array of process lines (skip header)
+  local entries
+  if (( EUID != 0 )); then
+    entries=("${(@f)$(ps -f -u $EUID | sed 1d)}")
+  else
+    entries=("${(@f)$(ps -ef | sed 1d)}")
+  fi
+
+  ### Let the user select one or more lines via fzf
+  local selected
+  selected=$(printf "%s\n" "${entries[@]}" | fzf -m \
+    --prompt="Select processes to kill (SIG$sig then SIGKILL fallback): " \
+    --header="TAB: multi‑select, ENTER: confirm" \
+    --ansi)
+
+  ### No selection → abort
+  if [[ -z $selected ]]; then
+    print_message INFO "No processes selected."
+    return 1
+  fi
+
+  ### Extract PIDs (second column) into an array
+  local pid_list=("${(@f)$(printf "%s\n" "$selected" | awk '{print $2}')}")
+  (( ${#pid_list} )) || {
+    print_message ERROR "Failed to parse any PIDs."
+    return 1
+  }
+
+  ### Confirm
+  print_message WARNING "About to send SIG$sig to: ${pid_list[*]}"
+  read -q "?Proceed? [y/N]: "
+  echo
+  [[ $REPLY =~ ^[Yy]$ ]] || {
+    print_message INFO "Aborted."
+    return 0
+  }
+
+  ### Send SIGTERM (or chosen signal)
+  for pid in "${pid_list[@]}"; do
+    if kill -"$sig" "$pid"; then
+      print_message INFO "Sent SIG$sig to PID $pid"
+    else
+      print_message ERROR "Failed to send SIG$sig to PID $pid"
     fi
+  done
 
-    echo "Searching for processes matching '$pattern'..."
-    local pids
-    pids=$(pgrep -fl "$pattern")
-
-    if [[ -z "$pids" ]]; then
-        echo "No processes found matching '$pattern'."
-        return 1
-    fi
-
-    echo "Found processes:"
-    echo "$pids"
-
-    echo "Please enter the PIDs to kill (separate multiple PIDs with spaces):"
-    read -r pid_list
-
-    if [[ -z "$pid_list" ]]; then
-        echo "No PIDs provided, no action taken."
-        return 1
-    fi
-
-    for pid in $pid_list; do
-        if echo "$pids" | grep -q -w "$pid"; then
-            if sudo pkill -f "$pid"; then
-                echo "Process $pid killed."
-            else
-                echo "Failed to kill process $pid."
-            fi
-        else
-            echo "PID $pid does not match any of the listed processes. Skipping."
-        fi
+  ### Wait up to 5s, then SIGKILL any survivors
+  for pid in "${pid_list[@]}"; do
+    for ((i=1; i<=5; i++)); do
+      kill -0 "$pid" &>/dev/null || break
+      sleep 1
     done
+
+    if kill -0 "$pid" &>/dev/null; then
+      print_message WARNING "PID $pid still alive—sending SIGKILL"
+      if kill -9 "$pid"; then
+        print_message SUCCESS "SIGKILL succeeded on $pid"
+      else
+        print_message ERROR "Failed to SIGKILL $pid"
+      fi
+    else
+      print_message SUCCESS "PID $pid exited gracefully"
+    fi
+  done
 }
 
 ## 4ndr0view
