@@ -244,19 +244,29 @@ EOF
 ## Browser History
 
 ### Press `c` to browse Chromes web history
-chromeh() {
-  local cols sep google_history open
-  cols=$(( COLUMNS / 3 ))
-  sep='{::}'
+braveh() {
+  emulate -L zsh
+  setopt extended_glob
+  # Determine column width for title preview
+  local cols=$(( COLUMNS / 3 ))
+  local sep='{::}'
+  local history_db="$HOME/.config/BraveSoftware/Brave-Browser-Beta/Default/History"
+  local tmp_db="/tmp/brave_history.db"
+  local open_cmd="xdg-open"
 
-    google_history="$HOME/.config/google-chrome/Default/History"
-    open=xdg-open
-  cp -f "$google_history" /tmp/h
-  sqlite3 -separator $sep /tmp/h \
-    "select substr(title, 1, $cols), url
-     from urls order by last_visit_time desc" |
-  awk -F $sep '{printf "%-'$cols's  \x1b[36m%s\x1b[m\n", $1, $2}' |
-  fzf --ansi --multi | sed 's#.*\(https*://\)#\1#' | xargs $open > /dev/null 2> /dev/null
+  # Copy the locked SQLite DB for safe querying
+  cp -f -- "$history_db" "$tmp_db"
+
+  # Query title and URL, preview and allow selection
+  sqlite3 -separator $sep "$tmp_db" \
+    "SELECT substr(title,1,$cols), url FROM urls ORDER BY last_visit_time DESC;" 2>/dev/null \
+  | awk -F "$sep" '{printf "%-'"$cols"'s  \x1b[36m%s\x1b[m\n", $1, $2}' \
+  | fzf --ansi --multi \
+        --prompt="Brave Beta History> " \
+        --preview-window=right:50% \
+        --preview 'echo {} | sed -E "s/^.{'"$cols"'}//"' \
+  | sed -E 's#.*(https?://.*)$#\1#' \
+  | xargs -r -d '\n' $open_cmd >/dev/null 2>&1
 }
 
 ## Copypath
