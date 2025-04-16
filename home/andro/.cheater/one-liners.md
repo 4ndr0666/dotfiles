@@ -1,3 +1,18 @@
+## Switch Shell
+
+```shell
+chsh -s $(which zsh)
+zsh
+source ~/.zshrc
+```
+
+## Update yt-dlp
+
+```shell
+sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+sudo chmod a+rx /usr/local/bin/youtube-dl
+```
+
 ## Update Mime Cache
 
 ```shell

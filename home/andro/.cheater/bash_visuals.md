@@ -1,38 +1,69 @@
-## --- // Banner:
+# Author: 4ndr0666
+# ========================== // BASH VISUALS //
 
-```bash
-echo -e "\033[34m"
-cat << "EOF"
-# ASCII
-# ART
-# HERE
-EOF
-echo -e "\033[0m"
-```
+## Colors & Symbols 
 
-## --- // Colors:
-
-```bash
-CYAN="\033[38;2;21;255;255m"  
-GRE="\033[0;32m"
-BOLD="\033[1m"
+**Unicode Style**:
+```shell
+CYAN="\033[38;2;21;255;255m"
 RED="\033[0;31m"
 NC="\033[0m"
 SUCCESS="✔️"
 FAILURE="❌"
 INFO="➡️"
-EXPLOSION="💥"
-prominent() {
-    echo -e "${BOLD}${GRE}$1${NC}"
+glow() {
+  echo -e "${CYAN}$1${NC}"
 }
 bug() {
-    echo -e "${BOLD}${RED}$1${NC}"
+  echo -e "${RED}$1${NC}"
 }
 ```
 
-## --- // Visual_feedback:
+**Tput Style**:
+```shell
+OK="$(tput setaf 2)[OK]$(tput sgr0)"
+ERROR="$(tput setaf 1)[ERROR]$(tput sgr0)"
+NOTE="$(tput setaf 3)[NOTE]$(tput sgr0)"
+INFO="$(tput setaf 4)[INFO]$(tput sgr0)"
+WARN="$(tput setaf 1)[WARN]$(tput sgr0)"
+CAT="$(tput setaf 6)[ACTION]$(tput sgr0)"
+MAGENTA="$(tput setaf 5)"
+ORANGE="$(tput setaf 214)"
+WARNING="$(tput setaf 1)"
+YELLOW="$(tput setaf 3)"
+GREEN="$(tput setaf 2)"
+BLUE="$(tput setaf 4)"
+SKY_BLUE="$(tput setaf 6)"
+RESET="$(tput sgr0)"
+```
 
-```bash
+## Progress Bars
+
+**Dots**:
+```shell
+show_progress() {
+    local pid=$1
+    local package_name=$2
+    local spin_chars=("●○○○○○○○○○" "○●○○○○○○○○" "○○●○○○○○○○" "○○○●○○○○○○" "○○○○●○○○○" \
+                      "○○○○○●○○○○" "○○○○○○●○○○" "○○○○○○○●○○" "○○○○○○○○●○" "○○○○○○○○○●") 
+    local i=0
+
+    tput civis 
+    printf "\r${NOTE} Installing ${YELLOW}%s${RESET} ..." "$package_name"
+
+    while ps -p $pid &> /dev/null; do
+        printf "\r${NOTE} Installing ${YELLOW}%s${RESET} %s" "$package_name" "${spin_chars[i]}"
+        i=$(( (i + 1) % 10 ))  
+        sleep 0.3  
+    done
+
+    printf "\r${NOTE} Installing ${YELLOW}%s${RESET} ... Done!%-20s \n" "$package_name" ""
+    tput cnorm  
+}
+```
+
+**Interactive Status**:
+```shell
 visual_feedback() {
     echo -e "\033[1;33m" # Yellow color
     echo "Starting: $1"
@@ -47,10 +78,22 @@ visual_feedback() {
 }
 ```
 
-## --- // Menus:
+## Banners
 
-#### Style 1
-```bash
+**ASCII Banner**:
+```shell
+echo -e "\033[34m"
+cat << "EOF"
+### ART
+### HERE
+EOF
+echo -e "\033[0m"
+```
+
+## Menus
+
+**Version 1**:
+```shell
 display_menu() {
     clear
     echo -e "${GRE}======================================================================================="
@@ -64,8 +107,8 @@ display_menu() {
 }
 ```
 
-#### Style 2
-```bash
+**Version 2**:
+```shell
 main() {
 	echo "==> [1/3] Checking dependencies..."
 	check_dependencies
@@ -83,9 +126,8 @@ main() {
 }
 ```
 
-## --- // Menu_logic:
-
-```bash
+**Version 3**:
+```shell
 main() {
     while true; do
         display_menu

@@ -1,3 +1,9 @@
+## Refresh Pipewire Sequence
+
+```shell
+sudo pacman -S pipewire wireplumber pipewire-audio pipewire-pulse
+```
+
 ## Update Rustup
 
 ```shell
