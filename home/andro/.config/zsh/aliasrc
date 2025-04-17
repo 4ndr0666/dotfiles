@@ -117,7 +117,7 @@ alias tofish="sudo chsh $USER -s /bin/fish && echo 'Now log out.'"
 ## Wayfire
 
 #### reinstall dependencies
-alias refreshwayfire='yes | yay -S wayfire-plugins-extra-git wayfire-git wf-config-git wf-recorder-git --wayland-protocols-git wayland-utils qt6-wayland xorg-xwayland-git wlroots-git wlr-protocols-git --aur --clean --cleanmenu --noconfirm --overwrite="*" --provides --rebuildtree --redownloadall --refresh --singlelineresults --sudoloop'
+alias refreshwayfire='yay -S wayfire-plugins-extra-git wayfire-git wf-config-git wf-recorder-git wayland-protocols-git wayland-utils qt6-wayland xorg-xwayland-git wlroots-git wlr-protocols-git --noconfirm --overwrite="*" --rebuildtree --redownloadall --refresh --singlelineresults --sudoloop'
 
 # System General Aliases
 
