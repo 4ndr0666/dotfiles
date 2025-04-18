@@ -1174,109 +1174,84 @@ alias ga='git add'
 #alias gupdate='gcomp && gh tidy && gh setup'
 
 gupdate() {
-  local src_dir="$HOME/.config/zsh/"
-  local dst_dir="/home/git/clone/dotfiles/home/andro/.config/zsh/"
-  local repo_dir="/home/git/clone/dotfiles"
-  local mode=${1:-addonly}             # pass "mirror" to enable deletions
-  local timestamp=$(date +%Y%m%d_%H%M%S)
+  setopt errexit nounset pipefail     # abort on error, no unset vars, fail pipelines
 
-  ### NAS backup settings
-  local repo_backup_dir="/Nas/Backups/git"
-  local retention_days=7
+  local mode make_backup keep_backups
+  local source_dir repo_dir target_dir backup_root
+  local rsync_args ssh_keys ts archive backups to_prune msg
 
-  echo "${fg[cyan]}➡️  Starting dotfiles sync (mode=${mode})…${reset_color}"
+  mode="${1:-addonly}"                 # "addonly" or "mirror"
+  make_backup="${2:-false}"            # "true" to tarball before sync
+  keep_backups="${3:-7}"               # how many archives to keep
 
-  ### ensure target folder exists
-  if ! mkdir -p "$dst_dir"; then
-    echo "${fg[red]}❌  Cannot create target dir: $dst_dir${reset_color}"
-    return 1
+  source_dir="${HOME}/.config/zsh"
+  repo_dir="/home/git/clone/dotfiles"
+  target_dir="${repo_dir}/home/andro/.config/zsh"
+  backup_root="/Nas/Backups/git"
+
+  rsync_args=(-av --update --progress)
+  if [[ "${mode}" == "mirror" ]]; then
+    rsync_args+=(--delete)
   fi
 
-  ### prepare mirror mode: snapshot + dry run
-  if [[ "$mode" == "mirror" ]]; then
-    echo "${fg[yellow]}⚠️  Mirror mode: backing up & dry‑run of deletions…${reset_color}"
-    local tmp_backup="/tmp/dotfiles_backup_${timestamp}"
+  ssh_keys="$(ssh-add -l 2>/dev/null || true)"
+  if [[ -z "${ssh_keys}" ]]; then
+    echo "➡️  Loading SSH key into agent…"
+    ssh-add "${HOME}/.ssh/id_ed25519" \
+      || { echo "❌  Failed to add SSH key. Aborting."; return 1; }
+  fi
 
-    if cp -a "$dst_dir" "$tmp_backup"; then
-      echo "   • /tmp snapshot at $tmp_backup"
-    else
-      echo "${fg[red]}❌  /tmp backup failed${reset_color}"
-      return 1
+  if [[ "${make_backup}" == "true" ]]; then
+    mkdir -p "${backup_root}" \
+      || { echo "❌  Cannot create backup_root. Aborting."; return 1; }
+    ts="$(date +%F_%H%M%S)"
+    archive="${backup_root}/dotfiles_${ts}.tar.gz"
+    echo "🛡️  Creating backup: ${archive}"
+    tar -czf "${archive}" -C "${repo_dir}" . \
+      || { echo "❌  Backup failed. Aborting."; return 1; }
+
+    IFS=$'\n' backups=( $(ls -1t "${backup_root}"/dotfiles_*.tar.gz 2>/dev/null) )
+    if (( ${#backups[@]} > keep_backups )); then
+      to_prune=( "${backups[@]:keep_backups}" )
+      rm -- "${to_prune[@]}" \
+        || echo "⚠️  Failed to prune some old backups."
     fi
-
-    echo "   • rsync --delete dry‑run:"
-    rsync -av --update --delete --dry-run --progress "$src_dir" "$dst_dir"
-
-    read -q "?   ⚠️  Proceed with deletions? [y/N]: " confirm
-    echo
-    if [[ ! $confirm =~ [Yy] ]]; then
-      echo "${fg[blue]}ℹ️  Aborting mirror deletions, switching to add‑only.${reset_color}"
-      mode=addonly
-    fi
   fi
 
-  ### perform syncing
-  if [[ "$mode" == "mirror" ]]; then
-    rsync -av --update --delete --progress "$src_dir" "$dst_dir" \
-      || { echo "${fg[red]}❌  rsync mirror failed${reset_color}"; return 1; }
+  echo "➡️  Starting dotfiles sync (mode=${mode})…"
+  rsync "${rsync_args[@]}" "${source_dir}/" "${target_dir}/" \
+    || { echo "❌  Rsync failed. Aborting."; return 1; }
+
+  echo "➕  Staging new & modified files…"
+  git -C "${repo_dir}" add -u . \
+    || { echo "❌  'git add -u' failed."; return 1; }
+  git -C "${repo_dir}" add . \
+    || { echo "❌  'git add .' failed."; return 1; }
+
+  if git -C "${repo_dir}" diff --cached --quiet; then
+    echo "✅  No changes to commit."
   else
-    rsync -av --update --progress "$src_dir" "$dst_dir" \
-      || { echo "${fg[red]}❌  rsync update failed${reset_color}"; return 1; }
+    msg="chore(dotfiles): sync zsh @ $(date +%Y%m%d_%H%M%S)"
+    git -C "${repo_dir}" commit -m "${msg}" \
+      || { echo "❌  Commit failed."; return 1; }
+    echo "✔️  Committed: ${msg}"
   fi
 
-  ### in mirror mode, also tarball the full repo to NAS and prune old
-  if [[ "$mode" == "mirror" ]]; then
-    echo "${fg[cyan]}📦  Creating repo tarball…${reset_color}"
-    mkdir -p "$repo_backup_dir" \
-      || { echo "${fg[red]}❌  Cannot create NAS dir: $repo_backup_dir${reset_color}"; return 1; }
+  echo "📤  Pushing to origin/main…"
+  git -C "${repo_dir}" push origin main \
+    || { echo "❌  Git push failed."; return 1; }
 
-    local archive="${repo_backup_dir}/dotfiles_${timestamp}.tar.gz"
-    if tar -czf "$archive" -C "${repo_dir%/*}" "${repo_dir##*/}"; then
-      echo "   • Archive at $archive"
-    else
-      echo "${fg[red]}❌  tarball failed${reset_color}"
-      return 1
-    fi
+  echo "🧹  Running 'gh tidy'…"
+  gh -R 4ndr0666/dotfiles tidy --yes > /dev/null 2>&1 \
+    || { echo "❌  gh tidy failed."; return 1; }
 
-    echo "${fg[cyan]}🗑️  Pruning backups older than ${retention_days}d…${reset_color}"
-    find "$repo_backup_dir" -maxdepth 1 -name 'dotfiles_*.tar.gz' \
-         -mtime +$retention_days -print -delete \
-      && echo "   • Pruning done" \
-      || echo "${fg[yellow]}⚠️  Pruning hiccup${reset_color}"
-  fi
+  echo "⚙️  Running 'gh setup'…"
+  gh -R 4ndr0666/dotfiles setup --yes > /dev/null 2>&1 \
+    || { echo "❌  gh setup failed."; return 1; }
 
-  ### commit & push
-  cd "$repo_dir" || { echo "${fg[red]}❌  Cannot cd to $repo_dir${reset_color}"; return 1; }
-
-  if [[ "$mode" == "mirror" ]]; then
-    echo "${fg[magenta]}🗑️  Staging all changes (including deletions)…${reset_color}"
-    git add -A
-  else
-    echo "${fg[green]}➕  Staging new/modified files only…${reset_color}"
-    git add "$dst_dir"
-  fi
-
-  if git diff --cached --quiet; then
-    echo "${fg[blue]}ℹ️  No changes to commit${reset_color}"
-  else
-    git commit -m "chore(dotfiles): sync zsh @ ${timestamp}" \
-      && echo "${fg[green]}✔️  Committed${reset_color}" \
-      || { echo "${fg[red]}❌  git commit failed${reset_color}"; return 1; }
-  fi
-
-  echo "${fg[cyan]}📤  Pushing to origin/main…${reset_color}"
-  git push origin main \
-    && echo "${fg[green]}✔️  Pushed${reset_color}" \
-    || { echo "${fg[red]}❌  git push failed${reset_color}"; return 1; }
-
-  echo "${fg[cyan]}🧹  Running 'gh tidy'…${reset_color}"
-  gh tidy || { echo "${fg[red]}❌  gh tidy failed${reset_color}"; return 1; }
-
-  echo "${fg[cyan]}⚙️  Running 'gh setup'…${reset_color}"
-  gh setup || { echo "${fg[red]}❌  gh setup failed${reset_color}"; return 1; }
-
-  echo "${fg[green]}✅  Dotfiles sync complete!${reset_color}"
+  echo "✅  gupdate completed successfully."
 }
+
 
 #gupdate() {
 #    local source_dir="$HOME/.config/zsh/"
