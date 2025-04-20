@@ -5,9 +5,17 @@
     "/home/*/.config/*": {
         "filetype": "conf"
     },
-    "autosu": on,
-    "backupdir": "/home/andro/.config/micro/backups",
-    "colorscheme": "material-tc",
-    "mkparents": on,
-    "softwrap": on,
+    "/home/*/.local/share/larbs/getkeys/*": {
+        "filetype": "md"
+    },
+    "autosave": 1,
+    "autosu": true,
+    "backupdir": "true",
+    "backupdir": "/Nas/Backups/micro/",
+    "colorscheme": "monokai",
+    "mkparents": true,
+    "scrollbar": true,
+    "scrollbarmargin": 3,
+    "scrollbarspeed": 2,
+    "wordwrap": true
 }

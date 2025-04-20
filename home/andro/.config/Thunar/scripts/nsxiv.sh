@@ -25,4 +25,4 @@ fi
 
 # Rotate the array: images from index to end, then beginning to index
 rotated=("${images[@]:$index}" "${images[@]:0:$index}")
-nsxiv "${rotated[@]}"
+nsxiv -a "${rotated[@]}"

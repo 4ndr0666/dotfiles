@@ -1,3 +1,53 @@
+## Git Stash
+
+- Always keep untracked files:
+```shell
+git config --global stash.saveIncludeUntracked true
+```
+
+- Auto‑stash on every rebase/pull:
+```shell
+git config --global rebase.autoStash true
+```
+
+- See what’s in a stash, including untracked:
+```shell
+git stash show -p -u stash@{0}
+```
+
+- Name your stashes:
+```shell
+git stash push -u -m "fix‑menu‑layout"
+```
+
+## Automatically Setup Upstream 
+
+```shell
+git config --global push.autoSetupRemote true
+```
+
+## List all root-owned files in repo
+
+```shell
+git ls-files -s | awk '$3 ~ /^0*0?$/ {next} $4 ~ /^git\/dir\/to_search_in\// {print $4}'
+```
+
+## Quick scan for leftover large blobs (≥ 90 MB)
+
+- Method 1
+```shell
+git rev-list --objects --all |
+git cat-file --batch-check='%(objectsize) %(rest)' |
+awk '$1 > 100*1024*1024 {print $0}'
+```
+
+- Method 2
+```shell
+git rev-list --objects --all |
+  git cat-file --batch-check='%(objectname) %(objecttype) %(objectsize) %(rest)' |
+  awk '$3 > 90000000 {printf "%.2f MB\t%s\n", $3/1048576, $4}'
+```
+
 ## Changelog Generation:
 
 **Noticed @devaslife using a pkg called cz-cli and found it on github. It automates changelogs**
