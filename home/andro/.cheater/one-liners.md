@@ -1,3 +1,10 @@
+## Dl mpvsockets.lua
+
+``` bash
+your_mpv_config_dir_path="$HOME/.config/mpv";
+curl "https://raw.githubusercontent.com/wis/mpvSockets/master/mpvSockets.lua" --create-dirs -o "$your_mpv_config_dir_path/scripts/mpvSockets.lua"
+```
+
 ## Switch Shell
 
 ```shell
