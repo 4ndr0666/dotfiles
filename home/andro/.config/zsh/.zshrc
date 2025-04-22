@@ -1,41 +1,42 @@
-#!/bin/zsh
+# Author: 4ndr0666
+# ============================= // ZSHRC //
 
-# ---------------------------------- [ PROMPT ] ----------------------------------
-## Powerlevel10k
+# Prompts
+
+## Powerlevel10k____________________________
 
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
     source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-## Standard:
-
+## Standard
 # autoload -U colors && colors
 # PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
 
-## Solarized:
-
+## Solarized
 # PROMPT='%F{32}%n%f%F{166}@%f%F{64}%m:%F{166}%~%f%F{15}$%f '
 # RPROMPT='%F{15}(%F{166}%D{%H:%M}%F{15})%f'
 
-## Fancy:
+## Fancy
+# source ~/.config/zsh/fancy-prompts.zsh
+# precmd() { fancy-prompts-precmd; }
+# prompt-zee -PDp "≽ "
 
-#source ~/.config/zsh/fancy-prompts.zsh
-#precmd() { fancy-prompts-precmd; }
-#prompt-zee -PDp "≽ "
+# Aliases
 
-# ------------------------------ [ ALIASES ] -----------------------------------
 alias reload="source ~/.zshrc"
 
-#globalias() {
+# globalias() {
 #    if [[ $LBUFFER =~ [a-zA-Z0-9]+S ]]; then
 #        zle _expand_alias
 #        zle expand-word
 #    fi
 #    zle self-insert
-#}
-#zle -N globalias
+# }
+# zle -N globalias
 
-# --------------------------- [ Shell Options ] --------------------------------
+# Shell Options
+
 ## Completion & Globbing
 
 setopt nocaseglob extended_glob glob_complete complete_in_word
@@ -50,28 +51,18 @@ setopt RM_STAR_WAIT print_exit_value no_beep correct
 setopt auto_menu auto_list auto_name_dirs auto_param_slash interactive_comments
 
 ## Disabled Options
-unsetopt correct_all complete_aliases always_to_end menu_complete
 
+unsetopt correct_all complete_aliases always_to_end menu_complete
 DIRSTACKSIZE=8
 
-# ------------------------------- [ HISTORY ] ------------------------------------
-## Make Directories
-
-[ ! -d "$XDG_DATA_HOME/zsh}" ] && mkdir -p "$XDG_DATA_HOME/zsh"
-chmod ug+rw "$XDG_DATA_HOME/zsh"
-[ ! -f "$XDG_DATA_HOME/zsh/history" ] && touch "$XDG_DATA_HOME/zsh/history"
-chmod ug+rw "$XDG_DATA_HOME/zsh/history"
-
-## Shell Options
-
-setopt hist_ignore_space hist_reduce_blanks hist_verify extended_history inc_append_history share_history hist_ignore_dups hist_expire_dups_first
+# Hisory
 
 HISTSIZE=10000000
 SAVEHIST=10000000
 HISTFILE="$XDG_DATA_HOME/zsh/history"
+setopt hist_ignore_space hist_reduce_blanks hist_verify extended_history inc_append_history share_history hist_ignore_dups hist_expire_dups_first
 
-## Filter History
-
+### Sorts history directly in shell
 h() {
     if [ -z "$*" ]; then
         history 1
@@ -80,16 +71,33 @@ h() {
     fi
 }
 
-## h() { if [ -z "$*" ]; then history 1; else history 1 | egrep "$@"; fi; }     # Fix_zsh_history_behavior:
+### Alternative version:
+# h() { if [ -z "$*" ]; then history 1; else history 1 | egrep "$@"; fi; }     # Fix_zsh_history_behavior:
 
-# -------------------------------- [ SOURCE EXTERNAL FILES ] ---------------------
+# External Sourcing
+
 [ -f "$HOME/.config/zsh/aliasrc" ] && source "$HOME/.config/zsh/aliasrc"
 [ -f "$HOME/.config/zsh/functions.zsh" ] && source "$HOME/.config/zsh/functions.zsh"
 [ -f "$HOME/.config/zsh/.zprofile" ] && source "$HOME/.config/zsh/.zprofile"
 
-# ------------------------------------- [ WIDGETS ] ------------------------------
-## FZF Tab Complete
+# Widgets
 
+## On-demand rehash
+
+zshcache_time="$(date +%s%N)"
+autoload -Uz add-zsh-hook
+rehash_precmd() {
+  if [[ -a /var/cache/zsh/pacman ]]; then
+    local paccache_time="$(date -r /var/cache/zsh/pacman +%s%N)"
+    if (( zshcache_time < paccache_time )); then
+      rehash
+      zshcache_time="$paccache_time"
+    fi
+  fi
+}
+add-zsh-hook -Uz precmd rehash_precmd
+
+## FZF Tab Complete
 # zstyle ':fzf-tab:complete:(\\|*)cd:*' fzf-preview 'exa -1 --color=always --icons $realpath'
 # zstyle ':fzf-tab:complete:systemctl-*:*' fzf-preview 'SYSTEMD_COLORS=1 systemctl status $word'
 # zstyle ':fzf-tab:complete:*:*' fzf-preview 'less ${(Q)realpath}'
@@ -107,7 +115,8 @@ zmodload zsh/complist
 compinit
 _comp_options+=(globdots)
 
-# ------------------------------------- [ KEYBINDINGS ] --------------------------
+# Keybindings
+
 ## Substring Search Keybindings
 
 bindkey '^[[A' history-substring-search-up
@@ -118,14 +127,14 @@ bindkey '^[[B' history-substring-search-down
 bindkey -v
 export KEYTIMEOUT=1
 
-#### Use vim keys in tab complete menu:
+### Use vim keys in tab complete menu:
 bindkey -M menuselect 'h' vi-backward-char
 bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
 bindkey -v '^?' backward-delete-char
 
-#### Change cursor shape for different vi modes.
+### Change cursor shape for different vi modes.
 function zle-keymap-select () {
     case $KEYMAP in
         vicmd) echo -ne '\e[1 q';;      # block
@@ -141,9 +150,10 @@ zle -N zle-line-init
 echo -ne '\e[5 q' #### Use beam shape cursor on startup.
 preexec() { echo -ne '\e[5 q' ;} #### Use beam shape cursor for each new prompt.
 
-## LF
+# LF
 
-#### Use lf to switch directories and bind it to ctrl-o
+## Ctrl+O switches directories
+
 lfcd () {
     tmp="$(mktemp -uq)"
     trap 'rm -f $tmp >/dev/null 2>&1 && trap - HUP INT QUIT TERM PWR EXIT' HUP
@@ -162,14 +172,43 @@ bindkey -s '^f' '^ucd "$(dirname "$(fzf)")"\n'
 
 bindkey '^[[P' delete-char
 
-#### Edit line in vim with ctrl-e:
+### Edit line in vim with ctrl-e:
 autoload edit-command-line; zle -N edit-command-line
 bindkey '^e' edit-command-line
 bindkey -M vicmd '^[[P' vi-delete-char
 bindkey -M vicmd '^e' edit-command-line
 bindkey -M visual '^[[P' vi-delete
 
-# -------------------------------------- [ PLUGINS ] -----------------------------
+## Mpvcd
+
+mpvcd() {
+  local socket=/tmp/mpvsocket
+  ### Ensure MPV is started with: --input-ipc-server="$socket"
+  if [[ ! -S $socket ]]; then
+    echo "❗ MPV IPC socket not found at $socket."
+    return 1
+  fi
+
+  local file
+  file=$(printf '{ "command": ["get_property", "path"] }\n' \
+         | socat - "$socket" \
+         | jq -r '.data') || {
+    echo "❗ Failed to get path via IPC."
+    return 1
+  }
+
+  if [[ ! -f $file ]]; then
+    echo "❗ File '$file' not found on disk."
+    return 1
+  fi
+
+  lfcd "$(dirname "$file")"
+}
+bindkey -s '^o' 'mpvcd\n'
+
+
+# Plugins
+
 ## NVM
 
 export NVM_DIR="$XDG_CONFIG_HOME/nvm"
@@ -186,44 +225,43 @@ source_nvm "$NVM_DIR/nvm.sh"
 ## FZF
 
 fpath=("$ZDOTDIR/completions" "/usr/share/zsh/vendor-completions" $fpath)
-autoload -U $fpath[1]/*(:t)
+# autoload -U $fpath[1]/*(:t)
 source <(fzf --zsh)
-[ -f "/usr/share/zsh/plugins/zsh-fzf-plugin/fzf.plugin.zsh" ] && source "/usr/share/zsh/plugins/zsh-fzf-plugin/fzf.plugin.zsh"
+source "/usr/share/zsh/plugins/zsh-fzf-plugin/fzf.plugin.zsh"
 
 ## You-should-use
 
 export YSU_MESSAGE_POSITION="after"
-[ -f "/usr/share/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh" ] && source "/usr/share/zsh/plugins/zsh-fzf-plugin/fzf.plugin.zsh"
+source "/usr/share/zsh/plugins/zsh-fzf-plugin/fzf.plugin.zsh"
 
 ## FTC (Find The Command)
 
-#[ -f "/usr/share/doc/find-the-command/ftc.zsh" ] && source "/usr/share/doc/find-the-command/ftc.zsh" noprompt quiet
+# [ -f "/usr/share/doc/find-the-command/ftc.zsh" ] && source "/usr/share/doc/find-the-command/ftc.zsh" noprompt quiet
 
 ## Extract
 
-[ -f "/usr/share/zsh/plugins/zsh-extract/extract.plugin.zsh" ] && source "/usr/share/zsh/plugins/zsh-extract/extract.plugin.zsh"
+source "/usr/share/zsh/plugins/zsh-extract/extract.plugin.zsh"
 
-### Sudo
+## Sudo
 
-#[ -f "/usr/share/zsh/plugins/zsh-sudo/sudo.plugin.zsh" ] && source "/usr/share/zsh/plugins/zsh-sudo/sudo.plugin.zsh"
+# [ -f "/usr/share/zsh/plugins/zsh-sudo/sudo.plugin.zsh" ] && source "/usr/share/zsh/plugins/zsh-sudo/sudo.plugin.zsh"
 
 ## SystemdD
 
-[ -f "$ZDOTDIR/systemd_aliases.zsh" ] && source "$ZDOTDIR/systemd_aliases.zsh"
-
+source "$ZDOTDIR/systemd_aliases.zsh"
 
 ## History-substring-search
 
-[ -f "/usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh" ] && source "/usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh"
+source "/usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh"
 
 ## Autosuggestions
 
 ZSH_AUTOSUGGEST_USE_ASYNC=true
-[ -f "/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zshosuggestions.zsh" ] && source "/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
+source "/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
 ## YTDL
 
-[ -f "$ZDOTDIR/ytdl.zsh" ] && source "$ZDOTDIR/ytdl.zsh"
+source "$ZDOTDIR/ytdl.zsh"
 
 ## P10k
 

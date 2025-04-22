@@ -984,23 +984,19 @@ playdir() {
         echo "No file or directory provided." >&2
         return 1
     fi
-
-    #### If the argument is a directory, use it;
-    #### otherwise, use the parent directory of the given file.
     if [[ -d "$1" ]]; then
         target="$1"
     else
         target=$(dirname "$1")
     fi
-
     cd "$target" || return 1
-
-    #### Launch mpv with a playlist generated via process substitution.
-    #### The find command uses absolute paths (via $(pwd)) and filters for media files.
-    mpv --playlist=<(find "$(pwd)" -maxdepth 1 -type f \( \
-          -iname "*.mp4" -o -iname "*.m4v" -o -iname "*.mkv" -o \
-          -iname "*.avi" -o -iname "*.gif" -o -iname "*.mov" -o \
-          -iname "*.3gp" -o -iname "*.ts" \)) --shuffle --loop=no
+    mpv --playlist=<(find "$(pwd)" -maxdepth 3 -type f \( \
+          -iname '*.mp4' -o -iname '*.wmv' -o -iname '*.mkv' -o \
+          -iname '*.avi' -o -iname '*.mov' -o -iname '*.mpeg' -o \
+          -iname '*.ts'  -o -iname '*.m4v' -o -iname '*.gif' -o \
+          -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' \
+          -iname "*.3gp" \)) --shuffle=yes --loop-playlist=inf \
+	  --input-ipc-server=/tmp/mpvsocket --no-resume-playback
 }
 
 #playdir() {
@@ -1662,6 +1658,7 @@ alias nnas='goto /home/git/clone/nas'
 alias ndot='goto /home/git/clone/dotfiles'
 alias nbin='goto /home/git/clone/scr'
 alias npkg='goto /Nas/Build/pkgs'
+alias ngpt='goto /home/git/clone/gpt/'
 
 ### System directories:
 

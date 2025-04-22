@@ -1,45 +1,94 @@
-#!/usr/bin/env zsh
-# ======================================== // ZPROFILE //
+#!/bin/sh
+# shellcheck disable=SC2155
+# Author: 4ndr0666
+# ========================== // ZPROFILE //
+
+## Hardcoded Path
+
+export PATH="$PATH:$(find /home/git/clone/scr -type d | \paste -sd ':' -):$HOME/.local/bin:/usr/bin:/usr/local/bin:/bin:/sbin:/usr/sbin:/usr/local/bin:$HOME/.npm-global/bin:$XDG_DATA_HOME/gem/ruby/3.3.7/bin:$XDG_DATA_HOME/virtualenv:$XDG_DATA_HOME/go/bin:$CARGO_HOME/bin:${JAVA_HOME:-/usr/lib/jvm/default/bin}"
 
 ## Dynamic Path
+#static_dirs=(
+#	"/usr/bin"
+#	"/sbin"
+#	"/usr/sbin"
+#	"/usr/local/sbin"
+#	"/usr/local/bin"
+#	"/opt"
+#	"$CARGO_HOME/bin"
+#	"${JAVA_HOME:-/usr/lib/jvm/default/bin}"
+#	"$HOME/.local/bin"
+#	"$XDG_DATA_HOME/gem/ruby/3.3.7/bin"
+#	"$XDG_DATA_HOME/node/npm-global/bin"
+#	"$XDG_DATA_HOME/ruby/gems/3.3.7"
+#	"$XDG_DATA_HOME/virtualenv"
+#	"$XDG_DATA_HOME/go/bin"
+#)
 
-source "$ZDOTDIR/dynamic_path.zsh"
+## Exists Check___________________________
+#for dir in "${static_dirs[@]}"; do
+#    ### Only add if it actually exists (optional check)
+#    if [[ -d "$dir" ]]; then
+#        PATH="$PATH:$dir"
+#    fi
+#done
+# ----------------------------------------------------
 
-## $HOME/.local/bin PATH
+## Adds `/home/git/clone/scr/*` if 1 executable exists_________________________
+#for scr_dir in /home/git/clone/scr/*; do
+#    if [[ -d "$scr_dir" ]]; then
+#        ### check if there's at least one executable file at top level
+#        if find "$scr_dir" -maxdepth 1 -type f -executable | grep -q .; then
+#            PATH="$PATH:$scr_dir"
+#        fi
+#    fi
+#done
+#----------------------------------------------------------------------------------
 
-####Adds all dirs in `~/.local/bin` to $PATH
-# export PATH="$PATH:$(find ~/.local/bin -type d | paste sd ':' -)"
-
-## Basic Path
-
-# export PATH="/usr/bin:/usr/local/bin:/bin:/sbin:/usr/sbin:$HOME/bin:$HOME/.local/bin:$HOME/.npm-global/bin:$HOME/.local/share/goenv/bin:$HOME/.local/bin:$XDG_DATA_HOME/gem/ruby/3.3.0/bin:$XDG_DATA_HOME/virtualenv:$XDG_DATA_HOME/go/bin:$CARGO_HOME/bin:${JAVA_HOME:-/usr/lib/jvm/default/bin}"
-
-## Cached Path
-
-#### Setup Cache File
-# cache_file="$HOME/.cache/dynamic_dirs.list"
+## Cache File Setup__________________________________________________________________________________________________
+# cache_file="$XDG_DATA_HOME/dynamic_dirs.list"
 #
-# if [[ ! -f "$cache_file" || /Nas/Build/git/syncing/scr/ -nt "$cache_file" ]]; then
+## Iterates and adds `/home/git/clone/scr` skipping .git and .github to the cache file.
+# if [[ ! -f "$cache_file" || /home/git/clone/scr -nt "$cache_file" ]]; then
 #     echo "Updating dynamic directories cache..."
-#     find /Nas/Build/git/syncing/scr/ -type d \( -name '.git' -o -name '.github' \) -prune -o -type d -print > "$cache_file"
+#     find /home/git/clone/scr -type d \( -name '.git' -o -name '.github' \) -prune -o -type d -print > "$cache_file"
 # fi
 #
+## Make the cache file.
 # dynamic_dirs=($(cat "$cache_file"))
+# --------------------------------------------------------------------------------------------------------------------
 
-unset PROMPT_SP 2>/dev/null
+## ZSH Globbing______________________________
+# dynamic_dirs=(/home/git/clone/scr/**/*(/))
+# --------------------------------------------
+
+### Bring the static dirs and dynamic dirs together____________________
+# all_dirs=("${static_dirs[@]}" "$dynamic_dirs[@]}")
+#
+# for dir in "${all_dirs[@]}"; do
+#    dir=${dir%/}
+#    if [[ -d "$dir" && -n "$(find "$dir" -maxdepth 1 -type f -executable | head -n 1)" ]]; then
+#        PATH="$PATH:$dir"
+#    fi
+# done
+# ---------------------------------------------------------------------------------------
+# typeset -U PATH
+# export PATH
 
 ## Default programs
 
+unset PROMPT_SP 2>/dev/null
 export EDITOR="nvim"
 export TERMINAL="alacritty"
 export TERMINAL_PROG="st"
 export BROWSER="brave-beta"
 
-## XDG HOME CLEAN-UP
+## XDG specifications
 
 if [ -z "$XDG_RUNTIME_DIR" ]; then
     export XDG_RUNTIME_DIR="/run/user/$(id -u)"
 fi
+
 if [ ! -d "$XDG_RUNTIME_DIR" ]; then
     mkdir "$XDG_RUNTIME_DIR"
     \chmod 0700 "$XDG_RUNTIME_DIR"
@@ -65,13 +114,13 @@ export CARGO_HOME="$XDG_DATA_HOME/cargo"
 export GOPATH="$XDG_DATA_HOME/go"
 export GOMODCACHE="$XDG_CACHE_HOME/go/mod"
 export GOROOT="$(go env GOROOT 2>/dev/null || echo '/usr/lib/go')"
-export UNISON="XDG_DATA_HOME/unison"
+export UNISON="$XDG_DATA_HOME/unison"
 export HISTFILE="$XDG_DATA_HOME/zsh/history"
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/pythonrc"
 export SQLITE_HISTORY="$XDG_DATA_HOME/sqlite_history"
 export DICS="$XDG_DATA_HOME/stardict/dic/"
 
-## XDG ENV SETUP
+## Machine env
 
 export TRASHDIR="$XDG_DATA_HOME/Trash"
 export AUR_DIR="$XDG_CACHE_HOME/yay/"
@@ -86,7 +135,6 @@ export PIP_DOWNLOAD_CACHE="$XDG_CACHE_HOME/pip/"
 export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
 export RBENV_ROOT="$XDG_DATA_HOME/rbenv"
 export PARALLEL_HOME="$XDG_CONFIG_HOME/parallel"
-export MESON_HOME="$XDG_CONFIG_HOME/meson"
 export GEM_HOME="$XDG_DATA_HOME/gem"
 export ELECTRON_CACHE="$XDG_CACHE_HOME/electron"
 # export ELECTRON_MIRROR="https://npm.taobao.org/mirrors/electron/"
@@ -101,21 +149,21 @@ export NODE_CONFIG_HOME="$XDG_CONFIG_HOME/node"
 
 ## My SQL
 
-#export PSQL_HOME="$XDG_DATA_HOME/postgresql"
-#export MYSQL_HOME="$XDG_DATA_HOME/mysql"
-#export SQLITE_HOME="$XDG_DATA_HOME/sqlite"
-#export SQL_DATA_HOME="$XDG_DATA_HOME/sql"
-#export SQL_CONFIG_HOME="$XDG_CONFIG_HOME/sql"
-#export SQL_CACHE_HOME="$XDG_CACHE_HOME/sql"
+# export PSQL_HOME="$XDG_DATA_HOME/postgresql"
+# export MYSQL_HOME="$XDG_DATA_HOME/mysql"
+# export SQLITE_HOME="$XDG_DATA_HOME/sqlite"
+# export SQL_DATA_HOME="$XDG_DATA_HOME/sql"
+# export SQL_CONFIG_HOME="$XDG_CONFIG_HOME/sql"
+# export SQL_CACHE_HOME="$XDG_CACHE_HOME/sql"
 
-#mkdir -p "$PSQL_HOME" \
+# mkdir -p "$PSQL_HOME" \
 #    "$MYSQL_HOME" \
 #    "$SQLITE_HOME" \
 #    "$SQL_DATA_HOME" \
 #    "$SQL_CONFIG_HOME" \
 #    "$SQL_CACHE_HOME" >/dev/null 2>&1
 
-#\chmod ug+rw "$PSQL_HOME" \
+# \chmod ug+rw "$PSQL_HOME" \
 #    "$MYSQL_HOME" \
 #    "$SQLITE_HOME" \
 #    "$SQL_DATA_HOME" \
@@ -123,13 +171,14 @@ export NODE_CONFIG_HOME="$XDG_CONFIG_HOME/node"
 #    "$SQL_CACHE_HOME"
 
 
-## Make Dirs:
+## Ensure directories
 
 mkdir -p "$XDG_DATA_HOME/lib" \
     "$XDG_DATA_HOME/go/bin" \
     "$XDG_DATA_HOME/cargo/bin" \
+    "$XDG_DATA_HOME/zsh" \
     "$XDG_CACHE_HOME/zsh" \
-    "$XDG_DATA_HOME/node/npm-global"
+    "$XDG_DATA_HOME/node/npm-global" \
     "$WINEPREFIX" \
     "$CARGO_HOME" \
     "$GOPATH" \
@@ -142,7 +191,6 @@ mkdir -p "$XDG_DATA_HOME/lib" \
     "$RUSTUP_HOME" \
     "$RBENV_ROOT" \
     "$PARALLEL_HOME" \
-    "$MESON_HOME" \
     "$GEM_HOME" \
     "$W3M_DIR" \
     "$GEM_HOME" \
@@ -164,8 +212,7 @@ mkdir -p "$XDG_DATA_HOME/lib" \
     "$RUSTUP_HOME" \
     "$RBENV_ROOT" \
     "$PARALLEL_HOME" \
-    "$MESON_HOME" \
-    "$GEM_HOME"
+    "$GEM_HOME" \
     "$W3M_DIR" \
     "$XDG_DATA_HOME/lib" \
     "$XDG_DATA_HOME/go/bin" \
@@ -202,11 +249,14 @@ export SUDO_ASKPASS="$XDG_CONFIG_HOME"/wayfire/scripts/rofi_askpass  # Wayfire s
 ## GPG
 
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
+
 if [ ! -d "$GNUPGHOME" ]; then
     mkdir -p "$GNUPGHOME"
     \chmod 700 "$GNUPGHOME"
 fi
+
 gpg_env_file="$XDG_CONFIG_HOME/shellz/gpg_env"
+
 if [ -f "$gpg_env_file" ]; then
     source "$gpg_env_file"
 else
@@ -221,21 +271,21 @@ export FZF_DEFAULT_COMMMAND='fd --no-ignore --hidden --follow --exclude ".git"'
 #### Default settings
 export FZF_DEFAULT_OPTS="
   --layout=reverse
-  --height=60%
   --border=thinblock
+  --height=40%
   --padding=1%
   --info=right
   --tiebreak=index
   --scrollbar='│'
   --separator='_'
   --preview='setopt NO_NOMATCH; set filename=\$(basename {}) ; case \$filename in
-    *.txt|*.md) bat {} & ;;
+    *.conf|*.py|*.sh|*.ini|*.txt|*.md) bat {} & ;;
     *.pdf) zathura {} & ;;
     *.jpg|*.jpeg|*.png|*.gif|*.webp|*.tiff|*.bmp|*.auto) nsxiv {} & ;;
-    *) bat {} ;;
+    *) file {} ;;
 esac'
-  --preview-window=up,1,border-horizontal
-  --bind='ctrl-p:change-preview-window(40%|hidden|)'
+  --preview-window=hidden
+  --bind='ctrl-p:change-preview-window(right|69%|hidden)'
   --preview-label=eyes
   --margin=5%
   --bind='ctrl-y:execute-silent(printf {} | cut -f 2- | wl-copy --trim-newline)'
@@ -246,18 +296,20 @@ esac'
   --border-label='search' --prompt='≽  ' --marker='✔' --pointer='☞'
 "
 
-### Fzf preview configs:
+## Fzf preview configs:
 
-#### Default preview, toggle window
-#--preview='file {}'
+#### Config 1
 #--preview-window=up,1,border-horizontal
+
+#### Config 2
+#--preview='file {}'
 #--bind='ctrl-/:change-preview-window(50%|hidden|)' \
 
-#### Bat preview, hidden window
+#### Config 3
 #--preview='bat --style=numbers --color=always {}'
 #--preview-window=hidden:right:69%
 
-### Fzf color themes
+## Fzf color themes
 
 #### 4ndr0hack Theme
 #--color=fg:#005b69,fg+:#15FFFF,bg:#151515,bg+:#262626 \
@@ -306,22 +358,22 @@ esac
 
 ## PAGER
 
-export MANPAGER="sh -c 'if [ -t 1 ]; then col -bx | bat -l man -p; else col -bx | bat -l man -p --color=auto; fi | less -R'"
+#export MANPAGER="sh -c 'if [ -t 1 ]; then col -bx | bat -l man -p; else col -bx | bat -l man -p --color=always --paging=always; fi | less -R'"
 #export BAT_PAGER="less -R"
 #export MANPAGER="sh -c 'col -bx | bat -l man -p | less -R'"
-#export MANPAGER="sh -c 'col -bx | bat -l man -p --paging always'"
+#export MANPAGER="sh -c 'col -bx | bat -l man -p --paging always'
 
 ## Less
 
 export LESS="R"
-export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"    # Monokai Theme
-export LESS_TERMCAP_md="$(printf '%b' '[1;35m')"    # Bold text (strong emphasis)
-export LESS_TERMCAP_mb="$(printf '%b' '[01;33m')"   # Blinking text (rarely used, but styled distinctively)
-export LESS_TERMCAP_us="$(printf '%b' '[4;36m')"    # Underlined text (e.g., hyperlinks, emphasized text)
-export LESS_TERMCAP_me="$(printf '%b' '[0m')"       # End bold, blink, underline formatting
-export LESS_TERMCAP_ue="$(printf '%b' '[0m')"
-export LESS_TERMCAP_so="$(printf '%b' '[01;37;45m')" # Standout mode (selected/highlighted text, search matches)
-export LESS_TERMCAP_se="$(printf '%b' '[0m')"
+export LESS_TERMCAP_mb="$(printf '%b' '')"
+export LESS_TERMCAP_md="$(printf '%b' '')"
+export LESS_TERMCAP_me="$(printf '%b' '')"
+export LESS_TERMCAP_so="$(printf '%b' '')"
+export LESS_TERMCAP_se="$(printf '%b' '')"
+export LESS_TERMCAP_us="$(printf '%b' '')"
+export LESS_TERMCAP_ue="$(printf '%b' '')"
+export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
 
 ## Shortcut Script for LF
 
@@ -329,7 +381,7 @@ export LESS_TERMCAP_se="$(printf '%b' '[0m')"
 
 ## Startx for TTY
 
-[ "$(tty)" = "/dev/tty1" ] && ! pidof -s Xorg >/dev/null 2>&1 && exec startx "$XINITRC"
+# [ "$(tty)" = "/dev/tty1" ] && ! pidof -s Xorg >/dev/null 2>&1 && exec startx "$XINITRC"
 
 ## Switch keys ESC and CAPS for TTY & no password
 
