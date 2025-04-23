@@ -1,20 +1,15 @@
-# ===================================== // ALIASRC by 4ndr0666 //
-
+# Author: 4ndr0666
+# ===================================== // ALIASRC //
 if [[ -o interactive ]]; then
     alias reload='exec zsh'
     alias mkdir='mkdir -pv'
     alias mkgpg="[ -d ~/.gnupg ] || (mkdir ~/.gnupg && cp /etc/pacman.d/gnupg/gpg.conf ~/.gnupg/ && echo 'done')"
 fi
 
-## Sudo
+## Ls Configs_____________________________________________________________________
 
-#for command in mount umount sv pacman updatedb su shutdown poweroff reboot; do
-#    alias "$command"="sudo $command"
-#done; unset command
+### Config 1
 
-## LS
-
-#### Config 1
 alias ls='eza -X --no-filesize --no-time --no-permissions --colour-scale=size --colour-scale-mode=gradient --group-directories-first --icons=always --smart-group'
 alias la='eza -alXMoZ --no-quotes --time=created --classify=always --colour-scale=all --colour-scale-mode=gradient --icons=always'
 #'lsd -alLU --permission=rwx --color=always --group-directories-first --icon=always'
@@ -22,7 +17,7 @@ alias ll='eza -xXDh --colour-scale=size --colour-scale-mode=gradient --icons=alw
 alias l.='eza -Xd --sort new --colour-scale-mode=gradient --colour-scale=age --group-directories-first --icons=always .[!.]*'
 #exa -aT -s new --color=always --group-directories-first --icons
 
-#### Config 2
+### Config 2
 #alias l='ls'
 #alias ls="ls -alhfN --time-style=long-iso --color=auto --group-directories-first"
 #alias ll="ls -lFh --color=auto --group-directories-first --time-style=long-iso"
@@ -34,7 +29,7 @@ alias l.='eza -Xd --sort new --colour-scale-mode=gradient --colour-scale=age --g
 #alias lm='ls -m'
 #alias lg='ls -l --group-directories-first'
 
-#### Config 3
+### Config 3
 #alias l.='ls -d .* --color=auto'
 #alias ll='ls -lh --color=auto'
 #alias la='ls -lha --color=auto'
@@ -42,14 +37,14 @@ alias l.='eza -Xd --sort new --colour-scale-mode=gradient --colour-scale=age --g
 #alias lsf='ls -lhS --color=auto | grep -E "^-"'
 #alias lsp='ls -lhS --color=auto | grep -E "^l"'
 
-#### Config 4
+### Config 4
 #alias ls='ls --group-directories-first --color'
 #alias ll='ls -lhF'
 #alias la='ls -lha'
 #alias lt='ls -lhtr'
 #alias lta='ls -lhatr'
 
-#### Config 5
+### Config 5
 #alias lm='ls | more'
 #alias ll='ls -lFh --group-directories-first'
 #alias la='ls -alFh --group-directories-first'
@@ -58,46 +53,59 @@ alias l.='eza -Xd --sort new --colour-scale-mode=gradient --colour-scale=age --g
 #alias lh='ls -ld .??*'
 #alias lsn='\ls | cat -n'
 
-## LS Functions
+## Ls functions__________________________________________________________________________
 
-#### Ls by Extension
+### Ls by Extension
+
 alias lse='eza -Xh --sort=extension --no-filesize --no-time --no-permissions --colour=auto --colour-scale=size --colour-scale-mode=gradient --group-directories-first --icons=always --smart-group'
 
-#### Ls by Name
+### Ls by Name
+
 alias lsn='eza -Xh --sort=name --no-filesize --no-time --no-permissions --colour=auto --colour-scale=size --colour-scale-mode=gradient --group-directories-first --icons=always --smart-group'
 
-#### Ls files only
+### Ls files only
+
 alias lsf='eza -xrf --colour=always --colour-scale=age --colour-scale-mode=gradient --icons=always'
 
-#### Ls Most Recent Files Last
+### Ls Most Recent Files Last
+
 alias lr='lsd -tr'
 #eza -XGx --no-filesize --no-permissions --no-user --sort modified --group-directories-first --icons=always --colour-scale=age --colour-scale-mode=gradient'
 
-#### List All Modified Files in Past 60 min
+### List All Modified Files in Past 60 min
+
 alias ls60='sudo find / -mmin 60 -type f'
 
-#### List Files & Dirs Modified in Past Day
+### List Files & Dirs Modified in Past Day
+
 alias lsfdday='\ls *(m0)'
 
-#### List Files Modified in Past Day
+### List Files Modified in Past Day
+
 alias lsfday='\ls *(.m0)'
 
-#### List 10 Newest
+### List 10 Newest
+
 alias lsnew='\ls *(.om[1,10])'
 
-#### List Most Recent Subdir
+### List Most Recent Subdir
+
 alias lssubdir='\ls -d *(/om[1])'
 
-#### Unknown
+### Unknown
+
 alias LS='\ls -1FSsh'
 
-#### Ls with Bat
+### Ls with Bat
+
 alias lb='\ls | bat'
 
-#### Ls on One Line
+### Ls on One Line
+
 alias l1='lsd -1'
 
-#### Ls symlinks
+### Ls symlinks
+
 alias lta='\ls -ltrha'
 
 
@@ -115,12 +123,11 @@ alias tobash="sudo chsh $USER -s /bin/bash && echo 'Now log out.'"
 alias tozsh="sudo chsh $USER -s /bin/zsh && echo 'Now log out.'"
 alias tofish="sudo chsh $USER -s /bin/fish && echo 'Now log out.'"
 
-## Wayfire
+## Wayfire deps
 
-#### reinstall dependencies
 alias refreshwayfire='yay -S wayfire-plugins-extra-git wayfire-git wf-config-git wf-recorder-git wayland-protocols-git wayland-utils qt6-wayland xorg-xwayland-git wlroots-git wlr-protocols-git --noconfirm --overwrite="*" --rebuildtree --redownloadall --refresh --singlelineresults --sudoloop'
 
-# System General Aliases
+## System General Aliases_________________________________________________________________________
 
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -177,6 +184,11 @@ alias pacdiff='sudo -H DIFFPROG=meld pacdiff'
 alias psgrep="ps aux | grep -v grep | grep -i -e VSZ -e"
 alias myip='curl canhazip.com'
 alias mybios='dmidecode -t bios'
+
+## System General Functions_______________________________________________________________________-
+
+### Gather total number of files
+
 filecount() {
     if [[ "$1" == "-l" ]]; then
         echo "Files in $PWD:"
@@ -194,10 +206,14 @@ lsmount() {
     fi
 }
 
+### Aggregate Pkgs Deps
+
 whatdependson() {
     local search="$1"
     sudo pacman -Sii "$search" | grep "Required" | sed -e "s/Required By     : //g" | sed -e "s/  /\n/g"
 }
+
+### Custom find cmd
 
 findit() {
     if [[ -n "$1" ]]; then
@@ -207,9 +223,12 @@ findit() {
     fi
 }
 
+### Backup files in the $PWD
+
 archive() {
     local target="$1"
-    local backup_dir="${2:-.}"
+    local backup_dir="${2:-$PWD/Archive}"
+    mkdir -p "$backup_dir"
 
     if [[ -z "$target" ]]; then
         echo "Error: Please provide a file or directory to back up."
@@ -225,7 +244,7 @@ archive() {
     target_name=$(basename "$target")
     local timestamp
     timestamp=$(date -u "+%h-%d-%Y_%H.%M%p")
-    local backup_file="${backup_dir}/${target_name}_${timestamp}_backup.tar.gz"
+    local backup_file="${backup_dir}/${target_name}_backup-${timestamp}.tar.gz"
 
     echo "Creating backup for '$target'..."
 
@@ -248,7 +267,7 @@ archive() {
     fi
 }
 
-alias untar='sudo tar xvf'
+### Shortcut for tar archives
 
 tarnow() {
     local target="$1"
@@ -272,7 +291,7 @@ tarnow() {
 
     echo "Creating tarball for '$target'..."
 
-    # Check if we have write access to the backup directory and read access to the target
+    ### Check if we have write access to the backup directory and read access to the target
     if [[ ! -w "$backup_dir" || ! -r "$target" ]]; then
         echo "Bypassed: permissions."
         if sudo tar -czvf "$backup_file" "$target"; then
@@ -291,8 +310,11 @@ tarnow() {
     fi
 }
 
+alias untar='sudo tar xvf'
+
+### Custom Delete
+
 rmshred() {
-    # Validate that an argument is provided and it is a directory.
     if [ -z "$1" ]; then
         echo "Usage: rmshred <directory>"
         return 1
@@ -302,7 +324,6 @@ rmshred() {
         return 1
     fi
 
-    # Confirmation prompt.
     echo -n "Are you sure you want to swiftly delete '$1'? (y/N) "
     read confirm
     if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
@@ -310,17 +331,17 @@ rmshred() {
         return 1
     fi
 
-    # Count the total number of files for progress estimation.
+    ### Count the total number of files for progress estimation.
 #    total_files=$(find "$1" -type f | wc -l)
 #    echo "Deleting ${total_files} files in '$1'..."
 
-    # Delete files using GNU Parallel with a progress bar.
+    ### Delete files using GNU Parallel with a progress bar.
     find "$1" -type f -print0 | parallel -0 -n 100 rm -f
 
-    # Remove directories after files have been deleted.
+    ### Remove directories after files have been deleted.
     find "$1" -depth -type d -exec rmdir {} \; > /dev/null 2>&1
 
-    # Finally, remove the top-level directory.
+    ### Finally, remove the top-level directory.
     rm -rf "$1" > /dev/null 2>&1
 
     echo "Deletion completed for '$1'."
@@ -344,6 +365,8 @@ pscpu() {
     fi
 }
 
+### Delete all 0 byte folders
+
 d0() {
     local target_dir="${1:-.}"
     find "$target_dir" -type f -size 0 -print0 | while IFS= read -r -d '' file; do
@@ -357,7 +380,7 @@ d0() {
     done
 }
 
-## Xorg Display
+## Xorg Display______________________________________________________________________________
 
 alias xd='ls /usr/share/xsessions'
 alias xdw="ls /usr/share/wayland-sessions"
@@ -367,7 +390,7 @@ alias xr='sudo xbps-remove -R'
 alias xq='xbps-query'
 alias xmerge='xrdb -merge ~/.Xresources'
 
-# Permissions
+## Permissions____________________________________________________________________________
 
 ## Chmod
 
@@ -521,7 +544,7 @@ chrootuser() {
         return 1
     fi
 
-    # Check if recursive flag is provided
+    ### Check if recursive flag is provided
     local recursive=false
     if [[ "$1" == "-R" ]]; then
         recursive=true
@@ -542,7 +565,7 @@ chrootuser() {
 
     echo "Setting ownership to 'root:root' and adjusting permissions for '$target'..."
 
-    # Apply ownership and permissions
+    ### Apply ownership and permissions
     if [[ "$recursive" == true ]]; then
         if ! sudo chown -R root:root "$target"; then
             echo "Error: Failed to change ownership for '$target'."
@@ -562,7 +585,7 @@ chrootuser() {
             return 1
         fi
 
-        # Set permissions based on type
+        ### Set permissions based on type
         if [[ -d "$target" ]]; then
             if ! sudo chmod 755 "$target"; then
                 echo "Error: Failed to set permissions for '$target'."
@@ -579,7 +602,7 @@ chrootuser() {
     echo "✔️ Successfully set ownership and permissions for '$target'."
 }
 
-## System Admin & Maintenance:
+## System Admin & Maintenance____________________________________________________________
 
 alias update-grub2='sudo grub-install ... && sudo grub-mkconfig -o /boot/grub/grub.cfg'
 alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg"
@@ -597,11 +620,13 @@ alias microcode='grep . /sys/devices/system/cpu/vulnerabilities/*'
 alias audio="pactl info | grep 'Server Name'"
 alias retry='until !!; do :; done'
 
-#### Backup and restore /etc/skel
+## Backup and restore /etc/skel
+
 alias bupskel='sudo cp -Rf /etc/skel /var/recover/skel-backup-$(date +"%Y.%m.%d-%H.%M.%S") && echo "Backup of skel made."'
 alias restoreskel='sudo cp -Rf /var/recover/skel-backup-*/. $HOME/ && echo "Restored from latest backup."'
 
-#### Copy rc files from /etc/skel
+## Copy rc files from /etc/skel
+
 #alias cb='cp /etc/skel/.bashrc ~/.bashrc && exec bash'
 #alias cz='cp /etc/skel/.zshrc ~/.zshrc && echo "Copied."'
 #alias cf='cp /etc/skel/.config/fish/config.fish ~/.config/fish/config.fish && echo "Copied."'
@@ -622,7 +647,7 @@ alias restoreskel='sudo cp -Rf /var/recover/skel-backup-*/. $HOME/ && echo "Rest
 #    echo "$1 is not a directory."
 #}
 
-# Program Specific
+## Program Specific__________________________________________________________________________________
 
 ## Zathura
 
@@ -630,7 +655,8 @@ alias z='zathura --fork'
 
 ## Bat
 
-#### Instead of `cmd --help` do `help cmd`:
+### Instead of `cmd --help` do `help cmd`:
+
 alias bathelp='bat --plain --language=help'
 
 help() {
@@ -639,12 +665,14 @@ help() {
 
 alias man='batman'
 
-#### Parses git syntax
+### Parses git syntax
+
 batdiff() {
     git diff --name-only --relative --diff-filter=d | xargs bat --diff
 }
 
-#### Pipe to less
+### Pipe to less
+
 alias batl='bat | less'
 
 ## Lf
@@ -659,7 +687,8 @@ alias ref='shortcuts >/dev/null; source ${XDG_CONFIG_HOME:-$HOME/.config}/shellz
 
 ## FZF
 
-#### Select files from dir and edit
+### Select files from dir and edit
+
 fzscr() {
     local dir="${1:-/home/git/clone/scr}"
     local choice
@@ -695,45 +724,54 @@ ags() {
 
 ## FD
 
-#### Alias to search including hidden files and following symlinks, but excluding .git
-alias fd='fd --hidden --follow --exclude ".git"'
+### Fd plus hidden minus .git
 
-#### Alias for first-level search only
+alias fdnogit='fd --hidden --follow --exclude ".git"'
+
+### Fd plus hidden
+
+alias fdh='fd --hidden --follow'
+
+### Fd 1 level deep
+
 alias fd1='fd --exact-depth=1 --hidden --follow --exclude ".git"'
 
-#### Function to perform glob-based search with optional case-insensitivity and max-depth
+### Fd with configurable options
+
 fdde() {
     local case_flag=""
     local depth_flag=""
 
-    #### Enable case-insensitive search if the first argument is '-i'
+    ### Enable case-insensitive search if the first argument is '-i'
     if [[ "$1" == "-i" ]]; then
         case_flag="--ignore-case"
         shift
     fi
 
-    #### If a pattern is provided, use it; otherwise, display usage message
+    ### If a pattern is provided, use it; otherwise, display usage message
     if [ -z "$1" ]; then
         echo "Usage: fdde [-i] <pattern> [max-depth]"
         return 1
     fi
 
-    #### Set the max-depth flag if a second argument is provided
+    ### Set the max-depth flag if a second argument is provided
     if [ -n "$2" ]; then
         depth_flag="--max-depth $2"
     fi
 
-    #### Execute fd with the collected flags and the provided pattern
+    ### Execute fd with the collected flags and the provided pattern
     fd $case_flag $depth_flag --glob "$1"
 }
 
 ## Nxsiv
 
+### Create thumbnails of all vids in a dir
+
 vidt() {
     local thumb_dir="$HOME/.cache/video_thumbs"
     mkdir -p "$thumb_dir"
 
-    #### Disable confirmation for rm (using local zsh option)
+    ### Disable confirmation for rm (using local zsh option)
     setopt localoptions rmstarsilent
     rm -f "$thumb_dir"/*
 
@@ -824,7 +862,8 @@ alias garuda-ffmpegupdate='/Nas/Build/git/syncing/scr/installers/ffmpeg/custom_g
 
 ## Dracut
 
-#### This will pipe to sh to execute: "dracutk | sh"
+### This will pipe to sh to execute: "dracutk | sh"
+
 alias dracutzen='echo "sudo dracut --force --kver=$(uname -r) /boot/initramfs-linux-zen.img --enhanced-cpio --early-microcode --fstab && sudo grub-install && sudo grub-mkconfig -o /boot/grub/grub.cfg"'
 alias dracutfallback='echo "sudo dracut --force /boot/initramfs-linux-fallback.img --enhanced-cpio --early-microcode --fstab && sudo grub-install && sudo grub-mkconfig -o /boot/grub/grub.cfg"'
 
@@ -872,7 +911,8 @@ alias snapch="sudo snapper -c home create"
 #alias omzl='omz plugin list'
 #alias omzi='omz plugin info'
 
-## Network:
+## Network____________________________________________________________________________________________
+
 alias restartnetwork='sudo systemctl restart NetworkManager'
 alias restartnetwork2='sudo ip link set down enp2s0 && sudo ip link set up enp2s0'
 fixresolv() {
@@ -883,7 +923,8 @@ options edns0 single-request-reopen" | sudo tee /etc/resolv.conf
     sudo chattr +i /etc/resolv.conf
 }
 
-### List traffic on :80
+## List traffic on :80
+
 allports() {
     local output
     if output=$(ss -nat 2>/dev/null); then
@@ -893,11 +934,15 @@ allports() {
     fi
     echo "$output" | grep -E ":80[^0-9]" | wc -l
 }
-### List 20 awk conn :80
+
+## List 20 awk conn :80
+
 httpports() {
     sudo tcpdump -i eth0 -tnn dst port 80 -c 1000 | awk -F"." '{print $1"."$2"."$3"."$4}' | sort | uniq -c | sort -nr | head -n 20
 }
-### List 20 syn conn :80
+
+## List 20 syn conn :80
+
 synports() {
     local output
     if output=$(ss -an 2>/dev/null | awk '/SYN/ {print $5}'); then
@@ -907,16 +952,19 @@ synports() {
     fi
     echo "$output" | awk -F: '{print $1}' | sort | uniq -c | sort -nr | head -n 20
 }
-### List 100 conn sorted: uptime, instance sum
+
+## List 100 conn sorted: uptime, instance sum
+
 consume100() {
   awk '($NF > 60 && $7~/\.php/){print $7}' "$(retlog)" | sort -n | uniq -c | sort -nr | head -n 100
   # if django website or other website make by no suffix language
   # awk '{print $7}' "$(retlog)" | sort -n | uniq -c | sort -nr | head -n 100
 }
 
-# Python
+## Python____________________________________________________________________________________
 
 ### Invoke without virtual environment:
+
 syspip() {
     PIP_REQUIRE_VIRTUALENV="" pip "$@"
 }
@@ -956,7 +1004,7 @@ figletbanner() {
     pyfiglet --font=line_blocks --normalize-surrounding-newlines "$@" | lolcat -F 0.5
 }
 
-# Multimedia
+## Multimedia________________________________________________________________________________
 
 ## W3M
 
@@ -1081,7 +1129,7 @@ m3dl() {
                 -H "Cookie: sessionid=abc123; other_cookie=value"
 }
 
-# Package Management
+## Package Management____________________________________________________________________________
 
 ## Pkglist
 
@@ -1148,7 +1196,7 @@ pacmansigoff() {
 }
 alias pacmansigon="if [ -f /etc/pacman.conf.backup ]; then if sudo cp --preserve=all -f /etc/pacman.conf.backup /etc/pacman.conf; then sudo rm /etc/pacman.conf.backup && echo 'PGP signature verification restored.'; else echo 'Failed to restore the original pacman.conf. Aborting.'; fi; else echo 'Backup file not found. Cannot restore.'; fi"
 
-## GPG
+## GPG_______________________________________________________________________________________________
 
 alias fixdirmngr='sudo dirmngr </dev/null'
 #alias chgpg='sudo chown -R $(whoami):$(whoami) ~/.gnupg && chmod 700 ~/.gnupg && chmod 600 ~/.gnupg/*'
@@ -1159,7 +1207,7 @@ alias fixpacmankey2='gpg-agent --homedir /etc/pacman.d/gnupg --use-standard-sock
 alias gpgkeyserver2="sudo gpg --keyserver hkps://keys.openpgp.org/ --search-keys user-id"
 alias generate-keyserver='gpg --full-generate-key && gpg --import /usr/share/pacman/keyrings/archlinux* && gpg --recv-keys --keyserver hkp://pool.sks-keyservers.net && pacman-key --init && pacman-key --populate archlinux'
 
-## GIT
+## GIT________________________________________________________________________________________________
 
 alias gstat='git status'
 alias gstash='git stash --all'
@@ -1282,7 +1330,7 @@ gupdate() {
 #}
 
 gignore() {
-    #### Ensure a pattern is provided
+    ### Ensure a pattern is provided
     if [ -z "$1" ]; then
         echo "Usage: gitignore_add <pattern>"
         return 1
@@ -1291,13 +1339,13 @@ gignore() {
     local pattern="$1"
     local gitignore_file="$HOME/.gitignore_global"
 
-    #### Create the file if it doesn't exist
+    ### Create the file if it doesn't exist
     if [ ! -f "$gitignore_file" ]; then
         touch "$gitignore_file"
         echo "Created $gitignore_file"
     fi
 
-    #### Check if the pattern already exists (exact match)
+    ### Check if the pattern already exists (exact match)
     if grep -Fxq "$pattern" "$gitignore_file"; then
         echo "Pattern '$pattern' already exists in $gitignore_file"
     else
@@ -1363,7 +1411,7 @@ gpush() {
 gcomp() {
     if ! git diff-index --quiet HEAD --; then
 
-        #### Gather information about the changes
+        ### Gather information about the changes
         added=$(git status --porcelain | grep "^A" | wc -l)
         modified=$(git status --porcelain | grep "^ M" | wc -l)
         deleted=$(git status --porcelain | grep "^D" | wc -l)
@@ -1494,7 +1542,7 @@ ginit() {
     git push -u origin "$branch_name"
 }
 
-## I/O
+## I/O_____________________________________________________________________________________
 
 cleanup_session() {
     echo "Begining custom shutdown..."
@@ -1507,7 +1555,7 @@ cleanup_session() {
             echo "Sending SIGTERM to $process..."
             sudo pkill -15 -x "$process"
 
-            # Wait up to 5 seconds for the process to terminate
+            ### Wait up to 5 seconds for the process to terminate
             timeout=5
             counter=0
             while pgrep -x "$process" > /dev/null && [ $counter -lt $timeout ]; do
@@ -1532,16 +1580,16 @@ cleanup_session() {
         fi
     done
 
-    # Clear temporary files or session caches
+    ### Clear temporary files or session caches
     echo "Clearing temporary files and session caches..."
     sudo rm -rf /tmp/*
     sudo rm -rf /var/tmp/*
 
-    # Additional cleanup for user session state or session artifacts (optional)
+    ### Additional cleanup for user session state or session artifacts (optional)
     echo "Removing any lingering lock files or session artifacts..."
     sudo rm -f /run/user/$(id -u)/lock/*
 
-    # Sync filesystem buffers
+    ### Sync filesystem buffers
     echo "Syncing filesystem buffers..."
     sync
 }
@@ -1550,11 +1598,12 @@ alias sdn="cleanup_session && echo 'Shutting down...' && sudo shutdown -h now"
 alias ssr="cleanup_session && echo 'Rebooting...' && sudo reboot -h now"
 alias magic='sudo /usr/local/bin/magic.sh'
 
-# =================================== // 4NDR0TOOLS //
+## 4ndr0tools_______________________________________________________________________
 
 ## 4ndr0cht
 
-#### Fzf for cheat-sheets in "~/.cheaters/"
+### Fzf for cheat-sheets in "~/.cheaters/"
+
 cht() {
     local cheats
     cheats=("$HOME/.cheater/"*.md)
@@ -1565,7 +1614,8 @@ cht() {
 
 ## 4ndr0conf
 
-#### modular help function
+### modular help function
+
 edit_config() {
     local file_path="$1"
     if [[ $file_path ]]; then
@@ -1595,9 +1645,10 @@ alias vfire='edit_config "$XDG_CONFIG_HOME"/wayfire.ini'
 alias vbar='edit_config "$XDG_CONFIG_HOME"/wayfire/waybar/config'
 alias vhostname='edit_config /etc/hostname'
 
-## Directory Shortcuts
+## Directory Shortcuts_______________________________________________________________________
 
-#### modular helper function
+### modular helper function
+
 goto() {
     local dir="$1"
     if [[ -d "$dir" ]]; then
@@ -1607,7 +1658,7 @@ goto() {
     fi
 }
 
-### /home:
+## /home:
 
 alias dc='goto ~/Documents'
 alias dl='goto ~/Downloads'
@@ -1620,7 +1671,7 @@ alias mconf='goto ~/.config/mpv'
 alias ob='goto ~/.config/openbox'
 alias obt='goto ~/.config/openbox/themes'
 
-### /storage:
+## /storage:
 
 alias s1='goto /storage'
 alias s1dl='goto /storage/Downloads'
@@ -1628,7 +1679,7 @@ alias s1pic='goto /storage/Pictures'
 alias s1vid='goto /storage/Videos'
 alias streamdir='goto /storage/streamlink'
 
-### /sto2:
+## /sto2:
 
 alias s2='goto /sto2'
 alias s2dl='goto /sto2/Downloads'
@@ -1637,21 +1688,21 @@ alias s2vid='goto /sto2/Videos'
 alias gym='goto /sto2/Gym'
 alias jd='goto /sto2/JD'
 
-### Cookie Dir
+## Cookie Dir
 
 alias cook='goto /Nas/Nas/Cookie\ Backup\ Restore'
 
-### /23.1
+## /23.1
 
 alias edits='goto /23.1/Edits'
 alias cloud='goto /23.1/Thecloud'
 
-### /Nas:
+## /Nas:
 
 alias nas='goto /Nas'
 alias sandbox='goto /Nas/sandbox'
 
-### /home/git:
+## /home/git:
 
 alias ngc='goto /home/git/clone'
 alias nnas='goto /home/git/clone/nas'
@@ -1659,8 +1710,9 @@ alias ndot='goto /home/git/clone/dotfiles'
 alias nbin='goto /home/git/clone/scr'
 alias npkg='goto /Nas/Build/pkgs'
 alias ngpt='goto /home/git/clone/gpt/'
+alias nasc='goto /Nas/Nas/Cookie\ Backup\ Restore'
 
-### System directories:
+## System directories:
 
 alias et='goto /etc'
 alias ske='goto /etc/skel'
@@ -1752,15 +1804,17 @@ killit() {
 
 ## 4ndr0view
 
-#### Quicly view configuration files
+### Quicly view configuration files
+
 alias 00='bat --language=sh --paging=always ~/.config/zsh/aliasrc'
 alias 0f='bat ~/.config/zsh/functions.zsh'
 alias 0z='bat ~/.config/zsh/.zshrc'
 alias 0p='bat ~/.config/zsh/.zprofile'
 
-# ===================================================================================================
+## Typos___________________________________________________________________________________
 
-#### Enter typo followed by the correction:
+### Enter typo followed by the correction:
+
 alias gerp='grep'
 alias shudown='shutdown'
 alias micor='micro'
