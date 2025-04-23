@@ -140,16 +140,15 @@ alias v='$EDITOR'
 alias p="sudo pacman"
 alias ka='sudo killall -9'
 alias cp='cp --preserve=all'
-alias cpv='cp --preserve=all -v'
-alias cpr='cp --preserve=all -R'
 alias cpp='rsync -ahzXW --info=progress2'
 alias mv='mv -iv'
 alias rm='rm -vI'
 alias bc='bc -l'
-alias rmf='sudo -S rm -vI -rf'
-alias rg="rg --sort path"
+alias rmf='sudo -S /bin/rm -vI -rf'
+alias rmd='sudo -S /bin/rm  --recursive --force --verbose '
+alias rg="\rg --sort path"
 alias diff='colordiff -yW "$(tput cols)"'
-alias rmdir='rm -vI --preserve root'
+alias rmdir='\rm -vI --preserve root'
 alias ln='ln -iv'
 alias wget="wget -c"
 alias curl="curl --user-agent 'noleak'"
@@ -166,8 +165,6 @@ alias fgrep='fgrep --color=auto'
 alias c='clear; echo; echo; seq 1 $(tput cols) | sort -R | spark | lolcat; echo; echo'
 alias hw='sudo hwinfo --short'
 alias lsb='lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINT'
-alias psa='ps auxf | less'
-alias free='free -mt'
 alias jctl='journalctl -p 3 -xb'
 alias mapit="ifconfig -a | grep -Po '\b(?!255)(?:\d{1,3}\.){3}(?!255)\d{1,3}\b' | xargs nmap -A -p0-"
 alias ports='ss -tunlp'
@@ -177,8 +174,6 @@ alias netspeed='ifstat -t -S -w'
 alias dir5='du -cksh * | sort -hr | head -5'
 alias dir10='du -cksh * | sort -hr | head -10'
 alias dir='dir --color=auto'
-alias vdir='vdir --color=auto'
-alias watch='watch'
 alias mem10='ps aux | sort -nk +4 | tail'
 alias pacdiff='sudo -H DIFFPROG=meld pacdiff'
 alias psgrep="ps aux | grep -v grep | grep -i -e VSZ -e"
