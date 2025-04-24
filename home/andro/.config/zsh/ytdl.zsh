@@ -1,25 +1,32 @@
 #!/usr/bin/env zsh
 # Author: 4ndr0666
-setopt extended_glob
 
 # ========================== // YTDL.ZSH //  
 #
 
 ## Config maps
 typeset -A YTDLP_COOKIES_MAP=(
-  [youtube.com]="$XDG_CONFIG_HOME/yt-dlp/youtube_cookies.txt"
-  [youtu.be]="$XDG_CONFIG_HOME/yt-dlp/youtube_cookies.txt"
-  [patreon.com]="$XDG_CONFIG_HOME/yt-dlp/patreon_cookies.txt"
-  [vimeo.com]="$XDG_CONFIG_HOME/yt-dlp/vimeo_cookies.txt"
-  [boosty.to]="$XDG_CONFIG_HOME/yt-dlp/boosty_cookies.txt"
-  [instagram.com]="$XDG_CONFIG_HOME/yt-dlp/instagram_cookies.txt"
-  [fanvue.com]="$XDG_CONFIG_HOME/yt-dlp/fanvue_cookies.txt"
+  ["youtube.com"]="$HOME/.config/yt-dlp/youtube_cookies.txt"
+  ["youtu.be"]="$HOME/.config/yt-dlp/youtube_cookies.txt"
+  ["patreon.com"]="$HOME/.config/yt-dlp/patreon_cookies.txt"
+  ["vimeo.com"]="$HOME/.config/yt-dlp/vimeo_cookies.txt"
+  ["boosty.to"]="$HOME/.config/yt-dlp/boosty_cookies.txt"
+  ["instagram.com"]="$HOME/.config/yt-dlp/instagram_cookies.txt"
+  ["fanvue.com"]="$HOME/.config/yt-dlp/fanvue_cookies.txt"
 )
 
 FMT_HD_WEBM="335/315/313/308/303/299/302/271/248/137+bestaudio+bestaudio"
 
-## Helpers 
-validate_url() [[ $1 == (#b)(https|http)://* ]]
+### Validate URL format.
+# Checks if the URL begins with http:// or https://.
+validate_url() {
+  local url="$1"
+  if [[ "$url" =~ ^https?:// ]]; then
+    return 0
+  else
+    return 1
+  fi
+}
 
 get_domain_from_url() {
   # returns lower‑case normalized domain
