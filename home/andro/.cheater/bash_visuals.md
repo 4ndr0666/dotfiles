@@ -1,25 +1,29 @@
 # Author: 4ndr0666
 # ========================== // BASH VISUALS //
 
-## Colors & Symbols 
+## Colors & Symbols________________ 
 
-**Unicode Style**:
+**Unicode**
 ```shell
+
 CYAN="\033[38;2;21;255;255m"
 RED="\033[0;31m"
 NC="\033[0m"
 info="➡️"
 good="✔️"
+explosion="💥"
 glow() {
   echo -e "["$(date +%F)"]: ${CYAN}➡️ $1${NC}" >/dev/null 2>&1
 }
 bug() {
   echo -e "["$(date +%F)"]: ${RED}❌ $1${NC}" >/dev/null 2>&1
 }
+
 ```
 
-**Tput Style**:
+**Tput**:
 ```shell
+
 OK="$(tput setaf 2)[OK]$(tput sgr0)"
 ERROR="$(tput setaf 1)[ERROR]$(tput sgr0)"
 NOTE="$(tput setaf 3)[NOTE]$(tput sgr0)"
@@ -34,35 +38,91 @@ GREEN="$(tput setaf 2)"
 BLUE="$(tput setaf 4)"
 SKY_BLUE="$(tput setaf 6)"
 RESET="$(tput sgr0)"
+
 ```
 
-## Progress Bars
+## Spinners________________ 
 
-**Dots**:
-```shell
-show_progress() {
-    local pid=$1
-    local package_name=$2
-    local spin_chars=("●○○○○○○○○○" "○●○○○○○○○○" "○○●○○○○○○○" "○○○●○○○○○○" "○○○○●○○○○" \
-                      "○○○○○●○○○○" "○○○○○○●○○○" "○○○○○○○●○○" "○○○○○○○○●○" "○○○○○○○○○●") 
-    local i=0
+**Custom Module To Source**
+```bash
 
-    tput civis 
-    printf "\r${NOTE} Installing ${YELLOW}%s${RESET} ..." "$package_name"
+#!/usr/bin/env bash
+# Spinner Pack – Author: 4ndr0666 | Version: 1.0
 
-    while ps -p $pid &> /dev/null; do
-        printf "\r${NOTE} Installing ${YELLOW}%s${RESET} %s" "$package_name" "${spin_chars[i]}"
-        i=$(( (i + 1) % 10 ))  
-        sleep 0.3  
-    done
+## Bubble Dots
 
-    printf "\r${NOTE} Installing ${YELLOW}%s${RESET} ... Done!%-20s \n" "$package_name" ""
-    tput cnorm  
+show_bubble_progress() {
+	local pid=$1 label=$2
+	local frames=("●○○○○○○○○○" "○●○○○○○○○○" "○○●○○○○○○○" "○○○●○○○○○○" "○○○○●○○○○○" \
+	              "○○○○○●○○○○" "○○○○○○●○○○" "○○○○○○○●○○" "○○○○○○○○●○" "○○○○○○○○○●")
+	local i=0
+
+	tput civis
+	while ps -p "$pid" > /dev/null 2>&1; do
+		printf "\r$(tput setaf 4)●  %s %s$(tput sgr0)" "$label" "${frames[i]}"
+		sleep 0.15
+		i=$(( (i + 1) % ${#frames[@]} ))
+	done
+	printf "\r$(tput setaf 2)✔️  %s complete$(tput sgr0)%*s\n" "$label" 10 ""
+	tput cnorm
 }
+
+## Braille Smooth
+
+show_braille_progress() {
+	local pid=$1 label=$2
+	local frames=("⠋" "⠙" "⠸" "⠼" "⠴" "⠦" "⠧" "⠇" "⠏")
+	local i=0
+
+	tput civis
+	while ps -p "$pid" > /dev/null 2>&1; do
+		printf "\r$(tput setaf 6)⠶  %s %s$(tput sgr0)" "$label" "${frames[i]}"
+		sleep 0.1
+		i=$(( (i + 1) % ${#frames[@]} ))
+	done
+	printf "\r$(tput setaf 2)✔️  %s complete$(tput sgr0)%*s\n" "$label" 10 ""
+	tput cnorm
+}
+
+## Arc Bounce
+
+show_arc_progress() {
+	local pid=$1 label=$2
+	local frames=("◜" "◠" "◝" "◞" "◡" "◟")
+	local i=0
+
+	tput civis
+	while ps -p "$pid" > /dev/null 2>&1; do
+		printf "\r$(tput setaf 5)↻  %s %s$(tput sgr0)" "$label" "${frames[i]}"
+		sleep 0.2
+		i=$(( (i + 1) % ${#frames[@]} ))
+	done
+	printf "\r$(tput setaf 2)✔️  %s complete$(tput sgr0)%*s\n" "$label" 10 ""
+	tput cnorm
+}
+
 ```
 
-**Interactive Status**:
+- At the top of your test suite or any script:
+```bash
+
+source ./spinners.sh
+
+```
+
+- Then, for long-running blocks:
+```bash
+
+(sleep 2) &  # example long task
+show_braille_progress $! "Validating YTDLC system"
+
+```
+
+## Interactive Status________________
+
+**Continue Prompt**:
 ```shell
+
 visual_feedback() {
     echo -e "\033[1;33m" # Yellow color
     echo "Starting: $1"
@@ -75,24 +135,54 @@ visual_feedback() {
     echo -e "\033[0m" # Reset color
     read -p "Press any key to continue..." -n 1
 }
+
 ```
 
-## Banners
+**Pause Prompt**:
+```bash
 
-**ASCII Banner**:
+pause_prompt() {
+  echo -e "$(tput setaf 3)↩️  Press any key to continue...$(tput sgr0)"
+  read -n 1 -s
+}
+
+```
+
+## Banners________________
+
+**Framed Banner Printer**:
+```bash
+
+frame_banner() {
+  local msg=" $* "
+  local width=${#msg}
+  printf "\n%s\n" "$(printf '%*s' "$width" '' | tr ' ' '=')"
+  echo "$msg"
+  printf "%s\n\n" "$(printf '%*s' "$width" '' | tr ' ' '=')"
+}
+
+```
+
+*Usage: `frame_banner "YTDLC: Welcome to the Installer`"*
+
+
+**ASCII**:
 ```shell
+
 echo -e "\033[34m"
 cat << "EOF"
 ### ART
 ### HERE
 EOF
 echo -e "\033[0m"
+
 ```
 
-## Menus
+## Menus________________
 
-**Version 1**:
+**Menu 1**:
 ```shell
+
 display_menu() {
     clear
     echo -e "${GRE}======================================================================================="
@@ -104,10 +194,12 @@ display_menu() {
     echo "10) Exit"
     echo -e "By your command: ${RED}\c"
 }
+
 ```
 
-**Version 2**:
+**Menu 2**:
 ```shell
+
 main() {
 	echo "==> [1/3] Checking dependencies..."
 	check_dependencies
@@ -123,10 +215,12 @@ main() {
 
 	echo "Done. No manual steps required. Re-open shell to load the new environment."
 }
+
 ```
 
-**Version 3**:
+**Menu 3**:
 ```shell
+
 main() {
     while true; do
         display_menu
@@ -143,4 +237,5 @@ main() {
 	esac
     done
 }
+
 ```
