@@ -1,3 +1,5 @@
+# Bash Snippets by 4ndr0666
+
 ## Tput
 
 ```shell
@@ -32,185 +34,15 @@ if [ "$(ps -p $$ -ocomm=)" != "sh" ]; then
 fi
 ```
 
-## Shell Script Debugging
-
-```shell
-set -euo pipefail
-IFS=$'\n\t'
-```
-
-## Auto-escalate
-
-### Method 1
-```shell
-if [[ "$EUID" -ne 0 ]]; then
-    echo "Re-running the script with sudo privileges..."
-    sudo "$0" "$@"
-    exit $?
-fi
-```
-
-### Method 2
-```shell
-if [ "$(id -u)" -ne 0 ]; then
-    sudo "$0" "$@"
-    exit $?
-fi
-sleep 1
-echo "💀WARNING💀 - you are now operating as root..."
-sleep 1
-echo
-```
-
-### Method 3
-```shell
-if [ ! -x "$(realpath "$0")" ]; then
-  echo "Warning: Script '$(realpath "$0")' is not executable. Attempting to set executable permission..."
-  if ! chmod +x "$(realpath "$0")"; then
-    echo "Failed to set executable permission. Please run: sudo chmod +x $(realpath "$0")"
-    exit 126
-  fi
-  exec "$0" "$@"
-fi
-```
-
-### Method 4
-```shell
-if [ "$EUID" -ne 0 ]; then
-    echo "Re-running the script with sudo privileges..."
-    if ! sudo "$0" "$@"; then
-        echo "Failed to escalate privileges. Exiting..."
-        exit 1
-    fi
-    exit 0
-fi
-```
-
-### Method 5 (POSIX)
-```shell
-if [ "$(id -u)" -ne 0 ]; then
-    printf 'Re‑running with sudo privileges…\n' >&2
-    exec sudo sh "$0" "$@"
-fi
-```
-
-## Dev Null
-
-### Explanation of the commands
-
-* `>/dev/null 2>&1`: redirects both stdout and stderr to /dev/null, effectively silencing all output.
-
-* `2>&1`: redirects stderr to wherever stdout is currently going. If stdout is not redirected, both will go to the terminal.
-
-* `2>/dev/null`: redirects stderr to /dev/null, silencing only the error messages.
-
-### Appropriate usage scenarios
-
-1. `>/dev/null 2>&1` - Use this when you want to completely silence a command, hiding both output and errors.
-
-*Example: silencing a background task's output*
-`command >/dev/null 2>&1 &`
-
-2. `2>&1` - Use this when you want to combine stderr with stdout. This is often used in pipelines.
-
-*Example: combining stderr with stdout to filter or process both*
-`command 2>&1 | grep "some text"`
-
-3. `2>/dev/null` - Use this when you want to ignore only error messages while keeping standard output visible.
-
-*Example: running a command and ignoring errors but showing output*
-`command 2>/dev/null`
-
-## Kill and restart:
+## Kill and restart
 
 ```shell
 killall -p pkgname &> /dev/null
 pkgname </dev/null &>/dev/null &
 ```
 
-## If-statements
+## TRAP for cleanup
 
-### Method 1
-```shell
-if ! touch "$logfile" &>/dev/null; then
-    echo -e "\033[31mError: Log file '$logfile' is not writable. Please check permissions.\033[0m"
-    return 1
-fi
-```
-
-### Method 2
-```shell
-if [[ "${COMMON_SH_INCLUDED:-}" == "true" ]]; then
-    return
-fi
-export COMMON_SH_INCLUDED=true
-```
-
-### Method 3
-```shell
-if ! echo f | sudo tee /proc/sysrq-trigger >/dev/null; then
-  echo "Failed to trigger OOM Killer."
-  exit 1
-fi
-```
-
-## Heredoc
-
-### Appending to a File
-```shell
-cat << EOF >> file.txt
-The text you want
-to append to
-file.txt goes here.
-EOF
-```
-
-### Overwriting a File
-```shell
-cat << EOF > file.txt
-This will overwrite
-the content of file.txt
-with this new text.
-EOF
-```
-
-### Indented Content Using `<<-`
-```shell
-cat <<- EOF > file.txt
-    This text is indented in the script
-    but will not be indented in file.txt.
-EOF
-```
-
-## Heredoc using `tee`
-
-### Creating a File
-```shell
-sudo tee /usr/local/bin/trigger_oom.sh > /dev/null << 'EOF'
-#!/bin/bash
-echo "f" > /proc/sysrq-trigger
-EOF
-```
-
-### Appending to a File
-```shell
-tee -a file.txt << EOF
-This text will be appended
-to the content of file.txt.
-EOF
-```
-
-### Overwriting a File
-```shell
-tee file.txt << EOF
-This text will overwrite
-the content of file.txt.
-EOF
-```
-
-## Trap
-
-### Setting a TRAP for cleanup:
 ```shell
 trap 'echo -e "\nExiting..."; cleanup; exit 1' SIGINT
 ```
@@ -228,9 +60,209 @@ validate_input() {
 }
 ```
 
+## Shell Script Debugging
+
+```shell
+set -euo pipefail
+IFS=$'\n\t'
+```
+
+---
+
+## Auto-escalate
+
+### Method 1
+
+```shell
+if [[ "$EUID" -ne 0 ]]; then
+    echo "Re-running the script with sudo privileges..."
+    sudo "$0" "$@"
+    exit $?
+fi
+```
+
+### Method 2
+
+```shell
+if [ "$(id -u)" -ne 0 ]; then
+    sudo "$0" "$@"
+    exit $?
+fi
+sleep 1
+echo "💀WARNING💀 - you are now operating as root..."
+sleep 1
+echo
+```
+
+### Method 3
+
+```shell
+if [ ! -x "$(realpath "$0")" ]; then
+  echo "Warning: Script '$(realpath "$0")' is not executable. Attempting to set executable permission..."
+  if ! chmod +x "$(realpath "$0")"; then
+    echo "Failed to set executable permission. Please run: sudo chmod +x $(realpath "$0")"
+    exit 126
+  fi
+  exec "$0" "$@"
+fi
+```
+
+### Method 4
+
+```shell
+if [ "$EUID" -ne 0 ]; then
+    echo "Re-running the script with sudo privileges..."
+    if ! sudo "$0" "$@"; then
+        echo "Failed to escalate privileges. Exiting..."
+        exit 1
+    fi
+    exit 0
+fi
+```
+
+### Method 5 (POSIX)
+
+```shell
+if [ "$(id -u)" -ne 0 ]; then
+    printf 'Re‑running with sudo privileges…\n' >&2
+    exec sudo sh "$0" "$@"
+fi
+```
+
+### Method 6 (POSIX)
+
+```shell
+[ "$(id -u)" -eq 0 ] || exec sudo sh "$0" "$@"
+```
+
+## Dev Null
+
+### Explanation of the commands
+
+1. `>/dev/null 2>&1`: redirects both stdout and stderr to /dev/null, effectively silencing all output.
+
+2. `2>&1`: redirects stderr to wherever stdout is currently going. If stdout is not redirected, both will go to the terminal.
+
+3. `2>/dev/null`: redirects stderr to /dev/null, silencing only the error messages.
+
+## Usage
+
+### Silence background task output
+
+1. `>/dev/null 2>&1` - Use this when you want to completely silence a command, hiding both output and errors.
+*Example*: `command >/dev/null 2>&1 &`
+
+### Combine stderr & stdout to filter or process both
+
+2. `2>&1` - Use this when you want to combine stderr with stdout. This is often used in pipelines.
+*Example*: `command 2>&1 | grep "some text"`
+
+### Run cmd & ignore errors but parse output
+
+3. `2>/dev/null` - Use this when you want to ignore only error messages while keeping standard output visible.
+*Example*: `command 2>/dev/null`
+
+---
+
+## If-statements
+
+### If-statement 1
+
+```shell
+if ! touch "$logfile" &>/dev/null; then
+    echo -e "\033[31mError: Log file '$logfile' is not writable. Please check permissions.\033[0m"
+    return 1
+fi
+```
+
+### If-statement 2
+
+```shell
+if [[ "${COMMON_SH_INCLUDED:-}" == "true" ]]; then
+    return
+fi
+export COMMON_SH_INCLUDED=true
+```
+
+### If-statement 3
+
+```shell
+if ! echo f | sudo tee /proc/sysrq-trigger >/dev/null; then
+  echo "Failed to trigger OOM Killer."
+  exit 1
+fi
+```
+
+---
+
+## Heredoc
+
+### Appending to a File
+
+```shell
+cat << EOF >> file.txt
+The text you want
+to append to
+file.txt goes here.
+EOF
+```
+
+### Overwriting a File
+
+```shell
+cat << EOF > file.txt
+This will overwrite
+the content of file.txt
+with this new text.
+EOF
+```
+
+### Indented Content Using `<<-`
+
+```shell
+cat <<- EOF > file.txt
+    This text is indented in the script
+    but will not be indented in file.txt.
+EOF
+```
+
+---
+
+## Heredoc using `tee`
+
+### Creating a File
+
+```shell
+sudo tee /usr/local/bin/trigger_oom.sh > /dev/null << 'EOF'
+#!/bin/bash
+echo "f" > /proc/sysrq-trigger
+EOF
+```
+
+### Appending to a File
+
+```shell
+tee -a file.txt << EOF
+This text will be appended
+to the content of file.txt.
+EOF
+```
+
+### Overwriting a File
+
+```shell
+tee file.txt << EOF
+This text will overwrite
+the content of file.txt.
+EOF
+```
+
+---
+
 ## Loops
 
-### Sourcing items:
+### Sourcing items
+
 ```shell
 source_dir="/dir/to/search/in"
 zsh_files_found=false
@@ -246,16 +278,20 @@ if [ "$zsh_files_found" = false ]; then
 fi
 ```
 
-## Cherry Pick Directories 
+## Cherry Pick Directories
 
-### If you want only `bin` subdirectories, you can do a:
+### If you want only `bin` subdirectories, you can do
+
 ```shell
 if [[ -d "$scr_dir/bin" ]]; then ...; fi
 ```
 
+---
+
 ## Logging
 
 ### For a modular setup, define global constants first
+
 ```shell
 CONFIG_FILE="${CONFIG_FILE:-$HOME/.local/share/4ndr0service/config.json}"
 LOG_FILE_DIR_DEFAULT="$HOME/.local/share/logs/4ndr0service/logs"
@@ -263,6 +299,7 @@ LOG_FILE_DEFAULT="$LOG_FILE_DIR_DEFAULT/4ndr0service.log"
 ```
 
 ### Followed by the functions to log data
+
 ```shell
 json_log() {
     local level="$1"
@@ -276,6 +313,7 @@ json_log() {
 ```
 
 ### Finally, basic error handling
+
 ```shell
 handle_error() {
     local error_message="$1"
@@ -294,25 +332,31 @@ log_warn() {
 }
 ```
 
-## Realpath 
+---
 
-### Method 1
+## Realpath
+
+### Realpath 1
+
 ```shell
 : "${PKG_PATH:=$(dirname "$(dirname "$(realpath "$0")")")}"
 
                                                     ^-- [traverses two levels up a dir or `../../`]
 ```
+
 1. `realpath "$0"`: Resolves the absolute path of the current script.
 2. `dirname "$(realpath "$0")"`: Gets the directory containing the script.
 3. `dirname "$(dirname "$(realpath "$0")")"`: Moves one directory up from that location (i.e., two levels up from the script).
 4. `"${PKG_PATH:=...}"`: Uses parameter expansion to set `PKG_PATH` only if it isn’t already defined.
 
-### Method 2
+### Realpath 2
+
 ```shell
 : "${PKG_PATH:=$(dirname $(realpath "$0")")}"
                                         ^-- [traverses one level up or `../`]
 
 ```
+
 1. `realpath "$0"`: Resolves the absolute path of the current script.
 2. `dirname "$(realpath "$0")"`: Gets the directory containing the script.
 3. `dirname "$(dirname "$(realpath "$0")"`: Moves one directory up from the script).

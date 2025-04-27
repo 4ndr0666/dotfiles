@@ -1,10 +1,35 @@
-# Author: 4ndr0666
-# ========================== // BASH VISUALS //
+# Bash Colors & Visual Cheat-Sheet
 
-## Colors & Symbols________________ 
+---
 
-**Unicode**
-```shell
+## Colors
+
+### Comprehensive Fallbacks (truecolor, tput, plain text)
+
+```bash
+
+#### Force 24-bit color mode if not already set
+case "${COLORTERM}" in
+  truecolor | 24bit) ;;  # Already OK
+  *) export COLORTERM="24bit" ;;  # Set to safe default
+esac
+
+#### Advanced or Plain Text Color Functions
+if command -v tput >/dev/null && [[ -t 1 ]]; then
+    GLOW() { printf '%s\n' "$(tput setaf 6)[✔️] $*$(tput sgr0)"; }
+    BUG()  { printf '%s\n' "$(tput setaf 1)[❌] $*$(tput sgr0)"; }
+    INFO() { printf '%s\n' "$(tput setaf 4)[→]  $*$(tput sgr0)"; }
+else
+    GLOW() { printf '[OK] %s\n' "$*"; }
+    BUG()  { printf '[ERR] %s\n' "$*"; }
+    INFO() { printf '[..] %s\n' "$*"; }
+fi
+
+```
+
+### ANSI & Unicode Symbols
+
+```bash
 
 CYAN="\033[38;2;21;255;255m"
 RED="\033[0;31m"
@@ -12,17 +37,20 @@ NC="\033[0m"
 info="➡️"
 good="✔️"
 explosion="💥"
+
 glow() {
   echo -e "["$(date +%F)"]: ${CYAN}➡️ $1${NC}" >/dev/null 2>&1
 }
+
 bug() {
   echo -e "["$(date +%F)"]: ${RED}❌ $1${NC}" >/dev/null 2>&1
 }
 
 ```
 
-**Tput**:
-```shell
+### Tput
+
+```bash
 
 OK="$(tput setaf 2)[OK]$(tput sgr0)"
 ERROR="$(tput setaf 1)[ERROR]$(tput sgr0)"
@@ -41,69 +69,75 @@ RESET="$(tput sgr0)"
 
 ```
 
-## Spinners________________ 
+---
 
-**Custom Module To Source**
+## Spinners
+
+### Custom Module To Source
+
 ```bash
 
 #!/usr/bin/env bash
-# Spinner Pack – Author: 4ndr0666 | Version: 1.0
+# Author: 4ndr0666
+# Version: 1.0
+# =================== // Spinner Pack //
 
 ## Bubble Dots
 
 show_bubble_progress() {
-	local pid=$1 label=$2
-	local frames=("●○○○○○○○○○" "○●○○○○○○○○" "○○●○○○○○○○" "○○○●○○○○○○" "○○○○●○○○○○" \
-	              "○○○○○●○○○○" "○○○○○○●○○○" "○○○○○○○●○○" "○○○○○○○○●○" "○○○○○○○○○●")
-	local i=0
+    local pid=$1 label=$2
+    local frames=("●○○○○○○○○○" "○●○○○○○○○○" "○○●○○○○○○○" "○○○●○○○○○○" "○○○○●○○○○○" \
+                  "○○○○○●○○○○" "○○○○○○●○○○" "○○○○○○○●○○" "○○○○○○○○●○" "○○○○○○○○○●")
+    local i=0
 
-	tput civis
-	while ps -p "$pid" > /dev/null 2>&1; do
-		printf "\r$(tput setaf 4)●  %s %s$(tput sgr0)" "$label" "${frames[i]}"
-		sleep 0.15
-		i=$(( (i + 1) % ${#frames[@]} ))
-	done
-	printf "\r$(tput setaf 2)✔️  %s complete$(tput sgr0)%*s\n" "$label" 10 ""
-	tput cnorm
+    tput civis
+    while ps -p "$pid" > /dev/null 2>&1; do
+        printf "\r$(tput setaf 4)●  %s %s$(tput sgr0)" "$label" "${frames[i]}"
+            sleep 0.15
+                i=$(( (i + 1) % ${#frames[@]} ))
+        done
+        printf "\r$(tput setaf 2)✔️  %s complete$(tput sgr0)%*s\n" "$label" 10 ""
+        tput cnorm
 }
 
 ## Braille Smooth
 
 show_braille_progress() {
-	local pid=$1 label=$2
-	local frames=("⠋" "⠙" "⠸" "⠼" "⠴" "⠦" "⠧" "⠇" "⠏")
-	local i=0
+    local pid=$1 label=$2
+    local frames=("⠋" "⠙" "⠸" "⠼" "⠴" "⠦" "⠧" "⠇" "⠏")
+    local i=0
 
-	tput civis
-	while ps -p "$pid" > /dev/null 2>&1; do
-		printf "\r$(tput setaf 6)⠶  %s %s$(tput sgr0)" "$label" "${frames[i]}"
-		sleep 0.1
-		i=$(( (i + 1) % ${#frames[@]} ))
-	done
-	printf "\r$(tput setaf 2)✔️  %s complete$(tput sgr0)%*s\n" "$label" 10 ""
-	tput cnorm
+    tput civis
+        while ps -p "$pid" > /dev/null 2>&1; do
+            printf "\r$(tput setaf 6)⠶  %s %s$(tput sgr0)" "$label" "${frames[i]}"
+            sleep 0.1
+                i=$(( (i + 1) % ${#frames[@]} ))
+        done
+        printf "\r$(tput setaf 2)✔️  %s complete$(tput sgr0)%*s\n" "$label" 10 ""
+        tput cnorm
 }
 
 ## Arc Bounce
 
 show_arc_progress() {
-	local pid=$1 label=$2
-	local frames=("◜" "◠" "◝" "◞" "◡" "◟")
-	local i=0
+    local pid=$1 label=$2
+    local frames=("◜" "◠" "◝" "◞" "◡" "◟")
+        local i=0
 
-	tput civis
-	while ps -p "$pid" > /dev/null 2>&1; do
-		printf "\r$(tput setaf 5)↻  %s %s$(tput sgr0)" "$label" "${frames[i]}"
-		sleep 0.2
-		i=$(( (i + 1) % ${#frames[@]} ))
-	done
-	printf "\r$(tput setaf 2)✔️  %s complete$(tput sgr0)%*s\n" "$label" 10 ""
-	tput cnorm
+    tput civis
+        while ps -p "$pid" > /dev/null 2>&1; do
+            printf "\r$(tput setaf 5)↻  %s %s$(tput sgr0)" "$label" "${frames[i]}"
+            sleep 0.2
+            i=$(( (i + 1) % ${#frames[@]} ))
+        done
+        printf "\r$(tput setaf 2)✔️  %s complete$(tput sgr0)%*s\n" "$label" 10 ""
+        tput cnorm
 }
 
 ```
 
 - At the top of your test suite or any script:
+
 ```bash
 
 source ./spinners.sh
@@ -111,16 +145,20 @@ source ./spinners.sh
 ```
 
 - Then, for long-running blocks:
+
 ```bash
 
-(sleep 2) &  # example long task
+(sleep 2) &  ### example long task
 show_braille_progress $! "Validating YTDLC system"
 
 ```
 
-## Interactive Status________________
+---
 
-**Continue Prompt**:
+## Interactive Status
+
+### Continue Prompt
+
 ```shell
 
 visual_feedback() {
@@ -138,7 +176,8 @@ visual_feedback() {
 
 ```
 
-**Pause Prompt**:
+### Pause Prompt
+
 ```bash
 
 pause_prompt() {
@@ -148,9 +187,12 @@ pause_prompt() {
 
 ```
 
-## Banners________________
+---
 
-**Framed Banner Printer**:
+## Banners
+
+### Framed Banner Printer
+
 ```bash
 
 frame_banner() {
@@ -165,8 +207,8 @@ frame_banner() {
 
 *Usage: `frame_banner "YTDLC: Welcome to the Installer`"*
 
+### Ascii Art
 
-**ASCII**:
 ```shell
 
 echo -e "\033[34m"
@@ -178,9 +220,12 @@ echo -e "\033[0m"
 
 ```
 
-## Menus________________
+---
 
-**Menu 1**:
+## Menus
+
+### Menu 1
+
 ```shell
 
 display_menu() {
@@ -197,28 +242,30 @@ display_menu() {
 
 ```
 
-**Menu 2**:
+### Menu 2
+
 ```shell
 
 main() {
-	echo "==> [1/3] Checking dependencies..."
-	check_dependencies
+    echo "==> [1/3] Checking dependencies..."
+    check_dependencies
 
-	echo "==> [2/3] Installing ytdl.zsh..."
-	install_ytdl_script
+    echo "==> [2/3] Installing ytdl.zsh..."
+    install_ytdl_script
 
-	echo "==> Installing minimal bookmarklet script..."
-	install_bookmarklet
+    echo "==> Installing minimal bookmarklet script..."
+    install_bookmarklet
 
-	echo "==> [3/3] Ensuring .zshrc has source line..."
-	check_zshrc
+    echo "==> [3/3] Ensuring .zshrc has source line..."
+    check_zshrc
 
-	echo "Done. No manual steps required. Re-open shell to load the new environment."
+    echo "Done. No manual steps required. Re-open shell to load the new environment."
 }
 
 ```
 
-**Menu 3**:
+### Menu 3
+
 ```shell
 
 main() {
@@ -226,15 +273,15 @@ main() {
         display_menu
         read -r command
 
-	if ! validate_input "$command"; then
-	    continue
-	fi
+    if ! validate_input "$command"; then
+        continue
+    fi
 
-	case "$command" in
-	    1) visual_feedback "" ;;
-	    10) echo "Exiting program."; cleanup; exit 0 ;;
-	     *) echo "Invalid option. Please try again." ;;
-	esac
+    case "$command" in
+        1) visual_feedback "" ;;
+        10) echo "Exiting program."; cleanup; exit 0 ;;
+        *) echo "Invalid option. Please try again." ;;
+    esac
     done
 }
 
