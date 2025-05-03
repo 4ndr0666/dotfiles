@@ -1,43 +1,42 @@
-## =========================================== // ZATHURA //
+# Zathura Cheat-Sheet
 
-- **Basic Movement**:
-  - **`h`/`j`/`k`/`l`** - Move left, down, up, right within the document.
-  - **`d`/`u`** - Move down/up by half a page.
-  - **`gg`** - Go to the top of the document.
-  - **`G`** - Go to the bottom of the document.
+## Basic Movement
+- **`h`/`j`/`k`/`l`**: Move left, down, up, right within the document.
+- **`d` / `u`**: Move down/up by half a page.
+- **`gg`**: Go to the top of the document.
+- **`G`**: Go to the bottom of the document.
 
-- **Link Interaction**:
-  - **`f`** - Highlight URLs for quick access.
+## Link Interaction
+- **`f`**: Highlight URLs for quick access.
 
-- **Zoom**:
-  - **`J`** - Zoom out.
-  - **`K`** - Zoom in.
-  - **`s`** - Zoom to fit document width.
-  - **`a`** - Zoom to fit document height.
+## Zoom Controls
+- **`J`**: Zoom out.
+- **`K`**: Zoom in.
+- **`s`**: Zoom to fit document width.
+- **`a`**: Zoom to fit document height.
 
-- **Document Manipulation**:
-  - **`r`** - Reload the document if updated.
-  - **`R`** - Rotate the document.
-  - **`D`** - Toggle dual-page mode.
+## Document Manipulation
+- **`r`**: Reload the document (if updated).
+- **`R`**: Rotate the document.
+- **`D`**: Toggle dual-page mode.
+- **`p`**: Print the document.
 
+------------------------------
+| **Keybinding** | **Description**                      |
+|----------------|--------------------------------------|
+| `h/j/k/l`     | Move left/down/up/right              |
+| `d`/`u`       | Move half page down/up               |
+| `gg`          | Top of document                      |
+| `G`           | Bottom of document                   |
+| `f`           | Highlight URLs                       |
+| `J`/`K`       | Zoom out/in                          |
+| `s`           | Zoom to fit width                    |
+| `a`           | Zoom to fit height                   |
+| `r`           | Reload document                      |
+| `R`           | Rotate document                      |
+| `D`           | Toggle dual-page mode                |
+| `p`           | Print document                       |
+------------------------------
 
-## ==================================== / CMD TABLES //
-
-| **Keybinding** | **Description**                        |
-|----------------|----------------------------------------|
-| `h/j/k/l`      | Move left/down/up/right                |
-| `d`/`u`        | Move down/up by half a page            |
-| `gg`           | Go to the top of the document          |
-| `G`            | Go to the bottom of the document       |
-| `f`            | Highlight URLs to follow               |
-| `J`/`K`        | Zoom out/in                            |
-| `s`            | Zoom to fit width                      |
-| `a`            | Zoom to fit height                     |
-| `r`            | Reload document                        |
-| `R`            | Rotate document                        |
-| `D`            | Toggle dual-page mode                  |
-| `p`            | Print document                         |
-
-## Resources
-
-- **Zathura Documentation**: [Zathura GitHub](https://github.com/pwmt/zathura)
+Resources:
+- [Zathura GitHub](https://github.com/pwmt/zathura)

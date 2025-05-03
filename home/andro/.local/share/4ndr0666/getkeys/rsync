@@ -1,121 +1,200 @@
-# Rsync Cheat-sheet 
-- - -
+# Rsync Cheat-sheet
 
-## Copy To Src
+---
+
+### Basic Copy
+Copies all files (recursively) from source to destination, preserving attributes:
 ```bash
 rsync -av source_dir/ dest_dir/
 ```
 
-## "Move" Src/ to Dest/ 
-(deletes src if transfer successful and rm empty subdirs)
+---
+
+### "Move" Files from Src to Dest
+Copies files and then removes them from the source. (Empty directories are removed separately.)
 ```bash
 rsync -av --remove-source-files --progress tempdesk/ /sto2 && find tempdesk -type d -empty -delete
 ```
 
-## Sync Metadata-Only (ownerships, permissions, ACLs) without ever overwritting
-*The `--no-W` option disallows overwritting.
+---
+
+### Sync Metadata-Only
+Copies only file metadata (ownerships, permissions, ACLs) without overwriting file contents.  
+*The `--no-W` option disallows overwriting of files.*
 ```bash
 sudo rsync -aAXv --progress --no-W --omit-dir-times --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found"} / /mnt/target_root
 ```
 
-## Recursively Copy Src To Dest
-(skips existing files and merges existing folders)
-```bash
-rsync -av --ignore-existing --ignore-times --update --progress --recursive /source/dir /dest/dir
-````
+---
 
-## Merge Src To Dest
-( removes src keeping large files in case)
+### Recursively Copy Src to Dest (Selective Merge)
+Copies all files from source to destination while skipping files that already exist.  
+**Note:**  
+- `--ignore-existing` tells rsync not to update files that already exist in the destination.  
+- `--update` (or `-u`) will copy a file only if the source file is newer than the destination’s.  
+- These options can be combined to customize sync behavior.
+  
+For example, to merge directories without overwriting newer destination files:
+```bash
+rsync -av --ignore-existing --update --progress /source/dir/ dest_dir/
+```
+*Here, rsync will not overwrite a file in dest if it is newer than the source.*
+
+---
+
+### Merge Src to Dest (Based on Size Only)
+Copies files while removing them from the source, using file size differences as the only check:
 ```bash
 rsync -a --remove-source-files --progress --size-only source_dir/ dest_dir/
 ```
 
-## Exact Mirror of Src/ To Dest/ 
-(deletes files that exist in Dest/ but not Src/)
+---
+
+### Exact Mirror of Src to Dest
+Creates an exact mirror of the source directory in the destination by deleting files in the destination that no longer exist in the source:
 ```bash
 rsync -av --delete source_dir/ dest_dir/
 ```
 
-## Ssh Transfer:
+---
+
+### SSH Transfer
+Copies files over SSH:
 ```bash
 rsync -av -e ssh source_dir/ user@hostname:/path/to/dest_dir/
 ```
 
-## Progess bar:
+---
+
+### Show Progress Bar
+Displays a progress bar during transfer:
 ```bash
 rsync -av --progress source_dir/ dest_dir/
 ```
 
-## Compress src data to dest: 
+---
+
+### Compress Data During Transfer
+Compresses files during the transfer:
 ```bash
 rsync -avz source_dir/ dest_dir/
 ```
 
-## Sync specified files only types (e.g., `.jpg`):
+---
+
+### Sync Specified File Types Only (e.g., `.jpg`)
+Includes only directories (with `*/`) and files ending in `.jpg`, while excluding all others:
 ```bash
 rsync -av --include '*/' --include '*.jpg' --exclude '*' source_dir/ dest_dir/
 ```
 
-## Exclude specified files:
+---
+
+### Exclude Specified Files
+Excludes files matching a pattern:
 ```bash
 rsync -av --exclude '*.jpg' source_dir/ dest_dir/
 ```
 
-## Exclude glob patterns:
+---
+
+### Exclude Glob Patterns from a File
+Excludes patterns listed in an external file:
 ```bash
 rsync -av --exclude-from 'exclude-patterns.txt' source_dir/ dest_dir/
 ```
 
-## Preserve symlinks:
+---
+
+### Preserve Symlinks
+Preserves symbolic links instead of copying the files they point to:
 ```bash
 rsync -av -l source_dir/ dest_dir/
 ```
 
-### Limit transfer bandwidth:
+---
 
+### Limit Transfer Bandwidth
+Limits the bandwidth used during the transfer (value in KB/s):
 ```bash
 rsync -av --bwlimit=2000 source_dir/ dest_dir/
 ```
 
-## Sync only files newer than those in the dest:
+---
+
+### Sync Only Files Where the Source is Newer
+Copies files from the source only if the source file is newer than the destination file.  
+*(This is accomplished by the `--update` flag, or its shorthand `-u`.)*
 ```bash
 rsync -avu source_dir/ dest_dir/
 ```
+*This ensures that if a destination file is newer, it is left untouched.*
 
-## Dry run:
+---
+
+### Dry Run (Preview Changes)
+Performs a trial run with no changes made:
 ```bash
 rsync -avn source_dir/ dest_dir/
 ```
 
-## Create logs for each session:
+---
+
+### Create a Log File for Each Session
+Creates a timestamped log file of the rsync session:
 ```bash
 rsync -av --log-file=~/rsync_log_$(date +%F).log source_dir/ dest_dir/
 ```
 
-- - - 
+---
 
-| **Option**             | **Description**                       |
-|------------------------|---------------------------------------|
-| `-a`                   | Archive mode (recursive, keeps attrs) |
-| `-v`                   | Verbose output                        |
-| `--delete`             | Delete extraneous files from dest     |
-| `-e ssh`               | Use SSH as transfer protocol          |
-| `--progress`           | Show transfer progress                |
-| `-z`                   | Compress files during transfer        |
-| `--bwlimit=KB/s`       | Limit bandwidth usage                 |
-| `--dry-run`            | Preview what would be done            |
+## Option Reference Table
 
-### Selective Sync Options
+| **Option**             | **Description**                                              |
+|------------------------|--------------------------------------------------------------|
+| `-a`                   | Archive mode (recursive, preserves attributes)             |
+| `-v`                   | Verbose output                                               |
+| `--delete`             | Delete extraneous files from the destination                 |
+| `-e ssh`               | Use SSH as the transfer protocol                             |
+| `--progress`           | Show detailed transfer progress                              |
+| `-z`                   | Compress file data during transfer                           |
+| `--bwlimit=KB/s`       | Limit bandwidth usage                                        |
+| `--dry-run`            | Preview what rsync would do without making any changes       |
+| `--ignore-existing`    | Skip updating files that already exist in the destination    |
+| `--update` or `-u`     | Skip files that are newer on the destination                  |
+| `--size-only`          | Compare files based on size only (ignore timestamps)         |
+| `-l`                   | Preserve symbolic links                                      |
 
-| **Option**             | **Description**                          |
-|------------------------|------------------------------------------|
-| `--include '*/'`       | Include only specified folders or files |
-| `--exclude '*.ext'`    | Exclude files of certain types          |
-| `--size-only`          | Sync only if file sizes differ          |
-| `-l`                   | Preserve symbolic links                 |
+---
+
+## Selective Sync Options
+
+| **Option**             | **Description**                                      |
+|------------------------|------------------------------------------------------|
+| `--include '*/'`       | Include only specified folders or files              |
+| `--exclude '*.ext'`    | Exclude files matching a specific pattern            |
+| `--exclude-from`       | Exclude files matching patterns listed in a file     |
+
+---
 
 ## Resources
 
 - **Rsync Documentation**: [rsync.samba.org](https://rsync.samba.org/)
 - **Arch Linux Wiki**: [rsync - ArchWiki](https://wiki.archlinux.org/title/rsync)
 - **Linux Man Pages**: [rsync(1) - Linux man page](https://linux.die.net/man/1/rsync)
+
+---
+
+### Notes on `--update` vs. Other Options
+
+- **`--update` (`-u`)**  
+  *Purpose:* Copies a file only if the source file is newer than the destination file.  
+  *Use-case:* When you want to **overwrite only if your local version is newer**—as in updating configuration files without overwriting newer remote edits.
+
+- **`--ignore-existing`**  
+  *Purpose:* Skips files that already exist in the destination entirely, regardless of modification time.  
+  *Use-case:* When you want to add only new files from the source without updating any existing ones.
+
+- **`--ignore-times`**  
+  *Purpose:* Forces a file comparison based on content rather than relying on modification times.  
+  *Use-case:* When modification times are unreliable, but this can slow down the transfer if many files are compared.

@@ -179,33 +179,12 @@ bindkey -M vicmd '^[[P' vi-delete-char
 bindkey -M vicmd '^e' edit-command-line
 bindkey -M visual '^[[P' vi-delete
 
-## Mpvcd
+## Mpvlist
 
-mpvcd() {
-  local socket=/tmp/mpvsocket
-  ### Ensure MPV is started with: --input-ipc-server="$socket"
-  if [[ ! -S $socket ]]; then
-    echo "❗ MPV IPC socket not found at $socket."
-    return 1
-  fi
-
-  local file
-  file=$(printf '{ "command": ["get_property", "path"] }\n' \
-         | socat - "$socket" \
-         | jq -r '.data') || {
-    echo "❗ Failed to get path via IPC."
-    return 1
-  }
-
-  if [[ ! -f $file ]]; then
-    echo "❗ File '$file' not found on disk."
-    return 1
-  fi
-
-  lfcd "$(dirname "$file")"
+mpvlist() {
+    setsid -f $TERMINAL -e zsh -ic "mpvls"
 }
-bindkey -s '^o' 'mpvcd\n'
-
+bindkey -s '^o' 'mpvlist\n'
 
 # Plugins
 
@@ -261,7 +240,7 @@ source "/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
 ## YTDL
 
-source "$ZDOTDIR/ytdl.zsh"
+source /home/andro/.config/zsh/ytdl.zsh
 
 ## P10k
 

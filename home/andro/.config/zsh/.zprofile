@@ -1,79 +1,58 @@
 #!/bin/sh
-# shellcheck disable=SC2155
 # Author: 4ndr0666
+# shellcheck disable=SC2155
 # ========================== // ZPROFILE //
+## Description: .zprofile sourced by the zsh rc file
+# --------------------------------------
 
-## Hardcoded Path
+## One-liner
 
-export PATH="$PATH:$(find /home/git/clone/scr -type d | \paste -sd ':' -):$HOME/.local/bin:/usr/bin:/usr/local/bin:/bin:/sbin:/usr/sbin:/usr/local/bin:$HOME/.npm-global/bin:$XDG_DATA_HOME/gem/ruby/3.3.7/bin:$XDG_DATA_HOME/virtualenv:$XDG_DATA_HOME/go/bin:$CARGO_HOME/bin:${JAVA_HOME:-/usr/lib/jvm/default/bin}"
+#export PATH="$PATH:$(find /home/git/clone/scr -type d \( -name .git -o -name .github \) -prune -o -type d -print | paste -sd ':' -):$HOME/.local/bin:/usr/bin:/usr/local/bin:/bin:/sbin:/usr/sbin:$HOME/.npm-global/bin:$XDG_DATA_HOME/gem/ruby/3.3.7/bin:$XDG_DATA_HOME/virtualenv:$XDG_DATA_HOME/go/bin:$CARGO_HOME/bin:${JAVA_HOME:-/usr/lib/jvm/default/bin}"
 
 ## Dynamic Path
-#static_dirs=(
-#	"/usr/bin"
-#	"/sbin"
-#	"/usr/sbin"
-#	"/usr/local/sbin"
-#	"/usr/local/bin"
-#	"/opt"
-#	"$CARGO_HOME/bin"
-#	"${JAVA_HOME:-/usr/lib/jvm/default/bin}"
-#	"$HOME/.local/bin"
-#	"$XDG_DATA_HOME/gem/ruby/3.3.7/bin"
-#	"$XDG_DATA_HOME/node/npm-global/bin"
-#	"$XDG_DATA_HOME/ruby/gems/3.3.7"
-#	"$XDG_DATA_HOME/virtualenv"
-#	"$XDG_DATA_HOME/go/bin"
-#)
 
-## Exists Check___________________________
-#for dir in "${static_dirs[@]}"; do
-#    ### Only add if it actually exists (optional check)
-#    if [[ -d "$dir" ]]; then
-#        PATH="$PATH:$dir"
-#    fi
-#done
-# ----------------------------------------------------
+static_dirs=(
+  "/usr/bin"
+  "/sbin"
+  "/usr/sbin"
+  "/usr/local/sbin"
+  "/usr/local/bin"
+  "/opt"
+  "$CARGO_HOME/bin"
+  "${JAVA_HOME:-/usr/lib/jvm/default/bin}"
+  "$HOME/.local/bin"
+  "$XDG_DATA_HOME/gem/ruby/3.3.7/bin"
+  "$XDG_DATA_HOME/node/npm-global/bin"
+  "$XDG_DATA_HOME/ruby/gems/3.3.7"
+  "$XDG_DATA_HOME/virtualenv"
+  "$XDG_DATA_HOME/go/bin"
+)
 
-## Adds `/home/git/clone/scr/*` if 1 executable exists_________________________
-#for scr_dir in /home/git/clone/scr/*; do
-#    if [[ -d "$scr_dir" ]]; then
-#        ### check if there's at least one executable file at top level
-#        if find "$scr_dir" -maxdepth 1 -type f -executable | grep -q .; then
-#            PATH="$PATH:$scr_dir"
-#        fi
-#    fi
-#done
-#----------------------------------------------------------------------------------
+cache_file="${XDG_CACHE_HOME:-$HOME/.cache}/dynamic_dirs.list"
+scr_root='/home/git/clone/scr'
 
-## Cache File Setup__________________________________________________________________________________________________
-# cache_file="$XDG_DATA_HOME/dynamic_dirs.list"
-#
-## Iterates and adds `/home/git/clone/scr` skipping .git and .github to the cache file.
-# if [[ ! -f "$cache_file" || /home/git/clone/scr -nt "$cache_file" ]]; then
-#     echo "Updating dynamic directories cache..."
-#     find /home/git/clone/scr -type d \( -name '.git' -o -name '.github' \) -prune -o -type d -print > "$cache_file"
-# fi
-#
-## Make the cache file.
-# dynamic_dirs=($(cat "$cache_file"))
-# --------------------------------------------------------------------------------------------------------------------
+if [[ ! -f $cache_file || $scr_root -nt $cache_file ]]; then
+    echo "Updating dynamic directories cache..."
+    find "$scr_root" \
+	    -type d \( -name '.git' -o -name '.github' \) -prune -o \
+	    -type f -executable -printf '%h\n' \
+	    | sort -u >| "$cache_file"
+fi
 
-## ZSH Globbing______________________________
-# dynamic_dirs=(/home/git/clone/scr/**/*(/))
-# --------------------------------------------
+if [[ -r $cache_file ]]; then
+  dynamic_dirs=("${(@f)$(< "$cache_file")}")
+fi
 
-### Bring the static dirs and dynamic dirs together____________________
-# all_dirs=("${static_dirs[@]}" "$dynamic_dirs[@]}")
-#
-# for dir in "${all_dirs[@]}"; do
-#    dir=${dir%/}
-#    if [[ -d "$dir" && -n "$(find "$dir" -maxdepth 1 -type f -executable | head -n 1)" ]]; then
-#        PATH="$PATH:$dir"
-#    fi
-# done
-# ---------------------------------------------------------------------------------------
-# typeset -U PATH
-# export PATH
+all_dirs=("${static_dirs[@]}" "${dynamic_dirs[@]}")
+
+typeset -U PATH
+
+for dir in "${all_dirs[@]}"; do
+	dir=${dir%/}
+	PATH="$PATH:$dir"
+done
+
+export PATH
 
 ## Default programs
 
@@ -127,9 +106,9 @@ export AUR_DIR="$XDG_CACHE_HOME/yay/"
 export W3M_DIR="$XDG_DATA_HOME/w3m"
 export TLDR_CACHE_DIR="$XDG_CACHE_HOME/tldr"
 export XCURSOR_PATH="/usr/share/icons:$XDG_DATA_HOME/icons"
-#export VENV_HOME="$XDG_DATA_HOME/virtualenv"
+export VENV_HOME="$XDG_DATA_HOME/virtualenv"
 export PIPX_HOME="$XDG_DATA_HOME/pipx"
-export ENV_DIR="$XDG_DATA_HOME/virtualenv"
+export PIPX_BIN_DIR="$XDG_BIN_HOME"
 export VIRTUAL_ENV_PROMPT="(💀)"
 export PIP_DOWNLOAD_CACHE="$XDG_CACHE_HOME/pip/"
 export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
@@ -185,6 +164,7 @@ mkdir -p "$XDG_DATA_HOME/lib" \
     "$GOMODCACHE" \
     "$AUR_DIR" \
     "$PIPX_HOME" \
+    "$PIPX_BIN_DIR" \
     "$ENV_DIR" \
     "$PIP_DOWNLOAD_CACHE" \
     "$ENV_HOME" \
