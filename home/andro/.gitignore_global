@@ -1,32 +1,90 @@
-## Directories
+## Secrets
+secrets.json
+*.env
 
-__pycache__/
-node_modules/
-.ssh/
-.thumbnails/
+## Editor and Shell
+.p10k.zsh
+.zcompdump
+.bash_history
+.zsh_history
 .vscode/
 .idea/
-.pytest_cache/
-
-## File patterns
-
 *.swp
+*.swo
+*.bak
+*.swo
+*.swn  
+*.~?
 *~
-*tmp*
-*.tmp*
-*.o
-*.ko
-*.exe
-*.pyc
-*.egg-info
+
+## Logs and Runtime 
 *.log
 *.log.*
-*.bak
-*.cache*
-*history*
+*.pid
+*.db
 
-## Dotfiles local exclusions (do not push these)
-functions.zsh.~1~
-run-wayfire.new
-ytdl.zsh.compare
-ytdl.zsh_Mar-21-2025_13.31PM_backup.tar.gz
+## Python
+__pycache__/
+*.py[cod]
+*.egg-info
+.pytest_cache/
+*.pyc
+*.pyo
+build/
+dist/
+out/
+
+## Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+.yarn/cache/
+
+## C/C++/Rust/Go
+target/           
+*.dll
+bin/             
+*.o
+*.ko
+*.a
+*.so
+*.exe
+
+## Vendor
+vendor/
+
+## Operating‑system Noise 
+.thumbnails/
+$RECYCLE.BIN/
+desktop.ini
+*history*
+Thumbs.db
+.ssh/
+.DS_Store
+*.cache*
+*tmp*
+*.tmp*
+*.pyc
+*.part
+
+## Archives
+*.zip
+*.tar
+*.tar.*
+*.7z
+*.gz
+*.bz2
+*.xz
+
+## Large Media
+*.webm     
+*.iso
+*.img
+*.mp4
+*.mkv
+*.mp3
+*.m4v
+*.gif
+*.3gp
+*.flv
+*.webp
