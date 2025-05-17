@@ -1,4 +1,5 @@
 [Desktop Entry]
 Type=Application
 Name=Image viewer
-Exec=/usr/bin/nsxiv -a %f
+Exec=/home/andro/.config/Thunar/scripts/nsxiv.sh %f
+#/home/andro/.config/Thunar/scripts/nsxiv.sh %f

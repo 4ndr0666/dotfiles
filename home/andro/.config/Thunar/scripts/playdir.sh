@@ -30,9 +30,7 @@ cd "$target" || {
 }
 
 ## Mpv flags
-mpv_opts="\
---profile=playdir \
-"
+mpv_opts="--profile=playdir"
 
 ## Find and pipe into mpv’s stdin‑playlist
 exec find . -type f \( \
