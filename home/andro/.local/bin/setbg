@@ -3,7 +3,7 @@
 # This script sets the wallpaper using swaybg on Wayland/Wayfire.
 
 # Location of the wallpaper link
-bgloc="${XDG_HOME:-$HOME/Wallpapers}/bg"
+bgloc="$HOME/Wallpapers/bg"
 
 # Configuration files of applications that have their themes changed by pywal.
 makoconf="${XDG_CONFIG_HOME:-$HOME/.config}/wayfire/mako/config"
@@ -18,8 +18,8 @@ shift $((OPTIND - 1))
 
 trueloc="$(readlink -f "$1")" &&
 case "$(file --mime-type -b "$trueloc")" in
-    image/* ) ln -sf "$trueloc" "$bgloc" && swaybg --output '*' --mode fill --image "$bgloc" && notify-send -i "$bgloc" "Wallpaper changed." ;;
-    inode/directory ) ln -sf "$(find "$trueloc" -iregex '.*.\(jpg\|jpeg\|png\|gif\)' -type f | shuf -n 1)" "$bgloc" && swaybg --output '*' --mode fill --image "$bgloc" && [ -z "$silent" ] && notify-send -i "$bgloc" "Random Wallpaper chosen." ;;
+    image/* ) ln -sf "$trueloc" "$bgloc" && [ -z "$silent" ] && notify-send -i "$bgloc" "Changing wallpaper..." ;;
+    inode/directory ) ln -sf "$(find "$trueloc" -iregex '.*.\(jpg\|jpeg\|png\|gif\)' -type f | shuf -n 1)" "$bgloc" && [ -z "$silent" ] && notify-send -i "$bgloc" "Random Wallpaper chosen." ;;
     *) [ -z "$silent" ] && notify-send "🖼️ Error" "Not a valid image or directory." ; exit 1;;
 esac
 
@@ -31,4 +31,5 @@ else
 	[ -f "$makoconf.bak" ] && unlink "$makoconf" && mv "$makoconf.bak" "$makoconf"
 	[ -f "$zathuraconf.bak" ] && unlink "$zathuraconf" && mv "$zathuraconf.bak" "$zathuraconf"
 fi
+
 swaybg --output '*' --mode fill --image "$bgloc"
