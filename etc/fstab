@@ -1,43 +1,37 @@
-# === // FSTAB //
-
-##         <file system>                        <mount point>   <type>          <options>               <dump>  <pass>
+#
+# Fstab
+#
+#  <file system>                                <mount point>  <type>           <options>         <dump>  <pass>
 
 ## /dev/sdd1 (boot):
-UUID=45AA-13EB                                  /boot/efi       vfat            rw,noatime,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,utf8,errors=remount-ro 1 2
-#umask=0077,x-gvfs-show   1 1
+UUID=45AA-13EB                                  /boot/efi       vfat            rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,utf8,errors=remount-ro 0 2
 
 ## /dev/sdc1 (root):
-UUID=cbc72cf6-23ca-453d-92b1-7bff55bb0ab8       /               ext4            rw,async 0 1
-#async,noatime     0 1
+UUID=cbc72cf6-23ca-453d-92b1-7bff55bb0ab8       /               ext4            rw,noatime,discard,stripe=256 0 1
 
 ## /dev/sdc2 (home):
-UUID=905194e5-2e84-46a8-bb68-cf8abe43bc78       /home           ext4            rw,dev,users,async 0 2
-#async,noatime     0 1
+UUID=905194e5-2e84-46a8-bb68-cf8abe43bc78       /home           ext4            rw,dev,async,users,noatime 0 2
 
 ## /dev/sda1 (4ndr0):
-#UUID=656f1c92-4f80-4257-a037-4216a32c05da       /4ndr0          ext4            rw,dev,users,async 0 2
-# dev,async,users,noatime   0 2
+#UUID=656f1c92-4f80-4257-a037-4216a32c05da       /4ndr0          ext4            rw,dev,async,users,noatime 0 2
 
 ## /dev/sdc4 (storage):
-UUID=c0039af6-a0b0-41e2-b39c-45a1c6e75a7e       /storage        ext4            rw,dev,users,async 0 2
-#dev,async,users,noatime   0 0
+UUID=c0039af6-a0b0-41e2-b39c-45a1c6e75a7e       /storage        ext4            rw,dev,users,async,noatime 0 0
 
 ## /dev/sdd5 (sto2):
-UUID=ead77a0e-a6a9-4cd8-86cc-0b5ac56e613d       /sto2           ext4            rw,users,async 0 2
+UUID=ead77a0e-a6a9-4cd8-86cc-0b5ac56e613d       /sto2           ext4            rw,dev,async,users,noatime,stripe=256 0 2
 
 ## /dev/sdb2 (tardis):
-UUID=801F5E3CC5D8B2EA                           /tardis         ntfs            rw,dev,users 0 2
+UUID=801F5E3CC5D8B2EA                           /tardis         ntfs            rw,dev,users,noatime 0 0
 
 ## /dev/sdd5 (s3):
-UUID=5207e1ea-2702-4d49-943a-6001d0d60e03       /s3             ext4            rw,dev,users,async 0 0
+UUID=5207e1ea-2702-4d49-943a-6001d0d60e03       /s3             ext4            rw,dev,users,async,noatime 0 0
 
 ## /dev/sdb1 (23.1):
-UUID=87dc0c12-7b18-4bc1-bdc2-7040e50829c2       /23.1           ext4            rw,dev,users,async 0 0
-#dev,async,users,noatime   0 0
+UUID=87dc0c12-7b18-4bc1-bdc2-7040e50829c2       /23.1           ext4            rw,dev,users,async,noatime 0 0
 
 ## /dev/sdb5 (Nas):
-UUID=e37c9f79-0631-4ebd-8437-922e9733caee       /Nas            btrfs           rw,dev,users,discard=async,space_cache=v2,subvolid=5  0 0
-#defaults,noatime  0 0
+UUID=e37c9f79-0631-4ebd-8437-922e9733caee       /Nas            btrfs           rw,dev,users,relatime,discard=async,space_cache=v2,subvolid=5  0 0
 
 ## /tmp (RAM created, disposable FS)
 tmpfs                                           /tmp            tmpfs           rw,mode=1777 0 0

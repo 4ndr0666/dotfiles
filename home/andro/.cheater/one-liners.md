@@ -9,17 +9,11 @@ echo "Dummy audio content" > test_directory/Media/test.mp3 && \
 echo "Dummy document content" > test_directory/Documents/test.pdf && \
 echo "Dummy text content" > test_directory/test.txt && \
 echo "Dummy PNG content" > test_directory/test.png && \
-# Generate valid ZIP archive
 zip -j test_directory/Archives/test.zip test_directory/Documents/test.pdf >/dev/null && \
-# Generate valid TAR.GZ archive
 tar -czf test_directory/Archives/test.tar.gz -C test_directory/Documents test.pdf && \
-# Generate dummy file to include in additional archives
 echo "Dummy archive content" > test_directory/Archives/dummy_content.txt && \
-# 7z archive
 7z a -bd -y test_directory/Archives/test.7z test_directory/Archives/dummy_content.txt >/dev/null && \
-# RAR archive
 rar a -idq test_directory/Archives/test.rar test_directory/Archives/dummy_content.txt >/dev/null && \
-# TAR (non-compressed)
 tar -cf test_directory/Archives/test.tar -C test_directory/Archives dummy_content.txt
 ```
 

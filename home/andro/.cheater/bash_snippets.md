@@ -361,3 +361,31 @@ log_warn() {
 2. `dirname "$(realpath "$0")"`: Gets the directory containing the script.
 3. `dirname "$(dirname "$(realpath "$0")"`: Moves one directory up from the script).
 4. `"${PKG_PATH:=...}"`: Uses parameter expansion to set `PKG_PATH` only if it isn’t already defined.
+
+### Realpath 3
+
+```shell
+rootpath() {
+	if [[ -L "$0" ]]; then
+	    dirname "$(readlink $0)"
+	else
+	    dirname "$0"
+	fi
+}
+
+DIR="$(rootpath)"
+```
+
+### Realpath 4
+
+```shell
+rootpath() {
+	local source="${BASH_SOURCE[0]:-$0}"
+	if [[ -L "$source" ]]; then
+		dirname "$(readlink "$source")"
+	else
+		dirname "$source"
+	fi
+}
+DIR="$(rootpath)"
+```

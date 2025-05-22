@@ -21,7 +21,7 @@ static_dirs=(
   "$CARGO_HOME/bin"
   "${JAVA_HOME:-/usr/lib/jvm/default/bin}"
   "$HOME/.local/bin"
-  "$XDG_DATA_HOME/gem/ruby/3.3.7/bin"
+  "$XDG_DATA_HOME/gem/ruby/3.4.0/bin"
   "$XDG_DATA_HOME/node/npm-global/bin"
   "$XDG_DATA_HOME/ruby/gems/3.3.7"
   "$XDG_DATA_HOME/virtualenv"
@@ -106,9 +106,15 @@ export AUR_DIR="$XDG_CACHE_HOME/yay/"
 export W3M_DIR="$XDG_DATA_HOME/w3m"
 export TLDR_CACHE_DIR="$XDG_CACHE_HOME/tldr"
 export XCURSOR_PATH="/usr/share/icons:$XDG_DATA_HOME/icons"
+export PYENV_ROOT="$XDG_DATA_HOME/pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+#eval "$(pyenv init --path)"
+#eval "$(pyenv init -)"
+export PATH="$PYENV_ROOT/shims:$PATH"
 export VENV_HOME="$XDG_DATA_HOME/virtualenv"
 export PIPX_HOME="$XDG_DATA_HOME/pipx"
-export PIPX_BIN_DIR="$XDG_BIN_HOME"
+export PIPX_BIN_DIR="$XDG_DATA_HOME/pipx/bin"
+export PATH="$PIPX_BIN_DIR:$PATH"
 export VIRTUAL_ENV_PROMPT="(💀)"
 export PIP_DOWNLOAD_CACHE="$XDG_CACHE_HOME/pip/"
 export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
@@ -151,7 +157,6 @@ export NODE_CONFIG_HOME="$XDG_CONFIG_HOME/node"
 
 
 ## Ensure directories
-
 mkdir -p "$XDG_DATA_HOME/lib" \
     "$XDG_DATA_HOME/go/bin" \
     "$XDG_DATA_HOME/cargo/bin" \
@@ -180,7 +185,6 @@ mkdir -p "$XDG_DATA_HOME/lib" \
     "$NODE_CONFIG_HOME" >/dev/null 2>&1
 
 ## Ensure Permissions
-
 \chmod ug+rw "$HISTFILE" \
     "$WINEPREFIX" \
     "$CARGO_HOME" \
@@ -204,10 +208,11 @@ mkdir -p "$XDG_DATA_HOME/lib" \
     "$NODE_DATA_HOME" \
     "$XDG_DATA_HOME/node/npm-global" >/dev/null 2>&1
 
-# X11_env
-
+## X11_env
 #export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
-# --- OPENBOX:
+#export QT_STYLE_OVERRIDE='adwaita-dark'
+
+## OPENBOX
 # export XGD_CURRENT_DESKTOP='openbox'
 # export _JAVA_AWT_WM_NONREPARENTING=1
 # export OpenGL_GL_PREFERENCE=GLVND  # For screen tearing
@@ -218,16 +223,13 @@ mkdir -p "$XDG_DATA_HOME/lib" \
 #f.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel ${_JAVA_OPTIONS}"
 
 ## Library
-
 export LD_LIBRARY_PATH="$XDG_DATA_HOME/lib:/usr/local/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 
 ## Askpass
-
 export SUDO_ASKPASS="$XDG_CONFIG_HOME"/wayfire/scripts/rofi_askpass  # Wayfire specific
 #export SUDO_ASKPASS="/usr/bin/pinentry-dmenu"    # Xorg
 
 ## GPG
-
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 
 if [ ! -d "$GNUPGHOME" ]; then
@@ -244,7 +246,6 @@ else
 fi
 
 ## FZF
-
 #### Default search command
 export FZF_DEFAULT_COMMMAND='fd --no-ignore --hidden --follow --exclude ".git"'
 
@@ -328,7 +329,6 @@ fh() {
 }
 
 ## Truecolor
-
 export MICRO_TRUECOLOR=1
 
 case "${COLORTERM}" in
@@ -337,32 +337,34 @@ case "${COLORTERM}" in
 esac
 
 ## PAGER
-
 #export MANPAGER="sh -c 'if [ -t 1 ]; then col -bx | bat -l man -p; else col -bx | bat -l man -p --color=always --paging=always; fi | less -R'"
 #export BAT_PAGER="less -R"
 #export MANPAGER="sh -c 'col -bx | bat -l man -p | less -R'"
 #export MANPAGER="sh -c 'col -bx | bat -l man -p --paging always'
 
 ## Less
-
 export LESS="R"
-export LESS_TERMCAP_mb="$(printf '%b' '')"
-export LESS_TERMCAP_md="$(printf '%b' '')"
-export LESS_TERMCAP_me="$(printf '%b' '')"
-export LESS_TERMCAP_so="$(printf '%b' '')"
-export LESS_TERMCAP_se="$(printf '%b' '')"
-export LESS_TERMCAP_us="$(printf '%b' '')"
-export LESS_TERMCAP_ue="$(printf '%b' '')"
+export LESS_TERMCAP_md=$'\e[01;31m'
+export LESS_TERMCAP_me=$'\e[0m'
+export LESS_TERMCAP_se=$'\e[0m'
+export LESS_TERMCAP_so=$'\e[01;44;33m'
+export LESS_TERMCAP_ue=$'\e[0m'
+export LESS_TERMCAP_us=$'\e[01;32m'
 export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
 
-## Shortcut Script for LF
+#export LESS_TERMCAP_mb="$(printf '%b' '')"
+#export LESS_TERMCAP_md="$(printf '%b' '')"
+#export LESS_TERMCAP_me="$(printf '%b' '')"
+#export LESS_TERMCAP_so="$(printf '%b' '')"
+#export LESS_TERMCAP_se="$(printf '%b' '')"
+#export LESS_TERMCAP_us="$(printf '%b' '')"
+#export LESS_TERMCAP_ue="$(printf '%b' '')"
 
+## Shortcut Script for LF
 [ ! -f "$XDG_CONFIG_HOME/shell/shortcutrc" ] && setsid -f shortcuts >/dev/null 2>&1
 
 ## Startx for TTY
-
 # [ "$(tty)" = "/dev/tty1" ] && ! pidof -s Xorg >/dev/null 2>&1 && exec startx "$XINITRC"
 
 ## Switch keys ESC and CAPS for TTY & no password
-
 sudo -n loadkeys "$XDG_DATA_HOME/larbs/ttymaps.kmap" 2>/dev/null

@@ -1,3 +1,12 @@
+## Script Detail Parser
+
+```shell
+fn_count=$(grep -E '^[[:space:]]*[A-Za-z_][A-Za-z0-9_]*\s*\(\)\s*\{' scriptname.sh | wc -l)
+line_count=$(wc -l < scriptname.sh)
+echo "Functions: $fn_count"
+echo "Lines:     $line_count"
+```
+
 ## Refresh Pipewire Sequence
 
 ```shell

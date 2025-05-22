@@ -1,3 +1,29 @@
+## Pull updates and save local changes
+
+1. Save everything (tracked + untracked)
+```shell
+git stash push -u -m "WIP"
+```
+
+2. Lineraly update branch 
+
+```shell
+git pull --rebase
+```
+
+3. Bring stash back, staging exactly as before
+```shell
+git stash pop --index
+```
+
+4. Fix any conflicts, then
+
+```shell
+git add <fixed> ; git rebase --continue   # only if conflicts + rebasing
+git commit -am "your message"
+git push
+```
+
 ## Git Stash
 
 - Always keep untracked files:

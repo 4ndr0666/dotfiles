@@ -110,7 +110,8 @@ autoload -U compinit
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' matcher-list m:{a-zA-Z}={A-Za-z}
 zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' fzf-preview 'echo ${(P)word}'
-zstyle ':completion:*' menu select
+zstyle  ':completion:*' 'completer' '_complete' '_approximate' '_ignored'
+zstyle ':completion:*' 'menu' 'select'
 zmodload zsh/complist
 compinit
 _comp_options+=(globdots)
@@ -178,13 +179,6 @@ bindkey '^e' edit-command-line
 bindkey -M vicmd '^[[P' vi-delete-char
 bindkey -M vicmd '^e' edit-command-line
 bindkey -M visual '^[[P' vi-delete
-
-## Mpvlist
-
-mpvlist() {
-    setsid -f $TERMINAL -e zsh -ic "mpvls"
-}
-bindkey -s '^o' 'mpvlist\n'
 
 # Plugins
 

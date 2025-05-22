@@ -48,6 +48,39 @@ bug() {
 
 ```
 
+## ANSI Colors, Reset & Message
+
+```bash
+
+RED="$(printf '\033[31m')"      GREEN="$(printf '\033[32m')"
+ORANGE="$(printf '\033[33m')"   BLUE="$(printf '\033[34m')"
+MAGENTA="$(printf '\033[35m')"  CYAN="$(printf '\033[36m')"
+WHITE="$(printf '\033[37m')"    BLACK="$(printf '\033[30m')
+
+reset_color() {
+	tput sgr0   # reset attributes
+	tput op     # reset color
+    return
+}
+
+show_msg() {
+	if [[ "$1" == '-r' ]]; then
+		{ echo -e ${RED}"$2"; reset_color; }
+	elif [[ "$1" == '-g' ]]; then
+		{ echo -e ${GREEN}"$2"; reset_color; }
+	elif [[ "$1" == '-o' ]]; then
+		{ echo -e ${ORANGE}"$2"; reset_color; }
+	elif [[ "$1" == '-b' ]]; then
+		{ echo -e ${BLUE}"$2"; reset_color; }
+	elif [[ "$1" == '-m' ]]; then
+		{ echo -e ${MAGENTA}"$2"; reset_color; }
+	elif [[ "$1" == '-c' ]]; then
+		{ echo -e ${CYAN}"$2"; reset_color; }
+	fi
+}
+
+```
+
 ### Tput
 
 ```bash
