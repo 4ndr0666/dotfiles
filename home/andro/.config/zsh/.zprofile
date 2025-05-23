@@ -1,58 +1,58 @@
 #!/bin/sh
 # Author: 4ndr0666
-# shellcheck disable=SC2155
 # ========================== // ZPROFILE //
 ## Description: .zprofile sourced by the zsh rc file
 # --------------------------------------
 
 ## One-liner
 
-#export PATH="$PATH:$(find /home/git/clone/scr -type d \( -name .git -o -name .github \) -prune -o -type d -print | paste -sd ':' -):$HOME/.local/bin:/usr/bin:/usr/local/bin:/bin:/sbin:/usr/sbin:$HOME/.npm-global/bin:$XDG_DATA_HOME/gem/ruby/3.3.7/bin:$XDG_DATA_HOME/virtualenv:$XDG_DATA_HOME/go/bin:$CARGO_HOME/bin:${JAVA_HOME:-/usr/lib/jvm/default/bin}"
+export PATH="$PATH:$(find /home/git/clone/scr -type d -not -path '*/.git/*' | \paste -sd ':' -):$HOME/.local/bin:/usr/bin:/usr/local/bin:/bin:/sbin:/usr/sbin:$HOME/.npm-global/bin:$XDG_DATA_HOME/gem/ruby/3.4.0/bin:$XDG_DATA_HOME/virtualenv:$XDG_DATA_HOME/go/bin:$CARGO_HOME/bin:${JAVA_HOME:-/usr/lib/jvm/default/bin}"
 
 ## Dynamic Path
 
-static_dirs=(
-  "/usr/bin"
-  "/sbin"
-  "/usr/sbin"
-  "/usr/local/sbin"
-  "/usr/local/bin"
-  "/opt"
-  "$CARGO_HOME/bin"
-  "${JAVA_HOME:-/usr/lib/jvm/default/bin}"
-  "$HOME/.local/bin"
-  "$XDG_DATA_HOME/gem/ruby/3.4.0/bin"
-  "$XDG_DATA_HOME/node/npm-global/bin"
-  "$XDG_DATA_HOME/ruby/gems/3.3.7"
-  "$XDG_DATA_HOME/virtualenv"
-  "$XDG_DATA_HOME/go/bin"
-)
-
-cache_file="${XDG_CACHE_HOME:-$HOME/.cache}/dynamic_dirs.list"
-scr_root='/home/git/clone/scr'
-
-if [[ ! -f $cache_file || $scr_root -nt $cache_file ]]; then
-    echo "Updating dynamic directories cache..."
-    find "$scr_root" \
-	    -type d \( -name '.git' -o -name '.github' \) -prune -o \
-	    -type f -executable -printf '%h\n' \
-	    | sort -u >| "$cache_file"
-fi
-
-if [[ -r $cache_file ]]; then
-  dynamic_dirs=("${(@f)$(< "$cache_file")}")
-fi
-
-all_dirs=("${static_dirs[@]}" "${dynamic_dirs[@]}")
-
-typeset -U PATH
-
-for dir in "${all_dirs[@]}"; do
-	dir=${dir%/}
-	PATH="$PATH:$dir"
-done
-
-export PATH
+### Global constants:
+#static_dirs=(
+#  "/usr/bin"
+#  "/sbin"
+#  "/usr/sbin"
+#  "/usr/local/sbin"
+#  "/usr/local/bin"
+#  "/opt"
+#  "$CARGO_HOME/bin"
+#  "${JAVA_HOME:-/usr/lib/jvm/default/bin}"
+#  "$HOME/.local/bin"
+#  "$XDG_DATA_HOME/gem/ruby/3.4.0/bin"
+#  "$XDG_DATA_HOME/node/npm-global/bin"i
+#  "$XDG_DATA_HOME/ruby/gems/3.3.7"
+#  "$XDG_DATA_HOME/virtualenv"
+#  "$XDG_DATA_HOME/go/bin"
+#)
+#
+#cache_file="${XDG_CACHE_HOME:-$HOME/.cache}/dynamic_dirs.list"
+#scr_root='/home/git/clone/scr'
+#
+#if [[ ! -f $cache_file || $scr_root -nt $cache_file ]]; then
+#    echo "Updating dynamic directories cache..."
+#    find "$scr_root" \
+#	    -type d \( -name '.git' -o -name '.github' \) -prune -o \
+#	    -type f -executable -printf '%h\n' \
+#	    | sort -u >| "$cache_file"
+#fi
+#
+#if [[ -r $cache_file ]]; then
+#  dynamic_dirs=("${(@f)$(< "$cache_file")}")
+#fi
+#
+#all_dirs=("${static_dirs[@]}" "${dynamic_dirs[@]}")
+#
+#typeset -U PATH
+#
+#for dir in "${all_dirs[@]}"; do
+#	dir=${dir%/}
+#	PATH="$PATH:$dir"
+#done
+#
+#export PATH
 
 ## Default programs
 
@@ -107,13 +107,19 @@ export W3M_DIR="$XDG_DATA_HOME/w3m"
 export TLDR_CACHE_DIR="$XDG_CACHE_HOME/tldr"
 export XCURSOR_PATH="/usr/share/icons:$XDG_DATA_HOME/icons"
 export PYENV_ROOT="$XDG_DATA_HOME/pyenv"
+### Add pyenv to PATH
 export PATH="$PYENV_ROOT/bin:$PATH"
+### Initialize pyenv
 #eval "$(pyenv init --path)"
 #eval "$(pyenv init -)"
+### Use only pyenv's shims for Python
 export PATH="$PYENV_ROOT/shims:$PATH"
+### Virtualenvs (XDG)
 export VENV_HOME="$XDG_DATA_HOME/virtualenv"
+### Pipx/XDG
 export PIPX_HOME="$XDG_DATA_HOME/pipx"
 export PIPX_BIN_DIR="$XDG_DATA_HOME/pipx/bin"
+### Ensure pipx bin is always in PATH
 export PATH="$PIPX_BIN_DIR:$PATH"
 export VIRTUAL_ENV_PROMPT="(💀)"
 export PIP_DOWNLOAD_CACHE="$XDG_CACHE_HOME/pip/"
@@ -185,6 +191,7 @@ mkdir -p "$XDG_DATA_HOME/lib" \
     "$NODE_CONFIG_HOME" >/dev/null 2>&1
 
 ## Ensure Permissions
+
 \chmod ug+rw "$HISTFILE" \
     "$WINEPREFIX" \
     "$CARGO_HOME" \
@@ -208,7 +215,8 @@ mkdir -p "$XDG_DATA_HOME/lib" \
     "$NODE_DATA_HOME" \
     "$XDG_DATA_HOME/node/npm-global" >/dev/null 2>&1
 
-## X11_env
+# X11_env
+
 #export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 #export QT_STYLE_OVERRIDE='adwaita-dark'
 
@@ -223,13 +231,16 @@ mkdir -p "$XDG_DATA_HOME/lib" \
 #f.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel ${_JAVA_OPTIONS}"
 
 ## Library
+
 export LD_LIBRARY_PATH="$XDG_DATA_HOME/lib:/usr/local/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 
 ## Askpass
+
 export SUDO_ASKPASS="$XDG_CONFIG_HOME"/wayfire/scripts/rofi_askpass  # Wayfire specific
 #export SUDO_ASKPASS="/usr/bin/pinentry-dmenu"    # Xorg
 
 ## GPG
+
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 
 if [ ! -d "$GNUPGHOME" ]; then
@@ -246,6 +257,7 @@ else
 fi
 
 ## FZF
+
 #### Default search command
 export FZF_DEFAULT_COMMMAND='fd --no-ignore --hidden --follow --exclude ".git"'
 
@@ -329,6 +341,7 @@ fh() {
 }
 
 ## Truecolor
+
 export MICRO_TRUECOLOR=1
 
 case "${COLORTERM}" in
@@ -337,12 +350,14 @@ case "${COLORTERM}" in
 esac
 
 ## PAGER
+
 #export MANPAGER="sh -c 'if [ -t 1 ]; then col -bx | bat -l man -p; else col -bx | bat -l man -p --color=always --paging=always; fi | less -R'"
 #export BAT_PAGER="less -R"
 #export MANPAGER="sh -c 'col -bx | bat -l man -p | less -R'"
 #export MANPAGER="sh -c 'col -bx | bat -l man -p --paging always'
 
 ## Less
+
 export LESS="R"
 export LESS_TERMCAP_md=$'\e[01;31m'
 export LESS_TERMCAP_me=$'\e[0m'
