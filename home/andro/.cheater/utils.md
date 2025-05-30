@@ -1,3 +1,30 @@
+## Troubleshoot Binary
+
+Example: FFmpeg
+You need to ensure FFmpeg is:
+
+1. ✅ **Installed properly**
+
+   ```sh
+   which ffmpeg
+   ls -l $(which ffmpeg)
+   ```
+
+2. ✅ **Executable by your user**
+
+   ```sh
+   chmod +x $(which ffmpeg)
+   ```
+
+3. ✅ **Not blocked by mount flags**
+   Check if your environment has `noexec`:
+
+   ```sh
+   mount | grep $(dirname $(which ffmpeg))
+   ```
+
+---
+
 ## Hijack or Remove Message Sound Files
 
 If all else fails, you can **disable the `message.oga` sound** by moving or renaming the original file and symlinking it to `/dev/null` in your theme’s sound directory (usually `/usr/share/sounds/`, e.g., `/usr/share/sounds/freedesktop/stereo/message.oga`):

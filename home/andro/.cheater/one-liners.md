@@ -1,5 +1,23 @@
 # CHT: one-liners.md
 
+## Dependency Check Loop
+
+```bash
+for dependency in "sed" "git"; do
+	command -v $dependency >/dev/null 2>&1 || { echo "Require $dependency command. Not found." >&2; exit 1; }
+done
+```
+
+---
+
+## Aggregate System Info
+
+```bash
+grep -m1 'model name' /proc/cpuinfo
+```
+
+---
+
 ## Test Directory and Files
 
 ```bash
@@ -458,6 +476,14 @@ yay -S ffmpeg-git alsa-lib aom bzip2 fontconfig fribidi gmp gnutls gsm jack lame
 libiec61883 libjxl libmodplug libopenmpt libpulse librav1e libraw1394 librsvg-2 libsoxr libssh libtheora libva libva-drm libva-x11 libvdpau libvidstab \
 libvorbisenc libvorbis libvpx libwebp libx11 libx264 libx265 libxcb libxext libxml2 libxv libxvidcore libzimg ocl-icd onevpl opencore-amr openjpeg2 opus \
 sdl2 speex srt svt-av1 v4l-utils vmaf vulkan-icd-loader xz zlib base-devel-git --needed
+```
+
+---
+
+## Common Missing Dependencies
+
+```bash
+sudo pacman -S --needed a52dec abseil-cpp aribb24 bash cairo dbus faad2 ffmpeg4.4 fontconfig freetype2 fribidi gcc-libs gdk-pixbuf2 glib2 glibc gnutls harfbuzz hicolor-icon-theme libarchive libdca libdvbpsi libglvnd libidn libmad libmatroska libmpcdec libmpeg2 libproxy libsecret libtar libupnp libva libvlc libx11 libxcb libxinerama libxml2 libxpm lua qt5-base qt5-svg qt5-x11extras taglib wayland-git xcb-util-keysyms zlib
 ```
 
 ---
