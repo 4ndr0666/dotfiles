@@ -86,7 +86,16 @@ IFS=$'\n\t'
 ## Auto-Escalate Privileges
 
 ### Method 1
+```bash
+if [[ "${EUID}" -ne 0 ]]; then
+	echo "💀WARNING💀 - escalating to root (sudo)..."
+	exec sudo "$0" "$@"
+	exit $?
+fi
+log "Running with root privileges."
+```
 
+### Method 2
 ```bash
 if [[ "$EUID" -ne 0 ]]; then
     echo "Re-running the script with sudo privileges..."
@@ -95,8 +104,7 @@ if [[ "$EUID" -ne 0 ]]; then
 fi
 ```
 
-### Method 2
-
+### Method 3
 ```bash
 if [ "$(id -u)" -ne 0 ]; then
     sudo "$0" "$@"
@@ -108,8 +116,7 @@ sleep 1
 echo
 ```
 
-### Method 3
-
+### Method 4
 ```bash
 if [ ! -x "$(realpath "$0")" ]; then
   echo "Warning: Script '$(realpath "$0")' is not executable. Attempting to set executable permission..."
@@ -121,8 +128,7 @@ if [ ! -x "$(realpath "$0")" ]; then
 fi
 ```
 
-### Method 4
-
+### Method 5
 ```bash
 if [ "$EUID" -ne 0 ]; then
     echo "Re-running the script with sudo privileges..."
@@ -134,8 +140,7 @@ if [ "$EUID" -ne 0 ]; then
 fi
 ```
 
-### Method 5 (POSIX)
-
+### Method 6 (POSIX)
 ```bash
 if [ "$(id -u)" -ne 0 ]; then
     printf 'Re-running with sudo privileges…\n' >&2
@@ -143,8 +148,7 @@ if [ "$(id -u)" -ne 0 ]; then
 fi
 ```
 
-### Method 6 (Short POSIX)
-
+### Method 7 (Short POSIX)
 ```bash
 [ "$(id -u)" -eq 0 ] || exec sudo sh "$0" "$@"
 ```
@@ -402,4 +406,121 @@ rootpath() {
 DIR="$(rootpath)"
 ```
 
+---
+
+## Heredoc Backup Script w Cronjob
+
+```bash
+backups() {
+    log "Setting up automatic periodic backups of critical configuration files via cron..."
+    BACKUP_SCRIPT="/usr/local/bin/ufw_backup.sh"
+    CRON_JOB="/etc/cron.d/ufw_backup"
+    BACKUP_DIR="/etc/ufw/backups"
+
+    if mkdir -p "$BACKUP_DIR"; then
+        log "Backup directory $BACKUP_DIR ensured."
+    else
+        log "Error: Failed to create backup directory $BACKUP_DIR."
+        exit 1
+    fi
+
+    chown root:root "$BACKUP_DIR"
+    log "Ownership of backup directory set to root."
+
+    # Define the backup script content with pruning mechanism
+    cat << 'EOF' > "$BACKUP_SCRIPT"
+#!/bin/bash
+# Backup Script for ufw.sh
+# This script backs up critical configuration files, keeping only the latest backup.
+
+# Directory to store backups
+BACKUP_DIR="/etc/ufw/backups"
+
+# Create backup directory if it doesn't exist
+mkdir -p "$BACKUP_DIR"
+
+# List of critical files to backup
+FILES=(
+    "/etc/sysctl.conf"
+)
+
+# Current timestamp
+TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+
+# Perform backups
+for FILE in "${FILES[@]}"; do
+    if [[ -f "$FILE" ]]; then
+        BASENAME=$(basename "$FILE")
+        cp "$FILE" "$BACKUP_DIR/${BASENAME}.backup_${TIMESTAMP}"
+        if [[ $? -eq 0 ]]; then
+            echo "Backup successful for $FILE."
+        else
+            echo "Error: Backup failed for $FILE."
+            exit 1
+        fi
+    else
+        echo "Warning: $FILE does not exist. Skipping backup."
+    fi
+done
+
+# Pruning mechanism: Keep only the latest backup for each file
+for FILE in "${FILES[@]}"; do
+    BASENAME=$(basename "$FILE")
+    # Find all backups for the current file, sorted by modification time (newest first)
+    BACKUPS=($(ls -t "$BACKUP_DIR/${BASENAME}.backup_"* 2>/dev/null || true))
+    BACKUP_COUNT=${#BACKUPS[@]}
+
+    if [[ "$BACKUP_COUNT" -gt 1 ]]; then
+        # Keep only the first (latest) backup
+        for ((i=1; i<BACKUP_COUNT; i++)); do
+            OLD_BACKUP="${BACKUPS[$i]}"
+            rm -f "$OLD_BACKUP" && echo "Removed old backup: $OLD_BACKUP."
+        done
+    fi
+done
+EOF
+
+    # Make the backup script executable
+    chmod +x "$BACKUP_SCRIPT"
+    log "Backup script $BACKUP_SCRIPT created and made executable."
+
+    # Define the cron job (daily at 2am)
+    CRON_CONTENT="0 2 * * * root $BACKUP_SCRIPT"
+
+    # Check if the cron job already exists
+    if [[ -f "$CRON_JOB" ]]; then
+        if grep -Fxq "$CRON_CONTENT" "$CRON_JOB"; then
+            log "Cron job already exists at $CRON_JOB. Skipping creation."
+        else
+            echo "$CRON_CONTENT" >> "$CRON_JOB"
+            log "Cron job updated at $CRON_JOB."
+        fi
+    else
+        echo "$CRON_CONTENT" > "$CRON_JOB"
+        log "Cron job created at $CRON_JOB."
+    fi
+
+    # Execute the backup script immediately to perform an initial backup
+    log "Executing backup script immediately to perform initial backup..."
+    if "$BACKUP_SCRIPT"; then
+        log "Initial backup completed successfully."
+    else
+        log "Error: Initial backup failed."
+        exit 1
+    fi
+
+    # Backup Verification
+    log "Verifying backups..."
+    for FILE in "/etc/sysctl.conf" "/etc/sysctl.d/99-IPv4.conf" "/etc/sysctl.d/99-IPv6.conf" "/etc/host.conf" "/etc/ssh/sshd_config" "/etc/systemd/resolved.conf" "/etc/avahi/avahi-daemon.conf" "/etc/ufw/sysctl.conf" "/etc/ufw/ufw.conf" "/etc/dhcpcd.conf" "/etc/strongswan.conf" "/etc/resolv.conf" "/etc/nsswitch.conf" "/etc/nfs.conf" "/etc/netconfig" "/etc/ipsec.conf" "/etc/iptables/ip6tables.rules" "/etc/iptables/iptables.rules"; do
+        BASENAME=$(basename "$FILE")
+        LATEST_BACKUP=$(ls -t "$BACKUP_DIR/${BASENAME}.backup_"* 2>/dev/null | head -n1 || true)
+        if [[ -f "$LATEST_BACKUP" && -s "$LATEST_BACKUP" ]]; then
+            log "Backup verification passed for $FILE: $LATEST_BACKUP exists and is not empty."
+        else
+            log "Backup verification failed for $FILE: No valid backup found."
+            exit 1
+        fi
+    done
+    log "All backups verified successfully."
+}
 ```

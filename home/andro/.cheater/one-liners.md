@@ -1,5 +1,21 @@
 # CHT: one-liners.md
 
+## Proper Install
+
+```bash
+sudo install -m 755 <pkgname> /destination/dir 
+```
+
+---
+
+## Rename All Files "*.sh"
+
+```bash
+for f in *; do file "$f" | grep -q 'shell script' && [[ "$f" != *.sh ]] && mv "$f" "$f.sh"; done
+```
+
+---
+
 ## Dependency Check Loop
 
 ```bash
