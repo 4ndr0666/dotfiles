@@ -1,12 +1,18 @@
+# ALIASRC
 # Author: 4ndr0666
 # ===================================== // ALIASRC //
-if [[ -o interactive ]]; then
-    alias reload='exec zsh'
-    alias mkdir='mkdir -pv'
-    alias mkgpg="[ -d ~/.gnupg ] || (mkdir ~/.gnupg && cp /etc/pacman.d/gnupg/gpg.conf ~/.gnupg/ && echo 'done')"
-fi
+## Description: List of aliases for sourcing with zsh
+# --------------------------------------
 
-## Ls Configs_____________________________________________________________________
+## Interactive Check
+
+#if [[ -o interactive ]]; then
+#    alias reload='exec zsh'
+#    alias mkdir='mkdir -pv'
+#    alias mkgpg="[ -d ~/.gnupg ] || (mkdir ~/.gnupg && cp /etc/pacman.d/gnupg/gpg.conf ~/.gnupg/ && echo 'done')"
+#fi
+
+## Ls Configs______________________________________________
 
 ### Config 1
 
@@ -18,6 +24,7 @@ alias l.='eza -Xd --sort new --colour-scale-mode=gradient --colour-scale=age --g
 #exa -aT -s new --color=always --group-directories-first --icons
 
 ### Config 2
+
 #alias l='ls'
 #alias ls="ls -alhfN --time-style=long-iso --color=auto --group-directories-first"
 #alias ll="ls -lFh --color=auto --group-directories-first --time-style=long-iso"
@@ -30,6 +37,7 @@ alias l.='eza -Xd --sort new --colour-scale-mode=gradient --colour-scale=age --g
 #alias lg='ls -l --group-directories-first'
 
 ### Config 3
+
 #alias l.='ls -d .* --color=auto'
 #alias ll='ls -lh --color=auto'
 #alias la='ls -lha --color=auto'
@@ -38,6 +46,7 @@ alias l.='eza -Xd --sort new --colour-scale-mode=gradient --colour-scale=age --g
 #alias lsp='ls -lhS --color=auto | grep -E "^l"'
 
 ### Config 4
+
 #alias ls='ls --group-directories-first --color'
 #alias ll='ls -lhF'
 #alias la='ls -lha'
@@ -45,6 +54,7 @@ alias l.='eza -Xd --sort new --colour-scale-mode=gradient --colour-scale=age --g
 #alias lta='ls -lhatr'
 
 ### Config 5
+
 #alias lm='ls | more'
 #alias ll='ls -lFh --group-directories-first'
 #alias la='ls -alFh --group-directories-first'
@@ -53,7 +63,7 @@ alias l.='eza -Xd --sort new --colour-scale-mode=gradient --colour-scale=age --g
 #alias lh='ls -ld .??*'
 #alias lsn='\ls | cat -n'
 
-## Ls functions__________________________________________________________________________
+## Ls Functions_________________________________________________
 
 ### Ls by Extension
 
@@ -108,7 +118,6 @@ alias l1='lsd -1'
 
 alias lta='\ls -ltrha'
 
-
 ## Login Manager
 
 alias tolightdm="sudo pacman -S lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings --noconfirm --needed ; sudo systemctl enable lightdm.service -f ; echo 'Lightdm is active - reboot now'"
@@ -123,11 +132,18 @@ alias tobash="sudo chsh $USER -s /bin/bash && echo 'Now log out.'"
 alias tozsh="sudo chsh $USER -s /bin/zsh && echo 'Now log out.'"
 alias tofish="sudo chsh $USER -s /bin/fish && echo 'Now log out.'"
 
-## Wayfire deps
+## Refresh Deps
 
-alias refreshwayfire='yay -S wayfire-plugins-extra-git wayfire-git wf-config-git wf-recorder-git wayland-protocols-git wayland-utils qt6-wayland xorg-xwayland-git wlroots-git wlr-protocols-git --noconfirm --overwrite="*" --rebuildtree --redownloadall --refresh --singlelineresults --sudoloop'
+### Wayfire
+alias refreshwayfire='yay -Syyu wayfire-plugins-extra-git wayfire-git wf-config-git wf-recorder-git wayland-git wayland-protocols-git wayland-utils qt6-wayland wlroots-git wlr-protocols-git --noconfirm --rebuildtree --redownloadall --timeupdate --singlelineresults --sudoloop'
 
-## System General Aliases_________________________________________________________________________
+### Graphics
+alias refreshgraphics='yay -S opencl-clover-mesa vulkan-intel vulkan-radeon mesa --noconfirm --overwrite="*" --rebuildtree --redownloadall --sudoloop'
+
+### HDD Exec
+alias refreshexec="sudo mount -o remount,exec /boot/efi && sudo mount -o remount,exec /home && sudo mount -o remount,exec /"
+
+## System General Aliases___________________________________
 
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -180,7 +196,22 @@ alias psgrep="ps aux | grep -v grep | grep -i -e VSZ -e"
 alias myip='curl canhazip.com'
 alias mybios='dmidecode -t bios'
 
-## System General Functions_______________________________________________________________________-
+## System General Functions_________________________________
+
+mktest() {
+    mkdir -p tests/{Pictures,Media,Documents,Archives} && \
+    echo "Dummy image content" > tests/Pictures/test.jpg && \
+    echo "Dummy audio content" > tests/Media/test.mp3 && \
+    echo "Dummy document content" > tests/Documents/test.pdf && \
+    echo "Dummy text content" > tests/test.txt && \
+    echo "Dummy PNG content" > tests/test.png && \
+    zip -j tests/Archives/test.zip tests/Documents/test.pdf >/dev/null && \
+    tar -czf tests/Archives/test.tar.gz -C tests/Documents test.pdf && \
+    echo "Dummy archive content" > tests/Archives/dummy_content.txt && \
+    7z a -bd -y tests/Archives/test.7z tests/Archives/dummy_content.txt >/dev/null && \
+    rar a -idq tests/Archives/test.rar tests/Archives/dummy_content.txt >/dev/null && \
+    tar -cf tests/Archives/test.tar -C tests/Archives dummy_content.txt
+}
 
 ### Gather total number of files
 
@@ -222,8 +253,8 @@ findit() {
 
 archive() {
     local target="$1"
-    local backup_dir="${2:-$PWD/Archive}"
-    mkdir -p "$backup_dir"
+    local backup_dir="${2:-$PWD}"
+    sudo mkdir -p "$backup_dir"
 
     if [[ -z "$target" ]]; then
         echo "Error: Please provide a file or directory to back up."
@@ -243,7 +274,7 @@ archive() {
 
     echo "Creating backup for '$target'..."
 
-    # Check if we have write access to the backup directory and read access to the target
+    ### Check if we have write access to the backup directory and read access to the target
     if [[ ! -w "$backup_dir" || ! -r "$target" ]]; then
         echo "Insufficient permissions, attempting with sudo..."
         if sudo tar -czvf "$backup_file" "$target"; then
@@ -253,7 +284,7 @@ archive() {
             return 1
         fi
     else
-        if tar -czvf "$backup_file" "$target"; then
+        if sudo tar -czvf "$backup_file" "$target"; then
             echo "Backup successful: $backup_file"
         else
             echo "Error: Failed to create backup."
@@ -296,7 +327,7 @@ tarnow() {
             return 1
         fi
     else
-        if tar -czvf "$backup_file" "$target"; then
+        if sudo tar -czvf "$backup_file" "$target"; then
             echo "Tarball: $backup_file"
         else
             echo "Error: Failed to compress tarball."
@@ -331,13 +362,13 @@ rmshred() {
 #    echo "Deleting ${total_files} files in '$1'..."
 
     ### Delete files using GNU Parallel with a progress bar.
-    find "$1" -type f -print0 | parallel -0 -n 100 rm -f
+    sudo find "$1" -type f -print0 | parallel -0 -n 100 rm -f
 
     ### Remove directories after files have been deleted.
-    find "$1" -depth -type d -exec rmdir {} \; > /dev/null 2>&1
+    sudo find "$1" -depth -type d -exec rmdir {} \; > /dev/null 2>&1
 
     ### Finally, remove the top-level directory.
-    rm -rf "$1" > /dev/null 2>&1
+    sudo rm -rf "$1" > /dev/null 2>&1
 
     echo "Deletion completed for '$1'."
 }
@@ -375,7 +406,7 @@ d0() {
     done
 }
 
-## Xorg Display______________________________________________________________________________
+## Xorg Display____________________________________________
 
 alias xd='ls /usr/share/xsessions'
 alias xdw="ls /usr/share/wayland-sessions"
@@ -385,7 +416,7 @@ alias xr='sudo xbps-remove -R'
 alias xq='xbps-query'
 alias xmerge='xrdb -merge ~/.Xresources'
 
-## Permissions____________________________________________________________________________
+## Permissions________________________________________________
 
 ## Chmod
 
@@ -600,25 +631,25 @@ chrootuser() {
 ## System Admin & Maintenance____________________________________________________________
 
 alias update-grub2='sudo grub-install ... && sudo grub-mkconfig -o /boot/grub/grub.cfg'
-alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg"
-alias grub-mkconfig='sudo grub-mkconfig -o /boot/grub/grub.cfg'
+#alias grub-mkconfig='sudo grub-mkconfig -o /boot/grub/grub.cfg'
 alias iotop='sudo iotop -o'
-alias addlbin='export PATH=/home/andro/.local/bin:$PATH'
+alias pathadd='export PATH=/home/andro/.local/bin:/home/git/clone/scr:$PATH'
 alias whatkernel="ls /usr/lib/modules"
-alias scr='systemctl -t service -a --state running --no-page --no-legend'
+alias whatsrunning='systemctl -t service -a --state running --no-page --no-legend'
 alias fixnvm='nvm use --delete-prefix v22.13.0 --silent'
 alias fixnode='npm audit fix --force'
 alias fixkeyboard='sudo localectl set-x11-keymap us'
 alias listusers='cut -d: -f1 /etc/passwd | sort'
-alias setlocales='sudo localectl set-locale LANG=en_US.UTF-8'
+alias fixlocales='sudo localectl set-locale LANG=en_US.UTF-8'
 alias microcode='grep . /sys/devices/system/cpu/vulnerabilities/*'
 alias audio="pactl info | grep 'Server Name'"
 alias retry='until !!; do :; done'
+alias whatcpu="grep -m1 'model name' /proc/cpuinfo"
 
 ## Backup and restore /etc/skel
 
-alias bupskel='sudo cp -Rf /etc/skel /var/recover/skel-backup-$(date +"%Y.%m.%d-%H.%M.%S") && echo "Backup of skel made."'
-alias restoreskel='sudo cp -Rf /var/recover/skel-backup-*/. $HOME/ && echo "Restored from latest backup."'
+#alias bupskel='sudo cp -Rf /etc/skel /var/recover/skel-backup-$(date +"%Y.%m.%d-%H.%M.%S") && echo "Backup of skel made."'
+#alias restoreskel='sudo cp -Rf /var/recover/skel-backup-*/. $HOME/ && echo "Restored from latest backup."'
 
 ## Copy rc files from /etc/skel
 
@@ -643,6 +674,10 @@ alias restoreskel='sudo cp -Rf /var/recover/skel-backup-*/. $HOME/ && echo "Rest
 #}
 
 ## Program Specific__________________________________________________________________________________
+
+## Cmake
+
+#alias cmake='/opt/cmake-4.0.1/bin/cmake'
 
 ## Zathura
 
@@ -887,8 +922,12 @@ alias copy='wl-copy <'
 
 ## BTRFS
 
-alias btrfsfs='sudo btrfs filesystem df /'
-alias btrfsli='sudo btrfs su li / -t'
+alias btrfs='sudo \btrfs'
+alias scrub='sudo \btrfs scrub start'
+alias scrubstat='sudo \btrfs scrub status'
+alias btrfsls='sudo \btrfs filesystem show'
+#alias btrfsfs='sudo btrfs filesystem df'
+#alias btrfsli='sudo btrfs su li $PWD -t'
 
 ## Snapper
 
@@ -909,7 +948,9 @@ alias snapch="sudo snapper -c home create"
 ## Network____________________________________________________________________________________________
 
 alias restartnetwork='sudo systemctl restart NetworkManager'
+
 alias restartnetwork2='sudo ip link set down enp2s0 && sudo ip link set up enp2s0'
+
 fixresolv() {
     sudo chattr -i /etc/resolv.conf
     echo -e "nameserver ::1
@@ -953,7 +994,7 @@ synports() {
 consume100() {
   awk '($NF > 60 && $7~/\.php/){print $7}' "$(retlog)" | sort -n | uniq -c | sort -nr | head -n 100
   # if django website or other website make by no suffix language
-  # awk '{print $7}' "$(retlog)" | sort -n | uniq -c | sort -nr | head -n 100
+  #awk '{print $7}' "$(retlog)" | sort -n | uniq -c | sort -nr | head -n 100
 }
 
 ## Python____________________________________________________________________________________
@@ -972,8 +1013,30 @@ syspip3() {
 
 ## Virtualenv
 
-alias pyvenv='source $XDG_DATA_HOME/virtualenv/bin/activate --prompt 💀'
-alias pyvenvcd='source $XDG_DATA_HOME/virtualenv/bin/activate --prompt 💀 && cd $XDG_DATA_HOME/virtualenv'
+### create (if needed) & activate a named venv
+pyvenv() {
+  local name="${1:-default}"                     # default venv if no name given
+  local base="$XDG_DATA_HOME/virtualenv"         # centralized venv storage
+  local dir="$base/$name"
+
+  mkdir -p "$base"
+
+  if [[ ! -d "$dir" ]]; then
+    echo "Creating virtualenv: $name"
+    python -m venv "$dir"
+  fi
+
+  source "$dir/bin/activate" --prompt "💀($name) "
+}
+
+### activate then cd into the venv directory
+pyvenvcd() {
+  pyvenv "$1"
+  cd "$XDG_DATA_HOME/virtualenv/${1:-default}"
+}
+
+#alias pyvenv='source $XDG_DATA_HOME/virtualenv/bin/activate --prompt 💀'
+#alias pyvenvcd='source $XDG_DATA_HOME/virtualenv/bin/activate --prompt 💀 && cd $XDG_DATA_HOME/virtualenv'
 
 ## Pyfiglet:
 
@@ -1156,7 +1219,7 @@ alias yaydeps='yay --sudoloop --refresh --singlelineresults --sysupgrade --timeu
 alias yayskip='yay -S --mflags --skipinteg'
 alias yayow='yay -S --overwrite="*" --noconfirm'
 alias trizenskip='trizen -S --skipinteg'
-alias update='sudo pacman -Sy && yay -Su'
+alias update='sudo pacman -Sy && yay --noconfirm --sudoloop --noprogressbar --needed |& tee -a /Nas/Backups/yay.log'
 yaysearch() {
     read -r -p "Choose a search parameter (1-5): " search_param
     case $search_param in
@@ -1682,6 +1745,7 @@ alias s2pic='goto /sto2/Pictures'
 alias s2vid='goto /sto2/Videos'
 alias gym='goto /sto2/Gym'
 alias jd='goto /sto2/JD'
+alias ari='goto /storage/Ari_cloud'
 
 ## Cookie Dir
 
@@ -1689,13 +1753,20 @@ alias cook='goto /Nas/Nas/Cookie\ Backup\ Restore'
 
 ## /23.1
 
+alias 23='goto /23.1'
+alias 23dl='goto /23.1/Downloads'
+alias 23vid='goto /23.1/Videoenhancement'
+alias 23pic='goto /23.1/Images'
+alias 23jd='goto /23.1/JD'
 alias edits='goto /23.1/Edits'
 alias cloud='goto /23.1/Thecloud'
 
 ## /Nas:
 
 alias nas='goto /Nas'
+alias nas2='goto /Nas/Nas'
 alias sandbox='goto /Nas/sandbox'
+alias nasc='goto /Nas/Nas/Cookie\ Backup\ Restore && cat *.ckz | wl-copy' # Cookie file
 
 ## /home/git:
 
@@ -1705,7 +1776,6 @@ alias ndot='goto /home/git/clone/dotfiles'
 alias nbin='goto /home/git/clone/scr'
 alias npkg='goto /Nas/Build/pkgs'
 alias ngpt='goto /home/git/clone/gpt/'
-alias nasc='goto /Nas/Nas/Cookie\ Backup\ Restore'
 
 ## System directories:
 
