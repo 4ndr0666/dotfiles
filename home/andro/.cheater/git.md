@@ -1,3 +1,37 @@
+# Git Cheater
+
+## Rebase
+
+Bring testing branch changes into the main branch:
+
+```bash
+git checkout testing          # Go to your feature branch
+git pull                     # Make sure it's up to date
+git rebase main              # Re-apply changes as if from main
+# (Resolve conflicts if any)
+git checkout main
+git merge testing            # Now this is a fast-forward merge (no merge commit)
+git push
+```
+
+---
+
+## Add Scopes w GH CLI
+
+```bash
+gh auth refresh -s workflow read:gpg_key admin:ssh_signing_key admin:public_key
+```
+
+---
+
+## Get User Token
+
+```bash
+GH_TOKEN=$(gh auth token --user 4ndr0666) gh api /user | jq .login
+```
+
+---
+
 ## Pull updates and save local changes
 
 1. Save everything (tracked + untracked)
@@ -24,6 +58,8 @@ git commit -am "your message"
 git push
 ```
 
+---
+
 ## Git Stash
 
 - Always keep untracked files:
@@ -46,17 +82,23 @@ git stash show -p -u stash@{0}
 git stash push -u -m "fix‑menu‑layout"
 ```
 
+---
+
 ## Automatically Setup Upstream 
 
 ```shell
 git config --global push.autoSetupRemote true
 ```
 
+---
+
 ## List all root-owned files in repo
 
 ```shell
 git ls-files -s | awk '$3 ~ /^0*0?$/ {next} $4 ~ /^git\/dir\/to_search_in\// {print $4}'
 ```
+
+---
 
 ## Quick scan for leftover large blobs (≥ 90 MB)
 
@@ -74,6 +116,8 @@ git rev-list --objects --all |
   awk '$3 > 90000000 {printf "%.2f MB\t%s\n", $3/1048576, $4}'
 ```
 
+---
+
 ## Changelog Generation:
 
 **Noticed @devaslife using a pkg called cz-cli and found it on github. It automates changelogs**
@@ -81,6 +125,8 @@ git rev-list --objects --all |
 ```bash
 git clone https://github.com/commitizen/cz-cli.git
 ```
+
+---
 
 ## Reconnect/Clean Old Repo:
 
