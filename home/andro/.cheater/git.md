@@ -21,7 +21,8 @@ After bringing the testing branch modifications over to main, delete the branch:
 ```bash
 git branch -d testing
 git push origin --delete testing
-git branch -vv                     # Check local branch tracking remote
+git branch -vv                       # Check local branch tracking remote
+git push --set-upstream origin main  # Set remote if missing 
 ```
 
 ---
