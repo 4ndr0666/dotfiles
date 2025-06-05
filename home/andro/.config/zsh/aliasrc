@@ -1476,7 +1476,7 @@ gcomp() {
 
         commit_message="Auto-commit: ${added} added, ${modified} modified, ${deleted} deleted"
 
-        git add --all
+        git add -A
 
         if ! git commit -m "$commit_message"; then
             echo "Error: Commit failed. Aborting."
@@ -1572,7 +1572,7 @@ gremote() {
     git remote -v
 }
 
-ginit() {
+gsetup() {
     local repo_name commit_msg branch_name
     git init
 
