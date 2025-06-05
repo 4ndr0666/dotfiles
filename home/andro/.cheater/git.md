@@ -1,8 +1,8 @@
 # Git Cheater
 
-## Rebase
+## Rebase (approve testing)
 
-Bring testing branch changes into the main branch:
+Bring approved testing branch modifications into the main branch:
 
 ```bash
 git checkout testing          # Go to your feature branch
@@ -12,6 +12,16 @@ git rebase main              # Re-apply changes as if from main
 git checkout main
 git merge testing            # Now this is a fast-forward merge (no merge commit)
 git push
+```
+
+## Delete Branches (after rebase)
+
+After bringing the testing branch modifications over to main, delete the branch:
+
+```bash
+git branch -d testing
+git push origin --delete testing
+git branch -vv                     # Check local branch tracking remote
 ```
 
 ---
@@ -32,15 +42,14 @@ GH_TOKEN=$(gh auth token --user 4ndr0666) gh api /user | jq .login
 
 ---
 
-## Pull updates and save local changes
+## Pull Updates (Ensuring local changes are saved) 
 
-1. Save everything (tracked + untracked)
+1. Save all local changes first (tracked + untracked)
 ```shell
 git stash push -u -m "WIP"
 ```
 
-2. Lineraly update branch 
-
+2. Lineraly update branch with a rebase 
 ```shell
 git pull --rebase
 ```
@@ -51,7 +60,6 @@ git stash pop --index
 ```
 
 4. Fix any conflicts, then
-
 ```shell
 git add <fixed> ; git rebase --continue   # only if conflicts + rebasing
 git commit -am "your message"
