@@ -1,11 +1,23 @@
-# --- // PROPER_POETRY_INSTALL:
+# Python Cheater
+
+## Confirm Syntax
+
+`python -m py_compile vacuum.py`
+
+---
+
+## Official Poetry Install
+
 ```bash
 curl -sSL https://install.python-poetry.org | python3 -
 export PATH="$HOME/.local/bin:$PATH"
 poetry --version
 ```
 
-# --- // POETRY_PROJECT_INIT:
+---
+
+## Poetry Project Init Workflow
+
 ```bash
 cd /project/directory
 poetry init
@@ -14,17 +26,24 @@ poetry shell
 python3 yourapp.py
 ```
 
-# --- // ONE_LINER_UPDATE //:
+---
 
-# --- safe way:
-```bash
-python3 -m pip install -U $(python3 -m pip list outdated 2> /dev/null | grep -v 'Version' | grep -v '\-\-\-\-\-\-' | awk '{printf $1 " " }' && echo)
-```
-# --- overwrite way:
-```bash
-python3 -m pip install --exists-action w --force-reinstall -U $(python3 -m pip list outdated 2> /dev/null | grep -v 'Version' | grep -v '\-\-\-\-\-\-' | awk '{printf $1 " " }' && echo)
-```
-# --- python script way:
+## Update Python PIP
+
+- **Safe:**
+
+`python3 -m pip install -U $(python3 -m pip list outdated 2> /dev/null | grep -v 'Version' | grep -v '\-\-\-\-\-\-' | awk '{printf $1 " " }' && echo)`
+
+- **Overwrite:**
+
+`python3 -m pip install --exists-action w --force-reinstall -U $(python3 -m pip list outdated 2> /dev/null | grep -v 'Version' | grep -v '\-\-\-\-\-\-' | awk '{printf $1 " " }' && echo)`
+
+- **General Setup:**
+
+`python3 -m pip install --upgrade pip setuptools wheel`
+
+- **Pythonic:**
+
 ```python
 import subprocess
 
@@ -36,40 +55,14 @@ for package in outdated_packages:
     subprocess.call(['python3', '-m', 'pip', 'install', '--break-system-packages', '-U', package_name])
 ```
 
-# --- // Reinstall pip:
-```bash
-python -m ensurepip --upgrade
-```
+---
 
-# --- // General Update:
-```bash
-python3 -m pip install --upgrade pip setuptools wheel
-```
+## Install PIP with Python
 
-# --- // PIP_FLAGS //:
---isolated                  Run pip in an isolated mode, ignoring environment variables and user configuration.
---require-virtualenv        Allow pip to only run in a virtual environment; exit with an error otherwise.
---python <python>           Run pip with the specified Python interpreter.
---exists-action <action>    Default action when a path already exists: (s)witch, (i)gnore, (w)ipe, (b)ackup,
-                              (a)bort.
---force-reinstall           Reinstall all packages even if they are already up-to-date.
--I, --ignore-installed      Ignore the installed packages, overwriting them. This can break your system if the
-                              existing package is of a different version or was installed with a different
-                              package manager!
---no-deps                   Don't install package dependencies.
---pre                       Include pre-release and development versions. By default, pip only finds stable
-                              versions.
--t, --target <dir>          Install packages into <dir>. By default this will not replace existing
-                              files/folders in <dir>. Use --upgrade to replace existing packages in <dir> with
-                              new versions.
---no-build-isolation        Disable isolation when building a modern source distribution. Build dependencies
-                              specified by PEP 518 must be already installed if this option is used.
---use-pep517                Use PEP 517 for building source distributions (use --no-use-pep517 to force legacy
-                              behaviour).
---check-build-dependencies  Check the build dependencies when PEP517 is used.
---break-system-packages     Allow pip to modify an EXTERNALLY-MANAGED Python installation
---report <file>             Generate a JSON file describing what pip did to install the provided requirements.
-                              Can be used in combination with --dry-run and --ignore-installed to 'resolve' the
-                              requirements. When - is used as file name it writes to stdout. When writing to
-                              stdout, please combine with the --quiet option to avoid mixing pip logging output
-                              with JSON output.
+`python -m ensurepip --upgrade`
+
+---
+
+## General Update
+
+`python3 -m pip install --upgrade pip setuptools wheel`

@@ -1,5 +1,36 @@
 # CHT: one-liners.md
 
+## Parse All Brave Features/Flags In Use
+
+```bash
+ps -e -o pid,command | grep '[b]rave-beta' | grep -v -- '--type=' | awk '{print $1}' | \
+xargs -r ps -p | tail -n +2 | awk '{$1=""; print $0}' | \
+tr ' ' '\n' | grep -- '^--'
+```
+
+---
+
+## Check for non-executable mount
+
+```bash
+mount | grep /sdx
+
+Then resolve:
+
+sudo umount /sdx
+sudo mount -o remount,exec,noatime /dev/sdx /sdy
+```
+
+---
+
+## Backgrounded PID
+
+```bash
+ sudo sh -c 'mem-police 2>&1 | tee -a /var/log/mem-police.log' &
+ ```
+
+---
+
 ## Proper Install
 
 ```bash

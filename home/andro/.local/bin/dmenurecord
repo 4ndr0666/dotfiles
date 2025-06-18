@@ -1,5 +1,6 @@
-#!/bin/sh
-
+#!/bin/bash
+# Author: 4ndr0666
+# ================= // DMENURECORD //
 # Usage:
 # `$0`: Ask for recording type via dmenu
 # `$0 screencast`: Record both audio and screen
@@ -7,38 +8,37 @@
 # `$0 audio`: Record only audio
 # `$0 kill`: Kill existing recording
 #
-# If there is already a running instance, user will be prompted to end it.
 
-getdim() { xrandr | grep -oP '(?<=current ).*(?=,)' | tr -d ' ' ;}
-
-updateicon() { \
-	echo "$1" > /tmp/recordingicon
-	pkill -RTMIN+9 waybar
-	}
+updateicon() {
+    if [[ -n "$1" ]]; then
+        echo "$1" > /tmp/recordingicon
+    else
+        echo "" > /tmp/recordingicon
+    fi
+    pkill -SIGUSR1 waybar
+}
 
 killrecording() {
-	recpid="$(cat /tmp/recordingpid)"
-	kill -15 "$recpid"
-	rm -f /tmp/recordingpid
-	updateicon ""
-	pkill -RTMIN+9 waybar
-	}
+    if [[ -f /tmp/recordingpid ]]; then
+        recpid="$(cat /tmp/recordingpid)"
+        kill -15 "$recpid" && rm -f /tmp/recordingpid
+        updateicon ""
+        notify-send "Recording stopped"
+    else
+        notify-send "No active recording to stop."
+    fi
+}
 
-screencast() { \
-	ffmpeg -y \
-	-f x11grab \
-	-framerate 30 \
-	-s "$(getdim)" \
-	-i "$DISPLAY" \
-	-r 24 \
-	-use_wallclock_as_timestamps 1 \
-	-f alsa -thread_queue_size 1024 -i default \
- 	-c:v h264 \
-	-crf 0 -preset ultrafast -c:a aac \
-	"$HOME/screencast-$(date '+%y%m%d-%H%M-%S').mp4" &
-	echo $! > /tmp/recordingpid
-	updateicon "⏺️🎙️"
-       	}
+screencast() {
+    notify-send "Recording started" "Recording screencast with audio."
+    wf-recorder -f "$HOME/screencast-$(date '+%y%m%d-%H%M-%S')-$(date +%N).mp4" -a &
+    if [[ $? -eq 0 ]]; then
+        echo $! > /tmp/recordingpid
+        updateicon "⏺️🎙️"
+    else
+        notify-send "Recording failed to start."
+    fi
+}
 
 video() { wf-recorder \
         --no-damage \
@@ -49,33 +49,38 @@ video() { wf-recorder \
 	updateicon "⏺️"
 	}
 
-webcamhidef() { ffmpeg \
-	-f v4l2 \
-	-i /dev/video0 \
-	-video_size 1920x1080 \
-	"$HOME/webcam-$(date '+%y%m%d-%H%M-%S').mkv" &
-	echo $! > /tmp/recordingpid
-	updateicon "🎥"
-	}
+webcamhidef() {
+    notify-send "Recording started" "Recording hi-def webcam video."
+    wf-recorder --muxer=v4l2 --geometry=1920x1080 -f "$HOME/webcam-$(date '+%y%m%d-%H%M-%S')-$(date +%N).mp4" &
+    if [[ $? -eq 0 ]]; then
+        echo $! > /tmp/recordingpid
+        updateicon "🎥"
+    else
+        notify-send "Recording failed to start."
+    fi
+}
 
-webcam() { ffmpeg \
-	-f v4l2 \
-	-i /dev/video0 \
-	-video_size 640x480 \
-	"$HOME/webcam-$(date '+%y%m%d-%H%M-%S').mkv" &
-	echo $! > /tmp/recordingpid
-	updateicon "🎥"
-	}
+webcam() {
+    notify-send "Recording started" "Recording webcam video."
+    wf-recorder --muxer=v4l2 --geometry=640x480 -f "$HOME/webcam-$(date '+%y%m%d-%H%M-%S')-$(date +%N).mp4" &
+    if [[ $? -eq 0 ]]; then
+        echo $! > /tmp/recordingpid
+        updateicon "🎥"
+    else
+        notify-send "Recording failed to start."
+    fi
+}
 
-
-audio() { \
-	ffmpeg \
-	-f alsa -i default \
-	-c:a flac \
-	"$HOME/audio-$(date '+%y%m%d-%H%M-%S').flac" &
-	echo $! > /tmp/recordingpid
-	updateicon "🎙️"
-	}
+audio() {
+    notify-send "Recording started" "Recording audio."
+    ffmpeg -f alsa -i default -c:a flac "$HOME/audio-$(date '+%y%m%d-%H%M-%S')-$(date +%N).flac" &
+    if [[ $? -eq 0 ]]; then
+        echo $! > /tmp/recordingpid
+        updateicon "🎙️"
+    else
+        notify-send "Audio recording failed to start."
+    fi
+}
 
 askrecording() { \
 	choice=$(printf "screencast\\nvideo\\nvideo selected\\naudio\\nwebcam\\nwebcam (hi-def)" | dmenu -i -p "Select recording style:")
@@ -88,6 +93,13 @@ askrecording() { \
 		"webcam (hi-def)") webcamhidef;;
 	esac
 	}
+
+#asktoend() {
+#    response=$(printf "No\nYes" | dmenu -i -p "Recording still active. End recording?")
+#    if [[ "$response" == "Yes" ]]; then
+#        killrecording
+#    fi
+#}
 
 asktoend() { \
 	response=$(printf "No\\nYes" | dmenu -i -p "Recording still active. End recording?") &&
