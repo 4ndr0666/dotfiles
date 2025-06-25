@@ -28,7 +28,6 @@ Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-commentary'
 Plug 'ap/vim-css-color'
 Plug 'dense-analysis/ale'
-Plug 'lifepillar/vim-mucomplete'
 Plug 'neovim/nvim-lspconfig'   " LSP configuration plugin
 Plug 'hrsh7th/nvim-cmp'        " Completion plugin
 Plug 'hrsh7th/cmp-nvim-lsp'    " LSP completion source for nvim-cmp
@@ -69,8 +68,8 @@ colorscheme nightfox
 	let g:auto_save = 1
 	let g:auto_save_events = ["InsertLeave", "TextChanged"]
 
-" Enable autocompletion:
-	set wildmode=longest,list,full
+" Disable autocompletion:
+	set completeopt=menu,menuone,noselect
 
 " Highlight CursorLine
 	set cursorline
@@ -83,7 +82,7 @@ colorscheme nightfox
 	set wildmode=longest,list,full
 
 " Enable mucompletion:
-	let g:mucomplete#enable_auto_at_startup = 1
+	let g:mucomplete#enable_auto_at_startup = 0
 "	let g:mucomplete#completion_delay = 1
 
 " Disable automatic commenting on newline
@@ -175,34 +174,37 @@ colorscheme nightfox
 	endif
 
 " ALE (Asynchronous Lint Engine) Configuration
-        let g:ale_disable_lsp = 0        " Disable ALE's built-in LSP features
+        let g:ale_disable_lsp = 'auto'        " Disable ALE's built-in LSP features
         let g:ale_fix_on_save = 1       " Enable ALE fixers on save
 
 " Configure ALE fixers
 	let g:ale_fixers = {
 	    	\ '*': ['remove_trailing_lines', 'trim_whitespace'],
- 		    \ 'sh': ['shfmt', 'remove_trailing_lines', 'trim_whitespace'],
-    		\ 'python': ['autopep8', 'black'],
-    		\ 'lua': ['lua_ls', 'stylua'],
+ 		\ 'sh': ['shfmt', 'remove_trailing_lines', 'trim_whitespace'],
+    		\ 'python': ['ruff', 'autopep8', 'black'],
+    		\ 'lua': ['lua', 'stylua'],
     		\ 'javascript': ['eslint'],
     		\ 'markdown': ['prettier'],
     		\ }
 
 " Configure ALE linters
 	let g:ale_linters = {
-	    	\ 'python': ['flake8', 'pylint'],
+	    	\ 'python': ['ruff', 'flake8', 'pylint'],
 	    	\ 'javascript': ['eslint'],
 	    	\ 'lua': ['luacheck'],
-	    	\ 'sh': ['shfmt', 'remove_trailing_lines', 'trime_whitespace'],
+	    	\ 'sh': ['shfmt', 'remove_trailing_lines', 'trim_whitespace'],
 	    	\ 'tex': ['chktex'],
 	    	\ }
 
+" Configure ALE lua_stylua
+	let g:ale_lua_stylua_options = '--config-path ~/.stylua.toml'
+
 " ALE navigation mappings
-    nmap <silent> <leader>k <Plug>(ale_previous_wrap)
-    nmap <silent> <leader>j <Plug>(ale_next_wrap)
+	nmap <silent> <leader>k <Plug>(ale_previous_wrap)
+	nmap <silent> <leader>j <Plug>(ale_next_wrap)
 
 " Enable ALE integration with vim-airline
-    let g:airline#extensions#ale#enabled = 1
+	let g:airline#extensions#ale#enabled = 1
 
 " Function for toggling the bottom statusbar:
 let s:hidden_all = 0
@@ -227,8 +229,3 @@ nnoremap <leader>h :call ToggleHiddenAll()<CR>
 " So ":vs ;cfz" will expand into ":vs /home/<user>/.config/zsh/.zshrc"
 " if typed fast without the timeout.
 silent! source ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/shortcuts.vim
-
-
-
-
-
