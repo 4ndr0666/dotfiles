@@ -1,8 +1,7 @@
-" INIT.VIM CONFIGURATION
+" Init.vim
 "
 " Author: 4ndr0666
-" Date: 12-30-24
-" ---------------------------
+" # ======================= // INIT.VIM //
 "
 " Leader Key Configuration
 let mapleader =","
@@ -67,19 +66,21 @@ colorscheme nightfox
 	syntax on
 	set encoding=utf-8
 	set number relativenumber
-"	let g:auto_save = 1
-"	let g:auto_save_events = ["InsertLeave", "TextChanged"]
+	let g:auto_save = 1
+	let g:auto_save_events = ["InsertLeave", "TextChanged"]
+
 " Enable autocompletion:
 	set wildmode=longest,list,full
+
 " Highlight CursorLine
 	set cursorline
 	highlight CursorLine ctermbg=Yellow cterm=bold guibg=#2b2b2b
 
 " Spell-check toggle
-nnoremap <leader>o :setlocal spell! spelllang=en_us<CR>
+	nnoremap <leader>o :setlocal spell! spelllang=en_us<CR>
 
 " Autocompletion wildmode
-set wildmode=longest,list,full
+	set wildmode=longest,list,full
 
 " Enable mucompletion:
 	let g:mucomplete#enable_auto_at_startup = 1
@@ -112,10 +113,10 @@ set wildmode=longest,list,full
 	endif
 	let g:airline_symbols.colnr = ' C:'
 	let g:airline_symbols.linenr = ' L:'
-    let g:airline_symbols.maxlinenr = ' '
+	let g:airline_symbols.maxlinenr = ' '
 	let g:airline#extensions#whitespace#symbol = '!'
-	
-	
+
+
 " Shortcutting split navigation, saving a keypress:
 	map <C-h> <C-w>h
 	map <C-j> <C-w>j
@@ -159,26 +160,26 @@ set wildmode=longest,list,full
 	autocmd BufRead,BufNewFile /tmp/neomutt* :Goyo 80 | call feedkeys("jk")
 	autocmd BufRead,BufNewFile /tmp/neomutt* map ZZ :Goyo!\|x!<CR>
 	autocmd BufRead,BufNewFile /tmp/neomutt* map ZQ :Goyo!\|q!<CR>
-	
+
 " Automatically deletes all trailing whitespace and newlines at end of file on save. & reset cursor position
  	autocmd BufWritePre * let currPos = getpos(".")
 	autocmd BufWritePre * %s/\s\+$//e
 	autocmd BufWritePre * %s/\n\+\%$//e
-  autocmd BufWritePre *.[ch] %s/\%$/\r/e " add trailing newline for ANSI C standard
-  autocmd BufWritePre *neomutt* %s/^--$/-- /e " dash-dash-space signature delimiter in emails
+	autocmd BufWritePre *.[ch] %s/\%$/\r/e " add trailing newline for ANSI C standard
+	autocmd BufWritePre *neomutt* %s/^--$/-- /e " dash-dash-space signature delimiter in emails
   	autocmd BufWritePre * cal cursor(currPos[1], currPos[2])
-	
+
 " Turns off highlighting on the bits of code that are changed, so the line that is changed is highlighted but the actual text that has changed stands out on the line and is readable.
-if &diff
-    highlight! link DiffText MatchParen
-endif
+	if &diff
+    		highlight! link DiffText MatchParen
+	endif
 
 " ALE (Asynchronous Lint Engine) Configuration
-        let g:ale_disable_lsp = 1        " Disable ALE's built-in LSP features
+        let g:ale_disable_lsp = 0        " Disable ALE's built-in LSP features
         let g:ale_fix_on_save = 1       " Enable ALE fixers on save
 
 " Configure ALE fixers
-	   let g:ale_fixers = {
+	let g:ale_fixers = {
 	    	\ '*': ['remove_trailing_lines', 'trim_whitespace'],
  		    \ 'sh': ['shfmt', 'remove_trailing_lines', 'trim_whitespace'],
     		\ 'python': ['autopep8', 'black'],
