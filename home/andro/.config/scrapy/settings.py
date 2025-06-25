@@ -13,7 +13,7 @@ ROBOTSTXT_OBEY = True
 
 # Enable logging for better debugging and monitoring
 LOG_ENABLED = True
-LOG_LEVEL = 'INFO'  # Change to 'DEBUG' for more detailed output
+LOG_LEVEL = "INFO"  # Change to 'DEBUG' for more detailed output
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 CONCURRENT_REQUESTS = 16
@@ -37,21 +37,21 @@ DEFAULT_REQUEST_HEADERS = {
 }
 
 DOWNLOADER_MIDDLEWARES = {
-    'fappening.middlewares.FappeningDownloaderMiddleware': 543,
+    "fappening.middlewares.FappeningDownloaderMiddleware": 543,
     # Add other downloader middlewares if needed
 }
 SPIDER_MIDDLEWARES = {
-    'fappening.middlewares.FappeningSpiderMiddleware': 543,
+    "fappening.middlewares.FappeningSpiderMiddleware": 543,
     # Add other spider middlewares if needed
 }
 
 ITEM_PIPELINES = {
-    'fappening.pipelines.FappeningPipeline': 300,
-    'fappening.pipelines.FappeningImagesPipeline': 1,
+    "fappening.pipelines.FappeningPipeline": 300,
+    "fappening.pipelines.FappeningImagesPipeline": 1,
 }
 
 # Directory where the downloaded images will be stored
-IMAGES_STORE = 'images'
+IMAGES_STORE = "images"
 
 # Enable and configure the AutoThrottle extension to optimize crawling speed and prevent bans
 AUTOTHROTTLE_ENABLED = True
@@ -73,7 +73,7 @@ RETRY_TIMES = 3  # Retry a failed request up to 3 times
 RETRY_HTTP_CODES = [500, 502, 503, 504, 408]
 
 # Enable request fingerprinting to avoid duplicate requests
-DUPEFILTER_CLASS = 'scrapy.dupefilters.RFPDupeFilter'
+DUPEFILTER_CLASS = "scrapy.dupefilters.RFPDupeFilter"
 
 # Enable DNS in-memory cache for faster lookups
 DNSCACHE_ENABLED = True

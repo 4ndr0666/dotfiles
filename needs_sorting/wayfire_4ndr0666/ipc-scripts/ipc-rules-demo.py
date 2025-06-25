@@ -12,7 +12,7 @@
 from wayfire import WayfireSocket
 
 sock = WayfireSocket()
-sock.watch(['view-mapped'])
+sock.watch(["view-mapped"])
 
 while True:
     msg = sock.read_next_event()
@@ -27,8 +27,8 @@ while True:
             # We want gedit to take a certain position (200,200) and a quarter of the output
             x = 200
             y = 200
-            w = workarea['width'] // 2
-            h = workarea['height'] // 2
+            w = workarea["width"] // 2
+            h = workarea["height"] // 2
 
             sock.configure_view(view["id"], x, y, w, h)
             # sock.assign_slot(view["id"], "slot_br")

@@ -12,7 +12,10 @@ class FblogSpider(scrapy.Spider):
     def parse(self, response):
         # Verify if the response status is 200 (OK)
         if response.status != 200:
-            self.log(f"Failed to retrieve URL: {response.url} with status: {response.status}", level=scrapy.log.WARNING)
+            self.log(
+                f"Failed to retrieve URL: {response.url} with status: {response.status}",
+                level=scrapy.log.WARNING,
+            )
             raise CloseSpider(f"Non-200 status code encountered: {response.status}")
 
         # Extract and yield the image URL
@@ -20,19 +23,23 @@ class FblogSpider(scrapy.Spider):
         image_name = self.extract_image_name(image_url)
 
         yield {
-            'image_urls': [image_url],  # This key 'image_urls' is used by the ImagesPipeline
-            'image_name': image_name,   # The extracted name of the image for storage and processing
-            'page_url': response.url,   # Store the URL of the page where the image was found
+            "image_urls": [
+                image_url
+            ],  # This key 'image_urls' is used by the ImagesPipeline
+            "image_name": image_name,  # The extracted name of the image for storage and processing
+            "page_url": response.url,  # Store the URL of the page where the image was found
         }
 
         # Generate the next image URL in sequence
         current_num = self.extract_image_number(image_url)
         next_num = current_num + 1  # Increment the sequence number
 
-        next_image_url = image_url.replace(f'-{current_num}-', f'-{next_num}-')
+        next_image_url = image_url.replace(f"-{current_num}-", f"-{next_num}-")
 
         # Make a request to the next image URL
-        yield scrapy.Request(next_image_url, callback=self.parse, errback=self.handle_error)
+        yield scrapy.Request(
+            next_image_url, callback=self.parse, errback=self.handle_error
+        )
 
     def handle_error(self, failure):
         # Log errors if the request fails
@@ -43,11 +50,11 @@ class FblogSpider(scrapy.Spider):
         Extracts a clean image name from the URL for use in storage.
         """
         # Example: Extract the base name and remove unwanted characters
-        image_name = url.split('/')[-1].split('-')[0]  # Simplified extraction logic
-        return image_name.strip().replace('_', ' ').replace('-', ' ').capitalize()
+        image_name = url.split("/")[-1].split("-")[0]  # Simplified extraction logic
+        return image_name.strip().replace("_", " ").replace("-", " ").capitalize()
 
     def extract_image_number(self, url):
         """
         Extracts the sequence number from the image URL.
         """
-        return int(url.split('-')[-2])  # Extract the current sequence number
+        return int(url.split("-")[-2])  # Extract the current sequence number

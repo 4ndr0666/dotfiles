@@ -2,7 +2,7 @@
 
 """Example script that moves all the windows for a given app ID to the specified workspace.
 
-    Usage: move-to-workspace <app-id> <workspace_x> <workspace_y>"
+Usage: move-to-workspace <app-id> <workspace_x> <workspace_y>"
 """
 
 import os
@@ -32,8 +32,7 @@ def move_all_to_workspace(app_id, x, y):
     for view in s.list_views():
         if view["app-id"] != app_id:
             continue
-        print("Moving %s(%d) to workspace (%d, %d)" %
-              (app_id, view["id"], x, y))
+        print("Moving %s(%d) to workspace (%d, %d)" % (app_id, view["id"], x, y))
         move_to_workspace(s, view, x, y)
     s.close()
 
