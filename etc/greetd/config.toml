@@ -1,6 +1,6 @@
 [terminal]
 vt = 1
-command = "gtkgreet --provider wayland"
+command = "qtgreet --provider wayland"
 user = "greeter"
 
 [default_session]

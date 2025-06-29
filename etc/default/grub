@@ -2,7 +2,7 @@
 GRUB_TIMEOUT=5
 GRUB_DISTRIBUTOR="Archcraft"
 GRUB_DEFAULT=saved
-GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 udev.log_level=3 vt.global_cursor_default=0 fsck.repair=yes swapaccount=1 zswap.enabled=1 intel_idle.max_cstate=0 radeon.si_support=1 radeon.cik_support=1 amdgpu.cik_support=1 disable_ipv6=1 ipv6.autoconf=0 accept_ra=0 cgroup_enable=memory cgroup_no_v1=all sysrq_always_enabled=1 systemd.unified_cgroup_hierarchy=1 scsi_mod.use_blk_mq=1 modprobe=tcp_bbr nosmt init=/usr/lib/systemd/systemd"
+GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 udev.log_level=3 vt.global_cursor_default=0 fsck.repair=yes swapaccount=1 zswap.enabled=1 radeon.si_support=1 radeon.cik_support=1 amdgpu.si_support=1 amdgpu.cik_support=1 disable_ipv6=1 ipv6.autoconf=0 accept_ra=0 sysrq_always_enabled=1 systemd.unified_cgroup_hierarchy=1 modprobe=tcp_bbr nosmt"
 GRUB_CMDLINE_LINUX=""
 
 # Preload both GPT and MBR modules so that they are not missed
