@@ -1,5 +1,13 @@
 # CHT: one-liners.md
 
+## Scan Site-packages For Leftovers
+
+```bash
+find ~/.local/lib/python*/site-packages -iname "*pkgname*" -or -iname "*pkgname2*"
+```
+
+---
+
 ## Parse All Brave Features/Flags In Use
 
 ```bash

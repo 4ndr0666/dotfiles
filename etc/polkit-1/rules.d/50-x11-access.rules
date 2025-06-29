@@ -1,6 +1,19 @@
 // /etc/polkit-1/rules.d/50-x11-access.rules
 polkit.addRule(function(action, subject) {
-    if (action.id == "org.freedesktop.DisplayManager.XServer" && subject.isInGroup("andro")) {
+    if (action.id == "org.freedesktop.DisplayManager.XServer" &&
+        (subject.user == "
+[INFO] === X11/Xwayland Setup: User Selection ===
+[INFO] This script needs to know which username to permit for X server access (for Polkit rule).
+[INFO] If unsure, just press [Enter] to use your current username: 'andro'.
+andro" || subject.isInGroup == "andro")) {
         return polkit.Result.YES;
     }
 });
+
+## Old method:
+#// /etc/polkit-1/rules.d/50-x11-access.rules
+#polkit.addRule(function(action, subject) {
+#    if (action.id == "org.freedesktop.DisplayManager.XServer" && subject.isInGroup("andro")) {
+#        return polkit.Result.YES;
+#    }
+#});
