@@ -1,5 +1,14 @@
 # CHT: one-liners.md
 
+## Refresh Official Arch Serverlist
+
+```bash
+sudo curl -o /etc/pacman.d/mirrorlist \
+  'https://archlinux.org/mirrorlist/?country=US&protocol=https&ip_version=4&use_mirror_status=on'
+```
+
+---
+
 ## Scan Site-packages For Leftovers
 
 ```bash
@@ -14,6 +23,15 @@ find ~/.local/lib/python*/site-packages -iname "*pkgname*" -or -iname "*pkgname2
 ps -e -o pid,command | grep '[b]rave-beta' | grep -v -- '--type=' | awk '{print $1}' | \
 xargs -r ps -p | tail -n +2 | awk '{$1=""; print $0}' | \
 tr ' ' '\n' | grep -- '^--'
+```
+
+---
+
+## Mount ntfs properly
+
+```bash
+sudo umount -l /tardis
+sudo mount -t ntfs-3g -o uid=1000,gid=1000,umask=022,relatime UUID=801F5E3CC5D8B2EA /tardis
 ```
 
 ---
@@ -42,7 +60,7 @@ sudo mount -o remount,exec,noatime /dev/sdx /sdy
 ## Proper Install
 
 ```bash
-sudo install -m 755 <pkgname> /destination/dir 
+sudo install -m 755 <pkgname> /destination/dir
 ```
 
 ---
@@ -274,6 +292,18 @@ wget -qO - "http://www.tarball.com/tarball.gz" | tar zxvf -
 
 ```bash
 fuser -k filename
+```
+
+## Kill All Processes Using Drive
+
+```bash
+sudo fuser -vm /dev/sdb2
+sudo fuser -vm /tardis
+```
+
+*Force-kill them*:
+```bash
+sudo fuser -km /dev/sdb2
 ```
 
 ---

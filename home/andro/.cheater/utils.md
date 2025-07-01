@@ -1,3 +1,46 @@
+## Ensure "Recent" tab is tracking
+
+1. Clone the official Arch PKGBUILD for tracker3
+
+```bash
+git clone https://gitlab.archlinux.org/archlinux/packaging/packages/tracker3.git
+cd tracker3
+```
+
+Build and install:
+
+```bash
+makepkg -si
+```
+
+> This will build `tracker3` locally using Arch’s official source and install it directly.
+
+2. Repeat for `tracker3-miners`
+
+In your home directory:
+
+```bash
+git clone https://gitlab.archlinux.org/archlinux/packaging/packages/tracker3-miners.git
+cd tracker3-miners
+makepkg -si
+```
+
+3. Start and Enable Tracker Services
+
+```bash
+systemctl --user daemon-reexec
+systemctl --user daemon-reload
+systemctl --user enable --now tracker3-miner-fs.service
+```
+
+Verify:
+
+```bash
+tracker3 status
+```
+
+---
+
 ## Troubleshoot Binary
 
 Example: FFmpeg

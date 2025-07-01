@@ -135,13 +135,32 @@ alias tofish="sudo chsh $USER -s /bin/fish && echo 'Now log out.'"
 ## Refresh Deps
 
 ### Wayfire
-alias refreshwayfire='yay -Syyu wayfire-plugins-extra-git wayfire-git wf-config-git wf-recorder-git wayland-git wayland-protocols-git wayland-utils qt6-wayland wlroots-git wlr-protocols-git --noconfirm --rebuildtree --redownloadall --timeupdate --singlelineresults --sudoloop'
+
+alias refreshwayfire='yay -Syyu wayfire-git wlroots-git xorg-xwayland extra-cmake-modules-git light pastel python-pywall playerctl xdg-desktop-portal xdg-desktop-portal-wlr --noconfirm --rebuildtree --redownloadall --overwrite="*"'
+
+#alias refreshwayfire='yay -Syyu egl-wayland-git wayfire-git wf-config-git wf-recorder-git wayland-git git wayland-protocols-git wayland-utils-git qt5-wayland qt6-wayland wlroots-git wlr-protocols-git --noconfirm --rebuildtree --overwrite="*" --sudoloop'
+
+#function refreshwayfire() {
+#	sudo pacman -Rns archcraft-wayfire wayfire-git wayfire-plugins-extra-git wf-config-git wf-recorder-git
+#	git clone https://github.com/WayfireWM/wayfire.git
+#	cd wayfire
+#	meson setup build --prefix=/usr
+#	ninja -C build
+#	sudo ninja -C build install
+#	cd ..
+#	git clone https://github.com/WayfireWM/wf-config.git
+#	cd wf-config
+#	meson setup build --prefix=/usr
+#	ninja -C build
+#	sudo ninja -C build install
+#	yay -S wayfire-plugins-extra-git wf-recorder-git --rebuildtree --redownloadall --noconfirm
+#}
 
 ### Graphics
-alias refreshgraphics='yay -S opencl-clover-mesa vulkan-intel vulkan-radeon mesa --noconfirm --overwrite="*" --rebuildtree --redownloadall --sudoloop'
+alias refreshgraphics='yay -Syyu --needed mesa mesa-utils mesa-demos vulkan-radeon vulkan-mesa-layers lib32-vulkan-radeon lib32-vulkan-mesa-layers vulkan-tools libva-utils mesa-vdpau libva-mesa-driver xf86-video-amdgpu xf86-video-ati linux-firmware wayfire-git wayland-git wlroots-git gtk3 dbus polkit greetd greetd-gtkgreet libdrm libxxf86vm libxdamage libxshmfence libelf libomxil-bellagio libunwind egl-wayland-git lib32-egl-wayland-git libglvnd libvdpau clinfo libclc opencl-mesa libxpresent libxrandr libxcomposite libxinerama libxext --noconfirm --overwrite="*" --rebuildtree --redownloadall --sudoloop'
 
 ### HDD Exec
-alias refreshexec="sudo mount -o remount,exec /boot/efi && sudo mount -o remount,exec /home && sudo mount -o remount,exec /"
+alias refreshexec='sudo mount -o remount,exec /boot/efi && sudo mount -o remount,exec /home && sudo mount -o remount,exec /'
 
 ## System General Aliases___________________________________
 
@@ -163,7 +182,13 @@ alias bc='bc -l'
 alias rmf='sudo -S /bin/rm -vI -rf'
 alias rmd='sudo -S /bin/rm  --recursive --force --verbose '
 alias rg="\rg --sort path"
-alias diff='colordiff -yW "$(tput cols)"'
+function diff() {
+  if [[ "$1" == "-y" ]]; then
+    colordiff "$@"
+  else
+    command diff "$@"
+  fi
+}
 alias rmdir='\rm -vI --preserve root'
 alias ln='ln -iv'
 alias wget="wget -c"
@@ -423,12 +448,14 @@ alias xmerge='xrdb -merge ~/.Xresources'
 alias chown='sudo chown --preserve-root'
 alias chmod='sudo chmod --preserve-root'
 alias chgrp='sudo chgrp --preserve-root'
-alias chgpg='sudo chown -R $USER:$USER ~/.gnupg && sudo chmod 700 ~/.gnupg && sudo chmod 600 ~/.gnupg/*'
-alias chtmp='sudo chown root:root /tmp && sudo chmod 1777 /tmp && sudo mount -o remount,exec /tmp'
 alias lck='sudo chattr +i '
 alias ulck='sudo chattr -i '
+alias chgpg='sudo chown -R $USER:$USER ~/.gnupg && sudo chmod 700 ~/.gnupg && sudo chmod 600 ~/.gnupg/*'
+alias chtmp='sudo chown root:root /tmp && sudo chmod 1777 /tmp && sudo mount -o remount,exec /tmp'
 alias chlocal='sudo chown -R $USER:$USER ~/.config ~/.local && echo "Ownership of ~/.config and ~/.local changed to $USER."'
 alias chnpm='sudo chown -R 1000:1000 /home/andro/.npm'
+alias rmx='find . -type f -exec chmod -x {} \;'
+
 chpython() {
     local python_version
     python_version=$(python3 -c 'import sys; print(".".join(map(str, sys.version_info[:2])))')
@@ -492,16 +519,16 @@ chfd() {
     local target="$1"
 
     if [[ -f "$target" ]]; then
-        # If it's a file, apply chmod 644
+        # If it's a file, apply chmod 664
         echo "Setting permissions: U+rwx | G+rx | O+rx for file '$target'..."
-        if ! sudo chmod 644 "$target"; then
+        if ! sudo chmod 664 "$target"; then
             echo "Error: Failed to set permissions for file '$target'."
             return 1
         fi
     elif [[ -d "$target" ]]; then
-        # If it's a directory, apply chmod 755 recursively
+        # If it's a directory, apply chmod 774 recursively
         echo "Setting permissions: U+rwx | G+rx | O+rx for all files in directory '$target'..."
-        if ! sudo find "$target" -type f -exec chmod 755 {} +; then
+        if ! sudo find "$target" -type f -exec chmod 774 {} +; then
             echo "Error: Failed to set permissions for files in directory '$target'."
             return 1
         fi
@@ -510,44 +537,45 @@ chfd() {
         return 1
     fi
 
-    echo "✔️ Successfully set permissions to 755 for '$target'."
+    echo "✔️ Successfully set permissions to 774 for '$target'."
 }
 
 chandro() {
-    if [[ -z "$1" ]]; then
+    if [[ -z "${1:-}" ]]; then
         echo "Usage: chandro [-R] <file_or_dir_path>"
         return 1
     fi
 
-    # Check if recursive flag is provided
     local recursive=false
-    if [[ "$1" == "-R" ]]; then
+    if [[ "$1" == "-R" || "$1" == "-r" ]]; then
         recursive=true
         shift
     fi
 
-    local target="$1"
-
+    local target="${1:-}"
     if [[ -z "$target" ]]; then
         echo "Error: No file or directory specified."
         return 1
     fi
-
     if [[ ! -e "$target" ]]; then
         echo "Error: '$target' does not exist."
         return 1
     fi
 
-    echo "Setting ownership to 'andro:andro' and permissions to 775 for '$target'..."
+    echo "Setting ownership to 'andro:andro' and permissions (files: 664, dirs: 774) for '$target'..."
 
-    # Apply ownership and permissions
-    if [[ "$recursive" == true ]]; then
+    if $recursive; then
         if ! sudo chown -R andro:andro "$target"; then
             echo "Error: Failed to change ownership for '$target'."
             return 1
         fi
-        if ! sudo chmod -R 755 "$target"; then
-            echo "Error: Failed to set permissions for '$target'."
+        # Set dir to 774, file to 664, recursively
+        if ! sudo find "$target" -type d -exec chmod 774 {} +; then
+            echo "Error: Failed to set directory permissions."
+            return 1
+        fi
+        if ! sudo find "$target" -type f -exec chmod 664 {} +; then
+            echo "Error: Failed to set file permissions."
             return 1
         fi
     else
@@ -555,14 +583,66 @@ chandro() {
             echo "Error: Failed to change ownership for '$target'."
             return 1
         fi
-        if ! sudo chmod 755 "$target"; then
-            echo "Error: Failed to set permissions for '$target'."
-            return 1
+        if [[ -d "$target" ]]; then
+            if ! sudo chmod 774 "$target"; then
+                echo "Error: Failed to set directory permissions."
+                return 1
+            fi
+        else
+            if ! sudo chmod 664 "$target"; then
+                echo "Error: Failed to set file permissions."
+                return 1
+            fi
         fi
     fi
-
     echo "✔️ Successfully set ownership and permissions for '$target'."
 }
+
+#chandro() {
+#    if [[ -z "$1" ]]; then
+#        echo "Usage: chandro [-R] <file_or_dir_path>"
+#        return 1
+#    fi
+#    # Check if recursive flag is provided
+#    local recursive=false
+#    if [[ "$1" == "-R" ]]; then
+#        recursive=true
+#        shift
+#    fi
+#
+#    local target="$1"
+#    if [[ -z "$target" ]]; then
+#        echo "Error: No file or directory specified."
+#        return 1
+#    fi
+#
+#    if [[ ! -e "$target" ]]; then
+#        echo "Error: '$target' does not exist."
+#        return 1
+#    fi
+#    echo "Setting ownership to 'andro:andro' and permissions to 664 for '$target'..."
+#    # Apply ownership and permissions
+#    if [[ "$recursive" == true ]]; then
+#        if ! sudo chown -R andro:andro "$target"; then
+#            echo "Error: Failed to change ownership for '$target'."
+#            return 1
+#        fi
+#        if ! sudo chmod -R 664 "$target"; then
+#            echo "Error: Failed to set permissions for '$target'."
+#            return 1
+#        fi
+#    else
+#        if ! sudo chown andro:andro "$target"; then
+#            echo "Error: Failed to change ownership for '$target'."
+#            return 1
+#        fi
+#        if ! sudo chmod 664 "$target"; then
+#            echo "Error: Failed to set permissions for '$target'."
+#            return 1
+#        fi
+#    fi
+#    echo "✔️ Successfully set ownership and permissions for '$target'."
+#}
 
 chrootuser() {
     if [[ -z "$1" ]]; then
@@ -833,7 +913,7 @@ alias vpnauto='expressvpn autoconnect true'
 alias vpnset='sudo expressvpn preferences set'
 alias vpnl='sudo expressvpn list'
 alias vpnblock='sudo expressvpn preferences set block_all false'
-alias vpnproto='sudo expressvpn protocol lightway_udp'
+alias vpnproto='sudo expressvpn protocol lightway_tcp'
 
 ## Expressvpn Universal App
 
@@ -1145,7 +1225,45 @@ playdir() {
 
 ## FFMPEG
 
-alias mkclip='/home/git/clone/scr/media/ffmpeg-concat $(fzf --multi)'
+alias 720p='() { file="$(fzf)"; [ -n "$file" ] && ffmpeg -i "$file" -vf "scale='\''if(gt(a,16/9),1280,-2)':'if(gt(a,16/9),-2,720)'\''" "${file%.*}_720.jpg"; }'
+
+function mergelist() {
+	local files
+  	files=($(fzf --multi))
+  	[[ ${#files[@]} -eq 0 ]] && return
+  	/home/git/clone/scr/media/ffmpeg-concat "${files[@]}"
+}
+
+function stripvideo() {
+	local video="$1"
+	if [[ ! -f "$video" ]]; then
+    		echo "Error: '$video' does not exist or is not a file." >&2
+    	return 1
+  	fi
+  	local base_name="stripped_video"
+  	local extension=".mp4"
+  	local counter=1
+  	while [[ -e "$PWD/${base_name}${counter}${extension}" ]]; do
+    		((counter++))
+  	done
+  	local save_name="$PWD/${base_name}${counter}${extension}"
+  	ffmpeg -i "$video" -map_metadata -1 -map_chapters -1 -c copy "$save_name"
+  	echo "Stripped video saved as: $save_name"
+}
+
+## Exiftool
+
+function stripimage() {
+  local input="$1"
+  if [[ ! -f "$input" ]]; then
+    echo "Error: '$input' does not exist." >&2
+    return 1
+  fi
+  local ext="${input##*.}"
+  local base="${input%.*}"
+  local output="${base}_stripped.${ext}"
+  ffmpeg -hide_banner -loglevel error -i "$input" -map_metadata -1 -c:v png "$output" && echo "✅ Stripped image saved as: $output"
+}
 
 ## Redgifs
 
@@ -1461,9 +1579,15 @@ gcl() {
     fi
 }
 
+gadd() {
+	local choice
+	choice=$(\ls "$PWD" | fzf --prompt="Select item(s) to add: ")
+	[ -n "$choice" ] && git add "$choice" || echo "No selection made."
+}
+
 gpush() {
         git commit -m "$*"
-        git push origin master
+        git push origin main
 }
 
 gcomp() {

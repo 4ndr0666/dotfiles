@@ -236,6 +236,10 @@ source "/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
 source /home/andro/.config/zsh/ytdl.zsh
 
+## Git Extras
+
+source /usr/share/doc/git-extras/git-extras-completion.zsh
+
 ## P10k
 
 source "$HOME/powerlevel10k/powerlevel10k.zsh-theme"
@@ -260,4 +264,4 @@ unset POWERLEVEL9K_VCS_BRANCH_ICON
 
 ## Fast-Syntax-highlighting
 
-source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh 2>/dev/null
