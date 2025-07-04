@@ -8,11 +8,7 @@
 
 ```bash
 # Force 24-bit color mode if not already set
-case "${COLORTERM}" in
-  truecolor | 24bit) ;;  # Already OK
-  *) export COLORTERM="24bit" ;;  # Set to safe default
-esac
-
+if command -v tput >/dev/null 2>&1 && tput colors 2>/dev/null | grep -q '[0-9]'; then
 # Advanced or Plain Text Color Functions
 if command -v tput >/dev/null && [[ -t 1 ]]; then
     GLOW() { printf '%s\n' "$(tput setaf 6)[✔️] $*$(tput sgr0)"; }
