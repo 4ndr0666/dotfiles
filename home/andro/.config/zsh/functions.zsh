@@ -1020,14 +1020,14 @@ EOF
                 ;;
         esac
     else
-        cat "$file"
+        glow "$file"
     fi
 
     # Add a new note if arguments are provided and not options
     if [[ $# -gt 0 && "$1" != "-"* ]]; then
         local timestamp
         timestamp=$(date "+%Y-%m-%d %H:%M:%S")
-        printf "[%s] %s\n" "$timestamp" "$*" >> "$file"
+        printf "[%s]\n## %s\n---\n" "$timestamp" "$*" >> "$file"
         echo "📝 Note added."
     fi
 }

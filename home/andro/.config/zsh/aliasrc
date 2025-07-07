@@ -836,7 +836,7 @@ ags() {
 
 ### Fd plus hidden minus .git
 
-alias fdnogit='fd --hidden --follow --exclude ".git"'
+alias fd='fd --hidden --follow --exclude ".git"'
 
 ### Fd plus hidden
 
@@ -1585,12 +1585,17 @@ gadd() {
 	[ -n "$choice" ] && git add "$choice" || echo "No selection made."
 }
 
-gpush() {
+gcomp() {
         git commit -m "$*"
         git push origin main
 }
 
-gcomp() {
+gcomp-nv() {
+        git commit -m "$*" --no-verify
+        git push origin main
+}
+
+gauto() {
     if ! git diff-index --quiet HEAD --; then
 
         ### Gather information about the changes
@@ -1791,7 +1796,7 @@ cht() {
     cheats=("$HOME/.cheater/"*.md)
     local choice
     choice=$(printf "%s\n" "${cheats[@]}" | fzf --prompt="Select a cheat sheet: ")
-    [ -n "$choice" ] && bat --language=md "$choice" || echo "No cheat sheet selected."
+    [ -n "$choice" ] && glow "$choice" || echo "No cheat sheet selected."
 }
 
 ## 4ndr0conf
@@ -1877,19 +1882,19 @@ alias cook='goto /Nas/Nas/Cookie\ Backup\ Restore'
 
 ## /23.1
 
+alias f='goto /23.1/Edits/F/'
 alias 23='goto /23.1'
 alias 23dl='goto /23.1/Downloads'
 alias 23vid='goto /23.1/Videoenhancement'
 alias 23pic='goto /23.1/Images'
 alias 23jd='goto /23.1/JD'
-alias edits='goto /23.1/Edits'
 alias cloud='goto /23.1/Thecloud'
 
 ## /Nas:
 
 alias nas='goto /Nas'
-alias nas2='goto /Nas/Nas'
-alias sandbox='goto /Nas/sandbox'
+alias nasnas='goto /Nas/Nas'
+alias sand='goto /Nas/sandbox'
 alias nasc='goto /Nas/Nas/Cookie\ Backup\ Restore && cat *.ckz | wl-copy' # Cookie file
 
 ## /home/git:

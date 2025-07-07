@@ -1,14 +1,12 @@
 #!/bin/bash
 # Author: 4ndr0666
-
 # ===================== // WOFI_MEDIA.SH //
 ## Description: Invokes wofi for media selection from user-specified dirs.
 ##              In "Playlist Mode", a playlist will shuffle the selected dir.
 ##              In "Browse Mode", user can recursively pick subdirectories and files.
 ## --------------------------------------
 
-## Global Variables & Constants
-
+# Global Variables & Constants
 PLAYLIST_DIR="$HOME/.config/mpv/playlists"
 mkdir -p "$PLAYLIST_DIR"
 
@@ -95,7 +93,7 @@ queue_media() {
 play_playlist() {
 	local playlist="$1"
 	if [[ -f "$playlist" && -s "$playlist" ]]; then
-		mpv --shuffle --playlist="$playlist" --no-config --loop-playlist=inf --geometry=60%:60% --speed=0.5 --window-scale=0.6 --no-border --player-operation-mode=pseudo-gui --no-osc &
+		mpv --shuffle --playlist="$playlist" --config-dir="$HOME/.config/mpv" -loop-playlist=inf --player-operation-mode=pseudo-gui &
 		notify-send "Playing playlist: $playlist"
 	else
 		notify-send "[Error]" "Playlist empty or doesn't exist: $playlist"
@@ -130,6 +128,7 @@ generate_and_play_playlist() {
 		-iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" \
 		-o -iname "*.m4v" -o -iname "*.webm" -o -iname "*.gif" \
 		-o -iname "*.3gp" -o -iname "*.flv" -o -iname "*.ts" \
+		-o -iname "*.webp" -o -iname "*.wmv" -o -iname "*.mpg" \
 		\) >"$playlist_file"
 
 	if [[ -s "$playlist_file" ]]; then
@@ -164,10 +163,11 @@ browse_media() {
 			#### No subdirectories => list media files
 			local media_files
 			media_files=$(find "$dir" -type f \( \
-				-iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" \
-				-o -iname "*.m4v" -o -iname "*.webm" -o -iname "*.gif" \
-				-o -iname "*.3gp" -o -iname "*.flv" -o -iname "*.ts" \
-				\) | sort)
+			    -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" \
+			    -o -iname "*.m4v" -o -iname "*.webm" -o -iname "*.gif" \
+			    -o -iname "*.3gp" -o -iname "*.flv" -o -iname "*.ts" \
+			    -o -iname "*.webp" -o -iname "*.wmv" -o -iname "*.mpg" \
+			    \) | sort)
 
 			if [[ -z "$media_files" ]]; then
 				notify-send "[Info]" "No media files in $dir."
