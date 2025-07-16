@@ -2,74 +2,57 @@
 
 ## Refresh Official Arch Serverlist
 
-```bash
-sudo curl -o /etc/pacman.d/mirrorlist \
-  'https://archlinux.org/mirrorlist/?country=US&protocol=https&ip_version=4&use_mirror_status=on'
-```
+`sudo curl -o /etc/pacman.d/mirrorlist 'https://archlinux.org/mirrorlist/?country=US&protocol=https&ip_version=4&use_mirror_status=on'`
 
 ---
 
 ## Scan Site-packages For Leftovers
 
-```bash
-find ~/.local/lib/python*/site-packages -iname "*pkgname*" -or -iname "*pkgname2*"
-```
+`find ~/.local/lib/python*/site-packages -iname "*pkgname*" -or -iname "*pkgname2*"`
 
 ---
 
 ## Parse All Brave Features/Flags In Use
 
-```bash
-ps -e -o pid,command | grep '[b]rave-beta' | grep -v -- '--type=' | awk '{print $1}' | \
+`ps -e -o pid,command | grep '[b]rave-beta' | grep -v -- '--type=' | awk '{print $1}' | \
 xargs -r ps -p | tail -n +2 | awk '{$1=""; print $0}' | \
-tr ' ' '\n' | grep -- '^--'
-```
+tr ' ' '\n' | grep -- '^--'`
 
 ---
 
 ## Mount ntfs properly
 
-```bash
-sudo umount -l /tardis
-sudo mount -t ntfs-3g -o uid=1000,gid=1000,umask=022,relatime UUID=801F5E3CC5D8B2EA /tardis
-```
+`sudo umount -l /tardis`
+`sudo mount -t ntfs-3g -o uid=1000,gid=1000,umask=022,relatime UUID=801F5E3CC5D8B2EA /tardis`
 
 ---
 
 ## Check for non-executable mount
 
-```bash
-mount | grep /sdx
+`mount | grep /sdx`
 
 Then resolve:
 
-sudo umount /sdx
-sudo mount -o remount,exec,noatime /dev/sdx /sdy
-```
+`sudo umount /sdx`
+`sudo mount -o remount,exec,noatime /dev/sdx /sdy`
 
 ---
 
 ## Backgrounded PID
 
-```bash
- sudo sh -c 'mem-police 2>&1 | tee -a /var/log/mem-police.log' &
- ```
+`sudo sh -c 'mem-police 2>&1 | tee -a /var/log/mem-police.log' &`
 
 ---
 
 ## Proper Install
 
-```bash
-sudo install -m 755 <pkgname> /destination/dir
-```
+`sudo install -m 755 <pkgname> /destination/dir`
 
 ---
 
 ## Rename All Files "*.sh"
 
-```bash
-for f in *; do file "$f" | grep -q 'shell script' && [[ "$f" != *.sh ]] && mv "$f" "$f.sh"; done
-```
+`for f in *; do file "$f" | grep -q 'shell script' && [[ "$f" != *.sh ]] && mv "$f" "$f.sh"; done`
 
 ---
 
@@ -85,9 +68,7 @@ done
 
 ## Aggregate System Info
 
-```bash
-grep -m1 'model name' /proc/cpuinfo
-```
+`grep -m1 'model name' /proc/cpuinfo`
 
 ---
 
@@ -106,7 +87,7 @@ echo "Dummy archive content" > test_directory/Archives/dummy_content.txt && \
 7z a -bd -y test_directory/Archives/test.7z test_directory/Archives/dummy_content.txt >/dev/null && \
 rar a -idq test_directory/Archives/test.rar test_directory/Archives/dummy_content.txt >/dev/null && \
 tar -cf test_directory/Archives/test.tar -C test_directory/Archives dummy_content.txt
-````
+```
 
 ---
 
@@ -121,10 +102,8 @@ curl "https://raw.githubusercontent.com/wis/mpvSockets/master/mpvSockets.lua" --
 
 ## CURL: yt-dlp
 
-```bash
-sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
-sudo chmod a+rx /usr/local/bin/youtube-dl
-```
+`sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl`
+`sudo chmod a+rx /usr/local/bin/youtube-dl`
 
 ---
 
@@ -140,25 +119,19 @@ source ~/.zshrc
 
 ## Register XDG-Mime Schemas
 
-```bash
-xdg-mime default ytdl.desktop x-scheme-handler/ytdl
-```
+`xdg-mime default ytdl.desktop x-scheme-handler/ytdl`
 
 ---
 
 ## CURL: RaspberryPi Script
 
-```bash
-curl -sSL https://git.io/JfAPE | bash
-```
+`curl -sSL https://git.io/JfAPE | bash`
 
 ---
 
 ## Parse Dirs in \$PATH
 
-```bash
-tr : '\n' <<< "$PATH"
-```
+`tr : '\n' <<< "$PATH"`
 
 ---
 
@@ -176,41 +149,31 @@ done
 
 ## Exec Cmd On File Change
 
-```bash
-while inotifywait -e modify /tmp/myfile; do firefox; done
-```
+`while inotifywait -e modify /tmp/myfile; do firefox; done`
 
 ---
 
 ## WGET: All Images From Website
 
-```bash
-wget -r -l1 --no-parent -nH -nd -P/tmp -A".gif,.jpg" http://example.com/images
-```
+`wget -r -l1 --no-parent -nH -nd -P/tmp -A".gif,.jpg" http://example.com/images`
 
 ---
 
 ## List Broken Symlinks
 
-```bash
-find . -type l ! -exec test -e {} \; -print
-```
+`find . -type l ! -exec test -e {} \; -print`
 
 ---
 
 ## List Dangling Symlinks
 
-```bash
-find . -type l -xtype l -print
-```
+`find . -type l -xtype l -print`
 
 ---
 
 ## Delete Dangling Symlinks
 
-```bash
-find . -type l -xtype l -delete
-```
+`find . -type l -xtype l -delete`
 
 ---
 
@@ -226,149 +189,111 @@ ls -l /usr/lib/libicuuc.so.74
 
 ## Create .bak of File
 
-```bash
-cp file.txt{,.bak}
-```
+`cp file.txt{,.bak}`
 
 ---
 
 ## Print Specific Line From File
 
-```bash
-sed -n 5p <file>
-```
+`sed -n 5p <file>`
 
 ---
 
 ## Change User, Assume Env, Stay in Dir
 
-```bash
-su -- user
-```
+`su -- user`
 
 ---
 
 ## Clone File Permissions
 
-```bash
-chmod --reference file1 file2
-```
+`chmod --reference file1 file2`
 
 ---
 
 ## Remove All Files Except
 
-```bash
-rm -f !(survivor.txt)
-```
+`rm -f !(survivor.txt)`
 
 ---
 
 ## Stream YouTube to Mplayer
 
-```bash
-i="8uyxVmdaJ-w"; mplayer -fs $(curl -s "http://www.youtube.com/get_video_info?&video_id=$i" | sed 's/%/\\x/g;s/.*(v[0-9].lscache.*)/http:\/\/\1/g' | grep -oP '^[^|,]*')
-```
+`i="8uyxVmdaJ-w"; mplayer -fs $(curl -s "http://www.youtube.com/get_video_info?&video_id=$i" | sed 's/%/\\x/g;s/.*(v[0-9].lscache.*)/http:\/\/\1/g' | grep -oP '^[^|,]*')`
 
 ---
 
 ## Convert Image Size
 
-```bash
-convert -resize '1024x600^' image.jpg small-image.jpg
-```
+`convert -resize '1024x600^' image.jpg small-image.jpg`
 
 ---
 
 ## Tarball Extraction Online Only (not local)
 
-```bash
-wget -qO - "http://www.tarball.com/tarball.gz" | tar zxvf -
-```
+`wget -qO - "http://www.tarball.com/tarball.gz" | tar zxvf -`
 
 ---
 
 ## Kill Mounted File Lock
 
-```bash
-fuser -k filename
-```
+`fuser -k filename`
 
 ## Kill All Processes Using Drive
 
-```bash
-sudo fuser -vm /dev/sdb2
-sudo fuser -vm /tardis
-```
+`sudo fuser -vm /dev/sdb2`
+`sudo fuser -vm /tardis`
 
 *Force-kill them*:
-```bash
-sudo fuser -km /dev/sdb2
-```
+`sudo fuser -km /dev/sdb2`
 
 ---
 
 ## Remove Duplicates Without Sorting
 
-```bash
-awk '!x[$0]++' <file>
-```
+`awk '!x[$0]++' <file>`
 
 ---
 
 ## CD Custom Path (Temporary)
 
-```bash
-CDPATH=:..:~:~/projects
-```
+`CDPATH=:..:~:~/projects`
 
 ---
 
 ## Replace All Spaces with Underscore
 
-```bash
-rename -v 's/ /_/g' *
-```
+`rename -v 's/ /_/g' *`
 
 ---
 
 ## Dots For Progress of Cmd
 
-```bash
-sleeper(){ while ps -p $1 &>/dev/null; do echo -n "${2:-.}"; sleep ${3:-1}; done; }; export -f sleeper
-```
+`sleeper(){ while ps -p $1 &>/dev/null; do echo -n "${2:-.}"; sleep ${3:-1}; done; }; export -f sleeper`
 
 ---
 
 ## Remove Files That Don't Match Extensions
 
-```bash
-rm !(*.foo|*.bar|*.baz)
-```
+`rm !(*.foo|*.bar|*.baz)`
 
 ---
 
 ## Print Most Used Commands
 
-```bash
-history | awk '{a[$2]++}END{for(i in a){print a[i] " " i}}' | sort -rn | head
-```
+`history | awk '{a[$2]++}END{for(i in a){print a[i] " " i}}' | sort -rn | head`
 
 ---
 
 ## execv Failed Fix
 
-```bash
-sudo pacman -Syu --noconfirm && sudo pacman -S --needed base-devel && sudo pacman -S --noconfirm $(pacman -Qqen) && sudo pacman -S --noconfirm $(pacman -Qqem)
-```
+`sudo pacman -Syu --noconfirm && sudo pacman -S --needed base-devel && sudo pacman -S --noconfirm $(pacman -Qqen) && sudo pacman -S --noconfirm $(pacman -Qqem)`
 
 ---
 
 ## ISO From Disk
 
-```bash
-readom dev=/dev/scd0 f=/path/to/image.iso
-```
+`readom dev=/dev/scd0 f=/path/to/image.iso`
 
 ---
 
@@ -387,15 +312,11 @@ cp ~/.config/zsh/.zshrc ~/.config/zsh/.zshrc.backup
 
 A background process can be reduced to the "Idle" level by starting it with:
 
-```bash
-ionice -c 3 command
-```
+`ionice -c 3 command`
 
 A background process's PID can be limited using a scale of 0-100 times the number of CPU cores (e.g., 4 cores = 0-400):
 
-```bash
-cpulimit -l 50 -p 5081
-```
+`cpulimit -l 50 -p 5081`
 
 ---
 
@@ -410,25 +331,19 @@ python -m pip install pip --upgrade
 
 ## Curl Breeze\_Adapta Cursor
 
-```bash
-curl https://raw.githubusercontent.com/mustafaozhan/Breeze-Adapta-Cursor/master/install.sh | bash
-```
+`curl https://raw.githubusercontent.com/mustafaozhan/Breeze-Adapta-Cursor/master/install.sh | bash`
 
 ---
 
 ## Curl Breeze\_Hacked Cursor
 
-```bash
-git clone https://github.com/clayrisser/breeze-hacked-cursor-theme.git
-```
+`git clone https://github.com/clayrisser/breeze-hacked-cursor-theme.git`
 
 ---
 
 ## Remove Dupes From Pacman DB
 
-```bash
-sudo pacman -Scc && sudo rm -f /var/lib/pacman/sync/*.db && sudo pacman -Syyu
-```
+`sudo pacman -Scc && sudo rm -f /var/lib/pacman/sync/*.db && sudo pacman -Syyu`
 
 ---
 
@@ -454,19 +369,14 @@ sudo chmod +x ./chatgpt.sh
 
 ## CPU Governor Tweak
 
-```bash
-echo "performance" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
-```
+`echo "performance" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor`
 
 ---
 
 ## SSD Performance Optimization
 
-Add to `/etc/fstab`:
-
-```fstab
-UUID=9096e7c4-5ca8-4d9c-a431-72497931f44d / ext4 rw,noatime,discard 0 1
-```
+Add to /etc/fstab:
+`UUID=9096e7c4-5ca8-4d9c-a431-72497931f44d / ext4 rw,noatime,discard 0 1`
 
 ---
 
@@ -484,19 +394,14 @@ sudo swapon /dev/zram0
 
 ## Fstab "tmpfs" for Temporary Files in RAM
 
-Add to `/etc/fstab`:
-
-```fstab
-tmpfs /tmp tmpfs defaults,noatime,mode=1777 0 0
-```
+Add to /etc/fstab:
+`tmpfs /tmp tmpfs defaults,noatime,mode=1777 0 0`
 
 ---
 
 ## Disable USB Autosuspend Temporarily
 
-```bash
-echo 'on' | sudo tee /sys/bus/usb/devices/1-1/power/control
-```
+`echo 'on' | sudo tee /sys/bus/usb/devices/1-1/power/control`
 
 ---
 
@@ -512,9 +417,7 @@ sudo udevadm trigger
 
 ## MPV Makedepends
 
-```bash
-yay -S crypto++ codec2 kvazaar libilbc libomxil-bellagio librabbitmq-c lua52
-```
+`yay -S crypto++ codec2 kvazaar libilbc libomxil-bellagio librabbitmq-c lua52`
 
 ---
 
@@ -532,25 +435,19 @@ export PATH=/usr/lib/llvm-10/bin:$PATH
 
 ## Wayfire Dependencies (4ndr0666)
 
-```bash
-yay -S wayfire-plugins-extra-git wayfire-git wf-config-git wf-kill-git wf-osk-git wf-recorder-git
-```
+`yay -S wayfire-plugins-extra-git wayfire-git wf-config-git wf-kill-git wf-osk-git wf-recorder-git`
 
 ---
 
 ## Garuda-Wayfire Package List
 
-```bash
-git clone https://gitlab.com/garuda-linux/themes-and-settings/settings/garuda-wayfire-settings.git
-```
+`git clone https://gitlab.com/garuda-linux/themes-and-settings/settings/garuda-wayfire-settings.git`
 
 ---
 
 ## Garuda-Hyprland Package List
 
-```bash
-curl -L https://gitlab.com/garuda-linux/tools/iso-profiles/-/raw/master/community/hyprland/Packages-Desktop -o garuda_hyprland_pkglist.txt
-```
+`curl -L https://gitlab.com/garuda-linux/tools/iso-profiles/-/raw/master/community/hyprland/Packages-Desktop -o garuda_hyprland_pkglist.txt`
 
 ---
 
@@ -600,9 +497,7 @@ luajit qt5-base qt5-declarative qt5-svg mediainfo lsof vapoursynth mkvtoolnix-cl
 
 ### Updated
 
-```bash
-yay -S opencl-clover-mesa vulkan-intel vulkan-radeon mesa
-```
+`yay -S opencl-clover-mesa vulkan-intel vulkan-radeon mesa`
 
 ### Deprecated
 
@@ -632,72 +527,51 @@ sudo ln -s /usr/lib/example.so.2.0 /usr/lib/example.so.2
 
 ## Create a New Systemd Unit
 
-```bash
-systemctl edit --user --force --full systemd-oomd.service
-```
+`systemctl edit --user --force --full systemd-oomd.service`
 
 ---
 
 ## Kill and Restart Process
 
-```bash
-thunar -q && thunar &
-```
+`thunar -q && thunar &`
 
 ---
 
 ## R8168 Module
 
-```bash
-make -C $kernel_source_dir M=$dkms_tree/$module/$module_version/build/src EXTRA_CFLAGS='-DCONFIG_R8168_NAPI=y -DCONFIG_R8168_VLAN=y -DCONFIG_ASPM=y -DENABLE_S5WOL=y -DENABLE_EEE=y' modules
-```
+`make -C $kernel_source_dir M=$dkms_tree/$module/$module_version/build/src EXTRA_CFLAGS='-DCONFIG_R8168_NAPI=y -DCONFIG_R8168_VLAN=y -DCONFIG_ASPM=y -DENABLE_S5WOL=y -DENABLE_EEE=y' modules`
 
 ---
 
 ## Sysctl Reload Without Reboot
 
-```bash
-su -c "sysctl --system"
-```
+`su -c "sysctl --system"`
 
 ---
 
 ## Use gtk3-nocsd
 
-To automatically preload `libgtk3-nocsd.so` at X session startup:
+To automatically preload libgtk3-nocsd.so at X session startup:
 
-```bash
-cp /usr/share/doc/gtk3-nocsd/etc/xinit/xinitrc.d/30-gtk3-nocsd.sh /etc/X11/xinit/xinitrc.d/30-gtk3-nocsd.sh
-```
+`cp /usr/share/doc/gtk3-nocsd/etc/xinit/xinitrc.d/30-gtk3-nocsd.sh /etc/X11/xinit/xinitrc.d/30-gtk3-nocsd.sh`
 
 ---
 
 ## OMZ Autosuggestions
 
-```bash
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-```
+`git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions`
 
 ---
 
 ## OMZ Syntax Highlighting
 
-```bash
-git clone https://github
-```
-
-
-.com/zsh-users/zsh-syntax-highlighting.git
-
-````
+`git clone https://github.com/zsh-users/zsh-syntax-highlighting.git`
 
 ---
 
 ## Zsh Compaudit
 
-```bash
-compaudit | xargs chmod g-w,o-w
-````
+`compaudit | xargs chmod g-w,o-w`
 
 ---
 
@@ -732,9 +606,7 @@ set-default-sink 1
 
 ## Fix D-Bus
 
-```bash
-export $(dbus-launch)
-```
+`export $(dbus-launch)`
 
 ---
 
@@ -749,9 +621,7 @@ nix-shell -p nix-info --run "nix-info -m"
 
 ## Print Kernel Config
 
-```bash
-sudo nvim /usr/lib/modules/$(uname -r)/build/.config
-```
+`sudo nvim /usr/lib/modules/$(uname -r)/build/.config`
 
 ---
 
@@ -784,21 +654,15 @@ make config
 
 Generate a New Key:
 
-```bash
-gpg --full-gen-key
-```
+`gpg --full-gen-key`
 
 List Secret Keys:
 
-```bash
-gpg --list-secret-keys
-```
+`gpg --list-secret-keys`
 
 Set GPG\_TTY:
 
-```bash
-export GPG_TTY=$(tty)
-```
+`export GPG_TTY=$(tty)`
 
 Check and unset GNUPGHOME:
 
@@ -834,23 +698,17 @@ rm .gnupg/public-keys.d/*.lock
 
 Armor GPG key:
 
-```bash
-gpg --full-gen-key --keyid-format LONG [EMAIL]
-```
+`gpg --full-gen-key --keyid-format LONG [EMAIL]`
 
 Identify the `sec` line and copy the GPG key ID (starts after `/`).
 
 Show decrypted public key:
 
-```bash
-gpg --armor --export <ID>
-```
+`gpg --armor --export <ID>`
 
 Add to GitHub:
 
-```bash
-gpg --armor --export <ID> | gh gpg-key add -
-```
+`gpg --armor --export <ID> | gh gpg-key add -`
 
 ---
 
@@ -866,17 +724,13 @@ cat ~/.ssh/id_ed25519.pub
 
 Add key to GitHub SSH and GPG settings:
 
-```bash
-ssh -T git@github.com
-```
+`ssh -T git@github.com`
 
 ---
 
 ## Curl FontAwesome API for Token
 
-```bash
-curl -H "Authorization: Bearer 67A0397F-5EF3-4130-8C0F-03F3151FB067" -X POST https://api.fontawesome.com/token
-```
+`curl -H "Authorization: Bearer 67A0397F-5EF3-4130-8C0F-03F3151FB067" -X POST https://api.fontawesome.com/token`
 
 ---
 
@@ -884,28 +738,18 @@ curl -H "Authorization: Bearer 67A0397F-5EF3-4130-8C0F-03F3151FB067" -X POST htt
 
 Get the PID of the Zombie Process:
 
-```bash
-ps aux | grep 'Z'
-```
+`ps aux | grep 'Z'`
 
 Get the PID of the Zombie's Parent:
 
-```bash
-pstree -p -s <zombie_PID>
-```
+`pstree -p -s <zombie_PID>`
 
 Kill Its Parent Process:
 
-```bash
-sudo kill -9 <parent_PID>
-```
+`sudo kill -9 <parent_PID>`
 
 ---
 
 ## Disable Telemetry in Yarn
 
-```bash
-yarn config set --home enableTelemetry 0
-```
-
-```
+`yarn config set --home enableTelemetry 0`
