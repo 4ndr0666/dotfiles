@@ -1,27 +1,60 @@
 #!/usr/bin/env bash
+# Version: 2.2.0
+# Author: 4ndr0666
+
 set -euo pipefail
+# ========================== // YTDL-HANDLER.SH // by 4ndr0666
+## Description: Handles the sanitized URLs that are passed via
+#               the YTDL:// protocol and passes it to the dmenuhandler.
+# --------------------------------------------------------
 
-if [ -z "${1:-}" ] || [ "$1" = "%u" ]; then
-  echo "Error: No valid URL provided. Exiting." >&2
-  exit 1
+## Constants
+
+## Dynamic Clipboard
+
+clip() { command -v wl-copy >/dev/null && wl-copy || xclip -selection clipboard -in; }
+
+## Safeguards
+
+[ "$#" -ne 1 ] && {
+	printf >&2 '[❌] Error: one URL arg needed\n'
+	exit 1
+}
+[ "$1" = "%u" ] && {
+	printf >&2 '[❌] Error: placeholder arg\n'
+	exit 1
+}
+
+## URL
+
+feed=${1#ytdl://}
+
+## Sanitize
+
+if command -v python3 >/dev/null; then
+	feed=$(printf '%s' "$feed" | python3 -c 'import sys, urllib.parse as u; print(u.unquote(sys.stdin.read().strip()))')
 fi
 
-feed="${1#ytdl://}"
-if command -v python3 >/dev/null 2>&1; then
-  feed_decoded=$(echo "$feed" | python3 -c "import sys, urllib.parse as ul; print(ul.unquote(sys.stdin.read().strip()))")
-else
-  feed_decoded="$feed"
-fi
-final_feed="${feed_decoded:-$feed}"
+case $feed in
+*youtube.com/embed/*)
+	id=${feed##*/embed/}
+	id=${id%%\?*}
+	feed="https://www.youtube.com/watch?v=$id"
+	;;
+*youtu.be/*)
+	id=${feed##*/}
+	id=${id%%\?*}
+	feed="https://www.youtube.com/watch?v=$id"
+	;;
+esac
 
-if [[ "$final_feed" =~ youtube\.com/embed/([^?]+) ]]; then
-  video_id="${BASH_REMATCH[1]}"
-  final_feed="https://www.youtube.com/watch/${video_id}"
-elif [[ "$final_feed" =~ youtube\.com/watch\?v=([^&]+) ]]; then
-  video_id="${BASH_REMATCH[1]}"
-  final_feed="https://www.youtube.com/watch/${video_id}"
-fi
+## Mini-menu
 
-echo "✔️ Final feed processed: $final_feed" >&2
-#### Launch the dmenuhandler with the processed URL.
-exec /usr/local/bin/dmenuhandler "$final_feed"
+choice=$(printf '%s\n' 'copy url' ytf mpv cancel | dmenu -i -p 'ytdl:')
+
+case "$choice" in
+'copy url') printf '%s' "$feed" | wl-copy ;;
+ytf) setsid -f "$TERMINAL" -e zsh -ic "ytf '$feed'; read -r -p '\nPress ENTER…'" ;;
+mpv) setsid -f mpv -quiet "$feed" >/dev/null 2>&1 ;;
+*) : ;;
+esac
