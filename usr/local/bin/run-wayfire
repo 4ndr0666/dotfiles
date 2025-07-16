@@ -1,84 +1,159 @@
 #!/usr/bin/env bash
 # Author: 4ndr0666
-# ======================= // RUN-WAYFIRE //
+#====================== // RUN-WAYFIRE //
+## Description: This script initializes environment variables for Wayfire
+#               on Wayland and then launches the compositor.
+#               The commented-out section contains configuration for X11
+#               as a reference.
+# ----------------------------------------------------------------
 
-## XDG Env
-
+# Wayland Environment Configuration
 export XDG_SESSION_TYPE=wayland
 export XDG_SESSION_DESKTOP=wayfire
 export XDG_CURRENT_DESKTOP=wayfire
 export XDG_CURRENT_SESSION=wayfire
 
-## GTK environment
-
+# GTK environment
 export TDESKTOP_DISABLE_GTK_INTEGRATION=1
-export CLUTTER_BACKEND="wayland,x11"
+export CLUTTER_BACKEND=wayland
 export BEMENU_BACKEND=wayland
 
-## Firefox
-
+# Firefox
 export MOZ_ENABLE_WAYLAND=1
-export GDK_BACKEND="wayland,x11"
+export GDK_BACKEND=wayland,x11,* # Prefer Wayland, fallback to X11
+export GDK_SCALE=1
+export QT_SCALE_FACTOR=1
 
-
-## Java
-
+# Java
 export _JAVA_AWT_WM_NONREPARENTING=1
-export NO_AT_BRIDGE=1
-export WINIT_UNIX_BACKEND=wayland
+export NO_AT_BRIDGE=1 # Disable AT-SPI bridge for better performance/stability
+export WINIT_UNIX_BACKEND=wayland # For applications using winit (e.g., Alacritty)
 #export _JAVA_OPTIONS="-Dawt.toolkit.name=WLToolkit"
-#export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel ${_JAVA_OPTIONS}"
+#export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel ${_JAVA_OPTIONS}" # Example of appending to _JAVA_OPTIONS
 
-## QT
-
-export QT_QPA_PLATFORMTHEME=qt6ct
+# QT
+export QT_QPA_PLATFORMTHEME=qt5ct
 export QT_AUTO_SCREEN_SCALE_FACTOR=1
-export QT_QPA_PLATFORM=wayland-egl #error with apps xcb
-export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
-#export QT_WAYLAND_FORCE_DPI=physical #uncomment this to use monitor's DPI
+export QT_QPA_PLATFORM=wayland # Prefer Wayland
+export QT_WAYLAND_DISABLE_WINDOWDECORATION=1 # Let Wayfire handle window decorations
+export QT_WAYLAND_FORCE_DPI=physical # Uncomment this to use monitor's physical DPI
 
-## Elementary environment
-
+# Elementary environment (EFL)
 export ELM_DISPLAY=wl
 export ECORE_EVAS_ENGINE=wayland_egl
 export ELM_ENGINE=wayland_egl
 export ELM_ACCEL=opengl
-# export ELM_SCALE=1
+export ELM_SCALE=1
 
-
-## SDL environment
-
+# SDL environment
 export SDL_VIDEODRIVER=wayland
-export SAL_USE_VCLPLUGIN=gtk3
 
-## Electron
+# LibreOffice
+export SAL_USE_VCLPLUGIN=gtk3 # Use GTK3 VCL plugin
 
-export ELECTRON_OZONE_PLATFORM_HINT=auto
+# Electron
+export ELECTRON_OZONE_PLATFORM_HINT=auto # Hint Electron apps to use Wayland backend
 
-## IPC
+# Aquamarine (Commented out - specific GPU configuration)
+#export AQ_DRM_DEVICES=/dev/dri/card1:/dev/dri/card0 # Set an explicit list of DRM devices (GPUs) to use. 
+#It’s a colon-separated list of paths, with the first being the primary. E.g. /dev/dri/card1:/dev/dri/card0
+#export AQ_MGPU_NO_EXPLICIT=1 # Disables explicit syncing on mgpu buffers
+#export AQ_NO_MODIFIERS=1 # Disables modifiers for DRM buffers
 
-#export WAYFIRE_SOCKET=/tmp/wayfire-wayland-1.socket
+# Systemd Dbus (Commented out - typically handled by session manager)
+#eval "$(dbus-launch --sh-syntax)"
+#if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
+#   echo "Failed to launch D-Bus session bus." >&2 
+#   exit 1
+#fi
 
-## Systemd Dbus
-
-eval "$(dbus-launch --sh-syntax)"
-if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
-    echo "Failed to launch D-Bus session bus."
-    exit 1
-fi
-export DBUS_SESSION_BUS_ADDRESS
-export DBUS_SESSION_BUS_PID
-
+# Xorg Xhost (Commented out - only relevant for X11 compatibility layers)
 #xrandr --dpi 96
-#xhost + </dev/null &>/dev/null &
+#xhost + >/dev/null 2>&1 & # Redirect stdout/stderr to /dev/null and run in background
 #xhost +SI:localuser:andro
 #xhost +SI:localuser:root
 
-sleep 0.5
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+# ====================== // X11 Fallback Configuration (Commented) //
+# This section is commented out. Uncomment the conditional logic at the
+# beginning of the script and this block if you need dynamic X11 fallback.
+# --------------------------------------------------------------
 
+# XDG Env for X11 Fallback
+#export XDG_SESSION_TYPE=x11
+#export XDG_SESSION_DESKTOP=wayfire
+#export XDG_CURRENT_DESKTOP=wayfire
+#export XDG_CURRENT_SESSION=wayfire
+
+# GTK environment
+#export TDESKTOP_DISABLE_GTK_INTEGRATION=1
+#export CLUTTER_BACKEND=x11
+#export BEMENU_BACKEND=x11
+
+# Firefox
+#export MOZ_ENABLE_WAYLAND=0
+#export GDK_BACKEND=x11
+#export GDK_SCALE=1
+#export QT_SCALE_FACTOR=1
+
+# Java
+#export _JAVA_AWT_WM_NONREPARENTING=1
+#export NO_AT_BRIDGE=1
+#export WINIT_UNIX_BACKEND=x11
+#export _JAVA_OPTIONS="-Dawt.toolkit.name=XToolkit"
+#export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel ${_JAVA_OPTIONS}"
+
+# QT
+#export QT_QPA_PLATFORMTHEME=qt6ct
+#export QT_AUTO_SCREEN_SCALE_FACTOR=1
+#export QT_QPA_PLATFORM=xcb # Use XCB platform for X11
+#export QT_WAYLAND_FORCE_DPI=physical #uncomment this to use monitor's DPI
+
+# Elementary environment
+#export ELM_DISPLAY=x11
+#export ECORE_EVAS_ENGINE=x11
+#export ELM_ENGINE=x11
+#export ELM_ACCEL=opengl
+# export ELM_SCALE=1
+
+# SDL environment
+#export SDL_VIDEODRIVER=x11
+
+# LibreOffice
+#export SAL_USE_VCLPLUGIN=gtk3
+
+# Clutter (Duplicate removed)
+# export CLUTTER_BACKEND="x11"
+
+# GDK (Duplicate removed)
+# export GDK_BACKEND="x11"
+
+# Electron
+#export ELECTRON_OZONE_PLATFORM_HINT=auto
+
+# Aquamarine (Commented out)
+#export AQ_DRM_DEVICES=/dev/dri/card1:/dev/dri/card0
+#export AQ_MGPU_NO_EXPLICIT=1
+#export AQ_NO_MODIFIERS=1
+
+# Systemd Dbus (Commented out)
+#eval "$(dbus-launch --sh-syntax)"
+#if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
+#    echo "Failed to launch D-Bus session bus." >&2
+#    exit 1
+#fi
+#export DBUS_SESSION_BUS_ADDRESS
+#export DBUS_SESSION_BUS_PID
+
+# Xorg Xhost (Commented out)
+#xrandr --dpi 96
+#xhost + >/dev/null 2>&1 & # Redirect stdout/stderr to /dev/null and run in background
+#xhost +SI:localuser:andro
+#xhost +SI:localuser:root
+# ====================================================================
+# Wayfire launch guard
 if ! command -v wayfire &> /dev/null; then
-    echo "Wayfire could not be found."
+    echo "Error: Wayfire command not found. Please ensure Wayfire is installed and in your PATH." >&2
     exit 1
 fi
-
-wayfire
+exec wayfire

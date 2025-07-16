@@ -60,7 +60,7 @@ process_video() {
             return 1
         fi
     elif [ "$mode" = "reencode" ]; then
-        if ! ffmpeg -i "$input_file" -c:v libx264 -crf 17 -preset slow -c:a copy "$output_file"; then
+        if ! ffmpeg -i "$input_file" -c:v libx264 -crf 0 -preset slow -c:a copy "$output_file"; then
             echo "Processing failed for $input_file (reencode mode)."
             return 1
         fi

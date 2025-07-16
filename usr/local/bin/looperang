@@ -1,26 +1,4 @@
-#!/usr/bin/env sh
-##############################################################################
-# looperang_fzf_lossless.sh
-#
-# A POSIX-compliant shell script that uses FFmpeg + fzf to create a "looperang"
-# (forward + reverse) effect WITHOUT quality loss:
-#   1) Detect original FPS
-#   2) Extract frames from the original, copying them into forward_frames/
-#   3) Reverse the frame order for reversed_frames/
-#   4) Re-encode each segment at the *same* FPS in H.264 lossless (crf=0)
-#   5) Concatenate the two segments with -c copy
-#
-# REQUIREMENTS:
-#   - ffmpeg (compiled with libx264)
-#   - fzf
-#   - POSIX shell (dash, ash, or bash in POSIX mode)
-#
-# USAGE:
-#   1) Make this script executable: chmod +x looperang_fzf_lossless.sh
-#   2) Run: ./looperang_fzf_lossless.sh
-#   3) Select your video in the fzf menu
-#   4) Enjoy your truly reversed boomerang with no generational quality loss
-##############################################################################
+#!/bin/sh
 
 set -u
 # Uncomment to debug:
@@ -51,7 +29,7 @@ trap 'echo "Script interrupted! Cleaning up..."; cleanup_and_exit 1' INT TERM HU
 ##############################################################################
 
 # 1) Use fzf to pick a file (adjust patterns if needed)
-INPUT_FILE="$(ls -1 ./*.mov ./*.mp4 2>/dev/null | fzf --prompt="Select a video to looperang: ")"
+INPUT_FILE="$(ls -1 ./*.mov ./*.mp4 ./*.avi ./*.mkv ./*.ts 2>/dev/null | fzf --prompt="Select a video: ")"
 if [ -z "${INPUT_FILE:-}" ]; then
   echo "No file selected. Exiting..."
   exit 1
@@ -71,7 +49,7 @@ echo "Final output: $LOOPERANG_VIDEO"
 echo
 
 # Confirm
-if ! prompt_continue "Proceed with NO quality loss image-sequence looperang creation?"; then
+if ! prompt_continue "Ready?"; then
   echo "Aborting."
   exit 0
 fi
@@ -83,8 +61,8 @@ fi
 # Then we rely on FFmpeg to parse that fractional FPS automatically.
 FPS="$(ffprobe -v 0 -select_streams v:0 -show_entries stream=avg_frame_rate -of csv=p=0 "$INPUT_FILE")"
 if [ -z "$FPS" ]; then
-  echo "Failed to detect FPS. Defaulting to 30."
-  FPS="30"
+  echo "Failed to detect FPS. Defaulting to 60."
+  FPS="60"
 fi
 
 echo "Detected original FPS: $FPS"

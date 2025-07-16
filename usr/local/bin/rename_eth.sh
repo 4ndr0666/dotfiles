@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
+# shellcheck disable=all
 set -euo pipefail
 
-TARGET_MAC="74:27:EA:66:76:46"
+TARGET_MAC="74:27:ea:66:76:46"
 TARGET_IF="enp2s0"
 
 CURRENT_IF="$(ip -o link | awk -v mac="$TARGET_MAC" 'tolower($0) ~ tolower(mac) {print $2}' | sed 's/://')"

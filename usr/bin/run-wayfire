@@ -157,4 +157,3 @@ if ! command -v wayfire &> /dev/null; then
     exit 1
 fi
 exec wayfire
-#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MAIN

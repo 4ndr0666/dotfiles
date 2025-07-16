@@ -1,76 +1,69 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Author: 4ndr0666
+set -euo pipefail
 # ============================= // EXEC.SH //
-
-## Description: This script ensures that the application is not already running
-##              and, if not, launches it in the background and records its PID in a file.
-##              Adjust the APP_NAME and PIDDIR as needed.
-## ---------------------------------------------
-
-## Global Variables/Paths
-
-APP_PATH="$1"      # Full path to your application binary
-shift              # Remove APP_PATH from the argument list
-APP_NAME="$(basename "$APP_PATH")"
-PIDDIR="/tmp"
-PIDFILE="${PIDDIR}/${APP_NAME}.pid"
-FORCE_RESTART=false
-
-## Display Usage
-
+## Description: Ephemeral cgroup foreground runner
+#               1. Checks if a matching instance is running (hashed app+args).
+#               2. Launches in foreground under an ephemeral systemd-run service.
+#               3. Accepts optional --memlimit (defaults to 1G).
+#               4. Tmp sentinel automatically clean whter on exit or if stale.
+# -----------------------------------------------------------------
+APP_PATH="${1:-}"
 if [ -z "$APP_PATH" ]; then
-    echo "Usage: $0 <APP_PATH> [arguments...]" >&2
+    echo "Usage: $0 <APP_PATH> [arguments...]"
+    echo "  Optional flags: --memlimit <SIZE>  (e.g., 1G, 512M, 2G)"
     exit 1
 fi
+shift
 
-## Idempotentcy
+MEMLIMIT="1G"
 
-is_running() {
-    if [ -f "$PIDFILE" ]; then
-        PID=$(cat "$PIDFILE")
-        if kill -0 "$PID" 2>/dev/null; then
-            return 0  # running
-        else
-            echo "Stale PID file $PIDFILE found. Removing..." >&2
-            rm -f "$PIDFILE"
-        fi
-    fi
-    return 1  # not running
-}
+### Parse optional args for --memlimit
+### We'll do it inline so it doesn't break normal arguments to APP_PATH
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --memlimit)
+            MEMLIMIT="$2"
+            shift 2
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
 
-## Validation
-
-#### Check for binary
 if ! command -v "$APP_PATH" >/dev/null 2>&1; then
     echo "Error: Cannot find application '$APP_PATH' in PATH or as absolute path." >&2
     exit 1
 fi
 
-#### Check app name
-if is_running; then
-    echo "$APP_NAME is already running (PID $(cat "$PIDFILE"))." >&2
+# Build a unique instance name from app path + all arguments
+# For simplicity, let's hash everything in one string
+HASH="$(echo -n "$APP_PATH $*" | md5sum | cut -c1-8)"
+UNIT_NAME="ephem-${HASH}"
+SENTINEL="$(mktemp "/tmp/${UNIT_NAME}.XXXXXX")"
+
+# Check if a matching unit is already running
+if systemctl --user is-active --quiet "${UNIT_NAME}.service"; then
+    echo "Instance '${UNIT_NAME}' is already running."
     exit 0
 fi
 
-#### Check for CLI flags
-if [ "$1" = "--restart" ] || [ "$1" = "-r" ]; then
-    FORCE_RESTART=true
-    shift
-fi
+touch "$SENTINEL"
+trap 'rm -f "$SENTINEL"' EXIT
 
-## Main
+# Now we run ephemeral usage with systemd-run in the FOREGROUND:
+#   -p MemoryAccounting=1 to track memory usage.
+#   -p MemoryMax=$MEMLIMIT to limit memory usage.
+#   --unit=$UNIT_NAME to name the ephemeral service.
+#   --collect / --wait keep systemd-run in the foreground until the process exits.
+#   Use '--quiet' to reduce systemd-run chatter. (Optional)
+echo "Starting $APP_PATH with limit=$MEMLIMIT under ephemeral unit '$UNIT_NAME'..."
 
-if $FORCE_RESTART && [ -f "$PIDFILE" ]; then
-    kill "$(cat "$PIDFILE")" 2>/dev/null
-    rm -f "$PIDFILE"
-    sleep 1
-fi
-
-nohup "$APP_PATH" "$@" >/dev/null 2>&1 &  # NOHUP(detaches from terminal) ensures process when term closed.
-PID=$!
-echo $PID > "$PIDFILE"
-echo "$APP_NAME started with PID $PID."
-
-#### TRAP to remove the PID file if this wrapper is used as a persistent launcher.
-#### Note: if the application runs independently, this trap will only remove the PID file when the wrapper exits.
-# trap "rm -f $PIDFILE" EXIT
+systemd-run --user --unit="$UNIT_NAME" \
+            -p MemoryAccounting=1 -p MemoryMax="$MEMLIMIT" \
+            --collect --wait --quiet \
+            "$APP_PATH" "$@"
+            
+# When the application exits, systemd-run will return here
+echo "$APP_PATH (unit=$UNIT_NAME) has exited."
