@@ -1,10 +1,8 @@
+# Zshrc file
 # Author: 4ndr0666
 # ============================= // ZSHRC //
 
-# Prompts
-
 ## Powerlevel10k____________________________
-
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
     source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
@@ -22,8 +20,7 @@ fi
 # precmd() { fancy-prompts-precmd; }
 # prompt-zee -PDp "≽ "
 
-# Aliases
-
+## Aliases___________________________________________
 alias reload="source ~/.zshrc"
 
 # globalias() {
@@ -35,32 +32,27 @@ alias reload="source ~/.zshrc"
 # }
 # zle -N globalias
 
-# Shell Options
+## Shell Options______________________________________________
 
-## Completion & Globbing
-
+### Completion & Globbing
 setopt nocaseglob extended_glob glob_complete complete_in_word
 
-## Directory Navigation
-
+### Directory Navigation
 setopt autocd cdable_vars auto_pushd pushd_to_home pushd_minus pushd_ignore_dups pushd_silent
 
-## Misc
-
+### Misc
 setopt RM_STAR_WAIT print_exit_value no_beep correct
 setopt auto_menu auto_list auto_name_dirs auto_param_slash interactive_comments
 
-## Disabled Options
-
+### Disabled Options
 unsetopt correct_all complete_aliases always_to_end menu_complete
 DIRSTACKSIZE=8
 
-# Hisory
-
+## Hisory________________________________________________________
 HISTSIZE=10000000
 SAVEHIST=10000000
-HISTFILE="$XDG_DATA_HOME/zsh/history"
-setopt hist_ignore_space hist_reduce_blanks hist_verify extended_history inc_append_history share_history hist_ignore_dups hist_expire_dups_first
+HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/history"
+setopt hist_ignore_space hist_reduce_blanks hist_verify extended_history inc_append_history hist_ignore_dups hist_expire_dups_first
 
 ### Sorts history directly in shell
 h() {
@@ -74,16 +66,14 @@ h() {
 ### Alternative version:
 # h() { if [ -z "$*" ]; then history 1; else history 1 | egrep "$@"; fi; }     # Fix_zsh_history_behavior:
 
-# External Sourcing
-
+## External Sourcing
 [ -f "$HOME/.config/zsh/aliasrc" ] && source "$HOME/.config/zsh/aliasrc"
 [ -f "$HOME/.config/zsh/functions.zsh" ] && source "$HOME/.config/zsh/functions.zsh"
 [ -f "$HOME/.config/zsh/.zprofile" ] && source "$HOME/.config/zsh/.zprofile"
 
-# Widgets
+## Widgets__________________________________________________________
 
-## On-demand rehash
-
+### On-demand rehash
 zshcache_time="$(date +%s%N)"
 autoload -Uz add-zsh-hook
 rehash_precmd() {
@@ -104,27 +94,24 @@ add-zsh-hook -Uz precmd rehash_precmd
 # zstyle ':fzf-tab:complete:*:options' fzf-preview
 # zstyle ':fzf-tab:complete:*:argument-1' fzf-preview
 
-## Basic auto/tab complete
-
-autoload -U compinit
+### Basic auto/tab complete
+fpath=("${ZDOTDIR:-$HOME/.config/zsh}/completions" $fpath)
+_comp_options+=(globdots)
+autoload -Uz compinit && compinit
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' matcher-list m:{a-zA-Z}={A-Za-z}
 zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' fzf-preview 'echo ${(P)word}'
 zstyle  ':completion:*' 'completer' '_complete' '_approximate' '_ignored'
 zstyle ':completion:*' 'menu' 'select'
 zmodload zsh/complist
-compinit
-_comp_options+=(globdots)
 
-# Keybindings
+## Keybindings_______________________________________________________
 
 ## Substring Search Keybindings
-
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
 ## Vim
-
 bindkey -v
 export KEYTIMEOUT=1
 
@@ -151,10 +138,9 @@ zle -N zle-line-init
 echo -ne '\e[5 q' #### Use beam shape cursor on startup.
 preexec() { echo -ne '\e[5 q' ;} #### Use beam shape cursor for each new prompt.
 
-# LF
+## LF______________________________________
 
-## Ctrl+O switches directories
-
+### Ctrl+O switches directories
 lfcd () {
     tmp="$(mktemp -uq)"
     trap 'rm -f $tmp >/dev/null 2>&1 && trap - HUP INT QUIT TERM PWR EXIT' HUP
@@ -166,11 +152,8 @@ lfcd () {
     fi
 }
 bindkey -s '^o' '^ulfcd\n'
-
 bindkey -s '^a' '^ubc -lq\n'
-
 bindkey -s '^f' '^ucd "$(dirname "$(fzf)")"\n'
-
 bindkey '^[[P' delete-char
 
 ### Edit line in vim with ctrl-e:
@@ -180,10 +163,9 @@ bindkey -M vicmd '^[[P' vi-delete-char
 bindkey -M vicmd '^e' edit-command-line
 bindkey -M visual '^[[P' vi-delete
 
-# Plugins
+## Plugins________________________________
 
-## NVM
-
+### NVM
 export NVM_DIR="$XDG_CONFIG_HOME/nvm"
 source_nvm() {
     local script="$1"
@@ -195,53 +177,44 @@ source_nvm() {
 }
 source_nvm "$NVM_DIR/nvm.sh"
 
-## FZF
-
-fpath=("$ZDOTDIR/completions" "/usr/share/zsh/vendor-completions" $fpath)
-# autoload -U $fpath[1]/*(:t)
+### FZF
+#autoload -U $fpath[1]/*(:t)
 source <(fzf --zsh)
 source "/usr/share/zsh/plugins/zsh-fzf-plugin/fzf.plugin.zsh"
 
-## You-should-use
-
+### You-should-use
 export YSU_MESSAGE_POSITION="after"
 source "/usr/share/zsh/plugins/zsh-fzf-plugin/fzf.plugin.zsh"
 
-## FTC (Find The Command)
-
+### FTC (Find The Command)
 # [ -f "/usr/share/doc/find-the-command/ftc.zsh" ] && source "/usr/share/doc/find-the-command/ftc.zsh" noprompt quiet
 
-## Extract
-
+### Extract
 source "/usr/share/zsh/plugins/zsh-extract/extract.plugin.zsh"
 
-## Sudo
-
+### Sudo
 # [ -f "/usr/share/zsh/plugins/zsh-sudo/sudo.plugin.zsh" ] && source "/usr/share/zsh/plugins/zsh-sudo/sudo.plugin.zsh"
 
-## SystemdD
-
+### SystemdD
 source "$ZDOTDIR/systemd_aliases.zsh"
 
-## History-substring-search
-
+### History-substring-search
 source "/usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh"
 
-## Autosuggestions
-
+### Autosuggestions
 ZSH_AUTOSUGGEST_USE_ASYNC=true
 source "/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
-## YTDL
+### YTDL
+source "/home/andro/.config/zsh/ytdl.zsh"
 
-source /home/andro/.config/zsh/ytdl.zsh
+### Clean.zsh
+source "/home/andro/.config/zsh/clean.zsh"
 
-## Git Extras
+### Git Extras
+source "/usr/share/doc/git-extras/git-extras-completion.zsh"
 
-source /usr/share/doc/git-extras/git-extras-completion.zsh
-
-## P10k
-
+### P10k
 source "$HOME/powerlevel10k/powerlevel10k.zsh-theme"
 [[ ! -f $ZDOTDIR/.p10k.zsh ]] || source $ZDOTDIR/.p10k.zsh
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
@@ -262,6 +235,7 @@ typeset -g POWERLEVEL9K_BACKGROUND_JOBS_ICON=
 typeset -g POWERLEVEL9K_DIR_SHOW_WRITABLE=true
 unset POWERLEVEL9K_VCS_BRANCH_ICON
 
-## Fast-Syntax-highlighting
-
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh 2>/dev/null
+### Syntax-highlighting
+if [ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+  source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi

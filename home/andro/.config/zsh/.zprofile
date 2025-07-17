@@ -1,4 +1,5 @@
 #!/bin/sh
+# shellcheck disable=SC2155
 # Author: 4ndr0666
 # ========================== // ZPROFILE //
 ## Description: .zprofile sourced by the zsh rc file
@@ -6,8 +7,9 @@
 
 ## One-liner
 
-export PATH="$PATH:$(find /home/git/clone/scr -type d -not -path '*/.git/*' | \paste -sd ':' -):$HOME/.local/bin:/usr/bin:/usr/local/bin:/bin:/sbin:/usr/sbin:$HOME/.npm-global/bin:${XDG_DATA_HOME:-/home/andro/.local/share}/gem/ruby/3.4.0/bin:$XDG_DATA_HOME/virtualenv:$XDG_DATA_HOME/go/bin:${CARGO_HOME-:/home/andro/.local/share/cargo}/bin:${JAVA_HOME:-/usr/lib/jvm/default/bin}"
+export PATH="$PATH:$(find /home/git/clone/scr -type d -not -path '*/.git/*' | \paste -sd ':' -):$HOME/.local/bin:/usr/bin:/usr/local/bin:/bin:/sbin:/usr/sbin:$HOME/.npm-global/bin:${XDG_DATA_HOME:-/home/andro/.local/share}/gem/ruby/3.4.0/bin:$XDG_DATA_HOME/virtualenv:$XDG_DATA_HOME/go/bin:${CARGO_HOME-:/home/andro/.local/share/cargo}/bin:/opt/depot_tools:${JAVA_HOME:-/usr/lib/jvm/default/bin}"
 
+unsetopt PROMPT_SP 2>/dev/null
 ## Dynamic Path
 
 ### Global constants:
@@ -56,7 +58,6 @@ export PATH="$PATH:$(find /home/git/clone/scr -type d -not -path '*/.git/*' | \p
 
 ## Default programs
 
-unset PROMPT_SP 2>/dev/null
 export EDITOR="nvim"
 export TERMINAL="alacritty"
 export TERMINAL_PROG="st"
@@ -92,12 +93,13 @@ export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
 export GOPATH="$XDG_DATA_HOME/go"
 export GOMODCACHE="$XDG_CACHE_HOME/go/mod"
-export GOROOT="$(go env GOROOT 2>/dev/null || echo '/usr/lib/go')"
+export GOROOT="/usr/local/go"
+#$(go env GOROOT 2>/dev/null || echo '/usr/lib/go')
 export UNISON="$XDG_DATA_HOME/unison"
 export HISTFILE="$XDG_DATA_HOME/zsh/history"
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/pythonrc"
 export SQLITE_HISTORY="$XDG_DATA_HOME/sqlite_history"
-export DICS="$XDG_DATA_HOME/stardict/dic/"
+export DICS="/usr/share/stardict/dic/"
 
 ## Machine env
 
@@ -248,7 +250,7 @@ if [ ! -d "$GNUPGHOME" ]; then
     \chmod 700 "$GNUPGHOME"
 fi
 
-gpg_env_file="$XDG_CONFIG_HOME/shellz/gpg_env"
+gpg_env_file="${ZDOTDIR:-$HOME/.config/zsh}/gpg_env"
 
 if [ -f "$gpg_env_file" ]; then
     source "$gpg_env_file"
@@ -342,15 +344,16 @@ fh() {
 
 ## Truecolor
 
-export MICRO_TRUECOLOR=1
+#export MICRO_TRUECOLOR=1
 
-case "${COLORTERM}" in
-    truecolor|24bit) ;;
-    *) export COLORTERM="24bit" ;;
-esac
+#case "${COLORTERM}" in
+#    truecolor|24bit) ;;
+#    *) export COLORTERM="24bit" ;;
+#esac
 
 ## PAGER
 
+export PAGER='less'
 #export MANPAGER="sh -c 'if [ -t 1 ]; then col -bx | bat -l man -p; else col -bx | bat -l man -p --color=always --paging=always; fi | less -R'"
 #export BAT_PAGER="less -R"
 #export MANPAGER="sh -c 'col -bx | bat -l man -p | less -R'"
@@ -359,12 +362,19 @@ esac
 ## Less
 
 export LESS="R"
-export LESS_TERMCAP_md=$'\e[01;31m'
-export LESS_TERMCAP_me=$'\e[0m'
-export LESS_TERMCAP_se=$'\e[0m'
-export LESS_TERMCAP_so=$'\e[01;44;33m'
-export LESS_TERMCAP_ue=$'\e[0m'
-export LESS_TERMCAP_us=$'\e[01;32m'
+export LESS_TERMCAP_mb="$(printf '%b' '[1;31m')"
+export LESS_TERMCAP_md="$(printf '%b' '[1;36m')"
+export LESS_TERMCAP_me="$(printf '%b' '[0m')"
+export LESS_TERMCAP_so="$(printf '%b' '[01;44;33m')"
+export LESS_TERMCAP_se="$(printf '%b' '[0m')"
+export LESS_TERMCAP_us="$(printf '%b' '[1;32m')"
+export LESS_TERMCAP_ue="$(printf '%b' '[0m')"
+#export LESS_TERMCAP_md=$'\e[01;31m'
+#export LESS_TERMCAP_me=$'\e[0m'
+#export LESS_TERMCAP_se=$'\e[0m'
+#export LESS_TERMCAP_so=$'\e[01;44;33m'
+#export LESS_TERMCAP_ue=$'\e[0m'
+#export LESS_TERMCAP_us=$'\e[01;32m'
 export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
 
 #export LESS_TERMCAP_mb="$(printf '%b' '')"
