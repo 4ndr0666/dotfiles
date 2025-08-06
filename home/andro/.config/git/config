@@ -1,10 +1,5 @@
-[credential]
-	username = 4ndr0666
-
-[user]
-	email = ""
-	signingkey = ""
-	name = 4ndr0666
+[alias]
+	set-origin-ssh = remote set-url origin git@github.com:4ndr0666/4ndr0site.git
 
 [advice]
 	detachedHead = false
@@ -12,105 +7,78 @@
 [branch]
 	autosetuprebase = always
 
-[color "branch"]
-	current = green reverse
-	local = green
-	remote = yellow
-
-[color "status"]
-	added = green
-	changed = yellow
-	untracked = blue
-
-[color "diff-highlight"]
-	oldNormal = red bold
-	oldHighlight = red bold 52
-	newNormal = green bold
-	newHighlight = green bold 22
-
-[color "diff"]
-	meta = 11
-	frag = magenta bold
-	commit = yellow bold
-	old = red bold
-	new = green bold
-	whitespace = red reverse
-
 [core]
-	autocrlf = input
-	excludesfile = /home/andro/.gitignore_global
-	untrackedCache = true
+	pager = diff-so-fancy | less --no-init --quit-if-one-screen --RAW-CONTROL-CHARS --tabs=4
 
 [diff]
 	colorMoved = default
+	tool = diffuse
 
-[delta]
-	features = hyperlinks
-	width = 1
-	minus-emph-style = syntax bold "#780000"
-	minus-style = syntax "#400000"
-	plus-emph-style = syntax bold "#007800"
-	plus-style = syntax "#004000"
-	hunk-header-style = syntax italic "#303030"
-	hunk-header-decoration-style = omit
-	file-style = yellow bold
-	file-decoration-style = yellow ul
-	file-added-label = [+]
-	file-copied-label = [C]
-	file-modified-label = [M]
-	file-removed-label = [-]
-	file-renamed-label = [R]
+[difftool]
+	prompt = false
+	trustExitCode = true
+
+[difftool "diffuse"]
+	cmd = diffuse "$LOCAL" "$MERGED" "$REMOTE" --output "$MERGED"
+
+[fetch]
+	prune = true
+
+[interactive]
+	diffFilter = diff-so-fancy --patch
+
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+
+[grep]
+	lineNumber = true
+	patternType = perl
 
 [init]
 	defaultBranch = main
 
-[interactive]
-	diffFilter = delta --color-only
-
-[add.interactive]
-    useBuiltin = false
-
-[pager]
-	diff = delta
-	log = delta
-	reflog = delta
-	show = delta
-
-[merge]
-	tool = meld
-
-[mergetool]
-	keepBackup = true
-	prompt = true
-
-[mergetool "diffuse"]
-	cmd = diffuse "$LOCAL" "$MERGED" "$REMOTE" --output "$MERGED"
-
-[diff "gpg"]
-	binary = true
-	textconv = gpg --decrypt --quiet --yes --compress-algo=none --no-encrypt-to --batch --use-agent
-
 [push]
-	#default = current
-	default = simple
+	default = simple 
+	autoSetupRemote = true
 
 [rebase]
-	autostash = true
-	autosquash = true
+	autoStash = true
 
-[pull]
-	rebase = false
-
-[alias]
-	set-origin-ssh = remote set-url origin git@github.com:4ndr0666/4ndr0site.git
+[user]
+	name = 4ndr0666
+	email = 01_dolor.loftier@icloud.com
+	signingkey = "163AF4CEC2DE3D85"
 
 [credential "https://github.com"]
-	helper =
+	helper = 
 	helper = !/usr/bin/gh auth git-credential
 
 [credential "https://gist.github.com"]
-	helper =
+	helper = 
 	helper = !/usr/bin/gh auth git-credential
+
+[credential]
+	username = 4ndr0666
+
+
+#[delta]
+#	features = hyperlinks
+#	width = 1
+#	minus-emph-style = syntax bold "#780000"
+#	minus-style = syntax "#400000"
+#	plus-emph-style = syntax bold "#007800"
+#	hunk-header-style = syntax italic "#303030"
+#	hunk-header-decoration-style = omit
+#	file-style = yellow bold
+#	file-decoration-style = yellow ul
+#	file-added-label = [+]
+#	file-copied-label = [C]
+#	file-modified-label = [M]
+#	file-removed-label = [-]
+#	file-renamed-label = [R]
 
 #[gui]
 #	stageuntracked = no
@@ -118,6 +86,3 @@
 #	fontdiff = -family \"Liberation Mono\" -size 9 -weight normal -slant roman -underline 0 -overstrike 0
 #	warndetachedcommit = true
 #	pruneduringfetch = true
-
-[maintenance]
-	repo = /Nas/Build/git/clone/dotfiles/.git
