@@ -1,0 +1,6 @@
+# Sed Command
+
+### 1. Print a specific line
+
+sed -n '213p' document.sh
+

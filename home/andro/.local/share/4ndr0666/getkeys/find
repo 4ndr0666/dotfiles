@@ -1,0 +1,11 @@
+# 4ndr0cht File
+
+			  `find`
+# =================================
+# Most Common Usage:
+    find . -type f -iname '*.mp4'
+# =================================
+
+
+# 1. Rm all files w specific word:
+find . -name '*example*' -exec rm -v {} +

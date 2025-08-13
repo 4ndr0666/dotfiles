@@ -1,12 +1,14 @@
 import socket
 import json as js
 
+
 def get_msg_template(method: str):
     # Create generic message template
     message = {}
     message["method"] = method
     message["data"] = {}
     return message
+
 
 def geometry_to_json(x: int, y: int, w: int, h: int):
     geometry = {}
@@ -15,6 +17,7 @@ def geometry_to_json(x: int, y: int, w: int, h: int):
     geometry["width"] = w
     geometry["height"] = h
     return geometry
+
 
 class WayfireSocket:
     def __init__(self, socket_name):
@@ -41,16 +44,16 @@ class WayfireSocket:
         return response
 
     def send_json(self, msg):
-        data = js.dumps(msg).encode('utf8')
+        data = js.dumps(msg).encode("utf8")
         header = len(data).to_bytes(4, byteorder="little")
         self.client.send(header)
         self.client.send(data)
         return self.read_message()
 
     def close(self):
-      self.client.close()
+        self.client.close()
 
-    def watch(self, events = None):
+    def watch(self, events=None):
         message = get_msg_template("window-rules/events/watch")
         if events:
             message["data"]["events"] = events

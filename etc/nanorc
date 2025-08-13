@@ -8,12 +8,6 @@
 ## Inside string parameters, quotes should not be escaped -- the last
 ## double quote on the line will be seen as the closing quote.
 
-## If you want ^F, ^B, M-F and M-B to do what they did before version 8.0:
-# bind ^F forward main
-# bind ^B back main
-# bind M-F formatter main
-# bind M-B linter main
-
 ## Make 'nextword' (Ctrl+Right) and 'chopwordright' (Ctrl+Delete)
 ## stop at word ends instead of at beginnings.
 # set afterends
@@ -25,7 +19,7 @@
 ## Automatically indent a newly created line to the same number of
 ## tabs and/or spaces as the preceding line -- or as the next line
 ## if the preceding line is the beginning of a paragraph.
-# set autoindent
+set autoindent
 
 ## Back up files to the current filename plus a tilde.
 # set backup
@@ -50,11 +44,8 @@
 ## Do case-sensitive searches by default.
 # set casesensitive
 
-## Interpret digits given on the command line after a colon after a filename
-## as the line number to go to in that file.
-# set colonparsing
-
-## Constantly display the cursor position in the status bar or minibar.
+## Constantly display the cursor position in the status bar.  Note that
+## this overrides "quickblank".
 # set constantshow
 
 ## Use cut-from-cursor-to-end-of-line by default.
@@ -68,12 +59,8 @@
 ## will be the terminal's width minus this number.
 # set fill -8
 
-## Draw a vertical stripe at the given column, to help judge text width.
-## (This option does not have a default value.)
-# set guidestripe 75
-
 ## Remember the used search/replace strings for the next session.
-# set historylog
+set historylog
 
 ## Display a "scrollbar" on the righthand side of the edit window.
 # set indicator
@@ -82,34 +69,30 @@
 # set jumpyscrolling
 
 ## Display line numbers to the left (and any anchors in the margin).
-set linenumbers
+# set linenumbers
 
 ## Enable vim-style lock-files.  This is just to let a vim user know you
 ## are editing a file [s]he is trying to edit and vice versa.  There are
 ## no plans to implement vim-style undo state in these files.
-# set locking
+set locking
 
 ## Fall back to slow libmagic to try and determine an applicable syntax.
 # set magic
 
-## The opening and closing brackets that are found by a matching-bracket
-## search.  This may not contain blank characters.  The opening brackets
-## must come before the closing ones, and they must be in the same order.
+## The opening and closing brackets that can be found by bracket
+## searches.  They cannot contain blank characters.  The former set must
+## come before the latter set, and both must be in the same order.
 # set matchbrackets "(<[{)>]}"
 
-## Suppress the title bar and show the filename plus a cursor-position
-## percentage in the space of the status bar.
-# set minibar
-
 ## Enable mouse support, if available for your system.  When enabled,
-## mouse clicks can be used to place the cursor, set the mark (with
-## two clicks), and execute shortcuts.  The mouse will work in the
-## X Window System, and on the console when gpm is running.
+## mouse clicks can be used to place the cursor, set the mark (with a
+## double click), and execute shortcuts.  The mouse will work in the X
+## Window System, and on the console when gpm is running.
 # set mouse
 
 ## Switch on multiple file buffers (inserting a file will put it into
 ## a separate buffer).
-# set multibuffer
+set multibuffer
 
 ## Don't convert files from DOS/Mac format.
 # set noconvert
@@ -118,7 +101,7 @@ set linenumbers
 # set nohelp
 
 ## Don't automatically add a newline when a file does not end with one.
-set nonewlines
+# set nonewlines
 
 ## Set operating directory.  nano will not read or write files outside
 ## this directory and its subdirectories.  Also, the current directory
@@ -132,12 +115,14 @@ set nonewlines
 ## Preserve the XON and XOFF keys (^Q and ^S).
 # set preserve
 
-## The characters treated as closing punctuation when justifying paragraphs.
-## This may not contain blank characters.  Only these closing punctuations,
-## optionally followed by closing brackets, can end sentences.
+## The characters treated as closing punctuation when justifying
+## paragraphs.  They cannot contain blank characters.  Only closing
+## punctuation, optionally followed by closing brackets, can end
+## sentences.
 # set punct "!.?"
 
-## Make status-bar messages disappear after 1 keystroke instead of after 20.
+## Do quick status-bar blanking.  Status-bar messages will disappear after
+## 1 keystroke instead of 26.  Note that "constantshow" overrides this.
 # set quickblank
 
 ## The regular expression that matches quoting characters in email
@@ -156,17 +141,18 @@ set nonewlines
 
 ## Save a changed buffer automatically on exit; don't prompt.
 # set saveonexit
+## (The old form of this option, 'set tempfile', is deprecated.)
 
-## Put the cursor on the highlighted item in the file browser, and
-## show the cursor in the help viewer; useful for people who use a
-## braille display and people with poor vision.
+## Put the cursor on the highlighted item in the file browser, and show
+## the cursor in the help viewer; useful for people who use a braille
+## display and people with poor vision.
 # set showcursor
 
-## Make the Home key smarter: when Home is pressed anywhere but at the
+## Make the Home key smarter.  When Home is pressed anywhere but at the
 ## very beginning of non-whitespace characters on a line, the cursor
 ## will jump to that beginning (either forwards or backwards).  If the
-## cursor is already at that position, it will jump to the true start
-## of the line (the left edge).
+## cursor is already at that position, it will jump to the true
+## beginning of the line.
 # set smarthome
 
 ## Spread overlong lines over multiple screen lines.
@@ -178,18 +164,20 @@ set nonewlines
 
 ## Use the end of the title bar for some state flags: I = auto-indenting,
 ## M = mark, L = hard-wrapping long lines, R = recording, S = soft-wrapping.
-# set stateflags
+set stateflags
+
+## Allow nano to be suspended (with ^Z by default).
+#set suspendable
+## (The old form of this option, 'set suspend', is deprecated.)
 
 ## Use this tab size instead of the default; it must be greater than 0.
-set tabsize 4
+# set tabsize 8
 
-## Convert each typed tab to the fitting number of spaces.
+## Convert typed tabs to spaces.
 # set tabstospaces
 
 ## Snip whitespace at the end of lines when justifying or hard-wrapping.
-set trimblanks
-## Save files by default in Unix format (also when they were DOS or Mac).
-# set unix
+# set trimblanks
 
 ## The two single-column characters used to display the first characters
 ## of tabs and spaces.  187 in ISO 8859-1 (0000BB in Unicode) and 183 in
@@ -212,36 +200,28 @@ set trimblanks
 ## of a single character, and without affecting the cutbuffer).
 # set zap
 
-## Hide the bars plus help lines and use the whole terminal as edit area.
-# set zero
-
-
-## Paint the interface elements of nano.  These are examples; there are
-## no colors by default, except for errorcolor and spotlightcolor.
-set titlecolor white,blue
-set promptcolor lightwhite,lightblack
-set statuscolor white,green
-set errorcolor brightwhite,red
-set spotlightcolor black,lime
-set selectedcolor white,white
-set stripecolor ,yellow
-set scrollercolor cyan
-set numbercolor cyan
-set keycolor cyan
-set functioncolor green
+## Paint the interface elements of nano.  These are examples;
+## by default there are no colors, except for errorcolor.
+# set titlecolor bold,lightwhite,blue
+# set statuscolor bold,lightwhite,green
+# set errorcolor bold,lightwhite,red
+# set selectedcolor lightwhite,magenta
+# set stripecolor ,yellow
+# set scrollercolor cyan
+# set numbercolor cyan
+# set keycolor cyan
+# set functioncolor green
 
 ## In root's .nanorc you might want to use:
-set titlecolor brightwhite
-set promptcolor black,yellow
-set statuscolor brightwhite
-set errorcolor bold,lightwhite,red
-set spotlightcolor black,orange
-set selectedcolor white,cyan
-set stripecolor ,yellow
-set scrollercolor magenta
-set numbercolor white
-set keycolor brightwhite
-set functioncolor white
+# set titlecolor bold,lightwhite,magenta
+# set statuscolor bold,lightwhite,magenta
+# set errorcolor bold,lightwhite,red
+# set selectedcolor lightwhite,cyan
+# set stripecolor ,yellow
+# set scrollercolor magenta
+# set numbercolor magenta
+# set keycolor lightmagenta
+# set functioncolor magenta
 
 
 ## === Syntax coloring ===
@@ -251,9 +231,9 @@ set functioncolor white
 include "/usr/share/nano/*.nanorc"
 
 ## Or you can select just the ones you need.  For example:
-# include /usr/share/nano/html.nanorc
-# include /usr/share/nano/python.nanorc
-# include /usr/share/nano/sh.nanorc
+# include "/usr/share/nano/html.nanorc"
+# include "/usr/share/nano/python.nanorc"
+# include "/usr/share/nano/sh.nanorc"
 
 ## In /usr/share/nano/extra/ you can find some syntaxes that are
 ## specific for certain distros or for some less common languages.
@@ -263,12 +243,12 @@ include "/usr/share/nano/*.nanorc"
 ## independent of the settings of 'tabsize' and 'tabstospaces':
 # extendsyntax python tabgives "    "
 
+## If <Tab> should always produce an actual TAB when editing a Makefile:
+# extendsyntax makefile tabgives "	"
+
 
 ## === Key bindings ===
 ## For all details, see 'man nanorc', section REBINDING KEYS.
-
-## If you want to suspend nano with one keystroke (instead of with ^T^Z):
-# bind ^Z suspend main
 
 ## The <Ctrl+Delete> keystroke deletes the word to the right of the cursor.
 ## On some terminals the <Ctrl+Backspace> keystroke produces ^H, which is
@@ -279,62 +259,439 @@ include "/usr/share/nano/*.nanorc"
 ## <Ctrl+Backspace> delete the word to the left of the cursor with:
 # bind ^H chopwordleft main
 
-## For a more mnemonic Comment keystroke (overriding Cut-from-cursor):
-# bind M-K comment main
-
-## If you want ^L to just refresh the screen and not center the cursor:
-# bind ^L refresh main
-
-## When you sometimes type M-J instead of M-K, or M-T instead of M-R:
-# unbind M-J main
-# unbind M-T main
-## (Those functions are still accessible through ^T^J and ^T^V.)
-
-## For quickly uppercasing or lowercasing the word that the cursor is on.
-## (These effectively select a word and pipe it through a sed command.)
-# bind Sh-M-U "{nextword}{mark}{prevword}{execute}| sed 's/.*/\U&/' {enter}" main
-# bind Sh-M-L "{nextword}{mark}{prevword}{execute}| sed 's/.*/\L&/' {enter}" main
-
-## For copying a marked region to the system clipboard:
-# bind Sh-M-C "{execute}| xsel -ib {enter}{undo}" main
-
-## For normalizing Unicode to precomposed characters:
-# bind Sh-M-N "{execute}| uconv -x nfc {enter}" main
-
-## For snipping trailing blanks when you save a file:
-# bind ^S "{execute}| sed 's/\s\+$//' {enter}{savefile}" main
-
 ## If you would like nano to have keybindings that are more "usual",
 ## such as ^O for Open, ^F for Find, ^H for Help, and ^Q for Quit,
 ## then uncomment these:
-# bind ^X cut main
-# bind ^C copy main
-# bind ^V paste all
-# bind ^Q exit all
-# bind ^S savefile main
-# bind ^W writeout main
-# bind ^O insert main
-# set multibuffer
-# bind ^H help all
-# bind ^H exit help
-# bind ^F whereis all
-# bind ^G findnext all
-# bind ^B wherewas all
-# bind ^D findprevious all
-# bind ^R replace main
-# unbind ^U all
-# unbind ^N main
-# unbind ^Y all
-# unbind M-J main
-# unbind M-T main
-# bind ^A mark main
-# bind ^P location main
-# bind ^T gotoline main
-# bind ^T gotodir browser
-# bind ^T cutrestoffile execute
-# bind ^L linter execute
-# bind ^E execute main
-# bind ^K "{mark}{end}{zap}" main
-# bind ^U "{mark}{home}{zap}" main
-# bind ^Z undo main
-# bind ^Y redo main
+#bind ^Q exit all
+#bind ^S savefile main
+#bind ^W writeout main
+#bind ^O insert main
+#bind ^H help all
+#bind ^H exit help
+#bind ^F whereis all
+#bind ^G findnext all
+#bind ^B wherewas all
+#bind ^D findprevious all
+#bind ^R replace main
+#bind M-X flipnewbuffer all
+#bind ^X cut all
+#bind ^C copy main
+#bind ^V paste all
+#bind ^P location main
+#bind ^A mark main
+#unbind ^K main
+#unbind ^U all
+#unbind ^N main
+#unbind ^Y all
+#unbind M-J main
+#unbind M-T main
+#bind ^T gotoline main
+#bind ^T gotodir browser
+#bind ^Y speller main
+#bind M-U undo main
+#bind M-R redo main
+#bind ^U undo main
+#bind ^E redo main
+#set multibuffer
+
+#added by antiX
+## default for any file we open is to treat # as a comment
+syntax "default"
+color green "^[ \t]*#.*"
+
+syntax "c-file" "\.(c|h)$"
+color red "\<[A-Z_]{2,}\>"
+color brightblue "\<(float|char|int|void|static|const|struct)\>"
+color brightmagenta "\<(if|while|do|else|case|switch)\>"
+color brightcyan "^ *# *(define|include|ifn?def|endif|elif|else|if)"
+color blue "<[^= ]*>" ""(\\.|[^\"])*""
+## This string is VERY resource intensive!!!
+# color brightyellow start=""(\\.|[^\"])*\\ *$" end="^(\\.|[^\"])*""
+color green "//.*"
+color green start="/\*" end="\*/"
+
+### all *cf files (e.g. main.cf, Postfix )
+syntax "maincf" "(\.|/|)cf$"
+color magenta "\=.*$"
+color green "#.*$"
+color cyan "[A-Z0-9\_]+="
+color blue ""(\\.|[^\"])*""
+color red "\@"
+
+### all *rc files  ( e.g. .bashrc, inputrc, xtermcontrol .... )
+syntax "rcfiles" "\rc$" "(\.|/|)control$"
+color red "'(\\.|[^'])*'"
+color blue ""(\\.|[^\"])*""
+color magenta "[A-Z0-9\_]+="
+color magenta "\<(sudo)\>"
+color cyan "\<(alias)\>"
+color brightcyan "\<(export)\>"
+color yellow "\<(shopt)\>"
+color brightred "\<(umask)\>.*$"
+color green "#.*$"
+
+### all *profile files ( ~/.bash_profile, /etc/profile)
+syntax "profiles" "(\.|/|)profile$"
+color red "'(\\.|[^'])*'"
+color blue ""(\\.|[^\"])*""
+color magenta "[a-zA-Z0-9\_]+="
+color magenta "\<(sudo)\>"
+color cyan "\<(export)\>" "\<(alias)\>"
+color brightred "\<(umask)\>.*$"
+color green "#.*$"
+
+### all *js files  ( e.g. Firefox user.js, prefs.js )
+syntax "jsfiles" "(\.|/|)js$"
+color green "//.*$" start="\/\*" end="\*\/"
+color blue "'(\\.|[^'])*'"
+color red ""(\\.|[^\"])*""
+color brightgreen "\<(true)\>"
+color brightred "\<(false)\>" "http\:\/\/.*$"
+color brightmagenta "[0-9](\\.|[^\"])*)"
+
+### all *conf files  (e.g. make.conf, xorg.conf, grub.conf, make.globals, Xfce files...)
+syntax "configfiles" "(\.|/|)conf$" "(\.|/|)ample$" "(\.|/|)globals$" "xfce.*$" "syslog-ng" "sudoers"
+color brightwhite "\<(alias)\>"
+color blue "<(\\.|[^'])*>"
+color magenta "[a-zA-Z0-9\_]+="
+color white ">(\\.|[^'><])*</"
+color green "//.*$"
+color red ""(\\.|[^\"])*""
+color red "title.*$" "\<(server)\>" "\<(logfile)\>" "\<(driftfile)\>" "\<(restrict)\>"
+color white ":unscaled" "http\:\/\/" "ftp\:\/\/" "rsync\:\/\/"
+color magenta "'(\\.|[^'])*'"
+color brightwhite "[0-9]"
+color brightwhite "[<>]"
+color magenta "Section" "EndSection" "SubSection" "EndSubSection"
+color red "\<(root)\>"
+color brightred,blue "^.*-->" start="<!--.*" end="$"
+color green "#.*$" start="<!--" end="-->"
+
+## Xdefaults
+syntax "Xdefaults" "(\.|/|)default.$" "(\.|/|)resource.$" "fonts.alias"
+color magenta "XTerm"
+color cyan "Rxvt"
+color white "\*(\\.|[^'])*\:"
+color brightblue "\<(true)\>"
+color brightred "\<(false)\>"
+color brightwhite "[0-9]"
+color green "!.*$" "#.*$"
+
+### several config files
+syntax "config" "(\.|/|)config$" "(\.|/|)logout$" "(\.|/|)COLORS$" "(\.|/|)colors$"
+color red "/.*$" "TERM" "\..*$" "=.*$" "\*.*$"
+color white ":unscaled" "[0-9]"
+color blue "setenv|export" "\;"
+color green "#.*$"
+
+### more config files
+syntax "config2" "(\.|/|)env$" "(\.|/|)server.$" "hosts" "gpm" "local.*$" "bootsplash" "crypto-loop"
+color red "/.*$" "http\:\/\/.*$"
+color white ":unscaled"
+color blue "setenv|export"
+color brightwhite "[0-9]"
+color green "#.*$"
+color white "http\:\/\/" "ftp\:\/\/" "rsync\:\/\/"
+
+### even more config files ;-)
+syntax "config3" "iptables" "ntp.*$" "rsyncd" "xfs" "saslauthd" "timidity" "net.*$" "hdparm" "esound" "login.*$"
+color red "/.*$" "http\:\/\/.*$" ""(\\.|[^\"])*"" "\<(server)\>" "\<(logfile)\>""\<(driftfile)\>"
+color white ":unscaled" "http\:\/\/" "ftp\:\/\/" "rsync\:\/\/"
+color blue "setenv|export"
+color brightwhite "[0-9]"
+color green "#.*$"
+
+### all *tab files ( e.g. fstab, crontab, inittab )
+syntax "fstab" "(\.|/|)tab$"
+color magenta "\<(none)\>.*$" "\<(wait)\>" "\<(respawn)\>"
+color red "/dev/hd.*$" "\<(ctrlaltdel)\>" "\<(initdefault)\>"
+color blue "/dev/sr.*$" "/dev/cd.*$" "\/sbin.*$"
+color cyan "/dev/sd.*$"
+color brightcyan "^.*(nfs|smbfs).*$"
+color yellow "/dev/fd.*$"
+color red "root"
+color brightwhite "[0-9]"
+color green "#.*$"
+
+###  etc/passwd
+syntax "passwd" "(\.|/|)passwd$" "(\.|/|)shadow$"
+color white ".*$"
+color blue "\:.*$"
+color yellow "\:*\:"
+color cyan "/.*$"
+color red "/bin/false"
+color brightred "root"
+color brightgreen "/bin/.*sh"
+color white "[0-9]"
+color magenta "\:\/.*\:"
+
+### all *desc files ( e.g. use.desc, use.local.desc )
+syntax "use" "(\.|/|)desc$"
+color green ".*\-"
+color white "\:.*$"
+color white "\-.*$"
+color magenta "\:(\\.|[^'])*\-"
+color blue "\-(\\.|[^'])*\:"
+color yellow "\/(\\.|[^'])*\:"
+color red "x86" "http\:\/\/.*$"
+color brightred "\!\!(\\.|[^'])*\!\!" "DO NOT SET THIS FLAG YOURSELF!"
+color green "#.*$"
+
+
+
+##########################################################################
+##########################################################################
+
+## Here is an example for your .nanorc
+##
+syntax "nanorc" "[\.]*nanorc$"
+color white "^ *(set|unset).*$"
+color cyan "^ *(set|unset) (autoindent|backup|const|cut|fill|keypad|multibuffer|noconvert|nofollow|nohelp|nowrap|operatingdir|preserve|quotestr|regexp|smooth|speller|suspend|tabsize|tempfile|historylog|view)"
+color brightwhite "^ *syntax [^ ]*"
+color brightblue "^ *set\>" "^ *unset\>" "^ *syntax\>"
+color white "^ *color\>.*"
+color yellow "^ *color (bright)?(white|black|red|blue|green|yellow|magenta|cyan)\>"
+color magenta "^ *color\>"
+color green "^#.*$"
+
+# Fluxbox init syntax highlighting
+##################################
+syntax "flux-init" "init"
+color magenta "^session.+:"
+color cyan "\s.+$"
+
+
+# Fluxbox keys syntax highlighting
+##################################
+syntax "flux-keys" "keys"
+color magenta "^Mod1"
+color cyan "(F.|F..|Shift|Tab)"
+
+
+# Fluxbox menu syntax highlighting
+##################################
+syntax "flux-menu" "menu"
+color green "^\[.+\]"
+color magenta "\[(commanddialog|config|exec|exit|reconfig|restart|separator|stylesdir|workspaces)\]"
+color yellow "\(.+\)"
+color white "\{.+\}"
+color blue "<.+>"
+
+
+# sources.list syntax highlighting
+##################################
+syntax "sources.list" "\.list$"
+color red "^rpm"
+color blue "http.+"
+color magenta "(el3-i386.+|redhat.+|rh9.+|sl3-i386.+)"
+color white "(at-stable|dag|legacy-utils|os|release|stable|updates|updates-legacy)"
+color green "^#.*"
+
+
+# grub.conf syntax highlighting
+###############################
+syntax "grub.conf" "grub\.conf"
+color cyan "(^default.+|^timeout.+)"
+color red "^title.+"
+color yellow "(initrd.+|kernel.+|root.+)"
+color green "^#.*"
+
+## syntax highlighting in xorg.conf
+##
+syntax "xorg" "xorg\.conf$"
+color brightwhite "[^A-Za-z0-9](End)?Sub[sS]ection([^A-Za-z0-9]|[[:space:]]*)"
+color brightwhite "^[[:space:]]*(End)?Section([^A-Za-z0-9]|[[:space:]]*)"
+color yellow "[^A-Za-z0-9](Monitor|View[pP]ort|Virtual)[^A-Za-z0-9]"
+color yellow "[^A-Za-z0-9]Mod(e|es|eline|ulePath|elName)[^A-Za-z0-9]"
+color yellow "[^A-Za-z0-9](\+vsync|\+hsync|HorizSync|VertRefresh)[^A-Za-z0-9]"
+color yellow "[^A-Za-z0-9](Rgb|Font)Path[^A-Za-z0-9]"
+color yellow "[^A-Za-z0-9](Default(Color)?)?Depth[^A-Za-z0-9]"
+color yellow "[^A-Za-z0-9](Input)?Device[^A-Za-z0-9]"
+color yellow "[^A-Za-z0-9](Identifier|Screen|Option)[^A-Za-z0-9]"
+color yellow "[^A-Za-z0-9]((Left|Right)Of|Driver|Load)[^A-Za-z0-9]"
+color yellow "[^A-Za-z0-9](VendorName|BoardName|BusID)[^A-Za-z0-9]"
+color magenta "[0-9]"
+color white ""(\\.|[^\"])*""
+color green "#.*"
+
+## PHP syntax highlighting
+##
+syntax "php" "\.php$" "\.php[2345s]$" "\.phtml$"
+#special
+color brightwhite "([^A-Za-z0-9])|(<\?php|\?>|var|and|or|default|class|extends|true|false|global|function|new|switch|case|break|next|prev|elseif|if|else|foreach|for|as|do|while|exit|declare|require_once|require|include_once|include|return)([^A-Za-z0-9])"   
+#types
+color brightblue "([^A-Za-z0-9])|(null|int|string|array|float|bool|object|resource)[^A-Za-z0-9]"
+#functions (Ack! - Too many!)
+color brightmagenta "([^A-Za-z0-9])(setcookie|sprintf|rmdir|move_uploaded_file|readdir|chdir|closedir|getcwd|shuffle|rsort|arsort|round|ceil|floor|is_dir|realpath|sort|usort|in_array|chr|opendir|mktime|getdata|date|fopen|fwrite|fread|fclose|sizeof|nl2br|basename|copy|isset|time|unlink|session_start|trim|rtrim|md5|echo|print|printf|explode|implode|array|split|join|die|function)([^A-Za-z0-9])*"
+
+color brightmagenta "base64_(en|de)code|(un)?serialize|(add|strip)slashes"
+color brightmagenta "str(natcasecmp|tolower|toupper|pos|str|istr|_replace)|substr(_count)?"
+color brightmagenta "array_(reverse|search|merge|slice|push|pop)"
+color brightmagenta "preg_(match(_all)?|replace|split)"
+color brightmagenta "file(type|owner|group|perms|size|atime|mtime|_get_contents|_exists)"
+color brightmagenta "mysql_(error|connect|select_db|close|query)"
+
+#Etc global command ;) (added by ObsidianX)
+color blue "([^A-Za-z0-9])|(global|if|else)([^A-Za-z0-9])*"
+#Variables
+color brightcyan "\$[A-Za-z0-9_\>-]*"
+#strings
+color brightyellow ""(\\.|[^\"])*""
+color brightyellow "'(\\.|[^\'])*'"
+#color brightyellow start=""(\\.|[^\"])*\\( | )*$" end="^(\\.|[^\"])*""
+#color brightblue start="\".*" end=".*\""
+#comments
+color brightred "//.*"
+color brightred "#.*"
+color brightred start="/\*" end="\*/"
+
+## Here is a short example for HTML
+syntax "HTML" "\.html$"
+color green start="<" end=">"
+color red "&[^; ]*;"
+
+
+
+## Here is an example for shell scripts
+##
+syntax "shellscript" "\.sh$" ".bashrc"
+
+color brightgreen "^[a-zA-Z_0-9]+\(\)"
+color brightwhite "\<(case|do|done|elif|else|esac|exit)\>"
+color brightwhite "\<(fi|for|function|if|in|local|read)\>"
+color brightwhite "\<(return|select|shift|then|time|until|while)\>"
+color brightwhite "(\{|\}|\(|\)|\;|\]|\[|`|\\|\$|<|>|!|=|&|\|)"
+color brightwhite "-(e|d|f|r|g|u|w|x|L)\>"
+color brightwhite "-(eq|ne|gt|lt|ge|le|s|n|z)\>"
+
+# commands
+color brightblue "\<make\>"
+color brightblue "\<(alias|cat|cd|chmod|chown|cp|echo|env)\>"
+color brightblue "\<(eval|export|grep|install|let|ln|ls)\>"
+color brightblue "\<(mkdir|mv|rm|sed|set|tar|touch|umask|unset)\>"
+# a program I installed
+color magenta "(figlet)"
+# variables?
+color brightred "\$\{?[a-zA-Z_0-9]+\}?"
+# strings?
+color brightyellow ""(\\.|[^\"])*"" "'(\\.|[^'])*'"
+color brightyellow start=""EOF"" end="EOF"
+# comments
+color green "#.*$"
+
+## Apache httpd.conf highlighting
+##
+#how to add sites-enabled files?  "default" is too generic to keep in here I think
+syntax "Apache2" "apache2\.conf$" "httpd\.conf$" "default"
+color brightwhite "(ServerRoot|(Lock|Pid)File|Timeout|(Max)?KeepAlive(Requests|Timeout)?)"
+color brightwhite "(User|Group|LogFormat|ErrorLog|Include|(Script)?Alias)"
+color brightwhite "(ErrorDocument|AccessFileName|UseCanonicalName|TypesConfig|DefaultType)"
+color brightwhite "(HostnameLookups|IndexOptions|(Readme|Header)Name|LanguagePriority)"
+color brightwhite "(AddIcon(ByEncoding|ByType)?|DefaultIcon|IndexIgnore|BrowserMatch)"
+color brightwhite "(Add(Encoding|Language|(Default)?Charset|Type|Handler)|DirectoryIndex)"
+color brightwhite "(DocumentRoot|Server(Admin|Signature)|LogLevel|CustomLog)"
+color brightwhite "((Force)?LanguagePriority|NameVirtualHost)"
+color yellow "(SetHandler|Order|Deny|Allow|SetOutputFilter)"
+color yellow "(AllowOverride|FileInfo|AuthConfig|Limit)"
+color yellow "([^A-Z0-9a-z]Options|Indexes|(\+|\-)?SymLinksIfOwnerMatch)"
+color yellow "(Includes(NoExec)?|(\+|\-)?MultiViews)"
+color yellow "(None|allow,deny|deny,allow|(allow)? from (all)?|Prefer|Fallback)"
+color yellow "(Add(Handler|OutputFilter)|NumServers|AcceptMutex)"
+color yellow "((Min|Max)Spare(Threads|Servers)|Start(Threads|Servers))"
+color yellow "(MaxClients|(Max)?ThreadsPerChild|MaxRequestsPerChild)"
+color yellow "(FancyIndexing|VersionSort|ExecCGI|FollowSymLinks)"
+color brightred "(On|Off)[[:space:]]*$"
+color brightred "[[:space:]]+(debug|info|notice|warn|error|crit|alert|emerg)[[:space:]]*$"
+color brightred "[[:space:]]+(combined|common|referer|agent)[[:space:]]*$"
+color brightred "[[:space:]]+(redirect\-carefully|nokeepalive)[[:space:]]*"
+color brightred "[[:space:]]+(force\-response\-1\.0)[[:space:]]*"
+color brightred "[[:space:]]+(downgrade\-1\.0)[[:space:]]*"
+color brightred "[[:space:]]+application/[a-zA-Z\-]+[[:space:]]*"
+color brightred "[[:space:]]+type-map[[:space:]]*"
+color magenta "[[:space:]]+[0-9]+[[:space:]]*"
+color magenta "(/)?(2[0-5]{2}|1[0-9]{2}|[1-9][0-9]|[1-9])(\.(2[0-5]{2}|1[0-9]{2}|[1-9][0-9]|[0-9])){3}([[:space:]]+::(2[0-5]{2}|1[0-9]{2}|[1-9][0-9]|[0-9])/(2[0-5]{2}|1[0-9]{2}|[1-9][0-9]|[0-9]))?"
+color brightcyan start="<" end=">"
+color white ""(\\.|[^\"])*""
+# Unix-based paths
+# can't use \] in the regex for some reason?!? Maybe a bug?
+# this is preventing a 100% "to the end of the line" match for a few
+# lines (the trailing characters from ] to the EOL are not highlighted.
+# if anyone knows how to make it work, let me know.. ;)
+color white "[[:space:]]+(/[/\[\^#A-Za-z0-9\.\*\_\-]+)+"
+color green "^[[:space:]]*#.*"
+
+## Conky config highlighting
+##
+syntax "Conky" ".conkyrc$"
+color brightblue "(use_spacer|background|use_xft|xftfont|xftalpha)"
+color brightblue "(mail_spool|update_interval|own_window)"
+color brightblue "(double_buffer|minimum_size)"
+color brightblue "(draw_(outline|borders|shades)|stippled_borders)"
+color brightblue "border_(margin|width)"
+color brightblue "default_((shade_|outline_)?color)"
+color brightblue "(alignment|gap_x|gap_y|no_buffers|uppercase)"
+color brightblue "^TEXT[[:space:]]*$"
+color brightred "[[:space:]]+(yes|no)[[:space:]]*"
+color brightred "(top_left|top_right|bottom_left|bottom_right)[[:space:]]*$"
+color magenta "[[:space:]]+([[:space:]]*([0-9]\.?))+[[:space:]]*"
+color brightred "\$\{?[a-zA-Z_0-9\# ]+\}?"
+color green "^[[:space:]]*#.*"
+color white "[[:space:]]+\#[0-9A-Fa-f]{6}"
+
+## Code Highlighting for perl source
+##
+syntax "perl" "\.p[lm]$"
+color red "\<(accept|alarm|atan2|bin(d|mode)|c(aller|h(dir|mod|op|own|root)|lose(dir)?|onnect|os|rypt)|d(bm(close|open)|efined|elete|ie|o|ump))\>"
+color red "\<(e(ach|of|val|x(ec|ists|it|p))|f(cntl|ileno|lock|ork))\>"
+color red "\<(get(c|login|peername|pgrp|ppid|priority|pwnam|(host|net|proto|serv)byname|pwuid|grgid|(host|net)byaddr|protobynumber|servbyport))\>"
+color red "\<(([gs]et|end)(pw|gr|host|net|proto|serv)ent|getsock(name|opt)|gmtime|goto|grep|hex|index|int|ioctl|join)\>"
+color red "\<(keys|kill|last|length|link|listen|local(time)?|log|lstat|m|mkdir|msg(ctl|get|snd|rcv)|next|oct|open(dir)?|ord|pack|pipe|pop|printf?)\>"
+color red "\<(push|q|qq|qx|rand|re(ad(dir|link)?|cv|do|name|quire|set|turn|verse|winddir)|rindex|rmdir|s|scalar|seek(dir)?)\>"
+color red "\<(se(lect|mctl|mget|mop|nd|tpgrp|tpriority|tsockopt)|shift|shm(ctl|get|read|write)|shutdown|sin|sleep|socket(pair)?)\>"
+color red "\<(sort|spli(ce|t)|sprintf|sqrt|srand|stat|study|substr|symlink|sys(call|read|tem|write)|tell(dir)?|time|tr(y)?|truncate|umask)\>"
+color red "\<(un(def|link|pack|shift)|utime|values|vec|wait(pid)?|wantarray|warn|write)\>"
+color magenta "\<(continue|else|elsif|do|for|foreach|if|unless|until|while|eq|ne|lt|gt|le|ge|cmp|x|my|sub|use|package|can|isa)\>"
+color cyan start="[$@%]" end="( |\\W|-)"
+color yellow "".*"|qq\|.*\|"
+color white "[sm]/.*/"
+color white start="(^use| = new)" end=";"
+color green "#.*"
+color yellow start="<< 'STOP'" end="STOP"
+
+## Here is an example for manpages
+##
+syntax "manpage" "\.[1-9]x?$"
+color green "\.(S|T)H.*$"
+color brightgreen "\.(S|T)H" "\.TP"
+color brightred "\.(BR?|I[PR]?).*$"
+color brightblue "\.(BR?|I[PR]?|PP)"
+color brightwhite "\\f[BIPR]"
+color yellow "\.(br|DS|RS|RE|PD)"
+
+
+# yay, python
+syntax "python" "\.py$"
+#color red "[\[\](){}:]"
+# flow control
+color yellow "([[:space:]]|^)(and|break|class|def|elif|else|except|for|if|import|in|or|print|raise|return|try|while)([[:space:]]|:)"
+color brightblue "\<__dict__\>"
+color brightblue "(Exception|getopt|os|string|sys)"
+# methods
+#color brightcyan "\.?(abspath|argv|curdir|error|exists|exit|extend)"
+#color brightcyan "\.?(iteritems|path|popen|prefix|readlines|remove|returncode|startswith|std(out|err)|version|wait|write)"
+#color brightcyan "\.getopt"
+color brightcyan "\.[A-Za-z]+"
+# errors
+color brightyellow "(IOError)"
+color green "#.*"
+color brightred "self"
+#color cyan "([\"']).*?[^\]\1"
+# this is kludge to avoid the line for the example C syntax marked "this is wasteful"
+# strings
+color cyan "\"\"" "''"
+color cyan start="'''" end="'''"
+color cyan start="\"\"\"" end="\"\"\""
+color cyan ""(\\.|[^\"])*"" "'(\\.|[^'])*'"
+
+# numbers
+color magenta "([[:space:]]+[0-9]+[[:space:]]*)|(\([0-9]+\))" 

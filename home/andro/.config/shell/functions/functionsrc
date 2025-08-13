@@ -1,8 +1,6 @@
-# File: $USER/.config/shell/functions/functionsrc
-# Author: 4ndr0666
-# Edited: 11-3-2024
-
+#!/bin/bash
 # ============================================== // FUNCTIONSRC //
+
 # --- // Reset permissions:
 function reset_permissions() {
     # Check if running as root
@@ -33,9 +31,11 @@ function reset_permissions() {
 
     # Function to back up current permissions
     backup_permissions() {
-        local backup_file="/tmp/permissions_backup_$(date +%Y%m%d%H%M%S).txt"
+        local backup_file
+	backup_file="/tmp/permissions_backup_$(date +%Y%m%d%H%M%S).txt"
         echo "Backing up current permissions to $backup_file..."
-        local dir_count=0
+        local dir_count
+	dir_count=0
         for dir in "${!dir_permissions[@]}"; do
             if [[ -d $dir ]]; then
                 find "$dir" -exec stat -c "%a %n" {} \; >> "$backup_file"
@@ -47,7 +47,8 @@ function reset_permissions() {
 
     # Function to reset directory permissions
     reset_dir_permissions() {
-        local dry_run=$1
+        local dry_run
+	dry_run=$1
         for dir in "${!dir_permissions[@]}"; do
             if [[ -d $dir ]]; then
                 local current_perm
@@ -73,8 +74,10 @@ function reset_permissions() {
 
     # Function to reset file permissions within directories
     reset_file_permissions() {
-        local dry_run=$1
-        local dir=$2
+        local dry_run
+	dry_run=$1
+        local dir
+	dir=$2
 
         if [[ -d "$dir" ]]; then
             if [[ "$dry_run" == true ]]; then
@@ -145,8 +148,10 @@ function sysboost() {
 
     # Function to log messages with an optional delay
     log_and_wait() {
-        local message=$1
-        local delay=${2:-2}  # Default delay is 2 seconds
+        local message
+	message=$1
+        local delay
+	delay=${2:-2}  # Default delay is 2 seconds
         echo "$message"
         sleep "$delay"
     }
@@ -229,8 +234,10 @@ function swapboost() {
 
     echo "Scanning accessible file mappings..."
     sleep 2
-    local file_count=0
-    local cmd_prefix=""
+    local file_count
+    file_count=0
+    local cmd_prefix
+    cmd_prefix=""
     [[ $EUID -ne 0 ]] && cmd_prefix="sudo"
 
     # Touch only accessible memory-mapped files
@@ -279,9 +286,12 @@ function fullboost() {
 
 # --------------------------------------------------------- // DOWNSCALE_TO_1080P:
 function downscale() {
-    local input_file="$1"
-    local output_file="${2:-downscaled_1080p.mp4}"
-    local quality="${3:-15}"  # Default CRF value for quality, lower is better
+    local input_file
+    input_file="$1"
+    local output_file
+    output_file="${2:-downscaled_1080p.mp4}"
+    local quality
+    quality="${3:-15}"  # Default CRF value for quality, lower is better
 
     # Validate input file presence
     if [[ -z "$input_file" ]]; then
@@ -302,9 +312,12 @@ function downscale() {
     fi
 
     # Ensure output file name is unique
-    local base_name="${output_file%.*}"
-    local extension="${output_file##*.}"
-    local counter=1
+    local base_name
+    base_name="${output_file%.*}"
+    local extension
+    extension="${output_file##*.}"
+    local counter
+    counter=1
 
     while [[ -f "$output_file" ]]; do
         output_file="${base_name}_${counter}.${extension}"
@@ -357,7 +370,8 @@ extract() {
 # -------------------------------------------------------------------------- // Cd and ls:
 cl() {
     # Default to HOME directory if no argument is provided
-    local dir="${1:-$HOME}"
+    local dir
+    dir="${1:-$HOME}"
 
     # Check if the argument is a directory or a symbolic link to a directory
     if [[ -d "$dir" || -L "$dir" ]]; then
@@ -372,7 +386,8 @@ cl() {
 
 # Helper Functions
 check_and_setup_ssh() {
-  local ssh_key="${HOME}/.ssh/id_ed25519"
+  local ssh_key
+  ssh_key="${HOME}/.ssh/id_ed25519"
 
   if [ -f "$ssh_key" ]; then
     echo "SSH key exists."
@@ -420,7 +435,8 @@ switch_to_ssh() {
   local old_url new_url
 
   # Get a list of all remotes and use fzf to select one
-  local remote_name=$(git remote | fzf --height=10 --prompt="Select a remote: ")
+  local remote_name
+  remote_name=$(git remote | fzf --height=10 --prompt="Select a remote: ")
 
   # Check if a remote was selected
   if [[ -z "$remote_name" ]]; then
@@ -437,7 +453,8 @@ switch_to_ssh() {
   fi
 
   # Extract the username and repository from the old URL
-  local user_repo=${old_url#*github.com/}
+  local user_repo
+  user_repo=${old_url#*github.com/}
 
   # Remove any trailing ".git"
   user_repo=${user_repo%.git}
@@ -450,14 +467,17 @@ switch_to_ssh() {
 }
 
 update_remote_url() {
-  local repo_base="https://www.github.com/4ndr0666/"
-  local repos=$(gh repo list 4ndr0666 -L 100 --json name -q '.[].name')
+  local repo_base
+  repo_base="https://www.github.com/4ndr0666/"
+  local repos
+  repos=$(gh repo list 4ndr0666 -L 100 --json name -q '.[].name')
 
   echo "Enter the repository name:"
   local repo_name
   repo_name=$(echo "$repos" | fzf --height=10 --prompt="Select a repository: ")
 
-  local new_url="${repo_base}${repo_name}.git"
+  local new_url
+  new_url="${repo_base}${repo_name}.git"
   git remote set-url origin "$new_url"
   echo "Remote URL updated to $new_url"
 }
@@ -469,14 +489,16 @@ fetch_from_remote() {
 }
 
 pull_from_remote() {
-  local current_branch=$(git branch --show-current)
+  local current_branch
+  current_branch=$(git branch --show-current)
   echo "Pulling updates from remote for branch '$current_branch'..."
   git pull origin "$current_branch"
   echo "Pull complete."
 }
 
 push_to_remote() {
-  local current_branch=$(git branch --show-current)
+  local current_branch
+  current_branch=$(git branch --show-current)
   echo "Pushing local branch '$current_branch' to remote..."
   git push -u origin "$current_branch"
   echo "Push complete."
@@ -556,11 +578,11 @@ manage_stashes() {
   FAILURE="❌"
   INFO="➡️"
   EXPLOSION="💥"
-  
+
   prominent() {
       echo -e "${BOLD}${GREEN}$1${NC}"
   }
-  
+
   bug() {
       echo -e "${BOLD}${RED}$1${NC}"
   }
@@ -736,6 +758,7 @@ revert_to_previous_version() {
 # Main Function
 gui() {
  local choice=""
+ choice=""
  while true; do
   echo "1. Check and generate SSH key"
   echo "2. List current remotes"
@@ -757,7 +780,7 @@ gui() {
 
   case "$choice" in
     1)  check_and_setup_ssh ;;
-    2)  
+    2)
         list_and_manage_remotes
         ;;
     3)  update_remote_url ;;
@@ -787,11 +810,13 @@ function 4ever() {
         return 1
     fi
 
-    local command="$1"
+    local command
+    command="$1"
     shift
 
     if command -v "$command" >/dev/null 2>&1; then
-        local log_file="${@: -1}"
+        local log_file
+	log_file="${@: -1}"
         if [[ -f "$log_file" || "$log_file" == *".log" ]]; then
             set -- "${@:1:$(($#-1))}"
         else
@@ -805,7 +830,8 @@ function 4ever() {
 
         # Start the command in the background with nohup and log output
         nohup "$command" "$@" &> "$log_file" &
-        local pid=$!
+        local pid
+	pid=$!
         echo "Command '$command $*' started in the background with PID $pid."
         echo "Output is being logged to $log_file."
 
@@ -824,7 +850,8 @@ function mkcd() {
         return 1
     fi
 
-    local dir="$1"
+    local dir
+    dir="$1"
 
     # Check if the directory is a valid path
     if [[ -z "$dir" ]]; then
@@ -870,7 +897,8 @@ function cdt() {
 
 # -------------------------------------------------------------------- // NOTEPAD:
 function notepad() {
-    local file="$HOME/Documents/notes/.notes"
+    local file
+    file="$HOME/Documents/notes/.notes"
     mkdir -p "$(dirname "$file")"  # Ensure the directory exists
     [[ -f $file ]] || touch "$file"
 
@@ -896,9 +924,11 @@ EOF
             -r)
                 if [[ -z "$2" || ! "$2" =~ ^[0-9]+$ ]]; then
                     echo "Invalid or missing argument for -r option. Defaulting to 10."
-                    local recent_count=10
+                    local recent_count
+		    recent_count=10
                 else
-                    local recent_count="$2"
+                    local recent_count
+		    recent_count="$2"
                 fi
                 tail -n "$recent_count" "$file"
                 ;;
@@ -926,7 +956,8 @@ EOF
     fi
 
     if [[ $# -gt 0 && "$1" != "-"* ]]; then
-        local timestamp=$(date "+%Y-%m-%d %H:%M:%S")
+        local timestamp
+	timestamp=$(date "+%Y-%m-%d %H:%M:%S")
         printf "[%s] %s\n" "$timestamp" "$*" >> "$file"
         echo "Note added."
     fi
@@ -944,24 +975,20 @@ function urldecode() {
 
 # ------------------------------------------------------------- // TERMBIN:
 function termbin() {
+    local url
+    url=$(nc termbin.com 9999 < "$1")
     if [[ -z "$1" ]]; then
         echo "Usage: termbin <file>"
         return 1
     fi
-
     if [[ ! -f "$1" ]]; then
         echo "File not found: $1"
         return 1
     fi
-
     if ! command -v nc &>/dev/null; then
         echo "'nc' (netcat) is required but not installed."
         return 1
     fi
-
-    local url
-    url=$(nc termbin.com 9999 < "$1")
-
     if [[ $? -eq 0 && -n "$url" ]]; then
         echo "File uploaded successfully."
         echo "URL: $url"

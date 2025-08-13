@@ -1,7 +1,6 @@
 # middlewares.py
 
 from scrapy import signals
-from scrapy.http import HtmlResponse
 from scrapy.exceptions import IgnoreRequest
 from itemadapter import is_item, ItemAdapter
 import random
@@ -55,7 +54,7 @@ class FappeningSpiderMiddleware:
     def process_start_requests(self, start_requests, spider):
         """
         Called with the start requests of the spider.
-        
+
         Must return only requests (not items).
         """
         for r in start_requests:
@@ -96,7 +95,7 @@ class FappeningDownloaderMiddleware:
         - Apply proxy (if configured)
         """
         user_agent = random.choice(self.USER_AGENTS)
-        request.headers['User-Agent'] = user_agent
+        request.headers["User-Agent"] = user_agent
         spider.logger.debug(f"Using User-Agent: {user_agent} for {request.url}")
         return None
 
@@ -108,22 +107,30 @@ class FappeningDownloaderMiddleware:
         - Validate content type
         """
         if response.status in self.RETRY_HTTP_CODES:
-            retries = request.meta.get('retry_times', 0) + 1
+            retries = request.meta.get("retry_times", 0) + 1
             if retries <= self.MAX_RETRIES:
-                spider.logger.warning(f"Retrying {request.url} ({retries}/{self.MAX_RETRIES}) due to status {response.status}")
+                spider.logger.warning(
+                    f"Retrying {request.url} ({retries}/{self.MAX_RETRIES}) due to status {response.status}"
+                )
                 retry_req = request.copy()
-                retry_req.meta['retry_times'] = retries
+                retry_req.meta["retry_times"] = retries
                 return retry_req
             else:
                 spider.logger.error(f"Max retries reached for {request.url}")
-                raise IgnoreRequest(f"Failed to fetch {request.url} after {self.MAX_RETRIES} retries")
+                raise IgnoreRequest(
+                    f"Failed to fetch {request.url} after {self.MAX_RETRIES} retries"
+                )
 
         if self.is_captcha(response):
-            spider.logger.warning(f"CAPTCHA detected on {response.url}. Consider implementing CAPTCHA solving or notify the user.")
+            spider.logger.warning(
+                f"CAPTCHA detected on {response.url}. Consider implementing CAPTCHA solving or notify the user."
+            )
             raise IgnoreRequest(f"CAPTCHA encountered at {response.url}")
 
         if not self.is_valid_content_type(response):
-            spider.logger.error(f"Unexpected content type for {request.url}. Expected HTML, got {response.headers.get('Content-Type')}")
+            spider.logger.error(
+                f"Unexpected content type for {request.url}. Expected HTML, got {response.headers.get('Content-Type')}"
+            )
             raise IgnoreRequest(f"Invalid content type at {response.url}")
 
         return response
@@ -150,5 +157,5 @@ class FappeningDownloaderMiddleware:
         """
         Validate that the response content type is HTML.
         """
-        content_type = response.headers.get('Content-Type', b'').decode('utf-8')
-        return 'text/html' in content_type
+        content_type = response.headers.get("Content-Type", b"").decode("utf-8")
+        return "text/html" in content_type

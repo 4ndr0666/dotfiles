@@ -27,5 +27,9 @@ class FappeningItem(scrapy.Item):
         of the item when it is printed or logged.
         """
         # Limit the length of the image URLs displayed in logs for readability
-        image_urls_display = ", ".join(self['image_urls'][:2]) + "..." if len(self['image_urls']) > 2 else ", ".join(self['image_urls'])
+        image_urls_display = (
+            ", ".join(self["image_urls"][:2]) + "..."
+            if len(self["image_urls"]) > 2
+            else ", ".join(self["image_urls"])
+        )
         return f"FappeningItem(image_urls=[{image_urls_display}], image_name={self.get('image_name', 'N/A')})"

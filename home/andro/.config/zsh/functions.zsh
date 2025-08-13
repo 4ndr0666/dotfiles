@@ -3,6 +3,7 @@
 # ============================= // FUNCTIONS.ZSH //
 
 ## Global Colors & Symbols
+
 RESET="\e[0m"
 BOLD="\e[1m"
 UNDERLINE="\e[4m"
@@ -20,8 +21,6 @@ DELETE_ICON="🗑️"
 COPY_ICON="📋"
 MOVE_ICON="🚚"
 COMPRESS_ICON="📦"
-
-## Global Color-coded Messaging
 print_message() {
   local type="$1" msg="$2"
   case "$type" in
@@ -33,13 +32,28 @@ print_message() {
   esac
 }
 
-## Functions:
+# ---
 
-## BKUP_________________________________________________ //
-### Description: A smart and configurable backup function.
-### Uncomment and set the desired backup directory below
+# Functions
+
+## Graphics Test_____________________________________________________
+
+### Description: Runs simple verifications for amdgpu, vulkan, and OpenGL.
+
+graphicstest() {
+	lspci -k | grep -A 3 VGA
+	vulkaninfo | less
+	glxinfo | grep "OpenGL renderer"
+}
+
+# ---
+
+## BKUP_________________________________________________
+
+### Description: A smart and configurable backup function. Uncomment and set
+### the desired backup directory below
+
 backup_directory="/Nas/Backups/bkup"
-# ----------------------------------------------- //
 check_bkup_dependencies() {
   local deps=(tar zstd fzf realpath)
   for cmd in "${deps[@]}"; do
@@ -241,9 +255,12 @@ EOF
   esac
 }
 
-## Browser History
+# ---
 
-### Press `c` to browse Chromes web history
+## Browser History______________________________________________________
+
+### Description: Press `c` to browse Chromes web history
+
 braveh() {
   emulate -L zsh
   setopt extended_glob
@@ -269,10 +286,14 @@ braveh() {
   | xargs -r -d '\n' $open_cmd >/dev/null 2>&1
 }
 
-## Copypath
+# ---
 
-### Copies the absolute path of a file or directory to the clipboard.
-copypath() {
+## Copypath__________________________________________________________
+
+### Description: Copies the absolute path of a file or directory to
+### the clipboard.
+
+cpath() {
     # If no argument passed, use current directory
     local file="${1:-.}"
 
@@ -288,9 +309,12 @@ copypath() {
     fi
 }
 
-##  Spellcheck
+# ---
 
-### Checks the spelling of provided words using the 'spellcheck' command.
+##  Spellcheck________________________________________________________________
+
+### Descriptionp: Checks the spelling of provided words using the 'spellcheck' command.
+
 spell() {
     ## Ensure 'spellcheck' command is available
     if ! command -v spellcheck &> /dev/null; then
@@ -316,7 +340,9 @@ spell() {
     done
 }
 
-## Restart Waybar
+# ---
+
+## Restart Waybar_______________________________________________
 
 restart_waybar() {
     notify-send "🔄 Restarting Waybar..."
@@ -334,11 +360,13 @@ restart_waybar() {
     echo "✅ Waybar has been restarted."
 }
 
+# ---
 
-## Any
+## Any______________________________________________________________
 
-### Searches for running processes matching a given name with
-### optional case-insensitivity.
+### Description: Searches for running processes matching a given name
+### with optional case-insensitivity.
+
 any() {
     ## Function to display help
     show_help() {
@@ -992,14 +1020,14 @@ EOF
                 ;;
         esac
     else
-        cat "$file"
+        glow "$file"
     fi
 
     # Add a new note if arguments are provided and not options
     if [[ $# -gt 0 && "$1" != "-"* ]]; then
         local timestamp
         timestamp=$(date "+%Y-%m-%d %H:%M:%S")
-        printf "[%s] %s\n" "$timestamp" "$*" >> "$file"
+        printf "[%s]\n## %s\n---\n" "$timestamp" "$*" >> "$file"
         echo "📝 Note added."
     fi
 }

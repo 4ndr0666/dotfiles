@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-set -e
+# shellcheck disable=all
+
+#set -e
 
 # 1. Check for root; if not, re-invoke with sudo -E
 if [ "$(id -u)" -ne 0 ]; then

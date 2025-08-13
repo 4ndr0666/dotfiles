@@ -1,97 +1,186 @@
-## ============================================== // MICRO //
-*Reload*
-`bat cache --build`
+# Micro Cheat-Sheet
 
-## General 
-- **Open Command Bar**: `Ctrl + E`
-- **Toggle Cheat Sheet**: `Alt + G`
-- **View Default Keybindings**: `Type 'help defaultkeys'`
-- **List Available Commands**: `Type 'help commands'`
-- **Auto-complete Commands**: Press `Tab`
-- **Filter Commands**: Type letters + `Tab`
-- **Save As**: `save [filename]` (omit filename to use `Ctrl + S`)
-- **Split Vertically**: `vsplit [filename]`
-- **Split Horizontally**: `hsplit [filename]`
-- **Open New Tab**: `tab [filename]`
-- **Go to Line**: `goto 123` (negative values go from end)
-- **Open Terminal**: `term [command]` (omit command for default shell)
-- **Change Option Permanently**: `set [option] [value]`
-- **Change Option Temporarily**: `setlocal [option] [value]`
-- **Display Option Value**: `show [option]`
-- **Set Custom Keybinding**: `bind [keycombo] [action]`
-- **Replace All**: `replaceall foo bar`
-- **Replace**: `replace foo bar [flags]`
-      **Flags**:
-          - `-a`: Replace all occurrences
-	  - `-l`: Literal search (no regex)
+---
 
-## ==================================================== // OPTIONS //
-# --- // Edit w Cmdline:
-- **Set Option Permanently**: `set [option] [value]`
-- **Set Option Temporarily**: `setlocal [option] [value]`
-- **Show Option Value**: `show [option]`
+## General Commands
 
-# --- // Edit w settings.json
-Edit `~/.config/micro/settings.json`
-- Example to disable ruler:
-  ```json
-  {
-      "ruler": false
-  }
+- **Open Command Bar:** `Ctrl+E`  
+- **Toggle Cheat Sheet:** `Alt+G`  
+- **View Default Keybindings:** Type `help defaultkeys`  
+- **List Available Commands:** Type `help commands`  
+- **Auto-complete Commands:** Press `Tab`  
+- **Filter Commands:** Type letters then press `Tab`  
+
+- **Save File:**  
+  - Default save: `Ctrl+S`  
+  - Save As: `save [filename]` *(if no filename is provided, it defaults to saving the current file)*
+
+- **Splitting & Tabs:**  
+  - **Vertical Split:** `vsplit [filename]`  
+  - **Horizontal Split:** `hsplit [filename]`  
+  - **Open New Tab:** `tab [filename]`
+
+- **Go To Line:** `goto <line_number>`  
+  *(You can use negative numbers to count from the end.)*
+
+- **Open Terminal:** `term [command]`  
+  *(Omit `[command]` to open your default shell.)*
+
+- **Replace All:** `replaceall foo bar`  
+- **Replace (with flags):** `replace foo bar [flags]`  
+  - **Flags:**  
+    - `-a`: Replace all occurrences  
+    - `-l`: Literal search (no regex)
+
+---
+
+## Options
+
+### Runtime Commands
+
+- **Set Option Permanently:**  
+  ```plaintext
+  set [option] [value]
   ```
-  # --- // Editing_values:
-- **Auto Indentation**: `autoindent true`
-- **Autosave Interval**: `autosave=X` (0 to disable)
-- **Elevate with sudo if needed**: `autosu`
-- **Backup Open Buffers**: `backup true`
-- **Clipboard Mode**: `clipboard external | terminal | internal`
-- **Highlight Search Matches**: `hlsearch`
-- **Auto Newline at EOF**: `eofnewline true`
-- **Brace Matching**: `matchbrace true`
-- **Show Line Numbers**: `ruler true`
-- **Soft Wrap Lines**: `softwrap false`
-- **Word Wrap Lines**: `wordwrap false` (requires `softwrap`)
+- **Set Option Temporarily:**  
+  ```plaintext
+  setlocal [option] [value]
+  ```
+- **Show Option Value:**  
+  ```plaintext
+  show [option]
+  ```
 
-## ================================================= // PLUGINS //
-# --- // General_cmds:
-- **List Installed Plugins**: `plugin list`
-- **Install Plugin**: `plugin install [plugin]`
-- **Remove Plugin**: `plugin remove [plugin]`
-- **Update Plugin**: `plugin update [plugin]`
-- **Update All Plugins**: `plugin update`
-- **Search Plugins**: `plugin search 'keyword'`
-- **Available Plugins**: `plugin available`
+### Persistent Settings via settings.json
 
-# --- // Specfic_plugins:
-- **autoclose**: Auto-add closing brackets/quotes
-- **comment**: Toggle line comments
-- **diff**: Show changes from latest Git commit
-- **ftoptions**: Filetype-specific options (e.g., indentation)
-- **linter**: Language linting support
-- **literate**: Enhanced syntax highlighting for Literate coding
-- **status**: Extended status line
+Edit `~/.config/micro/settings.json` for permanent changes. For example, to disable the ruler:
+```json
+{
+    "ruler": false
+}
+```
 
-## =========================================================== // Keybindings //
-# --- // Via_cmdline:
-- **Bind Custom Key**: `bind [Ctrl-v] Copy`
-- **Example Mouse Binding**: `bind CtrlMouseLeft SelectLine`
-- **Bind Key Sequence**: `bind <Ctrl-j><Ctrl-b> JumpToMatchingBrace`
-- **Chaining Commands**:
+### Common Option Values
+
+- **Auto Indentation:** `autoindent true`
+- **Autosave Interval:** `autosave=X` *(set to 0 to disable)*
+- **Elevate with sudo if needed:** `autosu`
+- **Backup Open Buffers:** `backup true`
+- **Clipboard Mode:** `clipboard external | terminal | internal`
+- **Highlight Search Matches:** `hlsearch`
+- **Insert Newline at EOF:** `eofnewline true`
+- **Brace Matching:** `matchbrace true`
+- **Show Line Numbers (Ruler):** `ruler true`
+- **Soft Wrap Lines:** `softwrap true` or `softwrap false`
+- **Word Wrap:** `wordwrap true` or `wordwrap false` *(requires softwrap enabled)*
+
+---
+
+## Plugins
+
+### Plugin Commands
+
+- **List Installed Plugins:**  
+  ```plaintext
+  plugin list
+  ```
+- **Install a Plugin:**  
+  ```plaintext
+  plugin install [plugin]
+  ```
+- **Remove a Plugin:**  
+  ```plaintext
+  plugin remove [plugin]
+  ```
+- **Update a Plugin:**  
+  ```plaintext
+  plugin update [plugin]
+  ```
+- **Update All Plugins:**  
+  ```plaintext
+  plugin update
+  ```
+- **Search for Plugins:**  
+  ```plaintext
+  plugin search 'keyword'
+  ```
+- **Show Available Plugins:**  
+  ```plaintext
+  plugin available
+  ```
+
+### Popular Plugins
+
+- **autoclose:** Automatically adds closing brackets/quotes.  
+- **comment:** Toggle commenting for lines.  
+- **diff:** Shows differences from the latest Git commit.  
+- **ftoptions:** Filetype-specific options (like indentation settings).  
+- **linter:** Provides language linting support.  
+- **literate:** Enhanced syntax highlighting for literate programming.  
+- **status:** Displays an extended status line.
+
+---
+
+## Keybindings
+
+### Binding Custom Keys
+
+- **Set a Custom Keybinding:**  
+  ```plaintext
+  bind [keycombo] [action]
+  ```
+  *Example:*  
+  ```plaintext
+  bind Ctrl+S save
+  ```
+
+- **Mouse Bindings:**  
+  ```plaintext
+  bind CtrlMouseLeft SelectLine
+  ```
+
+- **Bind a Key Sequence:**  
+  ```plaintext
+  bind "<Ctrl-J><Ctrl-B>" JumpToMatchingBrace
+  ```
+
+### Chaining Commands
+
+- **Example for Toggling Wordwrap:**  
   ```plaintext
   bind "command:setlocal wordwrap on,command:setlocal softwrap on" Alt+z
   bind "command:setlocal wordwrap off,command:setlocal softwrap off" Alt+Z
   ```
-# --- // Multi-cursor:
-- **New Cursor from Selection**: `Alt + n`
-- **Cursor on Line Above**: `Alt + Shift + Up`
-- **Cursor on Line Below**: `Alt + Shift + Down`
-- **Remove Latest Cursor**: `Alt + p`
-- **Clear All Cursors**: `Alt + c`
-- **Skip Cursor Selection**: `Alt + x`
-- **Cursors at Each Line in Selection**: `Alt + m`
-- **Place Cursor Anywhere**: `Ctrl + MouseLeft`
-- **Mouse Support**: Drag to select, double-click for word, triple-click for line.
+
+---
+
+## Multi-Cursor Support
+
+*Micro supports multi-cursor editing (often via plugins or built-in features in recent versions):*
+
+- **Add New Cursor from Selection:** `Alt+n`
+- **Add Cursor Above:** `Alt+Shift+Up`
+- **Add Cursor Below:** `Alt+Shift+Down`
+- **Remove Latest Cursor:** `Alt+p`
+- **Clear All Cursors:** `Alt+c`
+- **Skip Current Selection:** `Alt+x`
+- **Set Cursors on Each Line in Selection:** `Alt+m`
+- **Place Cursor Anywhere:** `Ctrl+MouseLeft` *(drag to select, double-click for word, triple-click for line)*
+
+---
+
+## Reloading Micro
+
+- **Reload Configuration:**  
+  In the command bar, type:  
+  ```plaintext
+  reload
+  ```  
+  *(This refreshes settings and plugins without restarting Micro.)*
+
+---
 
 ## Resources
-- **Micro Text Editor**: [Micro on GitHub](https://github.com/zyedidia/micro)
-- **Documentation**: [Micro Documentation](https://micro-editor.github.io/)
+
+- **Micro Text Editor on GitHub:** [Micro on GitHub](https://github.com/zyedidia/micro)  
+- **Official Documentation:** [Micro Documentation](https://micro-editor.github.io/)

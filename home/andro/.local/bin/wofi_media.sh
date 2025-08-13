@@ -1,16 +1,15 @@
 #!/bin/bash
 # Author: 4ndr0666
-
 # ===================== // WOFI_MEDIA.SH //
 ## Description: Invokes wofi for media selection from user-specified dirs.
 ##              In "Playlist Mode", a playlist will shuffle the selected dir.
 ##              In "Browse Mode", user can recursively pick subdirectories and files.
 ## --------------------------------------
 
-## Global Variables & Constants
-
+# Global Variables & Constants
 PLAYLIST_DIR="$HOME/.config/mpv/playlists"
 mkdir -p "$PLAYLIST_DIR"
+
 MEDIA_DIRS=(
 	"/home/andro/Videos"
 	"/home/andro/Downloads"
@@ -40,7 +39,7 @@ wofi_prompt() {
 		--width 500 \
 		--lines 15 \
 		--columns 1 \
-		--font "JetBrainsMono Nerd Font Regular 10")
+		--font "JetBrainsMono Nerd Font Regular 9")
 	echo "$selection"
 }
 
@@ -51,7 +50,7 @@ validate_directory() {
 	if [[ -d "$dir" ]]; then
 		echo "$dir"
 	else
-		notify-send "WofiMedia - Error" "Invalid directory: $dir"
+		notify-send "[Error]" "Invalid directory: $dir"
 		return 1
 	fi
 }
@@ -61,7 +60,7 @@ validate_directory() {
 play_media() {
 	local media="$1"
 	mpv "$media" &
-	notify-send "WofiMedia" "Playing: $media"
+	notify-send "Playing: $media"
 }
 
 queue_media() {
@@ -69,14 +68,14 @@ queue_media() {
 	local sockets_dir="/tmp/mpvSockets"
 
 	if [[ ! -d "$sockets_dir" ]]; then
-		notify-send "WofiMedia - Error" "No active mpv instances found."
+		notify-send "[Error]" "No active mpv instances found."
 		return 1
 	fi
 
 	local mpv_sockets
 	mpv_sockets=$(ls "$sockets_dir")
 	if [[ -z "$mpv_sockets" ]]; then
-		notify-send "WofiMedia - Error" "No active mpv instances found."
+		notify-send "[Error]" "No active mpv instances found."
 		return 1
 	fi
 
@@ -85,19 +84,19 @@ queue_media() {
 	if [[ -n "$selected_socket" ]]; then
 		local socket_path="$sockets_dir/$selected_socket"
 		echo '{ "command": ["loadfile", "'"$media"'", "append-play"] }' | socat - "$socket_path"
-		notify-send "WofiMedia" "Queued media in mpv instance: $selected_socket"
+		notify-send "Queued media in mpv instance: $selected_socket"
 	else
-		notify-send "WofiMedia" "No mpv instance selected."
+		notify-send "No mpv instance selected."
 	fi
 }
 
 play_playlist() {
 	local playlist="$1"
 	if [[ -f "$playlist" && -s "$playlist" ]]; then
-		mpv --shuffle --playlist="$playlist" --loop-playlist=inf --no-border --player-operation-mode=pseudo-gui --no-osc &
-		notify-send "WofiMedia" "Playing playlist: $playlist"
+		mpv --shuffle --playlist="$playlist" --config-dir="$HOME/.config/mpv" -loop-playlist=inf --player-operation-mode=pseudo-gui &
+		notify-send "Playing playlist: $playlist"
 	else
-		notify-send "WofiMedia - Error" "Playlist empty or doesn't exist: $playlist"
+		notify-send "[Error]" "Playlist empty or doesn't exist: $playlist"
 	fi
 }
 
@@ -129,12 +128,13 @@ generate_and_play_playlist() {
 		-iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" \
 		-o -iname "*.m4v" -o -iname "*.webm" -o -iname "*.gif" \
 		-o -iname "*.3gp" -o -iname "*.flv" -o -iname "*.ts" \
+		-o -iname "*.webp" -o -iname "*.wmv" -o -iname "*.mpg" \
 		\) >"$playlist_file"
 
 	if [[ -s "$playlist_file" ]]; then
 		play_playlist "$playlist_file"
 	else
-		notify-send "WofiMedia - Error" "No media found in: $dir"
+		notify-send "[Error]" "No media found in: $dir"
 		rm -f "$playlist_file"
 	fi
 }
@@ -157,19 +157,20 @@ browse_media() {
 			elif [[ -d "$dir_choice" ]]; then
 				dir="$dir_choice"
 			else
-				notify-send "WofiMedia - Error" "Invalid selection: $dir_choice"
+				notify-send "[Error]" "Invalid selection: $dir_choice"
 			fi
 		else
 			#### No subdirectories => list media files
 			local media_files
 			media_files=$(find "$dir" -type f \( \
-				-iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" \
-				-o -iname "*.m4v" -o -iname "*.webm" -o -iname "*.gif" \
-				-o -iname "*.3gp" -o -iname "*.flv" -o -iname "*.ts" \
-				\) | sort)
+			    -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" \
+			    -o -iname "*.m4v" -o -iname "*.webm" -o -iname "*.gif" \
+			    -o -iname "*.3gp" -o -iname "*.flv" -o -iname "*.ts" \
+			    -o -iname "*.webp" -o -iname "*.wmv" -o -iname "*.mpg" \
+			    \) | sort)
 
 			if [[ -z "$media_files" ]]; then
-				notify-send "PlayMedia - Info" "No media files in $dir."
+				notify-send "[Info]" "No media files in $dir."
 				return
 			fi
 
@@ -183,10 +184,10 @@ browse_media() {
 				"Play Now") play_media "$selected_media" ;;
 				"Queue in mpv") queue_media "$selected_media" ;;
 				"Back") ;;
-				*) notify-send "WofiMedia - Error" "Invalid action: $action" ;;
+				*) notify-send "[Error]" "Invalid action: $action" ;;
 				esac
 			else
-				notify-send "WofiMedia - Info" "No media selected."
+				notify-send "[Info]" "No media selected."
 			fi
 			break
 		fi
@@ -227,20 +228,20 @@ while true; do
 
 	#### Mode selection: "Playlist Mode" or "Browse Mode"
 	local mode_choice
-	mode_choice=$(echo -e "Playlist Mode\nBrowse Mode\nExit" | wofi_prompt "Select a mode:")
+	mode_choice=$(echo -e "Play Entire Directory\nBrowse Files\nExit" | wofi_prompt "Select a mode:")
 
 	case "$mode_choice" in
-	"Playlist Mode")
+	"Play Entire Directory")
 		generate_and_play_playlist "$dir_choice"
 		;;
-	"Browse Mode")
+	"Browse Files")
 		browse_media "$dir_choice"
 		;;
 	"Exit")
 		exit 0
 		;;
 	*)
-		notify-send "WofiMedia - Error" "Invalid mode: $mode_choice"
+		notify-send "[Error]" "Invalid mode: $mode_choice"
 		;;
 	esac
 done

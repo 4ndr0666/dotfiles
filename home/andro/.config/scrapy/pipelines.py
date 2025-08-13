@@ -22,11 +22,11 @@ class FappeningPipeline:
         adapter = ItemAdapter(item)
 
         # Data cleaning: Ensure all required fields are present
-        if not adapter.get('image_urls') or not adapter.get('image_name'):
+        if not adapter.get("image_urls") or not adapter.get("image_name"):
             raise DropItem(f"Missing required fields in {item}")
 
         # Example: Clean the image name (remove unwanted characters, etc.)
-        adapter['image_name'] = self.clean_image_name(adapter['image_name'])
+        adapter["image_name"] = self.clean_image_name(adapter["image_name"])
 
         # Example: Log the item for audit purposes
         spider.logger.info(f"Processed item: {adapter.asdict()}")
@@ -38,7 +38,7 @@ class FappeningPipeline:
         Clean the image name by removing unwanted characters and formatting it properly.
         """
         # Remove any unwanted characters, spaces, etc.
-        return name.strip().replace(' ', '_').replace('/', '-')
+        return name.strip().replace(" ", "_").replace("/", "-")
 
 
 class FappeningImagesPipeline(ImagesPipeline):
@@ -52,14 +52,14 @@ class FappeningImagesPipeline(ImagesPipeline):
         Generates the requests to download the images.
         """
         adapter = ItemAdapter(item)
-        for image_url in adapter['image_urls']:
-            yield Request(image_url, meta={'image_name': adapter.get('image_name')})
+        for image_url in adapter["image_urls"]:
+            yield Request(image_url, meta={"image_name": adapter.get("image_name")})
 
     def file_path(self, request, response=None, info=None, *, item=None):
         """
         Customize the file name and path for the downloaded images.
         """
-        image_name = request.meta.get('image_name', 'default_name')
+        image_name = request.meta.get("image_name", "default_name")
         image_guid = os.path.basename(request.url)
         filename = f"{image_name}/{image_guid}"
         return filename

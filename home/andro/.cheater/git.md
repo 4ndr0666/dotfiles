@@ -1,3 +1,132 @@
+# Git Cheater
+
+## Rebase (approve testing)
+
+Bring approved testing branch modifications into the main branch:
+
+```bash
+git checkout testing          # Go to your feature branch
+git pull                     # Make sure it's up to date
+git rebase main              # Re-apply changes as if from main
+# (Resolve conflicts if any)
+git checkout main
+git merge testing            # Now this is a fast-forward merge (no merge commit)
+git push
+```
+
+## Delete Branches (after rebase)
+
+After bringing the testing branch modifications over to main, delete the branch:
+
+```bash
+git branch -d testing
+git push origin --delete testing
+git branch -vv                       # Check local branch tracking remote
+git push --set-upstream origin main  # Set remote if missing 
+```
+
+---
+
+## Add Scopes w GH CLI
+
+```bash
+gh auth refresh -s workflow read:gpg_key admin:ssh_signing_key admin:public_key
+```
+
+---
+
+## Get User Token
+
+```bash
+GH_TOKEN=$(gh auth token --user 4ndr0666) gh api /user | jq .login
+```
+
+---
+
+## Pull Updates (Ensuring local changes are saved) 
+
+1. Save all local changes first (tracked + untracked)
+```shell
+git stash push -u -m "WIP"
+```
+
+2. Lineraly update branch with a rebase 
+```shell
+git pull --rebase
+```
+
+3. Bring stash back, staging exactly as before
+```shell
+git stash pop --index
+```
+
+4. Fix any conflicts, then
+```shell
+git add <fixed> ; git rebase --continue   # only if conflicts + rebasing
+git commit -am "your message"
+git push
+```
+
+---
+
+## Git Stash
+
+- Always keep untracked files:
+```shell
+git config --global stash.saveIncludeUntracked true
+```
+
+- Auto‑stash on every rebase/pull:
+```shell
+git config --global rebase.autoStash true
+```
+
+- See what’s in a stash, including untracked:
+```shell
+git stash show -p -u stash@{0}
+```
+
+- Name your stashes:
+```shell
+git stash push -u -m "fix‑menu‑layout"
+```
+
+---
+
+## Automatically Setup Upstream 
+
+```shell
+git config --global push.autoSetupRemote true
+```
+
+---
+
+## List all root-owned files in repo
+
+```shell
+git ls-files -s | awk '$3 ~ /^0*0?$/ {next} $4 ~ /^git\/dir\/to_search_in\// {print $4}'
+```
+
+---
+
+## Quick scan for leftover large blobs (≥ 90 MB)
+
+- Method 1
+```shell
+git rev-list --objects --all |
+git cat-file --batch-check='%(objectsize) %(rest)' |
+awk '$1 > 100*1024*1024 {print $0}'
+```
+
+- Method 2
+```shell
+git rev-list --objects --all |
+  git cat-file --batch-check='%(objectname) %(objecttype) %(objectsize) %(rest)' |
+  awk '$3 > 90000000 {printf "%.2f MB\t%s\n", $3/1048576, $4}'
+```
+
+---
+
 ## Changelog Generation:
 
 **Noticed @devaslife using a pkg called cz-cli and found it on github. It automates changelogs**
@@ -5,6 +134,8 @@
 ```bash
 git clone https://github.com/commitizen/cz-cli.git
 ```
+
+---
 
 ## Reconnect/Clean Old Repo:
 

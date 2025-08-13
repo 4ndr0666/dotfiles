@@ -20,10 +20,12 @@ RESET = "\033[0m"
 PREDEFINED_DORKS_URL = "https://pastebin.com/raw/RFYt8U22"  # Replace with your actual URL
 LOG_FILE = os.path.expanduser("~/.searchmaster.log")
 
+
 def log_message(message):
     """Log messages to a file."""
     with open(LOG_FILE, "a") as log_file:
         log_file.write(f"{message}\n")
+
 
 def ask_user(prompt):
     """Prompt the user for input and return the trimmed response."""
@@ -32,6 +34,7 @@ def ask_user(prompt):
     except (EOFError, KeyboardInterrupt):
         print("\nOperation cancelled by user.")
         sys.exit(0)
+
 
 def display_help():
     """Display the help information for building a Google dork using a pager."""
@@ -173,6 +176,7 @@ def display_help():
     except Exception as e:
         print(f"{RED}Failed to display help: {e}{RESET}")
 
+
 def validate_date_format(date_string):
     """Validate the date string to ensure it matches expected formats."""
     date_formats = [
@@ -181,6 +185,7 @@ def validate_date_format(date_string):
         r'\d{2}/\d{2}/\d{4}'     # MM/DD/YYYY
     ]
     return any(re.fullmatch(fmt, date_string) for fmt in date_formats)
+
 
 def validate_site_format(site_string):
     """Validate that the site format matches a proper domain name."""
@@ -224,6 +229,7 @@ def process_search_intent(intent):
 
     final_intent = ' '.join(operators + [intent]).strip()
     return final_intent
+
 
 def probe_additional_parameters(intent):
     """
@@ -271,6 +277,7 @@ def probe_additional_parameters(intent):
 
     return intent.strip()
 
+
 def copy_to_clipboard(text):
     """
     Copy the given text to the clipboard using available tools.
@@ -290,11 +297,13 @@ def copy_to_clipboard(text):
     except Exception as e:
         print(f"\n{RED}❌  Failed to copy to clipboard: {e}{RESET}")
 
+
 def handle_arguments():
     """Handle command-line arguments for flexibility in usage."""
     if len(sys.argv) > 1:
         return ' '.join(sys.argv[1:])
     return None
+
 
 def build_google_dork():
     """Prompt the user to build a Google dork using common operators."""
@@ -394,10 +403,12 @@ def build_google_dork():
     if open_browser.lower() == 'y':
         try:
             import webbrowser
+
             webbrowser.open(f"https://www.google.com/search?q={google_dork}")
             print(f"{GREEN}Opened search in your default web browser.{RESET}")
         except Exception as e:
             print(f"{RED}Failed to open web browser: {e}{RESET}")
+
 
 def fetch_predefined_dorks():
     """Fetch the predefined Google dorks from the provided URL."""
@@ -412,6 +423,7 @@ def fetch_predefined_dorks():
         print(f"{RED}Failed to fetch predefined dorks: {e}{RESET}")
         log_message(f"Error fetching predefined dorks: {e}")
         return []
+
 
 def select_predefined_dork(dorks):
     """Allow the user to select a predefined Google dork."""
@@ -437,6 +449,7 @@ def select_predefined_dork(dorks):
             if open_browser.lower() == 'y':
                 try:
                     import webbrowser
+
                     webbrowser.open(f"https://www.google.com/search?q={selected_dork}")
                     print(f"{GREEN}Opened search in your default web browser.{RESET}")
                 except Exception as e:
@@ -451,6 +464,7 @@ def fetch_additional_dorks():
     # Placeholder for fetching from another source
     # You can add more sources or local dorks as needed
     return []
+
 
 def build_custom_dork_from_intent(intent):
     """Build a Google dork based on user's plain English intent."""
@@ -472,10 +486,12 @@ def build_custom_dork_from_intent(intent):
     if open_browser.lower() == 'y':
         try:
             import webbrowser
+
             webbrowser.open(f"https://www.google.com/search?q={final_query}")
             print(f"{GREEN}Opened search in your default web browser.{RESET}")
         except Exception as e:
             print(f"{RED}Failed to open web browser: {e}{RESET}")
+
 
 def build_dork_from_arguments():
     """Build a Google dork based on command-line arguments."""
@@ -502,10 +518,12 @@ def build_dork_from_arguments():
     if open_browser.lower() == 'y':
         try:
             import webbrowser
+
             webbrowser.open(f"https://www.google.com/search?q={final_query}")
             print(f"{GREEN}Opened search in your default web browser.{RESET}")
         except Exception as e:
             print(f"{RED}Failed to open web browser: {e}{RESET}")
+
 
 def main_menu():
     """
@@ -539,6 +557,7 @@ def main_menu():
         else:
             print(f"{RED}Invalid choice. Please choose a valid option.{RESET}")
 
+
 def main():
     """
     Main function to interact with the user, process their search intent,
@@ -549,6 +568,7 @@ def main():
         build_dork_from_arguments()
     else:
         main_menu()
+
 
 if __name__ == "__main__":
     main()

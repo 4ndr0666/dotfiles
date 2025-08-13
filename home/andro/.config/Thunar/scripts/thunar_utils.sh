@@ -232,7 +232,7 @@ set_lockscreen() {
 ## Change Ownership
 
 change_ownership() {
-    # Usage: change_ownership <user|root> <files...>
+    ### Usage: change_ownership <user|root> <files...>
     if [[ $# -lt 2 ]]; then
         echo "Usage: change_ownership <user|root> <files...>" && return 1
     fi
@@ -257,7 +257,7 @@ change_ownership() {
 ## Copy to Clipboard
 
 copy_to_clipboard() {
-    # Usage: copy_to_clipboard <file>
+    ### Usage: copy_to_clipboard <file>
     local file="$1"
     if [[ ! -f "$file" ]]; then
         notify-send "$(date): $file is not a valid file" && return 1
@@ -274,7 +274,7 @@ copy_to_clipboard() {
 ## Flatten Directory Structure
 
 move_files_to_parent() {
-    # Usage: move_files_to_parent <directory>
+    ### Usage: move_files_to_parent <directory>
     if [[ $# -lt 1 ]]; then
         echo "Usage: move_files_to_parent <directory>" && return 1
     fi
@@ -289,14 +289,13 @@ move_files_to_parent() {
     find . -mindepth 2 -type f -exec mv -t . -i '{}' +
     echo "Removing empty subdirectories..."
     find . -mindepth 1 -type d -empty -exec rmdir '{}' +
-:w
-echo "Directory flattening complete."
+    echo "Directory flattening complete."
 }
 
 ## Open Root Shell
 
 open_root_shell() {
-    # Launch a terminal with a root shell.
+    ### Launch a terminal with a root shell.
     local preferred_terminal="alacritty"
     if command -v "$preferred_terminal" &>/dev/null; then
         case "$preferred_terminal" in
@@ -344,8 +343,7 @@ run_rofi_asroot() {
     local ASROOT="$DIR/scripts/asroot"
     local prompt="Root"
     local mesg="Run Applications As Root"
-    local term="alacritty --class alacritty-float,alacritty-float --config-file $HOME/.config/wayfire/alacritty/alacritty.toml"
-
+    local term="alacritty --config-file $HOME/.config/wayfire/alacritty/alacritty.toml"
     local layout=$(grep 'USE_ICON' "$RASI" | cut -d'=' -f2)
     local option_1 option_2 option_3 option_4 option_5
     if [[ "$layout" == "NO" ]]; then
@@ -373,11 +371,11 @@ run_rofi_asroot() {
         "$option_2")
             ${ASROOT} 'dbus-run-session thunar' ;;
         "$option_3")
-            ${ASROOT} geany ;;
+            ${ASROOT} nvim ;;
         "$option_4")
-            ${ASROOT} "$term -e ranger" ;;
+            ${ASROOT} "$term -e lf" ;;
         "$option_5")
-            ${ASROOT} "$term -e vim" ;;
+            ${ASROOT} "$term -e nvim" ;;
         *)
             notify-send "No valid option selected." ;;
     esac
@@ -391,4 +389,12 @@ elif [[ "$1" == '--wallpaper' ]]; then
 	set_wallpaper "$2"
 elif [[ "$1" == '--lockscreen' ]]; then
 	set_lockscreen "$2"
+elif [[ "$1" == '--user_ownership' ]]; then
+        change_owenership user "$2"
+elif [[ "$1" == '--root_ownership' ]]; then
+        change_owenership root "$2"
+elif [[ "$1" == '--move' ]]; then
+	move_files_to_parent "$2"
+elif [[ "$1" == '--clipboard' ]]; then
+	copy_to_clipboard "$2"
 fi

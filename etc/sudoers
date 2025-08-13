@@ -2,7 +2,6 @@
 
 ## Defaults
 
-Defaults env_keep += "CARGO_HOME RUSTUP_HOME PATH"
 Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/bin"
 # Defaults env_keep += "SUDO_EDITOR EDITOR VISUAL"
 # Defaults timestamp_timeout=20
@@ -15,7 +14,6 @@ Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/bin"
 # Defaults env_keep += "QTDIR KDEDIR"
 # Defaults env_keep += "XDG_SESSION_COOKIE"
 # Defaults log_output
-# Defaults maxseq = 1000
 # Defaults!/usr/bin/sudoreplay !log_output
 # Defaults!/usr/local/bin/sudoreplay !log_output
 # Defaults!REBOOT !log_output
@@ -40,12 +38,10 @@ root ALL=(ALL:ALL) ALL
 ## Allow members of group sudo to execute any command
 # %sudo	ALL=(ALL:ALL) ALL
 
-### Uncomment to allow any user to run sudo if they know the password
-### of the user they are running the command as (root by default).
-### Defaults targetpw  # Ask for the password of the target user
-
+## Uncomment to allow any user to run sudo if they know the password
+## of the user they are running the command as (root by default).
+# Defaults targetpw  # Ask for the password of the target user
 # ALL ALL=(ALL:ALL) ALL  # WARNING: only use this together with 'Defaults targetpw'
 
-## Read drop-in files from /etc/sudoers.d
-
+# --- // Drop-ins from /etc/sudoers.d:
 @includedir /etc/sudoers.d

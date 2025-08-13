@@ -1,19 +1,17 @@
 [terminal]
 vt = 1
+command = "qtgreet --provider wayland"
+user = "greeter"
 
 [default_session]
-command = "wayfire --config /home/andro/.config/wayfire.ini"
-#command = "wayfire --config /etc/greetd/wconfig > /dev/null 2>&1"
-#command = "wayfire --config /etc/qtgreet/wayfire.ini"
-#command = "wayfire --config "
-#command = "agreety --cmd wayfire"
-#command = "agreety --cmd /bin/sh"
-#command = "wayfire wlgreet"
-#command = "agreety --cmd sway"
-#command = "sway"
-
+command = "dbus-run-session -- bash /usr/bin/run-wayfire"
 user = "andro"
+#command = "dbus-run-session -- wayfire"
+#command = "wayfire --config /home/andro/.config/wayfire.ini"
+#command = "wayfire --config /etc/greetd/wconfig > /dev/null 2>&1"
+#command = "agreety --cmd wayfire"
+#command = "wayfire wlgreet"
 
 #[initial_session]
-#command = "wlgreet --command sway"
 #user = "andro"
+#command = "sway"

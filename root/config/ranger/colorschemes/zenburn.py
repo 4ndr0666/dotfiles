@@ -43,9 +43,9 @@ class Zenburn(ColorScheme):
             if context.directory:
                 attr |= bold
                 fg = 223
-            elif context.executable and not \
-                    any((context.media, context.container,
-                         context.fifo, context.socket)):
+            elif context.executable and not any(
+                (context.media, context.container, context.fifo, context.socket)
+            ):
                 attr |= bold
                 fg = 108
             if context.socket:

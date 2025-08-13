@@ -28,7 +28,7 @@ validate_url() {
 }
 
 ### Normalize domain.
-# Extracts the domain from the URL and forces fanvue domains to "fanvue.com".
+### For fanvue URLs, we force the domain to "fanvue.com" (lowercase) so that our cookie mapping works.
 get_domain_from_url() {
   local url="$1"
   # strip protocol
@@ -63,12 +63,12 @@ refresh_cookie_file() {
     return 1
   fi
   local cookie_file
-  cookie_file=$(get_cookie_path_for_domain "$domain")
+  cookie_file="$(get_cookie_path_for_domain "$domain")"
   if [[ -z "$cookie_file" ]]; then
     echo "❌ Error: No cookie file mapped for domain '$domain'." >&2
     return 1
   fi
-  local clipboard_cmd
+  local clipboard_cmd=""
   if command -v wl-paste >/dev/null 2>&1; then
     clipboard_cmd="wl-paste"
   elif command -v xclip >/dev/null 2>&1; then
@@ -77,7 +77,7 @@ refresh_cookie_file() {
     echo "❌ Error: No suitable clipboard utility found. Install 'wl-clipboard' or 'xclip'." >&2
     return 1
   fi
-  echo "➡️ Copy current cookie file for '$domain' to your clipboard, then press Enter."
+  printf "➡️ Copy current cookie file for '%s' to your clipboard, then press Enter.\n" "$domain"
   read -r
   local clipboard_data
   clipboard_data=$($clipboard_cmd 2>/dev/null || true)
@@ -85,8 +85,8 @@ refresh_cookie_file() {
     echo "❌ Error: Clipboard is empty or unreadable." >&2
     return 1
   fi
-  mkdir -p "${cookie_file:h}"
-  echo "$clipboard_data" >| "$cookie_file" || { echo "❌ Error: Could not write to '$cookie_file'." >&2; return 1; }
+  mkdir -p "$(dirname "$cookie_file")"
+  echo "$clipboard_data" > "$cookie_file" || { echo "❌ Error: Could not write to '$cookie_file'." >&2; return 1; }
   chmod 600 "$cookie_file" >/dev/null 2>&1 || echo "❌ Warning: Could not secure '$cookie_file'." >&2
   echo "✅ Cookie file for '$domain' updated successfully!"
 }
@@ -96,8 +96,8 @@ refresh_cookie_file() {
 prompt_cookie_update() {
   echo "Select the domain to update cookies for:"
   local domains
-  domains=("${(@k)YTDLP_COOKIES_MAP}")
   if command -v fzf >/dev/null 2>&1; then
+    domains=("${(@k)YTDLP_COOKIES_MAP}")
     local selection
     selection=$(printf "%s\n" "${domains[@]}" | fzf --prompt="Domain: ")
     if [[ -n "$selection" ]]; then
@@ -108,18 +108,29 @@ prompt_cookie_update() {
       return 1
     fi
   else
-    local idx=1 domain
+    if [[ -n "${ZSH_VERSION:-}" ]]; then
+      domains=("${(@k)YTDLP_COOKIES_MAP}")
+    else
+      domains=( "${!YTDLP_COOKIES_MAP[@]}" )
+    fi
+    local idx=1
     for d in "${domains[@]}"; do
       echo "  $idx) $d"
-      ((idx++))
+      idx=$(( idx + 1 ))
     done
-    read -r "?Enter choice [1-$((idx-1))]: " choice
-    if [[ "$choice" =~ ^[0-9]+$ ]] && (( choice>=1 && choice<idx )); then
-      domain="${domains[choice-1]}"
+    printf "Enter the number or domain [1-%d]: " $(( idx - 1 ))
+    read -r choice
+    local domain=""
+    if [[ "$choice" =~ ^[0-9]+$ && "$choice" -ge 1 && "$choice" -le $(( idx - 1 )) ]]; then
+      if [[ -n "${ZSH_VERSION:-}" ]]; then
+        domain="${domains[$choice]}"
+      else
+        domain="${domains[$(( choice - 1 ))]}"
+      fi
     else
-      for d in "${domains[@]}"; do
-        if [[ "$d" == "$choice" ]]; then
-          domain="$d"
+      for item in "${domains[@]}"; do
+        if [[ "$item" == "$choice" ]]; then
+          domain="$item"
           break
         fi
       done
@@ -132,8 +143,7 @@ prompt_cookie_update() {
   fi
 }
 
-### Select best format.
-# For fanvue.com, forces "best" as default.
+### For fanvue.com, force default "best" format.
 select_best_format() {
   local url="$1" cfile="$2"
   local domain

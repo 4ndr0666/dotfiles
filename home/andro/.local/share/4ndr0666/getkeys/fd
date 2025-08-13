@@ -1,0 +1,56 @@
+# 4ndr0cht File
+
+              `fd`
+# =================================
+# Most Common Usage: safe deletions
+     fd "pattern" -x rm -v {}
+# =================================
+
+
+# 1. Ls all files matching pattern:
+fd <PATTERN/name or content> 
+
+# 2. Find files by extension:
+fd .ext        
+
+# 3. Find files with spaces or special characters safely and delete:
+fd PATTERN -x rm -v {}
+
+# 4. Delete ALL files matching a pattern (prompt before each):
+fd PATTERN -x rm -iv {}
+
+# List only directories:
+fd -t d PATTERN
+
+# Find files containing specific text:
+fd --exec grep --color=auto -n "SEARCHTEXT" {}
+
+# Show absolute path of matches:
+fd -a PATTERN
+
+# Search hidden files (dotfiles):
+fd -H PATTERN
+
+# Exclude a pattern:
+fd PATTERN --exclude "*.log"
+
+# Search inside a specific directory:
+fd PATTERN ~/mydir
+
+# Use regex (by default, fd uses glob):
+fd --regex 'pattern$'
+
+# List with detailed info (like ls -l):
+fd PATTERN -X ls -l {}
+
+# Replace 'find ... -exec ...' in scripts (more readable!):
+fd PATTERN -x COMMAND {}
+
+# Print0/null-separated output (for scripting with xargs -0):
+fd -0 PATTERN
+
+# Combine multiple options:
+fd -t f -H PATTERN --exclude="node_modules"
+
+# Get help/man page:
+fd --help

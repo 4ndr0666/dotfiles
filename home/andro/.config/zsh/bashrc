@@ -1,0 +1,511 @@
+#!/usr/bin/env bash
+# Author: 4ndr0666
+# =================================// BASHRC ($USER) //
+if [ "$-" != "${-#*i}" ]; then
+	return
+fi
+
+## Prompt___________________________________________________________________________________
+
+PS1='[\u@\h \W]\$'
+
+## Path___________________________________________________________________________________
+
+if command -v find >/dev/null; then
+	while IFS= read -r dir; do
+		[ -d "$dir" ] && export PATH="$PATH:$dir"
+	done < <(find ~/.local/bin /home/git/clone/scr -type d 2>/dev/null)
+fi
+
+## XDG_____________________________________________________________________________________
+
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_STATE_HOME="$HOME/.local/state"
+export XDG_CACHE_HOME="$HOME/.cache"
+
+## Sourcing_________________________________________________________________________________
+
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+if [ -f "$XDG_CONFIG_HOME/shellz/aliasrc" ]; then
+	. "$XDG_CONFIG_HOME/shellz/aliasrc"
+fi
+
+if [ -f "$XDG_CONFIG_HOME/shellz/functionsrc" ]; then
+	. "$XDG_CONFIG_HOME/shellz/functionsrc"
+fi
+
+## Bell
+
+if [[ $iatest -gt 0 ]]; then bind "set bell-style visible"; fi
+
+## Autocompletion_____________________________________________________________________________
+
+if [ -f /usr/share/bash-completion/bash_completion ]; then
+	. /usr/share/bash-completion/bash_completion
+elif [ -f /etc/bash_completion ]; then
+	. /etc/bash_completion
+fi
+
+### Ignore case on auto-completion
+if [[ $iatest -gt 0 ]]; then bind "set completion-ignore-case on"; fi
+
+### Show auto-completion list automatically, without double tab
+if [[ $iatest -gt 0 ]]; then bind "set show-all-if-ambiguous On"; fi
+
+## History_________________________________________________________________________________________
+
+export HISTFILESIZE=10000
+export HISTSIZE=500
+export HISTTIMEFORMAT="%F %T" # add timestamp to history
+export HISTCONTROL=erasedups:ignoredups:ignorespace
+shopt -s checkwinsize
+shopt -s histappend
+PROMPT_COMMAND='history -a'
+alias h="history | grep "
+### Allow ctrl-S for history navigation (with ctrl-R)
+[[ $- == *i* ]] && stty -ixon
+
+## Colors______________________________________________________________________________________________
+
+export CLICOLOR=1
+export LS_COLORS='no=00:fi=00:di=00;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.bz2=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.avi=01;35:*.fli=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.ogg=01;35:*.mp3=01;35:*.wav=01;35:*.xml=00;31:'
+export LESS_TERMCAP_mb=$'\E[01;31m'
+export LESS_TERMCAP_md=$'\E[01;31m'
+export LESS_TERMCAP_me=$'\E[0m'
+export LESS_TERMCAP_se=$'\E[0m'
+export LESS_TERMCAP_so=$'\E[01;44;33m'
+export LESS_TERMCAP_ue=$'\E[0m'
+export LESS_TERMCAP_us=$'\E[01;32m'
+
+## Ls configs
+
+alias la='ls -Alh'                # show hidden files
+alias ls='ls -aFh --color=always' # add colors and file type extensions
+alias lx='ls -lXBh'               # sort by extension
+alias lk='ls -lSrh'               # sort by size
+alias lc='ls -ltcrh'              # sort by change time
+alias lu='ls -lturh'              # sort by access time
+alias lr='ls -lRh'                # recursive ls
+alias lt='ls -ltrh'               # sort by date
+alias lm='ls -alh |more'          # pipe through 'more'
+alias lw='ls -xAh'                # wide listing format
+alias ll='ls -Fls'                # long listing format
+alias labc='ls -lap'              # alphabetical sort
+alias lf="ls -l | egrep -v '^d'"  # files only
+alias ldir="ls -l | egrep '^d'"   # directories only
+alias lla='ls -Al'                # List and Hidden Files
+alias las='ls -A'                 # Hidden Files
+alias lls='ls -l'                 # List
+
+## Permissions___________________________________________________________________________________________
+
+alias mx='chmod a+x'
+alias 000='chmod -R 000'
+alias 644='chmod -R 644'
+alias 666='chmod -R 666'
+alias 755='chmod -R 755'
+alias 777='chmod -R 777'
+
+## 4ndr0cht________________________________________________________________________________________________
+
+cht() {
+	local cheats=("$HOME/.cheater/"*.md)
+	local choice
+	choice=$(printf "%s\n" "${cheats[@]}" | fzf --prompt="Select a cheat sheet: ")
+	if [ -n "$choice" ]; then
+		bat --language=mdown "$choice"
+	else
+		echo "No cheat sheet selected."
+	fi
+}
+
+## 4ndr0edit_____________________________________________________________________________________________________
+
+alias valias='sudo nvim "$XDG_CONFIG_HOME/shellz/aliasrc"'
+alias vfunc='sudo nvim "$XDG_CONFIG_HOME/shellz/functionsrc"'
+alias vpac='sudo nvim /etc/pacman.conf'
+alias vgrub='sudo nvim /etc/default/grub'
+alias vgrubc='sudo nvim /boot/grub/grub.cfg'
+alias vmkinit='sudo nvim /etc/mkinitcpio.conf'
+alias vmirror='sudo nvim /etc/pacman.d/mirrorlist'
+alias vchaotic='sudo nvim /etc/pacman.d/chaotic-mirrorlist'
+alias vfstab='sudo nvim /etc/fstab'
+alias vnsswitch='sudo nvim /etc/nsswitch.conf'
+alias vsmb='sudo nvim /etc/samba/smb.conf'
+alias vgpg='sudo nvim /etc/pacman.d/gnupg/gpg.conf'
+alias vhosts='sudo nvim /etc/hosts'
+alias vhostname='sudo nvim /etc/hostname'
+alias vb='sudo nvim ~/.bashrc'
+alias vz='sudo nvim ~/.zshrc'
+alias vmvp='nvim "$HOME/.config/mpv/mpv.conf"'
+alias vfire='sudo nvim "$XDG_CONFIG_HOME/wayfire.ini"'
+
+## 4ndr0nav_________________________________________________________________________________________________________
+
+goto() {
+	local dir="$1"
+	if [ -z "$dir" ]; then
+		echo "Error: No directory specified."
+		return 1
+	elif [ -d "$dir" ]; then
+		cd "$dir" || return 1
+	else
+		echo "Error: Directory not found: $dir"
+		return 1
+	fi
+}
+
+## User Shortcuts
+
+alias dc='goto ~/Documents'
+alias dl='goto ~/Downloads'
+alias vid='goto ~/Videos'
+alias pic='goto ~/Pictures'
+alias conf='goto ~/.config'
+alias confw='goto ~/.config/wayfire'
+alias confm='goto ~/.config/mpv'
+alias ob='goto ~/.config/openbox'
+alias obt='goto ~/.config/openbox/themes'
+
+## Storage Shortcuts
+
+alias sto='goto /storage'
+alias sdl='goto /storage/Downloads'
+alias spic='goto /storage/Pictures'
+alias svid='goto /storage/Videos'
+alias streamdir='goto /storage/streamlink'
+
+## STO2
+
+alias s2='goto /sto2'
+alias s2dl='goto /sto2/Downloads'
+alias s2pic='goto /sto2/Pictures'
+alias s2vid='goto /sto2/Videos'
+alias gym='goto /sto2/Gym'
+alias jd='goto /sto2/JD'
+
+## 23.1
+
+alias 23='goto /23.1'
+alias 23dl='goto /23.1/Downloads'
+alias 23pic='goto /23.1/Pictures'
+alias 23vid='goto /23.1/Videos'
+alias 23e='goto /23.1/Edits'
+alias cloud='goto /23.1/Thecloud'
+
+## Nas Shortcuts
+
+alias nas='goto /Nas/'
+alias nbin='goto /Nas/Build/git/syncing/scr'
+alias 5cr='goto /Nas/Build/git/syncing/5cr'
+alias nnas='goto /Nas/Build/git/syncing/nas'
+alias ngpt='goto /Nas/Build/git/syncing/gpt'
+alias ng='goto /Nas/Build/git/'
+alias ngc='goto /Nas/Build/git/clone'
+alias npkg='goto /Nas/Build/pkgs'
+alias npro='goto /Nas/Build/projects'
+alias ndot='goto /Nas/Build/git/clone/dotfiles'
+
+## System Shortcuts
+
+alias et='goto /etc'
+alias ske='goto /etc/skel'
+alias bin='goto /usr/local/bin'
+alias loc='goto ~/.local'
+alias lbin='goto ~/.local/bin'
+alias lshare='goto ~/.local/share/'
+alias lsrc='goto ~/.local/src/'
+alias shellzsh='goto ~/.config/shellz'
+alias shellbash='goto ~/.config/shell'
+
+## Basic Aliases______________________________________________________________________________
+
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
+alias s='sudo'
+alias e='$EDITOR'
+alias v='$EDITOR'
+alias p='pacman'
+alias ka='killall'
+alias cp='cp -i'
+alias mv='mv -i'
+if command -v trash &>/dev/null; then
+	alias rm='trash -v'
+else
+	alias rm='rm -i' # fallback to interactive remove
+fi
+alias mkdir='mkdir -p'
+alias rmf='sudo /usr/bin/rm -vI -rf'
+alias rg='batgrep'
+alias man='batman'
+alias diff='diff --color=auto'
+alias rmdir='rm -vI --preserve-root'
+alias ln='ln -iv'
+alias bc='bc -ql'
+alias wget='wget -c'
+alias curl='curl --user-agent "noleak"'
+alias df='df -h --exclude-type=squashfs --exclude-type=tmpfs --exclude-type=devtmpfs'
+alias rsync='rsync -avrPlU --progress'
+alias chown='chown --preserve-root'
+alias chmod='chmod --preserve-root'
+alias chgrp='chgrp --preserve-root'
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias ccat='highlight --out-format=ansi'
+alias ip='ip -color=auto'
+alias c='clear; echo; seq 1 $(tput cols) | sort -R | spark | lolcat'
+
+## Program specific_____________________________________________________________________________________
+
+## Force neovim
+
+if command -v nvim >/dev/null; then
+	alias vim="nvim"
+	alias vimdiff="nvim -d"
+fi
+
+## Ripgrep
+
+if command -v rg &>/dev/null; then
+	alias grep='rg'
+else
+	alias grep="/usr/bin/grep $GREP_OPTIONS"
+fi
+unset GREP_OPTIONS
+
+## Expressvpn
+
+alias vpnc='sudo expressvpn connect'
+alias vpnd='sudo expressvpn disconnect'
+alias vpns='sudo expressvpn status'
+alias vpnr='sudo expressvpn refresh'
+alias vpnauto='expressvpn autoconnect true'
+alias vpnset='sudo expressvpn preferences set'
+
+## Yt-dlp
+
+alias ytt='yt-dlp --skip-download --write-thumbnail'
+alias YT='youtube-viewer'
+alias yta='yt-dlp -x -f bestaudio/best'
+
+## Git Shortcuts______________________________________________________________
+
+alias gstash='git stash --all'
+alias gclear='git stash clear'
+alias gstat='git status'
+alias greset='git reset --hard'
+alias gfs='git-lfs '
+alias grmcache='git rm -f --cached . && git commit -m "Removed cached and committed"'
+
+gpush() {
+	git add .
+	git commit -m "$1"
+	git push
+}
+
+gcomp() {
+	if ! git diff-index --quiet HEAD --; then
+		local added modified deleted commit_message
+		added=$(git status --porcelain | grep "^A" | wc -l)
+		modified=$(git status --porcelain | grep "^ M" | wc -l)
+		deleted=$(git status --porcelain | grep "^D" | wc -l)
+		commit_message="Auto-commit: ${added} added, ${modified} modified, ${deleted} deleted"
+		git add --all
+		if ! git commit -m "$commit_message"; then
+			echo "Error: Commit failed."
+			return 1
+		fi
+		if ! git pull --rebase; then
+			echo "Error: Pull failed."
+			return 1
+		fi
+		if ! git push; then
+			echo "Error: Push failed."
+			return 1
+		fi
+		echo "Changes committed, pulled, and pushed successfully."
+	else
+		echo "No changes detected. Nothing to commit."
+	fi
+}
+
+## System Info_________________________________________________________________________
+
+## Show all journals
+
+alias logs="sudo find /var/log -type f -exec file {} \; | grep 'text' | cut -d' ' -f1 | sed -e's/:$//g' | grep -v '[0-9]$' | xargs tail -f"
+
+## Search files in the current folder
+
+alias f="find . | grep "
+
+## Count all files (recursively) in the current folder
+
+alias countfiles="for t in files links directories; do echo \`find . -type \${t:0:1} | wc -l\` \$t; done 2> /dev/null"
+
+## To see if a command is aliased, a file, or a built-in command
+
+alias checkcommand="type -t"
+
+## Show open ports
+
+alias openports='netstat -nape --inet'
+
+##  Login Manager Commands________________________________________________________________________
+
+alias toboot="sudo /usr/local/bin/arcolinux-toboot"
+alias togrub="sudo /usr/local/bin/arcolinux-togrub"
+alias tolightdm="sudo pacman -S lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings --noconfirm --needed && sudo systemctl enable lightdm.service -f && echo 'LightDM is active - reboot now'"
+alias tosddm="sudo pacman -S sddm --noconfirm --needed && sudo systemctl enable sddm.service -f && echo 'SDDM is active - reboot now'"
+alias toly="sudo pacman -S ly --noconfirm --needed && sudo systemctl enable ly.service -f && echo 'LY is active - reboot now'"
+alias togdm="sudo pacman -S gdm --noconfirm --needed && sudo systemctl enable gdm.service -f && echo 'GDM is active - reboot now'"
+alias tolxdm="sudo pacman -S lxdm --noconfirm --needed && sudo systemctl enable lxdm.service -f && echo 'LXDM is active - reboot now'"
+
+## Custom Functions_________________________________________________________________________________________
+
+## Trims whitespace from files
+
+trim() {
+	local var=$*
+	var="${var#"${var%%[![:space:]]*}"}" # remove leading whitespace characters
+	var="${var%"${var##*[![:space:]]}"}" # remove trailing whitespace characters
+	echo -n "$var"
+}
+
+alias magic="echo o > /proc/sysrq-trigger"
+
+## Searches for text in all files in the current folder
+
+ftext() {
+	# -i case-insensitive
+	# -I ignore binary files
+	# -H causes filename to be printed
+	# -r recursive search
+	# -n causes line number to be printed
+	# optional: -F treat search term as a literal, not a regular expression
+	# optional: -l only print filenames and not the matching lines ex. grep -irl "$1" *
+	grep -iIHrn --color=always "$1" . | less -r
+}
+
+## Copy file with a progress bar
+
+cpp() {
+	set -e
+	strace -q -ewrite cp -- "${1}" "${2}" 2>&1 |
+		awk '{
+        count += $NF
+        if (count % 10 == 0) {
+            percent = count / total_size * 100
+            printf "%3d%% [", percent
+            for (i=0;i<=percent;i++)
+                printf "="
+            printf ">"
+            for (i=percent;i<100;i++)
+                printf " "
+            printf "]\r"
+        }
+    }
+    END { print "" }' total_size="$(stat -c '%s' "${1}")" count=0
+}
+
+## Copy and go to the directory
+
+cpg() {
+	if [ -d "$2" ]; then
+		cp "$1" "$2" && cd "$2"
+	else
+		cp "$1" "$2"
+	fi
+}
+
+## Move and go to the directory
+
+mvg() {
+	if [ -d "$2" ]; then
+		mv "$1" "$2" && cd "$2"
+	else
+		mv "$1" "$2"
+	fi
+}
+
+## Create and go to the directory
+
+mkg() {
+	mkdir -p "$1"
+	cd "$1"
+}
+
+## Goes up a specified number of directories  (i.e. up 4)
+
+up() {
+	local d=""
+	limit=$1
+	for ((i = 1; i <= limit; i++)); do
+		d=$d/..
+	done
+	d=$(echo $d | sed 's/^\///')
+	if [ -z "$d" ]; then
+		d=..
+	fi
+	cd $d
+}
+
+## Automatically do an ls after each cd, z, or zoxide
+
+cd() {
+	if [ -n "$1" ]; then
+		builtin cd "$@" && ls
+	else
+		builtin cd ~ && ls
+	fi
+}
+
+## Returns the last 2 fields of the working directory
+
+pwdtail() {
+	pwd | awk -F/ '{nlast = NF -1;print $nlast"/"$NF}'
+}
+
+## Archives
+
+alias mktar='tar -cvf'
+alias mkbz2='tar -cvjf'
+alias mkgz='tar -cvzf'
+alias untar='tar -xvf'
+alias unbz2='tar -xvjf'
+alias ungz='tar -xvzf'
+extract() {
+	for archive in "$@"; do
+		if [ -f "$archive" ]; then
+			case $archive in
+			*.tar.bz2) tar xvjf $archive ;;
+			*.tar.gz) tar xvzf $archive ;;
+			*.bz2) bunzip2 $archive ;;
+			*.rar) rar x $archive ;;
+			*.gz) gunzip $archive ;;
+			*.tar) tar xvf $archive ;;
+			*.tbz2) tar xvjf $archive ;;
+			*.tgz) tar xvzf $archive ;;
+			*.zip) unzip $archive ;;
+			*.Z) uncompress $archive ;;
+			*.7z) 7z x $archive ;;
+			*) echo "don't know how to extract '$archive'..." ;;
+			esac
+		else
+			echo "'$archive' is not a valid file!"
+		fi
+	done
+}
+
+#### Load ytdl, ytf, ytdlc functions
+if [ -f "$HOME/.config/zsh/ytdl.zsh" ]; then
+	source "$HOME/.config/zsh/ytdl.zsh"
+fi

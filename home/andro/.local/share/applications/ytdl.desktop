@@ -1,0 +1,7 @@
+[Desktop Entry]
+Version=1.1
+Name=YTDL handler
+Exec=/usr/local/bin/ytdl-handler.sh %u
+Type=Application
+MimeType=x-scheme-handler/ytdl;
+NoDisplay=true

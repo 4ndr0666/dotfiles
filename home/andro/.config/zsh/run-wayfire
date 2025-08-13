@@ -33,7 +33,6 @@ export WINIT_UNIX_BACKEND=wayland
 
 ## QT
 export QT_QPA_PLATFORMTHEME=qt5ct
-export QT_QPA_PLATFORMTHEME=qt6ct
 export QT_AUTO_SCREEN_SCALE_FACTOR=1
 export QT_QPA_PLATFORM=wayland,xcb
 export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
@@ -51,7 +50,21 @@ export ELM_ACCEL=opengl
 ## SDL environment
 
 export SDL_VIDEODRIVER=wayland
+## Java environment
+export _JAVA_AWT_WM_NONREPARENTING=1
+
+# LibreOffice
+
 export SAL_USE_VCLPLUGIN=gtk3
+
+## Clutter
+export CLUTTER_BACKEND="wayland"
+
+## GDK
+export GDK_BACKEND="wayland,x11"
+
+export NO_AT_BRIDGE=1
+export WINIT_UNIX_BACKEND=wayland
 
 ## Electron
 
@@ -59,9 +72,9 @@ export ELECTRON_OZONE_PLATFORM_HINT=auto
 
 ## Aquamarine
 
-export AQ_DRM_DEVICES=/dev/dri/card1:/dev/dri/card0 # Set an explicit list of DRM devices (GPUs) to use. It’s a colon-separated list of paths, with the first being the primary. E.g. /dev/dri/card1:/dev/dri/card0
-export AQ_MGPU_NO_EXPLICIT=1 # Disables explicit syncing on mgpu buffers
-export AQ_NO_MODIFIERS=1 # Disables modifiers for DRM buffers
+#export AQ_DRM_DEVICES=/dev/dri/card1:/dev/dri/card0 # Set an explicit list of DRM devices (GPUs) to use. It’s a colon-separated list of paths, with the first being the primary. E.g. /dev/dri/card1:/dev/dri/card0
+#export AQ_MGPU_NO_EXPLICIT=1 # Disables explicit syncing on mgpu buffers
+#export AQ_NO_MODIFIERS=1 # Disables modifiers for DRM buffers
 
 ## IPC
 

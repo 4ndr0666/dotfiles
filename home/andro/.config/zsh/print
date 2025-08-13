@@ -1,0 +1,87 @@
+#!/bin/sh
+# Author: 4ndr0666 
+# ================================================== // PRINTER //
+## Description: - Parses heredocs to the terminal for reference. 
+#               - Lists "catalog" if called with no args.
+## Usage:
+#   printer
+#   printer.sh ufw           
+# --------------------------------------
+
+## Catalog (called with no args)
+
+_SNIPS="
+ufw - Basic rules 
+zsh - Globbing
+"
+list_snips() {
+    printf '%s\n' "Catalog:"
+    printf '  %s\n' "$_SNIPS" | sed '/^$/d'
+}
+
+# Heredocs
+
+## UFW Rules
+
+print_snip() {
+    case $1 in
+        ufw) cat <<'EOF'
+sudo systemctl enable ufw
+sudo systemctl start ufw
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw enable
+EOF
+        ;;
+
+## ZSH Globbing
+
+        zsh) cat <<'EOF'
+Zsh Globbing Features and Examples:
+File Types:
+- /    Directories
+- .    Plain files
+- @    Symbolic links
+- =    Sockets
+- p    Named pipes (FIFOs)
+- *    Executable plain files (0100 permission)
+- %    Device files (character or block special)
+- %b   Block special files
+- %c   Character special files
+Permissions:
+- r    Owner-readable (0400)
+- w    Owner-writable (0200)
+- x    Owner-executable (0100)
+- A    Group-readable (0040)
+- I    Group-writable (0020)
+- E    Group-executable (0010)
+- R    World-readable (0004)
+- W    World-writable (0002)
+- X    World-executable (0001)
+- s    Setuid (04000)
+- S    Setgid (02000)
+- t    Sticky bit (01000)
+Examples:
+  print *(m-1)           # modified today
+  print *(a1)            # accessed a day ago
+  print *(@)             # symlinks
+  print *(Lk+50)         # >50 KiB
+  print *(Lk-50)         # <50 KiB
+  print **/*.c           # all *.c recursively
+  print **/*.c~file.c    # exclude file.c
+  print (foo|bar).*      # foo.* or bar.*
+  print *~*.*            # no dot in name
+  chmod 644 *(.^x)       # plain non-exec → 644
+  print -l *(.c|.h)      # *.c & *.h
+  print **/*(g:users:)   # owned by group users
+  echo /proc/*/cwd(:h:t:s/self//)
+EOF
+        ;;
+        *) echo "Unknown snippet: $1" >&2; exit 1 ;;
+    esac
+}
+
+## Main entry point
+
+[ $# -eq 0 ] && { list_snips; exit 0; }
+print_snip "$1"

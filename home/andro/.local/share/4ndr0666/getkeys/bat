@@ -1,76 +1,144 @@
-# Bat Keys
+# Bat Cheat-Sheet
 
-### Create File:
+---
+
+## Creating & Viewing Files
+
+### Create a File
 ```bash
-bat > note.md  
+bat > note.md
 ```
+*Creates an empty file (or waits for input) and sends it to `note.md`.*
 
-### Show Line Numbers Only:
+### Show File with Line Numbers
 ```bash
-bat -n main.rs  # show line numbers (only)
+bat -n main.rs
 ```
+*Displays `main.rs` with line numbers.*
 
-### Combine Documents:
+---
+
+## Combining & Previewing Documents
+
+### Combine Documents
 ```bash
 bat header.md content.md footer.md > document.md
 ```
+*Concatenates files with syntax highlighting into a single file.*
 
-### Show & highlight Non-Printable Chracters:
+### Show & Highlight Non-Printable Characters
 ```bash
-bat -A /etc/hosts 
+bat -A /etc/hosts
 ```
+*Displays all characters (including non-printable ones) in `/etc/hosts`.*
 
-### Display Multiple Files At Once:
+### Display Multiple Files At Once
 ```bash
 bat src/*.rs
 ```
+*Displays all Rust files from the `src/` directory.*
 
-### Preview Search Results:
-`find`
+---
+
+## Integrations with Search Tools
+
+### Preview Search Results with `find`
 ```bash
 find … -exec bat {} +
 ```
-`fd` 
+*Uses `find` to search and preview files with bat.*
+
+### Preview Search Results with `fd`
 ```bash
 fd … -X bat
 ```
+*Uses `fd` to find files and preview them using bat.*
 
-### Highlight Help Messages:
+---
+
+## Highlighting Help Messages
+
+### Directly Highlight Help Output
 ```bash
 cp --help | bat -plhelp
 ```
-Or use an alias:
+*Pipes help output through bat, setting the language to `help` for proper highlighting.*
+
+### Alias for Help Messages
 ```bash
 alias bathelp='bat --plain --language=help'
 help() {
     "$@" --help 2>&1 | bathelp
+}
 ```
+*Defines an alias and function to use bat for displaying help messages.*
 
-### Remove Bat Formatting:
+---
+
+## Formatting Options
+
+### Remove Bat Formatting (Plain Output)
 ```bash
-bat -p/--plain 
+bat -p
 ```
-- Or pipe the output into xclip:
+*Displays file content without any additional formatting or highlighting.*
+
+### Pipe to Clipboard
 ```bash
 bat main.cpp | xclip
 ```
+*Copies plain content of `main.cpp` to the clipboard using `xclip`.*
 
-### Auto Determine Syntax To Stdin:
+### Auto-Determine Syntax from Stdin
 ```bash
 curl -s https://sh.rustup.rs | bat
 ```
+*Automatically detects the syntax when reading from stdin.*
 
-### Bat As FZF Rreviewer:
+---
+
+## FZF Integration
+
+### Bat as an FZF Previewer
 ```bash
 fzf --preview "bat --color=always --style=numbers --line-range=:500 {}"
 ```
+*Uses bat for previewing files in fzf with color, line numbers, and a 500-line range.*
+
+---
+
+## Cache Management
 
 ### Update Binary Cache
 ```bash
 bat cache --build
 ```
+*Builds or updates bat's binary cache for faster startup.*
 
-### Reset To Defaults:
+### Reset Cache to Defaults
 ```bash
 bat cache --clear
 ```
+*Clears bat's binary cache, reverting to default settings.*
+
+---
+
+## Option Reference Table
+
+| **Option**             | **Description**                                                  |
+|------------------------|------------------------------------------------------------------|
+| `-n`                   | Show line numbers                                                |
+| `-A`                   | Show all characters (including non-printable)                    |
+| `--plain` (`-p`)       | Output without decorations/formatting                            |
+| `-l<lang>`             | Force syntax highlighting for specified language (e.g., `-lhelp`)  |
+| `--progress`           | Show progress during file concatenation                          |
+| `-z`                   | Enable syntax highlighting with compression (if needed)           |
+| `--cache-dir`          | Specify a custom cache directory for bat                           |
+
+---
+
+## Resources
+
+- **Bat GitHub Repository:** [sharkdp/bat](https://github.com/sharkdp/bat)
+- **Bat Documentation:** [bat.sr.ht](https://bat.sr.ht/)
+- **Man Pages:** `man bat`

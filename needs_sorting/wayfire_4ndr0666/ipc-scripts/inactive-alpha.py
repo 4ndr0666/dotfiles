@@ -5,7 +5,7 @@
 from wayfire import WayfireSocket
 
 sock = WayfireSocket()
-sock.watch(['view-focused'])
+sock.watch(["view-focused"])
 
 last_focused_toplevel = -1
 while True:

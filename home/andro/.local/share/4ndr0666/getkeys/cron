@@ -1,0 +1,94 @@
+# Cron Cheat-Sheet
+
+Cron is a time-based job scheduler in Unix-like operating systems. It allows you to run commands or scripts at specified dates and times.
+
+---
+
+## Crontab Format
+
+Each line in a crontab file follows this format:
+
+```cron
+* * * * * command_to_execute
+| | | | |
+| | | | +--- Day of week (0 - 7) [0 and 7 both represent Sunday]
+| | | +----- Month (1 - 12)
+| | +------- Day of month (1 - 31)
+| +--------- Hour (0 - 23)
++----------- Minute (0 - 59)
+```
+
+---
+
+## Field Breakdown
+
+| Field          | Allowed Values                  | Description                                               |
+|----------------|---------------------------------|-----------------------------------------------------------|
+| **Minute**     | 0-59                            | The minute the command will run                         |
+| **Hour**       | 0-23                            | The hour the command will run                           |
+| **Day of Month** | 1-31                          | The day of the month the command will run               |
+| **Month**      | 1-12                            | The month the command will run                          |
+| **Day of Week**| 0-7 (0 or 7 = Sunday)           | The day of the week the command will run                |
+
+---
+
+## Common Cron Expressions
+
+### Every 15 Minutes
+```cron
+*/15 * * * * /home/user/command.sh
+```
+*Runs the command every 15 minutes.*
+
+### Every Midnight
+```cron
+0 0 * * * /home/user/command.sh
+```
+*Runs the command at midnight (00:00) every day.*
+
+### Every Saturday at 8:05 AM
+```cron
+5 8 * * 6 /home/user/command.sh
+```
+*Runs the command at 8:05 AM every Saturday (day 6).*
+
+### Test/Diagnostic Cron Job
+```cron
+* * * * * echo "Cron job ran at $(date)" >> /home/andro/.local/share/logs/cron_test.log
+```
+*Creates a log entry every minute, useful for testing or diagnostics.*
+
+### Weekly Cleanup Example
+```cron
+0 0 * * 0 /home/andro/go-cleanup.sh
+```
+*Runs a cleanup script every Sunday at midnight.*
+
+---
+
+## Additional Tips
+
+- **Editing Crontab:**  
+  Use the command `crontab -e` to edit your crontab file.
+
+- **Listing Cron Jobs:**  
+  Use `crontab -l` to list your current cron jobs.
+
+- **Cron Environment:**  
+  Cron jobs run in a limited shell environment. Be sure to specify full paths to executables and files.
+
+- **Logging:**  
+  Redirect output to a log file to capture stdout and stderr for troubleshooting (as shown in the test job example).
+
+---
+
+## Resources
+
+- **Cron Documentation:**  
+  [man 5 crontab](https://linux.die.net/man/5/crontab)
+
+- **CronHowto on Ubuntu:**  
+  [CronHowto](https://help.ubuntu.com/community/CronHowto)
+
+- **Stack Overflow Cron Questions:**  
+  [Cron Questions on Stack Overflow](https://stackoverflow.com/questions/tagged/cron)
