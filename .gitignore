@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+#--- *Secrets* --------------------------------------------------------
+*.env
+secrets.json
+
+#––– *Editor / shell* ––––––––––––––––––––––––––––––––––––––––––––––––––
+=======
 ## Secrets
 secrets.json
 *.env
@@ -7,6 +14,7 @@ secrets.json
 .zcompdump
 .bash_history
 .zsh_history
+>>>>>>> main
 .vscode/
 .idea/
 *.swp
@@ -16,16 +24,34 @@ secrets.json
 *.swn  
 *.~?
 *~
+<<<<<<< HEAD
+.zcompdump
+.bash_history
+.zsh_history
+# micro/helix/joe/… swap or backup files
+*.sw?          # .swo .swn …
+*.~?
+
+#––– *Logs / runtime* ––––––––––––––––––––––––––––––––––––––––––––––––––
+=======
 
 ## Logs and Runtime 
+>>>>>>> main
 *.log
 *.log.*
 *.pid
 *.db
 
+<<<<<<< HEAD
+#––– *Python* ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+__pycache__/
+*.py[cod]
+.pytest_cache/
+=======
 ## Python
 __pycache__/
 *.py[cod]
+>>>>>>> main
 *.egg-info
 .pytest_cache/
 *.pyc
@@ -33,20 +59,48 @@ __pycache__/
 build/
 dist/
 out/
+<<<<<<< HEAD
+*.pyc
+*.pyo
+
+#––– *Node / JS* –––––––––––––––––––––––––––––––––––––––––––––––––––––––
+=======
 
 ## Node
+>>>>>>> main
 node_modules/
 npm-debug.log*
 yarn-debug.log*
 .yarn/cache/
 
+<<<<<<< HEAD
+#––– *C / C++ / Rust / Go* –––––––––––––––––––––––––––––––––––––––––––––
+=======
 ## C/C++/Rust/Go
 target/           
 *.dll
+>>>>>>> main
 *.o
 *.ko
 *.a
 *.so
+<<<<<<< HEAD
+*.dll
+target/           # cargo
+bin/              # go build
+*.exe
+
+#––– *Vendor* ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+vendor/
+
+#––– *Operating‑system noise* ––––––––––––––––––––––––––––––––––––––––––
+.DS_Store
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+#––– *Archives / packages* –––––––––––––––––––––––––––––––––––––––––––––
+=======
 *.exe
 
 ## Vendor
@@ -67,6 +121,7 @@ Thumbs.db
 *.part
 
 ## Archives
+>>>>>>> main
 *.zip
 *.tar
 *.tar.*
@@ -75,15 +130,26 @@ Thumbs.db
 *.bz2
 *.xz
 
+<<<<<<< HEAD
+#––– *Large / transient media* –––––––––––––––––––––––––––––––––––––––––
+=======
 ## Large Media
 *.webm     
+>>>>>>> main
 *.iso
 *.img
 *.mp4
 *.mkv
+<<<<<<< HEAD
+*.webm.part      #  <– offending files
+
+
+
+=======
 *.mp3
 *.m4v
 *.gif
 *.3gp
 *.flv
 *.webp
+>>>>>>> main
