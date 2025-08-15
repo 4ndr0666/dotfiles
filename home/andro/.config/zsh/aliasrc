@@ -1410,6 +1410,8 @@ alias gclear='git stash clear'
 alias ghr='git reset --hard'
 alias gfs='git-lfs'
 alias ga='git add'
+alias gp='git push origin main'
+
 #alias gupdate='gcomp && gh tidy && gh setup'
 
 gupdate() {
@@ -1549,7 +1551,7 @@ gignore() {
     fi
 }
 
-gcl() {
+gclone() {
     if [[ -z "$1" ]]; then
         echo "Error: No repository URL provided."
         echo "Usage: gclone <repository-url>"
@@ -1609,7 +1611,7 @@ gcomp() {
         git push origin main
 }
 
-gcomp-nv() {
+gcompn() {
         git commit -m "$*" --no-verify
         git push origin main
 }
@@ -1648,7 +1650,7 @@ gauto() {
     fi
 }
 
-gaddssh() {
+gssh() {
     eval "$(ssh-agent -s)"
     ssh-add ~/.ssh/github
     ssh -T git@github.com
