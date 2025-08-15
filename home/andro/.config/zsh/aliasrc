@@ -65,6 +65,10 @@ alias l.='eza -Xd --sort new --colour-scale-mode=gradient --colour-scale=age --g
 
 ## Ls Functions_________________________________________________
 
+### Ls by size
+
+alias lss='lsd -FhSr'
+
 ### Ls by Extension
 
 alias lse='eza -Xh --sort=extension --no-filesize --no-time --no-permissions --colour=auto --colour-scale=size --colour-scale-mode=gradient --group-directories-first --icons=always --smart-group'
@@ -181,7 +185,7 @@ alias rm='rm -vI'
 alias bc='bc -l'
 alias rmf='sudo -S /bin/rm -vI -rf'
 alias rmd='sudo -S /bin/rm  --recursive --force --verbose '
-alias rg="\rg --sort path"
+alias rg="rg --sort path"
 function diff() {
   if [[ "$1" == "-y" ]]; then
     colordiff "$@"
@@ -204,6 +208,7 @@ alias grepc='grep --color=always'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias c='clear; echo; echo; seq 1 $(tput cols) | sort -R | spark | lolcat; echo; echo'
+#clear; seq 1 $(tput cols) | sort -R | sparklines | lolcat
 alias hw='sudo hwinfo --short'
 alias lsb='lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINT'
 alias jctl='journalctl -p 3 -xb'
@@ -755,16 +760,16 @@ alias whatcpu="grep -m1 'model name' /proc/cpuinfo"
 
 ## Program Specific__________________________________________________________________________________
 
-## Cmake
+### Fabric
+alias fabric='fabric-ai'
 
+### Cmake
 #alias cmake='/opt/cmake-4.0.1/bin/cmake'
 
-## Zathura
-
+### Zathura
 alias z='zathura --fork'
 
-## Bat
-
+### Bat
 ### Instead of `cmd --help` do `help cmd`:
 
 alias bathelp='bat --plain --language=help'
@@ -1157,11 +1162,12 @@ alias mirrorsite='wget -m -k -K -E -e robots=off'
 
 alias trem='transmission-remote'
 
-## Youtube-Viewer
+## Youtube
 
-alias ytt='yt --skip-download --write-thumbnail'
-alias YT='youtube-viewer'
-alias yta='yt -x -f bestaudio/best'
+#alias ffmpeg="ffmpeg -hide_banner"
+alias ytt='yt-dlp --skip-download --write-thumbnail'
+alias YT='youtube-viewer --order=date'
+alias yta='yt-dlp -x -f bestaudio/best'
 
 ## Mpv
 
@@ -1350,11 +1356,23 @@ yaysearch() {
     esac
 }
 
-## Fuckin-Do-It (fn)
+# ---
+
+### Fuckin-Do-It (fn)
 
 alias fninstall="yay -S --needed --cleanafter --cleanmenu --devel --noconfirm --rebuild --refresh --sudoloop --sysupgrade --overwrite='*' --disable-download-timeout --pgpfetch=false --removemake --redownload --batchinstall=false --answerclean=yes --answerdiff=no --answeredit=no"
 alias fnupdate='yay -Syyu --noconfirm --disable-download-timeout --removemake --rebuild --pgpfetch=false --bottomup --overwrite="*"'
 alias fnremove='yay -Rddn --noconfirm'
+
+# ---
+
+## Skip Integrity Check
+
+alias paruskip='paru -S --mflags --skipinteg'
+alias yayskip='yay -S --mflags --skipinteg'
+alias trizenskip='trizen -S --skipinteg'
+
+# ---
 
 ## Pacman.conf
 
@@ -1370,9 +1388,10 @@ pacmansigoff() {
         echo "Operation canceled."
     fi
 }
+
 alias pacmansigon="if [ -f /etc/pacman.conf.backup ]; then if sudo cp --preserve=all -f /etc/pacman.conf.backup /etc/pacman.conf; then sudo rm /etc/pacman.conf.backup && echo 'PGP signature verification restored.'; else echo 'Failed to restore the original pacman.conf. Aborting.'; fi; else echo 'Backup file not found. Cannot restore.'; fi"
 
-## GPG_______________________________________________________________________________________________
+# GPG__________________________________________________________________________________
 
 alias fixdirmngr='sudo dirmngr </dev/null'
 #alias chgpg='sudo chown -R $(whoami):$(whoami) ~/.gnupg && chmod 700 ~/.gnupg && chmod 600 ~/.gnupg/*'
@@ -1383,7 +1402,7 @@ alias fixpacmankey2='gpg-agent --homedir /etc/pacman.d/gnupg --use-standard-sock
 alias gpgkeyserver2="sudo gpg --keyserver hkps://keys.openpgp.org/ --search-keys user-id"
 alias generate-keyserver='gpg --full-generate-key && gpg --import /usr/share/pacman/keyrings/archlinux* && gpg --recv-keys --keyserver hkp://pool.sks-keyservers.net && pacman-key --init && pacman-key --populate archlinux'
 
-## GIT________________________________________________________________________________________________
+# Git ___________________________________________________________________________________
 
 alias gstat='git status'
 alias gstash='git stash --all'
@@ -1729,8 +1748,7 @@ gsetup() {
     git push -u origin "$branch_name"
 }
 
-## I/O_____________________________________________________________________________________
-
+# Custom Powerdown_______________________________________________________________
 cleanup_session() {
     echo "Begining custom shutdown..."
     # Define the list of processes to check and terminatete
@@ -1785,12 +1803,9 @@ alias sdn="cleanup_session && echo 'Shutting down...' && sudo shutdown -h now"
 alias ssr="cleanup_session && echo 'Rebooting...' && sudo reboot -h now"
 alias magic='sudo /usr/local/bin/magic.sh'
 
-## 4ndr0tools_______________________________________________________________________
+# 4ndr0tools_______________________________________________________________________
 
-## 4ndr0cht
-
-### Fzf for cheat-sheets in "~/.cheaters/"
-
+# 4ndr0cht: cheatsheets ~/.cheaters
 cht() {
     local cheats
     cheats=("$HOME/.cheater/"*.md)
@@ -1799,10 +1814,7 @@ cht() {
     [ -n "$choice" ] && glow "$choice" || echo "No cheat sheet selected."
 }
 
-## 4ndr0conf
-
-### modular help function
-
+# 4ndr0conf: modular config file editor
 edit_config() {
     local file_path="$1"
     if [[ $file_path ]]; then
@@ -1812,7 +1824,6 @@ edit_config() {
         echo "File path not provided."
     fi
 }
-
 alias svim='edit_config'
 alias valias='edit_config "$ZDOTDIR/aliasrc"'
 alias vfunc='edit_config "$ZDOTDIR/functions.zsh"'
@@ -1832,10 +1843,7 @@ alias vfire='edit_config "$XDG_CONFIG_HOME"/wayfire.ini'
 alias vbar='edit_config "$XDG_CONFIG_HOME"/wayfire/waybar/config'
 alias vhostname='edit_config /etc/hostname'
 
-## Directory Shortcuts_______________________________________________________________________
-
-### modular helper function
-
+# 4ndr0cuts: directory shortcuts
 goto() {
     local dir="$1"
     if [[ -d "$dir" ]]; then
@@ -1844,30 +1852,25 @@ goto() {
         echo "Directory not found: $dir"
     fi
 }
-
-## /home:
-
+# /home:
 alias dc='goto ~/Documents'
 alias dl='goto ~/Downloads'
 alias vid='goto ~/Videos'
 alias pic='goto ~/Pictures'
+alias screens='goto /home/andro/Pictures/Screenshots'
 alias conf='goto ~/.config'
 alias wconf='goto ~/.config/wayfire'
 alias zconf='goto ~/.config/zsh'
 alias mconf='goto ~/.config/mpv'
 alias ob='goto ~/.config/openbox'
 alias obt='goto ~/.config/openbox/themes'
-
-## /storage:
-
+# /storage:
 alias s1='goto /storage'
 alias s1dl='goto /storage/Downloads'
 alias s1pic='goto /storage/Pictures'
 alias s1vid='goto /storage/Videos'
 alias streamdir='goto /storage/streamlink'
-
-## /sto2:
-
+# /sto2:
 alias s2='goto /sto2'
 alias s2dl='goto /sto2/Downloads'
 alias s2pic='goto /sto2/Pictures'
@@ -1875,39 +1878,32 @@ alias s2vid='goto /sto2/Videos'
 alias gym='goto /sto2/Gym'
 alias jd='goto /sto2/JD'
 alias ari='goto /storage/Ari_cloud'
-
-## Cookie Dir
-
-alias cook='goto /Nas/Nas/Cookie\ Backup\ Restore'
-
-## /23.1
-
-alias f='goto /23.1/Edits/F/'
+# /s3
+alias s3='goto /s3'
+alias s3dl='goto /s3/Downloads'
+alias s3vid='goto /s3/Videos'
+# /23.1
+alias 23e='goto /23.1/Edits'
+alias 23f='goto /23.1/Edits/F/'
 alias 23='goto /23.1'
 alias 23dl='goto /23.1/Downloads'
 alias 23vid='goto /23.1/Videoenhancement'
 alias 23pic='goto /23.1/Images'
 alias 23jd='goto /23.1/JD'
 alias cloud='goto /23.1/Thecloud'
-
-## /Nas:
-
+# /Nas:
 alias nas='goto /Nas'
-alias nasnas='goto /Nas/Nas'
+alias nnas='goto /Nas/Nas'
 alias sand='goto /Nas/sandbox'
+alias spkg='goto /Nas/sandbox/pkgs'
 alias nasc='goto /Nas/Nas/Cookie\ Backup\ Restore && cat *.ckz | wl-copy' # Cookie file
-
-## /home/git:
-
-alias ngc='goto /home/git/clone'
-alias nnas='goto /home/git/clone/nas'
-alias ndot='goto /home/git/clone/dotfiles'
-alias nbin='goto /home/git/clone/scr'
-alias npkg='goto /Nas/Build/pkgs'
-alias ngpt='goto /home/git/clone/gpt/'
-
-## System directories:
-
+# /home/git:
+alias hgc='goto /home/git/clone'
+alias hgnas='goto /home/git/clone/nas'
+alias hgdot='goto /home/git/clone/dotfiles'
+alias hgbin='goto /home/git/clone/scr'
+alias hggpt='goto /home/git/clone/gpt/'
+# System directories:
 alias et='goto /etc'
 alias ske='goto /etc/skel'
 alias bin='goto /usr/local/bin'
@@ -1918,47 +1914,34 @@ alias lshare='goto ~/.local/share/'
 alias lsrc='goto ~/.local/src/'
 alias cac='goto ~/.cache'
 
-## 4ndr0kill
-
+# 4ndr0kill
 killit() {
   emulate -L zsh
-
-  ### Allow optional leading signal number
   local sig=15
   if (( $# > 0 )) && [[ $1 =~ ^[0-9]+$ ]]; then
     sig=$1
     shift
   fi
-
-  ### Build an array of process lines (skip header)
   local entries
   if (( EUID != 0 )); then
     entries=("${(@f)$(ps -f -u $EUID | sed 1d)}")
   else
     entries=("${(@f)$(ps -ef | sed 1d)}")
   fi
-
-  ### Let the user select one or more lines via fzf
   local selected
   selected=$(printf "%s\n" "${entries[@]}" | fzf -m \
     --prompt="Select processes to kill (SIG$sig then SIGKILL fallback): " \
     --header="TAB: multi‑select, ENTER: confirm" \
     --ansi)
-
-  ### No selection → abort
   if [[ -z $selected ]]; then
     print_message INFO "No processes selected."
     return 1
   fi
-
-  ### Extract PIDs (second column) into an array
   local pid_list=("${(@f)$(printf "%s\n" "$selected" | awk '{print $2}')}")
   (( ${#pid_list} )) || {
     print_message ERROR "Failed to parse any PIDs."
     return 1
   }
-
-  ### Confirm
   print_message WARNING "About to send SIG$sig to: ${pid_list[*]}"
   read -q "?Proceed? [y/N]: "
   echo
@@ -1966,8 +1949,6 @@ killit() {
     print_message INFO "Aborted."
     return 0
   }
-
-  ### Send SIGTERM (or chosen signal)
   for pid in "${pid_list[@]}"; do
     if kill -"$sig" "$pid"; then
       print_message INFO "Sent SIG$sig to PID $pid"
@@ -1975,8 +1956,6 @@ killit() {
       print_message ERROR "Failed to send SIG$sig to PID $pid"
     fi
   done
-
-  ### Wait up to 5s, then SIGKILL any survivors
   for pid in "${pid_list[@]}"; do
     for ((i=1; i<=5; i++)); do
       kill -0 "$pid" &>/dev/null || break
@@ -1996,19 +1975,14 @@ killit() {
   done
 }
 
-## 4ndr0view
-
-### Quicly view configuration files
-
+# 4ndr0view: Quicly view configuration files
 alias 00='bat --language=sh --paging=always ~/.config/zsh/aliasrc'
 alias 0f='bat ~/.config/zsh/functions.zsh'
 alias 0z='bat ~/.config/zsh/.zshrc'
 alias 0p='bat ~/.config/zsh/.zprofile'
+alias gapi='echo "AIzaSyBNaLJoZyjS_X_S0MavGMqGa2s6qnFrfxI" | wl-copy'
 
-## Typos___________________________________________________________________________________
-
-### Enter typo followed by the correction:
-
+# Typos: enter typo followed by the correction______________________________
 alias gerp='grep'
 alias shudown='shutdown'
 alias micor='micro'
