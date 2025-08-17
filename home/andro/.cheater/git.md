@@ -1,9 +1,25 @@
 # Git Cheater
 
-## Rebase (approve testing)
+## BFG 
 
-Bring approved testing branch modifications into the main branch:
+1. **Rm files from ALL commits**:
+```bash
+bfg --delete-files 'credentials.json'
+git reflog expire --expire=now --all && git gc --prune=now --aggressive
+```
 
+2. **Force-push the cleaned history**:
+```bash
+git push origin --force --all
+git push origin --force --tags
+```
+
+---
+
+## Rebase 
+
+[Approve Testing]
+1. **Bring approved testing branch modifications into the main branch**:
 ```bash
 git checkout testing          # Go to your feature branch
 git pull                     # Make sure it's up to date
@@ -14,10 +30,8 @@ git merge testing            # Now this is a fast-forward merge (no merge commit
 git push
 ```
 
-## Delete Branches (after rebase)
-
-After bringing the testing branch modifications over to main, delete the branch:
-
+[After Rebase]
+2. **After bringing the testing branch modifications over to main, delete the branch**:
 ```bash
 git branch -d testing
 git push origin --delete testing
@@ -45,22 +59,22 @@ GH_TOKEN=$(gh auth token --user 4ndr0666) gh api /user | jq .login
 
 ## Pull Updates (Ensuring local changes are saved) 
 
-1. Save all local changes first (tracked + untracked)
+1. **Save all local changes first** (tracked + untracked)
 ```shell
 git stash push -u -m "WIP"
 ```
 
-2. Lineraly update branch with a rebase 
+2. **Lineraly update branch with a rebase** 
 ```shell
 git pull --rebase
 ```
 
-3. Bring stash back, staging exactly as before
+3. **Bring stash back, staging exactly as before**
 ```shell
 git stash pop --index
 ```
 
-4. Fix any conflicts, then
+4. **Fix any conflicts, then**
 ```shell
 git add <fixed> ; git rebase --continue   # only if conflicts + rebasing
 git commit -am "your message"
@@ -71,22 +85,22 @@ git push
 
 ## Git Stash
 
-- Always keep untracked files:
+1. **Always keep untracked files**:
 ```shell
 git config --global stash.saveIncludeUntracked true
 ```
 
-- Auto‑stash on every rebase/pull:
+2. **Auto‑stash on every rebase/pull**:
 ```shell
 git config --global rebase.autoStash true
 ```
 
-- See what’s in a stash, including untracked:
+3. **See what’s in a stash, including untracked**:
 ```shell
 git stash show -p -u stash@{0}
 ```
 
-- Name your stashes:
+4. **Name your stashes**:
 ```shell
 git stash push -u -m "fix‑menu‑layout"
 ```

@@ -59,7 +59,7 @@ unsetopt PROMPT_SP 2>/dev/null
 ## Default programs
 
 export EDITOR="nvim"
-export TERMINAL="alacritty"
+export TERMINAL="kitty"
 export TERMINAL_PROG="st"
 export BROWSER="brave-beta"
 
@@ -93,8 +93,7 @@ export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
 export GOPATH="$XDG_DATA_HOME/go"
 export GOMODCACHE="$XDG_CACHE_HOME/go/mod"
-export GOROOT="/usr/local/go"
-#$(go env GOROOT 2>/dev/null || echo '/usr/lib/go')
+export GOROOT="$(go env GOROOT 2>/dev/null || echo '/usr/lib/go')"
 export UNISON="$XDG_DATA_HOME/unison"
 export HISTFILE="$XDG_DATA_HOME/zsh/history"
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/pythonrc"
@@ -236,34 +235,31 @@ mkdir -p "$XDG_DATA_HOME/lib" \
 
 export LD_LIBRARY_PATH="$XDG_DATA_HOME/lib:/usr/local/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 
-## Askpass
+# Secrets
+export GOOGLE_APPLICATION_CREDENTIALS="/Nas/Nas/creds/credentials.json"
 
-export SUDO_ASKPASS="$XDG_CONFIG_HOME"/wayfire/scripts/rofi_askpass  # Wayfire specific
+# Askpass
+export SUDO_ASKPASS="$XDG_CONFIG_HOME"/wayfire/scripts/rofi_askpass  # Wayland
 #export SUDO_ASKPASS="/usr/bin/pinentry-dmenu"    # Xorg
 
-## GPG
-
+# GPG
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
-
 if [ ! -d "$GNUPGHOME" ]; then
     mkdir -p "$GNUPGHOME"
     \chmod 700 "$GNUPGHOME"
 fi
-
-gpg_env_file="${ZDOTDIR:-$HOME/.config/zsh}/gpg_env"
-
+gpg_env_file="$ZDOTDIR/gpg_env"
 if [ -f "$gpg_env_file" ]; then
     source "$gpg_env_file"
 else
     echo "Warning: $gpg_env_file not found"
 fi
 
-## FZF
 
-#### Default search command
+# FZF (default search command)
 export FZF_DEFAULT_COMMMAND='fd --no-ignore --hidden --follow --exclude ".git"'
 
-#### Default settings
+# FZF Config
 export FZF_DEFAULT_OPTS="
   --layout=reverse
   --border=thinblock
@@ -291,29 +287,28 @@ esac'
   --border-label='search' --prompt='≽  ' --marker='✔' --pointer='☞'
 "
 
-## Fzf preview configs:
+# Fzf configs
 
-#### Config 1
+# Config 1
 #--preview-window=up,1,border-horizontal
 
-#### Config 2
+# Config 2
 #--preview='file {}'
 #--bind='ctrl-/:change-preview-window(50%|hidden|)' \
 
-#### Config 3
+# Config 3
 #--preview='bat --style=numbers --color=always {}'
 #--preview-window=hidden:right:69%
 
-## Fzf color themes
-
-#### 4ndr0hack Theme
+# Fzf themes
+# 4ndr0hack Theme
 #--color=fg:#005b69,fg+:#15FFFF,bg:#151515,bg+:#262626 \
 #--color=hl:#15FFFF,hl+:#15FFFF,info:#195761,marker:#15FFFF \
 #--color=prompt:#00f7ff,spinner:#64e290,pointer:#15FFFF,header:#07fff7 \
 #--color=border:#262626,preview-border:#15FFFF,label:#005b69,query:#15ffff \
 #--border-label-pos='-54' --prompt='≽  ' --marker='✔' --pointer='☞' --separator='-'"
 
-#### Garuda Theme
+# Garuda Theme
 #--height=40% --layout=reverse --info=inline --border --margin=1 --padding=1 \
 #--tiebreak=index \
 #--preview 'bat --color=always {}' --preview-window '~3' \
@@ -321,18 +316,17 @@ esac'
 #--color 'fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc' \
 #--color 'marker:#f5e0dc,fg+:#a6e3a1,prompt:#cba6f7,hl+:#f38ba8'"
 
-#### Dark Transparency Theme
+# Dark Transparency Theme
 # --color 'fg:#bbccdd,fg+:#ddeeff,bg:#334455,preview-bg:#223344,border:#778899"
 
-#### Basic 16
+# Basic 16
 #--color=16
 
-## FZF Widgets:
-
-### History
+# FZF Widgets:
+# History
 bindkey '^R' fzf-history-widget
 
-### History Sorted
+# History Sorted
 fh() {
     print -z $(
         ([ -n "$ZSH_NAME" ] && fc -l 1 || history) \
@@ -342,25 +336,22 @@ fh() {
     )
 }
 
-## Truecolor
+# Truecolor
+# export MICRO_TRUECOLOR=1
 
-#export MICRO_TRUECOLOR=1
-
-#case "${COLORTERM}" in
+# case "${COLORTERM}" in
 #    truecolor|24bit) ;;
 #    *) export COLORTERM="24bit" ;;
-#esac
+# esac
 
-## PAGER
-
+# PAGER
 export PAGER='less'
 #export MANPAGER="sh -c 'if [ -t 1 ]; then col -bx | bat -l man -p; else col -bx | bat -l man -p --color=always --paging=always; fi | less -R'"
 #export BAT_PAGER="less -R"
 #export MANPAGER="sh -c 'col -bx | bat -l man -p | less -R'"
 #export MANPAGER="sh -c 'col -bx | bat -l man -p --paging always'
 
-## Less
-
+# Less
 export LESS="R"
 export LESS_TERMCAP_mb="$(printf '%b' '[1;31m')"
 export LESS_TERMCAP_md="$(printf '%b' '[1;36m')"
@@ -385,13 +376,11 @@ export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
 #export LESS_TERMCAP_us="$(printf '%b' '')"
 #export LESS_TERMCAP_ue="$(printf '%b' '')"
 
-## Shortcut Script for LF
+# Shortcut Script for LF
 [ ! -f "$XDG_CONFIG_HOME/shell/shortcutrc" ] && setsid -f shortcuts >/dev/null 2>&1
 
-## Startx for TTY
-
+# Startx for TTY
 # [ "$(tty)" = "/dev/tty1" ] && ! pidof -s Xorg >/dev/null 2>&1 && exec startx "$XINITRC"
 
-## Switch keys ESC and CAPS for TTY & no password
-
+# Switch keys ESC and CAPS for TTY & no password
 sudo -n loadkeys "$XDG_DATA_HOME/larbs/ttymaps.kmap" 2>/dev/null
