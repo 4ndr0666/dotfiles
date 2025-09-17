@@ -1,58 +1,107 @@
 # CHT: one-liners.md
 
+---
+
+## Install NVM
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash 
+```
+
+---
+
+## Install Pi-apps
+
+`wget -qO- https://raw.githubusercontent.com/Botspot/pi-apps/master/install | bash`
+
+---
+
+## Confirm Site is Live
+
+```bash
+curl -I https://4ndr0666.github.io/4ndr0site/scripts/ | sed -n '1p'
+```
+
+Fetch the page to confirm it’s not empty:
+
+```bash
+curl -sS https://4ndr0666.github.io/4ndr0site/scripts/ -o /tmp/live-scripts.html
+test -s /tmp/live-scripts.html && echo "OK: live /scripts has content" || echo "ERROR: live /scripts is empty"
+```
+
+---
+
 ## Refresh Official Arch Serverlist
 
-`sudo curl -o /etc/pacman.d/mirrorlist 'https://archlinux.org/mirrorlist/?country=US&protocol=https&ip_version=4&use_mirror_status=on'`
+```bash
+sudo curl -o /etc/pacman.d/mirrorlist 'https://archlinux.org/mirrorlist/?country=US&protocol=https&ip_version=4&use_mirror_status=on'
+```
 
 ---
 
 ## Scan Site-packages For Leftovers
 
-`find ~/.local/lib/python*/site-packages -iname "*pkgname*" -or -iname "*pkgname2*"`
+```bash
+find ~/.local/lib/python*/site-packages -iname "*pkgname*" -or -iname "*pkgname2*"
+```
 
 ---
 
 ## Parse All Brave Features/Flags In Use
 
-`ps -e -o pid,command | grep '[b]rave-beta' | grep -v -- '--type=' | awk '{print $1}' | \
+```bash
+ps -e -o pid,command | grep '[b]rave-beta' | grep -v -- '--type=' | awk '{print $1}' | \
 xargs -r ps -p | tail -n +2 | awk '{$1=""; print $0}' | \
-tr ' ' '\n' | grep -- '^--'`
+tr ' ' '\n' | grep -- '^--'
+```
 
 ---
 
 ## Mount ntfs properly
 
-`sudo umount -l /tardis`
-`sudo mount -t ntfs-3g -o uid=1000,gid=1000,umask=022,relatime UUID=801F5E3CC5D8B2EA /tardis`
+```bash
+sudo umount -l /tardis
+sudo mount -t ntfs-3g -o uid=1000,gid=1000,umask=022,relatime UUID=801F5E3CC5D8B2EA /tardis
+```
 
 ---
 
 ## Check for non-executable mount
 
-`mount | grep /sdx`
+```bash
+mount | grep /sdx
+```
 
 Then resolve:
 
-`sudo umount /sdx`
-`sudo mount -o remount,exec,noatime /dev/sdx /sdy`
+```bash
+sudo umount /sdx
+sudo mount -o remount,exec,noatime /dev/sdx /sdy
+```
 
 ---
 
 ## Backgrounded PID
 
-`sudo sh -c 'mem-police 2>&1 | tee -a /var/log/mem-police.log' &`
+```bash
+sudo sh -c 'mem-police 2>&1 | tee -a /var/log/mem-police.log' &
+```
 
 ---
 
 ## Proper Install
 
-`sudo install -m 755 <pkgname> /destination/dir`
+```bash
+sudo install -m 755 <pkgname> /destination/dir
+```
 
 ---
 
 ## Rename All Files "*.sh"
 
-`for f in *; do file "$f" | grep -q 'shell script' && [[ "$f" != *.sh ]] && mv "$f" "$f.sh"; done`
+```bash
+for f in *; do file "$f" | grep -q 'shell script' && [[ "$f" != *.sh ]] && mv "$f" "$f.sh"; done
+```
 
 ---
 
@@ -68,7 +117,9 @@ done
 
 ## Aggregate System Info
 
-`grep -m1 'model name' /proc/cpuinfo`
+```bash
+grep -m1 'model name' /proc/cpuinfo
+```
 
 ---
 
@@ -102,9 +153,10 @@ curl "https://raw.githubusercontent.com/wis/mpvSockets/master/mpvSockets.lua" --
 
 ## CURL: yt-dlp
 
-`sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl`
-`sudo chmod a+rx /usr/local/bin/youtube-dl`
-
+```bash
+sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+sudo chmod a+rx /usr/local/bin/youtube-dl
+```
 ---
 
 ## Change Shell
@@ -119,25 +171,31 @@ source ~/.zshrc
 
 ## Register XDG-Mime Schemas
 
-`xdg-mime default ytdl.desktop x-scheme-handler/ytdl`
+```bash
+xdg-mime default ytdl.desktop x-scheme-handler/ytdl
+```
 
 ---
 
 ## CURL: RaspberryPi Script
 
-`curl -sSL https://git.io/JfAPE | bash`
+```bash
+curl -sSL https://git.io/JfAPE | bash
+```
 
 ---
 
 ## Parse Dirs in \$PATH
 
-`tr : '\n' <<< "$PATH"`
+```bash
+tr : '\n' <<< "$PATH"
+```
 
 ---
 
 ## Truncate Filename
 
-Rename "20221227 2210 - Random TV Chanel HD - Make Arch Great Again.ts" to "Make Arch Great Again.ts":
+Renames "20221227 2210 - Random TV Chanel HD - Make Arch Great Again.ts" to "Make Arch Great Again.ts":
 
 ```bash
 for file in *.ts; do
@@ -149,31 +207,41 @@ done
 
 ## Exec Cmd On File Change
 
-`while inotifywait -e modify /tmp/myfile; do firefox; done`
+```bash
+while inotifywait -e modify /tmp/myfile; do firefox; done
+```
 
 ---
 
 ## WGET: All Images From Website
 
-`wget -r -l1 --no-parent -nH -nd -P/tmp -A".gif,.jpg" http://example.com/images`
+```bash
+wget -r -l1 --no-parent -nH -nd -P/tmp -A".gif,.jpg" http://example.com/images
+```
 
 ---
 
 ## List Broken Symlinks
 
-`find . -type l ! -exec test -e {} \; -print`
+```bash
+find . -type l ! -exec test -e {} \; -print
+```
 
 ---
 
 ## List Dangling Symlinks
 
-`find . -type l -xtype l -print`
+```bash
+find . -type l -xtype l -print
+```
 
 ---
 
 ## Delete Dangling Symlinks
 
-`find . -type l -xtype l -delete`
+```bash
+find . -type l -xtype l -delete
+```
 
 ---
 
@@ -189,111 +257,147 @@ ls -l /usr/lib/libicuuc.so.74
 
 ## Create .bak of File
 
-`cp file.txt{,.bak}`
+```bash
+cp file.txt{,.bak}
+```
 
 ---
 
 ## Print Specific Line From File
 
-`sed -n 5p <file>`
-
+```bash
+sed -n 5p <file>
+```
 ---
 
 ## Change User, Assume Env, Stay in Dir
 
-`su -- user`
+```bash
+su -- user
+```
 
 ---
 
 ## Clone File Permissions
 
-`chmod --reference file1 file2`
-
+```bash
+chmod --reference file1 file2
+```
 ---
 
 ## Remove All Files Except
 
-`rm -f !(survivor.txt)`
-
+```bash
+rm -f !(survivor.txt)
+```
 ---
 
 ## Stream YouTube to Mplayer
 
-`i="8uyxVmdaJ-w"; mplayer -fs $(curl -s "http://www.youtube.com/get_video_info?&video_id=$i" | sed 's/%/\\x/g;s/.*(v[0-9].lscache.*)/http:\/\/\1/g' | grep -oP '^[^|,]*')`
+```bash
+i="8uyxVmdaJ-w"; mplayer -fs $(curl -s "http://www.youtube.com/get_video_info?&video_id=$i" | sed 's/%/\\x/g;s/.*(v[0-9].lscache.*)/http:\/\/\1/g' | grep -oP '^[^|,]*')
+```
 
 ---
 
 ## Convert Image Size
 
-`convert -resize '1024x600^' image.jpg small-image.jpg`
+```bash
+convert -resize '1024x600^' image.jpg small-image.jpg
+```
 
 ---
 
 ## Tarball Extraction Online Only (not local)
 
-`wget -qO - "http://www.tarball.com/tarball.gz" | tar zxvf -`
+```bash
+wget -qO - "http://www.tarball.com/tarball.gz" | tar zxvf -
+```
 
 ---
 
 ## Kill Mounted File Lock
 
-`fuser -k filename`
+```bash
+fuser -k filename
+```
 
 ## Kill All Processes Using Drive
 
-`sudo fuser -vm /dev/sdb2`
-`sudo fuser -vm /tardis`
+```bash
+sudo fuser -vm /dev/sdb2
+sudo fuser -vm /tardis
+```
 
-*Force-kill them*:
-`sudo fuser -km /dev/sdb2`
+Force-kill them*
+
+```bash
+sudo fuser -km /dev/sdb2
+```
 
 ---
 
 ## Remove Duplicates Without Sorting
 
-`awk '!x[$0]++' <file>`
+```bash
+awk '!x[$0]++' <file>
+```
 
 ---
 
 ## CD Custom Path (Temporary)
 
-`CDPATH=:..:~:~/projects`
+```bash
+CDPATH=:..:~:~/projects
+```
 
 ---
 
 ## Replace All Spaces with Underscore
 
-`rename -v 's/ /_/g' *`
+```bash
+rename -v 's/ /_/g' *
+```
 
 ---
 
 ## Dots For Progress of Cmd
 
-`sleeper(){ while ps -p $1 &>/dev/null; do echo -n "${2:-.}"; sleep ${3:-1}; done; }; export -f sleeper`
+```bash
+sleeper(){ while ps -p $1 &>/dev/null; do echo -n "${2:-.}"; sleep ${3:-1}; done; }; export -f sleeper
+```
 
 ---
 
 ## Remove Files That Don't Match Extensions
 
-`rm !(*.foo|*.bar|*.baz)`
+```bash
+rm !(*.foo|*.bar|*.baz)
+```
 
 ---
 
 ## Print Most Used Commands
 
-`history | awk '{a[$2]++}END{for(i in a){print a[i] " " i}}' | sort -rn | head`
+```bash
+history | awk '{a[$2]++}END{for(i in a){print a[i] " " i}}' | sort -rn | head
+```
 
 ---
 
 ## execv Failed Fix
 
-`sudo pacman -Syu --noconfirm && sudo pacman -S --needed base-devel && sudo pacman -S --noconfirm $(pacman -Qqen) && sudo pacman -S --noconfirm $(pacman -Qqem)`
+```bash
+sudo pacman -Syu --noconfirm && sudo pacman -S --needed base-devel && sudo pacman -S --noconfirm $(pacman -Qqen) && sudo pacman -S --noconfirm $(pacman -Qqem)
+```
 
 ---
 
 ## ISO From Disk
 
-`readom dev=/dev/scd0 f=/path/to/image.iso`
+```bash
+readom dev=/dev/scd0 f=/path/to/image.iso
+```
 
 ---
 
@@ -312,11 +416,15 @@ cp ~/.config/zsh/.zshrc ~/.config/zsh/.zshrc.backup
 
 A background process can be reduced to the "Idle" level by starting it with:
 
-`ionice -c 3 command`
+```bash
+ionice -c 3 command
+```
 
 A background process's PID can be limited using a scale of 0-100 times the number of CPU cores (e.g., 4 cores = 0-400):
 
-`cpulimit -l 50 -p 5081`
+```bash
+cpulimit -l 50 -p 5081
+```
 
 ---
 
@@ -331,19 +439,25 @@ python -m pip install pip --upgrade
 
 ## Curl Breeze\_Adapta Cursor
 
-`curl https://raw.githubusercontent.com/mustafaozhan/Breeze-Adapta-Cursor/master/install.sh | bash`
+```bash
+curl https://raw.githubusercontent.com/mustafaozhan/Breeze-Adapta-Cursor/master/install.sh | bash
+```
 
 ---
 
 ## Curl Breeze\_Hacked Cursor
 
-`git clone https://github.com/clayrisser/breeze-hacked-cursor-theme.git`
+```bash
+git clone https://github.com/clayrisser/breeze-hacked-cursor-theme.git
+```
 
 ---
 
 ## Remove Dupes From Pacman DB
 
-`sudo pacman -Scc && sudo rm -f /var/lib/pacman/sync/*.db && sudo pacman -Syyu`
+```bash
+sudo pacman -Scc && sudo rm -f /var/lib/pacman/sync/*.db && sudo pacman -Syyu
+```
 
 ---
 
@@ -369,13 +483,15 @@ sudo chmod +x ./chatgpt.sh
 
 ## CPU Governor Tweak
 
-`echo "performance" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor`
+```bash
+echo "performance" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+```
 
 ---
 
 ## SSD Performance Optimization
 
-Add to /etc/fstab:
+Add this line to /etc/fstab:
 `UUID=9096e7c4-5ca8-4d9c-a431-72497931f44d / ext4 rw,noatime,discard 0 1`
 
 ---
@@ -394,14 +510,16 @@ sudo swapon /dev/zram0
 
 ## Fstab "tmpfs" for Temporary Files in RAM
 
-Add to /etc/fstab:
+Add this line to /etc/fstab:
 `tmpfs /tmp tmpfs defaults,noatime,mode=1777 0 0`
 
 ---
 
 ## Disable USB Autosuspend Temporarily
 
-`echo 'on' | sudo tee /sys/bus/usb/devices/1-1/power/control`
+```bash
+echo 'on' | sudo tee /sys/bus/usb/devices/1-1/power/control
+```
 
 ---
 
@@ -417,7 +535,9 @@ sudo udevadm trigger
 
 ## MPV Makedepends
 
-`yay -S crypto++ codec2 kvazaar libilbc libomxil-bellagio librabbitmq-c lua52`
+```bash
+yay -S crypto++ codec2 kvazaar libilbc libomxil-bellagio librabbitmq-c lua52
+```
 
 ---
 
@@ -435,19 +555,25 @@ export PATH=/usr/lib/llvm-10/bin:$PATH
 
 ## Wayfire Dependencies (4ndr0666)
 
-`yay -S wayfire-plugins-extra-git wayfire-git wf-config-git wf-kill-git wf-osk-git wf-recorder-git`
+```bash
+yay -S wayfire-plugins-extra-git wayfire-git wf-config-git wf-kill-git wf-osk-git wf-recorder-git
+```
 
 ---
 
 ## Garuda-Wayfire Package List
 
-`git clone https://gitlab.com/garuda-linux/themes-and-settings/settings/garuda-wayfire-settings.git`
+```bash
+git clone https://gitlab.com/garuda-linux/themes-and-settings/settings/garuda-wayfire-settings.git
+```
 
 ---
 
 ## Garuda-Hyprland Package List
 
-`curl -L https://gitlab.com/garuda-linux/tools/iso-profiles/-/raw/master/community/hyprland/Packages-Desktop -o garuda_hyprland_pkglist.txt`
+```bash
+curl -L https://gitlab.com/garuda-linux/tools/iso-profiles/-/raw/master/community/hyprland/Packages-Desktop -o garuda_hyprland_pkglist.txt
+```
 
 ---
 
@@ -495,11 +621,13 @@ luajit qt5-base qt5-declarative qt5-svg mediainfo lsof vapoursynth mkvtoolnix-cl
 
 ## System Specific Intel Packages
 
-### Updated
+Updated*
 
-`yay -S opencl-clover-mesa vulkan-intel vulkan-radeon mesa`
+```bash
+yay -S opencl-clover-mesa vulkan-intel vulkan-radeon mesa
+```
 
-### Deprecated
+Deprecated*
 
 ```bash
 sudo pacman -S mesa lib32-mesa libva libva-intel-driver libva-mesa-driver libva-vdpau-driver libva-utils lib32-libva lib32-libva-intel-driver lib32-libva-mesa-driver \
@@ -527,45 +655,43 @@ sudo ln -s /usr/lib/example.so.2.0 /usr/lib/example.so.2
 
 ## Create a New Systemd Unit
 
-`systemctl edit --user --force --full systemd-oomd.service`
+```bash
+systemctl edit --user --force --full systemd-oomd.service
+```
 
 ---
 
 ## Kill and Restart Process
 
-`thunar -q && thunar &`
+```bash
+thunar -q && thunar &
+```
 
 ---
 
 ## R8168 Module
 
-`make -C $kernel_source_dir M=$dkms_tree/$module/$module_version/build/src EXTRA_CFLAGS='-DCONFIG_R8168_NAPI=y -DCONFIG_R8168_VLAN=y -DCONFIG_ASPM=y -DENABLE_S5WOL=y -DENABLE_EEE=y' modules`
+```bash
+make -C $kernel_source_dir M=$dkms_tree/$module/$module_version/build/src EXTRA_CFLAGS='-DCONFIG_R8168_NAPI=y -DCONFIG_R8168_VLAN=y -DCONFIG_ASPM=y -DENABLE_S5WOL=y -DENABLE_EEE=y' modules
+```
 
 ---
 
 ## Sysctl Reload Without Reboot
 
-`su -c "sysctl --system"`
+```bash
+su -c "sysctl --system"
+```
 
 ---
 
 ## Use gtk3-nocsd
 
-To automatically preload libgtk3-nocsd.so at X session startup:
+To automatically preload libgtk3-nocsd.so at X session startup:*
 
-`cp /usr/share/doc/gtk3-nocsd/etc/xinit/xinitrc.d/30-gtk3-nocsd.sh /etc/X11/xinit/xinitrc.d/30-gtk3-nocsd.sh`
-
----
-
-## OMZ Autosuggestions
-
-`git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions`
-
----
-
-## OMZ Syntax Highlighting
-
-`git clone https://github.com/zsh-users/zsh-syntax-highlighting.git`
+```bash
+cp /usr/share/doc/gtk3-nocsd/etc/xinit/xinitrc.d/30-gtk3-nocsd.sh /etc/X11/xinit/xinitrc.d/30-gtk3-nocsd.sh
+```
 
 ---
 
@@ -588,14 +714,14 @@ sudo locale-gen
 
 ## Fix PulseAudio
 
-Reset config:
+Reset config:*
 
 ```bash
 mv .config/pulse/default.pa ~/default.pa.bak
 pulseaudio -vvvvv
 ```
 
-Force profile & sink:
+Force profile & sink:*
 
 ```bash
 set-card-profile 0 output:analog-stereo
@@ -606,7 +732,9 @@ set-default-sink 1
 
 ## Fix D-Bus
 
-`export $(dbus-launch)`
+```bash
+export $(dbus-launch)
+```
 
 ---
 
@@ -621,27 +749,29 @@ nix-shell -p nix-info --run "nix-info -m"
 
 ## Print Kernel Config
 
-`sudo nvim /usr/lib/modules/$(uname -r)/build/.config`
+```bash
+sudo nvim /usr/lib/modules/$(uname -r)/build/.config
+```
 
 ---
 
 ## Kernel Config Tools
 
-Text-based Interface:
+Text-based Interface:*
 
 ```bash
 cd /usr/lib/modules/$(uname -r)/build
 make menuconfig
 ```
 
-Graphical Interface:
+Graphical Interface:*
 
 ```bash
 cd /usr/lib/modules/$(uname -r)/build
 make xconfig
 ```
 
-Terminal-based Interface:
+Terminal-based Interface:*
 
 ```bash
 cd /usr/lib/modules/$(uname -r)/build
@@ -652,33 +782,38 @@ make config
 
 ## GPG Key Troubleshooting
 
-Generate a New Key:
+Generate a New Key:*
 
-`gpg --full-gen-key`
+```bash
+gpg --full-gen-key
+```
 
-List Secret Keys:
+List Secret Keys:*
 
-`gpg --list-secret-keys`
+```bash
+gpg --list-secret-keys
+```
 
-Set GPG\_TTY:
+Set GPG\_TTY:*
 
-`export GPG_TTY=$(tty)`
-
-Check and unset GNUPGHOME:
+```bash
+export GPG_TTY=$(tty)
+```
+Check and unset GNUPGHOME:*
 
 ```bash
 echo $GNUPGHOME
 unset GNUPGHOME
 ```
 
-Restart gpg-agent:
+Restart gpg-agent:*
 
 ```bash
 gpgconf --kill gpg-agent
 gpg-agent --daemon
 ```
 
-Check ownership and permissions:
+Check ownership and permissions:*
 
 ```bash
 ls -l ~/.gnupg
@@ -689,26 +824,30 @@ sudo chown -R $(whoami):$(whoami) /run/user/1000/gnupg/
 sudo chmod -R 700 /run/user/1000/gnupg
 ```
 
-Remove locks:
+Remove locks:*
 
 ```bash
 rm .gnupg/*.lock
 rm .gnupg/public-keys.d/*.lock
 ```
 
-Armor GPG key:
+Armor GPG key:*
 
-`gpg --full-gen-key --keyid-format LONG [EMAIL]`
+```bash
+gpg --full-gen-key --keyid-format LONG [EMAIL]
+```
 
-Identify the `sec` line and copy the GPG key ID (starts after `/`).
+Identify the `sec` line and copy the GPG key ID (starts after `/`). Show decrypted public key:*
 
-Show decrypted public key:
+```bash
+gpg --armor --export <ID>
+```
 
-`gpg --armor --export <ID>`
+Add to GitHub:*
 
-Add to GitHub:
-
-`gpg --armor --export <ID> | gh gpg-key add -`
+```bash
+gpg --armor --export <ID> | gh gpg-key add -
+```
 
 ---
 
@@ -722,34 +861,48 @@ ssh-add ~/.ssh/id_ed25519
 cat ~/.ssh/id_ed25519.pub
 ```
 
-Add key to GitHub SSH and GPG settings:
+Add key to GitHub SSH and GPG settings:*
 
-`ssh -T git@github.com`
+```bash
+ssh -T git@github.com
+```
 
 ---
 
 ## Curl FontAwesome API for Token
 
-`curl -H "Authorization: Bearer 67A0397F-5EF3-4130-8C0F-03F3151FB067" -X POST https://api.fontawesome.com/token`
+```bash
+curl -H "Authorization: Bearer 67A0397F-5EF3-4130-8C0F-03F3151FB067" -X POST https://api.fontawesome.com/token
+```
 
 ---
 
 ## Zombie Killer
 
-Get the PID of the Zombie Process:
+Get the PID of the Zombie Process:*
 
-`ps aux | grep 'Z'`
+```bash
+ps aux | grep 'Z'
+```
 
-Get the PID of the Zombie's Parent:
+Get the PID of the Zombie's Parent:*
 
-`pstree -p -s <zombie_PID>`
+```bash
+pstree -p -s <zombie_PID>
+```
 
-Kill Its Parent Process:
+Kill Its Parent Process:*
 
-`sudo kill -9 <parent_PID>`
+```bash
+sudo kill -9 <parent_PID>
+```
 
 ---
 
 ## Disable Telemetry in Yarn
 
-`yarn config set --home enableTelemetry 0`
+```bash
+yarn config set --home enableTelemetry 0
+```
+
+---
