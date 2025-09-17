@@ -92,21 +92,6 @@ function reset_broken_terminal () {
 }
 add-zsh-hook -Uz precmd reset_broken_terminal
 
-# REHASH
-zshcache_time="$(date +%s%N)"
-autoload -Uz add-zsh-hook
-rehash_precmd() {
-  if [[ -a /var/cache/zsh/pacman ]]; then
-    local paccache_time="$(date -r /var/cache/zsh/pacman +%s%N)"
-    if (( zshcache_time < paccache_time )); then
-      rehash
-      zshcache_time="$paccache_time"
-    fi
-  fi
-}
-add-zsh-hook -Uz precmd rehash_precmd
-
-
 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< [ WIDGETS ]
 # FZF TAB COMPLETE
 #zstyle ':fzf-tab:complete:(\\|*)cd:*' fzf-preview 'exa -1 --color=always --icons $realpath'
