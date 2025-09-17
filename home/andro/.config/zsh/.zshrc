@@ -84,6 +84,10 @@ h() {
 
 
 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< [ HOOKS ]
+# ONDEMAND REHASH HOOK HELPER -> /etc/pacman.d/hooks/zsh-rehash.hook
+# see "https://wiki.archlinux.org/title/Zsh#Command_completion"
+TRAPUSR1() { rehash }
+
 # RESETS TTY
 # Test if if works with: $ print '\e(0\e)B'
 autoload -Uz add-zsh-hook
@@ -91,6 +95,11 @@ function reset_broken_terminal () {
 	printf '%b' '\e[0m\e(B\e)0\017\e[?5l\e7\e[0;0r\e8'
 }
 add-zsh-hook -Uz precmd reset_broken_terminal
+
+# FORCE CTRL+D TO CLOSE SHELL
+exit_zsh() { exit }
+zle -N exit_zsh
+bindkey '^D' exit_zsh
 
 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< [ WIDGETS ]
 # FZF TAB COMPLETE
