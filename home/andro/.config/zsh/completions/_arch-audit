@@ -1,0 +1,124 @@
+#compdef arch-audit
+
+autoload -U is-at-least
+
+_arch-audit() {
+    typeset -A opt_args
+    typeset -a _arguments_options
+    local ret=1
+
+    if is-at-least 5.2; then
+        _arguments_options=(-s -S -C)
+    else
+        _arguments_options=(-s -C)
+    fi
+
+    local context curcontext="$curcontext" state line
+    _arguments "${_arguments_options[@]}" : \
+'-C+[Bypass tty detection for colors]:COLOR:(auto always never)' \
+'--color=[Bypass tty detection for colors]:COLOR:(auto always never)' \
+'-b+[Set an alternate database location]:DBPATH:_files' \
+'--dbpath=[Set an alternate database location]:DBPATH:_files' \
+'-f+[Specify a format to control the output. Placeholders are %n (pkgname), %c (CVEs), %v (fixed version), %t (type), %s (severity), and %r (required by, only when -r is also used)]:FORMAT: ' \
+'--format=[Specify a format to control the output. Placeholders are %n (pkgname), %c (CVEs), %v (fixed version), %t (type), %s (severity), and %r (required by, only when -r is also used)]:FORMAT: ' \
+'--source=[Specify the URL or file path to the security tracker json data]:SOURCE: ' \
+'--proxy=[Send requests through a proxy]:PROXY: ' \
+'*--sort=[Specify how to sort the output]:SORT:(severity pkgname upgradable reverse)' \
+'*-q[Show only vulnerable package names and their versions. Set twice to hide the versions as well]' \
+'*--quiet[Show only vulnerable package names and their versions. Set twice to hide the versions as well]' \
+'*-r[Prints packages that depend on vulnerable packages and are thus potentially vulnerable as well. Set twice to show ALL the packages that requires them]' \
+'*--recursive[Prints packages that depend on vulnerable packages and are thus potentially vulnerable as well. Set twice to show ALL the packages that requires them]' \
+'-t[Show packages which are in the \[testing\] repos. See https\://wiki.archlinux.org/index.php/Official_repositories#Testing_repositories]' \
+'--show-testing[Show packages which are in the \[testing\] repos. See https\://wiki.archlinux.org/index.php/Official_repositories#Testing_repositories]' \
+'-u[Show only packages that have already been fixed]' \
+'--upgradable[Show only packages that have already been fixed]' \
+'--json[Print json output]' \
+'--no-proxy[Do not use a proxy even if one is configured]' \
+'-c[Print the CVE numbers]' \
+'--show-cve[Print the CVE numbers]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+":: :_arch-audit_commands" \
+"*::: :->arch-audit" \
+&& ret=0
+    case $state in
+    (arch-audit)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:arch-audit-command-$line[1]:"
+        case $line[1] in
+            (completions)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+':shell:(bash elvish fish powershell zsh)' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_arch-audit__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:arch-audit-help-command-$line[1]:"
+        case $line[1] in
+            (completions)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+}
+
+(( $+functions[_arch-audit_commands] )) ||
+_arch-audit_commands() {
+    local commands; commands=(
+'completions:Generate shell completions' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'arch-audit commands' commands "$@"
+}
+(( $+functions[_arch-audit__completions_commands] )) ||
+_arch-audit__completions_commands() {
+    local commands; commands=()
+    _describe -t commands 'arch-audit completions commands' commands "$@"
+}
+(( $+functions[_arch-audit__help_commands] )) ||
+_arch-audit__help_commands() {
+    local commands; commands=(
+'completions:Generate shell completions' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'arch-audit help commands' commands "$@"
+}
+(( $+functions[_arch-audit__help__completions_commands] )) ||
+_arch-audit__help__completions_commands() {
+    local commands; commands=()
+    _describe -t commands 'arch-audit help completions commands' commands "$@"
+}
+(( $+functions[_arch-audit__help__help_commands] )) ||
+_arch-audit__help__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'arch-audit help help commands' commands "$@"
+}
+
+if [ "$funcstack[1]" = "_arch-audit" ]; then
+    _arch-audit "$@"
+else
+    compdef _arch-audit arch-audit
+fi
