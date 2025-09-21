@@ -2,8 +2,7 @@
 # Author: 4ndr0666
 # ============================= // FUNCTIONS.ZSH //
 
-## Global Colors & Symbols
-
+# Global Colors & Symbols
 RESET="\e[0m"
 BOLD="\e[1m"
 UNDERLINE="\e[4m"
@@ -32,27 +31,73 @@ print_message() {
   esac
 }
 
-# ---
+# Cln: Run in a dir with fucked up ass filenames to sanitize them___
+cln() {
+	emulate -L zsh
+	setopt extended_glob
+	local file dir base ext base_noext new candidate n dryrun="${1:-0}"
+	local -i renamed=0 skipped=0 failed=0
 
-# Functions
+	for file in **/*(DNOn); do
+		dir="${file:h}"
+		base="${file:t}"
+		ext="${base:e}"
+		base_noext="${base:r}"
 
-## Graphics Test_____________________________________________________
+		# 1. Sanitize base (no extension)
+		new="${base_noext//[^A-Za-z0-9._-]/_}"
 
-### Description: Runs simple verifications for amdgpu, vulkan, and OpenGL.
+		# 2. Collapse multiple underscores
+		while [[ "$new" == *__* ]]; do
+			new="${new//__/_}"
+		done
 
+		# 3. Remove leading/trailing underscores
+		new="${new##_}"
+		new="${new%%_}"
+		new="${new%%.}"
+
+		# 4. Restore extension
+		[[ -n "$ext" && "$ext" != "$new" ]] && candidate="${new}.${ext}" || candidate="$new"
+
+		# 5. Avoid collision: auto-increment if needed
+		n=1
+		while [[ -e "${dir:+$dir/}$candidate" && "$file" != "${dir:+$dir/}$candidate" ]]; do
+			candidate="${new}_$n"
+			[[ -n "$ext" ]] && candidate="${candidate}.${ext}"
+			((n++))
+		done
+
+		local final="${dir:+$dir/}$candidate"
+
+		# 6. No-op if same
+		[[ "$file" == "$final" ]] && continue
+
+		# 7. Perform rename or dry-run
+		if ((dryrun)); then
+			echo "DRY-RUN: '$file' → '$final'"
+		else
+			if mv -- "$file" "$final"; then
+				echo "Renamed: '$file' → '$final'"
+				((renamed++))
+			else
+				echo "FAIL: Could not rename '$file' → '$final'"
+				((failed++))
+			fi
+		fi
+	done
+	echo "---"
+	echo "Summary: $renamed renamed, $skipped skipped, $failed failed"
+}
+
+# Graphics Test: Runs verifications for amdgpu, vulkan, and OpenGL____
 graphicstest() {
 	lspci -k | grep -A 3 VGA
 	vulkaninfo | less
 	glxinfo | grep "OpenGL renderer"
 }
 
-# ---
-
-## BKUP_________________________________________________
-
-### Description: A smart and configurable backup function. Uncomment and set
-### the desired backup directory below
-
+# BKUP: Smart and configurable backup function_________________
 backup_directory="/Nas/Backups/bkup"
 check_bkup_dependencies() {
   local deps=(tar zstd fzf realpath)
@@ -255,12 +300,7 @@ EOF
   esac
 }
 
-# ---
-
-## Browser History______________________________________________________
-
-### Description: Press `c` to browse Chromes web history
-
+# Browser History: Press `c` to browse Chromes web history__________
 braveh() {
   emulate -L zsh
   setopt extended_glob
@@ -286,13 +326,7 @@ braveh() {
   | xargs -r -d '\n' $open_cmd >/dev/null 2>&1
 }
 
-# ---
-
-## Copypath__________________________________________________________
-
-### Description: Copies the absolute path of a file or directory to
-### the clipboard.
-
+# Copypath: Copies the absolute path of a file_____________________
 cpath() {
     # If no argument passed, use current directory
     local file="${1:-.}"
@@ -309,12 +343,7 @@ cpath() {
     fi
 }
 
-# ---
-
-##  Spellcheck________________________________________________________________
-
-### Descriptionp: Checks the spelling of provided words using the 'spellcheck' command.
-
+#  Spellcheck: Checks spelling____________________________________
 spell() {
     ## Ensure 'spellcheck' command is available
     if ! command -v spellcheck &> /dev/null; then
@@ -340,10 +369,7 @@ spell() {
     done
 }
 
-# ---
-
-## Restart Waybar_______________________________________________
-
+# Restart Waybar_______________________________________________
 restart_waybar() {
     notify-send "🔄 Restarting Waybar..."
     pkill -TERM waybar
@@ -360,218 +386,189 @@ restart_waybar() {
     echo "✅ Waybar has been restarted."
 }
 
-# ---
-
-## Any______________________________________________________________
-
-### Description: Searches for running processes matching a given name
-### with optional case-insensitivity.
-
+# Any: Searches for running processes______________________
+# case insensitive by default.
+#
+# Usage: any [-s] <process_name>
+#   -s: Perform a case-sensitive search.
 any() {
-    ## Function to display help
-    show_help() {
-        echo "Usage: any [options] <process name>"
-        echo "Options:"
-        echo "  -i          Case-insensitive search"
-        echo "  -h          Show this help message"
-        echo ""
-        echo "Examples:"
-        echo "  any ssh     # Find all running SSH processes"
-        echo "  any -i ssh  # Case-insensitive search for SSH processes"
-    }
+    local show_help_flag=false
+    local pgrep_opts="-i" # Default to case-insensitive
+    local OPTIND
 
-    local case_insensitive=false
-
-    while getopts ":ih" opt; do
+    while getopts ":sh" opt; do
         case $opt in
-            i)
-                case_insensitive=true
-                ;;
-            h)
-                show_help
-                return 0
-                ;;
+            s) pgrep_opts="" ;; # If -s is present, remove all options for a strict search
+            h) show_help_flag=true ;;
             \?)
                 echo "❌ Invalid option: -$OPTARG" >&2
-                show_help
+                echo "Usage: any [-s] <process_name>"
                 return 1
                 ;;
         esac
     done
-    shift $((OPTIND -1))
+    shift $((OPTIND - 1))
 
-    if [[ -z $1 ]]; then
-        echo "❌ Error: No process name provided."
-        show_help
-        return 1
+    if [[ "$show_help_flag" = true ]] || [[ -z "$1" ]]; then
+        echo "Usage: any [options] <process name>"
+        echo "Finds running processes by name (case-insensitive by default)."
+        echo ""
+        echo "Options:"
+        echo "  -s          Case-sensitive search"
+        echo "  -h          Show this help message"
+        echo ""
+        echo "Examples:"
+        echo "  any code     # Case-insensitive search for VS Code processes"
+        echo "  any -s sshd  # Case-sensitive search for the SSH daemon"
+        return 0
     fi
 
     local process_name="$1"
+    local pids
 
-    local processes
-    if [[ $case_insensitive == true ]]; then
-        ## Case-insensitive search
-        processes=$(pgrep -ifl "$process_name")
-    else
-        ## Case-sensitive search
-        processes=$(pgrep -fl "$process_name")
-    fi
-
-    if [[ -z $processes ]]; then
+    # Using an array and process substitution for robustness
+    if ! pids=($(pgrep ${pgrep_opts} -d, -- "$process_name")); then
         echo "ℹ️ No running processes found for '$process_name'."
         return 0
     fi
 
     echo "🔍 Running processes matching '$process_name':"
-    echo "--------------------------------------------"
-    echo "$processes" | awk '{printf "PID: %-8s CMD: %s\n", $1, $2}'
+    echo "------------------------------------------------------------------"
+
+    ps -o pid,user,comm=COMMAND,args=FULL_COMMAND -p "${pids[*]}" | \
+    awk 'NR>1 {printf "PID: %-8s User: %-15s CMD: %-20s ARGS: %s\n", $1, $2, $3, substr($0, index($0,$4))}'
 }
 
-## Sysboost
+# ==============================================================================
+# Triage - A collection of functions for system maintenance and diagnostics.
+# ==============================================================================
+triage() {
+    # --- Color & Logging Setup ---
+    local RED="\e[31m" GRN="\e[32m" YLW="\e[33m" BLU="\e[34m" RST="\e[0m"
+    _log() {
+        local type="$1" color="$2" message="$3"
+        printf "${color}[%s]${RST} %s\n" "$type" "$message"
+    }
+    _log_info() { _log "INFO" "$BLU" "$1"; }
+    _log_ok()   { _log "OK"   "$GRN" "$1"; }
+    _log_warn() { _log "WARN" "$YLW" "$1"; }
+    _log_fail() { _log "FAIL" "$RED" "$1"; }
 
-### Optimizes system resources by resetting failed units, cleaning sockets,
-### removing broken links, killing zombie processes, reloading daemons,
-### vacuuming logs, and cleaning temporary files.
-sysboost() {
-    # Ensure the function exits on error
-    set -e
-
-    ## Log message with delay
-    log_and_wait() {
-        local message="$1"
-        local delay="${2:-2}"
-        echo "$message"
-        sleep "$delay"
+    # --- Helper Functions ---
+    _check_sudo() {
+        if [[ $EUID -ne 0 ]]; then
+            _log_info "Requesting sudo privileges for system tasks..."
+            if ! sudo -n true 2>/dev/null; then
+                sudo -v
+                if [[ $? -ne 0 ]]; then
+                    _log_fail "Sudo privileges not granted. Aborting."
+                    return 1
+                fi
+            fi
+            _log_ok "Sudo privileges confirmed."
+        fi
     }
 
-    log_and_wait "🔄 Optimizing resources in 3 seconds."
-    log_and_wait "3..."
-    log_and_wait "2.."
-    log_and_wait "1"
+    _triage_systemd() {
+        _log_info "Checking SystemD units..."
+        if command -v systemctl &>/dev/null; then
+            sudo systemctl reset-failed &>/dev/null || _log_warn "Failed to reset some units."
+            sudo find -L /etc/systemd/ -type l -delete 2>/dev/null
+            sudo systemctl daemon-reload &>/dev/null
+            _log_ok "SystemD units reset and reloaded."
+        else
+            _log_warn "systemctl not found, skipping SystemD tasks."
+        fi
+    }
 
-    if command -v systemctl &> /dev/null; then
-        log_and_wait "🔄 Resetting all failed SystemD units..."
-        systemctl reset-failed || true
-    else
-        log_and_wait "⚠️ systemctl not found, skipping reset of failed units."
-    fi
+    _triage_sockets() {
+        _log_info "Cleaning D-Bus sockets..."
+        if command -v dbus-cleanup-sockets &>/dev/null; then
+            sudo dbus-cleanup-sockets
+        else
+            _log_warn "dbus-cleanup-sockets not found, skipping."
+        fi
+    }
 
-    if command -v dbus-cleanup-sockets &> /dev/null; then
-        log_and_wait "🔄 Clearing unnecessary D-Bus sockets..."
-        sudo dbus-cleanup-sockets
-    else
-        log_and_wait "⚠️ dbus-cleanup-sockets not found, skipping cleanup."
-    fi
+    _triage_zombies() {
+        _log_info "Hunting for zombie processes..."
+        if command -v zps &>/dev/null; then
+            # --- BUG FIX: Reverted to the more compatible -r --quiet flags ---
+            if sudo zps -r --quiet; then
+                _log_ok "Zombie processes reaped."
+            else
+                _log_warn "zps command failed or no zombies found."
+            fi
+        else
+            _log_warn "zps not found, skipping zombie reap."
+        fi
+    }
 
-    log_and_wait "🔄 Removing broken SystemD symbolic links..."
-    if ! sudo find -L /etc/systemd/ -type l -delete; then
-        log_and_wait "⚠️ Unable to search SystemD for broken links."
-    fi
+    _triage_logs() {
+        _log_info "Vacuuming journal logs..."
+        if command -v journalctl &>/dev/null; then
+            sudo journalctl --vacuum-time=2d >/dev/null
+            _log_ok "Logs older than 2 days removed."
+        else
+            _log_warn "journalctl not found, skipping log cleanup."
+        fi
+    }
 
-    if command -v zps &> /dev/null; then
-        log_and_wait "🔄 Killing all zombie processes..."
-        sudo zps -r --quiet
-    else
-        log_and_wait "⚠️ zps not found. Install it using 'sudo pacman -S zps --noconfirm'. Skipping zombie kill."
-    fi
+    _triage_tmp() {
+        _log_info "Cleaning temporary files..."
+        local cleaner
+        if command -v tmpwatch &>/dev/null; then cleaner="tmpwatch";
+        elif command -v tmpreaper &>/dev/null; then cleaner="tmpreaper"; fi
 
-    if command -v systemctl &> /dev/null; then
-        log_and_wait "🔄 Reloading system daemon..."
-        sudo systemctl daemon-reload
-    else
-        log_and_wait "⚠️ systemctl not found, skipping daemon reload."
-    fi
+        if [[ -n "$cleaner" ]]; then
+            sudo "$cleaner" 2h /tmp >/dev/null
+            _log_ok "/tmp files older than 2 hours removed."
+        else
+            _log_warn "tmpwatch/tmpreaper not found, skipping /tmp cleanup."
+        fi
+    }
 
-    if command -v journalctl &> /dev/null; then
-        log_and_wait "🔄 Removing logs older than 2 days..."
-        sudo journalctl --vacuum-time=2d
-    else
-        log_and_wait "⚠️ journalctl not found, skipping log cleanup."
-    fi
-
-    if command -v tmpwatch &> /dev/null; then
-        log_and_wait "🔄 Clearing /tmp files older than 2 hours..."
-        sudo tmpwatch 2h /tmp
-    elif command -v tmpreaper &> /dev/null; then
-        log_and_wait "🔄 Clearing /tmp files older than 2 hours..."
-        sudo tmpreaper 2h /tmp
-    else
-        log_and_wait "⚠️ Neither tmpwatch nor tmpreaper found, skipping /tmp cleanup."
-    fi
-
-    log_and_wait "✅ Resources optimized."
+    # --- Main Execution ---
+    set -e
+    _check_sudo
+    _triage_systemd
+    _triage_sockets
+    _triage_zombies
+    _triage_logs
+    _triage_tmp
+    _log_ok "System triage and cleanup complete."
     set +e
 }
 
-## Swapboost and Fullboost
+memreport() {
+    # This function is read-only and provides diagnostics instead of performing
+    # potentially harmful "boosting" actions.
+    local RED="\e[31m" GRN="\e[32m" YLW="\e[33m" BLU="\e[34m" RST="\e[0m"
+    _log_info() { printf "\n${BLU}--- %s ---${RST}\n" "$1"; }
 
-### Safely refreshes swap spaces and scans file mappings for `swapboost`
-### Use `fullboost` for a more aggressive approach and drop caches.
-swapboost() {
-    local log_file="/tmp/swapboost_log.txt"
-    echo "📝 Logging to $log_file"
-    echo "🔄 Optimizing swap spaces and caches at $(date)" > "$log_file"
+    _log_info "CURRENT MEMORY AND SWAP USAGE"
+    free -h
 
-    echo "🔄 Dropping caches..." | tee -a "$log_file"
-    drop_caches >> "$log_file"
-    sleep 2
+    _log_info "SYSTEM LOAD AND SWAP ACTIVITY (LAST 5 SECONDS)"
+    vmstat 1 5
 
-#    echo "🔍 Scanning accessible file mappings..."
-#    sleep 2
-#    local file_count=0
-#    local cmd_prefix=""
-#    [[ $EUID -ne 0 ]] && cmd_prefix="sudo"
-#    if command -v parallel &> /dev/null; then
-#        mkdir -p "$(dirname "$log_file")"
-#        sed -ne 's:.* /:/:p' /proc/[0-9]*/maps 2>/dev/null | sort -u | \
-#          grep -v '^/dev/' | grep -v '(deleted)' | \
-#          parallel "$cmd_prefix cat {} > /dev/null 2>/dev/null && echo 'Accessed {}' >> \"$log_file\""
-#    else
-#        for file in $(sed -ne 's:.* /:/:p' /proc/[0-9]*/maps 2>/dev/null | sort -u | grep -v '^/dev/' | grep -v '(deleted)'); do
-#            if $cmd_prefix cat "$file" > /dev/null 2>/dev/null; then
-#                ((file_count++))
-#                echo "✅ Accessed $file" >> "$log_file"
-#            fi
-#        done
-#    fi
-#    echo "🔍 Accessed $file_count files from mappings..." | tee -a "$log_file"
-#    sleep 2
+    _log_info "SWAP PARTITION(S) SUMMARY"
+    swapon --show
 
-    echo "🔄 Refreshing swap spaces..." | tee -a "$log_file"
-    sleep 2
-    local cmd_prefix=""
-    [[ $EUID -ne 0 ]] && cmd_prefix="sudo"
+    _log_info "TOP 5 MEMORY-CONSUMING PROCESSES"
+    ps axo rss,comm,pid,user | sort -nr | head -n 5 | \
+    awk '{
+        rss=$1/1024;
+        comm=$2;
+        pid=$3;
+        user=$4;
+        printf "  %8.2f MB  %-20s (PID: %-6s User: %s)\n", rss, comm, pid, user
+    }'
 
-    if $cmd_prefix swapoff -a && $cmd_prefix swapon -a; then
-        echo "✅ Swap spaces refreshed!" | tee -a "$log_file"
-    else
-        echo "❌ Failed to refresh swap spaces." | tee -a "$log_file"
-        return 1
-    fi
-
-    echo "🔄 Swapboost process completed at $(date)." >> "$log_file"
-    echo "✅ Swap spaces and caches refreshed."
+    printf "\n${GRN}✅ Memory report complete.${RST}\n"
 }
 
-### Frees up system memory by dropping page cache, dentries, and inodes.
-drop_caches() {
-    echo "🔄 Dropping caches..."
-    sync
-    if echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null; then
-        echo "✅ Caches dropped successfully."
-    else
-        echo "❌ Failed to drop caches."
-    fi
-}
-
-fullboost() {
-    echo "🔧 Boosting system resources..."
-    swapboost
-    drop_caches
-    echo "✅ System optimized."
-}
-
-## Pacopt
+# Pacopt
 
 ### Executes several maintenance operations for the Pacman manager
 ### and other various resources of the like to speed up the responsiveness
@@ -727,78 +724,94 @@ fixgpgkey() {
     echo "🔧 GPG keyring fix process completed."
 }
 
-## Whatsnew
+# Whatsnew: Lists recently modified files.
+#!/usr/bin/env zsh
+#
+# A suite of high-performance, interactive ZSH functions for finding files
+# based on recent activity. Uses `find` safely and pipes results to `fzf` for
+# an interactive user experience.
 
-### Lists the most recently modified files across the entire system.
-whatsnew() {
-    local num_files=${1:-10}
-    echo "📂 Listing the $num_files most recently modified files across the entire system:"
+# ==============================================================================
+# --- CORE FINDER SUITE ---
+# ==============================================================================
 
-    ## Check if the user has sudo privileges
-    if ! sudo -v &>/dev/null; then
-        echo "❌ Error: You do not have sudo privileges."
-        return 1
+# --- Helper to ensure sudo privileges are available ---
+_check_sudo() {
+    if ! sudo -n true 2>/dev/null; then
+        echo "INFO: Requesting sudo privileges for system-wide search..."
+        sudo -v
+        if [[ $? -ne 0 ]]; then
+            echo "ERROR: Sudo privileges not granted. Aborting." >&2
+            return 1
+        fi
     fi
-
-    ## Using Zsh globbing to find and list the most recently modified files
-    local files
-    files=$(sudo zsh -c "print -rl -- /**/*(.om[1,$num_files])" 2>/dev/null)
-
-    if [[ -z "$files" ]]; then
-        echo "⚠️ No recently modified files found."
-    else
-        echo "$files"
-    fi
+    return 0
 }
 
-## Accessed
+# --- Core search logic, the engine for the other functions ---
+_find_files_by_time() {
+    local time_attr="$1" # 'a' for access, 'c' for change, 'm' for modification
+    local time_range="$2"
 
-### Lists files accessed, changed, or modified within a specified time range.
+    _check_sudo || return 1
+
+    echo "📂 Searching for files by '${time_attr}' time in the last ${time_range} day(s). This may take a moment..."
+
+    # This command is hardened for performance and safety:
+    # -L: Follow symbolic links.
+    # -xdev: Do not cross filesystem boundaries (prevents scanning /mnt, etc.).
+    # -path ... -prune: Explicitly exclude noisy/irrelevant directories.
+    # -type f: Find only regular files.
+    # -${time_attr}time: The core filter for atime, ctime, or mtime.
+    # -print0: Safely handle all filenames.
+    # fzf: Provide an interactive, fuzzy-searchable UI for the results.
+    sudo find / -L -xdev \
+        -path '/proc' -prune -o \
+        -path '/sys' -prune -o \
+        -path '/dev' -prune -o \
+        -path '/run' -prune -o \
+        -path '/tmp' -prune -o \
+        -path "$HOME/.cache" -prune -o \
+        -type f -"${time_attr}"time -"${time_range}" -print0 2>/dev/null |
+        fzf --read0 --prompt="Search results ▶ " --multi --preview 'ls -lah {}'
+}
+
+# --- User-facing functions ---
+whatsnew() {
+    local num_files=${1:-20}
+    _check_sudo || return 1
+
+    echo "📂 Finding the ${num_files} most recently modified files. This may take a moment..."
+
+    sudo find / -L -xdev \
+        -path '/proc' -prune -o \
+        -path '/sys' -prune -o \
+        -path '/dev' -prune -o \
+        -path '/run' -prune -o \
+        -type f -print0 2>/dev/null |
+        xargs -0 stat --printf='%Y\t%n\n' |
+        sort -rn |
+        head -n "$num_files" |
+        awk -F'\t' '{print $2}' |
+        fzf --prompt="Newest ${num_files} files ▶ " --multi --preview 'ls -lah {}'
+}
+
 accessed() {
     local time_range=${1:-1}
-
-    ## Validate input
-    if [[ ! $time_range =~ ^[0-9]+$ ]]; then
-        echo "❌ Usage: accessed [time_range_in_days]"
-        return 1
-    fi
-
-    ## Search and display recently accessed files
-    echo "📂 Listing files accessed in the last $time_range day(s):"
-    sudo find / -type f -atime -$time_range -print0 2>/dev/null | xargs -0 ls -lah --time=atime
+    _find_files_by_time 'a' "$time_range"
 }
 
 changed() {
     local time_range=${1:-1}
-
-    ## Validate input
-    if [[ ! $time_range =~ ^[0-9]+$ ]]; then
-        echo "❌ Usage: changed [time_range_in_days]"
-        return 1
-    fi
-
-    ## Search and display recently changed files
-    echo "📂 Listing files changed in the last $time_range day(s):"
-    sudo find / -type f -ctime -$time_range -print0 2>/dev/null | xargs -0 ls -lah --time=ctime
+    _find_files_by_time 'c' "$time_range"
 }
 
 modified() {
     local time_range=${1:-1}
-
-    # Validate input
-    if [[ ! $time_range =~ ^[0-9]+$ ]]; then
-        echo "❌ Usage: modified [time_range_in_days]"
-        return 1
-    fi
-
-    # Search and display recently modified files
-    echo "📂 Listing files modified in the last $time_range day(s):"
-    sudo find / -type f -mtime -$time_range -print0 2>/dev/null | xargs -0 ls -lah --time=mtime
+    _find_files_by_time 'm' "$time_range"
 }
 
-## 4ever
-
-### Runs a command in the background with logging and PID tracking.
+# 4ever: Runs a command in background w logging and PID.___________________
 4ever() {
     if [[ -z "$1" ]]; then
         echo "❓ Usage: 4ever <command> [arguments] [log_file]"
@@ -835,77 +848,123 @@ modified() {
     fi
 }
 
-##  Dir Navigator
+# ==============================================================================
+# Dir Navigator: provide browser-style back/forward navigation in the terminal.
+# ==============================================================================
+#
+# --- Global History Stacks ---
+typeset -gUa DIR_HISTORY_BACK
+typeset -gUa DIR_HISTORY_FORWARD
 
-### Custom implementations of directory navigation for `cd` `back`
-### `up` `forward`
-typeset -a DIR_HISTORY_BACK
-typeset -a DIR_HISTORY_FORWARD
-function cd() {
-    if [[ -z "$1" ]]; then
-        local new_dir="$HOME"
-    else
-        local new_dir="$1"
-        new_dir="${new_dir/#\~/$HOME}"
+# --- State Flag ---
+typeset -g _DIR_HISTORY_NAVIGATING
+
+chpwd() {
+    # If the directory hasn't actually changed, do nothing.
+    # This prevents redundant entries when doing `cd .` or cd-ing to a symlink
+    # that points to the current directory.
+    if [[ "$PWD" == "$OLDPWD" ]]; then
+        return
     fi
 
-    if [[ ! -d "$new_dir" ]]; then
-        echo "❌ Error: Directory '$new_dir' does not exist."
-        return 1
+    # If the change was NOT initiated by our back() or forward() functions,
+    # it's a new navigation path.
+    if [[ -z "$_DIR_HISTORY_NAVIGATING" ]]; then
+        # Add the previous directory to the back history.
+        DIR_HISTORY_BACK+=("$OLDPWD")
+        # A new navigation path invalidates the forward history.
+        DIR_HISTORY_FORWARD=()
     fi
-    DIR_HISTORY_BACK+=("$PWD")
-    DIR_HISTORY_FORWARD=()
-    builtin cd "$new_dir" || return 1
+
+    # Unset the state flag after every run to reset the state.
+    unset _DIR_HISTORY_NAVIGATING
 }
 
+# back: Go to the previous directory in the history.
 back() {
     if (( ${#DIR_HISTORY_BACK[@]} == 0 )); then
         echo "❓ No previous directories in history."
         return 1
     fi
 
-    local prev_dir="${DIR_HISTORY_BACK[-1]}"
+    # Set the state flag to inform the chpwd hook.
+    _DIR_HISTORY_NAVIGATING=1
 
-    DIR_HISTORY_BACK=("${DIR_HISTORY_BACK[@]:0:-1}")
-
+    # Move the current directory to the forward stack.
     DIR_HISTORY_FORWARD+=("$PWD")
 
+    # Get the last directory from the back stack.
+    local prev_dir="${DIR_HISTORY_BACK[-1]}"
+
+    # Remove the last directory from the back stack.
+    DIR_HISTORY_BACK=("${DIR_HISTORY_BACK[@]:0:-1}")
+
+    # Use the 'builtin' cd to perform the actual directory change.
+    # The chpwd hook will handle the rest.
     builtin cd "$prev_dir" || return 1
 }
 
+# forward: Go to the next directory in the history.
 forward() {
     if (( ${#DIR_HISTORY_FORWARD[@]} == 0 )); then
         echo "❓ No forward directories in history."
         return 1
     fi
 
-    local next_dir="${DIR_HISTORY_FORWARD[-1]}"
+    _DIR_HISTORY_NAVIGATING=1
 
-    DIR_HISTORY_FORWARD=("${DIR_HISTORY_FORWARD[@]:0:-1}")
-
+    # Move the current directory to the back stack.
     DIR_HISTORY_BACK+=("$PWD")
+
+    local next_dir="${DIR_HISTORY_FORWARD[-1]}"
+    DIR_HISTORY_FORWARD=("${DIR_HISTORY_FORWARD[@]:0:-1}")
 
     builtin cd "$next_dir" || return 1
 }
 
+# up: Go up N levels in the directory tree. Defaults to 1.
 up() {
     local steps=${1:-1}
 
-    if (( steps < 1 )); then
-        echo "❌ Error: Number of steps must be at least 1."
+    if ! [[ "$steps" =~ ^[0-9]+$ ]] || (( steps < 1 )); then
+        echo "❌ Error: Number of steps must be a positive integer."
         return 1
     fi
 
-    local target
-    target=$(printf "%0.s../" $(seq 1 "$steps"))
-    target=${target%/}  # Remove trailing slash
+    # Build the target path using a shell-native loop for efficiency.
+    local target=".."
+    for (( i = 1; i < steps; i++ )); do
+        target+="/.."
+    done
 
-    cd "$target"
+    # Let chpwd handle the history automatically.
+    builtin cd "$target" || return 1
 }
 
-## MKCD
+# dhist: Display the current state of the directory history stacks.
+dhist() {
+    echo "--- Directory History ---"
+    echo "⬅️  Back (${#DIR_HISTORY_BACK[@]}):"
+    if (( ${#DIR_HISTORY_BACK[@]} > 0 )); then
+        for dir in "${DIR_HISTORY_BACK[@]}"; do
+            echo "  - $dir"
+        done
+    else
+        echo "  (empty)"
+    fi
 
-### Make a directory and cd to it.
+    echo "➡️  Forward (${#DIR_HISTORY_FORWARD[@]}):"
+    if (( ${#DIR_HISTORY_FORWARD[@]} > 0 )); then
+        for dir in "${DIR_HISTORY_FORWARD[@]}"; do
+            echo "  - $dir"
+        done
+    else
+        echo "  (empty)"
+    fi
+    echo "-------------------------"
+}
+
+# MKCD: Make a directory and cd to it______________
 mkdircd() {
     if (( $# != 1 )); then
         echo "❓ Usage: mkcd <new-directory>"
@@ -967,7 +1026,7 @@ cdls() {
 ### A simple note-taking function with many custom features such as viewing,
 ### adding, filtering, and clearing notes.
 notepad() {
-    local file="$HOME/Documents/notes/.notes"
+    local file="$HOME/Documents/notes/.notes.md"
     \mkdir -p "$(dirname "$file")"  # Ensure the directory exists
     [[ -f $file ]] || touch "$file"
 
@@ -1449,179 +1508,32 @@ function termbin() {
     fi
 }
 
-## XT
-
-xt() {
-  if [[ -f "$1" ]]; then
-    local file="$1"
-    local b
-    case "$file" in
-      *.tar.lrz)
-        b=$(basename "$file" .tar.lrz)
-        if lrztar -d "$file" && [[ -d "$b" ]]; then
-          cd "$b"
-        else
-          return 0
-        fi
-        ;;
-      *.lrz)
-        b=$(basename "$file" .lrz)
-        if lrunzip "$file" && [[ -d "$b" ]]; then
-          cd "$b"
-        else
-          return 0
-        fi
-        ;;
-      *.tar.bz2)
-        b=$(basename "$file" .tar.bz2)
-        if bsdtar xjf "$file" && [[ -d "$b" ]]; then
-          cd "$b"
-        else
-          return 0
-        fi
-        ;;
-      *.bz2)
-        b=$(basename "$file" .bz2)
-        if \bunzip2 "$file" && [[ -d "$b" ]]; then
-          cd "$b"
-        else
-          return 0
-        fi
-        ;;
-      *.tar.gz)
-        b=$(basename "$file" .tar.gz)
-        if bsdtar xzf "$file" && [[ -d "$b" ]]; then
-          cd "$b"
-        else
-          return 0
-        fi
-        ;;
-      *.gz)
-        b=$(basename "$file" .gz)
-        # Use forced gunzip to overwrite any existing file and avoid permission errors
-        if \gunzip -f "$file"; then
-          if [[ -d "$b" ]]; then
-            cd "$b"
-          else
-            echo "Extracted file $b (not a directory)."
-          fi
-        else
-          return 0
-        fi
-        ;;
-      *.ipk)
-        b=$(basename "$file" .ipk)
-        if \gunzip -f "$file" && [[ -d "$b" ]]; then
-          cd "$b"
-        else
-          return 0
-        fi
-        ;;
-      *.tar.xz)
-        b=$(basename "$file" .tar.xz)
-        if bsdtar Jxf "$file" && [[ -d "$b" ]]; then
-          cd "$b"
-        else
-          return 0
-        fi
-        ;;
-      *.xz)
-        b=$(basename "$file" .xz)
-        if \xz -d "$file" && [[ -d "$b" ]]; then
-          cd "$b"
-        else
-          return 0
-        fi
-        ;;
-      *.rar)
-        b=$(basename "$file" .rar)
-        if unrar e "$file" && [[ -d "$b" ]]; then
-          cd "$b"
-        else
-          return 0
-        fi
-        ;;
-      *.tar)
-        b=$(basename "$file" .tar)
-        if bsdtar xf "$file" && [[ -d "$b" ]]; then
-          cd "$b"
-        else
-          return 0
-        fi
-        ;;
-      *.tbz2)
-        b=$(basename "$file" .tbz2)
-        if bsdtar xjf "$file" && [[ -d "$b" ]]; then
-          cd "$b"
-        else
-          return 0
-        fi
-        ;;
-      *.tgz)
-        b=$(basename "$file" .tgz)
-        if bsdtar xzf "$file" && [[ -d "$b" ]]; then
-          cd "$b"
-        else
-          return 0
-        fi
-        ;;
-      *.zip)
-        b=$(basename "$file" .zip)
-        if unzip -qq "$file" && [[ -d "$b" ]]; then
-          cd "$b"
-        else
-          return 0
-        fi
-        ;;
-      *.Z)
-        b=$(basename "$file" .Z)
-        if \uncompress "$file" && [[ -d "$b" ]]; then
-          cd "$b"
-        else
-          return 0
-        fi
-        ;;
-      *.7z)
-        b=$(basename "$file" .7z)
-        if 7z x "$file" && [[ -d "$b" ]]; then
-          cd "$b"
-        else
-          return 0
-        fi
-        ;;
-      *.zst)
-        b=$(basename "$file" .zst)
-        if zstd -d "$file"; then
-          return 0
-        else
-          return 0
-        fi
-        ;;
-      *.deb)
-        b=$(basename "$file" .deb)
-        if ar x "$file"; then
-          return 0
-        else
-          return 0
-        fi
-        ;;
-      *.rpm)
-        b=$(basename "$file" .rpm)
-        if rpmextract.sh "$file"; then
-          return 0
-        else
-          return 0
-        fi
-        ;;
-      *)
-        echo "error: failed to extract '$file'..."
-        return 1
-        ;;
+## XT___________________________
+# Description: extractor for all kinds of archives
+# Usage: ex <file>
+# ----------------------------
+xt ()
+{
+  if [ -f $1 ] ; then
+    case $1 in
+      *.tar.bz2)   tar xjf $1   ;;
+      *.tar.gz)    tar xzf $1   ;;
+      *.bz2)       bunzip2 $1   ;;
+      *.rar)       unrar x $1   ;;
+      *.gz)        gunzip $1    ;;
+      *.tar)       tar xf $1    ;;
+      *.tbz2)      tar xjf $1   ;;
+      *.tgz)       tar xzf $1   ;;
+      *.zip)       unzip $1     ;;
+      *.Z)         uncompress $1;;
+      *.7z)        7z x $1      ;;
+      *.deb)       ar x $1      ;;
+      *.tar.xz)    tar xf $1    ;;
+      *.tar.zst)   tar xf $1    ;;
+      *)           echo "'$1' cannot be extracted via ex()" ;;
     esac
-    return 0
   else
-    echo "error: '$1' is not a valid file!"
-    return 1
+    echo "'$1' is not a valid file"
   fi
 }
 

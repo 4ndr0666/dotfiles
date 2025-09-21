@@ -1,5 +1,22 @@
 # Cheater File: Python.md
 
+## Pythonrc.py
+
+This is a BASH function that will carry over your pythonrc file in ssh:
+
+```bash
+declare -f rpython
+rpython ()
+{
+    local DEST='/tmp/.pythonrc.py';
+    scp -q $PYTHONSTARTUP $1:$DEST;
+    ssh -tt $1 -- "PYTHONSTARTUP=$DEST python3";
+    ssh $1 "rm $DEST"
+}
+```
+
+---
+
 ## Building without Make
 
 ```python
