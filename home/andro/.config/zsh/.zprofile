@@ -2,17 +2,13 @@
 # shellcheck disable=SC2155
 # Author: 4ndr0666
 # ========================== // ZPROFILE //
-## Description: .zprofile sourced by the zsh rc file
-# --------------------------------------
 
-## One-liner
-
+# Path
 export PATH="$PATH:$(find /home/git/clone/scr -type d -not -path '*/.git/*' | \paste -sd ':' -):$HOME/.local/bin:/usr/bin:/usr/local/bin:/bin:/sbin:/usr/sbin:$HOME/.npm-global/bin:${XDG_DATA_HOME:-/home/andro/.local/share}/gem/ruby/3.4.0/bin:$XDG_DATA_HOME/virtualenv:$XDG_DATA_HOME/go/bin:${CARGO_HOME-:/home/andro/.local/share/cargo}/bin:/opt/depot_tools:${JAVA_HOME:-/usr/lib/jvm/default/bin}"
 
 unsetopt PROMPT_SP 2>/dev/null
-## Dynamic Path
 
-### Global constants:
+# Dynamic Path
 #static_dirs=(
 #  "/usr/bin"
 #  "/sbin"
@@ -56,39 +52,12 @@ unsetopt PROMPT_SP 2>/dev/null
 #
 #export PATH
 
-# Askpass
-export SUDO_ASKPASS="$XDG_CONFIG_HOME"/wayfire/scripts/rofi_askpass  # Wayland
-#export SUDO_ASKPASS="/usr/bin/pinentry-dmenu"    # Xorg
-
-# GPG
-export GNUPGHOME="$XDG_DATA_HOME/gnupg"
-if [ ! -d "$GNUPGHOME" ]; then
-    mkdir -p "$GNUPGHOME"
-    \chmod 700 "$GNUPGHOME"
-fi
-#gpg_env_file="$ZDOTDIR/gpg_env"
-#if [ -f "$gpg_env_file" ]; then
-#    source "$gpg_env_file"
-#else
-#    echo "Warning: $gpg_env_file not found"
-#fi
-
-# Pager
-export PAGER='less'
-#export MANPAGER="sh -c 'if [ -t 1 ]; then col -bx | bat -l man -p; else col -bx | bat -l man -p --color=always --paging=always; fi | less -R'"
-#export BAT_PAGER="less -R"
-#export MANPAGER="sh -c 'col -bx | bat -l man -p | less -R'"
-#export MANPAGER="sh -c 'col -bx | bat -l man -p --paging always'
 
 # Default programs
 export EDITOR="nvim"
 export TERMINAL="kitty"
 export TERMINAL_PROG="kitty"
 export BROWSER="brave-beta"
-export HISTFILE="$XDG_DATA_HOME/zsh/history"
-export TRASHDIR="$XDG_DATA_HOME/Trash"
-export ZDOTDIR="$XDG_CONFIG_HOME/zsh/"
-export AUR_DIR="$XDG_CACHE_HOME/yay/"
 
 # XDG specifications
 if [ -z "$XDG_RUNTIME_DIR" ]; then
@@ -149,25 +118,6 @@ export PIPX_BIN_DIR="$XDG_DATA_HOME/pipx/bin"
 #eval "$(pyenv init -)"
 # Ensure to use only pyenv's shims for Python
 #export PATH="$PYENV_ROOT/shims:$PATH"
-
-# General Machine ENV
-export LD_LIBRARY_PATH="$XDG_DATA_HOME/lib:/usr/local/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
-export NOTMUCH_CONFIG="$XDG_CONFIG_HOME/notmuch-config"
-export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
-export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
-export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
-export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
-export UNISON="$XDG_DATA_HOME/unison"
-export SQLITE_HISTORY="$XDG_DATA_HOME/sqlite_history"
-export DICS="/usr/share/stardict/dic/"
-export W3M_DIR="$XDG_DATA_HOME/w3m"
-export TLDR_CACHE_DIR="$XDG_CACHE_HOME/tldr"
-export PARALLEL_HOME="$XDG_CONFIG_HOME/parallel"
-#export SCREENRC="$XDG_CONFIG_HOME/screen/screenrc"
-export _JAVA_OPTIONS="-Djava.util.prefs.userRoot=\"$XDG_CONFIG_HOME/java\""
-export TEXMFVAR="$XDG_CACHE_HOME/texlive/texmf-var"
-#export LIBVA_DRIVER_NAME=radeonsi
-#export LIBVA_DISPLAY=wayland
 
 ## My SQL
 # export PSQL_HOME="$XDG_DATA_HOME/postgresql"
@@ -240,6 +190,53 @@ mkdir -p "$XDG_DATA_HOME/lib" \
     "$ELECTRON_CACHE" \
     "$NODE_DATA_HOME" \
     "$XDG_DATA_HOME/node/npm-global" >/dev/null 2>&1
+
+# General Machine ENV
+export LD_LIBRARY_PATH="$XDG_DATA_HOME/lib:/usr/local/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+export NOTMUCH_CONFIG="$XDG_CONFIG_HOME/notmuch-config"
+export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
+export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
+export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
+export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
+export UNISON="$XDG_DATA_HOME/unison"
+export SQLITE_HISTORY="$XDG_DATA_HOME/sqlite_history"
+export DICS="/usr/share/stardict/dic/"
+export W3M_DIR="$XDG_DATA_HOME/w3m"
+export TLDR_CACHE_DIR="$XDG_CACHE_HOME/tldr"
+export PARALLEL_HOME="$XDG_CONFIG_HOME/parallel"
+#export SCREENRC="$XDG_CONFIG_HOME/screen/screenrc"
+export _JAVA_OPTIONS="-Djava.util.prefs.userRoot=\"$XDG_CONFIG_HOME/java\""
+export TEXMFVAR="$XDG_CACHE_HOME/texlive/texmf-var"
+#export LIBVA_DRIVER_NAME=radeonsi
+#export LIBVA_DISPLAY=wayland
+export HISTFILE="$XDG_DATA_HOME/zsh/history"
+export TRASHDIR="$XDG_DATA_HOME/Trash"
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh/"
+export AUR_DIR="$XDG_CACHE_HOME/yay/"
+
+# Askpass
+export SUDO_ASKPASS="$XDG_CONFIG_HOME"/wayfire/scripts/rofi_askpass  # Wayland
+#export SUDO_ASKPASS="/usr/bin/pinentry-dmenu"    # Xorg
+
+# Pager
+export PAGER='less'
+#export MANPAGER="sh -c 'if [ -t 1 ]; then col -bx | bat -l man -p; else col -bx | bat -l man -p --color=always --paging=always; fi | less -R'"
+#export BAT_PAGER="less -R"
+#export MANPAGER="sh -c 'col -bx | bat -l man -p | less -R'"
+#export MANPAGER="sh -c 'col -bx | bat -l man -p --paging always'
+
+# GPG
+export GNUPGHOME="$XDG_DATA_HOME/gnupg"
+if [ ! -d "$GNUPGHOME" ]; then
+    mkdir -p "$GNUPGHOME"
+    \chmod 700 "$GNUPGHOME"
+fi
+#gpg_env_file="$ZDOTDIR/gpg_env"
+#if [ -f "$gpg_env_file" ]; then
+#    source "$gpg_env_file"
+#else
+#    echo "Warning: $gpg_env_file not found"
+#fi
 
 # X11_env
 #export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
