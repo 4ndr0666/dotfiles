@@ -1007,14 +1007,30 @@ alias fixntp='sudo ntpd -qg && sleep 10 && sudo hwclock -w'
 ## Clipboard
 
 alias paste='wl-paste'
-alias copy='wl-copy <'
+#alias copy='wl-copy <'
+copy() {
+    # Check if stdin is a terminal (i.e., not being piped to) AND a file argument is provided.
+    if [ -t 0 ] && [ -n "$1" ]; then
+        if [ -f "$1" ]; then
+            # If so, redirect the file's content into wl-copy.
+            wl-copy < "$1"
+        else
+            # Error if the file doesn't exist.
+            echo "copy: file not found: '$1'" >&2
+            return 1
+        fi
+    else
+        # If no file argument is given, or if data is being piped in (e.g., ls | copy),
+        # then copy directly from stdin.
+        wl-copy
+    fi
+}
 #paste_cmd() {
 #    wl-paste | "$@"
 #}
-#copy_cmd() {
+#function_copy() {
 #    "$@" | wl-copy
 #}
-#alias copy='wl-copy <'
 
 ## BTRFS
 
@@ -1999,7 +2015,7 @@ alias 0z='bat ~/.config/zsh/.zshrc'
 alias 0p='bat ~/.config/zsh/.zprofile'
 
 
-# NEW PROGS 
+# NEW PROGS
 
 # Lazygit
 alias lg='lazygit'
