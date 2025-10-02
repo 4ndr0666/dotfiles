@@ -85,27 +85,23 @@ h() {
 
 # Reloads dynamic dirs from cache file
 # Used in USR1 signal trap below.
-reload_scr_path() {
-  local cache_file="${XDG_CACHE_HOME:-$HOME/.cache}/dynamic_dirs.list"
-  local scr_root='/home/git/clone/4ndr0666/scr'
+#reload_scr_path() {
+#  local cache_file="${XDG_CACHE_HOME:-$HOME/.cache}/dynamic_dirs.list"
+#  local scr_root='/home/git/clone/4ndr0666/scr'
 
   # Purge all old script paths from the current path array
-  path=("${(@)path:#$scr_root*}")
+#  path=("${(@)path:#$scr_root*}")
 
   # Read the updated, colon-separated string from cache and add to path
-  if [[ -r "$cache_file" ]]; then
-    path+=( ${(s/:/)_p:}$(<$cache_file) )
-  fi
-}
+#  if [[ -r "$cache_file" ]]; then
+#    path+=( ${(s/:/)_p:}$(<$cache_file) )
+#  fi
+#}
 
 # USR1 Signal Trap
 # Triggered by -> /etc/pacman.d/hooks/zsh-rehash.hook or path-watcher service file.
 # "https://wiki.archlinux.org/title/Zsh#Command_completion"
-TRAPUSR1() {
-    reload_scr_path
-    rehash
-    echo "zsh PATH and command hash reloaded."
-}
+TRAPUSR1() { rehash }
 
 # Resets Tty
 # Test if if works with: $ print '\e(0\e)B'

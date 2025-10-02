@@ -4,55 +4,50 @@
 # ========================== // ZPROFILE //
 
 # --- PATH ---
-PATH="/bin:/usr/bin:/sbin:/usr/sbin"
+#export PATH="$PATH:$(find /home/git/clone/4ndr0666/scr -type d -not -path '*/.git/*' | \paste -sd ':' -):$HOME/.local/bin:/usr/bin:/usr/local/bin:/bin:/sbin:/usr/sbin:$HOME/.npm-global/bin:${XDG_DATA_HOME:-/home/andro/.local/share}/gem/ruby/3.4.5/bin:$XDG_DATA_HOME/virtualenv:$XDG_DATA_HOME/go/bin:${CARGO_HOME-:/home/andro/.local/share/cargo}/bin:/opt/depot_tools:${JAVA_HOME:-/usr/lib/jvm/default/bin}"
+
+PATH="/bin:/usr/bin:/sbin/:usr/sbin"
 PATH="/usr/local/bin:$PATH"
 PATH="/usr/local/sbin:$PATH"
 PATH="$HOME/.local/bin:$PATH"
-PATH="/opt/depot_tools:$PATH"
 PATH="${CARGO_HOME:-$HOME/.local/share/cargo}/bin:$PATH"
 PATH="$XDG_DATA_HOME/go/bin:$PATH"
 PATH="$XDG_DATA_HOME/virtualenv:$PATH"
 PATH="$HOME/.npm-global/bin:$PATH"
 PATH="${JAVA_HOME:-/usr/lib/jvm/default/bin}:$PATH"
 
-# Dynamically find and prepend the latest Ruby version path.
+# Dynamic ruby path
 gem_ruby_base_path="${XDG_DATA_HOME:-$HOME/.local/share}/gem/ruby"
 if [ -d "$gem_ruby_base_path" ]; then
-    # This POSIX-compliant command finds the newest directory by modification time.
-    latest_version_dir=$(find "$gem_ruby_base_path" -mindepth 1 -maxdepth 1 -type d -printf '%T@ %p\n' 2>/dev/null | sort -nr | head -n 1 | cut -d' ' -f2-)
-    if [ -n "$latest_version_dir" ] && [ -d "$latest_version_dir" ]; then
-        PATH="${latest_version_dir}/bin:$PATH"
-    fi
+	latest_version_dir=$(find "$gem_ruby_base_path" -mindepth 1 -maxdepth 1 -type d -printf '%T@ %p\n' 2>/dev/null | sort -nr | head -n 1 | cut -d' ' -f2-)
+	if [ -n "$latest_version_dir" ] && [ -d "$latest_version_dir" ]; then
+		PATH="${latest_version_dir}/bin:$PATH"
+	fi
 fi
 
-# Use a cache for the slow-to-scan script directory.
-# `find` is only run if the cache is missing or the script directory is newer.
+# Cache file (Initial Read-Only)
 cache_file="${XDG_CACHE_HOME:-$HOME/.cache}/dynamic_scr_dirs.list"
 scr_root='/home/git/clone/4ndr0666/scr'
 
 if [ -d "$scr_root" ]; then
-    if [ ! -f "$cache_file" ] || [ "$scr_root" -nt "$cache_file" ]; then
-        echo "sh: Rebuilding dynamic script path cache..." >&2
-        find "$scr_root" -type d -not -path '*/.git/*' > "$cache_file"
-    fi
+	if [ ! -f "$cache_file" ] || [ "$scr_root" -nt "$cache_file" ]; then
+		echo "sh: Rebuilding dynamic script path cache..." >&2
+		find "$scr_root" -type d -not -path '*/.git/*' > "$cache_file"
+	fi
 
-    if [ -r "$cache_file" ]; then
-      # Read the cache file and append its contents to the PATH.
-      cached_dirs=$(tr '\n' ':' < "$cache_file" | sed 's/:$//')
-      PATH="$PATH:$cached_dirs"
-    fi
+	if [ -r "$cache_file" ]; then
+		cached_dirs=$(tr '\n' ';' < "$cache_file" | sed 's/:$//')
+		PATH="$PATH:$cached_dirs"
+	fi
 fi
+
 export PATH
-
-#export PATH="$PATH:$(find /home/git/clone/4ndr0666/scr -type d -not -path '*/.git/*' | \paste -sd ':' -):$HOME/.local/bin:/usr/bin:/usr/local/bin:/bin:/sbin:/usr/sbin:$HOME/.npm-global/bin:${XDG_DATA_HOME:-/home/andro/.local/share}/gem/ruby/3.4.5/bin:$XDG_DATA_HOME/virtualenv:$XDG_DATA_HOME/go/bin:${CARGO_HOME-:/home/andro/.local/share/cargo}/bin:/opt/depot_tools:${JAVA_HOME:-/usr/lib/jvm/default/bin}"
-
 
 # --- DEFAULT PROGRAMS ---
 export EDITOR="nvim"
 export TERMINAL="kitty"
 export TERMINAL_PROG="kitty"
 export BROWSER="brave-beta"
-
 
 # --- XDG SPECIFICATIONS ---
 if [ -z "$XDG_RUNTIME_DIR" ]; then
@@ -134,8 +129,7 @@ export PATH="$PYENV_ROOT/shims:$PATH"
 #    "$SQL_CONFIG_HOME" \
 #    "$SQL_CACHE_HOME"
 
-
-# --- ENSURE DIRS ---
+# Ensure directories
 mkdir -p "$XDG_DATA_HOME/lib" \
     "$XDG_DATA_HOME/go/bin" \
     "$XDG_DATA_HOME/cargo/bin" \
