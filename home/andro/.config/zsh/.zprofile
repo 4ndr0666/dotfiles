@@ -3,63 +3,45 @@
 # Author: 4ndr0666
 # ========================== // ZPROFILE //
 
-# Path
-export PATH="$PATH:$(find /home/git/clone/scr -type d -not -path '*/.git/*' | \paste -sd ':' -):$HOME/.local/bin:/usr/bin:/usr/local/bin:/bin:/sbin:/usr/sbin:$HOME/.npm-global/bin:${XDG_DATA_HOME:-/home/andro/.local/share}/gem/ruby/3.4.0/bin:$XDG_DATA_HOME/virtualenv:$XDG_DATA_HOME/go/bin:${CARGO_HOME-:/home/andro/.local/share/cargo}/bin:/opt/depot_tools:${JAVA_HOME:-/usr/lib/jvm/default/bin}"
+# --- PATH ---
+typeset -U path
+#unsetopt PROMPT_SP 2>/dev/null
 
-unsetopt PROMPT_SP 2>/dev/null
+#export PATH="$PATH:$(find /home/git/clone/4ndr0666/scr -type d -not -path '*/.git/*' | \paste -sd ':' -):$HOME/.local/bin:/usr/bin:/usr/local/bin:/bin:/sbin:/usr/sbin:$HOME/.npm-global/bin:${XDG_DATA_HOME:-/home/andro/.local/share}/gem/ruby/3.4.5/bin:$XDG_DATA_HOME/virtualenv:$XDG_DATA_HOME/go/bin:${CARGO_HOME-:/home/andro/.local/share/cargo}/bin:/opt/depot_tools:${JAVA_HOME:-/usr/lib/jvm/default/bin}"
 
-# Dynamic Path
-#static_dirs=(
-#  "/usr/bin"
-#  "/sbin"
-#  "/usr/sbin"
-#  "/usr/local/sbin"
-#  "/usr/local/bin"
-#  "/opt"
-#  "$CARGO_HOME/bin"
-#  "${JAVA_HOME:-/usr/lib/jvm/default/bin}"
-#  "$HOME/.local/bin"
-#  "$XDG_DATA_HOME/gem/ruby/3.4.0/bin"
-#  "$XDG_DATA_HOME/node/npm-global/bin"i
-#  "$XDG_DATA_HOME/ruby/gems/3.3.7"
-#  "$XDG_DATA_HOME/virtualenv"
-#  "$XDG_DATA_HOME/go/bin"
-#)
-#
-#cache_file="${XDG_CACHE_HOME:-$HOME/.cache}/dynamic_dirs.list"
-#scr_root='/home/git/clone/scr'
-#
-#if [[ ! -f $cache_file || $scr_root -nt $cache_file ]]; then
-#    echo "Updating dynamic directories cache..."
-#    find "$scr_root" \
-#	    -type d \( -name '.git' -o -name '.github' \) -prune -o \
-#	    -type f -executable -printf '%h\n' \
-#	    | sort -u >| "$cache_file"
-#fi
-#
-#if [[ -r $cache_file ]]; then
-#  dynamic_dirs=("${(@f)$(< "$cache_file")}")
-#fi
-#
-#all_dirs=("${static_dirs[@]}" "${dynamic_dirs[@]}")
-#
-#typeset -U PATH
-#
-#for dir in "${all_dirs[@]}"; do
-#	dir=${dir%/}
-#	PATH="$PATH:$dir"
-#done
-#
-#export PATH
+# Static paths
+path+=(
+  "$HOME/.local/bin"
+  "/usr/local/bin" "/usr/bin" "/bin" "/usr/sbin" "/sbin"
+  "$HOME/.npm-global/bin"
+  "$XDG_DATA_HOME/virtualenv"
+  "$XDG_DATA_HOME/go/bin"
+  "${CARGO_HOME:-$HOME/.local/share/cargo}/bin"
+  "/opt/depot_tools"
+  "${JAVA_HOME:-/usr/lib/jvm/default/bin}"
+)
 
+# Dynamic ruby path
+local gem_ruby_base_path="${XDG_DATA_HOME:-$HOME/.local/share}/gem/ruby"
+local latest_version_dir
+latest_version_dir=($gem_ruby_base_path/*(N/od[-1]))
+if [[ -n "$latest_version_dir" ]]; then
+  path+=( "${latest_version_dir}/bin" )
+fi
 
-# Default programs
+# Cache file (Initial Read-Only)
+local cache_file="${XDG_CACHE_HOME:-$HOME/.cache}/dynamic_dirs.list"
+if [[ -r "$cache_file" ]]; then
+  path+=( ${(s/:/)_p:}$(<$cache_file) )
+fi
+
+# --- DEFAULT PROGRAMS ---
 export EDITOR="nvim"
 export TERMINAL="kitty"
 export TERMINAL_PROG="kitty"
 export BROWSER="brave-beta"
 
-# XDG specifications
+# --- XDG SPECIFICATIONS ---
 if [ -z "$XDG_RUNTIME_DIR" ]; then
     export XDG_RUNTIME_DIR="/run/user/$(id -u)"
 fi
@@ -111,13 +93,13 @@ export PATH="$PIPX_BIN_DIR:$PATH"
 export PIPX_HOME="$XDG_DATA_HOME/pipx"
 export PIPX_BIN_DIR="$XDG_DATA_HOME/pipx/bin"
 # Pyenv
-#export PATH="$PYENV_ROOT/bin:$PATH"
-#export PYENV_ROOT="$XDG_DATA_HOME/pyenv"
+export PYENV_ROOT="$XDG_DATA_HOME/pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
 # Initialize
-#eval "$(pyenv init --path)"
-#eval "$(pyenv init -)"
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
 # Ensure to use only pyenv's shims for Python
-#export PATH="$PYENV_ROOT/shims:$PATH"
+export PATH="$PYENV_ROOT/shims:$PATH"
 
 ## My SQL
 # export PSQL_HOME="$XDG_DATA_HOME/postgresql"
@@ -191,7 +173,7 @@ mkdir -p "$XDG_DATA_HOME/lib" \
     "$NODE_DATA_HOME" \
     "$XDG_DATA_HOME/node/npm-global" >/dev/null 2>&1
 
-# General Machine ENV
+# --- GENERAL MACHINE ENVIRONMENT ---
 export LD_LIBRARY_PATH="$XDG_DATA_HOME/lib:/usr/local/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 export NOTMUCH_CONFIG="$XDG_CONFIG_HOME/notmuch-config"
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
@@ -214,18 +196,18 @@ export TRASHDIR="$XDG_DATA_HOME/Trash"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh/"
 export AUR_DIR="$XDG_CACHE_HOME/yay/"
 
-# Askpass
+# --- ASKPASS ---
 export SUDO_ASKPASS="$XDG_CONFIG_HOME"/wayfire/scripts/rofi_askpass  # Wayland
 #export SUDO_ASKPASS="/usr/bin/pinentry-dmenu"    # Xorg
 
-# Pager
+# --- PAGER ---
 export PAGER='less'
 #export MANPAGER="sh -c 'if [ -t 1 ]; then col -bx | bat -l man -p; else col -bx | bat -l man -p --color=always --paging=always; fi | less -R'"
 #export BAT_PAGER="less -R"
 #export MANPAGER="sh -c 'col -bx | bat -l man -p | less -R'"
 #export MANPAGER="sh -c 'col -bx | bat -l man -p --paging always'
 
-# GPG
+# --- GPG ---
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 if [ ! -d "$GNUPGHOME" ]; then
     mkdir -p "$GNUPGHOME"
@@ -238,11 +220,11 @@ fi
 #    echo "Warning: $gpg_env_file not found"
 #fi
 
-# X11_env
+# ---X11 ENVIRONMENT ---
 #export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 #export QT_STYLE_OVERRIDE='adwaita-dark'
 
-## OPENBOX
+# --- OPENBOX ---
 # export XGD_CURRENT_DESKTOP='openbox'
 # export _JAVA_AWT_WM_NONREPARENTING=1
 # export OpenGL_GL_PREFERENCE=GLVND  # For screen tearing
@@ -252,7 +234,7 @@ fi
 # export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.pla
 #f.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel ${_JAVA_OPTIONS}"
 
-# FZF (default search command)
+# --- FZF (default search command) ---
 export FZF_DEFAULT_COMMMAND='fd --no-ignore --hidden --follow --exclude ".git"'
 # Config
 export FZF_DEFAULT_OPTS="

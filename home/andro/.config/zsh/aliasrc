@@ -718,7 +718,7 @@ chrootuser() {
 alias update-grub2='sudo grub-install ... && sudo grub-mkconfig -o /boot/grub/grub.cfg'
 #alias grub-mkconfig='sudo grub-mkconfig -o /boot/grub/grub.cfg'
 alias iotop='sudo iotop -o'
-alias pathadd='export PATH=/home/andro/.local/bin:/home/git/clone/scr:$PATH'
+alias pathadd='export PATH=/home/andro/.local/bin:/home/git/clone/4ndr0666/scr:$PATH'
 alias whatkernel="ls /usr/lib/modules"
 alias whatsrunning='systemctl -t service -a --state running --no-page --no-legend'
 alias fixnvm='nvm use --delete-prefix v22.13.0 --silent'
@@ -730,6 +730,7 @@ alias microcode='grep . /sys/devices/system/cpu/vulnerabilities/*'
 alias audio="pactl info | grep 'Server Name'"
 alias retry='until !!; do :; done'
 alias whatcpu="grep -m1 'model name' /proc/cpuinfo"
+alias kp='sudo killall -9 xdg-desktop-portal xdg-desktop-portal-gtk xdg-desktop-portal-wlr'
 
 ## Backup and restore /etc/skel
 
@@ -759,12 +760,6 @@ alias whatcpu="grep -m1 'model name' /proc/cpuinfo"
 #}
 
 ## Program Specific__________________________________________________________________________________
-
-### Fabric
-alias fabric='fabric-ai'
-
-### Cmake
-#alias cmake='/opt/cmake-4.0.1/bin/cmake'
 
 ### Zathura
 alias z='zathura --fork'
@@ -805,7 +800,7 @@ alias ref='shortcuts >/dev/null; source ${XDG_CONFIG_HOME:-$HOME/.config}/shellz
 ### Select files from dir and edit
 
 fzscr() {
-    local dir="${1:-/home/git/clone/scr}"
+    local dir="${1:-/home/git/clone/4ndr0666/scr}"
     local choice
     choice=$(find "$dir" -mindepth 1 \( -type d -o -executable -type f \) \
         ! -path '*/.git/*' -printf '%P\n' | sort -r | fzf --preview "cat '$dir/{}'" --preview-window=down:70%)
@@ -910,8 +905,16 @@ vidt() {
 
 ## Expressvpn Legacy
 
+vpnstrict() {
+	sudo expressvpn disconnect || echo "cound not disconnect" exit 1
+	sudo expressvpn refresh || echo "cound not refresh" continue
+	sudo expressvpn preferences set network_lock strict || echo "could net set network lock on" exit 1
+	sudo expressvpn protocol lightway_tcp || echo "could not set lightway protocol" continue
+	sudo expressvpn connect || exit 1
+}
+
 alias vpnc='sudo expressvpn connect'
-alias vpnd='sudo expressvpn disconnect'
+alias vpnd='sudo expressvpn disconnect && sudo expressvpn preferences set network_lock off'
 alias vpns='sudo expressvpn status'
 alias vpnr='sudo expressvpn refresh'
 alias vpnauto='expressvpn autoconnect true'
@@ -973,7 +976,6 @@ alias bleachchrome='bleachbit --clean chromium.cache chromium.dom thumbnails.cac
 alias garuda-refreshkeys='garuda-update remote keyring'
 alias garuda-reinstallallpkgs='garuda-update remote reinstall'
 alias garuda-resetaudio='garuda-update reset-audio'
-alias garuda-ffmpegupdate='/Nas/Build/git/syncing/scr/installers/ffmpeg/custom_garuda_update.sh'
 
 ## Dracut
 
@@ -984,8 +986,17 @@ alias dracutfallback='echo "sudo dracut --force /boot/initramfs-linux-fallback.i
 
 ## SSH
 
+sshpin() {
+	ssh-keygen -R 192.168.1.91
+	ssh-keyscan -t ed25519 192.168.1.91 >> ~/.ssh/known_hosts
+	ssh-keygen -H -f ~/.ssh/known_hosts
+	rm -f ~/.ssh/known_hosts.old
+	ssh-keygen -F 192.168.1.91
+}
 alias ssha='eval $(ssh-agent -s) && ssh-add'
-alias sshid='xclip -sel clip < ~/.ssh/id_ed25519.pub'
+alias sshid='xclip -sel clip < ~/.ssh/id_ed25519.pub || cat ~/.ssh/id_ed25519.pub | wl-copy'
+alias chssh='chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys'
+
 #alias cleanssh="sed -i 18d .ssh/known_hosts"
 
 ## NTP
@@ -1099,7 +1110,7 @@ syspip3() {
 ## Virtualenv
 
 ### create (if needed) & activate a named venv
-pyvenv() {
+py() {
   local name="${1:-default}"                     # default venv if no name given
   local base="$XDG_DATA_HOME/virtualenv"         # centralized venv storage
   local dir="$base/$name"
@@ -1115,8 +1126,8 @@ pyvenv() {
 }
 
 ### activate then cd into the venv directory
-pyvenvcd() {
-  pyvenv "$1"
+pycd() {
+  py "$1"
   cd "$XDG_DATA_HOME/virtualenv/${1:-default}"
 }
 
@@ -1162,7 +1173,7 @@ alias mirrorsite='wget -m -k -K -E -e robots=off'
 
 alias trem='transmission-remote'
 
-## Youtube
+## Youtube-Viewer
 
 #alias ffmpeg="ffmpeg -hide_banner"
 alias ytt='yt-dlp --skip-download --write-thumbnail'
@@ -1237,7 +1248,7 @@ function mergelist() {
 	local files
   	files=($(fzf --multi))
   	[[ ${#files[@]} -eq 0 ]] && return
-  	/home/git/clone/scr/media/ffmpeg-concat "${files[@]}"
+  	/home/git/clone/4ndr0666/scr/media/ffmpeg-concat "${files[@]}"
 }
 
 function stripvideo() {
@@ -1356,26 +1367,22 @@ yaysearch() {
     esac
 }
 
-# ---
 
-### Fuckin-Do-It (fn)
+# Fuckin-Do-It (fn)
 
 alias fninstall="yay -S --needed --cleanafter --cleanmenu --devel --noconfirm --rebuild --refresh --sudoloop --sysupgrade --overwrite='*' --disable-download-timeout --pgpfetch=false --removemake --redownload --batchinstall=false --answerclean=yes --answerdiff=no --answeredit=no"
 alias fnupdate='yay -Syyu --noconfirm --disable-download-timeout --removemake --rebuild --pgpfetch=false --bottomup --overwrite="*"'
 alias fnremove='yay -Rddn --noconfirm'
 
-# ---
 
-## Skip Integrity Check
+# Skip Integrity Check
 
 alias paruskip='paru -S --mflags --skipinteg'
 alias yayskip='yay -S --mflags --skipinteg'
 alias trizenskip='trizen -S --skipinteg'
 
-# ---
 
-## Pacman.conf
-
+# Pacman.conf
 pacmansigoff() {
     read -r -p "Are you sure you want to disable PGP signature verification? (yes/no): " answer
     if [[ $answer == "yes" ]]; then
@@ -1391,8 +1398,7 @@ pacmansigoff() {
 
 alias pacmansigon="if [ -f /etc/pacman.conf.backup ]; then if sudo cp --preserve=all -f /etc/pacman.conf.backup /etc/pacman.conf; then sudo rm /etc/pacman.conf.backup && echo 'PGP signature verification restored.'; else echo 'Failed to restore the original pacman.conf. Aborting.'; fi; else echo 'Backup file not found. Cannot restore.'; fi"
 
-# GPG__________________________________________________________________________________
-
+# GPG
 alias fixdirmngr='sudo dirmngr </dev/null'
 #alias chgpg='sudo chown -R $(whoami):$(whoami) ~/.gnupg && chmod 700 ~/.gnupg && chmod 600 ~/.gnupg/*'
 alias rmgpg='sudo rm -r /etc/pacman.d/gnupg'
@@ -1402,15 +1408,14 @@ alias fixpacmankey2='gpg-agent --homedir /etc/pacman.d/gnupg --use-standard-sock
 alias gpgkeyserver2="sudo gpg --keyserver hkps://keys.openpgp.org/ --search-keys user-id"
 alias generate-keyserver='gpg --full-generate-key && gpg --import /usr/share/pacman/keyrings/archlinux* && gpg --recv-keys --keyserver hkp://pool.sks-keyservers.net && pacman-key --init && pacman-key --populate archlinux'
 
-# Git ___________________________________________________________________________________
-
+# Git
 alias gstat='git status'
 alias gstash='git stash --all'
 alias gclear='git stash clear'
-alias ghr='git reset --hard'
-alias gfs='git-lfs'
-alias ga='git add'
-alias gp='git push origin main'
+#alias ghr='git reset --hard'
+#alias gfs='git-lfs'
+#alias ga='git add'
+#alias gp='git push origin main'
 
 #alias gupdate='gcomp && gh tidy && gh setup'
 
@@ -1534,7 +1539,7 @@ gignore() {
     fi
 
     local pattern="$1"
-    local gitignore_file="$HOME/.gitignore_global"
+    local gitignore_file="$PWD/.gitignore"
 
     ### Create the file if it doesn't exist
     if [ ! -f "$gitignore_file" ]; then
@@ -1750,7 +1755,7 @@ gsetup() {
     git push -u origin "$branch_name"
 }
 
-# Custom Powerdown_______________________________________________________________
+# Custom Powerdown
 cleanup_session() {
     echo "Begining custom shutdown..."
     # Define the list of processes to check and terminatete
@@ -1805,7 +1810,7 @@ alias sdn="cleanup_session && echo 'Shutting down...' && sudo shutdown -h now"
 alias ssr="cleanup_session && echo 'Rebooting...' && sudo reboot -h now"
 alias magic='sudo /usr/local/bin/magic.sh'
 
-# 4ndr0tools_______________________________________________________________________
+# 4ndr0tools
 
 # 4ndr0cht: cheatsheets ~/.cheaters
 cht() {
@@ -1826,7 +1831,9 @@ edit_config() {
         echo "File path not provided."
     fi
 }
+
 alias svim='edit_config'
+alias vssh='edit_config /etc/ssh/ssh_config'
 alias valias='edit_config "$ZDOTDIR/aliasrc"'
 alias vfunc='edit_config "$ZDOTDIR/functions.zsh"'
 alias vpac='edit_config /etc/pacman.conf'
@@ -1864,6 +1871,7 @@ alias conf='goto ~/.config'
 alias wconf='goto ~/.config/wayfire'
 alias zconf='goto ~/.config/zsh'
 alias mconf='goto ~/.config/mpv'
+alias hconf='goto ~/.config/hypr'
 alias ob='goto ~/.config/openbox'
 alias obt='goto ~/.config/openbox/themes'
 # /storage:
@@ -1897,14 +1905,21 @@ alias cloud='goto /23.1/Thecloud'
 alias nas='goto /Nas'
 alias nnas='goto /Nas/Nas'
 alias sand='goto /Nas/sandbox'
-alias spkg='goto /Nas/sandbox/pkgs'
+alias sando='goto /Nas/sandbox/overrides'
+alias sande='goto /Nas/sandbox/extract'
+alias sandt='goto /Nas/sandbox/temp'
+alias sandpkg='goto /Nas/sandbox/pkgs'
+alias sandplay='goto /Nas/sandbox/playground'
+alias fan='goto /Nas/Fanvue'
+alias todo='goto /Nas/00todo'
 alias nasc='goto /Nas/Nas/Cookie\ Backup\ Restore && cat *.ckz | wl-copy' # Cookie file
 # /home/git:
-alias hgc='goto /home/git/clone'
-alias hgnas='goto /home/git/clone/nas'
-alias hgdot='goto /home/git/clone/dotfiles'
-alias hgbin='goto /home/git/clone/scr'
-alias hggpt='goto /home/git/clone/gpt/'
+alias g='goto /home/git/clone'
+alias g4='goto /home/git/clone/4ndr0666'
+alias gnas='goto /home/git/clone/4ndr0666/nas'
+alias gdot='goto /home/git/clone/4ndr0666/dotfiles'
+alias gbin='goto /home/git/clone/4ndr0666/scr'
+alias ggpt='goto /home/git/clone/4ndr0666/gpt/'
 # System directories:
 alias et='goto /etc'
 alias ske='goto /etc/skel'
@@ -1982,9 +1997,18 @@ alias 00='bat --language=sh --paging=always ~/.config/zsh/aliasrc'
 alias 0f='bat ~/.config/zsh/functions.zsh'
 alias 0z='bat ~/.config/zsh/.zshrc'
 alias 0p='bat ~/.config/zsh/.zprofile'
-alias gapi='echo "AIzaSyBNaLJoZyjS_X_S0MavGMqGa2s6qnFrfxI" | wl-copy'
 
-# Typos: enter typo followed by the correction______________________________
+
+# NEW PROGS 
+
+# Lazygit
+alias lg='lazygit'
+
+# Gau
+alias gau='gau --config ~/.config/gau/.gau.toml'
+
+# ------------------------- [ TYPOS ]
+
 alias gerp='grep'
 alias shudown='shutdown'
 alias micor='micro'

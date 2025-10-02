@@ -1,27 +1,25 @@
-# ================= [ ZSHRC ]
 # Author: 4ndr0666
-# ----------------
+# ====================== // ZSHRC //
 
-# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< [ THEMES ]
-# POWERLEVEL10K
+# --- THEMES ---
+# Powerlevel10k
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
     source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
-# STANDARD THEME
+# Standard
 #autoload -U colors && colors
 #PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
-# SOLARIZED THEME
+# Solarized
 #PROMPT='%F{32}%n%f%F{166}@%f%F{64}%m:%F{166}%~%f%F{15}$%f '
 #RPROMPT='%F{15}(%F{166}%D{%H:%M}%F{15})%f'
-# Fancy Theme
+# Fancy
 #source ~/.config/zsh/fancy-prompts.zsh
 #precmd() { fancy-prompts-precmd; }
 #prompt-zee -PDp "≽ "
 
 
-#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< [ ALIASES ]
+# ---ALIASES ---
 alias reload="source ~/.zshrc"
-
 # globalias() {
 #    if [[ $LBUFFER =~ [a-zA-Z0-9]+S ]]; then
 #        zle _expand_alias
@@ -32,8 +30,8 @@ alias reload="source ~/.zshrc"
 # zle -N globalias
 
 
-#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< [ DIRSTACK & SHELL OPT ]
-# DIRSTACK
+# --- DIRSTACK & SHELL OPT ---
+# Dirstack
 autoload -Uz add-zsh-hook
 DIRSTACKFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/dirs"
 if [[ -f "$DIRSTACKFILE" ]] && (( ${#dirstack} == 0 )); then
@@ -45,7 +43,7 @@ chpwd_dirstack() {
 }
 add-zsh-hook -Uz chpwd chpwd_dirstack
 DIRSTACKSIZE='20'
-# SHELL OPTIONS
+# Shell Options
 setopt AUTO_PUSHD PUSHD_SILENT PUSHD_TO_HOME
 setopt PUSHD_IGNORE_DUPS # Remove duplicate entries
 setopt PUSHD_MINUS   # This reverts the +/- operators.
@@ -53,16 +51,28 @@ setopt NOCASEGLOB EXTENDED_GLOB GLOB_COMPLETE COMPLETE_IN_WORD # Completion & Gl
 setopt AUTOCD CDABLE_VARS  # Directory Navigation
 setopt RM_STAR_WAIT PRINT_EXIT_VALUE
 setopt AUTO_MENU AUTO_LIST AUTO_NAME_DIRS AUTO_PARAM_SLASH INTERACTIVE_COMMENTS
-# DISABLE OPTIONS
+# Disabled Options
 #unsetopt correct_all complete_aliases always_to_end menu_complete
 
 
-#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< [ HISTORY ]
+# --- HISTORY ---
 HISTSIZE=10000000
 SAVEHIST=10000000
 HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/history"
 setopt hist_ignore_space hist_reduce_blanks hist_verify extended_history inc_append_history hist_ignore_dups hist_expire_dups_first
-# FIX ZSH BEHAVIOR
+
+
+# --- EXTERNAL FILE SOURCING ---
+# Aliases
+[ -f "$HOME/.config/zsh/aliasrc" ] && source "$HOME/.config/zsh/aliasrc"
+# Functions
+[ -f "$HOME/.config/zsh/functions.zsh" ] && source "$HOME/.config/zsh/functions.zsh"
+# Zprofile
+[ -f "$HOME/.config/zsh/.zprofile" ] && source "$HOME/.config/zsh/.zprofile"
+
+
+# --- FUNCTIONS ---
+# Fix Zsh Behavior
 h() {
     if [ -z "$*" ]; then
         history 1
@@ -73,22 +83,31 @@ h() {
 # ALT:
 #h() { if [ -z "$*" ]; then history 1; else history 1 | egrep "$@"; fi; }:
 
+# Reloads dynamic dirs from cache file
+# Used in USR1 signal trap below.
+reload_scr_path() {
+  local cache_file="${XDG_CACHE_HOME:-$HOME/.cache}/dynamic_dirs.list"
+  local scr_root='/home/git/clone/4ndr0666/scr'
 
-#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< [ External Sourcing ]
-# ALIASES
-[ -f "$HOME/.config/zsh/aliasrc" ] && source "$HOME/.config/zsh/aliasrc"
-# FUNCTIONS
-[ -f "$HOME/.config/zsh/functions.zsh" ] && source "$HOME/.config/zsh/functions.zsh"
-# ZPROFILE
-[ -f "$HOME/.config/zsh/.zprofile" ] && source "$HOME/.config/zsh/.zprofile"
+  # Purge all old script paths from the current path array
+  path=("${(@)path:#$scr_root*}")
 
+  # Read the updated, colon-separated string from cache and add to path
+  if [[ -r "$cache_file" ]]; then
+    path+=( ${(s/:/)_p:}$(<$cache_file) )
+  fi
+}
 
-#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< [ HOOKS ]
-# ONDEMAND REHASH HOOK HELPER -> /etc/pacman.d/hooks/zsh-rehash.hook
-# see "https://wiki.archlinux.org/title/Zsh#Command_completion"
-TRAPUSR1() { rehash }
+# USR1 Signal Trap
+# Triggered by -> /etc/pacman.d/hooks/zsh-rehash.hook or path-watcher service file.
+# "https://wiki.archlinux.org/title/Zsh#Command_completion"
+TRAPUSR1() {
+    reload_scr_path
+    rehash
+    echo "zsh PATH and command hash reloaded."
+}
 
-# RESETS TTY
+# Resets Tty
 # Test if if works with: $ print '\e(0\e)B'
 autoload -Uz add-zsh-hook
 function reset_broken_terminal () {
@@ -96,20 +115,21 @@ function reset_broken_terminal () {
 }
 add-zsh-hook -Uz precmd reset_broken_terminal
 
-# FORCE CTRL+D TO CLOSE SHELL
+# Force ctrl+D to close shell
 exit_zsh() { exit }
 zle -N exit_zsh
 bindkey '^D' exit_zsh
 
-#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< [ WIDGETS ]
-# FZF TAB COMPLETE
+
+# --- WIDGETS ---
+# Fzf tab complete
 #zstyle ':fzf-tab:complete:(\\|*)cd:*' fzf-preview 'exa -1 --color=always --icons $realpath'
 #zstyle ':fzf-tab:complete:systemctl-*:*' fzf-preview 'SYSTEMD_COLORS=1 systemctl status $word'
 #zstyle ':fzf-tab:complete:*:*' fzf-preview 'less ${(Q)realpath}'
 #zstyle ':fzf-tab:complete:*:options' fzf-preview
 #zstyle ':fzf-tab:complete:*:argument-1' fzf-preview
 
-# BASIC AUTO/TAB COMPLETE
+# Basic auto/tab complete
 fpath=("${ZDOTDIR:-$HOME/.config/zsh}/completions" $fpath)
 _comp_options+=(globdots)
 autoload -Uz compinit
@@ -123,20 +143,20 @@ zstyle  ':completion:*' completer _complete _approximate _ignored
 zmodload zsh/complist
 
 
-#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< [ KEYBINDS ]
-# SUBSTRING SEARCH
+# --- KEYBINDS ---
+# Substring search
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
-# VIM
+# Vim
 bindkey -v
 export KEYTIMEOUT=1
-# VIM KEYS in TAB COMPLETE MENU
+# Vim keys in tab complete menu
 bindkey -M menuselect 'h' vi-backward-char
 bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
 bindkey -v '^?' backward-delete-char
-# CHANGE CURSOR FOR DIFFERENT MODES
+# Change cursor for diff modes
 function zle-keymap-select () {
     case $KEYMAP in
         vicmd) echo -ne '\e[1 q';;      # block
@@ -154,8 +174,8 @@ echo -ne '\e[5 q' # Use beam shape cursor on startup.
 preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
 
 
-#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [ LF ]
-# SWITCH DIRS W CTRL+O
+# --- LF ---
+# Switch dirs with ctrl+O
 lfcd () {
     tmp="$(mktemp -uq)"
     trap 'rm -f $tmp >/dev/null 2>&1 && trap - HUP INT QUIT TERM PWR EXIT' HUP
@@ -171,15 +191,16 @@ bindkey -s '^a' '^ubc -lq\n'
 bindkey -s '^f' '^ucd "$(dirname "$(fzf)")"\n'
 bindkey '^[[P' delete-char
 
-# CTRL+E OPENS EDITOR
+# Open editor with ctrl+E
 autoload edit-command-line; zle -N edit-command-line
 bindkey '^e' edit-command-line
 bindkey -M vicmd '^[[P' vi-delete-char
 bindkey -M vicmd '^e' edit-command-line
 bindkey -M visual '^[[P' vi-delete
 
-#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< [ PLUGINS ]
-# NVM
+
+# --- PLUGINS ---
+# Nvm
 export NVM_DIR="$XDG_CONFIG_HOME/nvm"
 source_nvm() {
     local script="$1"
@@ -191,37 +212,34 @@ source_nvm() {
 }
 source_nvm "$NVM_DIR/nvm.sh"
 
-# FZF
+# Fzf
 #autoload -U $fpath[1]/*(:t)
 source <(fzf --zsh)
 source "/usr/share/zsh/plugins/zsh-fzf-plugin/fzf.plugin.zsh"
 
-# FTC (Find The Command)
-[ -f "/usr/share/doc/find-the-command/ftc.zsh" ] && source "/usr/share/doc/find-the-command/ftc.zsh" noprompt quiet
-
-# EXTRACT
+# Extract
 source "/usr/share/zsh/plugins/zsh-extract/extract.plugin.zsh"
 
-# SUDO
+# Sudo
 #[ -f "/usr/share/zsh/plugins/zsh-sudo/sudo.plugin.zsh" ] && source "/usr/share/zsh/plugins/zsh-sudo/sudo.plugin.zsh"
 
-# SYSD ALIASES
+# Systemd aliases
 source "$ZDOTDIR/systemd_aliases.zsh"
 
-# HISTORY-SUBSTRING-SEARCH
+# History-substring-search
 source "/usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh"
 
-# AUTOSUGGESTIONS
+# Autosuggestions
 ZSH_AUTOSUGGEST_USE_ASYNC=true
 source "/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
-# YTDL
+# Ytdl
 source "/home/andro/.config/zsh/ytdl.zsh"
 
-# CLEAN.ZSH (cleans weird chars from all files in dir)
+# Clean.zsh (cleans weird chars from all files in dir)
 source "/home/andro/.config/zsh/clean.zsh"
 
-# GIT EXTRAS
+# Git extras
 source "/usr/share/doc/git-extras/git-extras-completion.zsh"
 CLICOLOR_FORCE=1
 GLAMOUR_STYLE=ascii.json
@@ -247,7 +265,7 @@ typeset -g POWERLEVEL9K_BACKGROUND_JOBS_ICON=
 typeset -g POWERLEVEL9K_DIR_SHOW_WRITABLE=true
 unset POWERLEVEL9K_VCS_BRANCH_ICON
 
-# SYNTAX_HIGHLIGHTING
+# Syntax highlighting
 if [ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
   source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
