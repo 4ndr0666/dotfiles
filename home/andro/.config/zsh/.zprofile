@@ -6,6 +6,7 @@
 # --- PATH ---
 #export PATH="$PATH:$(find /home/git/clone/4ndr0666/scr -type d -not -path '*/.git/*' | \paste -sd ':' -):$HOME/.local/bin:/usr/bin:/usr/local/bin:/bin:/sbin:/usr/sbin:$HOME/.npm-global/bin:${XDG_DATA_HOME:-/home/andro/.local/share}/gem/ruby/3.4.5/bin:$XDG_DATA_HOME/virtualenv:$XDG_DATA_HOME/go/bin:${CARGO_HOME-:/home/andro/.local/share/cargo}/bin:/opt/depot_tools:${JAVA_HOME:-/usr/lib/jvm/default/bin}"
 
+# Static dirs
 PATH="/bin:/usr/bin:/sbin/:usr/sbin"
 PATH="/usr/local/bin:$PATH"
 PATH="/usr/local/sbin:$PATH"
@@ -16,38 +17,40 @@ PATH="$XDG_DATA_HOME/virtualenv:$PATH"
 PATH="$HOME/.npm-global/bin:$PATH"
 PATH="${JAVA_HOME:-/usr/lib/jvm/default/bin}:$PATH"
 
-# Dynamic ruby path
+# Dynamic Ruby path
 gem_ruby_base_path="${XDG_DATA_HOME:-$HOME/.local/share}/gem/ruby"
 if [ -d "$gem_ruby_base_path" ]; then
-	latest_version_dir=$(find "$gem_ruby_base_path" -mindepth 1 -maxdepth 1 -type d -printf '%T@ %p\n' 2>/dev/null | sort -nr | head -n 1 | cut -d' ' -f2-)
-	if [ -n "$latest_version_dir" ] && [ -d "$latest_version_dir" ]; then
-		PATH="${latest_version_dir}/bin:$PATH"
-	fi
+  latest_version_dir=$(ls -v "$gem_ruby_base_path" | tail -n 1)
+  if [ -n "$latest_version_dir" ]; then
+    PATH="${gem_ruby_base_path}/${latest_version_dir}/bin:$PATH"
+  fi
 fi
 
-# Cache file (Initial Read-Only)
+# Cache file
 cache_file="${XDG_CACHE_HOME:-$HOME/.cache}/dynamic_scr_dirs.list"
 scr_root='/home/git/clone/4ndr0666/scr'
 
 if [ -d "$scr_root" ]; then
-	if [ ! -f "$cache_file" ] || [ "$scr_root" -nt "$cache_file" ]; then
-		echo "sh: Rebuilding dynamic script path cache..." >&2
-		find "$scr_root" -type d -not -path '*/.git/*' > "$cache_file"
-	fi
+  if [ ! -f "$cache_file" ] || [ "$scr_root" -nt "$cache_file" ]; then
+	echo "sh: Rebuilding dynamic script path cache..." >&2
+        find "$scr_root" -type d -not -path '*/.git/*' > "$cache_file"
+  fi
 
-	if [ -r "$cache_file" ]; then
-		cached_dirs=$(tr '\n' ';' < "$cache_file" | sed 's/:$//')
-		PATH="$PATH:$cached_dirs"
-	fi
+  if [ -r "$cache_file" ]; then
+        cached_dirs=$(tr '\n' ';' < "$cache_file" | sed 's/:$//')
+        PATH="$PATH:$cached_dirs"
+  fi
 fi
 
 export PATH
+
 
 # --- DEFAULT PROGRAMS ---
 export EDITOR="nvim"
 export TERMINAL="kitty"
 export TERMINAL_PROG="kitty"
 export BROWSER="brave-beta"
+
 
 # --- XDG SPECIFICATIONS ---
 if [ -z "$XDG_RUNTIME_DIR" ]; then
@@ -320,6 +323,13 @@ fh() {
 # Less
 export LESS="R"
 export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
+export LESS_TERMCAP_mb=$(printf "\e[1;31m")
+export LESS_TERMCAP_md=$(printf "\e[1;31m")
+export LESS_TERMCAP_me=$(printf "\e[0m")
+export LESS_TERMCAP_se=$(printf "\e[0m")
+export LESS_TERMCAP_so=$(printf "\e[1;44;33m")
+export LESS_TERMCAP_ue=$(printf "\e[0m")
+export LESS_TERMCAP_us=$(printf "\e[1;32m")
 # Conf1
 #export LESS_TERMCAP_mb="$(printf '%b' '[1;31m')"
 #export LESS_TERMCAP_md="$(printf '%b' '[1;36m')"
@@ -337,12 +347,12 @@ export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
 #export LESS_TERMCAP_us="$(printf '%b' '')"
 #export LESS_TERMCAP_ue="$(printf '%b' '')"
 #Conf3
-export LESS_TERMCAP_md=$'\e[01;31m'
-export LESS_TERMCAP_me=$'\e[0m'
-export LESS_TERMCAP_se=$'\e[0m'
-export LESS_TERMCAP_so=$'\e[01;44;33m'
-export LESS_TERMCAP_ue=$'\e[0m'
-export LESS_TERMCAP_us=$'\e[01;32m'
+#export LESS_TERMCAP_md=$'\e[01;31m'
+#export LESS_TERMCAP_me=$'\e[0m'
+#export LESS_TERMCAP_se=$'\e[0m'
+#export LESS_TERMCAP_so=$'\e[01;44;33m'
+#export LESS_TERMCAP_ue=$'\e[0m'
+#export LESS_TERMCAP_us=$'\e[01;32m'
 
 # Shortcut Script for LF
 [ ! -f "$XDG_CONFIG_HOME/shell/shortcutrc" ] && setsid -f shortcuts >/dev/null 2>&1
@@ -351,4 +361,4 @@ export LESS_TERMCAP_us=$'\e[01;32m'
 # [ "$(tty)" = "/dev/tty1" ] && ! pidof -s Xorg >/dev/null 2>&1 && exec startx "$XINITRC"
 
 # Switch keys ESC and CAPS for TTY & no password
-sudo -n loadkeys "$XDG_DATA_HOME/larbs/ttymaps.kmap" 2>/dev/null
+#sudo -n loadkeys "$XDG_DATA_HOME/larbs/ttymaps.kmap" 2>/dev/null
