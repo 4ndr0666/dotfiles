@@ -71,21 +71,21 @@ alias reload="source ~/.zshrc"
 # --- DIRSTACK & SHELL OPT ---
 # Dirstack
 # Use `dirs -v` to print the dirstack. Use `cd -<NUM>` to go back to a visited folder. Use autocompletion after the dash. This proves very handy if using the autocompletion menu.
-autoload -Uz add-zsh-hook
-DIRSTACKFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/dirs"
-if [[ -f "$DIRSTACKFILE" ]] && (( ${#dirstack} == 0 )); then
-	dirstack=("${(@f)"$(< "$DIRSTACKFILE")"}")
-	[[ -d "${dirstack[1]}" ]] && cd -- "${dirstack[1]}"
-fi
-chpwd_dirstack() {
-	print -l -- "$PWD" "${(u)dirstack[@]}" > "$DIRSTACKFILE"
-}
-add-zsh-hook -Uz chpwd chpwd_dirstack
-DIRSTACKSIZE='20'
+#autoload -Uz add-zsh-hook
+#DIRSTACKFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/dirs"
+#if [[ -f "$DIRSTACKFILE" ]] && (( ${#dirstack} == 0 )); then
+#	dirstack=("${(@f)"$(< "$DIRSTACKFILE")"}")
+#	[[ -d "${dirstack[1]}" ]] && cd -- "${dirstack[1]}"
+#fi
+#chpwd_dirstack() {
+#	print -l -- "$PWD" "${(u)dirstack[@]}" > "$DIRSTACKFILE"
+#}
+#add-zsh-hook -Uz chpwd chpwd_dirstack
+#DIRSTACKSIZE='20'
 # Shell Options
-setopt AUTO_PUSHD PUSHD_SILENT PUSHD_TO_HOME
-setopt PUSHD_IGNORE_DUPS # Remove duplicate entries
-setopt PUSHD_MINUS   # This reverts the +/- operators.
+#setopt AUTO_PUSHD PUSHD_SILENT PUSHD_TO_HOME
+#setopt PUSHD_IGNORE_DUPS # Remove duplicate entries
+#setopt PUSHD_MINUS   # This reverts the +/- operators.
 setopt NOCASEGLOB EXTENDED_GLOB GLOB_COMPLETE COMPLETE_IN_WORD # Completion & Globbing
 setopt AUTOCD CDABLE_VARS  # Directory Navigation
 setopt RM_STAR_WAIT PRINT_EXIT_VALUE
@@ -148,25 +148,20 @@ update_scr_path() {
   local scr_root='/home/git/clone/4ndr0666/scr'
   if [ -d "$scr_root" ]; then
     echo "Rebuilding dynamic script path cache..." >&2
-    find "$scr_root" -type d -not -path '*/.git/*' | paste -sd ':' - >| "$cache_file"
-    echo "Cache updated. Please start a new shell to apply changes."
+    # Generate newline-separated list
+    find "$scr_root" -type d -not -path '*/.git/*' > "$cache_file"
+    if [ -r "$cache_file" ]; then
+      # Convert to colon-separated and append to PATH
+      local cached_dirs=$(tr '\n' ':' < "$cache_file" | sed 's/:$//')
+      export PATH="$PATH:$cached_dirs"
+      echo "Script path cache updated and PATH applied."
+    else
+      echo "Error: Could not read cache file $cache_file" >&2
+    fi
   else
     echo "Error: Script root directory not found at $scr_root" >&2
   fi
 }
-# Intelligent `chpwd` hook invalidates cache.
-chpwd_check() {
-  local cache_file="${XDG_CACHE_HOME:-$HOME/.cache}/dynamic_scr_dirs.list"
-  local scr_root='/home/git/clone/4ndr0666/scr'
-
-  # Only run the check if we are inside the script root directory
-  if [[ "$PWD"/ == "$scr_root"/* || "$PWD" == "$scr_root" ]]; then
-    if [[ ! -f "$cache_file" || "$scr_root" -nt "$cache_file" ]]; then
-      echo -e "\e[1;33m[NOTICE]\e[0m Script directory has changed. Run 'update_scr_path' to rebuild cache."
-    fi
-  fi
-}
-chpwd_functions+=("chpwd_check")
 
 # USR1 Signal Trap
 # Triggered by -> /etc/pacman.d/hooks/zsh-rehash.hook "https://wiki.archlinux.org/title/Zsh#Command_completion".

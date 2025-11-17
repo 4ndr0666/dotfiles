@@ -1,7 +1,7 @@
 #!/usr/bin/zsh
 # Author: 4ndr0666
-# Version: 1.3.0 · Date: 2025.08.11
-# ytdlc – yt-dlp wrapper with max-quality auto-pick, SABR support, fzf picker, cookies, aria2c, archive
+# Version: 1.4.0 · Date: 2025.08.12
+# ytdlc – yt-dlp wrapper with max-quality auto-pick, SABR support, fzf picker, cookies, aria2c, archive, sections
 
 # ── Logging ─────────────────────────────────────────────────
 typeset -f GLOW >/dev/null || GLOW(){ print "[✔] $*"; }
@@ -83,6 +83,16 @@ ytdl(){
   "${cmd[@]}" "$url"
 }
 
+ytdl_section(){
+  local url=$1 section=$2
+  local dom=$(get_domain_from_url "$url") ck=$(get_cookie "$dom")
+  local -a cmd=( yt-dlp ${YTDLP_BASE[@]} ${YTDLP_EDL[@]} ${YTDLP_SAFETY[@]} ${YTDLP_MAX_SORT[@]} ${YTDLP_MAX_FORMAT[@]} ${YTDLP_MERGE[@]} )
+  cmd+=( --download-sections "$section" )
+  [[ -f $ck ]] && cmd+=( --cookies "$ck" )
+  "${cmd[@]}" "$url"
+}
+
+
 # ── Format Picker (full list, max‑quality defaults) ─────────
 ytf(){
   local url=$1
@@ -99,6 +109,24 @@ ytf(){
   [[ -f $ck ]] && dl+=( --cookies "$ck" )
   "${dl[@]}" "$url"
 }
+
+ytf_section(){
+  local url=$1 section=$2
+  validate_url "$url" || { BUG "ytf_section: bad URL"; return 1; }
+  local dom=$(get_domain_from_url "$url") ck=$(get_cookie "$dom")
+  local -a listcmd=( yt-dlp -F ${YTDLP_SAFETY[@]} ${YTDLP_MAX_SORT[@]} )
+  [[ -f $ck ]] && listcmd+=( --cookies "$ck" )
+  local format_line fid
+  format_line=$("${listcmd[@]}" "$url" | fzf --ansi --prompt="🎞 Select format for section: ") || return 1
+  fid=$(awk '{print $1}' <<< "$format_line")
+  [[ -z $fid || $fid == 'ID' ]] && { ytdl_section "$url" "$section"; return; }
+  GLOW "Selected format: $fid"
+  local -a dl=( yt-dlp ${YTDLP_BASE[@]} ${YTDLP_EDL[@]} ${YTDLP_SAFETY[@]} ${YTDLP_MERGE[@]} -f "$fid+bestaudio/$fid/best" )
+  dl+=( --download-sections "$section" )
+  [[ -f $ck ]] && dl+=( --cookies "$ck" )
+  "${dl[@]}" "$url"
+}
+
 
 # ── SABR helpers ────────────────────────────────────────────
 # Lists only SABR-labeled formats when visible; falls back to full list if none.
@@ -137,13 +165,14 @@ ytdl_sabr(){
 # ── Main Command ────────────────────────────────────────────
 ytdlc(){
   (( $# )) || { show_ytdlc_help; return 1; }
-  local list=0 odir="/sto2" upd=0 sabr=0
+  local list=0 odir="/sto2" upd=0 sabr=0 section=""
   local -a extra urls
   while (( $# )); do
     case $1 in
       -l|--list-formats) list=1 ;;
       --sabr)            sabr=1 ;;
       -o|--output-dir)   odir=$2; shift ;;
+      -s|--section)      section=$2; shift ;;
       --update)          upd=1 ;;
       -f)                extra+=("$1" "$2"); shift ;;  # user format override
       -h|--help)         show_ytdlc_help; return 0 ;;
@@ -159,23 +188,38 @@ ytdlc(){
     validate_url "$url" || { BUG "Bad URL: $url"; continue; }
     [[ $url == *embed/* ]] && url="https://www.youtube.com/watch?v=${url##*/embed/}"
     local id=$(yt-dlp --get-id --no-playlist --ignore-config "$url" 2>/dev/null)
-    [[ -z "$id" ]] && { BUG "Could not extract ID"; continue; }
-    if grep -qxF "$id" "$archive"; then INFO "Already downloaded: $id"; continue; fi
+    [[ -z "$id" ]] && { BUG "Could not extract ID for $url"; continue; }
+    
+    local archive_id="$id"
+    [[ -n "$section" ]] && archive_id="${id}_${section}"
+    if grep -qxF "$archive_id" "$archive"; then INFO "Already downloaded: $archive_id"; continue; fi
 
     cd -- "$odir" || { BUG "Cannot cd to $odir"; continue; }
 
+    # --- Section Download Path ---
+    if [[ -n "$section" ]]; then
+      if (( list )); then
+        ytf_section "$url" "$section"
+      else
+        ytdl_section "$url" "$section"
+      fi
+      [[ $? -eq 0 ]] && echo "$archive_id" >> "$archive" || BUG "Section download failed: $url"
+      continue
+    fi
+
+    # --- SABR Download Path ---
     if (( sabr )); then
       if (( list )); then ytf_sabr "$url"; else ytdl_sabr "$url"; fi
       [[ $? -eq 0 ]] && echo "$id" >> "$archive" || BUG "SABR download failed: $url"
       continue
     fi
 
+    # --- Standard Download Path ---
     if (( list )); then
       ytf "$url"
       continue
     fi
 
-    # Standard path: allow -f override but keep our max-quality fallbacks
     if (( ${#extra[@]} )); then
       local dom=$(get_domain_from_url "$url") ck=$(get_cookie "$dom")
       local -a cmd=( yt-dlp ${YTDLP_BASE[@]} ${YTDLP_EDL[@]} ${YTDLP_SAFETY[@]} ${YTDLP_MERGE[@]} ${extra[@]} )
@@ -193,9 +237,10 @@ cat <<'USAGE'
 ytdlc – cookie-aware yt-dlp wrapper
   -l | --list-formats        list formats (fzf-select). Respects SABR when --sabr is used
        --sabr                enable SABR mode (uses formats=duplicate, check-formats)
+  -s | --section "RANGE"     download a specific section, e.g., "*START-END"
   -o | --output-dir DIR      set output directory
        --update              interactively refresh cookie
-  -f ID/EXPR                 pass -f to yt-dlp (overrides auto format), e.g. "bv*[height>=2160]+ba/b"
+  -f ID/EXPR                 pass -f to yt-dlp (overrides auto format), e.g., "bv*[height>=2160]+ba/b"
   -h | --help                this help
 
 Defaults:

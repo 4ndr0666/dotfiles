@@ -718,7 +718,7 @@ chrootuser() {
 alias update-grub2='sudo grub-install ... && sudo grub-mkconfig -o /boot/grub/grub.cfg'
 #alias grub-mkconfig='sudo grub-mkconfig -o /boot/grub/grub.cfg'
 alias iotop='sudo iotop -o'
-alias pathadd='export PATH=/home/andro/.local/bin:/home/git/clone/4ndr0666/scr:$PATH'
+
 alias whatkernel="ls /usr/lib/modules"
 alias whatsrunning='systemctl -t service -a --state running --no-page --no-legend'
 alias fixnvm='nvm use --delete-prefix v22.13.0 --silent'
@@ -759,15 +759,14 @@ alias kp='sudo killall -9 xdg-desktop-portal xdg-desktop-portal-gtk xdg-desktop-
 #    echo "$1 is not a directory."
 #}
 
-## Program Specific__________________________________________________________________________________
+# --- Program Specific ---
 
-### Zathura
+# Zathura
 alias z='zathura --fork'
 
-### Bat
-### Instead of `cmd --help` do `help cmd`:
 
-alias bathelp='bat --plain --language=help'
+# BAT
+alias bathelp='bat --plain --language=help' #Instead of `cmd --help` do `help cmd`:
 
 help() {
     "$@" --help >/dev/null 2>&1 || "$@" -h >/dev/null 2>&1 | bathelp
@@ -775,31 +774,26 @@ help() {
 
 alias man='batman'
 
-### Parses git syntax
-
 batdiff() {
     git diff --name-only --relative --diff-filter=d | xargs bat --diff
-}
+} #Parses git syntax
 
-### Pipe to less
+alias batl='bat | less' #Pipe to less
 
-alias batl='bat | less'
 
-## Lf
-
+# LF
 alias lf='lfub'
 alias ref='shortcuts >/dev/null; source ${XDG_CONFIG_HOME:-$HOME/.config}/shellz/shortcutrc; source ${XDG_CONFIG_HOME:-$HOME/.config}/shellz/shortcutenvrc; source ${XDG_CONFIG_HOME:-$HOME/.config}/shellz/zshnameddirrc'
 
-## Wf-recorder
-
+# WF-RECORDER
 #alias screenrecord="wf-recorder -a"
 #alias screenrecord2="wf-recorder -a -c h264_vaapi -C aac -d /dev/dri/renderD128 --file=recording.mp4"
 
-## FZF
 
-### Select files from dir and edit
+# FZF
 
 fzscr() {
+    # This function allows you to edit file in a dir you set
     local dir="${1:-/home/git/clone/4ndr0666/scr}"
     local choice
     choice=$(find "$dir" -mindepth 1 \( -type d -o -executable -type f \) \
@@ -818,12 +812,12 @@ fzscr() {
     fi
 }
 
-## Kmon
 
+# Kmon
 alias kmon='sudo kmon --color blue --accent-color 15FFFF --unicode'
 
-## The Silver Searcher
 
+# The Silver Searcher
 ags() {
     if [ "$#" -ne 2 ]; then
         echo "Usage: ags <filename> <search_term>"
@@ -832,23 +826,12 @@ ags() {
     ag --group --stats --color "$2" "$1" | less -R
 }
 
-## FD
-
-### Fd plus hidden minus .git
-
-alias fd='fd --hidden --follow --exclude ".git"'
-
-### Fd plus hidden
-
-alias fdh='fd --hidden --follow'
-
-### Fd 1 level deep
-
-alias fd1='fd --exact-depth=1 --hidden --follow --exclude ".git"'
-
-### Fd with configurable options
-
+# FD
+alias fd='fd --hidden --follow --exclude ".git"' # Fd plus hidden minus .git
+alias fdh='fd --hidden --follow' # Fd plus hidden
+alias fd1='fd --exact-depth=1 --hidden --follow --exclude ".git"' # Fd 1 level deep
 fdde() {
+    # Fd with configurable options
     local case_flag=""
     local depth_flag=""
 
@@ -873,11 +856,10 @@ fdde() {
     fd $case_flag $depth_flag --glob "$1"
 }
 
-## Nxsiv
 
-### Create thumbnails of all vids in a dir
-
+# NSXIV
 vidt() {
+    # Creates thumbnails of all vids in a dir
     local thumb_dir="$HOME/.cache/video_thumbs"
     mkdir -p "$thumb_dir"
 
@@ -903,8 +885,8 @@ vidt() {
     nsxiv -t "$thumb_dir"
 }
 
-## Expressvpn Legacy
 
+# Expressvpn Legacy
 vpnstrict() {
 	sudo expressvpn disconnect || echo "cound not disconnect" exit 1
 	sudo expressvpn refresh || echo "cound not refresh" continue
@@ -923,8 +905,8 @@ alias vpnl='sudo expressvpn list'
 alias vpnblock='sudo expressvpn preferences set block_all false'
 alias vpnproto='sudo expressvpn protocol lightway_tcp'
 
-## Expressvpn Universal App
 
+# Expressvpn Universal App
 #alias vpnc='expressvpnctl connect'
 #alias vpnd='expressvpnctl disconnect'
 #alias vpns='expressvpnctl get vpnip && expressvpnctl status'
@@ -946,28 +928,41 @@ alias vpnproto='sudo expressvpn protocol lightway_tcp'
 ## -------------- Fuck The GUI -------------- ##
 #alias vpncli='expressvpnctl background enable'
 
-## Nvim
 
+# Nvim
 [ -x "$(command -v nvim)" ] && alias vim="nvim" vimdiff="nvim -d"
 alias magit="nvim -c MagitOnly"
 
-## UFW
 
+# UFW
 alias ufwd='sudo ufw disable'
 alias ufws='sudo ufw status'
 ufwr() {
+    # This function will "reset" ufw to default rules
     if yes | sudo ufw reset; then :; else echo "Failed to reset ufw"; fi
     sudo ufw default deny incoming || { echo "Failed to set default deny incoming"; return 1; }
     sudo ufw default allow outgoing || { echo "Failed to set default allow outgoing"; return 1; }
     sudo ufw enable || { echo "Failed to enable ufw"; return 1; }
 }
 
-## Micro
+ufwrs0n() {
+    # This allows the rs0n framework port access
+    sudo ufw allow ssh
+    sudo ufw allow 80/tcp             # Allow HTTP access to the frontend
+    sudo ufw allow 3000/tcp           # rs0n port
+    sudo ufw allow 8443/tcp           # Allow HTTPS access to the backend API
+    sudo ufw allow 5432/tcp           # PostgreSQL
+    sudo ufw allow from 172.17.0.0/16 # Allow all traffic from the default Docker network
+    sudo ufw default allow outgoing
+    sudo ufw --force enable
+    echo "[SUCCESS] UFW configured for rs0n."
+}
 
+
+# Micro
 alias sm='sudo micro'
 
-## Bleachbit
-
+# Bleachbit
 alias bleachcache='sudo bleachbit --clean system.cache system.localizations system.trash ; sudo paccache -vrk 2 || return 0'
 alias bleachchrome='bleachbit --clean chromium.cache chromium.dom thumbnails.cache'
 
@@ -1007,30 +1002,14 @@ alias fixntp='sudo ntpd -qg && sleep 10 && sudo hwclock -w'
 ## Clipboard
 
 alias paste='wl-paste'
-#alias copy='wl-copy <'
-copy() {
-    # Check if stdin is a terminal (i.e., not being piped to) AND a file argument is provided.
-    if [ -t 0 ] && [ -n "$1" ]; then
-        if [ -f "$1" ]; then
-            # If so, redirect the file's content into wl-copy.
-            wl-copy < "$1"
-        else
-            # Error if the file doesn't exist.
-            echo "copy: file not found: '$1'" >&2
-            return 1
-        fi
-    else
-        # If no file argument is given, or if data is being piped in (e.g., ls | copy),
-        # then copy directly from stdin.
-        wl-copy
-    fi
-}
+alias copy='wl-copy <'
 #paste_cmd() {
 #    wl-paste | "$@"
 #}
-#function_copy() {
+#copy_cmd() {
 #    "$@" | wl-copy
 #}
+#alias copy='wl-copy <'
 
 ## BTRFS
 

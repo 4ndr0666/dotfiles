@@ -97,31 +97,339 @@ graphicstest() {
 	glxinfo | grep "OpenGL renderer"
 }
 
-# Browser History: Press `c` to browse Chromes web history__________
+# BKUP: Smart and configurable backup function_________________
+backup_directory="/Nas/Backups/bkup"
+check_bkup_dependencies() {
+  local deps=(tar zstd fzf realpath)
+  for cmd in "${deps[@]}"; do
+    if ! command -v $cmd &>/dev/null; then
+      print_message ERROR "Dependency '$cmd' is not installed."
+      return 1
+    fi
+  done
+  return 0
+}
+
+load_bkup_config() {
+  local cfgdir="$HOME/.config/bkup"
+  mkdir -p "$cfgdir"
+  local cfg="$cfgdir/.bkup_config"
+  if [[ -f $cfg ]]; then
+    source "$cfg"
+  else
+    BACKUP_DIR="${backup_directory:-/Nas/Backups/bkup}"
+  fi
+}
+
+set_backup_dir() {
+  read "?Enter backup directory path: " newdir
+  if [[ -z $newdir ]]; then
+    print_message WARNING "Backup directory cannot be empty."
+    return
+  fi
+  mkdir -p "$newdir" || {
+    print_message ERROR "Cannot create '$newdir'."
+    return 1
+  }
+  print "BACKUP_DIR=\"$newdir\"" > "$HOME/.config/bkup/.bkup_config"
+  print_message SUCCESS "Backup directory set to '$newdir'."
+}
+
+perform_backup_move() {
+  local mode=$1; shift
+  local targets=("$@")
+  (( ${#targets} )) || { print_message ERROR "No targets specified."; return 1 }
+
+  mkdir -p "$BACKUP_DIR"
+  for tgt in "${targets[@]}"; do
+    if [[ ! -e $tgt ]]; then
+      print_message WARNING "Skipping non‑existent '$tgt'."
+      continue
+    fi
+
+    local base=$(basename -- "$tgt")
+    local stamp=$(date -u +"%Y%m%dT%H%M%SZ")
+    local archive="${BACKUP_DIR}/${base}-${stamp}.tar.zst"
+
+    # Interactive exclusion for directories
+    local exclude_opts=()
+    if [[ -d $tgt ]]; then
+      print_message INFO "Select exclusions from '$tgt' (⇢ Tab to multi‑select):"
+      local raw=("${(@f)$(find "$tgt" -maxdepth 1 -mindepth 1 | fzf -m --prompt="Exclude: " --height=40%)}")
+      for ex in $raw; do
+        local rel=$(realpath --relative-to="$tgt" "$ex")
+        exclude_opts+=("--exclude=$rel")
+      done
+    fi
+
+    print_message INFO "$([[ $mode == copy ]] && print $COPY_ICON || print $MOVE_ICON) Archiving '$tgt' → '$archive'..."
+    tar -I zstd "${exclude_opts[@]}" -cf "$archive" -C "$(dirname -- "$tgt")" "$(basename -- "$tgt")" > /dev/null 2>&1 \
+      && {
+        print_message SUCCESS "Created '$archive'."
+        if [[ $mode == move ]]; then
+          rm -rf -- "$tgt" \
+            && print_message SUCCESS "Removed original '$tgt'." \
+            || print_message ERROR "Failed to remove '$tgt'."
+        fi
+      } || {
+        print_message ERROR "Failed to archive '$tgt'."
+        rm -f -- "$archive"
+      }
+  done
+}
+
+remove_backups() {
+  local remove_all=false verbose=false
+  typeset -i OPTIND=1
+  while getopts "av" opt; do
+    case $opt in
+      a) remove_all=true ;;
+      v) verbose=true     ;;
+      *) ;;
+    esac
+  done
+  shift $((OPTIND-1))
+
+  mkdir -p "$BACKUP_DIR"
+
+  if $remove_all; then
+    print_message WARNING "Remove ALL backups in '$BACKUP_DIR'? (y/N) "
+    read confirmation
+    if [[ $confirmation =~ ^[Yy]$ ]]; then
+      rm -rf -- "${BACKUP_DIR:?}/"* \
+        && print_message SUCCESS "All backups removed." \
+        || print_message ERROR "Failed to remove all backups."
+    else
+      print_message INFO "Aborted."
+    fi
+    return
+  fi
+
+  (( $# )) || { print_message ERROR "No backup names given."; return 1 }
+  for name in "$@"; do
+    local pattern="${BACKUP_DIR}/${name}_*.tar.zst"
+    local matches=(${~pattern})
+    if (( ${#matches} )); then
+      for f in $matches; do
+        rm -f -- "$f" \
+          && $verbose && print_message SUCCESS "Removed '$f'." \
+          || $verbose && print_message ERROR "Failed to remove '$f'."
+      done
+    else
+      $verbose && print_message WARNING "No backups match '$name'."
+    fi
+  done
+}
+
+display_bkup_menu() {
+  print -P "%B%UBackup Utility Menu%u%b"
+  print "1) Create Backup"
+  print "2) Move to Backup"
+  print "3) Remove Backups"
+  print "4) Set Backup Directory"
+  print "5) Exit"
+}
+
+bkup() {
+  check_bkup_dependencies || return 1
+  load_bkup_config
+
+  if (( $# == 0 )); then
+    while true; do
+      display_bkup_menu
+      read "?Choose [1-5]: " choice
+      case $choice in
+        1) read -A t; perform_backup_move copy "${t[@]}" ;;
+        2) read -A t; perform_backup_move move "${t[@]}" ;;
+        3)
+          print " a) All   b) Specific"
+          read "?Remove all or specific? [a/b]: " c
+          case $c in
+            a) remove_backups -a -v ;;
+            b) read -A r; remove_backups -v "${r[@]}" ;;
+            *) print_message WARNING "Invalid choice";;
+          esac
+          ;;
+        4) set_backup_dir ;;
+        5) print_message INFO "Goodbye!"; break ;;
+        *) print_message WARNING "Choose 1–5.";;
+      esac
+      print ""
+    done
+    return 0
+  fi
+
+  ### CLI flags
+  local mode=copy show_help=false verbose=false remove_all=false compress=true
+  typeset -i OPTIND=1
+  while getopts "hcmravz" opt; do
+    case $opt in
+      h) show_help=true    ;;
+      c) mode=copy         ;;
+      m) mode=move         ;;
+      r) mode=remove       ;;
+      a) remove_all=true   ;;
+      v) verbose=true      ;;
+      z) compress=true     ;;
+      *) show_help=true    ;;
+    esac
+  done
+  shift $((OPTIND-1))
+
+  if $show_help || ([[ $mode != remove && $# -eq 0 ]]); then
+    cat <<EOF
+Usage: bkup [-h] [-c|-m|-r] [-a] [-v] [FILES...]
+
+  -h    Display this help text.
+  -c    Create a backup (default).
+  -m    Move the file/folder to backup after archiving.
+  -r    Remove backups of the specified file or directory.
+  -a    Remove all backups in the backup directory (used with -r).
+  -v    Enable verbose output.
+
+EOF
+    return 0
+  fi
+
+  case $mode in
+    copy|move)
+      perform_backup_move $mode "$@" ;;
+    remove)
+      remove_backups ${remove_all:+-a} ${verbose:+-v} "$@" ;;
+    *) print_message ERROR "Invalid mode selected.";;
+  esac
+}
+
+
+# === Browser History ===
+#
+# Press `c` to browse Chromes web history
+# braveh: Interactively search and open items from your browser history.
+# braveb: Open a random bookmark from a specified folder.
+#
 braveh() {
   emulate -L zsh
   setopt extended_glob
-  # Determine column width for title preview
+
+  # REVISION: Auto-detect Brave profile path for greater flexibility.
+  local brave_profile_path
+  if [[ -d "$HOME/.config/BraveSoftware/Brave-Browser/Default" ]]; then
+    brave_profile_path="$HOME/.config/BraveSoftware/Brave-Browser/Default"
+  elif [[ -d "$HOME/.config/BraveSoftware/Brave-Browser-Beta/Default" ]]; then
+    brave_profile_path="$HOME/.config/BraveSoftware/Brave-Browser-Beta/Default"
+  else
+    echo "ERROR: Could not find a default Brave profile directory." >&2
+    return 1
+  fi
+
+  local history_db="${brave_profile_path}/History"
+  local tmp_db="/tmp/brave_history_${UID}.db" # REVISION: User-specific tmp file
+  local open_cmd="xdg-open"
   local cols=$(( COLUMNS / 3 ))
   local sep='{::}'
-  local history_db="$HOME/.config/BraveSoftware/Brave-Browser-Beta/Default/History"
-  local tmp_db="/tmp/brave_history.db"
-  local open_cmd="xdg-open"
+
+  # Check for dependencies
+  for cmd in sqlite3 awk fzf sed xargs; do
+    if ! command -v "$cmd" &>/dev/null; then
+      echo "ERROR: Missing dependency: $cmd" >&2
+      return 1
+    fi
+  done
 
   # Copy the locked SQLite DB for safe querying
   cp -f -- "$history_db" "$tmp_db"
+  # REVISION: Ensure tmp file is cleaned up on exit/interrupt.
+  trap 'rm -f -- "$tmp_db"' EXIT
 
   # Query title and URL, preview and allow selection
-  sqlite3 -separator $sep "$tmp_db" \
+  sqlite3 -separator "$sep" "$tmp_db" \
     "SELECT substr(title,1,$cols), url FROM urls ORDER BY last_visit_time DESC;" 2>/dev/null \
-  | awk -F "$sep" '{printf "%-'"$cols"'s  \x1b[36m%s\x1b[m\n", $1, $2}' \
+  | awk -F "$sep" -v cols="$cols" '{printf "%-*s  \x1b[36m%s\x1b[m\n", cols, $1, $2}' \
   | fzf --ansi --multi \
-        --prompt="Brave Beta History> " \
+        --prompt="Brave History> " \
         --preview-window=right:50% \
         --preview 'echo {} | sed -E "s/^.{'"$cols"'}//"' \
   | sed -E 's#.*(https?://.*)$#\1#' \
-  | xargs -r -d '\n' $open_cmd >/dev/null 2>&1
+  | xargs -r -d '\n' "$open_cmd" >/dev/null 2>&1
 }
+
+# braveb (Random Bookmark Launcher)
+braveb() {
+  emulate -L zsh
+
+  # REVISION: Define the target folder via an argument, with a default.
+  local folder_name="${1:-Read Later}"
+
+  # REVISION: Auto-detect Brave profile path.
+  local brave_profile_path
+  if [[ -d "$HOME/.config/BraveSoftware/Brave-Browser/Default" ]]; then
+    brave_profile_path="$HOME/.config/BraveSoftware/Brave-Browser/Default"
+  elif [[ -d "$HOME/.config/BraveSoftware/Brave-Browser-Beta/Default" ]]; then
+    brave_profile_path="$HOME/.config/BraveSoftware/Brave-Browser-Beta/Default"
+  else
+    echo "ERROR: Could not find a default Brave profile directory." >&2
+    return 1
+  fi
+
+  # REVISION: Data source is the Bookmarks JSON file.
+  local bookmarks_file="${brave_profile_path}/Bookmarks"
+  local open_cmd="xdg-open"
+
+  # Check for dependencies
+  for cmd in jq shuf; do
+    if ! command -v "$cmd" &>/dev/null; then
+      echo "ERROR: Missing dependency: $cmd" >&2
+      return 1
+    fi
+  done
+
+  [[ ! -f "$bookmarks_file" ]] && echo "ERROR: Bookmarks file not found." >&2 && return 1
+
+  # REVISION: Use `jq` to query the JSON and `shuf` to select one randomly.
+  local random_url
+  random_url=$(jq -r --arg FOLDERNAME "$folder_name" '
+      .roots.bookmark_bar.children[]
+      | select(.type == "folder" and .name == $FOLDERNAME)
+      | .children[]
+      | select(.type == "url")
+      | .url
+    ' "$bookmarks_file" | shuf -n 1)
+
+  # REVISION: Add robust error handling in case the folder or URL is not found.
+  if [[ -z "$random_url" ]]; then
+    echo "ERROR: No URLs found in folder '$folder_name'. Check spelling and case." >&2
+    return 1
+  fi
+
+  echo "Opening random bookmark from '$folder_name':"
+  echo "-> \x1b[36m$random_url\x1b[m"
+  "$open_cmd" "$random_url" >/dev/null 2>&1
+}
+
+#braveh() {
+#  emulate -L zsh
+#  setopt extended_glob
+#  # Determine column width for title preview
+#  local cols=$(( COLUMNS / 3 ))
+#  local sep='{::}'
+#  local history_db="$HOME/.config/BraveSoftware/Brave-Browser-Beta/Default/History"
+#  local tmp_db="/tmp/brave_history.db"
+#  local open_cmd="xdg-open"
+#
+#  # Copy the locked SQLite DB for safe querying
+#  cp -f -- "$history_db" "$tmp_db"
+#
+#  # Query title and URL, preview and allow selection
+#  sqlite3 -separator $sep "$tmp_db" \
+#    "SELECT substr(title,1,$cols), url FROM urls ORDER BY last_visit_time DESC;" 2>/dev/null \
+#  | awk -F "$sep" '{printf "%-'"$cols"'s  \x1b[36m%s\x1b[m\n", $1, $2}' \
+#  | fzf --ansi --multi \
+#        --prompt="Brave Beta History> " \
+#        --preview-window=right:50% \
+#        --preview 'echo {} | sed -E "s/^.{'"$cols"'}//"' \
+#  | sed -E 's#.*(https?://.*)$#\1#' \
+#  | xargs -r -d '\n' $open_cmd >/dev/null 2>&1
+#}
 
 # Copypath: Copies the absolute path of a file_____________________
 cpath() {
@@ -657,24 +965,27 @@ typeset -gUa DIR_HISTORY_FORWARD
 typeset -g _DIR_HISTORY_NAVIGATING
 
 chpwd() {
-    # If the directory hasn't actually changed, do nothing.
-    # This prevents redundant entries when doing `cd .` or cd-ing to a symlink
-    # that points to the current directory.
-    if [[ "$PWD" == "$OLDPWD" ]]; then
-        return
-    fi
+# If the directory hasn\'t actually changed, do nothing.
+# This prevents redundant entries when doing `cd .` or cd-ing to a symlink
+# that points to the current directory.
+if [[ "$PWD" == "$OLDPWD" ]]; then
+    return
+fi
 
-    # If the change was NOT initiated by our back() or forward() functions,
-    # it's a new navigation path.
-    if [[ -z "$_DIR_HISTORY_NAVIGATING" ]]; then
-        # Add the previous directory to the back history.
+# If the change was NOT initiated by our back() or forward() functions,
+# it\'s a new navigation path.
+if [[ -z "$_DIR_HISTORY_NAVIGATING" ]]; then
+    # Add the previous directory to the back history.
+    # Ensure OLDPWD is a valid directory before adding to prevent issues with malformed paths.
+    if [[ -d "$OLDPWD" ]]; then
         DIR_HISTORY_BACK+=("$OLDPWD")
-        # A new navigation path invalidates the forward history.
-        DIR_HISTORY_FORWARD=()
     fi
+    # A new navigation path invalidates the forward history.
+    DIR_HISTORY_FORWARD=()
+fi
 
-    # Unset the state flag after every run to reset the state.
-    unset _DIR_HISTORY_NAVIGATING
+# Unset the state flag after every run to reset the state.
+unset _DIR_HISTORY_NAVIGATING
 }
 
 # back: Go to the previous directory in the history.
@@ -1309,30 +1620,50 @@ function termbin() {
 # Description: extractor for all kinds of archives
 # Usage: ex <file>
 # ----------------------------
-xt ()
-{
-  if [ -f $1 ] ; then
-    case $1 in
-      *.tar.bz2)   tar xjf $1   ;;
-      *.tar.gz)    tar xzf $1   ;;
-      *.bz2)       bunzip2 $1   ;;
-      *.rar)       unrar x $1   ;;
-      *.gz)        gunzip $1    ;;
-      *.tar)       tar xf $1    ;;
-      *.tbz2)      tar xjf $1   ;;
-      *.tgz)       tar xzf $1   ;;
-      *.zip)       unzip $1     ;;
-      *.Z)         uncompress $1;;
-      *.7z)        7z x $1      ;;
-      *.deb)       ar x $1      ;;
-      *.tar.xz)    tar xf $1    ;;
-      *.tar.zst)   tar xf $1    ;;
-      *)           echo "'$1' cannot be extracted via ex()" ;;
-    esac
-  else
-    echo "'$1' is not a valid file"
+xt() {
+  # Check if any arguments were provided.
+  if [[ $# -eq 0 ]]; then
+    print -u2 "Usage: xt <file1> [file2] ..."
+    return 1
   fi
+
+  # Loop through each argument provided to the function.
+  for file in "$@"; do
+    # Check if the argument is a regular file.
+    if [[ ! -f "$file" ]]; then
+      print -u2 "xt: '$file' is not a valid file."
+      continue # Skip to the next file.
+    fi
+
+    print -- "--> Extracting '$file'..."
+    # Use a case statement to determine the file type and extract it.
+    # All variables are quoted to handle filenames with spaces or special characters.
+    case "$file" in
+      *.tar.bz2|*.tbz2) tar xjf "$file" ;;
+      *.tar.gz|*.tgz)   tar xzf "$file" ;;
+      *.tar.xz)         tar xJf "$file" ;;
+      *.tar.zst)        tar --use-compress-program=unzstd -xf "$file" ;;
+      *.zip|*.jar)      unzip "$file" ;;
+      *.rar)            unrar x "$file" ;;
+      *.7z)             7z x "$file" ;;
+      *.bz2)            bunzip2 "$file" ;;
+      *.gz)             gunzip "$file" ;;
+      *.tar)            tar xf "$file" ;;
+      *.Z)              uncompress "$file" ;;
+      *.deb)            ar x "$file" ;;
+      *)
+        print -u2 "xt: Don't know how to extract '$file'."
+        return 1 # Return a non-zero status for unknown file types
+        ;;
+    esac
+
+    # Check the exit status of the last command
+    if [[ $? -ne 0 ]]; then
+        print -u2 "xt: An error occurred while extracting '$file'."
+    fi
+  done
 }
+
 
 ### Custom extraction functions for archive and other compressed files:
 #xt() {

@@ -31,14 +31,16 @@ cache_file="${XDG_CACHE_HOME:-$HOME/.cache}/dynamic_scr_dirs.list"
 scr_root='/home/git/clone/4ndr0666/scr'
 
 if [ -d "$scr_root" ]; then
+  # Check if cache needs to be rebuilt (missing or scr_root is newer)
   if [ ! -f "$cache_file" ] || [ "$scr_root" -nt "$cache_file" ]; then
-	echo "sh: Rebuilding dynamic script path cache..." >&2
-        find "$scr_root" -type d -not -path '*/.git/*' > "$cache_file"
-  fi
-
-  if [ -r "$cache_file" ]; then
-        cached_dirs=$(tr '\n' ';' < "$cache_file" | sed 's/:$//')
-        PATH="$PATH:$cached_dirs"
+    # Call the function from .zshrc to rebuild and update PATH
+    update_scr_path
+  else
+    # If cache is valid, just read it and update PATH
+    if [ -r "$cache_file" ]; then
+      local cached_dirs=$(tr '\n' ':' < "$cache_file" | sed 's/:$//')
+      export PATH="$PATH:$cached_dirs"
+    fi
   fi
 fi
 

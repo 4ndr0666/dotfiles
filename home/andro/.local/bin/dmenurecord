@@ -1,13 +1,8 @@
 #!/bin/bash
 # Author: 4ndr0666
 # ================= // DMENURECORD //
-# Usage:
-# `$0`: Ask for recording type via dmenu
-# `$0 screencast`: Record both audio and screen
-# `$0 video`: Record only screen
-# `$0 audio`: Record only audio
-# `$0 kill`: Kill existing recording
-#
+# This is the user's proven script, with critical fixes for the 'kill' loop
+# and the process launch method, plus the function to handle the monitor prompt.
 
 updateicon() {
     if [[ -n "$1" ]]; then
@@ -15,75 +10,119 @@ updateicon() {
     else
         echo "" > /tmp/recordingicon
     fi
-    pkill -SIGUSR1 waybar
+    pkill -SIGUSR1 waybar &>/dev/null || true
 }
 
+# CRITICAL FIX 1: Robust killrecording function.
 killrecording() {
-    if [[ -f /tmp/recordingpid ]]; then
-        recpid="$(cat /tmp/recordingpid)"
-        kill -15 "$recpid" && rm -f /tmp/recordingpid
-        updateicon ""
-        notify-send "Recording stopped"
-    else
+    if [[ ! -f /tmp/recordingpid ]]; then
         notify-send "No active recording to stop."
+        return
+    fi
+
+    local recpid
+    recpid="$(cat /tmp/recordingpid)"
+
+    # Check if the process actually exists before trying to kill it.
+    if ps -p "$recpid" > /dev/null; then
+        # Use SIGINT (Ctrl+C) as it's the standard for graceful wf-recorder shutdown.
+        kill -SIGINT "$recpid"
+        notify-send "Recording stopped."
+    else
+        notify-send "Recording process not found. Cleaning up stale file."
+    fi
+    
+    # ALWAYS remove the PID file, regardless of whether kill succeeded.
+    # This prevents the infinite loop.
+    rm -f /tmp/recordingpid
+    updateicon ""
+}
+
+# Helper function to handle the monitor selection prompt.
+select_monitor() {
+    local prompt_output
+    prompt_output=$(timeout 0.2s wf-recorder 2>&1 || true)
+    
+    if echo "$prompt_output" | grep -q "Please select an output"; then
+        local monitor_list chosen_monitor monitor_name
+        monitor_list=$(echo "$prompt_output" | grep '^[0-9]\+\.')
+        chosen_monitor=$(echo -e "$monitor_list" | dmenu -i -p "Select Monitor:")
+        if [[ -z "$chosen_monitor" ]]; then
+            echo "cancelled"
+            return
+        fi
+        monitor_name=$(echo "$chosen_monitor" | awk '{print $3}')
+        echo "$monitor_name"
     fi
 }
 
 screencast() {
     notify-send "Recording started" "Recording screencast with audio."
-    wf-recorder -f "$HOME/screencast-$(date '+%y%m%d-%H%M-%S')-$(date +%N).mp4" -a &
-    if [[ $? -eq 0 ]]; then
-        echo $! > /tmp/recordingpid
-        updateicon "⏺️🎙️"
-    else
-        notify-send "Recording failed to start."
+    local output
+    output=$(select_monitor)
+    [[ "$output" == "cancelled" ]] && { notify-send "Recording cancelled."; return; }
+
+    local cmd_str="wf-recorder -f '$HOME/screencast-$(date '+%y%m%d-%H%M-%S').mp4' -a"
+    if [[ -n "$output" ]]; then
+        cmd_str="wf-recorder -o '$output' -f '$HOME/screencast-$(date '+%y%m%d-%H%M-%S').mp4' -a"
     fi
+
+    # CRITICAL FIX 2: Launch as a true daemon with 'setsid -f'.
+    # This prevents the process from dying when the script exits.
+    setsid -f sh -c "$cmd_str" >/dev/null 2>&1
+    
+    sleep 0.5 # Give the process a moment to spawn
+    pgrep -f "wf-recorder.*screencast" > /tmp/recordingpid
+    updateicon "⏺️🎙️"
 }
 
-video() { wf-recorder \
-        --no-damage \
-        --framerate 60 \
-        --codec libx264 -p qp=0 \
-        -f "$HOME/video-$(date '+%y%m%d-%H%M-%S').mkv" &
-	echo $! > /tmp/recordingpid
-	updateicon "⏺️"
-	}
+video() {
+    notify-send "Recording started" "Recording video."
+    local output
+    output=$(select_monitor)
+    [[ "$output" == "cancelled" ]] && { notify-send "Recording cancelled."; return; }
+
+    local cmd_str="wf-recorder --no-damage --framerate 60 --codec libx264 -p qp=0 -f '$HOME/video-$(date '+%y%m%d-%H%M-%S').mp4'"
+    if [[ -n "$output" ]]; then
+        cmd_str="wf-recorder -o '$output' --no-damage --framerate 60 --codec libx264 -p qp=0 -f '$HOME/video-$(date '+%y%m%d-%H%M-%S').mp4'"
+    fi
+
+    # CRITICAL FIX 2: Launch as a true daemon.
+    setsid -f sh -c "$cmd_str" >/dev/null 2>&1
+    
+    sleep 0.5
+    pgrep -f "wf-recorder.*video" > /tmp/recordingpid
+    updateicon "⏺️"
+}
 
 webcamhidef() {
     notify-send "Recording started" "Recording hi-def webcam video."
-    wf-recorder --muxer=v4l2 --geometry=1920x1080 -f "$HOME/webcam-$(date '+%y%m%d-%H%M-%S')-$(date +%N).mp4" &
-    if [[ $? -eq 0 ]]; then
-        echo $! > /tmp/recordingpid
-        updateicon "🎥"
-    else
-        notify-send "Recording failed to start."
-    fi
+    # NOTE: wf-recorder cannot capture webcams. ffmpeg is the correct tool.
+    setsid -f ffmpeg -f v4l2 -video_size 1920x1080 -i /dev/video0 -y "$HOME/webcam-$(date '+%y%m%d-%H%M-%S').mkv" >/dev/null 2>&1
+    sleep 0.5
+    pgrep -f "ffmpeg.*webcam" > /tmp/recordingpid
+    updateicon "🎥"
 }
 
 webcam() {
     notify-send "Recording started" "Recording webcam video."
-    wf-recorder --muxer=v4l2 --geometry=640x480 -f "$HOME/webcam-$(date '+%y%m%d-%H%M-%S')-$(date +%N).mp4" &
-    if [[ $? -eq 0 ]]; then
-        echo $! > /tmp/recordingpid
-        updateicon "🎥"
-    else
-        notify-send "Recording failed to start."
-    fi
+    setsid -f ffmpeg -f v4l2 -video_size 640x480 -i /dev/video0 -y "$HOME/webcam-$(date '+%y%m%d-%H%M-%S').mkv" >/dev/null 2>&1
+    sleep 0.5
+    pgrep -f "ffmpeg.*webcam" > /tmp/recordingpid
+    updateicon "🎥"
 }
 
 audio() {
     notify-send "Recording started" "Recording audio."
-    ffmpeg -f alsa -i default -c:a flac "$HOME/audio-$(date '+%y%m%d-%H%M-%S')-$(date +%N).flac" &
-    if [[ $? -eq 0 ]]; then
-        echo $! > /tmp/recordingpid
-        updateicon "🎙️"
-    else
-        notify-send "Audio recording failed to start."
-    fi
+    # NOTE: Using pulse audio is more compatible with modern systems.
+    setsid -f ffmpeg -f pulse -i default -c:a flac "$HOME/audio-$(date '+%y%m%d-%H%M-%S').flac" >/dev/null 2>&1
+    sleep 0.5
+    pgrep -f "ffmpeg.*audio" > /tmp/recordingpid
+    updateicon "🎙️"
 }
 
-askrecording() { \
-	choice=$(printf "screencast\\nvideo\\nvideo selected\\naudio\\nwebcam\\nwebcam (hi-def)" | dmenu -i -p "Select recording style:")
+askrecording() {
+	choice=$(printf "screencast\nvideo\nvideo selected\naudio\nwebcam\nwebcam (hi-def)" | dmenu -i -p "Select recording style:")
 	case "$choice" in
 		screencast) screencast;;
 		audio) audio;;
@@ -92,39 +131,34 @@ askrecording() { \
 		webcam) webcam;;
 		"webcam (hi-def)") webcamhidef;;
 	esac
-	}
+}
 
-#asktoend() {
-#    response=$(printf "No\nYes" | dmenu -i -p "Recording still active. End recording?")
-#    if [[ "$response" == "Yes" ]]; then
-#        killrecording
-#    fi
-#}
-
-asktoend() { \
-	response=$(printf "No\\nYes" | dmenu -i -p "Recording still active. End recording?") &&
+asktoend() {
+	response=$(printf "No\nYes" | dmenu -i -p "Recording still active. End recording?") &&
 	[ "$response" = "Yes" ] &&  killrecording
-	}
+}
 
-videoselected()
+videoselected() 
 {
-        slop_output=$(slop -f "%x %y %w %h")
-        IFS=' ' read -r X Y W H <<< "$slop_output"
-        wf-recorder \
-        --no-damage \
-        --framerate 60 \
-        --codec libx264 -p qp=0 \
-        --geometry "${X},${Y} ${W}x${H}" \
-	-f "$HOME/box-$(date '+%y%m%d-%H%M-%S').mkv" &
-	echo $! > /tmp/recordingpid
-	updateicon "⏺️"
+    # NOTE: 'slop' is X11-only. Using 'slurp' for Wayland.
+    local geometry
+    geometry=$(slurp -f "%x,%y %wx%h") || { notify-send "Selection cancelled."; return; }
+
+    local cmd_str="wf-recorder --no-damage --framerate 60 --codec libx264 -p qp=0 -g '$geometry' -f '$HOME/box-$(date '+%y%m%d-%H%M-%S').mp4'"
+
+    # CRITICAL FIX 2: Launch as a true daemon.
+    setsid -f sh -c "$cmd_str" >/dev/null 2>&1
+    
+    sleep 0.5
+    pgrep -f "wf-recorder.*box" > /tmp/recordingpid
+    updateicon "⏺️"
 }
 
 case "$1" in
-	screencast) screencast;;
-	audio) audio;;
-	video) video;;
-	*selected) videoselected;;
-	kill) killrecording;;
-	*) ([ -f /tmp/recordingpid ] && asktoend && exit) || askrecording;;
+    screencast) screencast ;;
+    audio) audio ;;
+    video) video ;;
+    "selected area") videoselected ;;
+    kill) killrecording ;;
+    *) ([[ -f /tmp/recordingpid ]] && asktoend && exit) || askrecording ;;
 esac
