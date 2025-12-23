@@ -248,7 +248,7 @@ fi
 #f.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel ${_JAVA_OPTIONS}"
 
 # --- FZF (default search command) ---
-export FZF_DEFAULT_COMMMAND='fd --no-ignore --hidden --follow --exclude ".git"'
+export FZF_DEFAULT_COMMAND='fd --no-ignore --hidden --follow --exclude ".git"'
 # Config
 export FZF_DEFAULT_OPTS="
   --layout=reverse
