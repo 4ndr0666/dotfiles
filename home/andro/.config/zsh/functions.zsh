@@ -353,14 +353,38 @@ braveh() {
   | xargs -r -d '\n' "$open_cmd" >/dev/null 2>&1
 }
 
-# braveb (Random Bookmark Launcher)
+# braveb — Random Bookmark Launcher from Brave
 braveb() {
   emulate -L zsh
 
-  # REVISION: Define the target folder via an argument, with a default.
-  local folder_name="${1:-Read Later}"
+  # ────────────────────────────────────────────────
+  #  Usage / Help
+  # ────────────────────────────────────────────────
+  if [[ $# -eq 0 || $1 = -h || $1 = --help ]]; then
+    cat <<-'EOF'
+Usage: braveb [FOLDER_NAME]
 
-  # REVISION: Auto-detect Brave profile path.
+Launches a random URL from the specified Brave bookmarks folder.
+
+Arguments:
+  FOLDER_NAME     Name of the folder inside "Bookmarks bar" (default: "Read Later")
+
+Options:
+  -h, --help      Show this help message
+
+Examples:
+  braveb "To Read"              # → picks random from folder "To Read"
+  braveb "Interesting Articles" # → case sensitive!
+
+Dependencies: jq, shuf, xdg-open
+EOF
+    return 0
+  fi
+
+  # Default folder if none provided
+  local folder_name="${1:-4ndr0666}"
+
+  # Auto-detect common Brave profile locations
   local brave_profile_path
   if [[ -d "$HOME/.config/BraveSoftware/Brave-Browser/Default" ]]; then
     brave_profile_path="$HOME/.config/BraveSoftware/Brave-Browser/Default"
@@ -371,40 +395,96 @@ braveb() {
     return 1
   fi
 
-  # REVISION: Data source is the Bookmarks JSON file.
   local bookmarks_file="${brave_profile_path}/Bookmarks"
   local open_cmd="xdg-open"
 
-  # Check for dependencies
+  # Check dependencies
   for cmd in jq shuf; do
     if ! command -v "$cmd" &>/dev/null; then
-      echo "ERROR: Missing dependency: $cmd" >&2
+      echo "ERROR: Missing dependency → $cmd" >&2
       return 1
     fi
   done
 
-  [[ ! -f "$bookmarks_file" ]] && echo "ERROR: Bookmarks file not found." >&2 && return 1
+  [[ ! -f "$bookmarks_file" ]] && {
+    echo "ERROR: Bookmarks file not found: $bookmarks_file" >&2
+    return 1
+  }
 
-  # REVISION: Use `jq` to query the JSON and `shuf` to select one randomly.
+  # Extract random URL from the requested folder
   local random_url
   random_url=$(jq -r --arg FOLDERNAME "$folder_name" '
       .roots.bookmark_bar.children[]
-      | select(.type == "folder" and .name == $FOLDERNAME)
-      | .children[]
-      | select(.type == "url")
-      | .url
-    ' "$bookmarks_file" | shuf -n 1)
+    | select(.type == "folder" and .name == $FOLDERNAME)
+    | .children[]
+    | select(.type == "url")
+    | .url
+  ' "$bookmarks_file" | shuf -n 1 2>/dev/null)
 
-  # REVISION: Add robust error handling in case the folder or URL is not found.
   if [[ -z "$random_url" ]]; then
-    echo "ERROR: No URLs found in folder '$folder_name'. Check spelling and case." >&2
+    echo "ERROR: No URLs found in folder '$folder_name'." >&2
+    echo "       Check spelling, case, and whether the folder exists under Bookmarks bar." >&2
     return 1
   fi
 
   echo "Opening random bookmark from '$folder_name':"
-  echo "-> \x1b[36m$random_url\x1b[m"
+  echo "→ \x1b[36m$random_url\x1b[m"
+
   "$open_cmd" "$random_url" >/dev/null 2>&1
 }
+
+## braveb (Random Bookmark Launcher)
+#braveb() {
+#  emulate -L zsh
+#
+#  # REVISION: Define the target folder via an argument, with a default.
+#  local folder_name="${1:-Read Later}"
+#
+#  # REVISION: Auto-detect Brave profile path.
+#  local brave_profile_path
+#  if [[ -d "$HOME/.config/BraveSoftware/Brave-Browser/Default" ]]; then
+#    brave_profile_path="$HOME/.config/BraveSoftware/Brave-Browser/Default"
+#  elif [[ -d "$HOME/.config/BraveSoftware/Brave-Browser-Beta/Default" ]]; then
+#    brave_profile_path="$HOME/.config/BraveSoftware/Brave-Browser-Beta/Default"
+#  else
+#    echo "ERROR: Could not find a default Brave profile directory." >&2
+#    return 1
+#  fi
+#
+#  # REVISION: Data source is the Bookmarks JSON file.
+#  local bookmarks_file="${brave_profile_path}/Bookmarks"
+#  local open_cmd="xdg-open"
+#
+#  # Check for dependencies
+#  for cmd in jq shuf; do
+#    if ! command -v "$cmd" &>/dev/null; then
+#      echo "ERROR: Missing dependency: $cmd" >&2
+#      return 1
+#    fi
+#  done
+#
+#  [[ ! -f "$bookmarks_file" ]] && echo "ERROR: Bookmarks file not found." >&2 && return 1
+#
+#  # REVISION: Use `jq` to query the JSON and `shuf` to select one randomly.
+#  local random_url
+#  random_url=$(jq -r --arg FOLDERNAME "$folder_name" '
+#      .roots.bookmark_bar.children[]
+#      | select(.type == "folder" and .name == $FOLDERNAME)
+#      | .children[]
+#      | select(.type == "url")
+#      | .url
+#    ' "$bookmarks_file" | shuf -n 1)
+#
+#  # REVISION: Add robust error handling in case the folder or URL is not found.
+#  if [[ -z "$random_url" ]]; then
+#    echo "ERROR: No URLs found in folder '$folder_name'. Check spelling and case." >&2
+#    return 1
+#  fi
+#
+#  echo "Opening random bookmark from '$folder_name':"
+#  echo "-> \x1b[36m$random_url\x1b[m"
+#  "$open_cmd" "$random_url" >/dev/null 2>&1
+#}
 
 #braveh() {
 #  emulate -L zsh

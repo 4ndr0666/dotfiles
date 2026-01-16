@@ -16,15 +16,47 @@ PATH="$XDG_DATA_HOME/go/bin:$PATH"
 PATH="$XDG_DATA_HOME/virtualenv:$PATH"
 PATH="$HOME/.npm-global/bin:$PATH"
 PATH="${JAVA_HOME:-/usr/lib/jvm/default/bin}:$PATH"
+PATH="$XDG_DATA_HOME/gem/ruby/3.4.0/bin:$PATH"
+PATH="${PIPX_BIN_DIR:-$XDG_DATA_HOME/pipx/bin}:$PATH"
+PATH="${PYENV_ROOT:-$XDG_DATA_HOME/pyenv}/bin:$PATH"
+PATH="$PYENV_ROOT/shims:$PATH"
+
+#typeset -U path  # zsh: unique entries (dedup)
+#path=(
+#  /usr/local/{s}bin
+#  /usr/{s}bin
+#  /bin
+#  /sbin
+#  "$HOME/.local/bin"
+#  "${CARGO_HOME:-$HOME/.cargo}/bin"
+#  "${XDG_DATA_HOME:-$HOME/.local/share}/go/bin"
+#  "${XDG_DATA_HOME:-$HOME/.local/share}/virtualenv/bin"  # usually not needed
+#  "${JAVA_HOME:-/usr/lib/jvm/default}/bin"
+#  "$path[@]"
+#)
 
 # Dynamic Ruby path
-gem_ruby_base_path="${XDG_DATA_HOME:-$HOME/.local/share}/gem/ruby"
-if [ -d "$gem_ruby_base_path" ]; then
-  latest_version_dir=$(ls -v "$gem_ruby_base_path" | tail -n 1)
-  if [ -n "$latest_version_dir" ]; then
-    PATH="${gem_ruby_base_path}/${latest_version_dir}/bin:$PATH"
-  fi
-fi
+#gem_ruby_base_path="${XDG_DATA_HOME:-$HOME/.local/share}/gem/ruby"
+#if [ -d "$gem_ruby_base_path" ]; then
+#  latest_version_dir=$(ls -v "$gem_ruby_base_path" | tail -n 1)
+#  if [ -n "$latest_version_dir" ]; then
+#    PATH="${gem_ruby_base_path}/${latest_version_dir}/bin:$PATH"
+#  fi
+#fi
+
+#if (( $+commands[ruby] )) && (( $+commands[gem] )); then
+#  user_gem_bin="$(ruby -e 'puts Gem.user_dir')/bin"
+#  if [[ -d "$user_gem_bin" ]]; then
+#    path=("$user_gem_bin" $path)
+#  fi
+#fi
+#
+## Fallback for rare cases where Gem.user_dir not available or Ruby broken
+#if [[ -d "${XDG_DATA_HOME:-$HOME/.local/share}/gem/ruby" ]]; then
+#  latest_ver=$(ls -1v "${XDG_DATA_HOME:-$HOME/.local/share}/gem/ruby" | tail -n1)
+#  [[ -n "$latest_ver" && -d "${XDG_DATA_HOME:-$HOME/.local/share}/gem/ruby/$latest_ver/bin" ]] && \
+#    path=("${XDG_DATA_HOME:-$HOME/.local/share}/gem/ruby/$latest_ver/bin" $path)
+#fi
 
 # Cache file
 cache_file="${XDG_CACHE_HOME:-$HOME/.cache}/dynamic_scr_dirs.list"
@@ -45,6 +77,39 @@ if [ -d "$scr_root" ]; then
 fi
 
 export PATH
+
+#scr_root='/home/git/clone/4ndr0666/scr'
+#cache_file="${XDG_CACHE_HOME:-$HOME/.cache}/dynamic_scr_dirs.list"
+#
+#if [[ -d "$scr_root" ]]; then
+#    # Rebuild trigger conditions
+#    need_rebuild=false
+#    [[ ! -f "$cache_file" ]] && need_rebuild=true
+#    [[ "$scr_root" -nt "$cache_file" ]] && need_rebuild=true
+#    [[ -n "$(find "$scr_root" -type f -newer "$cache_file" 2>/dev/null)" ]] && need_rebuild=true
+#
+#    if $need_rebuild; then
+#        echo "Cache outdated or missing → rebuilding scr paths..." >&2
+#        update_scr_path  # your existing function
+#    else
+#        if [[ -r "$cache_file" && -s "$cache_file" ]]; then
+#            # Read lines, trim trailing newline, split on :, make array
+#            cached_dirs=("${(@f)$(</"$cache_file")}")
+#            # Remove any empty/trailing entries
+#            cached_dirs=("${(@)cached_dirs:#}")
+#
+#            if (( $#cached_dirs > 0 )); then
+#                # Safely prepend unique paths
+#                typeset -U path
+#                path=("${cached_dirs[@]}" $path)
+#            fi
+#        else
+#            echo "Warning: scr cache file empty or unreadable" >&2
+#        fi
+#    fi
+#fi
+#
+#export PATH
 
 
 # --- DEFAULT PROGRAMS ---
@@ -102,17 +167,13 @@ export PIP_DOWNLOAD_CACHE="$XDG_CACHE_HOME/pip/"
 export VENV_HOME="$XDG_DATA_HOME/venvirtualenv"
 export VIRTUAL_ENV_PROMPT="(💀)"
 # Pipx/XDG
-export PATH="$PIPX_BIN_DIR:$PATH"
 export PIPX_HOME="$XDG_DATA_HOME/pipx"
 export PIPX_BIN_DIR="$XDG_DATA_HOME/pipx/bin"
 # Pyenv
 export PYENV_ROOT="$XDG_DATA_HOME/pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
 # Initialize
 eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
-# Ensure to use only pyenv's shims for Python
-export PATH="$PYENV_ROOT/shims:$PATH"
 
 ## My SQL
 # export PSQL_HOME="$XDG_DATA_HOME/postgresql"
@@ -247,11 +308,71 @@ fi
 # export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.pla
 #f.gtk.GTKLookAndFeel -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel ${_JAVA_OPTIONS}"
 
-# --- FZF (default search command) ---
+## FZF; default search command:
+
 export FZF_DEFAULT_COMMAND='fd --no-ignore --hidden --follow --exclude ".git"'
-# Config
+
+## === Config Testint ===
+##export FZF_DEFAULT_OPTS="
+#  --height=60%
+#  --border=double
+#  --padding=1%
+#  --info=right
+#  --separator=_
+#  --preview='
+#    set filename (basename {})
+#    if string match -q \"*.txt\" -- \$filename
+#      bat --style=numbers --color=always {}
+#    else if string match -q \"*.pdf\" -- \$filename
+#      zathura {} &
+#    else if string match -q \"*.jpg\" -- \$filename
+#      feh {} &
+#    else if string match -q \"*.jpeg\" -- \$filename
+#      feh {} &
+#    else if string match -q \"*.png\" -- \$filename
+#      feh {} &
+#    else if string match -q \"*.gif\" -- \$filename
+#      feh {} &
+#    else
+#      bat --style=numbers --color=always {}
+#    end
+#  '
+#  --preview-window=hidden:right:69%
+#  --preview-label=eyes
+#  --margin=5%
+#  --border-label=search
+#  --color=fg:#005b69,fg+:#15FFFF,bg:#151515,bg+:#262626 \
+#  --color=hl:#15FFFF,hl+:#15FFFF,info:#195761,marker:#15FFFF \
+#  --color=prompt:#00f7ff,spinner:#64e290,pointer:#15FFFF,header:#07fff7 \
+#  --color=border:#262626,preview-border:#15FFFF,label:#005b69,query:#15ffff \
+#  --border-label='search' --prompt='≽  ' --marker='✔' --pointer='☞'
+#  --layout=reverse
+#  --prompt=💀
+#  --bind='enter:execute(
+#    set filename (basename {})
+#    if string match -q \"*.txt\" -- \$filename
+#      micro  {}
+#    else if string match -q \"*.pdf\" -- \$filename
+#      zathura {}
+#    else if string match -q \"*.jpg\" -- \$filename
+#      nsxiv {}
+#    else if string match -q \"*.jpeg\" -- \$filename
+#      nsxiv {}
+#    else if string match -q \"*.png\" -- \$filename
+#      nsxiv {}
+#    else if string match -q \"*.gif\" -- \$filename
+#      nsxiv {}
+#    else
+#      micro {}
+#    end
+#  )'
+#  --bind=ctrl-p:toggle-preview
+#"
+
+## === Config 1 ===
 export FZF_DEFAULT_OPTS="
   --layout=reverse
+  --prompt=💀
   --border=thinblock
   --height=40%
   --padding=1%
@@ -277,25 +398,28 @@ esac'
   --border-label='search' --prompt='≽  ' --marker='✔' --pointer='☞'
 "
 
-# Config 1
+## === Config 1 ===
 #--preview-window=up,1,border-horizontal
 
-# Config 2
+## === Config 2 ===
 #--preview='file {}'
 #--bind='ctrl-/:change-preview-window(50%|hidden|)' \
 
-# Config 3
+# === Config 3 ===
 #--preview='bat --style=numbers --color=always {}'
 #--preview-window=hidden:right:69%
 
-# 4ndr0hack Theme
+
+## FZF Themes:
+
+## === 4ndr0hack Theme ===
 #--color=fg:#005b69,fg+:#15FFFF,bg:#151515,bg+:#262626 \
 #--color=hl:#15FFFF,hl+:#15FFFF,info:#195761,marker:#15FFFF \
 #--color=prompt:#00f7ff,spinner:#64e290,pointer:#15FFFF,header:#07fff7 \
 #--color=border:#262626,preview-border:#15FFFF,label:#005b69,query:#15ffff \
 #--border-label-pos='-54' --prompt='≽  ' --marker='✔' --pointer='☞' --separator='-'"
 
-# Garuda Theme
+## === Garuda Theme ===
 #--height=40% --layout=reverse --info=inline --border --margin=1 --padding=1 \
 #--tiebreak=index \
 #--preview 'bat --color=always {}' --preview-window '~3' \
@@ -303,16 +427,19 @@ esac'
 #--color 'fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc' \
 #--color 'marker:#f5e0dc,fg+:#a6e3a1,prompt:#cba6f7,hl+:#f38ba8'"
 
-# Dark Transparency Theme
+## === Dark Transparency Theme ===
 # --color 'fg:#bbccdd,fg+:#ddeeff,bg:#334455,preview-bg:#223344,border:#778899"
 
-# Basic 16
+## === Basic 16 ===
 #--color=16
 
-# History Widget
+
+## History Widget:
+
 bindkey '^R' fzf-history-widget
 
-# History Sorted
+## History Sorted Function:
+
 fh() {
     print -z $(
         ([ -n "$ZSH_NAME" ] && fc -l 1 || history) \
@@ -322,7 +449,9 @@ fh() {
     )
 }
 
-# Less
+
+## Less:
+
 export LESS="R"
 export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
 export LESS_TERMCAP_mb=$(printf "\e[1;31m")
@@ -332,7 +461,8 @@ export LESS_TERMCAP_se=$(printf "\e[0m")
 export LESS_TERMCAP_so=$(printf "\e[1;44;33m")
 export LESS_TERMCAP_ue=$(printf "\e[0m")
 export LESS_TERMCAP_us=$(printf "\e[1;32m")
-# Conf1
+
+## === Conf 1 ===
 #export LESS_TERMCAP_mb="$(printf '%b' '[1;31m')"
 #export LESS_TERMCAP_md="$(printf '%b' '[1;36m')"
 #export LESS_TERMCAP_me="$(printf '%b' '[0m')"
@@ -340,7 +470,8 @@ export LESS_TERMCAP_us=$(printf "\e[1;32m")
 #export LESS_TERMCAP_se="$(printf '%b' '[0m')"
 #export LESS_TERMCAP_us="$(printf '%b' '[1;32m')"
 #export LESS_TERMCAP_ue="$(printf '%b' '[0m')"
-# Conf2
+
+## === Conf 2 ===
 #export LESS_TERMCAP_mb="$(printf '%b' '')"
 #export LESS_TERMCAP_md="$(printf '%b' '')"
 #export LESS_TERMCAP_me="$(printf '%b' '')"
@@ -348,7 +479,8 @@ export LESS_TERMCAP_us=$(printf "\e[1;32m")
 #export LESS_TERMCAP_se="$(printf '%b' '')"
 #export LESS_TERMCAP_us="$(printf '%b' '')"
 #export LESS_TERMCAP_ue="$(printf '%b' '')"
-#Conf3
+
+## === Conf 3 ===
 #export LESS_TERMCAP_md=$'\e[01;31m'
 #export LESS_TERMCAP_me=$'\e[0m'
 #export LESS_TERMCAP_se=$'\e[0m'
@@ -356,7 +488,8 @@ export LESS_TERMCAP_us=$(printf "\e[1;32m")
 #export LESS_TERMCAP_ue=$'\e[0m'
 #export LESS_TERMCAP_us=$'\e[01;32m'
 
-# Shortcut Script for LF
+## Shortcut Script for LF:
+
 [ ! -f "$XDG_CONFIG_HOME/shell/shortcutrc" ] && setsid -f shortcuts >/dev/null 2>&1
 
 # Startx for TTY

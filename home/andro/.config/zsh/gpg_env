@@ -9,3 +9,5 @@ export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/gnupg/S.gpg-agent.ssh"
 gpg-connect-agent updatestartuptty /bye >/dev/null
 gpg-connect-agent reloadagent /bye >/dev/null
 export GPG_AGENT_INFO=/run/user/$(id -u)/gnupg/S.gpg-agent:0:1
+/usr/bin/systemctl start --user ssh-agent.service
+eval $(ssh-agent) > /dev/null
