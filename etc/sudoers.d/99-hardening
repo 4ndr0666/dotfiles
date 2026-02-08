@@ -1,0 +1,7 @@
+Defaults env_reset,secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+Defaults passwd_timeout=1
+Defaults timestamp_timeout=5
+Defaults !lecture, !authenticate, insults
+root    ALL=(ALL:ALL) ALL
+%wheel  ALL=(ALL:ALL) ALL
+%wheel  ALL=(ALL) NOPASSWD: /usr/bin/reboot, /usr/bin/poweroff, /usr/bin/shutdown

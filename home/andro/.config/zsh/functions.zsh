@@ -1,8 +1,7 @@
 #!/bin/zsh
-# Author: 4ndr0666
-# ============================= // FUNCTIONS.ZSH //
+# 4ndr0666
+# === // FUNCTIONS.ZSH // ===
 
-# Global Colors & Symbols
 RESET="\e[0m"
 BOLD="\e[1m"
 UNDERLINE="\e[4m"
@@ -31,7 +30,12 @@ print_message() {
   esac
 }
 
-# Cln: Run in a dir with fucked up ass filenames to sanitize them___
+
+################################
+#    === // CLN //===
+################################
+# Sanitizes fucked up filenames for smooth operations.
+# --------------------------------------------------------------
 cln() {
 	emulate -L zsh
 	setopt extended_glob
@@ -90,14 +94,24 @@ cln() {
 	echo "Summary: $renamed renamed, $skipped skipped, $failed failed"
 }
 
-# Graphics Test: Runs verifications for amdgpu, vulkan, and OpenGL____
+
+################################
+#    === // GRAPHICSTEST //===
+################################
+# Runs verifications for amdgpu, vulkan, and OpenGL
+# ---------------------------------------------------
 graphicstest() {
 	lspci -k | grep -A 3 VGA
 	vulkaninfo | less
 	glxinfo | grep "OpenGL renderer"
 }
 
-# BKUP: Smart and configurable backup function_________________
+
+################################
+#    === // BKUP //===
+################################
+# Smart and configurable backup function
+# ---------------------------------------------------
 backup_directory="/Nas/Backups/bkup"
 check_bkup_dependencies() {
   local deps=(tar zstd fzf realpath)
@@ -301,12 +315,11 @@ EOF
 }
 
 
-# === Browser History ===
-#
-# Press `c` to browse Chromes web history
-# braveh: Interactively search and open items from your browser history.
-# braveb: Open a random bookmark from a specified folder.
-#
+################################
+#    === // BRAVEH //===
+################################
+# Interactively search and open items from your browser history.
+# ----------------------------------------------------------------
 braveh() {
   emulate -L zsh
   setopt extended_glob
@@ -353,13 +366,15 @@ braveh() {
   | xargs -r -d '\n' "$open_cmd" >/dev/null 2>&1
 }
 
-# braveb — Random Bookmark Launcher from Brave
+
+################################
+#    === // BRAVEB //===
+################################
+# Launches a random bookmark from a folder you specifiy
+# Usage: braveb favorites
+# -------------------------------------------------------
 braveb() {
   emulate -L zsh
-
-  # ────────────────────────────────────────────────
-  #  Usage / Help
-  # ────────────────────────────────────────────────
   if [[ $# -eq 0 || $1 = -h || $1 = --help ]]; then
     cat <<-'EOF'
 Usage: braveb [FOLDER_NAME]
@@ -433,85 +448,12 @@ EOF
   "$open_cmd" "$random_url" >/dev/null 2>&1
 }
 
-## braveb (Random Bookmark Launcher)
-#braveb() {
-#  emulate -L zsh
-#
-#  # REVISION: Define the target folder via an argument, with a default.
-#  local folder_name="${1:-Read Later}"
-#
-#  # REVISION: Auto-detect Brave profile path.
-#  local brave_profile_path
-#  if [[ -d "$HOME/.config/BraveSoftware/Brave-Browser/Default" ]]; then
-#    brave_profile_path="$HOME/.config/BraveSoftware/Brave-Browser/Default"
-#  elif [[ -d "$HOME/.config/BraveSoftware/Brave-Browser-Beta/Default" ]]; then
-#    brave_profile_path="$HOME/.config/BraveSoftware/Brave-Browser-Beta/Default"
-#  else
-#    echo "ERROR: Could not find a default Brave profile directory." >&2
-#    return 1
-#  fi
-#
-#  # REVISION: Data source is the Bookmarks JSON file.
-#  local bookmarks_file="${brave_profile_path}/Bookmarks"
-#  local open_cmd="xdg-open"
-#
-#  # Check for dependencies
-#  for cmd in jq shuf; do
-#    if ! command -v "$cmd" &>/dev/null; then
-#      echo "ERROR: Missing dependency: $cmd" >&2
-#      return 1
-#    fi
-#  done
-#
-#  [[ ! -f "$bookmarks_file" ]] && echo "ERROR: Bookmarks file not found." >&2 && return 1
-#
-#  # REVISION: Use `jq` to query the JSON and `shuf` to select one randomly.
-#  local random_url
-#  random_url=$(jq -r --arg FOLDERNAME "$folder_name" '
-#      .roots.bookmark_bar.children[]
-#      | select(.type == "folder" and .name == $FOLDERNAME)
-#      | .children[]
-#      | select(.type == "url")
-#      | .url
-#    ' "$bookmarks_file" | shuf -n 1)
-#
-#  # REVISION: Add robust error handling in case the folder or URL is not found.
-#  if [[ -z "$random_url" ]]; then
-#    echo "ERROR: No URLs found in folder '$folder_name'. Check spelling and case." >&2
-#    return 1
-#  fi
-#
-#  echo "Opening random bookmark from '$folder_name':"
-#  echo "-> \x1b[36m$random_url\x1b[m"
-#  "$open_cmd" "$random_url" >/dev/null 2>&1
-#}
 
-#braveh() {
-#  emulate -L zsh
-#  setopt extended_glob
-#  # Determine column width for title preview
-#  local cols=$(( COLUMNS / 3 ))
-#  local sep='{::}'
-#  local history_db="$HOME/.config/BraveSoftware/Brave-Browser-Beta/Default/History"
-#  local tmp_db="/tmp/brave_history.db"
-#  local open_cmd="xdg-open"
-#
-#  # Copy the locked SQLite DB for safe querying
-#  cp -f -- "$history_db" "$tmp_db"
-#
-#  # Query title and URL, preview and allow selection
-#  sqlite3 -separator $sep "$tmp_db" \
-#    "SELECT substr(title,1,$cols), url FROM urls ORDER BY last_visit_time DESC;" 2>/dev/null \
-#  | awk -F "$sep" '{printf "%-'"$cols"'s  \x1b[36m%s\x1b[m\n", $1, $2}' \
-#  | fzf --ansi --multi \
-#        --prompt="Brave Beta History> " \
-#        --preview-window=right:50% \
-#        --preview 'echo {} | sed -E "s/^.{'"$cols"'}//"' \
-#  | sed -E 's#.*(https?://.*)$#\1#' \
-#  | xargs -r -d '\n' $open_cmd >/dev/null 2>&1
-#}
-
-# Copypath: Copies the absolute path of a file_____________________
+################################
+#    === // COPYPATH //===
+################################
+# Copies absolute path of pwd
+# -----------------------------------
 cpath() {
     # If no argument passed, use current directory
     local file="${1:-.}"
@@ -528,7 +470,10 @@ cpath() {
     fi
 }
 
-#  Spellcheck: Checks spelling____________________________________
+
+################################
+#    === // SPELLCHECK //===
+################################
 spell() {
     ## Ensure 'spellcheck' command is available
     if ! command -v spellcheck &> /dev/null; then
@@ -554,28 +499,13 @@ spell() {
     done
 }
 
-# Restart Waybar_______________________________________________
-restart_waybar() {
-    notify-send "🔄 Restarting Waybar..."
-    pkill -TERM waybar
-    sleep 1
 
-    ## Check if Waybar is still running, force kill if necessary
-    if pgrep waybar &>/dev/null; then
-        pkill -9 waybar
-        sleep 1
-    fi
-
-    ## Restart Waybar without attaching to the current terminal
-    waybar </dev/null &>/dev/null &
-    echo "✅ Waybar has been restarted."
-}
-
-# Any: Searches for running processes______________________
-# case insensitive by default.
-#
+################################
+#    === // ANY //===
+################################
+# Case insensitve pid search
 # Usage: any [-s] <process_name>
-#   -s: Perform a case-sensitive search.
+# -------------------------------------------
 any() {
     local show_help_flag=false
     local pgrep_opts="-i" # Default to case-insensitive
@@ -624,12 +554,16 @@ any() {
     awk 'NR>1 {printf "PID: %-8s User: %-15s CMD: %-20s ARGS: %s\n", $1, $2, $3, substr($0, index($0,$4))}'
 }
 
-# ==============================================================================
-# Triage - A collection of functions for system maintenance and diagnostics.
-# ==============================================================================
+
+################################
+#    === // TRIAGE //===
+################################
+# Memoery sanitation and resource saver
+# ----------------------------------------
 triage() {
     # --- Color & Logging Setup ---
     local RED="\e[31m" GRN="\e[32m" YLW="\e[33m" BLU="\e[34m" RST="\e[0m"
+
     _log() {
         local type="$1" color="$2" message="$3"
         printf "${color}[%s]${RST} %s\n" "$type" "$message"
@@ -658,6 +592,7 @@ triage() {
         _log_info "Checking SystemD units..."
         if command -v systemctl &>/dev/null; then
             sudo systemctl reset-failed &>/dev/null || _log_warn "Failed to reset some units."
+            # Remove broken/dangling symlinks in systemd config
             sudo find -L /etc/systemd/ -type l -delete 2>/dev/null
             sudo systemctl daemon-reload &>/dev/null
             _log_ok "SystemD units reset and reloaded."
@@ -670,29 +605,28 @@ triage() {
         _log_info "Cleaning D-Bus sockets..."
         if command -v dbus-cleanup-sockets &>/dev/null; then
             sudo dbus-cleanup-sockets
+            _log_ok "D-Bus sockets audited."
         else
             _log_warn "dbus-cleanup-sockets not found, skipping."
         fi
     }
 
     _triage_zombies() {
-        _log_info "Hunting for zombie processes..."
-        if command -v zps &>/dev/null; then
-            # --- BUG FIX: Reverted to the more compatible -r --quiet flags ---
-            if sudo zps -r --quiet; then
-                _log_ok "Zombie processes reaped."
-            else
-                _log_warn "zps command failed or no zombies found."
-            fi
+        _log_info "Scanning for zombie processes..."
+        # Finds processes in Z (defunct) state
+        local zombies=$(ps -eo state,pid,cmd | awk '$1=="Z" {print $2}')
+        if [[ -n "$zombies" ]]; then
+            _log_warn "Zombie processes detected (PIDs): ${zombies//$'\n'/ }"
+            # Note: Zombies are already dead; cleaning usually requires signaling the parent.
         else
-            _log_warn "zps not found, skipping zombie reap."
+            _log_ok "No zombie processes found."
         fi
     }
 
     _triage_logs() {
         _log_info "Vacuuming journal logs..."
         if command -v journalctl &>/dev/null; then
-            sudo journalctl --vacuum-time=2d >/dev/null
+            sudo journalctl --vacuum-time=2d >/dev/null 2>&1
             _log_ok "Logs older than 2 days removed."
         else
             _log_warn "journalctl not found, skipping log cleanup."
@@ -701,19 +635,37 @@ triage() {
 
     _triage_tmp() {
         _log_info "Cleaning temporary files..."
-        local cleaner
+        local cleaner=""
         if command -v tmpwatch &>/dev/null; then cleaner="tmpwatch";
         elif command -v tmpreaper &>/dev/null; then cleaner="tmpreaper"; fi
 
         if [[ -n "$cleaner" ]]; then
-            sudo "$cleaner" 2h /tmp >/dev/null
+            sudo "$cleaner" 2h /tmp >/dev/null 2>&1
             _log_ok "/tmp files older than 2 hours removed."
         else
             _log_warn "tmpwatch/tmpreaper not found, skipping /tmp cleanup."
         fi
     }
 
+    _triage_gvfs() {
+        _log_info "Analyzing GVFS metadata entropy..."
+        # Targets the calling user's local metadata registry
+        local gvfs_path="$HOME/.local/share/gvfs-metadata"
+        if [[ -d "$gvfs_path" ]]; then
+            # Release daemon locks before purging
+            pkill -u "$USER" -f gvfsd-metadata &>/dev/null || true
+            if rm -rf "$gvfs_path"/*; then
+                _log_ok "GVFS metadata purge successful. Cache reset."
+            else
+                _log_fail "Failed to purge GVFS metadata. Check permissions."
+            fi
+        else
+            _log_info "GVFS metadata path nominal (Empty/Not present)."
+        fi
+    }
+
     # --- Main Execution ---
+    # set -e used for maintenance reliability
     set -e
     _check_sudo
     _triage_systemd
@@ -721,10 +673,15 @@ triage() {
     _triage_zombies
     _triage_logs
     _triage_tmp
+    _triage_gvfs
     _log_ok "System triage and cleanup complete."
     set +e
 }
 
+
+################################
+#    === // MEMREPORT //===
+################################
 memreport() {
     # This function is read-only and provides diagnostics instead of performing
     # potentially harmful "boosting" actions.
@@ -753,10 +710,12 @@ memreport() {
     printf "\n${GRN}✅ Memory report complete.${RST}\n"
 }
 
-# Pacopt
 
-### Executes several maintenance operations for the Pacman manager
-### and other various resources of the like to speed up the responsiveness
+################################
+#    === // PACOPT //===
+################################
+# Optimizes pacman.
+# --------------------------------
 function pacopt() {
     echo "Starting Pacman Optimization..."
 
@@ -798,10 +757,12 @@ function pacopt() {
     echo "Pacman optimization process completed!"
 }
 
-## Cleanlist
 
-### Cleans and formats a list of package names from the clipboard, then
-### installs them using the selected package manager.
+################################
+#    === // CLEANLIST //===
+################################
+# Removes char and ver numbers from pkgnames to feed to pacman.
+# -------------------------------------------------------
 cleanlist() {
     ## Determine clipboard command based on session type or available utility
     local clipboard_cmd packages
@@ -867,10 +828,13 @@ cleanlist() {
     done
 }
 
-## Fixgpgkey
 
-### Fixes GPG keyring issues by updating the gpg.conf and repopulating
-### the pacman keyring.
+################################
+#    === // FIXGPGKEY //===
+################################
+# Fixes GPG keyring by updating the gpg.conf and
+# repopulating the pacman keyring.
+# ----------------------------------------------------
 fixgpgkey() {
     local gpg_conf="$HOME/.gnupg/gpg.conf"
     local keyring_entry="keyring /etc/pacman.d/gnupg/pubring.gpg"
@@ -909,18 +873,12 @@ fixgpgkey() {
     echo "🔧 GPG keyring fix process completed."
 }
 
-# Whatsnew: Lists recently modified files.
-#!/usr/bin/env zsh
-#
-# A suite of high-performance, interactive ZSH functions for finding files
-# based on recent activity. Uses `find` safely and pipes results to `fzf` for
-# an interactive user experience.
 
-# ==============================================================================
-# --- CORE FINDER SUITE ---
-# ==============================================================================
-
-# --- Helper to ensure sudo privileges are available ---
+################################
+#    === // WHATSNEW //===
+################################
+# Lists recently modified files.
+# -----------------------------------------------------------------------------
 _check_sudo() {
     if ! sudo -n true 2>/dev/null; then
         echo "INFO: Requesting sudo privileges for system-wide search..."
@@ -933,7 +891,6 @@ _check_sudo() {
     return 0
 }
 
-# --- Core search logic, the engine for the other functions ---
 _find_files_by_time() {
     local time_attr="$1" # 'a' for access, 'c' for change, 'm' for modification
     local time_range="$2"
@@ -961,7 +918,6 @@ _find_files_by_time() {
         fzf --read0 --prompt="Search results ▶ " --multi --preview 'ls -lah {}'
 }
 
-# --- User-facing functions ---
 whatsnew() {
     local num_files=${1:-20}
     _check_sudo || return 1
@@ -996,7 +952,12 @@ modified() {
     _find_files_by_time 'm' "$time_range"
 }
 
-# 4ever: Runs a command in background w logging and PID.___________________
+
+################################
+#    === // 4EVER //===
+################################
+# Runs a command in background w logging and PID.
+# -----------------------------------------
 4ever() {
     if [[ -z "$1" ]]; then
         echo "❓ Usage: 4ever <command> [arguments] [log_file]"
@@ -1033,17 +994,15 @@ modified() {
     fi
 }
 
-# ==============================================================================
-# Dir Navigator: provide browser-style back/forward navigation in the terminal.
-# ==============================================================================
-#
-# --- Global History Stacks ---
+
+################################
+#    === // DIR NAVIGATOR //===
+################################
+# provide browser-style back/forward navigation in the terminal.
+# ------------------------------------------------------------
 typeset -gUa DIR_HISTORY_BACK
 typeset -gUa DIR_HISTORY_FORWARD
-
-# --- State Flag ---
 typeset -g _DIR_HISTORY_NAVIGATING
-
 chpwd() {
 # If the directory hasn\'t actually changed, do nothing.
 # This prevents redundant entries when doing `cd .` or cd-ing to a symlink
@@ -1152,7 +1111,12 @@ dhist() {
     echo "-------------------------"
 }
 
-# MKCD: Make a directory and cd to it______________
+
+################################
+#    === // MKDIRCD //===
+################################
+# Make a directory and cd to it
+# ----------------------------------
 mkdircd() {
     if (( $# != 1 )); then
         echo "❓ Usage: mkcd <new-directory>"
@@ -1169,9 +1133,12 @@ mkdircd() {
     fi
 }
 
-## CDT
 
-### Creates a temporary directory and cds to it.
+################################
+#    === // CDT //===
+################################
+# Creates a temporary directory and cds to it.
+# -----------------------------------------------
 mktmpcd() {
     local tmp_dir
 
@@ -1183,9 +1150,12 @@ mktmpcd() {
     fi
 }
 
-## CDLS
 
-### Changes to a directory and lists its contents.
+################################
+#    === // CDLS //===
+################################
+# Changes to a directory and lists its contents.
+# -----------------------------------------
 cdls() {
     if [[ -z "$1" ]]; then
         # Navigate to HOME and list its contents if no arguments are provided
@@ -1209,10 +1179,13 @@ cdls() {
     fi
 }
 
-## NOTEPAD
 
-### A simple note-taking function with many custom features such as viewing,
-### adding, filtering, and clearing notes.
+################################
+#    === // NOTEPAD //===
+################################
+# A simple note-taking function with many custom features
+# such as viewing, adding, filtering, and clearing notes.
+# --------------------------------------------------
 notepad() {
     local file="$HOME/Documents/notes/.notes.md"
     \mkdir -p "$(dirname "$file")"  # Ensure the directory exists
@@ -1279,9 +1252,12 @@ EOF
     fi
 }
 
-## TURL
 
-### Shrink a url down for easy use.
+################################
+#    === // TURL //===
+################################
+# Shrink a url down for easy use.
+#----------------------------
 function turl() {
     emulate -L zsh
     setopt extended_glob
@@ -1328,50 +1304,13 @@ function turl() {
     done
 }
 
-# --------------------------------------------------- // ENHANCED_COPY:
-# Ensure the 'copy' alias is removed if it exists
-#if alias copy &>/dev/null; then
-#    unalias copy
-#fi
 
-# Enhanced copy function
-#function_copy() {
-#    local copy_cmd=()
-#    local file_path=""
-#            copy_cmd=("wl-copy")
-
-# Handle the -p option for copying file paths
-#    if [[ "$1" == "-p" ]]; then
-#        if [[ -n "$2" ]]; then
-#            file_path="$2"
-#            echo -n "$file_path" | "${copy_cmd[@]}"
-#        else
-#            echo "No file path specified."
-#            return 1
-#        fi
-#    else
-#        file_path="$1"
-#        if [[ -f "$file_path" ]]; then
-#            cat "$file_path" | "${copy_cmd[@]}"
-#        else
-#            echo "File does not exist: $file_path"
-#            return 1
-#        fi
-#    fi
-#
-#    # Check the result of the copy operation and provide feedback
-#    if [[ $? -eq 0 ]]; then
-#        echo "Content copied to clipboard."
-#    else
-#        echo "Failed to copy content to clipboard."
-#        return 1
-#    fi
-#}
-
-## UNDO/REDO
-
-### Uninstall the packages you just recently installed by accident or reinstall
-### the packages you accidentally removed with ease.
+################################
+#    === // UNDO/REDO //===
+################################
+# Uninstall the packages you just recently installed by
+# accident or reinstall the packages you accidentally removed with ease.
+#------------------------------------------------------------
 fetch_packages() {
     local action="$1"
     local count="$2"
@@ -1596,9 +1535,10 @@ redo() {
     fi
 }
 
-## WhatWhen
 
-### Custom preset functions for searching your history
+################################
+#    === // WHATWHEN //===
+################################
 function whatwhen() {
     emulate -L zsh
     local usage help format_l format_s first_char remain first last search_pattern
@@ -1648,9 +1588,10 @@ function whatwhen() {
     fc -li -m "*${first_char}${remain}*" $first $last
 }
 
-## Urldecode
 
-### Simple URL decoder
+################################
+#    === // URLDECODE //===
+################################
 function urldecode() {
     local input
     if [[ -n "$1" ]]; then
@@ -1665,9 +1606,10 @@ function urldecode() {
     python3 -c "import sys, urllib.parse, html; s = sys.stdin.read().strip(); print(html.unescape(urllib.parse.unquote(s)))" <<< "$input"
 }
 
-## Termbin
 
-### Simple function to leverage termbin.com like pastebin
+################################
+#    === // TERMBIN //===
+################################
 function termbin() {
     if [[ -z "$1" ]]; then
         echo "Usage: termbin <file>"
@@ -1696,10 +1638,10 @@ function termbin() {
     fi
 }
 
-## XT___________________________
-# Description: extractor for all kinds of archives
-# Usage: ex <file>
-# ----------------------------
+
+##############################
+#    === // XT //===
+##############################
 xt() {
   # Check if any arguments were provided.
   if [[ $# -eq 0 ]]; then

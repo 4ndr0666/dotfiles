@@ -16,11 +16,11 @@
 
 ### Config 1
 
-alias ls='eza -X --no-filesize --no-time --no-permissions --colour-scale=size --colour-scale-mode=gradient --group-directories-first --icons=always --smart-group'
+#alias ls='eza -X --no-filesize --no-time --no-permissions --colour-scale=size --colour-scale-mode=gradient --group-directories-first --icons=always --smart-group'
 alias la='eza -alXMoZ --no-quotes --time=created --classify=always --colour-scale=all --colour-scale-mode=gradient --icons=always'
 #'lsd -alLU --permission=rwx --color=always --group-directories-first --icon=always'
 alias ll='eza -xXDh --colour-scale=size --colour-scale-mode=gradient --icons=always --smart-group'
-alias l.='eza -Xd --sort new --colour-scale-mode=gradient --colour-scale=age --group-directories-first --icons=always .[!.]*'
+#alias l.='eza -Xd --sort new --colour-scale-mode=gradient --colour-scale=age --group-directories-first --icons=always .[!.]*'
 #exa -aT -s new --color=always --group-directories-first --icons
 
 ### Config 2
@@ -63,6 +63,13 @@ alias l.='eza -Xd --sort new --colour-scale-mode=gradient --colour-scale=age --g
 #alias lh='ls -ld .??*'
 #alias lsn='\ls | cat -n'
 
+## Config 6
+
+alias ls='eza -al --color=always --group-directories-first --icons' # preferred listing
+#alias la='eza -a --color=always --group-directories-first --icons'  # all files and dirs
+#alias ll='eza -l --color=always --group-directories-first --icons'  # long format
+alias lt='eza -aT --color=always --group-directories-first --icons' # tree listing
+alias l.='eza -ald --color=always --group-directories-first --icons .*' # show only dotfiles
 ## Ls Functions_________________________________________________
 
 ### Ls by size
@@ -175,7 +182,6 @@ alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 alias s='sudo'
 alias e='$EDITOR'
-alias v='$EDITOR'
 alias p="sudo pacman"
 alias ka='sudo killall -9'
 alias cp='cp --preserve=all'
@@ -210,7 +216,8 @@ alias fgrep='fgrep --color=auto'
 alias c='clear; echo; echo; seq 1 $(tput cols) | sort -R | spark | lolcat; echo; echo'
 #clear; seq 1 $(tput cols) | sort -R | sparklines | lolcat
 alias hw='sudo hwinfo --short'
-alias lsb='lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINT'
+alias lsb="lsblk -o NAME,FSTYPE,LABEL,MOUNTPOINT,SIZE,MODEL"
+alias lsb2='lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINT'
 alias jctl='journalctl -p 3 -xb'
 alias mapit="ifconfig -a | grep -Po '\b(?!255)(?:\d{1,3}\.){3}(?!255)\d{1,3}\b' | xargs nmap -A -p0-"
 alias ports='ss -tunlp'
@@ -436,8 +443,11 @@ d0() {
     done
 }
 
-## Xorg Display____________________________________________
+### Change all files to *.txt
+alias renametxt='for f in *; do file "$f" && [[ "$f" != *.txt ]] && mv "$f" "$f.txt"; done'
 
+
+## Xorg Display____________________________________________
 alias xd='ls /usr/share/xsessions'
 alias xdw="ls /usr/share/wayland-sessions"
 alias xfix='echo "DISPLAY=:0 XAUTHORITY=$HOME/.Xauthority xterm"'
@@ -567,15 +577,15 @@ chandro() {
         return 1
     fi
 
-    echo "Setting ownership to 'andro:andro' and permissions (files: 664, dirs: 774) for '$target'..."
+    echo "Setting ownership to 'andro:andro' and permissions (files: 664, dirs: 755) for '$target'..."
 
     if $recursive; then
         if ! sudo chown -R andro:andro "$target"; then
             echo "Error: Failed to change ownership for '$target'."
             return 1
         fi
-        # Set dir to 774, file to 664, recursively
-        if ! sudo find "$target" -type d -exec chmod 774 {} +; then
+        # Set dir to 755, file to 664, recursively
+        if ! sudo find "$target" -type d -exec chmod 755 {} +; then
             echo "Error: Failed to set directory permissions."
             return 1
         fi
@@ -589,7 +599,7 @@ chandro() {
             return 1
         fi
         if [[ -d "$target" ]]; then
-            if ! sudo chmod 774 "$target"; then
+            if ! sudo chmod 755 "$target"; then
                 echo "Error: Failed to set directory permissions."
                 return 1
             fi
@@ -887,49 +897,51 @@ vidt() {
 
 
 # Expressvpn Legacy
-vpnstrict() {
-	sudo expressvpn disconnect || echo "cound not disconnect" exit 1
-	sudo expressvpn refresh || echo "cound not refresh" continue
-	sudo expressvpn preferences set network_lock strict || echo "could net set network lock on" exit 1
-	sudo expressvpn protocol lightway_tcp || echo "could not set lightway protocol" continue
-	sudo expressvpn connect || exit 1
-}
+#vpnstrict() {
+#	sudo expressvpn disconnect || echo "cound not disconnect" exit 1
+#	sudo expressvpn refresh || echo "cound not refresh" continue
+#	sudo expressvpn preferences set network_lock strict || echo "could net set network lock on" exit 1
+#	sudo expressvpn protocol lightway_tcp || echo "could not set lightway protocol" continue
+#	sudo expressvpn connect || exit 1
+#}
 
-alias vpnc='sudo expressvpn connect'
-alias vpnd='sudo expressvpn disconnect && sudo expressvpn preferences set network_lock off'
-alias vpns='sudo expressvpn status'
-alias vpnr='sudo expressvpn refresh'
-alias vpnauto='expressvpn autoconnect true'
-alias vpnset='sudo expressvpn preferences set'
-alias vpnl='sudo expressvpn list'
-alias vpnblock='sudo expressvpn preferences set block_all false'
-alias vpnproto='sudo expressvpn protocol lightway_tcp'
+#alias vpnc='sudo expressvpn connect'
+#alias vpnd='sudo expressvpn disconnect && sudo expressvpn preferences set network_lock off'
+#alias vpns='sudo expressvpn status'
+#alias vpnr='sudo expressvpn refresh'
+#alias vpnauto='expressvpn autoconnect true'
+#alias vpnset='sudo expressvpn preferences set'
+#alias vpnl='sudo expressvpn list'
+#alias vpnblock='sudo expressvpn preferences set block_all false'
+#alias vpnproto='sudo expressvpn protocol lightway_tcp'
 
 
 # Expressvpn Universal App
-#alias vpnc='expressvpnctl connect'
-#alias vpnd='expressvpnctl disconnect'
-#alias vpns='expressvpnctl get vpnip && expressvpnctl status'
-#alias vpnl='expressvpnctl get regions'
-#alias vpnnoextras='expressvpnctl set blockAll false'
-#alias vpnproto='expressvpnctl set protocol lightwayudp'
-#alias checkvpn='expressvpnctl get connectionstate && expressvpnctl get dnsconfigured'
-## -------------- Blocking ---------------- ##
-#alias vpnlan='expressvpnctl set allowlan false'
-#alias vpnnolan='expressvpnctl set allowlan true'
-#alias vpnlocknet='sudo expressvpnctl set networklock true'
-#alias vpnunlocknet='sudo expressvpnctl set networklock false'
-## -------------- Tunneling --------------- ##
-#alias vpnton='sudo expressvpnctl set splittunnel true'
-#alias vpntoff='sudo expressvpnctl set splittunnel false'
-#alias vpnbypass='f(){ sudo expressvpnctl set split-app bypass:"$1"; }; f'
-#alias vpnadd='f(){ sudo expressvpnctl set split-app vpn:"$1"; }; f'
-#alias vpnrm='f(){ sudo expressvpnctl set split-app remove:"$1"; }; f'
-## -------------- Fuck The GUI -------------- ##
-#alias vpncli='expressvpnctl background enable'
+# === Core commands:
+alias vpnc='sudo expressvpnctl connect && sudo expressvpnctl set networklock true'
+alias vpnd='sudo expressvpnctl disconnect && sudo expressvpnctl set networklock false'
+alias vpns='sudo expressvpnctl status'
+alias vpnl='sudo expressvpnctl get regions'
+alias vpna='sudo expressvpnctl set autoconnect true'
+# === Blocking
+alias vpnblockoff='sudo expressvpnctl set allowlan true && sudo expressvpnctl set networklock false'
+alias vpnblockon='sudo expressvpnctl set allowlan false && sudo expressvpnvtl set networklock true'
+# === Info & Status
+alias vpnproto='sudo expressvpnctl set protocol lightwayudp'
+alias vpndns='sudo expressvpnctl get dnsconfigured'
+alias vpnip='sudo expressvpnctl pubip && expressvpnctl vpnip'
+# === Tunneling
+alias vpnspliton='sudo expressvpnctl set splittunnel true'
+alias vpnsplitoff='sudo expressvpnctl set splittunnel false'
+alias vpnsplitadd='f(){ sudo expressvpnctl set split-app vpn:"$1"; }; f'
+alias vpnsplitrm='f(){ sudo expressvpnctl set split-app bypass:"$1"; }; f'
+# === Fuck The GUI
+alias vpndaemonon='sudo expressvpnctl background enable'
+alias vpndaemonoff='sudo expressvpnctl background disable'
 
 
 # Nvim
+alias vi="vim"
 [ -x "$(command -v nvim)" ] && alias vim="nvim" vimdiff="nvim -d"
 alias magit="nvim -c MagitOnly"
 
@@ -988,10 +1000,19 @@ sshpin() {
 	rm -f ~/.ssh/known_hosts.old
 	ssh-keygen -F 192.168.1.91
 }
+alias cleanssh='rm -rf ~/.ssh/agent ~/.ssh/known_hosts.old ~/.ssh/known_hosts.og ~/.ssh/id_rsa ~/.ssh/id_rsa.pub'
 alias ssha='eval $(ssh-agent -s) && ssh-add'
 alias sshid='xclip -sel clip < ~/.ssh/id_ed25519.pub || cat ~/.ssh/id_ed25519.pub | wl-copy'
-alias chssh='chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys'
 
+function_chssh() {
+    chmod 700 ~/.ssh
+    chmod 700 ~/.ssh/sockets
+    chmod 600 ~/.ssh/config ~/.ssh/known_hosts ~/.ssh/id_ed25519
+    chmod 644 ~/.ssh/id_ed25519.pub
+}
+
+
+#chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys && chmod 644 ~/.ssh/*.pub'
 #alias cleanssh="sed -i 18d .ssh/known_hosts"
 
 ## NTP
@@ -1103,21 +1124,22 @@ syspip3() {
 }
 
 ## Virtualenv
-
-### create (if needed) & activate a named venv
 py() {
-  local name="${1:-default}"                     # default venv if no name given
-  local base="$XDG_DATA_HOME/virtualenv"         # centralized venv storage
+  local name="${1:-venv}"
+  if [[ "$name" == "." || "$name" == ".."* || "$name" == /* ]]; then
+    name="$(cd "$name" 2>/dev/null && basename "$PWD")"
+  fi
+  local base="${XDG_DATA_HOME:-$HOME/.local/share}/virtualenv"
+#  local base="$XDG_DATA_HOME/virtualenv"
   local dir="$base/$name"
-
   mkdir -p "$base"
-
   if [[ ! -d "$dir" ]]; then
     echo "Creating virtualenv: $name"
-    python -m venv "$dir"
+    python3 -m venv --system-site-packages "$dir"
   fi
-
-  source "$dir/bin/activate" --prompt "💀($name) "
+  source "$dir/bin/activate"
+  PS1="💀 $PS1"
+  [[ -d ./env ]] || ln -sfn "$dir" ./env 2>/dev/null || true
 }
 
 ### activate then cd into the venv directory
@@ -1130,7 +1152,6 @@ pycd() {
 #alias pyvenvcd='source $XDG_DATA_HOME/virtualenv/bin/activate --prompt 💀 && cd $XDG_DATA_HOME/virtualenv'
 
 ## Pyfiglet:
-
 figletbanner() {
     if [[ "$1" == "--help" || "$1" == "-h" ]]; then
         echo "Usage: figletc \"your text here\""
@@ -1246,7 +1267,7 @@ function mergelist() {
   	/home/git/clone/4ndr0666/scr/media/ffmpeg-concat "${files[@]}"
 }
 
-function stripvideo() {
+function cleanvideo() {
 	local video="$1"
 	if [[ ! -f "$video" ]]; then
     		echo "Error: '$video' does not exist or is not a file." >&2
@@ -1265,7 +1286,7 @@ function stripvideo() {
 
 ## Exiftool
 
-function stripimage() {
+function cleanimage() {
   local input="$1"
   if [[ ! -f "$input" ]]; then
     echo "Error: '$input' does not exist." >&2
@@ -1407,7 +1428,7 @@ alias generate-keyserver='gpg --full-generate-key && gpg --import /usr/share/pac
 alias gstat='git status'
 alias gstash='git stash --all'
 alias gclear='git stash clear'
-#alias ghr='git reset --hard'
+alias ghr='git reset --hard'
 #alias gfs='git-lfs'
 #alias ga='git add'
 #alias gp='git push origin main'
@@ -1813,7 +1834,7 @@ cht() {
     cheats=("$HOME/.cheater/"*.md)
     local choice
     choice=$(printf "%s\n" "${cheats[@]}" | fzf --prompt="Select a cheat sheet: ")
-    [ -n "$choice" ] && glow "$choice" || echo "No cheat sheet selected."
+    [ -n "$choice" ] && bat "$choice" || echo "No cheat sheet selected."
 }
 
 # 4ndr0conf: modular config file editor
@@ -1999,8 +2020,11 @@ alias 0p='bat ~/.config/zsh/.zprofile'
 # Lazygit
 alias lg='lazygit'
 
-# Gau
-alias gau='gau --config ~/.config/gau/.gau.toml'
+# Gemini
+function_whatchanged() {
+    result=$(git diff origin/main...HEAD | gemini -p "Review the changes made from this iteration against the repo" --output-format json)
+    echo "$result" | jq -r '.response' > code-changes.json
+}
 
 # ------------------------- [ TYPOS ]
 
