@@ -1,9 +1,0 @@
-#!/bin/bash
-
-if pgrep -x "wf-recorder" > /dev/null
-then
-	killall -9 wf-recorder &> /dev/null
-
-else
-	wf-recorder </dev/null &>/dev/null &
-fi
