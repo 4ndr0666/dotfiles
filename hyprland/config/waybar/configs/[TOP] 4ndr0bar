@@ -1,0 +1,55 @@
+// === 4ndr0bar === //
+
+{
+"include": [
+  "$HOME/.config/waybar/Modules",
+  "$HOME/.config/waybar/ModulesWorkspaces",
+  "$HOME/.config/waybar/ModulesCustom",
+  "$HOME/.config/waybar/ModulesGroups",
+  "$HOME/.config/waybar/UserModules",
+  ],
+"layer": "top",
+//"mode": "dock",
+"exclusive": true,
+"passthrough": false,
+"position": "top",
+"spacing": 4,
+"fixed-center": true,
+"ipc": true,
+"margin-top": 0,
+"margin-left": 0,
+"margin-right": 0,
+
+"modules-left": [
+	"custom/updater",
+	"custom/separator#dot-line",
+	"hyprland/window",
+//	"wlr/taskbar",
+	"custom/separator#blank",
+	],
+
+"modules-center": [
+//	"custom/separator#dot-line",
+	"custom/menu",
+        "custom/file_manager",
+//	"custom/separator#blank2",
+//	"wlr/taskbar",
+//	"group/notify",
+	"hyprland/workspaces#rw",
+        "memory",
+        "disk",
+        "clock#4ndr0666L",
+	"custom/separator#blank",
+	"clock#4ndr0666R",
+	],
+
+"modules-right": [
+	"tray",
+	"network#4ndr0666",
+	"custom/separator#blank",
+	"idle_inhibitor",
+	"pulseaudio",
+	"custom/separator#dot-line",
+        "custom/swaync",
+	],
+}

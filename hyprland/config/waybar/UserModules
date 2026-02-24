@@ -1,0 +1,45 @@
+{
+    "clock#4ndr0666L": {
+        "interval": 1,
+        "timezone": "America/Matamoros",
+        "format": " {:%I:%M %p}"
+    },
+    "clock#4ndr0666R": {
+        "timezone": "America/Matamoros",
+        "format": "{:%A, %B %d, %Y}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt>{calendar}</tt>",
+        "calendar": {
+            "mode": "month",
+            "mode-mon-col": 3,
+            "weeks-pos": "right",
+            "on-scroll": 1,
+            "format": {
+                "months": "<span color='#ffead3'><b>{}</b></span>",
+                "days": "<span color='#ecc6d9'><b>{}</b></span>",
+                "weeks": "<span color='#99ffdd'><b>W{:%V}</b></span>",
+                "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+                "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
+            }
+        }
+    },
+    "network#4ndr0666": {
+    	"interval": 1,
+    	"format": "{ifname}",
+    	"format-wifi": "{icon}  {bandwidthUpBytes}  {bandwidthDownBytes}",
+    	"format-ethernet": "󰌘  {bandwidthUpBytes}  {bandwidthDownBytes}",
+    	"format-disconnected": "󰌙",
+    	"tooltip-format": "{ipaddr}",
+    	"format-linked": "󰈁 {ifname} (No IP)",
+    	"tooltip-format-wifi": "{essid} {icon} {signalStrength}%",
+    	"tooltip-format-ethernet": "{ifname} 󰌘",
+    	"tooltip-format-disconnected": "󰌙 Disconnected",
+    	"min-length": 24,
+    	"max-length": 24,
+    	"format-icons": [
+    		"󰤯", "󰤟", "󰤢", "󰤥", "󰤨"
+    	],
+    	"on-click-right": "$HOME/.config/hypr/scripts/RofiNetwork.sh"
+    },
+    
+}
+

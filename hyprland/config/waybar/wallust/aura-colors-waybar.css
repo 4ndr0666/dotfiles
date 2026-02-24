@@ -1,0 +1,18 @@
+/* ---- Aura Colorscheme for Waybar ---- */
+
+@define-color aura-text #edecee;
+@define-color aura-text-on-accent #15141b;
+@define-color aura-bg #000000;
+@define-color aura-module-bg #15141b;
+
+@define-color aura-workspace-visible #6d6d6d;
+@define-color aura-workspace-focused #a277ff;
+@define-color aura-workspace-urgent #61ffca;
+@define-color aura-workspace-hover #61ffca;
+
+@define-color aura-backlight #f694ff;
+@define-color aura-battery #82e2ff;
+@define-color aura-memory #ff6767;
+@define-color aura-network #61ffca;
+@define-color aura-pulseaudio #ffca85;
+@define-color aura-mode #61ffca;
