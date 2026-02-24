@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+THEME='Sweet-v48'
+ICONS='Colorful-Dark-Icons'
+FONT='Noto Sans 9'
+CURSOR='Bibata-Modern_Ice'
+
+SCHEMA='gsettings set org.gnome.desktop.interface'
+
+apply_themes () {
+	${SCHEMA} gtk-theme "$THEME"
+	${SCHEMA} icon-theme "$ICONS"
+	${SCHEMA} cursor-theme "$CURSOR"
+	${SCHEMA} font-name "$FONT"
+}
+
+apply_themes
