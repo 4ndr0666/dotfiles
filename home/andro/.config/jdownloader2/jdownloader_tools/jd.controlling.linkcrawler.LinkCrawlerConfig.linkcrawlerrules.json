@@ -1,0 +1,40 @@
+[
+    {
+        "cookies": null,
+        "deepPattern": null,
+        "formPattern": null,
+        "id": 1704716366605,
+        "maxDecryptDepth": 0,
+        "name": "Learned php script download: videocelebs.net/player/stats.php",
+        "packageNamePattern": null,
+        "passwordPattern": null,
+        "pattern": "(?i)https?://.*?\\Qvideocelebs.net\\E\\Q/player/stats.php\\E\\?.+",
+        "rewriteReplaceWith": null,
+        "rule": "DIRECTHTTP",
+        "enabled": true,
+        "logging": false,
+        "updateCookies": false
+    },
+    {
+        "cookies": null,
+        "deepPattern": null,
+        "formPattern": null,
+        "id": 1704722059697,
+        "maxDecryptDepth": 0,
+        "name": "Learned file extension: png",
+        "packageNamePattern": null,
+        "passwordPattern": null,
+        "pattern": "(?i)https?://.*\\.png($|\\?.*$)",
+        "rewriteReplaceWith": null,
+        "rule": "DIRECTHTTP",
+        "enabled": true,
+        "logging": false,
+        "updateCookies": false
+    },
+    {
+        "name": "Video files only",
+        "pattern": "(?i)https?://.*\\.(mp4|avi|mkv|flv|wmv|mov)($|\\?.*$)",
+        "rule": "DIRECTHTTP",
+        "enabled": true
+    }
+]

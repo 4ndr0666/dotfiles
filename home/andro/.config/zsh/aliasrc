@@ -186,7 +186,8 @@ alias p="sudo pacman"
 alias ka='sudo killall -9'
 alias cp='cp --preserve=all'
 alias cpp='rsync -ahzXW --info=progress2'
-alias mv='mv -iv'
+alias mv='mv -iv --backup=numbered'
+#alias mv='mv -iv'
 alias rm='rm -vI'
 alias bc='bc -l'
 alias rmf='sudo -S /bin/rm -vI -rf'
@@ -282,6 +283,17 @@ findit() {
     if [[ -n "$1" ]]; then
         find . -type f -printf "%TY%Tm%Td\t%p\n" | sort | grep -i "$1"
     else
+        return 1
+    fi
+}
+
+### Bak file
+
+bak() {
+    if [[ -e "$1" ]]; then
+        cp -afv "$1" "${1}.bak"
+    else
+        echo "Error: '$1' does not exist."
         return 1
     fi
 }
@@ -526,34 +538,176 @@ chdirs() {
 }
 
 chfd() {
-    if [[ -z "$1" ]]; then
-        echo "Usage: chfdirs <file_or_dir_path>"
+    # --- 4NDR0SCRIPT UI LIBRARY (VERBATIM) ---
+    local CYAN='\033[38;5;51m'
+    local GLOW='\033[1;36m'
+    local RED='\033[38;5;196m'
+    local ORANGE='\033[38;5;208m'
+    local RESET='\033[0m'
+    local FRAME_TOP="┌────────────────────────────────────────────────────────────┐"
+    local FRAME_BTM="└────────────────────────────────────────────────────────────┘"
+
+    log_header() {
+        echo -e "${CYAN}${FRAME_TOP}${RESET}"
+        echo -e "${CYAN}│${RESET}   ${GLOW}💀 Ψ • - ⦑ ${1:-4NDR0SCRIPT} ⦒ - • Ψ 💀${RESET}            ${CYAN}│${RESET}"
+        echo -e "${CYAN}${FRAME_BTM}${RESET}"
+    }
+    log_op()   { echo -e " ${CYAN}Ψ${RESET} [${GLOW}SYSTEM${RESET}] :: $1"; }
+    log_ok()   { echo -e " ${CYAN}Ψ${RESET} [${GLOW}ACTIVE${RESET}] :: $1"; }
+    log_warn() { echo -e " ${CYAN}!${RESET} [${ORANGE}CAUTION${RESET}] :: $1"; }
+    log_err()  { echo -e " ${RED}✘${RESET} [${RED}FATAL${RESET}]  :: $1"; }
+    log_ready() {
+        local status="${1:-SYSTEM READY : 4NDR0666OS SECURITY ACTIVE}"
+        echo -e "\n${CYAN}─── [ ${status} ] ───${RESET}\n"
+    }
+    # --- END LIBRARY ---
+
+    # [1] Parameter Initialization & Extraction
+    local recursive=0
+    local hidden=0
+    local executable=0
+    local targets=()
+    local exit_status=0
+
+    # Dynamic parsing matrix to support ANY permutation of flags (e.g., -rhx, -x, -hr)
+    for arg in "$@"; do
+        if [[ "$arg" == -* ]]; then
+            # Check individual characters within the flag string
+            [[ "$arg" == *r* ]] && recursive=1
+            [[ "$arg" == *h* ]] && hidden=1
+            [[ "$arg" == *x* ]] && executable=1
+
+            # Warn on unauthorized characters
+            local stripped="${arg//[-rhx]/}"
+            if [[ -n "$stripped" ]]; then
+                log_warn "Ignoring unrecognized flag components in: $arg"
+            fi
+        else
+            targets+=("$arg")
+        fi
+    done
+
+    # Validate target presence post-extraction
+    if [[ ${#targets[@]} -eq 0 ]]; then
+        log_err "USAGE ERROR: chfd [-r] [-h] [-x] [-rhx...] <target_1> ... [target_n]"
         return 1
     fi
 
-    local target="$1"
+    # Determine dynamic payloads based on the executable flag
+    local file_mode="664"
+    local dir_mode="774"
+    if [[ "$executable" -eq 1 ]]; then
+        file_mode="774"
+    fi
 
-    if [[ -f "$target" ]]; then
-        # If it's a file, apply chmod 664
-        echo "Setting permissions: U+rwx | G+rx | O+rx for file '$target'..."
-        if ! sudo chmod 664 "$target"; then
-            echo "Error: Failed to set permissions for file '$target'."
-            return 1
+    log_header "CHFD PERMISSION MATRIX"
+    log_op "Mode -> Recursive: [$recursive] | Hidden: [$hidden] | Executable: [$executable]"
+
+    # [2] Iteration Matrix: Executing logic tree based on parsed flags
+    for target in "${targets[@]}"; do
+        echo -e "${CYAN}------------------------------------------------------------${RESET}"
+
+        # Determine base filename for hidden bypass logic
+        local base_name
+        base_name=$(basename "$target")
+
+        if [[ "$hidden" -eq 0 && "$base_name" == .* && "$base_name" != "." && "$base_name" != ".." ]]; then
+            log_warn "Target '$target' is hidden. Bypassing. (Deploy -h to override)"
+            continue
         fi
-    elif [[ -d "$target" ]]; then
-        # If it's a directory, apply chmod 774 recursively
-        echo "Setting permissions: U+rwx | G+rx | O+rx for all files in directory '$target'..."
-        if ! sudo find "$target" -type f -exec chmod 774 {} +; then
-            echo "Error: Failed to set permissions for files in directory '$target'."
-            return 1
+
+        if [[ -f "$target" ]]; then
+            log_op "Target Acquired: '$target' [FILE]"
+            log_op "Payload: chmod $file_mode..."
+
+            if ! sudo chmod "$file_mode" "$target"; then
+                log_err "Access denied or missing file '$target'."
+                exit_status=1
+            else
+                log_ok "$file_mode enforced on '$target'."
+            fi
+
+        elif [[ -d "$target" ]]; then
+            log_op "Target Acquired: '$target' [DIRECTORY]"
+
+            if [[ "$recursive" -eq 1 ]]; then
+                log_op "Payload: Recursive structural reset deployed..."
+                local dir_fail=0
+
+                if [[ "$hidden" -eq 1 ]]; then
+                    log_op "Unrestricted traversal (Including Hidden Assets)."
+                    sudo find "$target" -type d -exec chmod "$dir_mode" {} + || dir_fail=1
+                    sudo find "$target" -type f -exec chmod "$file_mode" {} + || dir_fail=1
+                else
+                    log_op "Restricted traversal (Excluding Hidden Assets)."
+                    # -prune amputates hidden directories from the search tree entirely
+                    sudo find "$target" -name ".*" -prune -o -type d -exec chmod "$dir_mode" {} + || dir_fail=1
+                    sudo find "$target" -name ".*" -prune -o -type f -exec chmod "$file_mode" {} + || dir_fail=1
+                fi
+
+                if [[ $dir_fail -eq 1 ]]; then
+                    log_err "Execution restricted on deep contents of '$target'."
+                    exit_status=1
+                else
+                    log_ok "Recursive permission matrix locked on '$target'."
+                fi
+            else
+                # Default non-recursive behavior (Target Directory Only)
+                log_op "Payload: chmod $dir_mode on DIRECTORY ONLY..."
+                if ! sudo chmod "$dir_mode" "$target"; then
+                    log_err "Access denied for directory '$target'."
+                    exit_status=1
+                else
+                    log_ok "$dir_mode enforced on base directory '$target'."
+                fi
+            fi
+        else
+            log_err "INVALID TARGET: '$target' does not map to a recognized filesystem entity."
+            exit_status=1
         fi
+    done
+
+    echo -e "${CYAN}------------------------------------------------------------${RESET}"
+
+    # [3] State Preservation & Final Output
+    if [[ $exit_status -eq 0 ]]; then
+        log_ready "BATCH EXECUTION COMPLETE. PERMISSION MATRIX SECURED."
     else
-        echo "Error: '$target' is not a valid file or directory."
-        return 1
+        log_ready "BATCH EXECUTION COMPLETE WITH FAULTS. REVIEW LOGS."
     fi
 
-    echo "✔️ Successfully set permissions to 774 for '$target'."
+    return $exit_status
 }
+
+#chfd() {
+#    if [[ -z "$1" ]]; then
+#        echo "Usage: chfdirs <file_or_dir_path>"
+#        return 1
+#    fi
+#
+#    local target="$1"
+#
+#    if [[ -f "$target" ]]; then
+#        # If it's a file, apply chmod 664
+#        echo "Setting permissions: U+rwx | G+rx | O+rx for file '$target'..."
+#        if ! sudo chmod 664 "$target"; then
+#            echo "Error: Failed to set permissions for file '$target'."
+#            return 1
+#        fi
+#    elif [[ -d "$target" ]]; then
+#        # If it's a directory, apply chmod 774 recursively
+#        echo "Setting permissions: U+rwx | G+rx | O+rx for all files in directory '$target'..."
+#        if ! sudo find "$target" -type f -exec chmod 774 {} +; then
+#            echo "Error: Failed to set permissions for files in directory '$target'."
+#            return 1
+#        fi
+#    else
+#        echo "Error: '$target' is not a valid file or directory."
+#        return 1
+#    fi
+#
+#    echo "✔️ Successfully set permissions to 774 for '$target'."
+#}
 
 chandro() {
     if [[ -z "${1:-}" ]]; then
@@ -1212,10 +1366,10 @@ playdir() {
     mpv --playlist=<(find "$(pwd)" -maxdepth 3 -type f \( \
           -iname '*.mp4' -o -iname '*.wmv' -o -iname '*.mkv' -o \
           -iname '*.avi' -o -iname '*.mov' -o -iname '*.mpeg' -o \
-          -iname '*.ts'  -o -iname '*.m4v' -o -iname '*.gif' -o \
+          -iname '*.m4v' -o -iname '*.gif' -o \
           -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' \
           -iname "*.3gp" \)) --shuffle=yes --loop-playlist=inf \
-	  --input-ipc-server=/tmp/mpvsocket --no-resume-playback
+	  --no-resume-playback
 }
 
 #playdir() {
@@ -1920,15 +2074,16 @@ alias cloud='goto /23.1/Thecloud'
 # /Nas:
 alias nas='goto /Nas'
 alias nnas='goto /Nas/Nas'
-alias sand='goto /Nas/sandbox'
-alias sando='goto /Nas/sandbox/overrides'
-alias sande='goto /Nas/sandbox/extract'
-alias sandt='goto /Nas/sandbox/temp'
-alias sandpkg='goto /Nas/sandbox/pkgs'
-alias sandplay='goto /Nas/sandbox/playground'
+alias nsand='goto /Nas/sandbox'
+alias nover='goto /Nas/sandbox/overrides'
+alias nxt='goto /Nas/sandbox/extract'
+alias ntemp='goto /Nas/sandbox/temp'
+alias npkg='goto /Nas/sandbox/pkgs'
+alias nplay='goto /Nas/sandbox/playground'
 alias fan='goto /Nas/Fanvue'
-alias todo='goto /Nas/00todo'
-alias nasc='goto /Nas/Nas/Cookie\ Backup\ Restore && cat *.ckz | wl-copy' # Cookie file
+alias nback='goto /Nas/Backups'
+alias 00t='goto /Nas/00todo'
+alias ncook='goto /Nas/Nas/Cookie\ Backup\ Restore'
 # /home/git:
 alias g='goto /home/git/clone'
 alias g4='goto /home/git/clone/4ndr0666'
