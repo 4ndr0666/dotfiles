@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+## Autostart Programs ---------------------------------------
+
+# Kill already running process
+_ps=(waybar mako)
+for _prs in "${_ps[@]}"; do
+	if [[ $(pidof ${_prs}) ]]; then
+		killall -9 ${_prs}
+	fi
+done
+
+# Polkit agent
+if [[ ! $(pidof xfce-polkit) ]]; then
+	/usr/lib/xfce-polkit/xfce-polkit &
+fi
+
+# Apply themes
+~/.config/hyprcat/scripts/gtkthemes &
+
+# Lauch notification daemon (mako)
+~/.config/hyprcat/scripts/notifications &
+
+# Lauch statusbar (waybar)
+~/.config/hyprcat/scripts/statusbar &
+
+# Start network manager applet
+nm-applet --indicator &
+
+# Start mpd
+exec mpd &

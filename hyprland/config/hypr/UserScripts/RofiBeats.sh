@@ -3,7 +3,7 @@
 # RofiBeats - unified, dynamic UI (add, remove, manage, play)
 
 mDIR="$HOME/Music/"
-iDIR="$HOME/.config/swaync/icons"
+iDIR="$HOME/.config/mako/icons"
 rofi_theme="$HOME/.config/rofi/config-rofi-Beats.rasi"
 rofi_theme_menu="$HOME/.config/rofi/config-rofi-Beats-menu.rasi"
 music_list="$HOME/.config/rofi/online_music.list"

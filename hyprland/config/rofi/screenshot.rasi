@@ -1,3 +1,7 @@
+/**
+ * 4ndr0666
+ **/
+
 /*****----- Configuration -----*****/
 configuration {
     show-icons:                 false;
@@ -6,6 +10,16 @@ configuration {
 /*****----- Global Properties -----*****/
 @import                          "wallust/colors-rofi.rasi"
 @import                          "fonts.rasi"
+
+/* Map Wallust generated variables to the generic names 
+   used by this theme structure.
+*/
+* {
+    background-alt:              @alternate-normal-background;
+    selected:                    @selected-normal-background;
+    active:                      @active-background;
+    urgent:                      @urgent-background;
+}
 
 /*
 USE_ICON=NO
@@ -58,14 +72,14 @@ textbox-prompt-colon {
     str:                         "";
     padding:                     10px 12px;
     border-radius:               0px;
-    background-color:          	 @selected;
+    background-color:            @selected;
     text-color:                  @background;
 }
 prompt {
     enabled:                     true;
     padding:                     10px;
     border-radius:               0px;
-/*    background-image:          	 linear-gradient(to right, #EB6F92, #EBBCBA);	*/
+/* background-image:            linear-gradient(to right, #EB6F92, #EBBCBA);   */
     background-color:            var(selected);
     text-color:                  @background;
 }
@@ -92,7 +106,7 @@ textbox {
 listview {
     enabled:                     true;
     columns:                     2;
-    lines:                       2;
+    lines:                       3;
     cycle:                       true;
     scrollbar:                   false;
     layout:                      vertical;
@@ -139,7 +153,7 @@ element selected.urgent {
     text-color:                  var(background);
 }
 element selected.normal {
-/*    background-image:          	 linear-gradient(to right, #EB6F92, #EBBCBA);	*/
+/* background-image:            linear-gradient(to right, #EB6F92, #EBBCBA);   */
     background-color:            var(selected);
     text-color:                  var(background);
 }

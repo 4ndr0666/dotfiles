@@ -21,4 +21,6 @@
 
 
 
+//@theme "~/.config/rofi/themes/saint-rofi.rasi"
+//@theme "~/.config/rofi/themes/KooL_style-11-Win11-list-dark.rasi"
 @theme "~/.config/rofi/themes/saint-rofi.rasi"
