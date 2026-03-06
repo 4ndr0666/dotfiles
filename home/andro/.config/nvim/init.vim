@@ -6,6 +6,7 @@
 " Leader Key Configuration
 let mapleader =","
 
+" ── Plug bootstrap ────────────────────────────────────────────────────────────
 if ! filereadable(system('echo -n "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim"'))
 	echo "Downloading junegunn/vim-plug to manage plugins..."
 	silent !mkdir -p ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/
@@ -18,8 +19,8 @@ imap ,, <esc>:keepp /<++><CR>ca<
 
 call plug#begin(system('echo -n "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/plugged"'))
 Plug 'tpope/vim-surround'
-Plug 'itchyny/lightline.vim' "Highlights lines
-Plug 'godlygeek/tabular' "Auto formatting
+Plug 'plasticboy/vim-markdown' " Markdown syntax highlighting
+Plug 'ryanoasis/vim-devicons' " Cool icons for nerd tree
 Plug 'preservim/nerdtree'
 Plug 'junegunn/goyo.vim'
 Plug 'jreybert/vimagit'
@@ -27,31 +28,23 @@ Plug 'vimwiki/vimwiki'
 Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-commentary'
 Plug 'ap/vim-css-color'
+Plug 'EdenEast/nightfox.nvim' " Theme plugin
+" Modern LSP & completion
 Plug 'dense-analysis/ale'
-Plug 'neovim/nvim-lspconfig'   " LSP configuration plugin
-Plug 'hrsh7th/nvim-cmp'        " Completion plugin
-Plug 'hrsh7th/cmp-nvim-lsp'    " LSP completion source for nvim-cmp
-Plug 'EdenEast/nightfox.nvim'  " Theme plugin
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
 call plug#end()
 
+" ── General settings ──────────────────────────────────────────────────────────
+" Force True Color for Nightfox to prevent visual artifact gaps
+set termguicolors
 set title
 set bg=light
 set mouse=a
 set nohlsearch
-if has('clipboard')
-  let g:clipboard = {
-        \ 'name': 'wl-clipboard',
-        \ 'copy': {
-        \   '+': 'wl-copy',
-        \   '*': 'wl-copy',
-        \ },
-        \ 'paste': {
-        \   '+': 'wl-paste -n',
-        \   '*': 'wl-paste -n',
-        \ },
-        \ 'cache_enabled': 0
-        \ }
-endif
 set clipboard+=unnamedplus
 set noshowmode
 set noruler
@@ -59,157 +52,108 @@ set laststatus=0
 set noshowcmd
 colorscheme nightfox
 
-" Some basics:
-	nnoremap c "_c
-	filetype plugin on
-	syntax on
-	set encoding=utf-8
-	set number relativenumber
-	let g:auto_save = 1
-	let g:auto_save_events = ["InsertLeave", "TextChanged"]
+" Basics
+nnoremap c "_c
+filetype plugin on
+syntax on
+set encoding=utf-8
+set number relativenumber
 
-" Disable autocompletion:
-	set completeopt=menu,menuone,noselect
+" Autocompletion menu
+set wildmode=longest,list,full
 
-" Highlight CursorLine
-	set cursorline
-	highlight CursorLine ctermbg=Yellow cterm=bold guibg=#2b2b2b
+" Disable auto-comment on newline
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
-" Spell-check toggle
-	nnoremap <leader>o :setlocal spell! spelllang=en_us<CR>
+" Dot repeat over visual block
+vnoremap . :normal .<CR>
 
-" Autocompletion wildmode
-	set wildmode=longest,list,full
+" Markdown Edits
+let g:vim_markdown_autowrite = 1
+let g:vim_markdown_no_extensions_in_markdown = 1
+let g:vim_markdown_conceal = 0
+let g:vim_markdown_override_foldtext = 0
+let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_new_list_item_indent = 0
 
-" Enable mucompletion:
-	let g:mucomplete#enable_auto_at_startup = 0
-"	let g:mucomplete#completion_delay = 1
+" Markdown auto format tables
+inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
 
-" Disable automatic commenting on newline
-	autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+" Goyo prose mode
+map <leader>f :Goyo \| set bg=light \| set linebreak<CR>
 
-" Perform dot commands over visual blocks:
-	vnoremap . :normal .<CR>
+" Spell-check
+map <leader>o :setlocal spell! spelllang=en_us<CR>
 
-" Goyo plugin makes text more readable when writing prose:
-	map <leader>f :Goyo \| set bg=light \| set linebreak<CR>
+" Splits open bottom/right
+set splitbelow splitright
 
-" Spell-check set to <leader>o, 'o' for 'orthography':
-	map <leader>o :setlocal spell! spelllang=en_us<CR>
-
-" Splits open at the bottom and right, which is non-retarded, unlike vim defaults.
-	set splitbelow splitright
-
-" Nerd tree
-	map <leader>n :NERDTreeToggle<CR>
-	autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-	let NERDTreeBookmarksFile = stdpath('data') . '/NERDTreeBookmarks'
-
+" NERDTree
+map <leader>n :NERDTreeToggle<CR>
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+let NERDTreeBookmarksFile = stdpath('data') . '/NERDTreeBookmarks'
 
 " vim-airline
-	if !exists('g:airline_symbols')
-		let g:airline_symbols = {}
-	endif
-	let g:airline_symbols.colnr = ' C:'
-	let g:airline_symbols.linenr = ' L:'
-	let g:airline_symbols.maxlinenr = ' '
-	let g:airline#extensions#whitespace#symbol = '!'
-
+if !exists('g:airline_symbols')
+	let g:airline_symbols = {}
+endif
+let g:airline_symbols.colnr = ' C:'
+let g:airline_symbols.linenr = ' L:'
+let g:airline_symbols.maxlinenr = ' '
+let g:airline#extensions#whitespace#symbol = '!'
 
 " Shortcutting split navigation, saving a keypress:
-	map <C-h> <C-w>h
-	map <C-j> <C-w>j
-	map <C-k> <C-w>k
-	map <C-l> <C-w>l
+map <C-h> <C-w>h
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-l> <C-w>l
 
 " Replace ex mode with gq
-	map Q gq
+map Q gq
 
 " Check file in shellcheck:
-	map <leader>s :!clear && shellcheck -x %<CR>
-
-" Open my bibliography file in split
-	map <leader>b :vsp<space>$BIB<CR>
-	map <leader>r :vsp<space>$REFER<CR>
+map <leader>s :!clear && shellcheck -x %<CR>
 
 " Replace all is aliased to S.
 	nnoremap S :%s//g<Left><Left>
 
-" Compile document, be it groff/LaTeX/markdown/etc.
-	map <leader>c :w! \| !compiler "%:p"<CR>
+" Compile document
+map <leader>c :w! \| !compiler "%:p"<CR>
 
-" Open corresponding .pdf/.html or preview
-	map <leader>p :!opout "%:p"<CR>
+" Preview output
+map <leader>p :!opout "%:p"<CR>
 
-" Runs a script that cleans out tex build files whenever I close out of a .tex file.
-	autocmd VimLeave *.tex !texclear %
+" Clean tex build files on leave
+autocmd VimLeave *.tex !latexmk -c %
 
 " Ensure files are read as what I want:
-	let g:vimwiki_ext2syntax = {'.Rmd': 'markdown', '.rmd': 'markdown','.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
-	map <leader>v :VimwikiIndex<CR>
-	let g:vimwiki_list = [{'path': '~/.local/share/nvim/vimwiki', 'syntax': 'markdown', 'ext': '.md'}]
-	autocmd BufRead,BufNewFile /tmp/calcurse*,~/.calcurse/notes/* set filetype=markdown
-	autocmd BufRead,BufNewFile *.ms,*.me,*.mom,*.man set filetype=groff
-	autocmd BufRead,BufNewFile *.tex set filetype=tex
+let g:vimwiki_ext2syntax = {'.Rmd': 'markdown', '.rmd': 'markdown','.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
+map <leader>v :VimwikiIndex<CR>
+let g:vimwiki_list = [{'path': '~/.local/share/nvim/vimwiki', 'syntax': 'markdown', 'ext': '.md'}]
+autocmd BufRead,BufNewFile /tmp/calcurse*,~/.calcurse/notes/* set filetype=markdown
+autocmd BufRead,BufNewFile *.ms,*.me,*.mom,*.man set filetype=groff
+autocmd BufRead,BufNewFile *.tex set filetype=tex
 
-" Save file as sudo on files that require root permission
-	cabbrev w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
-
-" Enable Goyo by default for mutt writing
-	autocmd BufRead,BufNewFile /tmp/neomutt* :Goyo 80 | call feedkeys("jk")
-	autocmd BufRead,BufNewFile /tmp/neomutt* map ZZ :Goyo!\|x!<CR>
-	autocmd BufRead,BufNewFile /tmp/neomutt* map ZQ :Goyo!\|q!<CR>
+" Sudo write
+cabbrev w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 
 " Automatically deletes all trailing whitespace and newlines at end of file on save. & reset cursor position
- 	autocmd BufWritePre * let currPos = getpos(".")
-	autocmd BufWritePre * %s/\s\+$//e
-	autocmd BufWritePre * %s/\n\+\%$//e
-	autocmd BufWritePre *.[ch] %s/\%$/\r/e " add trailing newline for ANSI C standard
-	autocmd BufWritePre *neomutt* %s/^--$/-- /e " dash-dash-space signature delimiter in emails
-  	autocmd BufWritePre * cal cursor(currPos[1], currPos[2])
+autocmd BufWritePre * let currPos = getpos(".")
+autocmd BufWritePre * %s/\s\+$//e
+autocmd BufWritePre * %s/\n\+\%$//e
+autocmd BufWritePre *.[ch] %s/\%$/\r/e " add trailing newline for ANSI C standard
+autocmd BufWritePre *neomutt* %s/^--$/-- /e " dash-dash-space signature delimiter in emails
+autocmd BufWritePre * cal cursor(currPos[1], currPos[2])
 
 " Turns off highlighting on the bits of code that are changed, so the line that is changed is highlighted but the actual text that has changed stands out on the line and is readable.
-	if &diff
-    		highlight! link DiffText MatchParen
-	endif
-
-" ALE (Asynchronous Lint Engine) Configuration
-        let g:ale_disable_lsp = 'auto'        " Disable ALE's built-in LSP features
-        let g:ale_fix_on_save = 1       " Enable ALE fixers on save
-
-" Configure ALE fixers
-	let g:ale_fixers = {
-	    	\ '*': ['remove_trailing_lines', 'trim_whitespace'],
- 		\ 'sh': ['shfmt', 'remove_trailing_lines', 'trim_whitespace'],
-    		\ 'python': ['ruff', 'autopep8', 'black'],
-    		\ 'lua': ['lua', 'stylua'],
-    		\ 'javascript': ['eslint'],
-    		\ 'markdown': ['prettier'],
-    		\ }
-
-" Configure ALE linters
-	let g:ale_linters = {
-	    	\ 'python': ['ruff', 'flake8', 'pylint'],
-	    	\ 'javascript': ['eslint'],
-	    	\ 'lua': ['luacheck'],
-	    	\ 'sh': ['shfmt', 'remove_trailing_lines', 'trim_whitespace'],
-	    	\ 'tex': ['chktex'],
-	    	\ }
-
-" Configure ALE lua_stylua
-	let g:ale_lua_stylua_options = '--config-path ~/.stylua.toml'
-
-" ALE navigation mappings
-	nmap <silent> <leader>k <Plug>(ale_previous_wrap)
-	nmap <silent> <leader>j <Plug>(ale_next_wrap)
-
-" Enable ALE integration with vim-airline
-	let g:airline#extensions#ale#enabled = 1
+if &diff
+    highlight! link DiffText MatchParen
+endif
 
 " Function for toggling the bottom statusbar:
 let s:hidden_all = 0
 function! ToggleHiddenAll()
-    if s:hidden_all  == 0
+    if s:hidden_all == 0
         let s:hidden_all = 1
         set noshowmode
         set noruler
@@ -224,8 +168,133 @@ function! ToggleHiddenAll()
     endif
 endfunction
 nnoremap <leader>h :call ToggleHiddenAll()<CR>
-" Load command shortcuts generated from bm-dirs and bm-files via shortcuts script.
-" Here leader is ";".
-" So ":vs ;cfz" will expand into ":vs /home/<user>/.config/zsh/.zshrc"
-" if typed fast without the timeout.
+
+" ── ALE Configuration (Linter de-confliction) ────────────────────────────────
+let g:ale_linters_explicit = 1
+let g:ale_linters = {
+\   'sh': ['shellcheck'],
+\   'bash': ['shellcheck'],
+\   'python': ['flake8'],
+\   'markdown': ['vale'],
+\}
+" Explicitly disable ALE for TS/JS as the LSP handles it
+let g:ale_pattern_options = {
+\   '\.tsx\?$': {'ale_enabled': 0},
+\   '\.jsx\?$': {'ale_enabled': 0},
+\   '\.js\?$': {'ale_enabled': 0},
+\}
+
+" ── Modern LSP & CMP Setup (Neovim 0.11+) ───────────────────────────────────
+lua << EOF
+-- 1. Kill ALE LSP interference
+vim.g.ale_disable_lsp = 1
+vim.g.ale_lsp_suggestions = 0
+
+-- 2. Disable Deno LSP auto-attach
+vim.g.loaded_deno = 1
+vim.g.markdown_fenced_languages = {}
+
+-- 3. UI Gap Mitigation (Borders for LSP floats)
+vim.diagnostic.config({
+  float = { border = "rounded" }
+})
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
+
+-- 4. CMP Engine Setup
+local cmp = require('cmp')
+cmp.setup({
+  window = {
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.abort(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+  }),
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp' },
+  }, {
+    { name = 'buffer' },
+    { name = 'path' },
+  })
+})
+
+-- 5. Broadcast CMP capabilities to LSP
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+-- Generic Root Directory Resolver (Mitigates Neovim 0.11 type crash)
+local function get_safe_root(fname, markers)
+  local search_path = fname
+  if type(fname) == 'number' then
+    search_path = vim.api.nvim_buf_get_name(fname)
+  end
+  if type(search_path) ~= 'string' or search_path == "" then
+    search_path = vim.fn.getcwd()
+  end
+
+  local match = vim.fs.find(markers, { upward = true, path = search_path })[1]
+  return match and vim.fs.dirname(match) or vim.fn.getcwd()
+end
+
+-- 6. Register LSP configurations
+vim.lsp.config('ts_ls', {
+  cmd = { 'typescript-language-server', '--stdio' },
+  capabilities = capabilities,
+  root_dir = function(fname)
+    return get_safe_root(fname, { 'tsconfig.json', 'jsconfig.json', 'package.json' })
+  end,
+  filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+  settings = {
+    typescript = {
+      inlayHints = {
+        includeInlayParameterNameHints = 'all',
+        includeInlayVariableTypeHints = true,
+      }
+    },
+  },
+})
+
+vim.lsp.config('eslint', {
+  cmd = { 'vscode-eslint-language-server', '--stdio' },
+  capabilities = capabilities,
+  root_dir = function(fname)
+    return get_safe_root(fname, { '.eslintrc', '.eslintrc.js', '.eslintrc.json', 'package.json' })
+  end,
+  filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+  settings = { format = { enable = true } },
+})
+
+-- 7. Natively enable servers (Neovim 0.11+)
+vim.lsp.enable('ts_ls')
+vim.lsp.enable('eslint')
+
+-- 8. Auto-format on save
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = { "*.js", "*.jsx", "*.ts", "*.tsx" },
+  callback = function()
+    vim.lsp.buf.format({ async = false })
+  end,
+})
+
+-- 9. LSP attach debug + keymaps
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if not client then return end
+
+    local opts = { buffer = args.buf, noremap = true, silent = true }
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
+    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+    vim.keymap.set('n', '<leader>gr', vim.lsp.buf.references, opts)
+  end,
+})
+EOF
+
+" ── Load command shortcuts ────────────────────────────────────────────────────
 silent! source ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/shortcuts.vim
