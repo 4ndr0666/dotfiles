@@ -291,7 +291,7 @@ findit() {
 
 bak() {
     if [[ -e "$1" ]]; then
-        cp -afv "$1" "${1}.bak"
+        sudo -s cp -afv "$1" "${1}.bak"
     else
         echo "Error: '$1' does not exist."
         return 1
@@ -1105,7 +1105,10 @@ alias ufwd='sudo ufw disable'
 alias ufws='sudo ufw status'
 ufwr() {
     # This function will "reset" ufw to default rules
-    if yes | sudo ufw reset; then :; else echo "Failed to reset ufw"; fi
+    if yes | sudo ufw disable; then :; else echo "Failed to disable ufw"; fi
+    sudo ufw limit 22/tcp || { echo "Failed to set limit 22/tcp"; return 1; }
+    sudo ufw allow 80/tcp || { echo "Failed to set allow 80/tcp"; return 1; }
+    sudo ufw allow 443/tcp || { echo "Failed to set allow 443/tcp"; return 1; }
     sudo ufw default deny incoming || { echo "Failed to set default deny incoming"; return 1; }
     sudo ufw default allow outgoing || { echo "Failed to set default allow outgoing"; return 1; }
     sudo ufw enable || { echo "Failed to enable ufw"; return 1; }
@@ -2075,6 +2078,7 @@ alias cloud='goto /23.1/Thecloud'
 alias nas='goto /Nas'
 alias nnas='goto /Nas/Nas'
 alias nsand='goto /Nas/sandbox'
+alias npro='goto /Nas/Projects'
 alias nover='goto /Nas/sandbox/overrides'
 alias nxt='goto /Nas/sandbox/extract'
 alias ntemp='goto /Nas/sandbox/temp'
@@ -2101,6 +2105,7 @@ alias cheat='goto ~/.cheater'
 alias lshare='goto ~/.local/share/'
 alias lsrc='goto ~/.local/src/'
 alias cac='goto ~/.cache'
+alias cy='goto ~/.cache/yay'
 
 # 4ndr0kill
 killit() {

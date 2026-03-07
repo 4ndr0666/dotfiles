@@ -27,3 +27,4 @@ cmap ;cfmc /home/andro/.config/ncmpcpp/config
 cmap ;cfl /home/andro/.config/lf/lfrc
 cmap ;cfL /home/andro/.config/lf/scope
 cmap ;cfX /home/andro/.config/nsxiv/exec/key-handler
+
